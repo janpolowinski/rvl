@@ -1,0 +1,10 @@
+<!DOCTYPE xs:schema PUBLIC "-//W3C//DTD XMLSCHEMA 200102//EN" "http://www.w3.org/2001/XMLSchema.dtd">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xml:lang="en"
+           targetNamespace="http://purl.org/rvl/">
+ <xs:simpleType name='fslSelector'>
+  <xs:restriction base='string'/>
+ </xs:simpleType>
+ <xs:simpleType name='sparqlSelector'>
+  <xs:restriction base='string'/>
+ </xs:simpleType>
+</xs:schema>

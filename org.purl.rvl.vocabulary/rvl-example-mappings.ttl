@@ -1,0 +1,313 @@
+# Saved by TopBraid on Sat May 25 19:43:31 CEST 2013
+# baseURI: http://purl.org/rvl/example-mappings/
+# imports: http://purl.org/rvl/
+
+@prefix :        <http://purl.org/rvl/example-mappings/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rexm:    <http://purl.org/rvl/example-mappings/> .
+@prefix rexd:    <http://purl.org/rvl/example-data/> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix vg:    <http://purl.org/viso/graphic/> .
+@prefix common-shapes:    <http://purl.org/viso/shape/commons/> .
+
+:     rdf:type owl:Ontology ;
+      owl:imports rvl: , rexd: ,common-shapes: .
+
+
+
+# explicit value mappings - 
+# PM with explicit value mappings as blank nodes
+rexm:PMWithExplicitValueMappingsAsBlankNodes
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM with explicit VM as blank nodes"^^xsd:string ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetAttribute vg:shape_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Sci-Fi;
+        rvl:targetValue common-shapes:Rhomb;
+      ],[
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Biography;
+        rvl:targetValue common-shapes:Square;
+      ]
+      .
+      
+# explicit value mappings - 
+# PM with explicit value mappings as extra nodes (non-blank)
+rexm:PMWithExplicitValueMappings
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM with explicit VM as extra (non-blank) nodes"^^xsd:string ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetAttribute vg:shape_named ; 
+      rvl:valueMapping rexm:VMSciFi2Rhomb ;      
+      rvl:valueMapping rexm:VMBiography2Square . 
+      
+rexm:VMSciFi2Rhomb a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Sci-Fi ;
+        rvl:targetValue common-shapes:Rhomb .
+rexm:VMBiography2Square a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Biography ;
+        rvl:targetValue common-shapes:Square .
+      
+
+# A1a - quantitative 2 quantitative (mapping between continuous value ranges) - 
+# PM with a VM that defines a mapping between ranges of source and target values 
+# CHANGE IN LISTINGS: color_hsl_lightness (add color_)
+rexm:PMwithValueMappingOfRanges
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM with a VM that defines a mapping between ranges of source and target values"^^xsd:string ;
+      rvl:sourceProperty rexd:hasCost ;
+      rvl:targetAttribute vg:color_hsl_lightness ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueInterval [
+			a rvl:Interval;
+			rvl:upperBoundIncl "0";
+			rvl:lowerBoundIncl "50";
+		];
+        rvl:targetValueInterval [
+        	a rvl:Interval;
+        	rvl:upperBoundIncl "0";
+        	rvl:lowerBoundIncl "100";
+        ];
+      ]
+      .
+      
+# A1b - quantitative 2 ordinal (discretized, 5 steps) - 
+# PM with a VM that defines a mapping between a ranges of source values and a discretized range of target values 
+# CHANGE IN LISTINGS: color_hsl_lightness (add color_)
+rexm:PMwithValueMappingOfRangesDiscretized
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM with a VM that defines a mapping between a ranges of source values and a discretized range of target values"^^xsd:string ;
+      rvl:sourceProperty rexd:hasCost ;
+      rvl:targetAttribute vg:color_hsl_lightness ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:discretize "true"^^xsd:boolean ;
+        rvl:discreteStepCount "5"^^xsd:int ;
+		rvl:sourceValueInterval [
+			a rvl:Interval;
+			rvl:upperBoundIncl "0";
+			rvl:lowerBoundIncl "50";
+		];
+        rvl:targetValueInterval [
+        	a rvl:Interval;
+        	rvl:upperBoundIncl "0";
+        	rvl:lowerBoundIncl "100";
+        ];
+      ]
+      .
+      
+      
+# A2 - quantitative 2 ordinal (range 2 list) - 
+# PM with a VM that defines a mapping between a value range and a list of target values
+rexm:PMwithValueMappingOfRange2List
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM with a VM that defines a mapping between a value range and a list of target values"^^xsd:string ;
+      rvl:sourceProperty rexd:hasCost ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueInterval [
+			a rvl:Interval;
+			rvl:upperBoundIncl "0";
+			rvl:lowerBoundIncl "50";
+		];
+		rvl:targetValueList (
+			vg:Red
+			vg:Orange
+			vg:Yellow
+		);
+      ]
+      .      
+      
+      
+# A3 - quantitative 2 nominal (range 2 set) - 
+# PM with a VM that defines a mapping between a value range and a set of (unordered) target values 
+# (the set is defined adhoc by using targetValue multiple times)
+rexm:PMwithValueMappingOfRange2Set
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM with a VM that defines a mapping between a value range and a set of (unordered) target values"^^xsd:string ;
+      rvl:sourceProperty rexd:hasCost ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueInterval [
+			a rvl:Interval;
+			rvl:upperBoundIncl "0";
+			rvl:lowerBoundIncl "50";
+		];
+		rvl:targetValue vg:Green;
+		rvl:targetValue vg:Blue;
+		rvl:targetValue vg:Red;
+      ]
+      .   
+      
+      
+# B1 - ordinal 2 discretized continuous (list 2 range) - 
+# PM with a VM that defines a mapping between a list of source values and a range of target values, 
+# discretized into steps according to the length of the source list  
+rexm:PMwithValueMappingOfList2RangeDiscretized
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM with a VM that defines a mapping between a list of source values and a range of target values, discretized into steps according to the length of the source list"^^xsd:string ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetAttribute vg:color_hsl_lightness ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueList (
+			rexd:Science
+			rexd:Fiction
+			rexd:Spirituality
+		);
+		rvl:discretize "true"^^xsd:boolean ;
+		rvl:targetValueInterval [
+        	a rvl:Interval;
+        	rvl:upperBoundIncl "0";
+        	rvl:lowerBoundIncl "100";
+        ];
+      ]
+      .
+      
+# B2 - ordinal 2 ordinal (list 2 list) - 
+# PM with a VM that defines a mapping between two lists of source and target values
+rexm:PMwithValueMappingOfLists
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM with a value mapping that defines a mapping between two lists of source and target values"^^xsd:string ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueList (
+			rexd:Science
+			rexd:Fiction
+			rexd:Spirituality
+		);
+		rvl:targetValueList (
+			vg:Red
+			vg:Orange
+			vg:Yellow
+		);
+		# rvl:targetValues [a vg:GraphicValueList ; ... ]
+      ]
+      .
+      
+      
+# B3 - ordinal 2 nominal (list 2 set) - 
+# PM with a VM that defines a mapping between a lists of source values to a set of target values
+rexm:PMwithValueMappingOfList2Set
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM with a VM that defines a mapping between a lists of source values to a set of target values"^^xsd:string ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueList (
+			rexd:Science
+			rexd:Fiction
+			rexd:Spirituality
+		);
+		rvl:targetValue vg:Green;
+		rvl:targetValue vg:Blue;
+		rvl:targetValue vg:Red;
+      ]
+      .
+                 
+ 
+      
+# C1 - nominal 2 quantitative (set 2 discretized range) - 
+# PM with a VM that defines a mapping from a set of (unordered) source values to a range of target values 
+# (the source set is defined adhoc by using sourceValue multiple times)
+rexm:PMwithValueMappingOf2Set2Range
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM with a VM that defines a mapping from a set of (unordered) source values to a range of target values"^^xsd:string ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetAttribute vg:color_hsl_lightness ; 
+	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Science;
+		rvl:sourceValue	rexd:Fiction;
+		rvl:sourceValue	rexd:Spirituality;
+		rvl:targetValueInterval [
+        	a rvl:Interval;
+        	rvl:upperBoundIncl "0";
+        	rvl:lowerBoundIncl "100";
+        ];
+      ]
+      .   
+
+# C2 - nominal 2 ordinal (set 2 list) - 
+# PM with a VM that defines a mapping from a set of (unordered) source values to a list of target values 
+# (the source set is defined adhoc by using sourceValue multiple times)
+rexm:PMwithValueMappingOf2Set2List
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM with a VM that defines a mapping from a set of (unordered) source values to a list of target values"^^xsd:string ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetAttribute vg:color_named ; 
+	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Science;
+		rvl:sourceValue	rexd:Fiction;
+		rvl:sourceValue	rexd:Spirituality;
+		rvl:targetValueList (
+			vg:Red
+			vg:Orange
+			vg:Yellow
+		);
+      ]
+      .             
+            
+# C3 - nominal 2 nominal (set 2 set) - 
+# PM with a VM that defines a mapping between two (unordered) set of source and target values 
+# (the sets are defined adhoc by using target/sourceValue multiple times)
+rexm:PMwithValueMappingOfSet2Set
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM with a VM that defines a mapping between two (unordered) set of source and target values "^^xsd:string ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Spirituality;
+		rvl:sourceValue rexd:Fiction;
+		rvl:sourceValue rexd:Science;
+		rvl:targetValue vg:Green;
+		rvl:targetValue vg:Blue;
+		rvl:targetValue vg:Red;
+      ]
+      .   
+      
+
+# sub-mapping - 
+# PM with a (blank node) sub-mapping that maps the color of the connector created by the first mapping
+# CHANGE IN LISTINGS: rdf:predicate, not rvl:predicate ; vg:targetAttribute vs vg:targetGraphicAttribute
+rexm:PMwithSubmappingOnConnector
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM with a (blank node) sub-mapping that maps the color of the connector created by the first mapping"^^xsd:string ;
+      rvl:sourceProperty rexd:cites ;
+      rvl:targetAttribute vg:Linking_Directed_Relation ; 
+      rvl:subMapping [
+        a rvl:SubMappingRelation ;
+        rvl:submapping_onRole vg:linking_connector;
+        rvl:submapping_onTriplePart rdf:predicate;
+        rvl:submapping_mapping [
+			a rvl:PropertyMapping ;
+ 			rvl:sourceProperty rvl:ID ;
+ 			rvl:targetAttribute vg:color_named ;
+   			];
+      ]
+      .
+      
+      
+# A1c - quantitative 2 quantitative (mapping between continuous value ranges) - 
+# PM with a VM that defines a mapping between the maximum range of source values and a default range of target values. The source values are inverted before mapping.
+# CHANGE IN LISTINGS: color_hsl_lightness (add color_)
+rexm:PMwithoutValueMappingOfRangesInverted
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM without value mappings, which should result in a mapping from the maximum range of all available source values to the default set of target values. The source values are inverted before mapping."^^xsd:string ;
+      rvl:sourceProperty rexd:hasCost ;
+      rvl:targetAttribute vg:color_hsl_lightness ;
+      rvl:invertSourceProperty
+              "true"^^xsd:boolean .

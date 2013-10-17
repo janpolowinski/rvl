@@ -1,0 +1,42 @@
+# Saved by TopBraid on Tue May 28 17:48:59 CEST 2013
+# baseURI: http://purl.org/rvl/queries
+# imports: http://purl.org/rvl/
+# imports: http://spinrdf.org/spin
+
+@prefix :        <http://purl.org/rvl/queries#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix sp:      <http://spinrdf.org/sp#> .
+@prefix spin:    <http://spinrdf.org/spin#> .
+@prefix spl:     <http://spinrdf.org/spl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+rvl:queries
+      rdf:type owl:Ontology ;
+      owl:imports <http://spinrdf.org/spin> , rvl: ;
+      owl:versionInfo "Created with TopBraid Composer"^^xsd:string .
+
+:ListAllMappings
+      rdf:type spin:SelectTemplate ;
+      rdfs:label "List all mappings"^^xsd:string ;
+      rdfs:subClassOf spin:SelectTemplates ;
+      spin:body
+              [ rdf:type sp:Select ;
+                sp:where ([ rdf:type sp:TriplePath ;
+                            sp:object rvl:Mapping ;
+                            sp:path [ rdf:type sp:SeqPath ;
+                                      sp:path1 rdf:type ;
+                                      sp:path2
+                                              [ rdf:type sp:ModPath ;
+                                                sp:modMax -2 ;
+                                                sp:modMin 0 ;
+                                                sp:subPath rdfs:subClassOf
+                                              ]
+                                    ] ;
+                            sp:subject
+                                    [ sp:varName "m"^^xsd:string
+                                    ]
+                          ])
+              ] .
