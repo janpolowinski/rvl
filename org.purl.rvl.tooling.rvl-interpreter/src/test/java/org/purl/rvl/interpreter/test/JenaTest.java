@@ -19,8 +19,11 @@ import com.hp.hpl.jena.util.iterator.ExtendedIterator;
 public class JenaTest {
 	
 	// paths
-	final public static String PATH_TO_CASE_STUDIES = "file:///Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies";
-	final public static String PATH_TO_RVL_PROJECT = "file:///Users/Jan/VersionControlRepositories/git/rvl/org.purl.rvl.vocabulary";
+	final public static String PATH_TO_CASE_STUDIES = "file:///Users/Jan/Documents/EclipseWorkspace/SemVisRecherche/CaseStudies";
+	final public static String PATH_TO_RVL_PROJECT = "file:///Users/Jan/Documents/TBCMEWorkspace/RVL";
+	//final public static String PATH_TO_CASE_STUDIES = "file:///Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies";
+	//final public static String PATH_TO_RVL_PROJECT = "file:///Users/Jan/VersionControlRepositories/git/rvl/org.purl.rvl.vocabulary";
+	
 	
 	// example mappings
 	final public static String EXAMPLE_MAPPING_SET_FOR_RVL = PATH_TO_RVL_PROJECT + "/rvl-example-mappings.ttl";
