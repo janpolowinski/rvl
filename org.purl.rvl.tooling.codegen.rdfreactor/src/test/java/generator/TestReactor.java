@@ -15,11 +15,13 @@ public class TestReactor {
 //	final public static String RVL_LOCAL_ABSOLUTE = "file:///Users/Jan/VersionControlRepositories/git/rvl/org.purl.rvl.vocabulary/rvl.owl"; // does not work somehow
 	final public static String RVL_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl.owl"; // HACK: references the rvl.owl in the vocabularies project
 	public static final String ONTOLOGY_URL = RVL_LOCAL_REL;
-//	public static final String ONTOLOGY_URL = PATH_TO_PROJECT_ONTOLOGIES + "rvl.owl";
+//	public static final String ONTOLOGY_URL = "../org.purl.rvl.vocabulary/rvl-small.n3";
 //	public static final String ONTOLOGY_URL = PATH_TO_PROJECT_ONTOLOGIES + "pizza.owl";
+//	public static final String ONTOLOGY_URL = PATH_TO_PROJECT_ONTOLOGIES + "people+pets.owl";
 	
 	public static final String PACKAGE = "org.purl.rvl.interpreter.rvl";
 //	public static final String PACKAGE = "org.purl.rvl.test.pizza";
+//	public static final String PACKAGE = "org.purl.rvl.test.peopelpets";
 
 	public static void main(String[] args) throws Exception {
 		CodeGenerator.generate(
@@ -29,6 +31,7 @@ public class TestReactor {
 				Reasoning.rdfs,
 				true // deprecated, but better documented:,true
 				);
+		
 	}
 
 
