@@ -51,20 +51,20 @@
       <version>0.0.2</version>
       <scope>test</scope>
     </dependency>
-	  <dependency>
+<dependency>
+	<groupId>org.semweb4j</groupId>
+	<artifactId>rdf2go.impl.jena</artifactId>
+	<version>4.8.3</version>
+</dependency>
+<dependency>
 	<groupId>org.semweb4j</groupId>
 	<artifactId>rdfreactor.runtime</artifactId>
-	<version>4.7.0</version>
+	<version>4.8.3</version>
 </dependency>
 <dependency>
 	<groupId>org.semweb4j</groupId>
 	<artifactId>rdfreactor.generator</artifactId>
-	<version>4.7.0</version>
-</dependency>
-<dependency>
-<groupId>org.semweb4j</groupId>
-	<artifactId>rdf2go.impl.sesame22</artifactId>
-	<version>4.7.1</version>
+	<version>4.8.3</version>
 </dependency>
   </dependencies>
 
@@ -73,6 +73,19 @@
          <id>semweb4j</id>
          <name>semweb4j repo</name>
          <url>http://mavenrepo.fzi.de/semweb4j.org/repo/</url>
+       </repository>
+       <repository>
+           <id>semweb4j-snapshots</id>
+           <name>Semweb4j.org maven snapshot repo</name>
+           <url>http://semweb4j.org/snapshots/</url>
+           <releases>
+               <enabled>false</enabled>
+           </releases>
+           <snapshots>
+               <enabled>true</enabled>
+               <updatePolicy>always</updatePolicy>
+               <checksumPolicy>fail</checksumPolicy>
+           </snapshots>
        </repository>
 </repositories>
 </project>
