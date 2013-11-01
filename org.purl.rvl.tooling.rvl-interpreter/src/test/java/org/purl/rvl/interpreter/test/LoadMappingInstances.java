@@ -1,5 +1,7 @@
 package org.purl.rvl.interpreter.test;
 
+import info.aduna.iteration.CloseableIteratorIteration;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -11,7 +13,14 @@ import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.*;
+import org.ontoware.rdf2go.model.node.BlankNode;
+import org.ontoware.rdf2go.model.node.DatatypeLiteral;
+import org.ontoware.rdf2go.model.node.LanguageTagLiteral;
+import org.ontoware.rdf2go.model.node.Literal;
+import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
+import org.ontoware.rdf2go.model.node.URI;
+import org.ontoware.rdfreactor.runtime.ReactorResult;
 import org.purl.rvl.interpreter.rvl.*;
 
 public class LoadMappingInstances {
@@ -56,12 +65,44 @@ public class LoadMappingInstances {
 		   }
 		   
 		   // get references for all objects of the Mapping class, by calling a static method upon this class
-		   ClosableIterator<Resource> mappingIterator = Mapping.getAllInstances(model);
-		   
+		   ClosableIterator<Resource> resourceIterator = Mapping.getAllInstances(model);
+		   ReactorResult <?extends Mapping> rrMappings = Mapping.getAllInstances_as(model);
+		   Mapping existingMapping;
+		   String existingMappingLabel;
+
 		   // print all mapping instances
-		   while (mappingIterator.hasNext()) {
-		    System.out.println(mappingIterator.next());
-		   }
+		   System.out.println("All Instances of Mappings (including subclasses when reasoning is on):");
+
+
+		   
+		ClosableIterator<? extends Mapping> mappingIterator = rrMappings.asClosableIterator();
+		while (mappingIterator.hasNext()) {
+			existingMapping = (Mapping) mappingIterator.next();
+			existingMappingLabel = existingMapping.getAllLabel_as().firstValue();
+			if (null != existingMappingLabel) {
+				System.out.println(existingMappingLabel);
+				Boolean includeInLegend = existingMapping.getAllIncludeinlegend_as().firstValue();
+				if (null!=includeInLegend && includeInLegend) {
+					System.out.println("   Mapping will be included in legends.");
+				}
+			} else {
+				System.out.println("Mapping without label (" + existingMapping+ ")");
+			}
+
+		}
+		
+// The same using a Array:		
+//		   Mapping[] mappingsArray = rrMappings.asArray();
+//		   for (int i = 0; i < mappingsArray.length; i++) {
+//			   existingMapping = mappingsArray[i];
+//			   existingMappingLabel = existingMapping.getAllLabel_as().firstValue();
+//			   if (null!=existingMappingLabel) { 
+//				   System.out.println(existingMappingLabel);
+//			   }
+//			   else {
+//				   System.out.println("Mapping without label (" + existingMapping + ")");
+//			   }
+//		   }
 
 		   // create 10 new Mapping instances
 		   for (int i = 0; i < 10; i++) {
