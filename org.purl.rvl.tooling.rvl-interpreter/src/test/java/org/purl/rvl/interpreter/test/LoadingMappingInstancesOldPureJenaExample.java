@@ -16,7 +16,7 @@ import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.util.iterator.ExtendedIterator;
 
-public class JenaTest {
+public class LoadingMappingInstancesOldPureJenaExample {
 	
 	// paths
 	final public static String PATH_TO_CASE_STUDIES = "file:///Users/Jan/Documents/EclipseWorkspace/SemVisRecherche/CaseStudies";
