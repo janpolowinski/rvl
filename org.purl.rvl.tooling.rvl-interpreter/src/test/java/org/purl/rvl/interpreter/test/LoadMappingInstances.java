@@ -21,7 +21,7 @@ import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.runtime.ReactorResult;
-import org.purl.rvl.interpreter.rvl.*;
+import org.purl.rvl.interpreter.rvl.manual.PropertyToGraphicAttributeMapping;
 
 public class LoadMappingInstances {
 	
@@ -65,31 +65,35 @@ public class LoadMappingInstances {
 		   }
 		   
 		   // get references for all objects of the Mapping class, by calling a static method upon this class
-		   ClosableIterator<Resource> resourceIterator = Mapping.getAllInstances(model);
-		   ReactorResult <?extends Mapping> rrMappings = Mapping.getAllInstances_as(model);
-		   Mapping existingMapping;
-		   String existingMappingLabel;
+		   ReactorResult <?extends org.purl.rvl.interpreter.rvl.Mapping> rrMappings = org.purl.rvl.interpreter.rvl.manual.Mapping.getAllInstances_as(model);
+		   org.purl.rvl.interpreter.rvl.manual.Mapping existingMapping;
 
 		   // print all mapping instances
 		   System.out.println("All Instances of Mappings (including subclasses when reasoning is on):");
-
-
 		   
-		ClosableIterator<? extends Mapping> mappingIterator = rrMappings.asClosableIterator();
-		while (mappingIterator.hasNext()) {
-			existingMapping = (Mapping) mappingIterator.next();
-			existingMappingLabel = existingMapping.getAllLabel_as().firstValue();
-			if (null != existingMappingLabel) {
-				System.out.println(existingMappingLabel);
-				Boolean includeInLegend = existingMapping.getAllIncludeinlegend_as().firstValue();
-				if (null!=includeInLegend && includeInLegend) {
-					System.out.println("   Mapping will be included in legends.");
-				}
-			} else {
-				System.out.println("Mapping without label (" + existingMapping+ ")");
-			}
+			ClosableIterator<? extends org.purl.rvl.interpreter.rvl.Mapping> mappingIterator = rrMappings.asClosableIterator();
+			while (mappingIterator.hasNext()) {
+				existingMapping = (org.purl.rvl.interpreter.rvl.manual.Mapping) mappingIterator.next().castTo(org.purl.rvl.interpreter.rvl.manual.Mapping.class);
 
-		}
+				// print P2GAM specific info (source and target property)
+				if(existingMapping.isInstanceof(org.purl.rvl.interpreter.rvl.manual.PropertyToGraphicAttributeMapping.RDFS_CLASS)) {
+					org.purl.rvl.interpreter.rvl.manual.PropertyToGraphicAttributeMapping p2gam = 
+							(org.purl.rvl.interpreter.rvl.manual.PropertyToGraphicAttributeMapping) existingMapping.castTo(
+									org.purl.rvl.interpreter.rvl.manual.PropertyToGraphicAttributeMapping.class);
+					System.out.println(p2gam);
+				}
+				// print PM specific info (value mappings ... )
+				else if (existingMapping.isInstanceof(org.purl.rvl.interpreter.rvl.PropertyMapping.RDFS_CLASS)) {
+					org.purl.rvl.interpreter.rvl.manual.PropertyMapping pm = 
+							(org.purl.rvl.interpreter.rvl.manual.PropertyMapping) existingMapping.castTo(
+									org.purl.rvl.interpreter.rvl.manual.PropertyMapping.class);
+					System.out.println(pm);
+				}
+				// print only M specific info
+				else {
+					System.out.println(existingMapping);
+				}
+			}
 		
 // The same using a Array:		
 //		   Mapping[] mappingsArray = rrMappings.asArray();
@@ -108,7 +112,7 @@ public class LoadMappingInstances {
 		   for (int i = 0; i < 10; i++) {
 		    // create a new ID
 		    int aID = random.nextInt(100000);
-		    Mapping mapping = new Mapping(model,"http://purl.org/rvl/example-mappings/Mapping" + aID, true);
+		    org.purl.rvl.interpreter.rvl.Mapping mapping = new org.purl.rvl.interpreter.rvl.Mapping(model,"http://purl.org/rvl/example-mappings/Mapping" + aID, true);
 		    mapping.setLabel("This is a new Mapping " + i);
 		    mapping.setIncludeinlegend(true);
 		   }
