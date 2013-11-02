@@ -42,13 +42,17 @@ public class PropertyMapping extends
 	}
 	
 	public String toString() {
-		
 		String s ="";
+		
+		// try to get the string description from the (manual) Mapping class, which is not in the super-class hierarchy
+		Mapping m = (Mapping) this.castTo(Mapping.class);
+		s += m.toString();
+		
 		Property sp = this.getAllSourceproperty_as().firstValue();
 		//Property tgr = this.getAllTargetgraphicrelation_abstract__as().firstValue();
-		s += "source property: " + sp.getAllLabel_as().firstValue() + NL;
-		
-		return "from PM(m):" + s;
+		s += "from PM(m): source property: " + sp.getAllLabel_as().firstValue() + NL;
+		s += "from PM(m): target graphic relation: " + this.getAllTargetgraphicrelation_abstract__as().firstValue() + NL ;
+		return s;
 	}
 	
 

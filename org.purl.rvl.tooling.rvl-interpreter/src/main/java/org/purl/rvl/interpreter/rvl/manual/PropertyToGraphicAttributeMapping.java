@@ -4,6 +4,7 @@ import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
+import org.purl.rvl.interpreter.rvl.GraphicAttribute;
 import org.purl.rvl.interpreter.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.interpreter.rvl.Valuemapping;
 
@@ -34,18 +35,19 @@ public class PropertyToGraphicAttributeMapping extends
 		
 		String s = "";
 		
-		// try to get the string description from the (manual) Mapping class, which is not in the super-class hierarchy
-		Mapping m = (Mapping) this.castTo(Mapping.class);
-		s += m.toString();
-		
 		// try to get the string description from the (manual) PropertyMapping class, which is not in the super-class hierarchy
 		PropertyMapping pm = (PropertyMapping) this.castTo(PropertyMapping.class);
 		s += pm.toString();
 		
-		s += "from PGAM(m):There are the following VMS:" + NL;
+		//targetAttribute is specific to P2GAM
+		GraphicAttribute tga = this.getAllTargetattribute_as().firstValue();
+		String tgaString = tga.getAllLabel_as().count()>0 ? tga.getAllLabel_as().firstValue() : tga.toString();
+		s += "from P2GAM(m): target graphic attribute: " + tgaString + NL ;
+		
+		s += "from P2GAM(m):There are the following VMS:" + NL;
 		ClosableIterator<Valuemapping> vmIterator = this.getAllValuemapping_as().asClosableIterator();
 		while (vmIterator.hasNext()) {
-			Valuemapping vm = (Valuemapping) vmIterator.next();
+			ValueMapping vm = (ValueMapping) vmIterator.next().castTo(ValueMapping.class);
 			s += "		" + vm +  NL;
 		}
 		return s;

@@ -28,6 +28,7 @@ public class LoadMappingInstances {
 	final public static String REM_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl-example-mappings.ttl"; // HACK: references the file in the vocabularies project
 	final public static String REXD_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl-example-data.ttl"; // HACK: references the file in the vocabularies project
 	final public static String RVL_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl.owl"; // HACK: references the file in the vocabularies project
+	final public static String VISO_GRAPHIC_ABS = "/Users/Jan/Projekte/SemVis/SemVisTeilprojekte/VISO/modules/graphic/viso-graphic.owl"; // HACK: references the file in the vocabularies project
 	
 	
 	private static Model model;
@@ -43,27 +44,27 @@ public class LoadMappingInstances {
 		// create the RDF2GO Model
 		model = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		model.open();
+		
+	   // if the File already exists, the existing triples are read and added to the model
+	   File mappingInstancesFile = new File(mappingInstancesFileName);
+	   if (mappingInstancesFile.exists()) {
+	    try {
+	     model.readFrom(new FileReader(mappingInstancesFile), Syntax.Turtle);
+	     model.readFrom(new FileReader(RVL_LOCAL_REL), Syntax.RdfXml); // add RVL ontology explicitly from local file, since imports cannot be downloaded properly as it seems
+	     model.readFrom(new FileReader(REXD_LOCAL_REL), Syntax.Turtle); // add example data explicitly from local file, since imports cannot be downloaded properly as it seems
+	     model.readFrom(new FileReader(VISO_GRAPHIC_ABS), Syntax.RdfXml); // add example data explicitly from local file, since imports cannot be downloaded properly as it seems
+	    } catch (IOException e) {
+	     e.printStackTrace();
+	    }
+	   } else {
+	    // File will be created on save only
+	   }
 	}
 	
 	public static void main(String[] args) {
-		  Random random = new Random();
 		   
 		  init();
 
-		   // if the File already exists, the existing triples are read and added to the model
-		   File mappingInstancesFile = new File(mappingInstancesFileName);
-		   if (mappingInstancesFile.exists()) {
-		    try {
-		     model.readFrom(new FileReader(mappingInstancesFile), Syntax.Turtle);
-		     model.readFrom(new FileReader(RVL_LOCAL_REL), Syntax.RdfXml); // add RVL ontology explicitly from local file, since imports cannot be downloaded properly as it seems
-		     model.readFrom(new FileReader(REXD_LOCAL_REL), Syntax.Turtle); // add example data explicitly from local file, since imports cannot be downloaded properly as it seems
-		    } catch (IOException e) {
-		     e.printStackTrace();
-		    }
-		   } else {
-		    // File will be created on save only
-		   }
-		   
 		   // get references for all objects of the Mapping class, by calling a static method upon this class
 		   ReactorResult <?extends org.purl.rvl.interpreter.rvl.Mapping> rrMappings = org.purl.rvl.interpreter.rvl.manual.Mapping.getAllInstances_as(model);
 		   org.purl.rvl.interpreter.rvl.manual.Mapping existingMapping;
@@ -75,14 +76,21 @@ public class LoadMappingInstances {
 			while (mappingIterator.hasNext()) {
 				existingMapping = (org.purl.rvl.interpreter.rvl.manual.Mapping) mappingIterator.next().castTo(org.purl.rvl.interpreter.rvl.manual.Mapping.class);
 
-				// print P2GAM specific info (source and target property)
+				// print P2GAM specific info (value mappings ... )
 				if(existingMapping.isInstanceof(org.purl.rvl.interpreter.rvl.manual.PropertyToGraphicAttributeMapping.RDFS_CLASS)) {
 					org.purl.rvl.interpreter.rvl.manual.PropertyToGraphicAttributeMapping p2gam = 
 							(org.purl.rvl.interpreter.rvl.manual.PropertyToGraphicAttributeMapping) existingMapping.castTo(
 									org.purl.rvl.interpreter.rvl.manual.PropertyToGraphicAttributeMapping.class);
 					System.out.println(p2gam);
 				}
-				// print PM specific info (value mappings ... )
+				// print P2GO2ORM specific info (submappings ... )
+				else if(existingMapping.isInstanceof(org.purl.rvl.interpreter.rvl.manual.PropertyToGO2ORMapping.RDFS_CLASS)) {
+					org.purl.rvl.interpreter.rvl.manual.PropertyToGO2ORMapping p2go2orm = 
+							(org.purl.rvl.interpreter.rvl.manual.PropertyToGO2ORMapping) existingMapping.castTo(
+									org.purl.rvl.interpreter.rvl.manual.PropertyToGO2ORMapping.class);
+					System.out.println(p2go2orm);
+				}/*
+				// print PM specific info (source and target property)
 				else if (existingMapping.isInstanceof(org.purl.rvl.interpreter.rvl.PropertyMapping.RDFS_CLASS)) {
 					org.purl.rvl.interpreter.rvl.manual.PropertyMapping pm = 
 							(org.purl.rvl.interpreter.rvl.manual.PropertyMapping) existingMapping.castTo(
@@ -92,43 +100,52 @@ public class LoadMappingInstances {
 				// print only M specific info
 				else {
 					System.out.println(existingMapping);
-				}
+				}*/
 			}
 		
-// The same using a Array:		
-//		   Mapping[] mappingsArray = rrMappings.asArray();
-//		   for (int i = 0; i < mappingsArray.length; i++) {
-//			   existingMapping = mappingsArray[i];
-//			   existingMappingLabel = existingMapping.getAllLabel_as().firstValue();
-//			   if (null!=existingMappingLabel) { 
-//				   System.out.println(existingMappingLabel);
-//			   }
-//			   else {
-//				   System.out.println("Mapping without label (" + existingMapping + ")");
-//			   }
-//		   }
+		// The same using a Array:		
+		//		   Mapping[] mappingsArray = rrMappings.asArray();
+		//		   for (int i = 0; i < mappingsArray.length; i++) {
+		//			   existingMapping = mappingsArray[i];
+		//			   existingMappingLabel = existingMapping.getAllLabel_as().firstValue();
+		//			   if (null!=existingMappingLabel) { 
+		//				   System.out.println(existingMappingLabel);
+		//			   }
+		//			   else {
+		//				   System.out.println("Mapping without label (" + existingMapping + ")");
+		//			   }
+		//		   }	   
+		   
+		// testMappingCreation()	
+	    // writeModelToFile();
+			
+	    // close the model
+	    // model.close();
+	    // -NO!!! since there is more than one Thread, close would be performed before the data is added to the model, resulting in a NullPointerException of the RDF2GO model
+	}
 
-		   // create 10 new Mapping instances
-		   for (int i = 0; i < 10; i++) {
-		    // create a new ID
-		    int aID = random.nextInt(100000);
-		    org.purl.rvl.interpreter.rvl.Mapping mapping = new org.purl.rvl.interpreter.rvl.Mapping(model,"http://purl.org/rvl/example-mappings/Mapping" + aID, true);
-		    mapping.setLabel("This is a new Mapping " + i);
-		    mapping.setIncludeinlegend(true);
-		   }
-		   
-		   
-		    // save back model to file
-		    try {
-		     FileWriter writer = new FileWriter(outputFileName);
-		     model.writeTo(writer, Syntax.Turtle);
-		    } catch (IOException e) {
-		     e.printStackTrace();
-		    }
-		    // close the model
-		    // model.close();
-		    // -NO!!! since there is more than one Thread, close would be performed before the data is added to the model, resulting in a NullPointerException of the RDF2GO model
-		   
+	private static void writeModelToFile() {
+		try {
+		 FileWriter writer = new FileWriter(outputFileName);
+		 model.writeTo(writer, Syntax.Turtle);
+		} catch (IOException e) {
+		 e.printStackTrace();
+		}
+	}
+	
+	private void testMappingCreation() {
+		Random random = new Random();
+		// create 10 new Mapping instances
+		for (int i = 0; i < 10; i++) {
+			// create a new ID
+			int aID = random.nextInt(100000);
+			org.purl.rvl.interpreter.rvl.Mapping mapping = new org.purl.rvl.interpreter.rvl.Mapping(
+					model,
+					"http://purl.org/rvl/example-mappings/Mapping" + aID, true);
+			mapping.setLabel("This is a new Mapping " + i);
+			mapping.setIncludeinlegend(true);
+		}
+
 	}
 
 }
