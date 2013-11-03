@@ -1,11 +1,11 @@
 package org.purl.rvl.interpreter.mapping;
 
-public class ExplicitValueMapping {
+public class CalculatedValueMapping {
 	
 	private String sourceValue;
 	private String targetValue;
 	
-	public ExplicitValueMapping(String sourceValue, String targetValue) {
+	public CalculatedValueMapping(String sourceValue, String targetValue) {
 		super();
 		this.sourceValue = sourceValue;
 		this.targetValue = targetValue;
