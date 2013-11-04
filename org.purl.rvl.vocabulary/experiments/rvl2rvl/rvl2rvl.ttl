@@ -1,0 +1,290 @@
+# Saved by TopBraid on Tue Dec 04 08:42:14 CET 2012
+# baseURI: http://purl.org/rvl/rvl2rvl/
+# imports: http://purl.org/rvl/
+# imports: http://spinrdf.org/spin
+
+@prefix afn:     <http://jena.hpl.hp.com/ARQ/function#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rvl2rvl:  <http://purl.org/rvl/rvl2rvl/> .
+@prefix smf:     <http://topbraid.org/sparqlmotionfunctions#> .
+@prefix sp:      <http://spinrdf.org/sp#> .
+@prefix spin:    <http://spinrdf.org/spin#> .
+@prefix spl:     <http://spinrdf.org/spl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+<http://purl.org/rvl/ClassMapping>
+      spin:rule
+              [ rdf:type sp:Modify ;
+                rdfs:comment """Step 3: Class Mapping 2 PM (Class itself)  - cf. Class Mapping 2 PM (Instances)
+NOTE: This is ONLY on creating a PM for the class itself using the pseudo property for the URI"""^^xsd:string ;
+                sp:insertPattern ([ rdf:type sp:NamedGraph ;
+                            sp:elements ([ sp:object <http://purl.org/rvl/PropertyMapping> ;
+                                        sp:predicate rdf:type ;
+                                        sp:subject _:b1
+                                      ] [ sp:object <http://purl.org/rvl/uriPseudoProperty> ;
+                                        sp:predicate <http://purl.org/rvl/sourceProperty> ;
+                                        sp:subject _:b1
+                                      ] [ sp:object _:b2 ;
+                                        sp:predicate <http://purl.org/rvl/targetGraphicRelation> ;
+                                        sp:subject _:b1
+                                      ] [ sp:object _:b3 ;
+                                        sp:predicate <http://purl.org/rvl/valueMapping> ;
+                                        sp:subject _:b1
+                                      ]) ;
+                            sp:graphNameNode _:b4
+                          ]) ;
+                sp:where ([ sp:object _:b5 ;
+                            sp:predicate <http://purl.org/rvl/rvl2avm/spin/currentMappingSettings> ;
+                            sp:subject <http://purl.org/rvl/rvl2avm/spin/>
+                          ] [ sp:object _:b4 ;
+                            sp:predicate <http://purl.org/rvl/rvl2avm/spin/mappingsGraph> ;
+                            sp:subject _:b5
+                          ] [ rdf:type sp:NamedGraph ;
+                            sp:elements ([ sp:object <http://purl.org/rvl/ClassMapping> ;
+                                        sp:predicate rdf:type ;
+                                        sp:subject _:b3
+                                      ] [ sp:object
+                                                [ sp:varName "sv"^^xsd:string
+                                                ] ;
+                                        sp:predicate <http://purl.org/rvl/sourceValue> ;
+                                        sp:subject _:b3
+                                      ] [ sp:object _:b6 ;
+                                        sp:predicate <http://purl.org/rvl/targetValue> ;
+                                        sp:subject _:b3
+                                      ]) ;
+                            sp:graphNameNode _:b4
+                          ] [ sp:object _:b7 ;
+                            sp:predicate rdf:type ;
+                            sp:subject _:b6
+                          ] [ rdf:type sp:TriplePath ;
+                            sp:object _:b2 ;
+                            sp:path [ rdf:type sp:ReversePath ;
+                                      sp:subPath rdfs:range
+                                    ] ;
+                            sp:subject _:b7
+                          ] [ rdf:type sp:Bind ;
+                            sp:expression
+                                    [ rdf:type afn:localname ;
+                                      sp:arg1 _:b2
+                                    ] ;
+                            sp:variable
+                                    [ sp:varName "localNameTvm"^^xsd:string
+                                    ]
+                          ] [ rdf:type sp:NamedGraph ;
+                            sp:elements ([ rdf:type sp:Bind ;
+                                        sp:expression
+                                                [ rdf:type smf:buildURI ;
+                                                  sp:arg1 ":Uri2{?localNameTvm}GeneratedPM"
+                                                ] ;
+                                        sp:variable _:b1
+                                      ]) ;
+                            sp:graphNameNode _:b4
+                          ] [ rdf:type sp:Filter ;
+                            sp:expression "true"^^xsd:boolean
+                          ])
+              ] ;
+      spin:rule
+              [ rdf:type sp:Modify ;
+                rdfs:comment """Step 2: Class Mapping 2 PM (Sub-Classes)  - cf. Class Mapping 2 PM (Instances)
+NOTE: This is ONLY on creating a PM for classes and subclasses using subClassOf as a source property"""^^xsd:string ;
+                sp:insertPattern ([ rdf:type sp:NamedGraph ;
+                            sp:elements ([ sp:object <http://purl.org/rvl/PropertyMapping> ;
+                                        sp:predicate rdf:type ;
+                                        sp:subject _:b8
+                                      ] [ sp:object rdfs:subClassOf ;
+                                        sp:predicate <http://purl.org/rvl/sourceProperty> ;
+                                        sp:subject _:b8
+                                      ] [ sp:object _:b9 ;
+                                        sp:predicate <http://purl.org/rvl/targetGraphicRelation> ;
+                                        sp:subject _:b8
+                                      ] [ sp:object _:b10 ;
+                                        sp:predicate <http://purl.org/rvl/valueMapping> ;
+                                        sp:subject _:b8
+                                      ]) ;
+                            sp:graphNameNode _:b11
+                          ]) ;
+                sp:where ([ sp:object _:b12 ;
+                            sp:predicate <http://purl.org/rvl/rvl2avm/spin/currentMappingSettings> ;
+                            sp:subject <http://purl.org/rvl/rvl2avm/spin/>
+                          ] [ sp:object _:b11 ;
+                            sp:predicate <http://purl.org/rvl/rvl2avm/spin/mappingsGraph> ;
+                            sp:subject _:b12
+                          ] [ rdf:type sp:NamedGraph ;
+                            sp:elements ([ sp:object <http://purl.org/rvl/ClassMapping> ;
+                                        sp:predicate rdf:type ;
+                                        sp:subject _:b10
+                                      ] [ sp:object
+                                                [ sp:varName "sv"^^xsd:string
+                                                ] ;
+                                        sp:predicate <http://purl.org/rvl/sourceValue> ;
+                                        sp:subject _:b10
+                                      ] [ sp:object _:b13 ;
+                                        sp:predicate <http://purl.org/rvl/targetValue> ;
+                                        sp:subject _:b10
+                                      ]) ;
+                            sp:graphNameNode _:b11
+                          ] [ sp:object _:b14 ;
+                            sp:predicate rdf:type ;
+                            sp:subject _:b13
+                          ] [ rdf:type sp:TriplePath ;
+                            sp:object _:b9 ;
+                            sp:path [ rdf:type sp:ReversePath ;
+                                      sp:subPath rdfs:range
+                                    ] ;
+                            sp:subject _:b14
+                          ] [ rdf:type sp:Bind ;
+                            sp:expression
+                                    [ rdf:type afn:localname ;
+                                      sp:arg1 _:b9
+                                    ] ;
+                            sp:variable
+                                    [ sp:varName "localNameTvm"^^xsd:string
+                                    ]
+                          ] [ rdf:type sp:NamedGraph ;
+                            sp:elements ([ rdf:type sp:Bind ;
+                                        sp:expression
+                                                [ rdf:type smf:buildURI ;
+                                                  sp:arg1 ":SubClassOf2{?localNameTvm}GeneratedPM"
+                                                ] ;
+                                        sp:variable _:b8
+                                      ]) ;
+                            sp:graphNameNode _:b11
+                          ] [ rdf:type sp:Filter ;
+                            sp:expression "true"^^xsd:boolean
+                          ])
+              ] ;
+      spin:rule
+              [ rdf:type sp:Modify ;
+                rdfs:comment """Step 1: Class Mapping 2 PM (Instances) - turn class mappings into value mappings of a property mapping (old ones are overwritten, not deleted first)
+TODO: remaining problem: a new property mapping with the value mappings will be created, even if there is one already ( a manual one with a name differerent from the generated)
+QUESTION: When should named-values by transformed to continuous ones?
+TODO: rvl2rvl should go to a temp mapping file, which is additionally taken as input graph!
+NOTE: This is ONLY on creating a PM for instances, using type as a source property (cf. Class Mapping 2 PM (Classes))
+Somehow now (maybe after removing the USING statements, the generated PMs are only available after saving the mapping file and running the rules again ... )"""^^xsd:string ;
+                sp:insertPattern ([ rdf:type sp:NamedGraph ;
+                            sp:elements ([ sp:object <http://purl.org/rvl/PropertyMapping> ;
+                                        sp:predicate rdf:type ;
+                                        sp:subject _:b15
+                                      ] [ sp:object rdf:type ;
+                                        sp:predicate <http://purl.org/rvl/sourceProperty> ;
+                                        sp:subject _:b15
+                                      ] [ sp:object _:b16 ;
+                                        sp:predicate <http://purl.org/rvl/targetGraphicRelation> ;
+                                        sp:subject _:b15
+                                      ] [ sp:object _:b17 ;
+                                        sp:predicate <http://purl.org/rvl/valueMapping> ;
+                                        sp:subject _:b15
+                                      ]) ;
+                            sp:graphNameNode _:b18
+                          ]) ;
+                sp:where ([ sp:object _:b19 ;
+                            sp:predicate <http://purl.org/rvl/rvl2avm/spin/currentMappingSettings> ;
+                            sp:subject <http://purl.org/rvl/rvl2avm/spin/>
+                          ] [ sp:object _:b18 ;
+                            sp:predicate <http://purl.org/rvl/rvl2avm/spin/mappingsGraph> ;
+                            sp:subject _:b19
+                          ] [ rdf:type sp:NamedGraph ;
+                            sp:elements ([ sp:object <http://purl.org/rvl/ClassMapping> ;
+                                        sp:predicate rdf:type ;
+                                        sp:subject _:b17
+                                      ] [ sp:object
+                                                [ sp:varName "sv"^^xsd:string
+                                                ] ;
+                                        sp:predicate <http://purl.org/rvl/sourceValue> ;
+                                        sp:subject _:b17
+                                      ] [ sp:object _:b20 ;
+                                        sp:predicate <http://purl.org/rvl/targetValue> ;
+                                        sp:subject _:b17
+                                      ]) ;
+                            sp:graphNameNode _:b18
+                          ] [ sp:object _:b21 ;
+                            sp:predicate rdf:type ;
+                            sp:subject _:b20
+                          ] [ rdf:type sp:TriplePath ;
+                            sp:object _:b16 ;
+                            sp:path [ rdf:type sp:ReversePath ;
+                                      sp:subPath rdfs:range
+                                    ] ;
+                            sp:subject _:b21
+                          ] [ rdf:type sp:Bind ;
+                            sp:expression
+                                    [ rdf:type afn:localname ;
+                                      sp:arg1 _:b16
+                                    ] ;
+                            sp:variable
+                                    [ sp:varName "localNameTvm"^^xsd:string
+                                    ]
+                          ] [ rdf:type sp:NamedGraph ;
+                            sp:elements ([ rdf:type sp:Bind ;
+                                        sp:expression
+                                                [ rdf:type smf:buildURI ;
+                                                  sp:arg1 ":Type2{?localNameTvm}GeneratedPM"
+                                                ] ;
+                                        sp:variable _:b15
+                                      ]) ;
+                            sp:graphNameNode _:b18
+                          ] [ rdf:type sp:Filter ;
+                            sp:expression "true"^^xsd:boolean
+                          ])
+              ] .
+
+rvl2rvl:
+      rdf:type owl:Ontology ;
+      owl:imports <http://spinrdf.org/spin> , <http://purl.org/rvl/> ;
+      owl:versionInfo "Created with TopBraid Composer"^^xsd:string .
+
+_:b7  sp:varName "tvType"^^xsd:string .
+
+_:b6  sp:varName "tv"^^xsd:string .
+
+_:b5  sp:varName "settings"^^xsd:string .
+
+_:b4  sp:varName "mappingsGraph"^^xsd:string .
+
+_:b3  sp:varName "cm"^^xsd:string .
+
+_:b2  sp:varName "tvm"^^xsd:string .
+
+_:b1  sp:varName "newPm"^^xsd:string .
+
+_:b14
+      sp:varName "tvType"^^xsd:string .
+
+_:b13
+      sp:varName "tv"^^xsd:string .
+
+_:b12
+      sp:varName "settings"^^xsd:string .
+
+_:b11
+      sp:varName "mappingsGraph"^^xsd:string .
+
+_:b10
+      sp:varName "cm"^^xsd:string .
+
+_:b9  sp:varName "tvm"^^xsd:string .
+
+_:b8  sp:varName "newPm"^^xsd:string .
+
+_:b21
+      sp:varName "tvType"^^xsd:string .
+
+_:b20
+      sp:varName "tv"^^xsd:string .
+
+_:b19
+      sp:varName "settings"^^xsd:string .
+
+_:b18
+      sp:varName "mappingsGraph"^^xsd:string .
+
+_:b17
+      sp:varName "cm"^^xsd:string .
+
+_:b16
+      sp:varName "tvm"^^xsd:string .
+
+_:b15
+      sp:varName "newPm"^^xsd:string .

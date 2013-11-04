@@ -44,7 +44,8 @@ rexm:PMWithExplicitValueMappings
       rvl:sourceProperty rexd:workingField ;
       rvl:targetAttribute vg:shape_named ; 
       rvl:valueMapping rexm:VMSciFi2Rhomb ;      
-      rvl:valueMapping rexm:VMBiography2Square . 
+      rvl:valueMapping rexm:VMBiography2Square ;
+      rvl:includeInLegend "true"^^xsd:boolean . 
       
 rexm:VMSciFi2Rhomb a rvl:ValueMapping ;
 		rvl:sourceValue rexd:Sci-Fi ;
@@ -281,13 +282,29 @@ rexm:PMwithValueMappingOfSet2Set
       
 
 # sub-mapping - 
-# PM with a (blank node) sub-mapping that maps the color of the connector created by the first mapping
+# PM with a sub-mapping to an existing, named mapping
 # CHANGE IN LISTINGS: rdf:predicate, not rvl:predicate ; vg:targetAttribute vs vg:targetGraphicAttribute
-rexm:PMwithSubmappingOnConnector
+rexm:PMwithNamedSubmappingOnConnector
       rdf:type rvl:PropertyMapping ;
-      rdfs:label "PM with a (blank node) sub-mapping that maps the color of the connector created by the first mapping"^^xsd:string ;
+      rdfs:label "PM with a sub-mapping to an existing, named mapping"^^xsd:string ;
       rvl:sourceProperty rexd:cites ;
-      rvl:targetAttribute vg:Linking_Directed_Relation ; 
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
+      rvl:subMapping [
+        a rvl:SubMappingRelation ;
+        rvl:submapping_onRole vg:linking_connector;
+        rvl:submapping_onTriplePart rdf:predicate;
+        rvl:submapping_mapping rexm:PMfromID2ColorNamed;
+      ]
+      .
+      
+# sub-mapping - 
+# PM with an anonymous, blank-node sub-mapping that maps the color of the connector created by the first mapping
+# CHANGE IN LISTINGS: rdf:predicate, not rvl:predicate ; vg:targetAttribute vs vg:targetGraphicAttribute
+rexm:PMwithAnonSubmappingOnConnector
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM with an anonymous, blank node sub-mapping that maps the color of the connector created by the first mapping"^^xsd:string ;
+      rvl:sourceProperty rexd:cites ;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
       rvl:subMapping [
         a rvl:SubMappingRelation ;
         rvl:submapping_onRole vg:linking_connector;
@@ -311,3 +328,12 @@ rexm:PMwithoutValueMappingOfRangesInverted
       rvl:targetAttribute vg:color_hsl_lightness ;
       rvl:invertSourceProperty
               "true"^^xsd:boolean .
+              
+# PM from ID to color (used as a submapping)
+rexm:PMfromID2ColorNamed
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM from ID to color (used as a submapping)"^^xsd:string ;
+ 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:targetAttribute vg:color_named ;
+      .                
+              

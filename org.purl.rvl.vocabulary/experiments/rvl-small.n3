@@ -1,0 +1,40 @@
+@prefix :        <http://purl.org/rvl/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix viso-graphic:  <http://purl.org/viso/graphic/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+:     rdf:type owl:Ontology ;
+      rdfs:label "RDF Visualization Language (RVL)"^^xsd:string .
+
+:Mapping
+      rdf:type owl:Class ;
+      rdfs:label "Mapping"^^xsd:string ;
+      #rdfs:subClassOf
+      #        [ rdf:type owl:Restriction ;
+      #          owl:cardinality "1" ;
+      #         owl:onProperty :fallsBackTo
+      #       ]
+      #rdfs:subClassOf
+      #        [ rdf:type owl:Restriction ;
+      #          owl:cardinality "1" ;
+      #         owl:onProperty :includeInLegend
+      #      ]
+       .
+
+#:fallsBackTo
+#      rdf:type owl:ObjectProperty, owl:FunctionalProperty ;
+#      rdfs:domain :Mapping ;
+#      rdfs:range :Mapping ;
+#      owl:maxCardinality "1" ;
+#      owl:cardinality "1" ;
+#      owl:minCardinality "1" .
+      
+:includeInLegend
+      rdf:type owl:DatatypeProperty, owl:FunctionalProperty ;
+      rdfs:domain :Mapping ;
+      rdfs:range xsd:boolean ;
+      owl:maxCardinality "1" ;
+      owl:cardinality "1" ;
+      owl:minCardinality "1" .

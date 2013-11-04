@@ -1,0 +1,202 @@
+###############################################
+# This worked with ASK:
+# PROBLEM: No fixes possible with ASK, no suggestion of better values
+###############################################
+# Facts: There are more effective visual means for visualizing the selected source property
+ASK WHERE {
+    {
+        SELECT *
+        WHERE {
+            ?this rvl:sourceProperty ?sp .
+            ?this rvl:targetVisualMeans ?tvm .
+            ?sp viso-data:has_scale_of_measurement/(rdfs:subClassOf)* ?spSoM .
+            ?spSoM (rdfs:subClassOf)+ viso-data:Scale_of_Measurement .
+            OPTIONAL {
+                BIND (viso-data:Nominal_Scale_of_Measurement AS ?spSoM) .
+                ?tvm facts:has_effectiveness_ranking_for_nominal_data ?rankValue .
+                ?anyOtherVm facts:has_effectiveness_ranking_for_nominal_data ?otherRankValue .
+            } .
+            OPTIONAL {
+                BIND (viso-data:Ordinal_Scale_of_Measurement AS ?spSoM) .
+                ?tvm facts:has_effectiveness_ranking_for_ordinal_data ?rankValue .
+                ?anyOtherVm facts:has_effectiveness_ranking_for_ordinal_data ?otherRankValue .
+            } .
+            OPTIONAL {
+                BIND (viso-data:Quantitative_Scale_of_Measurement AS ?spSoM) .
+                ?tvm facts:has_effectiveness_ranking_for_quantitative_data ?rankValue .
+                ?anyOtherVm facts:has_effectiveness_ranking_for_quantitative_data ?otherRankValue .
+            } .
+            FILTER (bound(?rankValue) && bound(?otherRankValue)) .
+            FILTER (?tvm != ?anyOtherVm) .
+            FILTER (?otherRankValue > ?rankValue) .
+        }
+    } .
+}
+
+
+###############################################
+# L1: works. Important is binding ?sp and ?tvm in subquery again, and not only there!
+################################################
+
+CONSTRUCT {
+    _:b0 a spin:ConstraintViolation .
+    _:b0 spin:violationRoot ?this .
+    _:b0 spin:violationPath rvl:targetVisualMeans .
+    _:b0 rdfs:label ?cvLabel .
+}
+WHERE {
+            ?this rvl:sourceProperty ?sp .		# important! not enough, when either here or within subselect. both places required
+            ?this rvl:targetVisualMeans ?tvm .		#  --"---"--
+    {
+        SELECT ?sp (COUNT(?this) AS ?altCount)		# only difference to L3
+        WHERE {
+            ?this rvl:sourceProperty ?sp .
+            ?this rvl:targetVisualMeans ?tvm .
+            ?sp viso-data:has_scale_of_measurement/(rdfs:subClassOf)* ?spSoM .
+            ?spSoM (rdfs:subClassOf)+ viso-data:Scale_of_Measurement .
+            OPTIONAL {
+                BIND (viso-data:Nominal_Scale_of_Measurement AS ?spSoM) .
+                ?tvm facts:has_effectiveness_ranking_for_nominal_data ?rankValue .
+                ?anyOtherVm facts:has_effectiveness_ranking_for_nominal_data ?otherRankValue .
+            } .
+            OPTIONAL {
+                BIND (viso-data:Ordinal_Scale_of_Measurement AS ?spSoM) .
+                ?tvm facts:has_effectiveness_ranking_for_ordinal_data ?rankValue .
+                ?anyOtherVm facts:has_effectiveness_ranking_for_ordinal_data ?otherRankValue .
+            } .
+            OPTIONAL {
+                BIND (viso-data:Quantitative_Scale_of_Measurement AS ?spSoM) .
+                ?tvm facts:has_effectiveness_ranking_for_quantitative_data ?rankValue .
+                ?anyOtherVm facts:has_effectiveness_ranking_for_quantitative_data ?otherRankValue .
+            } .
+            FILTER (bound(?rankValue) && bound(?otherRankValue)) .
+            FILTER (?tvm != ?anyOtherVm) .
+            FILTER (?otherRankValue > ?rankValue)
+        } GROUP BY ?sp								# important?!
+    } . 
+BIND(fn:concat("There are ", ?altCount, " more effective visual means for visualizing the selected source property") AS ?cvLabel)
+FILTER (?altCount > 0) .		# important: otherwise also 0 otherVM lead to a warning.  Difference to L1! 	# seems to be unncessary now
+}
+
+
+
+###############################################
+## VORARBEITEN ################################
+###############################################
+###############################################
+
+
+###############################################
+# L5a: 
+# find effectiveness value of the currently used visual means
+###############################################
+
+SELECT *
+WHERE {
+    ?this rvl:sourceProperty ?sp . 
+	?this rvl:targetVisualMeans ?tvm . 
+    ?sp viso-data:has_scale_of_measurement/(rdfs:subClassOf)* ?spSoM .
+    ?spSoM (rdfs:subClassOf)+ viso-data:Scale_of_Measurement .
+	OPTIONAL {
+		BIND (viso-data:Nominal_Scale_of_Measurement AS ?spSoM) . 
+		?tvm facts:has_effectiveness_ranking_for_nominal_data ?rankValue
+	 }
+	OPTIONAL {
+		BIND (viso-data:Ordinal_Scale_of_Measurement AS ?spSoM) . 
+		?tvm facts:has_effectiveness_ranking_for_ordinal_data ?rankValue
+	 }
+	OPTIONAL {
+		BIND (viso-data:Quantitative_Scale_of_Measurement AS ?spSoM) . 
+		?tvm facts:has_effectiveness_ranking_for_quantitative_data ?rankValue
+	 }
+ FILTER (BOUND(?rankValue))
+}
+
+
+
+###############################################
+# L5b: baut auf L5a auf
+# create a set of other visual means with higher effectiveness values
+###############################################
+
+SELECT ?anyOtherVm ?otherRankValue ?tvm ?rankValue ?spSoM
+WHERE {
+    ?this rvl:sourceProperty ?sp . 
+	?this rvl:targetVisualMeans ?tvm . 
+    ?sp viso-data:has_scale_of_measurement/(rdfs:subClassOf)* ?spSoM .
+    ?spSoM (rdfs:subClassOf)+ viso-data:Scale_of_Measurement .
+	OPTIONAL {
+		BIND (viso-data:Nominal_Scale_of_Measurement AS ?spSoM) . 
+		?tvm facts:has_effectiveness_ranking_for_nominal_data ?rankValue.
+		?anyOtherVm facts:has_effectiveness_ranking_for_nominal_data ?otherRankValue . 			# new
+	 }
+	OPTIONAL {
+		BIND (viso-data:Ordinal_Scale_of_Measurement AS ?spSoM) . 
+		?tvm facts:has_effectiveness_ranking_for_ordinal_data ?rankValue.
+		?anyOtherVm facts:has_effectiveness_ranking_for_ordinal_data ?otherRankValue . 			# new
+	 }
+	OPTIONAL {
+		BIND (viso-data:Quantitative_Scale_of_Measurement AS ?spSoM) . 
+		?tvm facts:has_effectiveness_ranking_for_quantitative_data ?rankValue.
+		?anyOtherVm facts:has_effectiveness_ranking_for_quantitative_data ?otherRankValue . 	# new
+	 }
+ FILTER (BOUND(?rankValue) && BOUND(?otherRankValue)) . 										# changed
+FILTER(?tvm != ?anyOtherVm).																	# new
+FILTER(?otherRankValue > ?rankValue)															# new
+}
+
+
+
+
+
+
+
+
+
+OLD:
+
+
+
+
+
+# Effectiveness - There are more effective visual means vor visualizing the selected source property TODO : this causes n warnings to appear, group  by does not work on the outmost where however, only when put into a subquery. however than a null pointer is thrown, although the same query runs perfectly in the sparql tab
+CONSTRUCT {
+    _:b0 a spin:ConstraintViolation .
+    _:b0 spin:violationRoot ?this .
+    _:b0 spin:violationPath rvl:targetVisualMeans .
+    _:b0 rdfs:label "There are n more effective visual means" .
+}
+WHERE {
+    {
+        SELECT *
+        WHERE {
+            ?this rvl:sourceProperty ?sp .
+            ?this rvl:targetVisualMeans ?tvm .
+            ?sp viso-data:has_scale_of_measurement/(rdfs:subClassOf)* ?spSoM .
+            ?spSoM (rdfs:subClassOf)+ viso-data:Scale_of_Measurement .
+            OPTIONAL {
+                BIND (viso-data:Nominal_Scale_of_Measurement AS ?spSoM) .
+                ?tvm facts:has_effectiveness_ranking_for_nominal_data ?rankValue .
+                ?anyOtherVm facts:has_effectiveness_ranking_for_nominal_data ?otherRankValue .
+            } .
+            OPTIONAL {
+                BIND (viso-data:Ordinal_Scale_of_Measurement AS ?spSoM) .
+                ?tvm facts:has_effectiveness_ranking_for_ordinal_data ?rankValue .
+                ?anyOtherVm facts:has_effectiveness_ranking_for_ordinal_data ?otherRankValue .
+            } .
+            OPTIONAL {
+                BIND (viso-data:Quantitative_Scale_of_Measurement AS ?spSoM) .
+                ?tvm facts:has_effectiveness_ranking_for_quantitative_data ?rankValue .
+                ?anyOtherVm facts:has_effectiveness_ranking_for_quantitative_data ?otherRankValue .
+            } .
+            FILTER (bound(?rankValue) && bound(?otherRankValue)) .
+            FILTER (?tvm != ?anyOtherVm) .
+            FILTER (?otherRankValue > ?rankValue) .
+        }
+        GROUP BY ?sp
+    } .
+    FILTER (false) .
+}
+
+
+

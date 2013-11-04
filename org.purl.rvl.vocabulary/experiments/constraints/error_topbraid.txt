@@ -1,0 +1,13 @@
+An unexpected error has occured.
+
+If you believe this is due to a bug in TopBraid Composer, then please consider to report the problem to composersupport@topquadrant.com and ideally include an export of the Error Log View (Window > Show View > Error Log).
+
+On: 06.10.2011 16:34:07
+
+Reason:
+java.lang.NullPointerException
+	at org.topbraid.core.labels.DisplayLabels.getSystemLabel(DisplayLabels.java:227)
+	at org.topbraidcomposer.markers.problems.Problems.run(Problems.java:87)
+	at org.topbraidcomposer.markers.problems.Problems.access$0(Problems.java:52)
+	at org.topbraidcomposer.markers.problems.Problems$1.run(Problems.java:42)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:121)

@@ -1,0 +1,1090 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:spin="http://spinrdf.org/spin#"
+    xmlns="http://purl.org/rvl/dummy/"
+    xmlns:fn="http://www.w3.org/2005/xpath-functions#"
+    xmlns:sp="http://spinrdf.org/sp#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:spl="http://spinrdf.org/spl#"
+  xml:base="http://purl.org/rvl/dummy/">
+  <owl:Ontology rdf:about="">
+    <owl:imports rdf:resource="http://spinrdf.org/spin"/>
+    <spin:imports rdf:resource="http://topbraid.org/spin/spinowl"/>
+  </owl:Ontology>
+  <rdfs:Class rdf:about="http://purl.org/rvl/dummy/GraphicO2ORelation">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://purl.org/rvl/dummy/GraphicRelation"/>
+    </rdfs:subClassOf>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >graphic object-to-object relation</rdfs:label>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://purl.org/rvl/dummy/GraphicRelation">
+    <rdfs:subClassOf>
+      <rdf:Description rdf:about="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property">
+        <spin:rule>
+          <sp:Construct>
+            <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >properties are sub-properties of has_quantitative_value, when the range is float</rdfs:comment>
+            <sp:templates rdf:parseType="Collection">
+              <rdf:Description>
+                <sp:object>
+                  <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/has_quantitative_value"/>
+                </sp:object>
+                <sp:predicate rdf:resource="http://www.w3.org/2000/01/rdf-schema#subPropertyOf"/>
+                <sp:subject rdf:resource="http://spinrdf.org/spin#_this"/>
+              </rdf:Description>
+            </sp:templates>
+            <sp:where rdf:parseType="Collection">
+              <rdf:Description>
+                <sp:object rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+                <sp:predicate rdf:resource="http://www.w3.org/2000/01/rdf-schema#range"/>
+                <sp:subject rdf:resource="http://spinrdf.org/spin#_this"/>
+              </rdf:Description>
+            </sp:where>
+          </sp:Construct>
+        </spin:rule>
+      </rdf:Description>
+    </rdfs:subClassOf>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >graphic relation</rdfs:label>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://purl.org/rvl/dummy/GraphicAttribute">
+    <rdfs:subClassOf rdf:resource="http://purl.org/rvl/dummy/GraphicRelation"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >graphic attribute</rdfs:label>
+  </rdfs:Class>
+  <owl:Class rdf:about="http://purl.org/rvl/dummy/PropertyMappingSPINConstrained_without_using_spl_attribute">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Property mapping SPINConstrained</rdfs:label>
+    <spin:constraint>
+      <sp:Construct>
+        <sp:where rdf:parseType="Collection">
+          <sp:Optional>
+            <sp:elements rdf:parseType="Collection">
+              <rdf:Description>
+                <sp:subject rdf:resource="http://spinrdf.org/spin#_this"/>
+                <sp:predicate>
+                  <rdf:Property rdf:about="http://purl.org/rvl/dummy/targetGraphicRelation"/>
+                </sp:predicate>
+                <sp:object rdf:parseType="Resource">
+                  <sp:varName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                  >tgr</sp:varName>
+                </sp:object>
+              </rdf:Description>
+            </sp:elements>
+          </sp:Optional>
+          <sp:Union>
+            <sp:elements rdf:parseType="Collection">
+              <rdf:Description>
+                <rdf:first>
+                  <sp:Filter>
+                    <sp:expression>
+                      <sp:lt>
+                        <sp:arg1>
+                          <spl:objectCount>
+                            <sp:arg1 rdf:resource="http://spinrdf.org/spin#_this"/>
+                            <sp:arg2>
+                              <rdf:Property rdf:about="http://purl.org/rvl/dummy/targetGraphicRelation"/>
+                            </sp:arg2>
+                          </spl:objectCount>
+                        </sp:arg1>
+                        <sp:arg2 rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+                        >1</sp:arg2>
+                      </sp:lt>
+                    </sp:expression>
+                  </sp:Filter>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Collection">
+                  <sp:Bind>
+                    <sp:variable>
+                      <rdf:Description rdf:nodeID="A0">
+                        <sp:varName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                        >label</sp:varName>
+                      </rdf:Description>
+                    </sp:variable>
+                    <sp:expression>A target graphic relation needs to be selected!</sp:expression>
+                  </sp:Bind>
+                </rdf:rest>
+              </rdf:Description>
+              <rdf:Description>
+                <rdf:first>
+                  <sp:Filter>
+                    <sp:expression>
+                      <sp:gt>
+                        <sp:arg1>
+                          <spl:objectCount>
+                            <sp:arg1 rdf:resource="http://spinrdf.org/spin#_this"/>
+                            <sp:arg2>
+                              <rdf:Property rdf:about="http://purl.org/rvl/dummy/targetGraphicRelation"/>
+                            </sp:arg2>
+                          </spl:objectCount>
+                        </sp:arg1>
+                        <sp:arg2 rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+                        >1</sp:arg2>
+                      </sp:gt>
+                    </sp:expression>
+                  </sp:Filter>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Collection">
+                  <sp:Bind>
+                    <sp:variable rdf:nodeID="A0"/>
+                    <sp:expression>Only 1 target graphic relation may be set!</sp:expression>
+                  </sp:Bind>
+                </rdf:rest>
+              </rdf:Description>
+              <rdf:Description>
+                <rdf:first rdf:parseType="Resource">
+                  <sp:subject rdf:resource="http://spinrdf.org/spin#_this"/>
+                  <sp:predicate>
+                    <rdf:Property rdf:about="http://purl.org/rvl/dummy/targetGraphicRelation"/>
+                  </sp:predicate>
+                  <sp:object>
+                    <rdf:Description rdf:nodeID="A1">
+                      <sp:varName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                      >value</sp:varName>
+                    </rdf:Description>
+                  </sp:object>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Collection">
+                  <sp:Filter>
+                    <sp:expression>
+                      <sp:not>
+                        <sp:arg1>
+                          <spl:instanceOf>
+                            <sp:arg1 rdf:nodeID="A1"/>
+                            <sp:arg2 rdf:resource="http://purl.org/rvl/dummy/GraphicRelation"/>
+                          </spl:instanceOf>
+                        </sp:arg1>
+                      </sp:not>
+                    </sp:expression>
+                  </sp:Filter>
+                  <sp:Bind>
+                    <sp:variable rdf:nodeID="A0"/>
+                    <sp:expression>Target graphic relation has to be of type GraphicRelation!</sp:expression>
+                  </sp:Bind>
+                </rdf:rest>
+              </rdf:Description>
+            </sp:elements>
+          </sp:Union>
+        </sp:where>
+        <sp:templates rdf:parseType="Collection">
+          <rdf:Description>
+            <sp:subject rdf:nodeID="A2"/>
+            <sp:predicate rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"/>
+            <sp:object rdf:resource="http://spinrdf.org/spin#ConstraintViolation"/>
+          </rdf:Description>
+          <rdf:Description>
+            <sp:subject rdf:nodeID="A2"/>
+            <sp:predicate rdf:resource="http://spinrdf.org/spin#violationRoot"/>
+            <sp:object rdf:resource="http://spinrdf.org/spin#_this"/>
+          </rdf:Description>
+          <rdf:Description>
+            <sp:subject rdf:nodeID="A2"/>
+            <sp:predicate rdf:resource="http://spinrdf.org/spin#violationPath"/>
+            <sp:object>
+              <rdf:Property rdf:about="http://purl.org/rvl/dummy/targetGraphicRelation"/>
+            </sp:object>
+          </rdf:Description>
+          <rdf:Description>
+            <sp:subject rdf:nodeID="A2"/>
+            <sp:predicate rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+            <sp:object rdf:nodeID="A0"/>
+          </rdf:Description>
+        </sp:templates>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >This is a customised version of spl:attribute. The warning is shown directly in place on the UI. Are custom versions of spl:attributes supported by the OpenSource API?</rdfs:comment>
+      </sp:Construct>
+    </spin:constraint>
+  </owl:Class>
+  <owl:Class rdf:about="http://purl.org/rvl/dummy/PropertyMappingSPINConstrained">
+    <spin:constraint>
+      <sp:Ask>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >Some characteristic of the source property is not supported by the target graphic relation you have chosen</rdfs:comment>
+        <sp:where rdf:parseType="Collection">
+          <rdf:Description>
+            <sp:object>
+              <rdf:Description rdf:nodeID="A3">
+                <sp:varName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >sp</sp:varName>
+              </rdf:Description>
+            </sp:object>
+            <sp:predicate>
+              <rdf:Property rdf:about="http://purl.org/rvl/dummy/sourceProperty"/>
+            </sp:predicate>
+            <sp:subject rdf:resource="http://spinrdf.org/spin#_this"/>
+          </rdf:Description>
+          <rdf:Description>
+            <sp:object>
+              <rdf:Description rdf:nodeID="A4">
+                <sp:varName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >spType</sp:varName>
+              </rdf:Description>
+            </sp:object>
+            <sp:predicate rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"/>
+            <sp:subject rdf:nodeID="A3"/>
+          </rdf:Description>
+          <sp:Filter>
+            <sp:expression>
+              <sp:or>
+                <sp:arg2>
+                  <sp:eq>
+                    <sp:arg2 rdf:resource="http://www.w3.org/2002/07/owl#ReflexiveProperty"/>
+                    <sp:arg1 rdf:nodeID="A4"/>
+                  </sp:eq>
+                </sp:arg2>
+                <sp:arg1>
+                  <sp:eq>
+                    <sp:arg2 rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+                    <sp:arg1 rdf:nodeID="A4"/>
+                  </sp:eq>
+                </sp:arg1>
+              </sp:or>
+            </sp:expression>
+          </sp:Filter>
+          <rdf:Description>
+            <sp:object>
+              <rdf:Description rdf:nodeID="A5">
+                <sp:varName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >tgr</sp:varName>
+              </rdf:Description>
+            </sp:object>
+            <sp:predicate>
+              <rdf:Property rdf:about="http://purl.org/rvl/dummy/targetGraphicRelation"/>
+            </sp:predicate>
+            <sp:subject rdf:resource="http://spinrdf.org/spin#_this"/>
+          </rdf:Description>
+          <sp:NotExists>
+            <sp:elements rdf:parseType="Collection">
+              <rdf:Description>
+                <sp:object rdf:nodeID="A4"/>
+                <sp:predicate>
+                  <rdf:Property rdf:about="http://purl.org/rvl/dummy/expresses"/>
+                </sp:predicate>
+                <sp:subject rdf:nodeID="A5"/>
+              </rdf:Description>
+            </sp:elements>
+          </sp:NotExists>
+        </sp:where>
+      </sp:Ask>
+    </spin:constraint>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Property mapping SPINConstrained</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <spin:constraint>
+      <sp:Ask>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >Cardinality (on the other side of the relation)  - a graphic relation may only be used in one PropertyMapping (simplified here, actually it may be used multiple times, but only in different contexts)</rdfs:comment>
+        <sp:where rdf:parseType="Collection">
+          <rdf:Description>
+            <sp:object>
+              <rdf:Description rdf:nodeID="A6">
+                <sp:varName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >thisTgr</sp:varName>
+              </rdf:Description>
+            </sp:object>
+            <sp:predicate>
+              <rdf:Property rdf:about="http://purl.org/rvl/dummy/targetGraphicRelation"/>
+            </sp:predicate>
+            <sp:subject rdf:resource="http://spinrdf.org/spin#_this"/>
+          </rdf:Description>
+          <rdf:Description>
+            <sp:object rdf:nodeID="A6"/>
+            <sp:predicate>
+              <rdf:Property rdf:about="http://purl.org/rvl/dummy/targetGraphicRelation"/>
+            </sp:predicate>
+            <sp:subject>
+              <rdf:Description rdf:nodeID="A7">
+                <sp:varName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >someOtherMapping</sp:varName>
+              </rdf:Description>
+            </sp:subject>
+          </rdf:Description>
+          <sp:Filter>
+            <sp:expression>
+              <sp:ne>
+                <sp:arg2 rdf:nodeID="A7"/>
+                <sp:arg1 rdf:resource="http://spinrdf.org/spin#_this"/>
+              </sp:ne>
+            </sp:expression>
+          </sp:Filter>
+        </sp:where>
+      </sp:Ask>
+    </spin:constraint>
+    <spin:constraint>
+      <sp:Construct>
+        <sp:where rdf:parseType="Collection">
+          <sp:Union>
+            <sp:elements rdf:parseType="Collection">
+              <rdf:Description>
+                <rdf:first>
+                  <sp:Filter>
+                    <sp:expression>
+                      <sp:lt>
+                        <sp:arg1>
+                          <spl:objectCount>
+                            <sp:arg1 rdf:resource="http://spinrdf.org/spin#_this"/>
+                            <sp:arg2>
+                              <rdf:Property rdf:about="http://purl.org/rvl/dummy/targetGraphicRelation"/>
+                            </sp:arg2>
+                          </spl:objectCount>
+                        </sp:arg1>
+                        <sp:arg2 rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+                        >1</sp:arg2>
+                      </sp:lt>
+                    </sp:expression>
+                  </sp:Filter>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Collection">
+                  <sp:Bind>
+                    <sp:variable>
+                      <rdf:Description rdf:nodeID="A8">
+                        <sp:varName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                        >label</sp:varName>
+                      </rdf:Description>
+                    </sp:variable>
+                    <sp:expression>A target graphic relation needs to be selected!</sp:expression>
+                  </sp:Bind>
+                </rdf:rest>
+              </rdf:Description>
+              <rdf:Description>
+                <rdf:first>
+                  <sp:Filter>
+                    <sp:expression>
+                      <sp:gt>
+                        <sp:arg1>
+                          <spl:objectCount>
+                            <sp:arg1 rdf:resource="http://spinrdf.org/spin#_this"/>
+                            <sp:arg2>
+                              <rdf:Property rdf:about="http://purl.org/rvl/dummy/targetGraphicRelation"/>
+                            </sp:arg2>
+                          </spl:objectCount>
+                        </sp:arg1>
+                        <sp:arg2 rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+                        >1</sp:arg2>
+                      </sp:gt>
+                    </sp:expression>
+                  </sp:Filter>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Collection">
+                  <sp:Bind>
+                    <sp:variable rdf:nodeID="A8"/>
+                    <sp:expression>Only 1 target graphic relation may be set!</sp:expression>
+                  </sp:Bind>
+                </rdf:rest>
+              </rdf:Description>
+              <rdf:Description>
+                <rdf:first rdf:parseType="Resource">
+                  <sp:subject rdf:resource="http://spinrdf.org/spin#_this"/>
+                  <sp:predicate>
+                    <rdf:Property rdf:about="http://purl.org/rvl/dummy/targetGraphicRelation"/>
+                  </sp:predicate>
+                  <sp:object>
+                    <rdf:Description rdf:nodeID="A9">
+                      <sp:varName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                      >value</sp:varName>
+                    </rdf:Description>
+                  </sp:object>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Collection">
+                  <sp:Filter>
+                    <sp:expression>
+                      <sp:not>
+                        <sp:arg1>
+                          <spl:instanceOf>
+                            <sp:arg1 rdf:nodeID="A9"/>
+                            <sp:arg2 rdf:resource="http://purl.org/rvl/dummy/GraphicRelation"/>
+                          </spl:instanceOf>
+                        </sp:arg1>
+                      </sp:not>
+                    </sp:expression>
+                  </sp:Filter>
+                  <sp:Bind>
+                    <sp:variable rdf:nodeID="A8"/>
+                    <sp:expression>Target graphic relation has to be of type GraphicRelation!</sp:expression>
+                  </sp:Bind>
+                </rdf:rest>
+              </rdf:Description>
+            </sp:elements>
+          </sp:Union>
+        </sp:where>
+        <sp:templates rdf:parseType="Collection">
+          <rdf:Description>
+            <sp:subject rdf:nodeID="A10"/>
+            <sp:predicate rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"/>
+            <sp:object rdf:resource="http://spinrdf.org/spin#ConstraintViolation"/>
+          </rdf:Description>
+          <rdf:Description>
+            <sp:subject rdf:nodeID="A10"/>
+            <sp:predicate rdf:resource="http://spinrdf.org/spin#violationRoot"/>
+            <sp:object rdf:resource="http://spinrdf.org/spin#_this"/>
+          </rdf:Description>
+          <rdf:Description>
+            <sp:subject rdf:nodeID="A10"/>
+            <sp:predicate rdf:resource="http://spinrdf.org/spin#violationPath"/>
+            <sp:object rdf:parseType="Resource">
+              <sp:varName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+              >targetGraphicRelation</sp:varName>
+            </sp:object>
+          </rdf:Description>
+          <rdf:Description>
+            <sp:subject rdf:nodeID="A10"/>
+            <sp:predicate rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+            <sp:object rdf:nodeID="A8"/>
+          </rdf:Description>
+        </sp:templates>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >This is a customised version of spl:attribute. Somehow, the warning is not shown directly in place on the UI. Are spl:attributes supported by the OpenSource API?</rdfs:comment>
+      </sp:Construct>
+    </spin:constraint>
+    <spin:constraint>
+      <sp:Ask>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >Expressiveness - The chosen visual means cannot express the given source property (based on it's defined scale of measurement) and according to Mackinlay 1986</rdfs:comment>
+        <sp:where rdf:parseType="Collection">
+          <rdf:Description>
+            <sp:object>
+              <rdf:Description rdf:nodeID="A11">
+                <sp:varName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >sp</sp:varName>
+              </rdf:Description>
+            </sp:object>
+            <sp:predicate>
+              <rdf:Property rdf:about="http://purl.org/rvl/dummy/sourceProperty"/>
+            </sp:predicate>
+            <sp:subject rdf:resource="http://spinrdf.org/spin#_this"/>
+          </rdf:Description>
+          <rdf:Description>
+            <sp:object>
+              <rdf:Description rdf:nodeID="A12">
+                <sp:varName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >tvm</sp:varName>
+              </rdf:Description>
+            </sp:object>
+            <sp:predicate>
+              <rdf:Property rdf:about="http://purl.org/rvl/dummy/targetGraphicRelation"/>
+            </sp:predicate>
+            <sp:subject rdf:resource="http://spinrdf.org/spin#_this"/>
+          </rdf:Description>
+          <sp:Optional>
+            <sp:elements rdf:parseType="Collection">
+              <rdf:Description>
+                <sp:object>
+                  <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/has_nominal_value"/>
+                </sp:object>
+                <sp:predicate rdf:resource="http://www.w3.org/2000/01/rdf-schema#subPropertyOf"/>
+                <sp:subject rdf:nodeID="A11"/>
+              </rdf:Description>
+              <sp:Bind>
+                <sp:expression>
+                  <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/has_nominal_value"/>
+                </sp:expression>
+                <sp:variable>
+                  <rdf:Description rdf:nodeID="A13">
+                    <sp:varName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                    >spSoM</sp:varName>
+                  </rdf:Description>
+                </sp:variable>
+              </sp:Bind>
+            </sp:elements>
+          </sp:Optional>
+          <sp:Optional>
+            <sp:elements rdf:parseType="Collection">
+              <rdf:Description>
+                <sp:object>
+                  <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/has_ordinal_value"/>
+                </sp:object>
+                <sp:predicate rdf:resource="http://www.w3.org/2000/01/rdf-schema#subPropertyOf"/>
+                <sp:subject rdf:nodeID="A11"/>
+              </rdf:Description>
+              <sp:Bind>
+                <sp:expression>
+                  <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/has_ordinal_value"/>
+                </sp:expression>
+                <sp:variable rdf:nodeID="A13"/>
+              </sp:Bind>
+            </sp:elements>
+          </sp:Optional>
+          <sp:Optional>
+            <sp:elements rdf:parseType="Collection">
+              <rdf:Description>
+                <sp:object>
+                  <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/has_quantitative_value"/>
+                </sp:object>
+                <sp:predicate rdf:resource="http://www.w3.org/2000/01/rdf-schema#subPropertyOf"/>
+                <sp:subject rdf:nodeID="A11"/>
+              </rdf:Description>
+              <sp:Bind>
+                <sp:expression>
+                  <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/has_quantitative_value"/>
+                </sp:expression>
+                <sp:variable rdf:nodeID="A13"/>
+              </sp:Bind>
+            </sp:elements>
+          </sp:Optional>
+          <sp:Filter>
+            <sp:expression>
+              <sp:bound>
+                <sp:arg1 rdf:nodeID="A13"/>
+              </sp:bound>
+            </sp:expression>
+          </sp:Filter>
+          <sp:NotExists>
+            <sp:elements rdf:parseType="Collection">
+              <rdf:Description>
+                <sp:object rdf:nodeID="A13"/>
+                <sp:predicate>
+                  <rdf:Property rdf:about="http://purl.org/rvl/dummy/expresses"/>
+                </sp:predicate>
+                <sp:subject rdf:nodeID="A12"/>
+              </rdf:Description>
+            </sp:elements>
+          </sp:NotExists>
+        </sp:where>
+      </sp:Ask>
+    </spin:constraint>
+    <spin:constraint>
+      <spl:Attribute>
+        <spl:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >1</spl:maxCount>
+        <spl:valueType rdf:resource="http://purl.org/rvl/dummy/GraphicRelation"/>
+        <spl:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >1</spl:minCount>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >This seems to work: targetGraphicMeans must have cardinality 1</rdfs:comment>
+        <spl:predicate>
+          <rdf:Property rdf:about="http://purl.org/rvl/dummy/targetGraphicRelation"/>
+        </spl:predicate>
+      </spl:Attribute>
+    </spin:constraint>
+    <spin:constraint>
+      <spl:Attribute>
+        <spl:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >1</spl:maxCount>
+        <spl:valueType rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+        <spl:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >1</spl:minCount>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >exactly 1 source property must be set!</rdfs:comment>
+        <spl:predicate>
+          <rdf:Property rdf:about="http://purl.org/rvl/dummy/sourceProperty"/>
+        </spl:predicate>
+      </spl:Attribute>
+    </spin:constraint>
+    <spin:constraint>
+      <sp:Construct>
+        <sp:where rdf:parseType="Collection">
+          <rdf:Description>
+            <sp:subject rdf:resource="http://spinrdf.org/spin#_this"/>
+            <sp:predicate>
+              <rdf:Property rdf:about="http://purl.org/rvl/dummy/sourceProperty"/>
+            </sp:predicate>
+            <sp:object>
+              <rdf:Description rdf:nodeID="A14">
+                <sp:varName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >sp</sp:varName>
+              </rdf:Description>
+            </sp:object>
+          </rdf:Description>
+          <rdf:Description>
+            <sp:subject rdf:resource="http://spinrdf.org/spin#_this"/>
+            <sp:predicate>
+              <rdf:Property rdf:about="http://purl.org/rvl/dummy/targetGraphicRelation"/>
+            </sp:predicate>
+            <sp:object>
+              <rdf:Description rdf:nodeID="A15">
+                <sp:varName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >tvm</sp:varName>
+              </rdf:Description>
+            </sp:object>
+          </rdf:Description>
+          <sp:SubQuery>
+            <sp:query>
+              <sp:Select>
+                <sp:where rdf:parseType="Collection">
+                  <rdf:Description>
+                    <sp:subject rdf:resource="http://spinrdf.org/spin#_this"/>
+                    <sp:predicate>
+                      <rdf:Property rdf:about="http://purl.org/rvl/dummy/sourceProperty"/>
+                    </sp:predicate>
+                    <sp:object rdf:nodeID="A14"/>
+                  </rdf:Description>
+                  <rdf:Description>
+                    <sp:subject rdf:resource="http://spinrdf.org/spin#_this"/>
+                    <sp:predicate>
+                      <rdf:Property rdf:about="http://purl.org/rvl/dummy/targetGraphicRelation"/>
+                    </sp:predicate>
+                    <sp:object rdf:nodeID="A15"/>
+                  </rdf:Description>
+                  <sp:Optional>
+                    <sp:elements rdf:parseType="Collection">
+                      <rdf:Description>
+                        <sp:subject rdf:nodeID="A14"/>
+                        <sp:predicate rdf:resource="http://www.w3.org/2000/01/rdf-schema#subPropertyOf"/>
+                        <sp:object>
+                          <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/has_nominal_value"/>
+                        </sp:object>
+                      </rdf:Description>
+                      <rdf:Description>
+                        <sp:subject rdf:nodeID="A15"/>
+                        <sp:predicate>
+                          <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/has_effectiveness_ranking_for_nominal_data"/>
+                        </sp:predicate>
+                        <sp:object>
+                          <rdf:Description rdf:nodeID="A16">
+                            <sp:varName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                            >rankValue</sp:varName>
+                          </rdf:Description>
+                        </sp:object>
+                      </rdf:Description>
+                      <rdf:Description>
+                        <sp:subject>
+                          <rdf:Description rdf:nodeID="A17">
+                            <sp:varName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                            >anyOtherVm</sp:varName>
+                          </rdf:Description>
+                        </sp:subject>
+                        <sp:predicate>
+                          <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/has_effectiveness_ranking_for_nominal_data"/>
+                        </sp:predicate>
+                        <sp:object>
+                          <rdf:Description rdf:nodeID="A18">
+                            <sp:varName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                            >otherRankValue</sp:varName>
+                          </rdf:Description>
+                        </sp:object>
+                      </rdf:Description>
+                    </sp:elements>
+                  </sp:Optional>
+                  <sp:Optional>
+                    <sp:elements rdf:parseType="Collection">
+                      <rdf:Description>
+                        <sp:subject rdf:nodeID="A14"/>
+                        <sp:predicate rdf:resource="http://www.w3.org/2000/01/rdf-schema#subPropertyOf"/>
+                        <sp:object>
+                          <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/has_ordinal_value"/>
+                        </sp:object>
+                      </rdf:Description>
+                      <rdf:Description>
+                        <sp:subject rdf:nodeID="A15"/>
+                        <sp:predicate>
+                          <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/has_effectiveness_ranking_for_ordinal_data"/>
+                        </sp:predicate>
+                        <sp:object rdf:nodeID="A16"/>
+                      </rdf:Description>
+                      <rdf:Description>
+                        <sp:subject rdf:nodeID="A17"/>
+                        <sp:predicate>
+                          <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/has_effectiveness_ranking_for_ordinal_data"/>
+                        </sp:predicate>
+                        <sp:object rdf:nodeID="A18"/>
+                      </rdf:Description>
+                    </sp:elements>
+                  </sp:Optional>
+                  <sp:Optional>
+                    <sp:elements rdf:parseType="Collection">
+                      <rdf:Description>
+                        <sp:subject rdf:nodeID="A14"/>
+                        <sp:predicate rdf:resource="http://www.w3.org/2000/01/rdf-schema#subPropertyOf"/>
+                        <sp:object>
+                          <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/has_quantitative_value"/>
+                        </sp:object>
+                      </rdf:Description>
+                      <rdf:Description>
+                        <sp:subject rdf:nodeID="A15"/>
+                        <sp:predicate>
+                          <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/has_effectiveness_ranking_for_quantitatitive_data"/>
+                        </sp:predicate>
+                        <sp:object rdf:nodeID="A16"/>
+                      </rdf:Description>
+                      <rdf:Description>
+                        <sp:subject rdf:nodeID="A17"/>
+                        <sp:predicate>
+                          <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/has_effectiveness_ranking_for_quantitatitive_data"/>
+                        </sp:predicate>
+                        <sp:object rdf:nodeID="A18"/>
+                      </rdf:Description>
+                    </sp:elements>
+                  </sp:Optional>
+                  <sp:Filter>
+                    <sp:expression>
+                      <sp:and>
+                        <sp:arg1>
+                          <sp:bound>
+                            <sp:arg1 rdf:nodeID="A16"/>
+                          </sp:bound>
+                        </sp:arg1>
+                        <sp:arg2>
+                          <sp:bound>
+                            <sp:arg1 rdf:nodeID="A18"/>
+                          </sp:bound>
+                        </sp:arg2>
+                      </sp:and>
+                    </sp:expression>
+                  </sp:Filter>
+                  <sp:Filter>
+                    <sp:expression>
+                      <sp:ne>
+                        <sp:arg1 rdf:nodeID="A15"/>
+                        <sp:arg2 rdf:nodeID="A17"/>
+                      </sp:ne>
+                    </sp:expression>
+                  </sp:Filter>
+                  <sp:Filter>
+                    <sp:expression>
+                      <sp:gt>
+                        <sp:arg1 rdf:nodeID="A18"/>
+                        <sp:arg2 rdf:nodeID="A16"/>
+                      </sp:gt>
+                    </sp:expression>
+                  </sp:Filter>
+                </sp:where>
+                <sp:resultVariables rdf:parseType="Collection">
+                  <rdf:Description rdf:about="http://spinrdf.org/spin#_this"/>
+                  <rdf:Description>
+                    <sp:varName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                    >altCount</sp:varName>
+                    <sp:expression>
+                      <sp:Count>
+                        <sp:expression rdf:parseType="Resource">
+                          <sp:varName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                          >anyOtherVm</sp:varName>
+                        </sp:expression>
+                      </sp:Count>
+                    </sp:expression>
+                  </rdf:Description>
+                </sp:resultVariables>
+              </sp:Select>
+            </sp:query>
+          </sp:SubQuery>
+          <sp:Bind>
+            <sp:variable>
+              <rdf:Description rdf:nodeID="A19">
+                <sp:varName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >cvLabel</sp:varName>
+              </rdf:Description>
+            </sp:variable>
+            <sp:expression>
+              <fn:concat>
+                <sp:arg1>There are </sp:arg1>
+                <sp:arg2>
+                  <rdf:Description rdf:nodeID="A20">
+                    <sp:varName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                    >altCount</sp:varName>
+                  </rdf:Description>
+                </sp:arg2>
+                <sp:arg3> more effective visual means for visualizing the selected source property</sp:arg3>
+              </fn:concat>
+            </sp:expression>
+          </sp:Bind>
+          <sp:Filter>
+            <sp:expression>
+              <sp:gt>
+                <sp:arg1 rdf:nodeID="A20"/>
+                <sp:arg2 rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+                >0</sp:arg2>
+              </sp:gt>
+            </sp:expression>
+          </sp:Filter>
+        </sp:where>
+        <sp:templates rdf:parseType="Collection">
+          <rdf:Description>
+            <sp:subject rdf:nodeID="A21"/>
+            <sp:predicate rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"/>
+            <sp:object rdf:resource="http://spinrdf.org/spin#ConstraintViolation"/>
+          </rdf:Description>
+          <rdf:Description>
+            <sp:subject rdf:nodeID="A21"/>
+            <sp:predicate rdf:resource="http://spinrdf.org/spin#violationRoot"/>
+            <sp:object rdf:resource="http://spinrdf.org/spin#_this"/>
+          </rdf:Description>
+          <rdf:Description>
+            <sp:subject rdf:nodeID="A21"/>
+            <sp:predicate rdf:resource="http://spinrdf.org/spin#violationPath"/>
+            <sp:object>
+              <rdf:Property rdf:about="http://purl.org/rvl/dummy/targetGraphicRelation"/>
+            </sp:object>
+          </rdf:Description>
+          <rdf:Description>
+            <sp:subject rdf:nodeID="A21"/>
+            <sp:predicate rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+            <sp:object rdf:nodeID="A19"/>
+          </rdf:Description>
+        </sp:templates>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >Effectiveness - Shows a warning when there are more effective visual means and offers to delete the not-best one
+TODO: offer better ones!</rdfs:comment>
+      </sp:Construct>
+    </spin:constraint>
+  </owl:Class>
+  <owl:Class rdf:about="http://purl.org/rvl/dummy/PropertyMapping">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onClass rdf:resource="http://purl.org/rvl/dummy/GraphicRelation"/>
+        <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger"
+        >1</owl:qualifiedCardinality>
+        <owl:onProperty>
+          <rdf:Property rdf:about="http://purl.org/rvl/dummy/targetGraphicRelation"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onClass rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+        <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger"
+        >1</owl:qualifiedCardinality>
+        <owl:onProperty>
+          <rdf:Property rdf:about="http://purl.org/rvl/dummy/sourceProperty"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:allValuesFrom rdf:resource="http://purl.org/rvl/dummy/GraphicRelation"/>
+        <owl:onProperty>
+          <rdf:Property rdf:about="http://purl.org/rvl/dummy/targetGraphicRelation"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:allValuesFrom rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+        <owl:onProperty>
+          <rdf:Property rdf:about="http://purl.org/rvl/dummy/sourceProperty"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Property mapping</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://purl.org/rvl/dummy/Requirement">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Requirement</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  </owl:Class>
+  <owl:ObjectProperty rdf:about="http://purl.org/rvl/dummy/isRefinementOf">
+    <rdfs:domain rdf:resource="http://purl.org/rvl/dummy/Requirement"/>
+    <rdfs:range rdf:resource="http://purl.org/rvl/dummy/Requirement"/>
+    <rdfs:subPropertyOf>
+      <rdf:Property rdf:about="http://purl.org/rvl/dummy/domainProperty"/>
+    </rdfs:subPropertyOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://purl.org/rvl/dummy/isInConflictWith">
+    <rdfs:range rdf:resource="http://purl.org/rvl/dummy/Requirement"/>
+    <rdfs:domain rdf:resource="http://purl.org/rvl/dummy/Requirement"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >is in conflict with</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/domainProperty"/>
+    <owl:inverseOf rdf:resource="http://purl.org/rvl/dummy/isInConflictWith"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+  </owl:ObjectProperty>
+  <rdf:Property rdf:about="http://purl.org/rvl/dummy/targetGraphicRelation">
+    <rdfs:subPropertyOf>
+      <rdf:Property rdf:about="http://purl.org/rvl/dummy/rvlProperty"/>
+    </rdfs:subPropertyOf>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >target graphic relation</rdfs:label>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://purl.org/rvl/dummy/visoProperty"/>
+  <rdf:Property rdf:about="http://purl.org/rvl/dummy/contains">
+    <not_expresses rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+    <not_expresses rdf:resource="http://www.w3.org/2002/07/owl#ReflexiveProperty"/>
+    <expresses rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/visoProperty"/>
+    <expresses rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+    <rdf:type rdf:resource="http://purl.org/rvl/dummy/GraphicO2ORelation"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://purl.org/rvl/dummy/not_expresses">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >not expresses</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/visoProperty"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://purl.org/rvl/dummy/sourceProperty">
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/rvlProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >source property</rdfs:label>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://purl.org/rvl/dummy/linked_to_by_single_headed_arrow">
+    <expresses rdf:resource="http://www.w3.org/2002/07/owl#ReflexiveProperty"/>
+    <not_expresses rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/visoProperty"/>
+    <expresses rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+    <rdf:type rdf:resource="http://purl.org/rvl/dummy/GraphicO2ORelation"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://purl.org/rvl/dummy/expresses">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >expresses</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/visoProperty"/>
+  </rdf:Property>
+  <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/has_ordinal_value">
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/visoProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >has quantitative value</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/has_quantitative_value">
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/visoProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >has quantitative value</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/has_effectiveness_ranking_for_ordinal_data">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >has effectiveness ranking for ordinal data</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/visoProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/has_effectiveness_ranking_for_quantitatitive_data">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >has effectiveness ranking for quantitative data</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/visoProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/has_effectiveness_ranking_for_nominal_data">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/visoProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >has effectiveness ranking for nominal data</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/hasResponseTimeInMs">
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/has_quantitative_value"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >has response time in ms</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/domainProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/has_nominal_value">
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/visoProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >has quantitative value</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/hasCost">
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/has_quantitative_value"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >estimated realisation costs in EUR</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/domainProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://purl.org/rvl/dummy/category">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >belongs to category</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/domainProperty"/>
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/has_nominal_value"/>
+  </owl:DatatypeProperty>
+  <PropertyMappingSPINConstrained rdf:about="http://purl.org/rvl/dummy/Syntactically_invalid">
+    <targetGraphicRelation>
+      <GraphicAttribute rdf:about="http://purl.org/rvl/dummy/saturation">
+        <has_effectiveness_ranking_for_quantitatitive_data rdf:datatype=
+        "http://www.w3.org/2001/XMLSchema#float">60</has_effectiveness_ranking_for_quantitatitive_data>
+        <expresses rdf:resource="http://purl.org/rvl/dummy/has_nominal_value"/>
+        <expresses rdf:resource="http://purl.org/rvl/dummy/has_ordinal_value"/>
+        <expresses rdf:resource="http://purl.org/rvl/dummy/has_quantitative_value"/>
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/visoProperty"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >saturation</rdfs:label>
+        <has_effectiveness_ranking_for_nominal_data rdf:datatype=
+        "http://www.w3.org/2001/XMLSchema#float">50</has_effectiveness_ranking_for_nominal_data>
+      </GraphicAttribute>
+    </targetGraphicRelation>
+    <targetGraphicRelation>
+      <GraphicAttribute rdf:about="http://purl.org/rvl/dummy/hue">
+        <has_effectiveness_ranking_for_quantitatitive_data rdf:datatype=
+        "http://www.w3.org/2001/XMLSchema#float">50</has_effectiveness_ranking_for_quantitatitive_data>
+        <expresses rdf:resource="http://purl.org/rvl/dummy/has_nominal_value"/>
+        <expresses rdf:resource="http://purl.org/rvl/dummy/has_ordinal_value"/>
+        <expresses rdf:resource="http://purl.org/rvl/dummy/has_quantitative_value"/>
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/visoProperty"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >hue</rdfs:label>
+      </GraphicAttribute>
+    </targetGraphicRelation>
+  </PropertyMappingSPINConstrained>
+  <PropertyMappingSPINConstrained rdf:about="http://purl.org/rvl/dummy/Valid_but_less_effective_nominal">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Valid but less effective nominal</rdfs:label>
+    <sourceProperty rdf:resource="http://purl.org/rvl/dummy/category"/>
+    <targetGraphicRelation rdf:resource="http://purl.org/rvl/dummy/saturation"/>
+  </PropertyMappingSPINConstrained>
+  <PropertyMappingSPINConstrained rdf:about="http://purl.org/rvl/dummy/Valid_but_less_effective">
+    <sourceProperty rdf:resource="http://purl.org/rvl/dummy/hasCost"/>
+    <targetGraphicRelation rdf:resource="http://purl.org/rvl/dummy/hue"/>
+  </PropertyMappingSPINConstrained>
+  <PropertyMappingSPINConstrained rdf:about="http://purl.org/rvl/dummy/Visually_invalid">
+    <sourceProperty rdf:resource="http://purl.org/rvl/dummy/category"/>
+    <targetGraphicRelation>
+      <GraphicAttribute rdf:about="http://purl.org/rvl/dummy/lightness">
+        <has_effectiveness_ranking_for_quantitatitive_data rdf:datatype=
+        "http://www.w3.org/2001/XMLSchema#float">100</has_effectiveness_ranking_for_quantitatitive_data>
+        <expresses rdf:resource="http://purl.org/rvl/dummy/has_ordinal_value"/>
+        <expresses rdf:resource="http://purl.org/rvl/dummy/has_quantitative_value"/>
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/visoProperty"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >lightness</rdfs:label>
+      </GraphicAttribute>
+    </targetGraphicRelation>
+  </PropertyMappingSPINConstrained>
+  <PropertyMapping rdf:about="http://purl.org/rvl/dummy/ExamplePMHasCostToLightness">
+    <targetGraphicRelation rdf:resource="http://purl.org/rvl/dummy/lightness"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Example PM: hasCost to lightness</rdfs:label>
+    <sourceProperty rdf:resource="http://purl.org/rvl/dummy/hasCost"/>
+  </PropertyMapping>
+  <PropertyMapping rdf:about="http://purl.org/rvl/dummy/ExamplePMHasCostToLightness_invalid">
+    <targetGraphicRelation rdf:resource="http://purl.org/rvl/dummy/lightness"/>
+    <targetGraphicRelation rdf:resource="http://purl.org/rvl/dummy/saturation"/>
+    <sourceProperty>
+      <Requirement rdf:about="http://purl.org/rvl/dummy/ClientsMustBeHappy">
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >Clients must be happy</rdfs:label>
+      </Requirement>
+    </sourceProperty>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Example PM: hasCost to lightness</rdfs:label>
+  </PropertyMapping>
+  <GraphicO2ORelation rdf:about="http://purl.org/rvl/dummy/linked_to_by_double_headed_arrow">
+    <expresses rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/visoProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </GraphicO2ORelation>
+  <PropertyMappingSPINConstrained rdf:about="http://purl.org/rvl/dummy/IsInConflictWithToLinkingWithDoubleHeadedArrow">
+    <targetGraphicRelation rdf:resource="http://purl.org/rvl/dummy/linked_to_by_single_headed_arrow"/>
+    <sourceProperty rdf:resource="http://purl.org/rvl/dummy/isInConflictWith"/>
+  </PropertyMappingSPINConstrained>
+  <Requirement rdf:about="http://purl.org/rvl/dummy/SecureLogin">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Secure login</rdfs:label>
+  </Requirement>
+  <GraphicAttribute rdf:about="http://purl.org/rvl/dummy/position_x">
+    <has_effectiveness_ranking_for_quantitatitive_data rdf:datatype=
+    "http://www.w3.org/2001/XMLSchema#float">120</has_effectiveness_ranking_for_quantitatitive_data>
+    <expresses rdf:resource="http://purl.org/rvl/dummy/has_nominal_value"/>
+    <expresses rdf:resource="http://purl.org/rvl/dummy/has_ordinal_value"/>
+    <expresses rdf:resource="http://purl.org/rvl/dummy/has_quantitative_value"/>
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/visoProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >lightness</rdfs:label>
+    <has_effectiveness_ranking_for_nominal_data rdf:datatype=
+    "http://www.w3.org/2001/XMLSchema#float">120</has_effectiveness_ranking_for_nominal_data>
+  </GraphicAttribute>
+  <GraphicO2ORelation rdf:about="http://purl.org/rvl/dummy/linked_to_by_line">
+    <expresses rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/dummy/visoProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </GraphicO2ORelation>
+  <PropertyMappingSPINConstrained_without_using_spl_attribute rdf:about="http://purl.org/rvl/dummy/Syntactically_invalid_2">
+    <targetGraphicRelation rdf:resource="http://purl.org/rvl/dummy/hue"/>
+  </PropertyMappingSPINConstrained_without_using_spl_attribute>
+</rdf:RDF>
+
+<!-- Created with TopBraid -->

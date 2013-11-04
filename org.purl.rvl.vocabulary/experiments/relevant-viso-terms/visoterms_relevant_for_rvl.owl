@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:viso="http://purl.org/viso/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns="http://example.org/visoterms_relevant_for_rvl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xml:base="http://example.org/visoterms_relevant_for_rvl">
+  <owl:Ontology rdf:about="">
+    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Created with TopBraid Composer</owl:versionInfo>
+    <owl:imports rdf:resource="http://purl.org/viso/"/>
+    <owl:imports rdf:resource="http://purl.org/viso/graphic/"/>
+  </owl:Ontology>
+  <rdf:Description rdf:about="http://purl.org/viso/graphic/Visual_Attribute">
+    <skos:editorialNote rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Relevant for mappings in RVL.</skos:editorialNote>
+    <relevantForRVL rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</relevantForRVL>
+    <relevantForGuidance rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</relevantForGuidance>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/viso/graphic/Syntactic_Structure">
+    <relevantForRVL rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</relevantForRVL>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/viso/graphic/Visual_Attribute_Value">
+    <relevantForRVL rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</relevantForRVL>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/viso/graphic/Visual_Value_Container">
+    <relevantForRVL rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</relevantForRVL>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/viso/graphic/Syntactic_Role">
+    <relevantForRVL rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</relevantForRVL>
+  </rdf:Description>
+  <owl:AnnotationProperty rdf:ID="relevantForGuidance">
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#editorialNote"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >relevant for guidance</rdfs:label>
+    <rdfs:domain rdf:resource="http://www.w3.org/2000/01/rdf-schema#Resource"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </owl:AnnotationProperty>
+  <rdf:Description rdf:about="http://purl.org/viso/data/Variable_Role">
+    <relevantForGuidance rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</relevantForGuidance>
+  </rdf:Description>
+  <owl:AnnotationProperty rdf:ID="relevantForRVL">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >relevant for RVL</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#editorialNote"/>
+    <rdfs:domain rdf:resource="http://www.w3.org/2000/01/rdf-schema#Resource"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </owl:AnnotationProperty>
+</rdf:RDF>
+
+<!-- Created with TopBraid -->
