@@ -1,5 +1,8 @@
 /target
+/src/main/java/org/purl/rvl/interpreter/rvlsmall
 *.DS_Store
+.DS_Store
 
 *.log
 *.log.1
+/new.ttl
