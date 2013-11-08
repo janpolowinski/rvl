@@ -1,5 +1,9 @@
 package org.purl.rvl.interpreter.mapping;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class CalculatedValueMapping {
 	
 	private String sourceValue;

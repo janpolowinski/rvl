@@ -3,21 +3,29 @@ package org.purl.rvl.interpreter.rvl.manual;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.CaseInsensitiveMap;
+import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
+import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.ontoware.rdfreactor.schema.rdfs.Container;
+import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.interpreter.mapping.CalculatedValueMapping;
 import org.purl.rvl.interpreter.rvl.Valuemapping;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class ValueMapping extends Valuemapping {
 
 	static final String NL =  System.getProperty("line.separator");
@@ -36,6 +44,12 @@ public class ValueMapping extends Valuemapping {
 	// SET OF ADDRESSED TARGET VALUES:
 	private int addressedTargetValueSituation = 0;
 	// ...
+	
+	// Scale of Measurement
+	static final int SOM_UNKNOWN = 0;
+	static final int SOM_NOMINAL = 1;
+	static final int SOM_ORDINAL = 2;
+	static final int SOM_QUANTITATIVE = 3;
 	
 	// cache calculated mappings
 	private Set<CalculatedValueMapping> cvms;
@@ -157,8 +171,63 @@ public class ValueMapping extends Valuemapping {
 	public String toString() {
 		String s = "";
 		s += getCalculatedValueMappings() + NL;
-		return s + "describe VM here" + NL;
+		s += "  used in PM: " + getPropertyMapping().getAllLabel_as().firstValue() + NL;
+		s += "  SoM of SP: " + getSomName(determineScaleOfMeasurementOfSourceValues()) + NL;
+		s += "  SoM of TV: " + getSomName(determineScaleOfMeasurementOfTargetValues()) + NL;
+		getPropertyMapping();
+		return s + "further describe VM here" + NL;
 	}
 	
+	private int determineScaleOfMeasurementOfTargetValues() {
+		
+		return SOM_UNKNOWN;
+	}
+
+	/**
+	 * Determine the Scale of Measurement (SoM) of the source values 
+	 * handled by this {@link ValueMapping}. At the moment only the globally set SoM is 
+	 * considered, which is stated for the source property.
+	 * @return
+	 */
+	private int determineScaleOfMeasurementOfSourceValues() {	
+		// is there a global SoM setting for the source property?
+		// such as:  ex:size rdfs:subPropertyOf viso-data:hasQuantitativeSoM
+		Property sp = getPropertyMapping().getAllSourceproperty_as().firstValue(); 
+		// TODO: reuse these properties!!
+		final Property hasNominalSoM = new Property(model,new URIImpl("http://purl.org/viso/data/hasNominalSoM"),false);
+		final Property hasOrdinalSoM = new Property(model,new URIImpl("http://purl.org/viso/data/hasOrdinalSoM"),false);
+		final Property hasQuantitativeSoM = new Property(model,new URIImpl("http://purl.org/viso/data/hasQuantitativeSoM"),false);
+		
+		ClosableIterator<Property> spSubPropIterator = sp.getAllSubPropertyOf();
+	
+		while (spSubPropIterator.hasNext()) {
+			Property spSubProp = (Property) spSubPropIterator.next();
+			if (spSubProp.equals(hasNominalSoM))
+				return SOM_NOMINAL;
+			else if (spSubProp.equals(hasOrdinalSoM))
+				return SOM_ORDINAL;
+			else if (spSubProp.equals(hasQuantitativeSoM)) 
+				return SOM_QUANTITATIVE;
+		}
+		
+		// TODO: Add other ways of calculating SoM.
+		
+		return SOM_UNKNOWN;
+		
+	}
+
+	private PropertyMapping getPropertyMapping(){
+		Resource res = this.getAllValuemapping_Inverse().next()	;
+		return new PropertyMapping(model,res,false);
+	}
+	
+	private String getSomName(int somID){
+		switch (somID) {
+		case 1: return "nominal";
+		case 2: return "ordinal";
+		case 3: return "quantitative";
+		default: return "unknown";
+		}
+	}
 
 }

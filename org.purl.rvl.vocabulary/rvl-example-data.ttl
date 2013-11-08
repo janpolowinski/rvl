@@ -6,6 +6,7 @@
 @prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix viso-data:     <http://purl.org/viso/data/> .
 
 :     rdf:type owl:Ontology .
 
@@ -280,12 +281,14 @@
       rdf:type owl:DatatypeProperty , rdf:Property ;
       rdfs:label "belongs to category"^^xsd:string ;
       rdfs:range :Field ;
+      rdfs:subPropertyOf viso-data:hasNominalSoM ;
       rdfs:subPropertyOf :domainProperty .
 
 :cites
       rdf:type owl:DatatypeProperty , rdf:Property ;
       rdfs:label "Cites to book"^^xsd:string ;
       rdfs:range :Field ;
+      rdfs:subPropertyOf viso-data:hasNominalSoM ;
       rdfs:subPropertyOf :domainProperty .
 
 :domainProperty
@@ -296,25 +299,31 @@
       rdfs:comment "estimated realisation costs in EUR"^^xsd:string ;
       rdfs:label "Cost"^^xsd:string ;
       rdfs:range xsd:float ;
-      rdfs:subPropertyOf :domainProperty .
+      rdfs:subPropertyOf :domainProperty ;      
+      rdfs:subPropertyOf viso-data:hasQuantitativeSoM .
+
 
 :hasResponseTimeInMs
       rdf:type rdf:Property , owl:DatatypeProperty ;
       rdfs:label "has response time in ms"^^xsd:string ;
+      rdfs:subPropertyOf viso-data:hasQuantitativeSoM ;
       rdfs:subPropertyOf :domainProperty .
 
 :isInConflictWith
       rdf:type owl:ObjectProperty , rdf:Property , owl:SymmetricProperty ;
       rdfs:label "is in conflict with"^^xsd:string ;
       rdfs:subPropertyOf :domainProperty ;
+      rdfs:subPropertyOf viso-data:hasNominalSoM ;
       owl:inverseOf :isInConflictWith .
 
 :isRefinementOf
       rdf:type owl:ObjectProperty ;
+      rdfs:subPropertyOf viso-data:hasNominalSoM ;
       rdfs:subPropertyOf :domainProperty .
 
 :workingField
       rdf:type rdf:Property , owl:DatatypeProperty ;
       rdfs:label "Field for Author"^^xsd:string ;
       rdfs:range :Field ;
+      rdfs:subPropertyOf viso-data:hasNominalSoM ;
       rdfs:subPropertyOf :domainProperty .
