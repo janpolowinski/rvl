@@ -1,0 +1,83 @@
+@prefix :        <http://purl.org/rvl/> .
+@prefix bibo:    <http://purl.org/ontology/bibo/> .
+@prefix dct:     <http://purl.org/dc/terms/> .
+@prefix event:   <http://purl.org/NET/c4dm/event.owl#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix swstatus:  <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix viso-graphic:  <http://purl.org/viso/graphic/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+# blank nodes / collections as ranges will cause RDFreactor to use a A1 class as "domain" for the generated methods
+# these triples should go back to RVL in the end
+
+:passedTo
+      rdfs:domain
+              [ a       owl:Class ;
+                owl:unionOf (:PropertyMapping :ResourceMapping)
+              ] .
+              
+              
+:inheritedBy
+      rdfs:domain
+              [ a       owl:Class ;
+                owl:unionOf (:PropertyMapping :ResourceMapping)
+              ] .
+              
+              
+               
+:sourceValue
+      rdfs:domain
+              [ a       owl:Class ;
+                owl:unionOf (:PropertyToGraphicAttributeMapping :ValueMapping)
+              ] .
+
+              
+:excludeSourceValue
+      rdfs:domain
+              [ a       owl:Class ;
+                owl:unionOf (:ValueMapping :IdentityMapping)
+              ] .
+              
+              
+:objectFilter
+      rdfs:range
+              [ a       owl:Class ;
+                owl:unionOf (:sparqlSelector :fslSelector)
+              ] .
+              
+              
+:mapMissingValuesTo
+      rdfs:range
+              [ a       owl:Class ;
+                owl:unionOf (:rdfs:Literal viso-graphic:Visual_Attribute)
+              ] .
+              
+              
+:subMapping_onTriplePart
+       rdfs:range
+              [ a       owl:Class ;
+                owl:oneOf (rdf:object rdf:subject rdf:predicate)
+              ] .
+              
+              
+:sourceFilter
+      rdfs:range
+              [ a       owl:Class ;
+                owl:unionOf (:sparqlSelector :fslSelector)
+              ] .
+:subjectFilter
+      rdfs:range
+              [ a       owl:Class ;
+                owl:unionOf (:sparqlSelector :fslSelector)
+              ] .
+              
+              
+              
+:targetValue
+         rdfs:range
+              [ a       owl:Class ;
+                owl:unionOf (viso-graphic:Visual_Attribute rdfs:Literal)
+              ] .

@@ -7,14 +7,312 @@
     <cd:nodes>
       <cd:URINode>
         <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >50</cd:height>
+        >28</cd:height>
         <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >176</cd:width>
+        >302</cd:width>
         <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >8</cd:y>
+        >267</cd:y>
         <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1382</cd:x>
+        >736</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicObjectToObjectRelation"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >223</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >267</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1045</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicAttribute"/>
+      </cd:URINode>
+    </cd:nodes>
+    <rdfs:label>GraphicRelation and Syntactic_Structure</rdfs:label>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >44</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >359</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >447</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >368</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/Spatial_Structure"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >267</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >358</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1306</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicAttributeDiscrete"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >44</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >212</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >376</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >75</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/Graphic_Space"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >284</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >358</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1015</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicAttributeContinuous"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >204</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >417</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >16</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >813</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicRelation"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:selectedResource rdf:resource="http://purl.org/rvl/Mapping"/>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >236</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >352</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >428</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/Syntactic_Structure"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >44</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >347</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >538</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >504</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/Object-to-Object_Structure"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >44</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >278</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >532</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >169</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/Object-to-Space_Structure"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >275</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >358</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >733</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/N-AryGraphicO2ORelation"/>
+      </cd:URINode>
+    </cd:nodes>
+  </cd:Diagram>
+  <cd:Diagram>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >139</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >96</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >411</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/N-AryRelation"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >60</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >333</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >182</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >313</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/SubMappingRelation"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:selectedResource rdf:resource="http://purl.org/rvl/SubMappingRelation"/>
+    <rdfs:label>SubMappingRelation</rdfs:label>
+  </cd:Diagram>
+  <cd:Diagram>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >44</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >201</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >171</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >959</cd:x>
+        <cd:class rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >139</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >359</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >643</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/ValueMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >124</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >319</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >182</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >447</cd:x>
         <cd:class rdf:resource="http://purl.org/rvl/Mapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >509</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >366</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >472</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >420</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/PropertyMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:selectedResource rdf:resource="http://purl.org/rvl/Mapping"/>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >87</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >366</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >187</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >19</cd:x>
+        <cd:class rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+      </cd:URINode>
+    </cd:nodes>
+    <rdfs:label>Main classes</rdfs:label>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >108</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >198</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >324</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >233</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/IntervalMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >44</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >363</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1015</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >606</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/PropertyToSyntacticStructureMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >248</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1014</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >350</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/PropertyToVisualAttributeMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >130</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >435</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >282</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >953</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/Visual_Attribute"/>
+      </cd:URINode>
+    </cd:nodes>
+  </cd:Diagram>
+  <cd:Diagram>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >182</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >346</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >682</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >963</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/DiscreteToDiscreteMapping"/>
       </cd:URINode>
     </cd:nodes>
     <cd:nodes>
@@ -33,27 +331,14 @@
     <cd:nodes>
       <cd:URINode>
         <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >50</cd:height>
+        >338</cd:height>
         <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >263</cd:width>
+        >545</cd:width>
         <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >124</cd:y>
+        >104</cd:y>
         <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1492</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/ValueMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >76</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >573</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >548</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1083</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/PropertyToVisualAttributeMapping"/>
+        >716</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/PropertyMapping"/>
       </cd:URINode>
     </cd:nodes>
     <cd:nodes>
@@ -72,20 +357,6 @@
     <cd:nodes>
       <cd:URINode>
         <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >338</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >545</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >104</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >716</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/PropertyMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <rdfs:label>Mappings and their Properties</rdfs:label>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >18</cd:height>
         <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >128</cd:width>
@@ -94,59 +365,6 @@
         <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >1495</cd:x>
         <cd:class rdf:resource="http://purl.org/rvl/ClassMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >182</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >346</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >682</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >963</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/DiscreteToDiscreteMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >134</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >598</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >539</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >302</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/PropertyToSyntacticStructureMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >124</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >318</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >733</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1368</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/ContinuousToDiscreteMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:selectedResource rdf:resource="http://purl.org/rvl/PropertyMapping"/>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >246</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >936</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1370</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/ContinuousToContinuousMapping"/>
       </cd:URINode>
     </cd:nodes>
     <cd:nodes>
@@ -165,6 +383,73 @@
     <cd:nodes>
       <cd:URINode>
         <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >246</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >936</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1370</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/ContinuousToContinuousMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >76</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >573</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >548</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1083</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/PropertyToVisualAttributeMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >50</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >263</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >124</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1492</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/ValueMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >124</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >318</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >733</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1368</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/ContinuousToDiscreteMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >134</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >598</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >539</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >302</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/PropertyToSyntacticStructureMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:selectedResource rdf:resource="http://purl.org/rvl/PropertyMapping"/>
+    <rdfs:label>Mappings and their Properties</rdfs:label>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >98</cd:height>
         <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >188</cd:width>
@@ -175,60 +460,35 @@
         <cd:class rdf:resource="http://purl.org/rvl/IntervalMapping"/>
       </cd:URINode>
     </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >50</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >176</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >8</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1382</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/Mapping"/>
+      </cd:URINode>
+    </cd:nodes>
   </cd:Diagram>
   <cd:Diagram>
     <cd:nodes>
       <cd:URINode>
         <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >18</cd:height>
+        >508</cd:height>
         <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >292</cd:width>
+        >418</cd:width>
         <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >613</cd:y>
+        >63</cd:y>
         <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1416</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicObjectToObjectRelation"/>
+        >702</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/PropertyMapping"/>
       </cd:URINode>
     </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >194</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >407</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >16</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1477</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicRelation"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >108</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >198</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >324</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >233</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/IntervalMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >139</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >359</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >643</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/ValueMapping"/>
-      </cd:URINode>
-    </cd:nodes>
+    <cd:selectedResource rdf:resource="http://purl.org/rvl/Mapping"/>
     <cd:nodes>
       <cd:URINode>
         <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
@@ -236,902 +496,62 @@
         <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >248</cd:width>
         <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1014</cd:y>
+        >595</cd:y>
         <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >350</cd:x>
+        >578</cd:x>
         <cd:class rdf:resource="http://purl.org/rvl/PropertyToVisualAttributeMapping"/>
       </cd:URINode>
     </cd:nodes>
     <cd:nodes>
       <cd:URINode>
         <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >18</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >257</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >675</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1612</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicAttributeDiscrete"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >18</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >274</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >673</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1879</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicAttributeContinuous"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >34</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >268</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1096</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1128</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/Object-to-Space_Structure"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >18</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >226</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1032</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1235</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/Syntactic_Structure"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >44</cd:height>
         <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >363</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1015</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >606</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/PropertyToSyntacticStructureMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >34</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >337</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1088</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1425</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/Object-to-Object_Structure"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >18</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >213</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >613</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1735</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicAttribute"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:selectedResource rdf:resource="http://purl.org/rvl/Mapping"/>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >87</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >366</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >187</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >19</cd:x>
-        <cd:class rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >18</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >265</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >673</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1231</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/N-AryGraphicO2ORelation"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >124</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >319</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >182</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >447</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/Mapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >509</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >366</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >472</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >420</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/PropertyMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <rdfs:label>Main classes and GraphicRelation classes without rdfs:Class</rdfs:label>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >130</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >435</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >282</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >953</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/Visual_Attribute"/>
-      </cd:URINode>
-    </cd:nodes>
-  </cd:Diagram>
-  <cd:Diagram>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >44</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >223</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >836</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1648</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/Spatial_Attribute"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >325</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >313</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >517</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >259</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/Graphic_Object"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >141</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >238</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >393</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >621</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/PropertyMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <rdfs:label>Visual_Attribute</rdfs:label>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >44</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >492</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >404</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1237</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/ConstantMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >224</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >838</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >656</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/Retinal_Attribute"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >238</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >837</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1395</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/Temporal_Attribute"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >222</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >837</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >893</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/Clarity_Attribute"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >124</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >441</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >619</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >820</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/Visual_Attribute"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >234</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >837</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1141</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/Area-Fill_Attribute"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >124</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >319</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >196</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >910</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/Mapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:selectedResource rdf:resource="http://purl.org/viso/graphic/Visual_Attribute"/>
-  </cd:Diagram>
-  <cd:Diagram>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >87</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >366</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >187</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >19</cd:x>
-        <cd:class rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >108</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >198</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >324</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >233</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/IntervalMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >509</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >366</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >472</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >420</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/PropertyMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >248</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1014</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >350</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/PropertyToVisualAttributeMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >124</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >319</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >182</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >447</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/Mapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >44</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >201</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >171</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >959</cd:x>
-        <cd:class rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
-      </cd:URINode>
-    </cd:nodes>
-    <rdfs:label>Main classes</rdfs:label>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >130</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >435</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >282</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >953</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/Visual_Attribute"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >44</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >363</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1015</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >606</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/PropertyToSyntacticStructureMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >139</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >359</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >643</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/ValueMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:selectedResource rdf:resource="http://purl.org/rvl/Mapping"/>
-  </cd:Diagram>
-  <cd:Diagram>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >98</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >91</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >691</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/Ignore"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >112</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >91</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1041</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/Calculate"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >206</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >16</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >993</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/NeutralValueHandlingType"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >89</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >91</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1160</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/Style"/>
-      </cd:URINode>
-    </cd:nodes>
-    <rdfs:label>Datatypes</rdfs:label>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >102</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >91</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >582</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/Neutral"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >243</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >16</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >482</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/MissingSourceValueHandlingType"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >254</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >16</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >732</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/MissingValueMappingHandlingType"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >104</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >91</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >376</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/Missing"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >127</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >280</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >632</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/Logarithmic"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >199</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >205</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >536</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/ScaleTransformationType"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >203</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >208</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >939</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/OutOfBoundHandlingType"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >88</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >91</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >487</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/Hide"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >106</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >91</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >928</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/Average"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >96</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >280</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >529</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/Linear"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >125</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >91</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >796</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/NoMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >98</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >283</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1089</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/Clamp"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >82</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >283</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1000</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/Cut"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:selectedResource rdf:resource="http://purl.org/rvl/Average"/>
-  </cd:Diagram>
-  <cd:Diagram>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >139</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >359</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >643</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/ValueMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >130</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >435</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >282</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >953</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/Visual_Attribute"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >18</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >274</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >673</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1879</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicAttributeContinuous"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >509</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >366</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >472</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >420</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/PropertyMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >87</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >366</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >187</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >19</cd:x>
-        <cd:class rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >18</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >292</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >613</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1416</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicObjectToObjectRelation"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >108</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >198</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >324</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >233</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/IntervalMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >18</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >213</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >613</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1735</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicAttribute"/>
-      </cd:URINode>
-    </cd:nodes>
-    <rdfs:label>Main classes and GraphicRelation classes</rdfs:label>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >34</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >268</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1096</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1128</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/Object-to-Space_Structure"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >44</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >201</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >171</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >959</cd:x>
-        <cd:class rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >18</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >265</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >673</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1231</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/N-AryGraphicO2ORelation"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >124</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >319</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >182</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >447</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/Mapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >18</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >257</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >675</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1612</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicAttributeDiscrete"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >34</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >337</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1088</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1425</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/Object-to-Object_Structure"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:selectedResource rdf:resource="http://purl.org/rvl/Mapping"/>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >18</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >226</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1032</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1235</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/Syntactic_Structure"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >44</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >363</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1015</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >606</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/PropertyToSyntacticStructureMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >248</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1014</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >350</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/PropertyToVisualAttributeMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >194</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >407</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >16</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1477</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicRelation"/>
-      </cd:URINode>
-    </cd:nodes>
-  </cd:Diagram>
-  <cd:Diagram>
-    <cd:selectedResource rdf:resource="http://purl.org/rvl/Mapping"/>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >44</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >169</cd:width>
+        >153</cd:width>
         <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >946</cd:y>
         <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >988</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/SubClassesMapping"/>
+        >1164</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/MemberMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >44</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >346</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >816</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >874</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/DiscreteToDiscreteMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >183</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >946</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >798</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/ManualValueMappings"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >226</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >690</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >994</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/Visual_Value_List"/>
       </cd:URINode>
     </cd:nodes>
     <cd:nodes>
@@ -1165,19 +585,6 @@
         <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >28</cd:height>
         <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >139</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >86</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >471</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/ValueMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >259</cd:width>
         <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >689</cd:y>
@@ -1189,27 +596,41 @@
     <cd:nodes>
       <cd:URINode>
         <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >44</cd:height>
+        >28</cd:height>
         <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >153</cd:width>
+        >150</cd:width>
         <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >946</cd:y>
+        >817</cd:y>
         <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1164</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/MemberMapping"/>
+        >380</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/IdentityMapping"/>
       </cd:URINode>
     </cd:nodes>
+    <rdfs:label>Non-Basic Mappings</rdfs:label>
     <cd:nodes>
       <cd:URINode>
         <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >44</cd:height>
         <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >346</cd:width>
+        >169</cd:width>
         <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >816</cd:y>
+        >946</cd:y>
         <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >874</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/DiscreteToDiscreteMapping"/>
+        >988</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/SubClassesMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >139</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >86</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >471</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/ValueMapping"/>
       </cd:URINode>
     </cd:nodes>
     <cd:nodes>
@@ -1228,59 +649,6 @@
     <cd:nodes>
       <cd:URINode>
         <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >508</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >418</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >63</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >702</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/PropertyMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >150</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >817</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >380</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/IdentityMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >183</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >946</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >798</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/ManualValueMappings"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >226</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >690</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >994</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/Visual_Value_List"/>
-      </cd:URINode>
-    </cd:nodes>
-    <rdfs:label>Non-Basic Mappings</rdfs:label>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >44</cd:height>
         <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >492</cd:width>
@@ -1291,19 +659,6 @@
         <cd:class rdf:resource="http://purl.org/rvl/ConstantMapping"/>
       </cd:URINode>
     </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >248</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >595</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >578</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/PropertyToVisualAttributeMapping"/>
-      </cd:URINode>
-    </cd:nodes>
   </cd:Diagram>
   <cd:Diagram>
     <cd:nodes>
@@ -1311,38 +666,118 @@
         <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >124</cd:height>
         <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >318</cd:width>
+        >319</cd:width>
         <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >733</cd:y>
+        >182</cd:y>
         <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1368</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/ContinuousToDiscreteMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >182</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >346</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >682</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >963</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/DiscreteToDiscreteMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >50</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >176</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >50</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1146</cd:x>
+        >447</cd:x>
         <cd:class rdf:resource="http://purl.org/rvl/Mapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >34</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >268</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1096</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1128</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/Object-to-Space_Structure"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >18</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >265</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >673</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1231</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/N-AryGraphicO2ORelation"/>
+      </cd:URINode>
+    </cd:nodes>
+    <rdfs:label>Main classes and GraphicRelation classes without rdfs:Class</rdfs:label>
+    <cd:selectedResource rdf:resource="http://purl.org/rvl/Mapping"/>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >248</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1014</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >350</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/PropertyToVisualAttributeMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >87</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >366</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >187</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >19</cd:x>
+        <cd:class rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >34</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >337</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1088</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1425</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/Object-to-Object_Structure"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >18</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >226</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1032</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1235</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/Syntactic_Structure"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >18</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >274</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >673</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1879</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicAttributeContinuous"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >18</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >292</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >613</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1416</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicObjectToObjectRelation"/>
       </cd:URINode>
     </cd:nodes>
     <cd:nodes>
@@ -1350,12 +785,369 @@
         <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >28</cd:height>
         <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >246</cd:width>
+        >139</cd:width>
         <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >936</cd:y>
+        >359</cd:y>
         <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1370</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/ContinuousToContinuousMapping"/>
+        >643</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/ValueMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >18</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >257</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >675</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1612</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicAttributeDiscrete"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >509</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >366</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >472</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >420</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/PropertyMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >130</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >435</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >282</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >953</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/Visual_Attribute"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >44</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >363</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1015</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >606</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/PropertyToSyntacticStructureMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >108</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >198</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >324</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >233</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/IntervalMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >194</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >407</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >16</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1477</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicRelation"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >18</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >213</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >613</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1735</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicAttribute"/>
+      </cd:URINode>
+    </cd:nodes>
+  </cd:Diagram>
+  <cd:Diagram>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >18</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >265</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >673</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1231</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/N-AryGraphicO2ORelation"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >18</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >292</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >613</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1416</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicObjectToObjectRelation"/>
+      </cd:URINode>
+    </cd:nodes>
+    <rdfs:label>Main classes and GraphicRelation classes</rdfs:label>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >18</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >274</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >673</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1879</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicAttributeContinuous"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >124</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >319</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >182</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >447</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/Mapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >44</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >201</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >171</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >959</cd:x>
+        <cd:class rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:selectedResource rdf:resource="http://purl.org/rvl/Mapping"/>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >248</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1014</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >350</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/PropertyToVisualAttributeMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >87</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >366</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >187</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >19</cd:x>
+        <cd:class rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >34</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >268</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1096</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1128</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/Object-to-Space_Structure"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >139</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >359</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >643</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/ValueMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >18</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >213</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >613</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1735</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicAttribute"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >34</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >337</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1088</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1425</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/Object-to-Object_Structure"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >130</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >435</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >282</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >953</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/Visual_Attribute"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >18</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >226</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1032</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1235</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/Syntactic_Structure"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >108</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >198</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >324</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >233</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/IntervalMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >509</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >366</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >472</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >420</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/PropertyMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >18</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >257</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >675</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1612</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicAttributeDiscrete"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >194</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >407</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >16</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1477</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicRelation"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >44</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >363</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1015</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >606</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/PropertyToSyntacticStructureMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+  </cd:Diagram>
+  <cd:Diagram>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >50</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >263</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >269</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1971</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/ValueMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >86</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >318</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1015</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1670</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/IdentityMapping"/>
       </cd:URINode>
     </cd:nodes>
     <cd:nodes>
@@ -1374,46 +1166,6 @@
     <cd:nodes>
       <cd:URINode>
         <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >76</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >573</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >548</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1083</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/PropertyToVisualAttributeMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >50</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >263</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >269</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1971</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/ValueMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:selectedResource rdf:resource="http://purl.org/rvl/PropertyMapping"/>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >98</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >188</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >270</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1759</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/IntervalMapping"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >134</cd:height>
         <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >598</cd:width>
@@ -1427,17 +1179,30 @@
     <cd:nodes>
       <cd:URINode>
         <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >86</cd:height>
+        >50</cd:height>
         <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >318</cd:width>
+        >176</cd:width>
         <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1015</cd:y>
+        >50</cd:y>
         <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1670</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/IdentityMapping"/>
+        >1146</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/Mapping"/>
       </cd:URINode>
     </cd:nodes>
     <rdfs:label>Subclasses of PM</rdfs:label>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >182</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >346</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >682</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >963</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/DiscreteToDiscreteMapping"/>
+      </cd:URINode>
+    </cd:nodes>
     <cd:nodes>
       <cd:URINode>
         <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
@@ -1451,111 +1216,98 @@
         <cd:class rdf:resource="http://purl.org/rvl/PropertyMapping"/>
       </cd:URINode>
     </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >124</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >318</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >733</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1368</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/ContinuousToDiscreteMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:selectedResource rdf:resource="http://purl.org/rvl/PropertyMapping"/>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >76</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >573</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >548</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1083</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/PropertyToVisualAttributeMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >246</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >936</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1370</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/ContinuousToContinuousMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >98</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >188</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >270</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1759</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/IntervalMapping"/>
+      </cd:URINode>
+    </cd:nodes>
   </cd:Diagram>
   <cd:Diagram>
-    <rdfs:label>GraphicRelation and Syntactic_Structure</rdfs:label>
     <cd:nodes>
       <cd:URINode>
         <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >28</cd:height>
         <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >302</cd:width>
+        >222</cd:width>
         <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >267</cd:y>
+        >837</cd:y>
         <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >736</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicObjectToObjectRelation"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >284</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >358</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1015</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicAttributeContinuous"/>
+        >893</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/Clarity_Attribute"/>
       </cd:URINode>
     </cd:nodes>
     <cd:nodes>
       <cd:URINode>
         <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >44</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >359</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >447</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >368</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/Spatial_Structure"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >236</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >352</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >428</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/Syntactic_Structure"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >44</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >347</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >538</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >504</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/Object-to-Object_Structure"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >44</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >212</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >376</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >75</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/Graphic_Space"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
-        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >267</cd:width>
-        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >358</cd:y>
-        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1306</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicAttributeDiscrete"/>
-      </cd:URINode>
-    </cd:nodes>
-    <cd:nodes>
-      <cd:URINode>
-        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >28</cd:height>
         <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >223</cd:width>
         <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >267</cd:y>
+        >836</cd:y>
         <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1045</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicAttribute"/>
+        >1648</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/Spatial_Attribute"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >224</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >838</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >656</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/Retinal_Attribute"/>
       </cd:URINode>
     </cd:nodes>
     <cd:nodes>
@@ -1563,39 +1315,92 @@
         <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >44</cd:height>
         <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >278</cd:width>
+        >492</cd:width>
         <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >532</cd:y>
+        >404</cd:y>
         <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >169</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/Object-to-Space_Structure"/>
+        >1237</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/ConstantMapping"/>
       </cd:URINode>
     </cd:nodes>
-    <cd:selectedResource rdf:resource="http://purl.org/rvl/Mapping"/>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >325</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >313</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >517</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >259</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/Graphic_Object"/>
+      </cd:URINode>
+    </cd:nodes>
+    <rdfs:label>Visual_Attribute</rdfs:label>
     <cd:nodes>
       <cd:URINode>
         <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >28</cd:height>
         <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >275</cd:width>
+        >238</cd:width>
         <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >358</cd:y>
+        >837</cd:y>
         <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >733</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/N-AryGraphicO2ORelation"/>
+        >1395</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/Temporal_Attribute"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:selectedResource rdf:resource="http://purl.org/viso/graphic/Visual_Attribute"/>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >234</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >837</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1141</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/Area-Fill_Attribute"/>
       </cd:URINode>
     </cd:nodes>
     <cd:nodes>
       <cd:URINode>
         <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >204</cd:height>
+        >141</cd:height>
         <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >417</cd:width>
+        >238</cd:width>
         <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >16</cd:y>
+        >393</cd:y>
         <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >813</cd:x>
-        <cd:class rdf:resource="http://purl.org/viso/graphic/GraphicRelation"/>
+        >621</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/PropertyMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >124</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >319</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >196</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >910</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/Mapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >124</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >441</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >619</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >820</cd:x>
+        <cd:class rdf:resource="http://purl.org/viso/graphic/Visual_Attribute"/>
       </cd:URINode>
     </cd:nodes>
   </cd:Diagram>
@@ -1605,28 +1410,223 @@
         <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >28</cd:height>
         <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >139</cd:width>
+        >96</cd:width>
         <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >96</cd:y>
+        >280</cd:y>
         <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >411</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/N-AryRelation"/>
+        >529</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/Linear"/>
       </cd:URINode>
     </cd:nodes>
     <cd:nodes>
       <cd:URINode>
         <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >60</cd:height>
+        >28</cd:height>
         <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >333</cd:width>
+        >102</cd:width>
         <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >182</cd:y>
+        >91</cd:y>
         <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >313</cd:x>
-        <cd:class rdf:resource="http://purl.org/rvl/SubMappingRelation"/>
+        >582</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/Neutral"/>
       </cd:URINode>
     </cd:nodes>
-    <cd:selectedResource rdf:resource="http://purl.org/rvl/SubMappingRelation"/>
-    <rdfs:label>SubMappingRelation</rdfs:label>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >88</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >91</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >487</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/Hide"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >98</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >283</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1089</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/Clamp"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >104</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >91</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >376</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/Missing"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >125</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >91</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >796</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/NoMapping"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >127</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >280</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >632</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/Logarithmic"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >112</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >91</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1041</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/Calculate"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >89</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >91</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1160</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/Style"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >106</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >91</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >928</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/Average"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >203</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >208</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >939</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/OutOfBoundHandlingType"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >98</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >91</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >691</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/Ignore"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >243</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >16</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >482</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/MissingSourceValueHandlingType"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >82</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >283</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1000</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/Cut"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >206</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >16</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >993</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/NeutralValueHandlingType"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >199</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >205</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >536</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/ScaleTransformationType"/>
+      </cd:URINode>
+    </cd:nodes>
+    <cd:selectedResource rdf:resource="http://purl.org/rvl/Average"/>
+    <rdfs:label>Datatypes</rdfs:label>
+    <cd:nodes>
+      <cd:URINode>
+        <cd:height rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >28</cd:height>
+        <cd:width rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >254</cd:width>
+        <cd:y rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >16</cd:y>
+        <cd:x rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >732</cd:x>
+        <cd:class rdf:resource="http://purl.org/rvl/MissingValueMappingHandlingType"/>
+      </cd:URINode>
+    </cd:nodes>
   </cd:Diagram>
 </rdf:RDF>

@@ -5,7 +5,7 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
-import org.purl.rvl.interpreter.rvl.Object_to_ObjectRelation;
+import org.purl.rvl.interpreter.rvl.GraphicObjectToObjectRelation;
 import org.purl.rvl.interpreter.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
 import org.purl.rvl.interpreter.rvl.Sub_mappingrelation;
 
@@ -51,7 +51,7 @@ public class PropertyToGO2ORMapping extends
 		s += pm.toString();
 		
 		// targetAttribute is specific to P2GAM
-		Object_to_ObjectRelation tgo2or = this.getAllTargetobject_to_objectrelation_as().firstValue();
+		GraphicObjectToObjectRelation tgo2or = this.getAllTargetobject_to_objectrelation_as().firstValue();
 		String tgaString = tgo2or.getAllLabel_as().count()>0 ? tgo2or.getAllLabel_as().firstValue() : tgo2or.toString();
 		s += "from P2GO2ORM(m): target GOTOR: " + tgaString + NL ;
 		

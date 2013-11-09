@@ -1,4 +1,4 @@
-# Saved by TopBraid on Sun Nov 03 12:49:54 CET 2013
+# Saved by TopBraid on Sat Nov 09 20:57:53 CET 2013
 # baseURI: null
 
 @prefix composite:  <http://www.topbraid.org/2007/05/composite.owl#> .
@@ -14,423 +14,267 @@
       rdfs:label "Resource Form" ;
       forms:parentOf
               [ rdf:type forms:Section ;
-                rdfs:label "Inherite settings" ;
-                forms:childIndex 1 ;
+                rdfs:label "Annotations" ;
+                forms:childIndex "0" ;
+                forms:parentOf
+                        [ rdf:type forms:PropertyWidgetGroup ;
+                          forms:childIndex "0" ;
+                          forms:predicateType owl:AnnotationProperty
+                        ]
+              ] ;
+      forms:parentOf
+              [ rdf:type forms:Section ;
+                rdfs:label "Other Properties" ;
+                forms:childIndex 6 ;
                 forms:collapsed "true"^^xsd:boolean ;
                 forms:parentOf
-                        [ rdf:type forms:PropertyWidget ;
-                          forms:childIndex 1 ;
-                          forms:predicate <http://purl.org/rvl/passedTo>
-                        ] ;
+                        [ rdf:type forms:PropertyWidgetGroup ;
+                          forms:childIndex 0 ;
+                          forms:predicateType rdf:Property
+                        ]
+              ] ;
+      forms:parentOf
+              [ rdf:type forms:Section ;
+                rdfs:label "General Settings" ;
+                forms:childIndex 1 ;
+                forms:numColumns "2"^^xsd:int ;
                 forms:parentOf
                         [ rdf:type forms:PropertyWidget ;
                           forms:childIndex 0 ;
-                          forms:predicate <http://purl.org/rvl/inheritedBy>
+                          forms:predicate <http://purl.org/rvl/includeInLegend>
+                        ] ;
+                forms:parentOf
+                        [ rdf:type forms:PropertyWidget ;
+                          forms:childIndex 1 ;
+                          forms:predicate <http://purl.org/rvl/fallsBackTo>
+                        ]
+              ] ;
+      forms:parentOf
+              [ rdf:type forms:Section ;
+                rdfs:label "Settings for Ranges and Discretization" ;
+                forms:childIndex 4 ;
+                forms:collapsed "true"^^xsd:boolean ;
+                forms:numColumns "2"^^xsd:int ;
+                forms:parentOf
+                        [ rdf:type forms:Panel ;
+                          forms:childIndex 0 ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    forms:childIndex 0 ;
+                                    forms:predicate <http://purl.org/rvl/sourceValuesLabel>
+                                  ]
+                        ] ;
+                forms:parentOf
+                        [ rdf:type forms:Panel ;
+                          forms:childIndex 1 ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    forms:childIndex 0 ;
+                                    forms:predicate <http://purl.org/rvl/discretize>
+                                  ] ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    forms:childIndex 1 ;
+                                    forms:predicate <http://purl.org/rvl/discreteStepCount>
+                                  ] ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    forms:childIndex 2 ;
+                                    forms:predicate <http://purl.org/rvl/discreteStepSize>
+                                  ]
+                        ]
+              ] ;
+      forms:parentOf
+              [ rdf:type forms:Section ;
+                rdfs:label "Source/Target Value Selection" ;
+                forms:childIndex 2 ;
+                forms:numColumns "2"^^xsd:int ;
+                forms:parentOf
+                        [ rdf:type forms:Panel ;
+                          forms:childIndex 0 ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    rdfs:label "Define one or more concrete source values (e.g., \"Big\")" ;
+                                    forms:autoExpand "false"^^xsd:string ;
+                                    forms:childIndex 0 ;
+                                    forms:predicate <http://purl.org/rvl/sourceValue>
+                                  ] ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    rdfs:label "... alternatively: define an interval of source values" ;
+                                    forms:autoExpand "false"^^xsd:string ;
+                                    forms:childIndex 1 ;
+                                    forms:predicate <http://purl.org/rvl/sourceValueInterval>
+                                  ] ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    forms:childIndex 2 ;
+                                    forms:predicate <http://purl.org/rvl/sourceValueSet>
+                                  ] ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    forms:childIndex 3 ;
+                                    forms:predicate <http://purl.org/rvl/sourceValueOrderedSet>
+                                  ] ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    forms:childIndex 4 ;
+                                    forms:predicate <http://purl.org/rvl/excludeSourceValue>
+                                  ]
+                        ] ;
+                forms:parentOf
+                        [ rdf:type forms:Panel ;
+                          forms:childIndex 1 ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    rdfs:label "Define one or more concrete target graphic values" ;
+                                    forms:autoExpand "false"^^xsd:string ;
+                                    forms:childIndex 0 ;
+                                    forms:predicate <http://purl.org/rvl/targetValue>
+                                  ] ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    rdfs:label "... alternatively: define an interval of target values" ;
+                                    forms:autoExpand "false"^^xsd:string ;
+                                    forms:childIndex 1 ;
+                                    forms:predicate <http://purl.org/rvl/targetValueInterval>
+                                  ] ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    forms:childIndex 5 ;
+                                    forms:predicate <http://purl.org/rvl/targetValueCycle>
+                                  ] ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    forms:childIndex 4 ;
+                                    forms:predicate <http://purl.org/rvl/targetValueList>
+                                  ] ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    forms:childIndex 3 ;
+                                    forms:predicate <http://purl.org/rvl/targetValueOrderedSet>
+                                  ] ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    forms:childIndex 2 ;
+                                    forms:predicate <http://purl.org/rvl/targetValueSet>
+                                  ] ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    forms:childIndex 6 ;
+                                    forms:predicate <http://purl.org/rvl/excludeTargetValue>
+                                  ]
+                        ]
+              ] ;
+      forms:parentOf
+              [ rdf:type forms:Section ;
+                rdfs:label "Defining order and quantify" ;
+                forms:childIndex 5 ;
+                forms:collapsed "true"^^xsd:boolean ;
+                forms:numColumns "2"^^xsd:int ;
+                forms:parentOf
+                        [ rdf:type forms:Panel ;
+                          forms:childIndex 0 ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    forms:childIndex 0 ;
+                                    forms:predicate <http://purl.org/rvl/orderSourceValuesBy>
+                                  ] ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    forms:childIndex 1 ;
+                                    forms:predicate <http://purl.org/rvl/quantifySourceValuesBy>
+                                  ]
+                        ] ;
+                forms:parentOf
+                        [ rdf:type forms:Panel ;
+                          forms:childIndex 1 ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    forms:childIndex 2 ;
+                                    forms:predicate <http://purl.org/rvl/invertOrderOfTargetValues>
+                                  ] ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    forms:childIndex 0 ;
+                                    forms:predicate <http://purl.org/rvl/orderTargetValuesBy>
+                                  ] ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    forms:childIndex 1 ;
+                                    forms:predicate <http://purl.org/rvl/quantifyTargetValuesBy>
+                                  ]
+                        ]
+              ] ;
+      forms:parentOf
+              [ rdf:type forms:Section ;
+                forms:childIndex 3 ;
+                forms:parentOf
+                        [ rdf:type forms:Label ;
+                          rdfs:label "List can be added by [ex:ListElement1 ex:ListElement2]" ;
+                          forms:childIndex 0
+                        ]
+              ] ;
+      forms:subjectType <http://purl.org/rvl/ValueMapping> ;
+      forms:useDomain "true" .
+
+[]    rdf:type forms:Form ;
+      rdfs:label "Resource Form" ;
+      forms:parentOf
+              [ rdf:type forms:Section ;
+                rdfs:label "Other Properties" ;
+                forms:childIndex 6 ;
+                forms:collapsed "true"^^xsd:boolean ;
+                forms:parentOf
+                        [ rdf:type forms:PropertyWidgetGroup ;
+                          forms:childIndex 0 ;
+                          forms:predicateType rdf:Property
+                        ]
+              ] ;
+      forms:parentOf
+              [ rdf:type forms:Section ;
+                rdfs:label "Annotations" ;
+                forms:childIndex 5 ;
+                forms:collapsed "true"^^xsd:boolean ;
+                forms:parentOf
+                        [ rdf:type forms:PropertyWidgetGroup ;
+                          forms:childIndex "0" ;
+                          forms:predicateType owl:AnnotationProperty
                         ]
               ] ;
       forms:parentOf
               [ rdf:type forms:Section ;
                 rdfs:label "General Settings" ;
                 forms:childIndex 0 ;
-                forms:numColumns "2"^^xsd:int ;
                 forms:parentOf
                         [ rdf:type forms:Panel ;
-                          forms:childIndex 1 ;
+                          forms:childIndex 0 ;
+                          forms:numColumns "2"^^xsd:int ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    forms:childIndex 2 ;
+                                    forms:predicate <http://purl.org/rvl/invertSourceProperty>
+                                  ] ;
                           forms:parentOf
                                   [ rdf:type forms:PropertyWidget ;
                                     forms:childIndex 0 ;
-                                    forms:predicate <http://purl.org/rvl/targetValue>
+                                    forms:predicate <http://purl.org/rvl/sourceProperty>
                                   ] ;
                           forms:parentOf
                                   [ rdf:type forms:PropertyWidget ;
                                     forms:childIndex 1 ;
                                     forms:predicate <http://purl.org/rvl/targetGraphicRelation>
-                                  ]
-                        ] ;
-                forms:parentOf
-                        [ rdf:type forms:Panel ;
-                          forms:childIndex 0 ;
+                                  ] ;
                           forms:parentOf
                                   [ rdf:type forms:PropertyWidget ;
-                                    forms:childIndex 0 ;
-                                    forms:predicate <http://purl.org/rvl/sourceValue>
+                                    forms:childIndex 3 ;
+                                    forms:predicate <http://purl.org/rvl/includeInLegend>
+                                  ] ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    forms:childIndex 4 ;
+                                    forms:predicate <http://purl.org/rvl/fallsBackTo>
                                   ]
-                        ]
-              ] ;
-      forms:parentOf
-              [ rdf:type forms:Section ;
-                rdfs:label "Annotations" ;
-                forms:childIndex 2 ;
-                forms:collapsed "true"^^xsd:boolean ;
-                forms:parentOf
-                        [ rdf:type forms:PropertyWidgetGroup ;
-                          forms:childIndex "0" ;
-                          forms:predicateType owl:AnnotationProperty
-                        ]
-              ] ;
-      forms:parentOf
-              [ rdf:type forms:Section ;
-                rdfs:label "Other Properties" ;
-                forms:childIndex 3 ;
-                forms:collapsed "true"^^xsd:boolean ;
-                forms:parentOf
-                        [ rdf:type forms:PropertyWidgetGroup ;
-                          forms:childIndex "0" ;
-                          forms:predicateType rdf:Property
-                        ]
-              ] ;
-      forms:parentOf
-              [ rdf:type forms:Section ;
-                rdfs:label "Incoming References" ;
-                forms:childIndex 4 ;
-                forms:collapsed "true"^^xsd:boolean ;
-                forms:parentOf
-                        [ rdf:type forms:ReferencesWidgetGroup ;
-                          forms:childIndex "1"
-                        ]
-              ] ;
-      forms:subjectType <http://purl.org/rvl/ResourceMapping> ;
-      forms:useDomain "true" .
-
-[]    rdf:type forms:Form ;
-      rdfs:label "Resource Form" ;
-      forms:parentOf
-              [ rdf:type forms:Section ;
-                rdfs:label "Settings" ;
-                forms:childIndex 0 ;
-                forms:numColumns "2"^^xsd:int ;
-                forms:parentOf
-                        [ rdf:type forms:PropertyWidget ;
-                          forms:childIndex 4 ;
-                          forms:predicate rdfs:label
-                        ] ;
-                forms:parentOf
-                        [ rdf:type forms:PropertyWidget ;
-                          forms:childIndex 2 ;
-                          forms:predicate <http://purl.org/rvl/lowerBoundIncl>
-                        ] ;
-                forms:parentOf
-                        [ rdf:type forms:PropertyWidget ;
-                          forms:childIndex 3 ;
-                          forms:predicate <http://purl.org/rvl/lowerBoundExcl>
-                        ] ;
-                forms:parentOf
-                        [ rdf:type forms:PropertyWidget ;
-                          forms:childIndex 0 ;
-                          forms:predicate <http://purl.org/rvl/upperBoundIncl>
-                        ] ;
-                forms:parentOf
-                        [ rdf:type forms:PropertyWidget ;
-                          forms:childIndex 1 ;
-                          forms:predicate <http://purl.org/rvl/upperBoundExcl>
-                        ]
-              ] ;
-      forms:parentOf
-              [ rdf:type forms:Section ;
-                rdfs:label "Annotations" ;
-                forms:childIndex 2 ;
-                forms:collapsed "true"^^xsd:boolean ;
-                forms:parentOf
-                        [ rdf:type forms:PropertyWidgetGroup ;
-                          forms:childIndex "0" ;
-                          forms:predicateType owl:AnnotationProperty
-                        ]
-              ] ;
-      forms:parentOf
-              [ rdf:type forms:Section ;
-                rdfs:label "Other Properties" ;
-                forms:childIndex 1 ;
-                forms:collapsed "true"^^xsd:boolean ;
-                forms:parentOf
-                        [ rdf:type forms:PropertyWidgetGroup ;
-                          forms:childIndex "0" ;
-                          forms:predicateType rdf:Property
-                        ]
-              ] ;
-      forms:parentOf
-              [ rdf:type forms:Section ;
-                rdfs:label "Incoming References" ;
-                forms:childIndex 3 ;
-                forms:collapsed "true"^^xsd:boolean ;
-                forms:parentOf
-                        [ rdf:type forms:ReferencesWidgetGroup ;
-                          forms:childIndex "1"
-                        ]
-              ] ;
-      forms:subjectType <http://purl.org/rvl/Interval> ;
-      forms:useDomain "true" .
-
-[]    rdf:type visual:Graph ;
-      rdfs:label "RVL Class Diagram" ;
-      visual:child
-              [ rdf:type visual:Box ;
-                visual:depicts <http://purl.org/rvl/PropertyToVisualAttributeMapping> ;
-                visual:height "35"^^xsd:int ;
-                visual:width "248"^^xsd:int ;
-                visual:x "531"^^xsd:int ;
-                visual:y "852"^^xsd:int
-              ] ;
-      visual:child
-              [ rdf:type visual:Box ;
-                visual:depicts <http://purl.org/rvl/RemoveTransitiveHull> ;
-                visual:height "35"^^xsd:int ;
-                visual:width "222"^^xsd:int ;
-                visual:x "1373"^^xsd:int ;
-                visual:y "247"^^xsd:int
-              ] ;
-      visual:child
-              [ rdf:type visual:Box ;
-                visual:depicts <http://purl.org/rvl/SubMappingRelation> ;
-                visual:height "53"^^xsd:int ;
-                visual:width "246"^^xsd:int ;
-                visual:x "1835"^^xsd:int ;
-                visual:y "205"^^xsd:int
-              ] ;
-      visual:child
-              [ rdf:type visual:Box ;
-                visual:depicts <http://purl.org/rvl/Mapping> ;
-                visual:height "35"^^xsd:int ;
-                visual:width "241"^^xsd:int ;
-                visual:x "435"^^xsd:int ;
-                visual:y "364"^^xsd:int
-              ] ;
-      visual:child
-              [ rdf:type visual:Box ;
-                visual:depicts <http://purl.org/rvl/UnifyWithInverseAndPickOne> ;
-                visual:height "35"^^xsd:int ;
-                visual:width "217"^^xsd:int ;
-                visual:x "1016"^^xsd:int ;
-                visual:y "239"^^xsd:int
-              ] ;
-      visual:child
-              [ rdf:type visual:Box ;
-                visual:depicts <http://purl.org/rvl/ManualValueMappings> ;
-                visual:height "53"^^xsd:int ;
-                visual:width "243"^^xsd:int ;
-                visual:x "346"^^xsd:int ;
-                visual:y "1100"^^xsd:int
-              ] ;
-      visual:child
-              [ rdf:type visual:Box ;
-                visual:depicts <http://purl.org/rvl/ValueMapping> ;
-                visual:height "35"^^xsd:int ;
-                visual:width "244"^^xsd:int ;
-                visual:x "525"^^xsd:int ;
-                visual:y "491"^^xsd:int
-              ] ;
-      visual:child
-              [ rdf:type visual:Box ;
-                visual:depicts <http://purl.org/rvl/ContinuousToContinuousMapping> ;
-                visual:height "35"^^xsd:int ;
-                visual:width "254"^^xsd:int ;
-                visual:x "857"^^xsd:int ;
-                visual:y "973"^^xsd:int
-              ] ;
-      visual:child
-              [ rdf:type visual:Box ;
-                visual:depicts <http://purl.org/rvl/DiscreteToContinuousMapping> ;
-                visual:height "53"^^xsd:int ;
-                visual:width "249"^^xsd:int ;
-                visual:x "-56"^^xsd:int ;
-                visual:y "971"^^xsd:int
-              ] ;
-      visual:child
-              [ rdf:type visual:Box ;
-                visual:depicts <http://purl.org/rvl/DiscreteToDiscreteMapping> ;
-                visual:height "35"^^xsd:int ;
-                visual:width "237"^^xsd:int ;
-                visual:x "278"^^xsd:int ;
-                visual:y "978"^^xsd:int
-              ] ;
-      visual:child
-              [ rdf:type visual:Box ;
-                visual:depicts <http://purl.org/rvl/ContinuousToDiscreteMapping> ;
-                visual:height "35"^^xsd:int ;
-                visual:width "251"^^xsd:int ;
-                visual:x "579"^^xsd:int ;
-                visual:y "976"^^xsd:int
-              ] ;
-      visual:child
-              [ rdf:type visual:Box ;
-                visual:depicts <http://purl.org/rvl/ConstantMapping> ;
-                visual:height "53"^^xsd:int ;
-                visual:width "254"^^xsd:int ;
-                visual:x "1259"^^xsd:int ;
-                visual:y "793"^^xsd:int
-              ] ;
-      visual:child
-              [ rdf:type visual:Box ;
-                visual:depicts <http://purl.org/rvl/ClassMapping> ;
-                visual:height "35"^^xsd:int ;
-                visual:width "244"^^xsd:int ;
-                visual:x "531"^^xsd:int ;
-                visual:y "583"^^xsd:int
-              ] ;
-      visual:child
-              [ rdf:type visual:Box ;
-                visual:depicts <http://purl.org/rvl/SubClassesMapping> ;
-                visual:height "35"^^xsd:int ;
-                visual:width "213"^^xsd:int ;
-                visual:x "-60"^^xsd:int ;
-                visual:y "1095"^^xsd:int
-              ] ;
-      visual:child
-              [ rdf:type visual:Box ;
-                visual:depicts <http://purl.org/rvl/PropertyMapping> ;
-                visual:height "53"^^xsd:int ;
-                visual:width "258"^^xsd:int ;
-                visual:x "133"^^xsd:int ;
-                visual:y "490"^^xsd:int
-              ] ;
-      visual:child
-              [ rdf:type visual:Box ;
-                visual:depicts <http://purl.org/rvl/MemberMapping> ;
-                visual:height "35"^^xsd:int ;
-                visual:width "193"^^xsd:int ;
-                visual:x "121"^^xsd:int ;
-                visual:y "1150"^^xsd:int
-              ] ;
-      visual:child
-              [ rdf:type visual:Box ;
-                visual:depicts <http://purl.org/rvl/Simplification> ;
-                visual:height "35"^^xsd:int ;
-                visual:width "172"^^xsd:int ;
-                visual:x "1230"^^xsd:int ;
-                visual:y "134"^^xsd:int
-              ] ;
-      visual:child
-              [ rdf:type visual:Box ;
-                visual:depicts <http://purl.org/rvl/IdentityMapping> ;
-                visual:height "89"^^xsd:int ;
-                visual:width "252"^^xsd:int ;
-                visual:x "1261"^^xsd:int ;
-                visual:y "872"^^xsd:int
-              ] ;
-      visual:child
-              [ rdf:type visual:Box ;
-                visual:depicts <http://purl.org/rvl/N-AryRelation> ;
-                visual:height "18"^^xsd:int ;
-                visual:width "139"^^xsd:int ;
-                visual:x "1759"^^xsd:int ;
-                visual:y "140"^^xsd:int
-              ] ;
-      visual:child
-              [ rdf:type visual:Box ;
-                visual:depicts <http://purl.org/rvl/IntervalMapping> ;
-                visual:height "53"^^xsd:int ;
-                visual:width "243"^^xsd:int ;
-                visual:x "873"^^xsd:int ;
-                visual:y "488"^^xsd:int
-              ] ;
-      visual:child
-              [ rdf:type visual:Box ;
-                visual:depicts <http://purl.org/rvl/PropertyToSyntacticStructureMapping> ;
-                visual:height "35"^^xsd:int ;
-                visual:width "264"^^xsd:int ;
-                visual:x "39"^^xsd:int ;
-                visual:y "608"^^xsd:int
-              ] ;
-      visual:depicts <http://purl.org/rvl/> .
-
-[]    rdf:type forms:Form ;
-      rdfs:label "Resource Form" ;
-      forms:parentOf
-              [ rdf:type forms:Panel ;
-                forms:childIndex 0 ;
-                forms:numColumns "2"^^xsd:int ;
-                forms:parentOf
-                        [ rdf:type forms:ComboBox ;
-                          forms:childIndex 1 ;
-                          forms:predicate <http://purl.org/rvl/subMapping_onRole>
-                        ] ;
-                forms:parentOf
-                        [ rdf:type forms:PropertyWidget ;
-                          forms:childIndex 0 ;
-                          forms:predicate <http://purl.org/rvl/subMapping_mapping>
-                        ]
-              ] ;
-      forms:subjectType <http://purl.org/rvl/SubMappingRelation> .
-
-[]    rdf:type forms:Form ;
-      rdfs:label "Resource Form" ;
-      forms:parentOf
-              [ rdf:type forms:Section ;
-                rdfs:label "Other Settings" ;
-                forms:childIndex 4 ;
-                forms:collapsed "true"^^xsd:boolean ;
-                forms:numColumns "2"^^xsd:int ;
-                forms:parentOf
-                        [ rdf:type forms:PropertyWidget ;
-                          forms:childIndex 3 ;
-                          forms:predicate <http://purl.org/rvl/passedTo>
-                        ] ;
-                forms:parentOf
-                        [ rdf:type forms:PropertyWidget ;
-                          forms:childIndex 2 ;
-                          forms:predicate <http://purl.org/rvl/inheritedBy>
-                        ] ;
-                forms:parentOf
-                        [ rdf:type forms:PropertyWidget ;
-                          forms:childIndex 0 ;
-                          forms:predicate <http://purl.org/rvl/missingSourceValue>
-                        ] ;
-                forms:parentOf
-                        [ rdf:type forms:PropertyWidget ;
-                          forms:childIndex 1 ;
-                          forms:predicate <http://purl.org/rvl/mapMissingValuesTo>
-                        ]
-              ] ;
-      forms:parentOf
-              [ rdf:type forms:Section ;
-                rdfs:label "Composition" ;
-                forms:childIndex 3 ;
-                forms:collapsed "true"^^xsd:boolean ;
-                forms:parentOf
-                        [ rdf:type forms:PropertyWidget ;
-                          forms:childIndex 1 ;
-                          forms:predicate <http://purl.org/rvl/subGraphic>
-                        ] ;
-                forms:parentOf
-                        [ rdf:type forms:PropertyWidget ;
-                          forms:childIndex 0 ;
-                          forms:predicate <http://purl.org/rvl/subMapping>
-                        ]
-              ] ;
-      forms:parentOf
-              [ rdf:type forms:Section ;
-                rdfs:label "Value mappings" ;
-                forms:childIndex 1 ;
-                forms:collapsed "true"^^xsd:boolean ;
-                forms:parentOf
-                        [ rdf:type forms:PropertyWidget ;
-                          forms:childIndex 1 ;
-                          forms:predicate <http://purl.org/rvl/missingValueMapping>
-                        ] ;
-                forms:parentOf
-                        [ rdf:type forms:Table ;
-                          forms:childIndex 0 ;
-                          forms:predicate <http://purl.org/rvl/valueMapping>
-                        ] ;
-                forms:parentOf
-                        [ rdf:type forms:PropertyWidget ;
-                          forms:childIndex 2 ;
-                          forms:predicate <http://purl.org/rvl/sourceValuesOutOfBounds>
-                        ]
-              ] ;
-      forms:parentOf
-              [ rdf:type forms:Section ;
-                rdfs:label "Filtering" ;
-                forms:childIndex 2 ;
-                forms:collapsed "true"^^xsd:boolean ;
-                forms:parentOf
-                        [ rdf:type forms:PropertyWidget ;
-                          forms:childIndex 1 ;
-                          forms:predicate <http://purl.org/rvl/subjectFilter>
-                        ] ;
-                forms:parentOf
-                        [ rdf:type forms:PropertyWidget ;
-                          forms:childIndex 0 ;
-                          forms:predicate <http://purl.org/rvl/objectFilter>
                         ]
               ] ;
       forms:parentOf
@@ -445,59 +289,82 @@
               ] ;
       forms:parentOf
               [ rdf:type forms:Section ;
-                rdfs:label "General Settings" ;
-                forms:childIndex 0 ;
+                rdfs:label "Filtering" ;
+                forms:childIndex 2 ;
+                forms:collapsed "true"^^xsd:boolean ;
                 forms:parentOf
-                        [ rdf:type forms:Panel ;
+                        [ rdf:type forms:PropertyWidget ;
                           forms:childIndex 0 ;
-                          forms:numColumns "2"^^xsd:int ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    forms:childIndex 4 ;
-                                    forms:predicate <http://purl.org/rvl/fallsBackTo>
-                                  ] ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    forms:childIndex 3 ;
-                                    forms:predicate <http://purl.org/rvl/includeInLegend>
-                                  ] ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    forms:childIndex 1 ;
-                                    forms:predicate <http://purl.org/rvl/targetGraphicRelation>
-                                  ] ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    forms:childIndex 0 ;
-                                    forms:predicate <http://purl.org/rvl/sourceProperty>
-                                  ] ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    forms:childIndex 2 ;
-                                    forms:predicate <http://purl.org/rvl/invertSourceProperty>
-                                  ]
+                          forms:predicate <http://purl.org/rvl/objectFilter>
+                        ] ;
+                forms:parentOf
+                        [ rdf:type forms:PropertyWidget ;
+                          forms:childIndex 1 ;
+                          forms:predicate <http://purl.org/rvl/subjectFilter>
                         ]
               ] ;
       forms:parentOf
               [ rdf:type forms:Section ;
-                rdfs:label "Annotations" ;
-                forms:childIndex 5 ;
+                rdfs:label "Value mappings" ;
+                forms:childIndex 1 ;
                 forms:collapsed "true"^^xsd:boolean ;
                 forms:parentOf
-                        [ rdf:type forms:PropertyWidgetGroup ;
-                          forms:childIndex "0" ;
-                          forms:predicateType owl:AnnotationProperty
+                        [ rdf:type forms:PropertyWidget ;
+                          forms:childIndex 2 ;
+                          forms:predicate <http://purl.org/rvl/sourceValuesOutOfBounds>
+                        ] ;
+                forms:parentOf
+                        [ rdf:type forms:Table ;
+                          forms:childIndex 0 ;
+                          forms:predicate <http://purl.org/rvl/valueMapping>
+                        ] ;
+                forms:parentOf
+                        [ rdf:type forms:PropertyWidget ;
+                          forms:childIndex 1 ;
+                          forms:predicate <http://purl.org/rvl/missingValueMapping>
                         ]
               ] ;
       forms:parentOf
               [ rdf:type forms:Section ;
-                rdfs:label "Other Properties" ;
-                forms:childIndex 6 ;
+                rdfs:label "Composition" ;
+                forms:childIndex 3 ;
                 forms:collapsed "true"^^xsd:boolean ;
                 forms:parentOf
-                        [ rdf:type forms:PropertyWidgetGroup ;
+                        [ rdf:type forms:PropertyWidget ;
                           forms:childIndex 0 ;
-                          forms:predicateType rdf:Property
+                          forms:predicate <http://purl.org/rvl/subMapping>
+                        ] ;
+                forms:parentOf
+                        [ rdf:type forms:PropertyWidget ;
+                          forms:childIndex 1 ;
+                          forms:predicate <http://purl.org/rvl/subGraphic>
+                        ]
+              ] ;
+      forms:parentOf
+              [ rdf:type forms:Section ;
+                rdfs:label "Other Settings" ;
+                forms:childIndex 4 ;
+                forms:collapsed "true"^^xsd:boolean ;
+                forms:numColumns "2"^^xsd:int ;
+                forms:parentOf
+                        [ rdf:type forms:PropertyWidget ;
+                          forms:childIndex 1 ;
+                          forms:predicate <http://purl.org/rvl/mapMissingValuesTo>
+                        ] ;
+                forms:parentOf
+                        [ rdf:type forms:PropertyWidget ;
+                          forms:childIndex 0 ;
+                          forms:predicate <http://purl.org/rvl/missingSourceValue>
+                        ] ;
+                forms:parentOf
+                        [ rdf:type forms:PropertyWidget ;
+                          forms:childIndex 2 ;
+                          forms:predicate <http://purl.org/rvl/inheritedBy>
+                        ] ;
+                forms:parentOf
+                        [ rdf:type forms:PropertyWidget ;
+                          forms:childIndex 3 ;
+                          forms:predicate <http://purl.org/rvl/passedTo>
                         ]
               ] ;
       forms:subjectType <http://purl.org/rvl/PropertyMapping> ;
@@ -506,207 +373,340 @@
 []    rdf:type forms:Form ;
       rdfs:label "Resource Form" ;
       forms:parentOf
+              [ rdf:type forms:Panel ;
+                forms:childIndex 0 ;
+                forms:numColumns "2"^^xsd:int ;
+                forms:parentOf
+                        [ rdf:type forms:PropertyWidget ;
+                          forms:childIndex 0 ;
+                          forms:predicate <http://purl.org/rvl/subMapping_mapping>
+                        ] ;
+                forms:parentOf
+                        [ rdf:type forms:ComboBox ;
+                          forms:childIndex 1 ;
+                          forms:predicate <http://purl.org/rvl/subMapping_onRole>
+                        ]
+              ] ;
+      forms:subjectType <http://purl.org/rvl/SubMappingRelation> .
+
+[]    rdf:type visual:Graph ;
+      rdfs:label "RVL Class Diagram" ;
+      visual:child
+              [ rdf:type visual:Box ;
+                visual:depicts <http://purl.org/rvl/PropertyToSyntacticStructureMapping> ;
+                visual:height "35"^^xsd:int ;
+                visual:width "264"^^xsd:int ;
+                visual:x "39"^^xsd:int ;
+                visual:y "608"^^xsd:int
+              ] ;
+      visual:child
+              [ rdf:type visual:Box ;
+                visual:depicts <http://purl.org/rvl/IntervalMapping> ;
+                visual:height "53"^^xsd:int ;
+                visual:width "243"^^xsd:int ;
+                visual:x "873"^^xsd:int ;
+                visual:y "488"^^xsd:int
+              ] ;
+      visual:child
+              [ rdf:type visual:Box ;
+                visual:depicts <http://purl.org/rvl/N-AryRelation> ;
+                visual:height "18"^^xsd:int ;
+                visual:width "139"^^xsd:int ;
+                visual:x "1759"^^xsd:int ;
+                visual:y "140"^^xsd:int
+              ] ;
+      visual:child
+              [ rdf:type visual:Box ;
+                visual:depicts <http://purl.org/rvl/IdentityMapping> ;
+                visual:height "89"^^xsd:int ;
+                visual:width "252"^^xsd:int ;
+                visual:x "1261"^^xsd:int ;
+                visual:y "872"^^xsd:int
+              ] ;
+      visual:child
+              [ rdf:type visual:Box ;
+                visual:depicts <http://purl.org/rvl/Simplification> ;
+                visual:height "35"^^xsd:int ;
+                visual:width "172"^^xsd:int ;
+                visual:x "1230"^^xsd:int ;
+                visual:y "134"^^xsd:int
+              ] ;
+      visual:child
+              [ rdf:type visual:Box ;
+                visual:depicts <http://purl.org/rvl/MemberMapping> ;
+                visual:height "35"^^xsd:int ;
+                visual:width "193"^^xsd:int ;
+                visual:x "121"^^xsd:int ;
+                visual:y "1150"^^xsd:int
+              ] ;
+      visual:child
+              [ rdf:type visual:Box ;
+                visual:depicts <http://purl.org/rvl/PropertyMapping> ;
+                visual:height "53"^^xsd:int ;
+                visual:width "258"^^xsd:int ;
+                visual:x "133"^^xsd:int ;
+                visual:y "490"^^xsd:int
+              ] ;
+      visual:child
+              [ rdf:type visual:Box ;
+                visual:depicts <http://purl.org/rvl/SubClassesMapping> ;
+                visual:height "35"^^xsd:int ;
+                visual:width "213"^^xsd:int ;
+                visual:x "-60"^^xsd:int ;
+                visual:y "1095"^^xsd:int
+              ] ;
+      visual:child
+              [ rdf:type visual:Box ;
+                visual:depicts <http://purl.org/rvl/ClassMapping> ;
+                visual:height "35"^^xsd:int ;
+                visual:width "244"^^xsd:int ;
+                visual:x "531"^^xsd:int ;
+                visual:y "583"^^xsd:int
+              ] ;
+      visual:child
+              [ rdf:type visual:Box ;
+                visual:depicts <http://purl.org/rvl/ConstantMapping> ;
+                visual:height "53"^^xsd:int ;
+                visual:width "254"^^xsd:int ;
+                visual:x "1259"^^xsd:int ;
+                visual:y "793"^^xsd:int
+              ] ;
+      visual:child
+              [ rdf:type visual:Box ;
+                visual:depicts <http://purl.org/rvl/ContinuousToDiscreteMapping> ;
+                visual:height "35"^^xsd:int ;
+                visual:width "251"^^xsd:int ;
+                visual:x "579"^^xsd:int ;
+                visual:y "976"^^xsd:int
+              ] ;
+      visual:child
+              [ rdf:type visual:Box ;
+                visual:depicts <http://purl.org/rvl/DiscreteToDiscreteMapping> ;
+                visual:height "35"^^xsd:int ;
+                visual:width "237"^^xsd:int ;
+                visual:x "278"^^xsd:int ;
+                visual:y "978"^^xsd:int
+              ] ;
+      visual:child
+              [ rdf:type visual:Box ;
+                visual:depicts <http://purl.org/rvl/DiscreteToContinuousMapping> ;
+                visual:height "53"^^xsd:int ;
+                visual:width "249"^^xsd:int ;
+                visual:x "-56"^^xsd:int ;
+                visual:y "971"^^xsd:int
+              ] ;
+      visual:child
+              [ rdf:type visual:Box ;
+                visual:depicts <http://purl.org/rvl/ContinuousToContinuousMapping> ;
+                visual:height "35"^^xsd:int ;
+                visual:width "254"^^xsd:int ;
+                visual:x "857"^^xsd:int ;
+                visual:y "973"^^xsd:int
+              ] ;
+      visual:child
+              [ rdf:type visual:Box ;
+                visual:depicts <http://purl.org/rvl/ValueMapping> ;
+                visual:height "35"^^xsd:int ;
+                visual:width "244"^^xsd:int ;
+                visual:x "525"^^xsd:int ;
+                visual:y "491"^^xsd:int
+              ] ;
+      visual:child
+              [ rdf:type visual:Box ;
+                visual:depicts <http://purl.org/rvl/ManualValueMappings> ;
+                visual:height "53"^^xsd:int ;
+                visual:width "243"^^xsd:int ;
+                visual:x "346"^^xsd:int ;
+                visual:y "1100"^^xsd:int
+              ] ;
+      visual:child
+              [ rdf:type visual:Box ;
+                visual:depicts <http://purl.org/rvl/UnifyWithInverseAndPickOne> ;
+                visual:height "35"^^xsd:int ;
+                visual:width "217"^^xsd:int ;
+                visual:x "1016"^^xsd:int ;
+                visual:y "239"^^xsd:int
+              ] ;
+      visual:child
+              [ rdf:type visual:Box ;
+                visual:depicts <http://purl.org/rvl/Mapping> ;
+                visual:height "35"^^xsd:int ;
+                visual:width "241"^^xsd:int ;
+                visual:x "435"^^xsd:int ;
+                visual:y "364"^^xsd:int
+              ] ;
+      visual:child
+              [ rdf:type visual:Box ;
+                visual:depicts <http://purl.org/rvl/SubMappingRelation> ;
+                visual:height "53"^^xsd:int ;
+                visual:width "246"^^xsd:int ;
+                visual:x "1835"^^xsd:int ;
+                visual:y "205"^^xsd:int
+              ] ;
+      visual:child
+              [ rdf:type visual:Box ;
+                visual:depicts <http://purl.org/rvl/RemoveTransitiveHull> ;
+                visual:height "35"^^xsd:int ;
+                visual:width "222"^^xsd:int ;
+                visual:x "1373"^^xsd:int ;
+                visual:y "247"^^xsd:int
+              ] ;
+      visual:child
+              [ rdf:type visual:Box ;
+                visual:depicts <http://purl.org/rvl/PropertyToVisualAttributeMapping> ;
+                visual:height "35"^^xsd:int ;
+                visual:width "248"^^xsd:int ;
+                visual:x "531"^^xsd:int ;
+                visual:y "852"^^xsd:int
+              ] ;
+      visual:depicts <http://purl.org/rvl/> .
+
+[]    rdf:type forms:Form ;
+      rdfs:label "Resource Form" ;
+      forms:parentOf
               [ rdf:type forms:Section ;
+                rdfs:label "Incoming References" ;
                 forms:childIndex 3 ;
-                forms:parentOf
-                        [ rdf:type forms:Label ;
-                          rdfs:label "List can be added by [ex:ListElement1 ex:ListElement2]" ;
-                          forms:childIndex 0
-                        ]
-              ] ;
-      forms:parentOf
-              [ rdf:type forms:Section ;
-                rdfs:label "Defining order and quantify" ;
-                forms:childIndex 5 ;
                 forms:collapsed "true"^^xsd:boolean ;
-                forms:numColumns "2"^^xsd:int ;
                 forms:parentOf
-                        [ rdf:type forms:Panel ;
-                          forms:childIndex 1 ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    forms:childIndex 1 ;
-                                    forms:predicate <http://purl.org/rvl/quantifyTargetValuesBy>
-                                  ] ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    forms:childIndex 0 ;
-                                    forms:predicate <http://purl.org/rvl/orderTargetValuesBy>
-                                  ] ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    forms:childIndex 2 ;
-                                    forms:predicate <http://purl.org/rvl/invertOrderOfTargetValues>
-                                  ]
-                        ] ;
-                forms:parentOf
-                        [ rdf:type forms:Panel ;
-                          forms:childIndex 0 ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    forms:childIndex 1 ;
-                                    forms:predicate <http://purl.org/rvl/quantifySourceValuesBy>
-                                  ] ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    forms:childIndex 0 ;
-                                    forms:predicate <http://purl.org/rvl/orderSourceValuesBy>
-                                  ]
-                        ]
-              ] ;
-      forms:parentOf
-              [ rdf:type forms:Section ;
-                rdfs:label "Source/Target Value Selection" ;
-                forms:childIndex 2 ;
-                forms:numColumns "2"^^xsd:int ;
-                forms:parentOf
-                        [ rdf:type forms:Panel ;
-                          forms:childIndex 1 ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    forms:childIndex 6 ;
-                                    forms:predicate <http://purl.org/rvl/excludeTargetValue>
-                                  ] ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    forms:childIndex 2 ;
-                                    forms:predicate <http://purl.org/rvl/targetValueSet>
-                                  ] ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    forms:childIndex 3 ;
-                                    forms:predicate <http://purl.org/rvl/targetValueOrderedSet>
-                                  ] ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    forms:childIndex 4 ;
-                                    forms:predicate <http://purl.org/rvl/targetValueList>
-                                  ] ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    forms:childIndex 5 ;
-                                    forms:predicate <http://purl.org/rvl/targetValueCycle>
-                                  ] ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    rdfs:label "... alternatively: define an interval of target values" ;
-                                    forms:autoExpand "false"^^xsd:string ;
-                                    forms:childIndex 1 ;
-                                    forms:predicate <http://purl.org/rvl/targetValueInterval>
-                                  ] ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    rdfs:label "Define one or more concrete target graphic values" ;
-                                    forms:autoExpand "false"^^xsd:string ;
-                                    forms:childIndex 0 ;
-                                    forms:predicate <http://purl.org/rvl/targetValue>
-                                  ]
-                        ] ;
-                forms:parentOf
-                        [ rdf:type forms:Panel ;
-                          forms:childIndex 0 ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    forms:childIndex 4 ;
-                                    forms:predicate <http://purl.org/rvl/excludeSourceValue>
-                                  ] ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    forms:childIndex 3 ;
-                                    forms:predicate <http://purl.org/rvl/sourceValueOrderedSet>
-                                  ] ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    forms:childIndex 2 ;
-                                    forms:predicate <http://purl.org/rvl/sourceValueSet>
-                                  ] ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    rdfs:label "... alternatively: define an interval of source values" ;
-                                    forms:autoExpand "false"^^xsd:string ;
-                                    forms:childIndex 1 ;
-                                    forms:predicate <http://purl.org/rvl/sourceValueInterval>
-                                  ] ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    rdfs:label "Define one or more concrete source values (e.g., \"Big\")" ;
-                                    forms:autoExpand "false"^^xsd:string ;
-                                    forms:childIndex 0 ;
-                                    forms:predicate <http://purl.org/rvl/sourceValue>
-                                  ]
-                        ]
-              ] ;
-      forms:parentOf
-              [ rdf:type forms:Section ;
-                rdfs:label "Settings for Ranges and Discretization" ;
-                forms:childIndex 4 ;
-                forms:collapsed "true"^^xsd:boolean ;
-                forms:numColumns "2"^^xsd:int ;
-                forms:parentOf
-                        [ rdf:type forms:Panel ;
-                          forms:childIndex 1 ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    forms:childIndex 2 ;
-                                    forms:predicate <http://purl.org/rvl/discreteStepSize>
-                                  ] ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    forms:childIndex 1 ;
-                                    forms:predicate <http://purl.org/rvl/discreteStepCount>
-                                  ] ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    forms:childIndex 0 ;
-                                    forms:predicate <http://purl.org/rvl/discretize>
-                                  ]
-                        ] ;
-                forms:parentOf
-                        [ rdf:type forms:Panel ;
-                          forms:childIndex 0 ;
-                          forms:parentOf
-                                  [ rdf:type forms:PropertyWidget ;
-                                    forms:childIndex 0 ;
-                                    forms:predicate <http://purl.org/rvl/sourceValuesLabel>
-                                  ]
-                        ]
-              ] ;
-      forms:parentOf
-              [ rdf:type forms:Section ;
-                rdfs:label "General Settings" ;
-                forms:childIndex 1 ;
-                forms:numColumns "2"^^xsd:int ;
-                forms:parentOf
-                        [ rdf:type forms:PropertyWidget ;
-                          forms:childIndex 1 ;
-                          forms:predicate <http://purl.org/rvl/fallsBackTo>
-                        ] ;
-                forms:parentOf
-                        [ rdf:type forms:PropertyWidget ;
-                          forms:childIndex 0 ;
-                          forms:predicate <http://purl.org/rvl/includeInLegend>
+                        [ rdf:type forms:ReferencesWidgetGroup ;
+                          forms:childIndex "1"
                         ]
               ] ;
       forms:parentOf
               [ rdf:type forms:Section ;
                 rdfs:label "Other Properties" ;
-                forms:childIndex 6 ;
+                forms:childIndex 1 ;
                 forms:collapsed "true"^^xsd:boolean ;
                 forms:parentOf
                         [ rdf:type forms:PropertyWidgetGroup ;
-                          forms:childIndex 0 ;
+                          forms:childIndex "0" ;
                           forms:predicateType rdf:Property
                         ]
               ] ;
       forms:parentOf
               [ rdf:type forms:Section ;
                 rdfs:label "Annotations" ;
-                forms:childIndex "0" ;
+                forms:childIndex 2 ;
+                forms:collapsed "true"^^xsd:boolean ;
                 forms:parentOf
                         [ rdf:type forms:PropertyWidgetGroup ;
                           forms:childIndex "0" ;
                           forms:predicateType owl:AnnotationProperty
                         ]
               ] ;
-      forms:subjectType <http://purl.org/rvl/ValueMapping> ;
+      forms:parentOf
+              [ rdf:type forms:Section ;
+                rdfs:label "Settings" ;
+                forms:childIndex 0 ;
+                forms:numColumns "2"^^xsd:int ;
+                forms:parentOf
+                        [ rdf:type forms:PropertyWidget ;
+                          forms:childIndex 1 ;
+                          forms:predicate <http://purl.org/rvl/upperBoundExcl>
+                        ] ;
+                forms:parentOf
+                        [ rdf:type forms:PropertyWidget ;
+                          forms:childIndex 0 ;
+                          forms:predicate <http://purl.org/rvl/upperBoundIncl>
+                        ] ;
+                forms:parentOf
+                        [ rdf:type forms:PropertyWidget ;
+                          forms:childIndex 3 ;
+                          forms:predicate <http://purl.org/rvl/lowerBoundExcl>
+                        ] ;
+                forms:parentOf
+                        [ rdf:type forms:PropertyWidget ;
+                          forms:childIndex 2 ;
+                          forms:predicate <http://purl.org/rvl/lowerBoundIncl>
+                        ] ;
+                forms:parentOf
+                        [ rdf:type forms:PropertyWidget ;
+                          forms:childIndex 4 ;
+                          forms:predicate rdfs:label
+                        ]
+              ] ;
+      forms:subjectType <http://purl.org/rvl/Interval> ;
+      forms:useDomain "true" .
+
+[]    rdf:type forms:Form ;
+      rdfs:label "Resource Form" ;
+      forms:parentOf
+              [ rdf:type forms:Section ;
+                rdfs:label "Incoming References" ;
+                forms:childIndex 4 ;
+                forms:collapsed "true"^^xsd:boolean ;
+                forms:parentOf
+                        [ rdf:type forms:ReferencesWidgetGroup ;
+                          forms:childIndex "1"
+                        ]
+              ] ;
+      forms:parentOf
+              [ rdf:type forms:Section ;
+                rdfs:label "Other Properties" ;
+                forms:childIndex 3 ;
+                forms:collapsed "true"^^xsd:boolean ;
+                forms:parentOf
+                        [ rdf:type forms:PropertyWidgetGroup ;
+                          forms:childIndex "0" ;
+                          forms:predicateType rdf:Property
+                        ]
+              ] ;
+      forms:parentOf
+              [ rdf:type forms:Section ;
+                rdfs:label "Annotations" ;
+                forms:childIndex 2 ;
+                forms:collapsed "true"^^xsd:boolean ;
+                forms:parentOf
+                        [ rdf:type forms:PropertyWidgetGroup ;
+                          forms:childIndex "0" ;
+                          forms:predicateType owl:AnnotationProperty
+                        ]
+              ] ;
+      forms:parentOf
+              [ rdf:type forms:Section ;
+                rdfs:label "General Settings" ;
+                forms:childIndex 0 ;
+                forms:numColumns "2"^^xsd:int ;
+                forms:parentOf
+                        [ rdf:type forms:Panel ;
+                          forms:childIndex 0 ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    forms:childIndex 0 ;
+                                    forms:predicate <http://purl.org/rvl/sourceValue>
+                                  ]
+                        ] ;
+                forms:parentOf
+                        [ rdf:type forms:Panel ;
+                          forms:childIndex 1 ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    forms:childIndex 1 ;
+                                    forms:predicate <http://purl.org/rvl/targetGraphicRelation>
+                                  ] ;
+                          forms:parentOf
+                                  [ rdf:type forms:PropertyWidget ;
+                                    forms:childIndex 0 ;
+                                    forms:predicate <http://purl.org/rvl/targetValue>
+                                  ]
+                        ]
+              ] ;
+      forms:parentOf
+              [ rdf:type forms:Section ;
+                rdfs:label "Inherite settings" ;
+                forms:childIndex 1 ;
+                forms:collapsed "true"^^xsd:boolean ;
+                forms:parentOf
+                        [ rdf:type forms:PropertyWidget ;
+                          forms:childIndex 0 ;
+                          forms:predicate <http://purl.org/rvl/inheritedBy>
+                        ] ;
+                forms:parentOf
+                        [ rdf:type forms:PropertyWidget ;
+                          forms:childIndex 1 ;
+                          forms:predicate <http://purl.org/rvl/passedTo>
+                        ]
+              ] ;
+      forms:subjectType <http://purl.org/rvl/ResourceMapping> ;
       forms:useDomain "true" .

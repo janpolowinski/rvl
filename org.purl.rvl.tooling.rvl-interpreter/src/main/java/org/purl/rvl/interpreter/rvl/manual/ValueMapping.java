@@ -131,7 +131,8 @@ public class ValueMapping extends Valuemapping {
 				sourceValuesUnorderedSet = new HashSet<Node>(ls);
 				
 				// do we need to merge them with an additionally defined set?
-				Container svs = this.getAllSourcevalueset_as().firstValue();
+				Container svs = 
+						this.getAllSourcevalueset_as().firstValue();
 				if (null!=svs) {
 					 // TODO add all values set via sourceValue to the container and store it as our new unordered set
 				}

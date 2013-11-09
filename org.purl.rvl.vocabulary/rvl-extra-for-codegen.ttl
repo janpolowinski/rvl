@@ -1,0 +1,36 @@
+@prefix :        <http://purl.org/rvl/> .
+@prefix bibo:    <http://purl.org/ontology/bibo/> .
+@prefix dct:     <http://purl.org/dc/terms/> .
+@prefix event:   <http://purl.org/NET/c4dm/event.owl#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix swstatus:  <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix viso-graphic:  <http://purl.org/viso/graphic/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+# multiple ranges will be interpreted as AND and therefore are wrong according to RDFS semantics, but RDFreactor requires this in order to generate appropriate methods:
+
+:targetValue
+      rdfs:range 
+      	viso-graphic:Visual_Attribute , rdfs:Literal;
+      rdfs:domain
+      	:ValueMapping, :PropertyToGraphicAttributeMapping;
+      . 
+      
+:sourceValue
+      rdfs:domain 
+      	:ValueMapping , :PropertyToGraphicAttributeMapping ;
+      .
+
+
+
+:sourceValueSet
+      rdfs:range rdfs:Container , rdf:List ;
+  	.
+  	
+:sourceValueOrderedSet
+      rdfs:range rdfs:Container , rdf:List ;
+  	.
+  	
