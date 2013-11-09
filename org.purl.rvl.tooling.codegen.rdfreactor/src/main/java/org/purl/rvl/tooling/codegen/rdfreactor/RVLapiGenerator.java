@@ -1,4 +1,4 @@
-package or.purl.rvl.tooling.codegen.rdfreactor;
+package org.purl.rvl.tooling.codegen.rdfreactor;
 
 import org.ontoware.rdf2go.Reasoning;
 import org.ontoware.rdfreactor.generator.CodeGenerator;

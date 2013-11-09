@@ -6,3 +6,5 @@
 *.log
 *.log.1
 /new.ttl
+/src/main/java/org/purl/rvl/interpreter/gen/
+/src/main/java/org/purl/rvl/interpreter/viso/
