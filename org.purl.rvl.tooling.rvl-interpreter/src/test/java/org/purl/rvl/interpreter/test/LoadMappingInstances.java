@@ -28,8 +28,7 @@ public class LoadMappingInstances {
 	final public static String REM_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl-example-mappings.ttl"; // HACK: references the file in the vocabularies project
 	final public static String REXD_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl-example-data.ttl"; // HACK: references the file in the vocabularies project
 	final public static String RVL_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl.owl"; // HACK: references the file in the vocabularies project
-	final public static String VISO_GRAPHIC_ABS = "/Users/Jan/Projekte/SemVis/SemVisTeilprojekte/VISO/modules/graphic/viso-graphic.owl"; // HACK: references the file in the vocabularies project
-	
+	final public static String VISO_LOCAL_REL = "../org.purl.rvl.vocabulary/viso-branch/viso-graphic-inference.ttl";
 	
 	private static Model model;
 	private static String mappingInstancesFileName = REM_LOCAL_REL;
@@ -52,7 +51,7 @@ public class LoadMappingInstances {
 	     model.readFrom(new FileReader(mappingInstancesFile), Syntax.Turtle);
 	     model.readFrom(new FileReader(RVL_LOCAL_REL), Syntax.RdfXml); // add RVL ontology explicitly from local file, since imports cannot be downloaded properly as it seems
 	     model.readFrom(new FileReader(REXD_LOCAL_REL), Syntax.Turtle); // add example data explicitly from local file, since imports cannot be downloaded properly as it seems
-	     model.readFrom(new FileReader(VISO_GRAPHIC_ABS), Syntax.RdfXml); // add example data explicitly from local file, since imports cannot be downloaded properly as it seems
+	     model.readFrom(new FileReader(VISO_LOCAL_REL), Syntax.Turtle); // add example data explicitly from local file, since imports cannot be downloaded properly as it seems
 	    } catch (IOException e) {
 	     e.printStackTrace();
 	    }

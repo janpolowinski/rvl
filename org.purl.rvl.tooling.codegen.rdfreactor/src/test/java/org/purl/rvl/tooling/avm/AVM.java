@@ -41,7 +41,8 @@ public class AVM {
 	private static Model modelVISO;
 	final private static String tmpAvmModelFileName = "avm.ttl";
 	final private static String VISO_GRAPHIC_FILE = "/Users/Jan/Projekte/SemVis/SemVisTeilprojekte/VISO/modules/graphic/viso-graphic-inference.ttl";
-	private static String jsonFileName = "/Users/Jan/Eclipse/Workspaces/Mac/Promotion/org.purl.rvl.tooling.d3vis/examples/force-directed-graph/data.json";
+	private static String jsonFileRelName = "../org.purl.rvl.tooling.d3vis/examples/force-directed-graph/data.json";
+	
 	
 	static final String NL =  System.getProperty("line.separator");
 	
@@ -238,11 +239,11 @@ public class AVM {
 	 */
 	public static void writeJSONToFile(String fileContent){
 		try {
-			FileWriter writer = new FileWriter(jsonFileName);
+			FileWriter writer = new FileWriter(jsonFileRelName);
 			writer.write(fileContent);
 			writer.flush();
 			writer.close();
-			System.out.println("JSON written to " + jsonFileName);
+			System.out.println("JSON written to " + jsonFileRelName);
 			// System.out.println(fileContent);
 		} catch (IOException e) {
 			e.printStackTrace();

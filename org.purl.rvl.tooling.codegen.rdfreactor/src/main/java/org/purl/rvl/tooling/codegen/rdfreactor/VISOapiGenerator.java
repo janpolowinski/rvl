@@ -19,9 +19,9 @@ public class VISOapiGenerator {
 	final public static File pathToGenCode = new File("src/main/java/");
 	
 	// ontologies
-	final public static String ONTOLOGY_URL = "/Users/Jan/Projekte/SemVis/SemVisTeilprojekte/VISO/modules/graphic/viso-graphic-inference.ttl";
+	final public static String ONTOLOGY_URL = "../org.purl.rvl.vocabulary/viso-branch/viso-graphic-inference.ttl";
 	
-	final public static String VISO_GRAPHIC_EXTRA = "/Users/Jan/Projekte/SemVis/SemVisTeilprojekte/VISO/modules/graphic/viso-graphic-extra-for-codegen.ttl";
+	final public static String VISO_GRAPHIC_EXTRA = "../org.purl.rvl.vocabulary/viso-branch/viso-graphic-extra-for-codegen.ttl";
 	
 	public static final String PACKAGE = "org.purl.rvl.interpreter.gen.viso.graphic";
 
