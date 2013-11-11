@@ -21,6 +21,7 @@ import org.ontoware.rdfreactor.schema.rdfs.Container;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.interpreter.mapping.CalculatedValueMapping;
 import org.purl.rvl.interpreter.rvl.Valuemapping;
+import org.purl.rvl.interpreter.rvl.VisualValueList;
 
 /**
  * @author Jan Polowinski
@@ -44,6 +45,8 @@ public class ValueMapping extends Valuemapping {
 	// SET OF ADDRESSED TARGET VALUES:
 	private int addressedTargetValueSituation = 0;
 	// ...
+	private Set<Node> targetValuesUnorderedSet; // disctinction necessary? or just store collection?
+	
 	
 	// Scale of Measurement
 	static final int SOM_UNKNOWN = 0;
@@ -144,9 +147,51 @@ public class ValueMapping extends Valuemapping {
 		}
 	}
 	
+	/**
+	 * determines the target values to be used in in this value mapping 
+	 * (as a basis for calculating the VM)
+	 */
 	private void determineAdressedTargetValues() {
-		// TODO Auto-generated method stub
-		
+		// is a target value defined?
+		long numberOfTargetValues = this.getAllTargetvalue_asNode_().asList().size(); 
+		if (numberOfTargetValues >= 1) {
+			
+			// is exactly 1 target value defined?
+			if (numberOfTargetValues == 1) {
+				addressedTargetValueSituation = 4;
+			} 
+			// if multiple target values are defined ...
+			else {
+				addressedTargetValueSituation = 3;
+				// store all values set via targetValue as our new unordered set
+				List<Node> ls = this.getAllTargetvalue_asNode_().asList(); // why Node? -> values may be resources or literals
+				targetValuesUnorderedSet = new HashSet<Node>(ls);
+				
+				// do we need to merge them with an additionally defined set?
+				VisualValueList vvl = 
+						this.getAllTargetvalueset_as().firstValue();
+				if (null!=vvl) {
+					 // TODO merge all values set via "targetValue" with the "visual value list" and store it as our new unordered set
+					List<Node> vvlJavaList = vvl.getAllMember_asNode_().asList();
+					targetValuesUnorderedSet.addAll(vvlJavaList);
+				}
+			}
+		}
+		// when "target value" is not defined
+		else {
+			// if a "target value set" is defined
+			if(this.hasTargetvalueset()) {
+				// TODO refactor redundant code
+				VisualValueList vvl = 
+						this.getAllTargetvalueset_as().firstValue();
+				if (null!=vvl) {
+					List<Node> vvlJavaList = vvl.getAllMember_asNode_().asList();
+					targetValuesUnorderedSet = new HashSet<Node>(vvlJavaList);
+				}
+
+			}
+			
+		}
 	}
 
 	/**
