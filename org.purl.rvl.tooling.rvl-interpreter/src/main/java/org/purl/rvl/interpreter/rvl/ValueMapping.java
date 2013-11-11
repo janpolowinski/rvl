@@ -39,7 +39,7 @@ public class ValueMapping extends Valuemapping {
 	static final int SINGLE_VALUE = 4;
 	private int addressedSourceValueSituation = 0;
 	// how to store a range? using interval? also as a list?
-	 private Set<Node> sourceValuesUnorderedSet; // disctinction necessary? or just store collection?
+	 private Set<org.ontoware.rdfreactor.schema.rdfs.Resource> sourceValuesUnorderedSet; // disctinction necessary? or just store collection?
 	// single source values do not need to be stored
 	
 	// SET OF ADDRESSED TARGET VALUES:
@@ -129,14 +129,16 @@ public class ValueMapping extends Valuemapping {
 				addressedSourceValueSituation = 3;
 				// store all values set via sourceValue as our new unordered set
 				// TODO: problem at the moment strings (literals) and resources are allowed, therefore node is used here. resource does not work somehow
-				List<Node> ls = this.getAllSourcevalue_asNode_().asList();
-				sourceValuesUnorderedSet = new HashSet<Node>(ls);
+				List<org.ontoware.rdfreactor.schema.rdfs.Resource> ls = this.getAllSourcevalue_as().asList();
+				sourceValuesUnorderedSet = new HashSet<org.ontoware.rdfreactor.schema.rdfs.Resource>(ls);
 				
 				// do we need to merge them with an additionally defined set?
 				Container svs = 
 						this.getAllSourcevalueset_as().firstValue();
 				if (null!=svs) {
-					 // TODO add all values set via sourceValue to the container and store it as our new unordered set
+					 // TODO merge all values set via sourceValue and the container and store it as our new unordered set
+						List<org.ontoware.rdfreactor.schema.rdfs.Resource> additionalSourceValuesFromSet = svs.getAllMember_as().asList();
+						sourceValuesUnorderedSet.addAll(additionalSourceValuesFromSet);
 				}
 			}
 		}
