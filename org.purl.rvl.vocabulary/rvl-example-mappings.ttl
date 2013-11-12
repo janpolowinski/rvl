@@ -259,7 +259,20 @@ rexm:PMwithValueMappingOf2Set2List
 			vg:Yellow
 		);
       ]
-      .             
+      .   
+      
+# C2a - nominal 2 ordinal (named set 2 named list) - 
+# PM with a VM that defines a mapping from a named set of source values to a named visual value list of target values     
+ rexm:PMwithValueMappingOfNamedSet2VisualValueList
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM with a VM that defines a mapping from a named set of source values to a named visual value list of target values"^^xsd:string ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetAttribute vg:color_named ;
+      rvl:valueMapping
+              [ rdf:type rvl:ValueMapping ;
+              	rvl:sourceValueSet rexm:ExampleNamedSourceValueList ;
+                rvl:targetValueList vg:OrderedSizeSteps
+              ] .               
             
 # C3 - nominal 2 nominal (set 2 set) - 
 # PM with a VM that defines a mapping between two (unordered) set of source and target values 
@@ -335,5 +348,12 @@ rexm:PMfromID2ColorNamed
       rdfs:label "PM from ID to color (used as a submapping)"^^xsd:string ;
  	  rvl:sourceProperty rvl:ID ;
  	  rvl:targetAttribute vg:color_named ;
-      .                
+      .              
+      
+
+rexm:ExampleNamedSourceValueList
+      rdf:type rdf:List ;
+      rdfs:label "Example named source value set"^^xsd:string ;
+      rdf:first rexd:Fiction ;
+      rdf:rest (rexd:Science  rexd:Spirituality) .  
               
