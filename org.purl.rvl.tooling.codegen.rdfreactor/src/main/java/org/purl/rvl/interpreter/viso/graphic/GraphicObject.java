@@ -49,11 +49,18 @@ public class GraphicObject extends
 		s += super.toString() + NL;
 		s += "Label: " + this.getAllLabel_as().firstValue() + NL;
 		try{
-			s += "Color (named): " + this.getAllColornamed_as().firstValue().getAllLabel_as().firstValue() + NL;
+			s += "Color (named) label: " + this.getAllColornamed_as().firstValue().getAllLabel_as().firstValue() + NL;
+			s += "Color (named) value: " + ((Color)this.getAllColornamed_as().firstValue().castTo(Color.class)).getColor_as_JavaAWT();
 		}
 		catch (NullPointerException e) {
-			System.err.println("no color or no label of color");
+			System.err.println("no named color or no label of color");
 		}
+//		try{
+//			s += "Color (rgb): " + this.getAllColornamed_as().firstValue().getAllLabel_as().firstValue() + NL;
+//		}
+//		catch (NullPointerException e) {
+//			System.err.println("no rgb color");
+//		}
 		// containment (binary)
 		try {
 			ClosableIterator<? extends org.purl.rvl.interpreter.gen.viso.graphic.GraphicObject> containeeIt =

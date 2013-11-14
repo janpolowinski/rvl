@@ -182,6 +182,11 @@ public class AVM {
 			GraphicObject endNode = (GraphicObject) endNodeIt.next().castTo(GraphicObject.class);
 			DirectedLinking dlRel = new DirectedLinking(model, true);
 			
+			// add exemplary color
+			org.purl.rvl.interpreter.viso.graphic.Color newColor = 
+					new org.purl.rvl.interpreter.viso.graphic.Color(0.5,0.5,1.0, model, true);
+			startNode.setColornamed(newColor);
+			
 			// create a connector and add exemplary color
 			GraphicObject connector = new GraphicObject(model, true);
 			connector.setColornamed(new Color(model, "http://purl.org/viso/graphic/Karmesin", true));
@@ -195,7 +200,7 @@ public class AVM {
 			dlRel.setLinkingconnector(connector);
 			startNode.setLinkedto(dlRel);
 			endNode.setLinkedfrom(dlRel);
-			//System.out.println(startNode);
+			System.out.println(startNode);
 		}
 	}
 	
