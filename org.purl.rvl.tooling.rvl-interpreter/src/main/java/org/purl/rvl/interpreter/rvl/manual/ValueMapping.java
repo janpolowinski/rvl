@@ -235,7 +235,7 @@ public class ValueMapping extends Valuemapping {
 	 * considered, which is stated for the source property.
 	 * @return
 	 */
-	private int determineScaleOfMeasurementOfSourceValues() {	
+	 private int determineScaleOfMeasurementOfSourceValues() {	
 		// is there a global SoM setting for the source property?
 		// such as:  ex:size rdfs:subPropertyOf viso-data:hasQuantitativeSoM
 		Property sp = getPropertyMapping().getAllSourceproperty_as().firstValue(); 
