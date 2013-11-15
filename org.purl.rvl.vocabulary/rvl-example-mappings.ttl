@@ -37,6 +37,24 @@ rexm:PMWithExplicitValueMappingsAsBlankNodes
       .
       
 # explicit value mappings - 
+# VARIANT: PM with explicit value mappings as blank nodes (to color named)
+rexm:PMWithExplicitValueMappingsAsBlankNodesToColorNamed
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "VARIANT: PM with explicit VM as blank nodes (to color named)"^^xsd:string ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Sci-Fi;
+        rvl:targetValue vg:Red;
+      ],[
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Biography;
+        rvl:targetValue vg:Green;
+      ]
+      .      
+      
+# explicit value mappings - 
 # PM with explicit value mappings as extra nodes (non-blank)
 rexm:PMWithExplicitValueMappings
       rdf:type rvl:PropertyMapping ;
