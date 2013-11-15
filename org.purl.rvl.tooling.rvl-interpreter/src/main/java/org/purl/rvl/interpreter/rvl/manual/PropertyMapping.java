@@ -11,7 +11,7 @@ import org.ontoware.rdfreactor.schema.rdfs.Property;
 public class PropertyMapping extends
 		org.purl.rvl.interpreter.rvl.PropertyMapping {
 
-	static final String NL =  System.getProperty("line.separator");
+static final String NL =  System.getProperty("line.separator");
 	
 	public PropertyMapping(Model model, URI classURI,
 			Resource instanceIdentifier, boolean write) {
