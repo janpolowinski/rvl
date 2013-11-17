@@ -1,4 +1,4 @@
-# Saved by TopBraid on Wed Nov 13 21:01:41 CET 2013
+# Saved by TopBraid on Thu Nov 14 21:28:39 CET 2013
 # baseURI: http://purl.org/viso/graphic/
 # imports: http://purl.org/viso/data/
 
@@ -507,7 +507,9 @@ viso-graphic:Green
       rdf:type viso-graphic:Color ;
       rdfs:label "Green"^^xsd:string ;
       viso-graphic:color_hsl_lightness
-              "50"^^xsd:float .
+              "50"^^xsd:float ;
+      viso-graphic:color_rgb
+              "#00FF00"^^xsd:string .
 
 viso-graphic:Grey
       rdf:type viso-graphic:Color ;
@@ -1083,7 +1085,9 @@ viso-graphic:Red
       rdf:type viso-graphic:Color ;
       rdfs:label "Red"^^xsd:string ;
       viso-graphic:color_hsl_lightness
-              "50"^^xsd:float .
+              "50"^^xsd:float ;
+      viso-graphic:color_rgb
+              "#FF0000"^^xsd:string .
 
 viso-graphic:Reference_Object
       rdf:type owl:Class ;
@@ -1632,7 +1636,9 @@ viso-graphic:Written_Text
               "stable"^^xsd:string .
 
 viso-graphic:Yellow
-      rdf:type viso-graphic:Color .
+      rdf:type viso-graphic:Color ;
+      viso-graphic:color_rgb
+              "#FFFF00"^^xsd:string .
 
 viso-graphic:adjacent_to_somehow
       rdf:type viso-graphic:GraphicObjectToObjectRelation ;
