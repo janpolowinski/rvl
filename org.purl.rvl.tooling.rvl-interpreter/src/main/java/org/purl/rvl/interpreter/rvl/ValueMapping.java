@@ -145,23 +145,23 @@ public class ValueMapping extends Valuemapping {
 		}
 		// when no source value is defined
 		else {
-			if(SOURCEVALUESET != null) {
+			if((SOURCEVALUESET).equals(null)) {
 				List<Node> cvn =this.getAllExcludesourcevalue_asNode_().asList();
-			   sourceValuesUnorderedSet= new HashSet<Node>(cvn);
+			  // remove(sourceValuesUnorderedSet);
 				//System.out.println(cvn);
 			}
 			else{
-				if(SOURCEFILTER!=null) {
+				if((SOURCEFILTER).equals(null)) {
 					determineScaleOfMeasurementOfSourceValues();
 				}
 				else {
-					if(SOURCEVALUEORDEREDSET!=null) {
+					if((SOURCEVALUEORDEREDSET).equals(null)) {
 						List<Node> lrs=this.getAllSourcevalueorderedset_asNode_().asList();
 						int q=lrs.hashCode();
 						//System.out.println("The ordered set is:"+q);
 					}
 				    	else {
-						 if(SOURCEINTERVAL!=null) {
+						 if((SOURCEINTERVAL).equals(null)) {
 							determineScaleOfMeasurementOfSourceValues();
 							if(determineScaleOfMeasurementOfSourceValues()== SOM_ORDINAL) {
 								List<Node> cvn =this.getAllExcludesourcevalue_asNode_().asList();
