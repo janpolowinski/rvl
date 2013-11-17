@@ -44,6 +44,7 @@ public class ValueMapping extends Valuemapping {
 	
 	// SET OF ADDRESSED TARGET VALUES:
 	private int addressedTargetValueSituation = 0;
+	
 	// ...
 	private Set<Node> targetValuesUnorderedSet; // disctinction necessary? or just store collection?
 	
