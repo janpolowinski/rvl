@@ -1,0 +1,28 @@
+{
+  "nodes":[
+    {"label":"Susane", "color_rgb_hex": "#cccccc", "shape_d3_name": "circle"},
+    {"label":"Lina", "color_rgb_hex": "#cccccc", "shape_d3_name": "circle"},
+    {"label":"John", "color_rgb_hex": "#ff0000", "shape_d3_name": "circle"},
+    {"label":"Christof", "color_rgb_hex": "#cccccc", "shape_d3_name": "circle"},
+    {"label":"John", "color_rgb_hex": "#cccccc", "shape_d3_name": "circle"},
+    {"label":"Bob", "color_rgb_hex": "#cccccc", "shape_d3_name": "circle"},
+    {"label":"Franzi", "color_rgb_hex": "#cccccc", "shape_d3_name": "circle"},
+    {"label":"Susane", "color_rgb_hex": "#cccccc", "shape_d3_name": "circle"},
+    {"label":"Luisa", "color_rgb_hex": "#cccccc", "shape_d3_name": "circle"},
+    {"label":"Franzi", "color_rgb_hex": "#cccccc", "shape_d3_name": "circle"},
+    {"label":"Susane", "color_rgb_hex": "#cccccc", "shape_d3_name": "circle"},
+    {"label":"Bob", "color_rgb_hex": "#cccccc", "shape_d3_name": "circle"},
+    {"label":"Christof", "color_rgb_hex": "#ff0000", "shape_d3_name": "circle"},
+    {"label":"Luisa", "color_rgb_hex": "#cccccc", "shape_d3_name": "circle"},
+    {"label":"John", "color_rgb_hex": "#cccccc", "shape_d3_name": "circle"},
+    {"label":"Lina", "color_rgb_hex": "#00ff00", "shape_d3_name": "circle"},
+    {"label":"Bob", "color_rgb_hex": "#cccccc", "shape_d3_name": "circle"},
+    {"label":"Bob", "color_rgb_hex": "#00ff00", "shape_d3_name": "circle"},
+    {"label":"Luisa", "color_rgb_hex": "#cccccc", "shape_d3_name": "circle"},
+    {"label":"Lina", "color_rgb_hex": "#cccccc", "shape_d3_name": "circle"},
+    {"label":"Bob", "color_rgb_hex": "#cccccc", "shape_d3_name": "circle"},
+    {"label":"Franzi", "color_rgb_hex": "#cccccc", "shape_d3_name": "circle"},
+    {"label":"Christof", "color_rgb_hex": "#cccccc", "shape_d3_name": "circle"},
+    {"label":"Bob", "color_rgb_hex": "#cccccc", "shape_d3_name": "circle"}
+  ]
+}

@@ -88,9 +88,6 @@ public class ValueMapping extends Valuemapping {
 	// TODO always return a collection?
 	public Collection<CalculatedValueMapping> getCalculatedValueMappings(){
 		calculateValueMappings();
-		
-		System.out.println("addressedSourceValueSituation: " + addressedSourceValueSituation);
-		
 		//cvms.add(new CalculatedValueMapping("forest","green"));
 		//cvms.add(new CalculatedValueMapping("desert","yellow"));
 		//cvms.add(new CalculatedValueMapping("sea","blue"));
@@ -217,11 +214,10 @@ public class ValueMapping extends Valuemapping {
 	public String toString() {
 		String s = "";
 		s += getCalculatedValueMappings() + NL;
-		s += "  used in PM: " + getPropertyMapping().getAllLabel_as().firstValue() + NL;
-		s += "  SoM of SP: " + getSomName(determineScaleOfMeasurementOfSourceValues()) + NL;
-		s += "  SoM of TV: " + getSomName(determineScaleOfMeasurementOfTargetValues()) + NL;
-		getPropertyMapping();
-		return s + "further describe VM here" + NL;
+		//s += "  used in PM: " + getPropertyMapping().getAllLabel_as().firstValue() + NL;
+		s += "	SoM of SP: " + getSomName(determineScaleOfMeasurementOfSourceValues()) + NL;
+		s += "	SoM of TV: " + getSomName(determineScaleOfMeasurementOfTargetValues()) + NL;
+		return s + NL;
 	}
 	
 	private int determineScaleOfMeasurementOfTargetValues() {

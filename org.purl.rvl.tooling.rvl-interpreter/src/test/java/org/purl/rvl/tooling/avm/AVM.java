@@ -21,16 +21,26 @@ import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.QueryResultTable;
 import org.ontoware.rdf2go.model.QueryRow;
+import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.Syntax;
+import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.URI;
+import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
+import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.ontoware.rdfreactor.schema.rdfs.Resource;
+import org.purl.rvl.interpreter.gen.rvl.GraphicAttribute;
 import org.purl.rvl.interpreter.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.interpreter.gen.viso.graphic.Color;
 import org.purl.rvl.interpreter.gen.viso.graphic.DirectedLinking;
+import org.purl.rvl.interpreter.gen.viso.graphic.Shape;
+import org.purl.rvl.interpreter.gen.viso.graphic.Thing1;
+import org.purl.rvl.interpreter.rvl.InsufficientMappingSpecificationExecption;
+import org.purl.rvl.interpreter.rvl.PropertyMapping;
 import org.purl.rvl.interpreter.rvl.PropertyToGraphicAttributeMapping;
 import org.purl.rvl.interpreter.viso.graphic.GraphicObject;
 import org.purl.rvl.interpreter.viso.graphic.GraphicSpace;
+import org.purl.rvl.interpreter.viso.graphic.ShapeX;
 
 /**
  * @author Jan Polowinski
@@ -42,7 +52,7 @@ public class AVM {
 	private static Model modelVISO;
 	
 	final private static String tmpAvmModelFileName = "avm.ttl";
-	private static String jsonFileRelName = "../org.purl.rvl.tooling.d3vis/examples/force-directed-graph/data.json";
+	private static String jsonFileRelName = "../org.purl.rvl.tooling.d3vis/examples/force-layouted-nodes/data.json";
 	
 	final public static String REM_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl-example-mappings.ttl"; // HACK: references the file in the vocabularies project
 	final public static String REXD_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl-example-data.ttl"; // HACK: references the file in the vocabularies project
@@ -82,49 +92,106 @@ public class AVM {
 			}
 
 	}
-	
-	private static GraphicSpace mainGS;
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		initRDF2GoModel();
-
-		mainGS = new GraphicSpace();
-		mainGS.addGraphicObject(new GraphicObject(model,"http://purl.org/rvl/example-avm/GO_for_" + "res1", true));
-		mainGS.addGraphicObject(new GraphicObject(model,"http://purl.org/rvl/example-avm/GO_for_" + "res2", true));
 		
-		GraphicObject coloredGO = new GraphicObject(model,"http://purl.org/rvl/example-avm/GO_for_" + "res3", true);
-		Color newColor = new Color(model,"http://purl.org/rvl/example-avm/ANewColorRed", true);
-		coloredGO.setColornamed(newColor);
-		
-		coloredGO.addContains(new GraphicObject(model, "http://purl.org/rvl/example-avm/GO_for_res3", true));
-
-		  
+		Random random = new Random();
 		Set<PropertyToGraphicAttributeMapping> setOfSimpleP2GAMappings = getAllP2GAMappingsWithExplicitMappings();
-
+		
+		// for each simple mapping
 		for (Iterator<PropertyToGraphicAttributeMapping> iterator = setOfSimpleP2GAMappings
 				.iterator(); iterator.hasNext();) {
-			PropertyToGraphicAttributeMapping p2gam = (PropertyToGraphicAttributeMapping) iterator
-					.next();
-			System.out.println(p2gam);
-
+			PropertyToGraphicAttributeMapping p2gam = (PropertyToGraphicAttributeMapping) iterator.next();
+			//System.out.println(p2gam);
+			
+			// get the mapping table SV->TV
+			Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
+			
+			PropertyMapping pm = (PropertyMapping) p2gam.castTo(PropertyMapping.class);
+			try {
+				Set<org.ontoware.rdf2go.model.node.Resource> subjectSet;
+				subjectSet = pm.getAffectedResources();
+				Property sp = pm.getAllSourceproperty_as().firstValue();
+				GraphicAttribute tga = p2gam.getAllTargetattribute_as().firstValue();
+				
+				// for each affected resource
+				for (Iterator<org.ontoware.rdf2go.model.node.Resource> iterator2 = subjectSet.iterator(); iterator2.hasNext();) {
+					org.ontoware.rdf2go.model.node.Resource resource = iterator2.next().asResource(); // strange: unlike in the toString() method of PM, we cannot simply cast to resource here, only to URI!
+					//System.out.println("affects: " + resource +  NL);
+					
+					
+					// create a GO for each affected resource
+				    GraphicObject go = new GraphicObject(model,"http://purl.org/rvl/example-avm/GO_" + random.nextInt(), true);
+			    	Node sv = null;
+				    
+				    // get the (first) source value of the resource for the mapped property
+				    ClosableIterator<Statement> resSpStmtIt = model.findStatements(resource, sp.asURI(), Variable.ANY);
+					while (resSpStmtIt.hasNext()) {
+						Statement statement = (Statement) resSpStmtIt.next();
+						sv = statement.getObject();
+						//System.out.println(sv);
+						
+					}
+								
+					// get the target value for the sv
+			    	Node tv = svUriTVuriMap.get(sv);
+			    	
+			    	if(tv!=null) {
+				    	// if we are mapping to named colors
+					    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/color_named")) {
+					    	Color color = Color.getInstance(model, tv.asURI());
+					    	go.setColornamed(color);
+					    	//System.out.println("set color to " + color + " for sv " + sv);
+					    }
+					    
+				    	// if we are mapping to named shapes
+					    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/shape_named")) {
+					    	Shape shape = ShapeX.getInstance(model, tv.asURI());
+					    	go.setShapenamed(shape);
+					    	//System.out.println("set shape to " + shape + " for sv " + sv + NL);
+					    }
+			    	}
+				    
+				    // perform the default label mapping, when not already set
+				    // TODO this is simply using rdfs:label of the GOs now, not the n-ary graphic labeling!
+				    // only rdfreactor resources have labels ...
+					if(!go.hasLabels()) {
+						performDefaultLabelMapping(go,resource);
+					}
+				}
+			} catch (InsufficientMappingSpecificationExecption e) {
+				System.err.println("No resources affected, since mapping insuffiently specified.");
+				e.printStackTrace();
+			} 
+			
+				
+			
 		}
+		
+
 		  
-		
-		
-		createTestGOs();
-		useLinkingDirected();
+		//createTestGOs();
+		//useLinkingDirected();
 		//useContainment();
 		generateJSONforD3();
 		listAllGOs();
 		
-		//writeToFile();
+		writeToFile();
 	}
 	
 
 	
+	private static void performDefaultLabelMapping(GraphicObject go,
+			org.ontoware.rdf2go.model.node.Resource resource) {
+		// Thing OK? What is domain of rdfs:label? rdfreactor.Resource does not work
+		Resource r = Thing1.getInstance(model, resource);
+		go.setLabel(r.getAllLabel_as().firstValue());
+	}
+
 	public static void createTestGOs(){
 		Random random = new Random();
 		float positionX = 0;
@@ -250,6 +317,9 @@ public class AVM {
 		}		
 	}
 
+	/**
+	 * Lists all Graphic Objects in the model
+	 */
 	private static void listAllGOs(){	
 		ClosableIterator<? extends org.purl.rvl.interpreter.gen.viso.graphic.GraphicObject> goIt = 
 				org.purl.rvl.interpreter.gen.viso.graphic.GraphicObject.getAllInstances_as(model).asClosableIterator();
@@ -260,7 +330,8 @@ public class AVM {
 	}
 	
 	/**
-	 * save avm model to tmp file
+	 * Saves the whole Model to a tmp file 
+	 * TODO: does not currently filter out non-avm triples!
 	 */
 	public static void writeToFile(){
 
@@ -276,7 +347,7 @@ public class AVM {
 	}
 	
 	/**
-	 * save to JSON file
+	 * Saves a String to JSON file
 	 */
 	public static void writeJSONToFile(String fileContent){
 		try {
@@ -292,6 +363,10 @@ public class AVM {
 	}
 	
 	
+	/**
+	 * Manually generates JSON from the AVM
+	 * TODO: replace with SimpleJSON or Jaxtor
+	 */
 	public static void generateJSONforD3(){
 		
 		org.purl.rvl.interpreter.gen.viso.graphic.GraphicObject[] goArray = 
@@ -315,24 +390,43 @@ public class AVM {
 			GraphicObject startNode = (GraphicObject) goArray[i].castTo(GraphicObject.class);
 			
 			//color
-			String startNodeColorHex = "";
+			String startNodeColorRGBHex = "";
 			try {
 				if(startNode.hasColornamed()) {
 					org.purl.rvl.interpreter.viso.graphic.Color startNodeColor = (org.purl.rvl.interpreter.viso.graphic.Color) startNode.getAllColornamed_as().firstValue().castTo(org.purl.rvl.interpreter.viso.graphic.Color.class);
-					startNodeColorHex = startNodeColor.toHexString();
+					startNodeColorRGBHex = startNodeColor.toHexString();
 				}
 			} catch (NullPointerException e) {
 				System.err.println("No RGB values found, using default color");
 			}
-			if (startNodeColorHex.equals("")) {
-				startNodeColorHex = org.purl.rvl.interpreter.viso.graphic.Color.getDefaultColorHex();
+			if (startNodeColorRGBHex.equals("")) {
+				startNodeColorRGBHex = org.purl.rvl.interpreter.viso.graphic.Color.getDefaultColorHex();
 			}
 			
-			s += "    {\"name\":\"" + startNode.getAllLabel_as().firstValue() + "\", \"group\": \"" + startNodeColorHex + "\"}";
+			// shape
+			String startNodeShapeD3Name = "";
+			try {
+				if(startNode.hasShapenamed()) {
+					ShapeX startNodeShape = (ShapeX) startNode.getAllShapenamed_as().firstValue().castTo(ShapeX.class);
+					startNodeShapeD3Name = startNodeShape.toD3Name();
+				}
+			} catch (NullPointerException e) {
+				System.err.println("No RGB values found, using default color");
+			}
+			if (startNodeShapeD3Name.equals("")) {
+				startNodeShapeD3Name = ShapeX.getDefaultD3Name();
+			}
+			
+			s += "    {\"label\":\"" + startNode.getAllLabel_as().firstValue() + "\"," +
+				     " \"color_rgb_hex\": \"" + startNodeColorRGBHex + "\"," +
+				     " \"shape_d3_name\": \"" + startNodeShapeD3Name + "\"" +
+				     "}"
+				     ;
 			if (i<goArray.length-1) s += ",";
 			s += NL;
 		}
 		
+		/*
 		s += "  ]," + NL;
 		s += "  \"links\":[" + NL;
 		
@@ -357,16 +451,14 @@ public class AVM {
 		// hack: remove last "," and add new NL
 		s=s.substring(0,s.lastIndexOf(",")) + NL;
 		
+		*/
+		
 		s += "  ]" + NL;
 		s += "}" + NL;
 		
 		writeJSONToFile(s);
 	}
 	
-	public void buildAVMFromSimpleRVLMappings(){
-		
-		
-	}
 	
 	/**
 	 * Get all the mappings that require no calculation, because they only have explicit 1-1-value-mappings

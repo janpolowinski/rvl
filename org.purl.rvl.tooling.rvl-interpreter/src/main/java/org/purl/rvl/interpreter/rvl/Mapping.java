@@ -51,13 +51,13 @@ public class Mapping extends org.purl.rvl.interpreter.gen.rvl.Mapping {
 		
 		// label
 		if (null != label) {
-			s += "from M(m):" + label + NL;
+			s += "Label: " + label + NL;
 		} else {
-			s += "from M(m):Mapping without label (" + super.toString() + ")" + NL;
+			s += "Mapping without label (" + super.toString() + ")" + NL;
 		}
 		// legends
 		if (null!=includeInLegend && includeInLegend) {
-			s += "	from M(m):Mapping will be included in legends." + NL;
+			s += "Mapping will be included in legends." + NL;
 		}
 		
 		return s;

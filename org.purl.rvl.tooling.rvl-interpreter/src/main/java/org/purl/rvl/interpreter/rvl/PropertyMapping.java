@@ -1,11 +1,19 @@
 package org.purl.rvl.interpreter.rvl;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+import javax.naming.InsufficientResourcesException;
+
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
+import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
+import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 
 public class PropertyMapping extends
@@ -50,9 +58,51 @@ public class PropertyMapping extends
 		
 		Property sp = this.getAllSourceproperty_as().firstValue();
 		//Property tgr = this.getAllTargetgraphicrelation_abstract__as().firstValue();
-		s += "from PM(m): source property: " + sp.getAllLabel_as().firstValue() + NL;
-		s += "from PM(m): target graphic relation: " + this.getAllTargetgraphicrelation_abstract__as().firstValue() + NL ;
+		s += "source property: " + sp.getAllLabel_as().firstValue() + NL;
+		s += "target graphic relation: " + this.getAllTargetgraphicrelation_abstract__as().firstValue() + NL ;
+		
+		// affected resources:
+		Set<Resource> subjectSet;
+		try {
+			subjectSet = getAffectedResources();
+			for (Iterator<Resource> iterator = subjectSet.iterator(); iterator.hasNext();) {
+				Resource resource = (Resource) iterator.next();
+				s += "affects: " + resource +  NL;
+			}
+			s+= NL;
+		} catch (InsufficientMappingSpecificationExecption e) {
+			e.printStackTrace();
+		}
+				
 		return s;
+	}
+	
+	/**
+	 * Get the resources affected by this property mapping, i.e.,
+	 * all resources used as a subject in statements with the source property 
+	 * defined in this mapping.
+	 * @return
+	 */
+	public Set<Resource> getAffectedResources() throws InsufficientMappingSpecificationExecption {
+		
+		Set<Resource> subjectSet = new HashSet<Resource>();
+		Property sp = null;
+		try {
+			sp = getAllSourceproperty_as().firstValue();
+		} 
+		catch (Exception e) {
+			System.err.println("Mapping insuffienctly specified: Missing sourceproperty");
+			// TODO: handle exception
+		}
+		//throw new InsufficientResourcesException();
+
+		ClosableIterator<Statement> spStIt = model.findStatements(Variable.ANY, sp.asURI(), Variable.ANY);
+		while (spStIt.hasNext()) {
+			Statement statement = (Statement) spStIt.next();
+			//System.out.println(statement.getSubject());
+			subjectSet.add(statement.getSubject());
+		}
+		return subjectSet;
 	}
 	
 
