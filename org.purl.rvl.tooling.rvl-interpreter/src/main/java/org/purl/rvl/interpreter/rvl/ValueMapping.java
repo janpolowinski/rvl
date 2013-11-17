@@ -44,6 +44,7 @@ public class ValueMapping extends Valuemapping {
 	
 	// SET OF ADDRESSED TARGET VALUES:
 	private int addressedTargetValueSituation = 0;
+	
 	// ...
 	private Set<Node> targetValuesUnorderedSet; // disctinction necessary? or just store collection?
 	
@@ -121,6 +122,7 @@ public class ValueMapping extends Valuemapping {
 			// is exactly 1 source value defined?
 			if (numberOfSourceValues == 1) {
 				addressedSourceValueSituation = 4;
+				
 			} 
 			// if multiple source values are defined ...
 			else {
@@ -140,7 +142,33 @@ public class ValueMapping extends Valuemapping {
 		}
 		// when no source value is defined
 		else {
-			
+			if((SOURCEVALUESET).equals(null)) {
+				List<Node> cvn =this.getAllExcludesourcevalue_asNode_().asList();
+			  // remove(sourceValuesUnorderedSet);
+				//System.out.println(cvn);
+			}
+			else{
+				if((SOURCEFILTER).equals(null)) {
+					determineScaleOfMeasurementOfSourceValues();
+				}
+				else {
+					if((SOURCEVALUEORDEREDSET).equals(null)) {
+						List<Node> lrs=this.getAllSourcevalueorderedset_asNode_().asList();
+						int q=lrs.hashCode();
+						//System.out.println("The ordered set is:"+q);
+					}
+				    	else {
+						 if((SOURCEINTERVAL).equals(null)) {
+							determineScaleOfMeasurementOfSourceValues();
+							if(determineScaleOfMeasurementOfSourceValues()== SOM_ORDINAL) {
+								List<Node> cvn =this.getAllExcludesourcevalue_asNode_().asList();
+								   sourceValuesUnorderedSet= new HashSet<Node>(cvn);	
+							}
+							 else {int l=CONTINUOUS_RANGE; }
+						}
+					}
+				}
+			}
 		}
 	}
 	
@@ -231,7 +259,7 @@ public class ValueMapping extends Valuemapping {
 	 * considered, which is stated for the source property.
 	 * @return
 	 */
-	private int determineScaleOfMeasurementOfSourceValues() {	
+	 private int determineScaleOfMeasurementOfSourceValues() {	
 		// is there a global SoM setting for the source property?
 		// such as:  ex:size rdfs:subPropertyOf viso-data:hasQuantitativeSoM
 		Property sp = getPropertyMapping().getAllSourceproperty_as().firstValue(); 
