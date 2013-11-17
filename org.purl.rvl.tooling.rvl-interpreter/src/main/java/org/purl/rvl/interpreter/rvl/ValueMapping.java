@@ -47,7 +47,7 @@ public class ValueMapping extends Valuemapping {
 	
 	// ...
 	private Set<Node> targetValuesUnorderedSet; // disctinction necessary? or just store collection?
-	
+	int ac;
 	
 	// Scale of Measurement
 	static final int SOM_UNKNOWN = 0;
@@ -145,23 +145,23 @@ public class ValueMapping extends Valuemapping {
 		}
 		// when no source value is defined
 		else {
-			if((SOURCEVALUESET).equals(null)) {
+			if(!SOURCEVALUESET.equals(null)) {
 				List<Node> cvn =this.getAllExcludesourcevalue_asNode_().asList();
 			  // remove(sourceValuesUnorderedSet);
 				//System.out.println(cvn);
 			}
 			else{
-				if((SOURCEFILTER).equals(null)) {
+				if(!SOURCEFILTER.equals(null)) {
 					determineScaleOfMeasurementOfSourceValues();
 				}
 				else {
-					if((SOURCEVALUEORDEREDSET).equals(null)) {
+					if(!SOURCEVALUEORDEREDSET.equals(null)) {
 						List<Node> lrs=this.getAllSourcevalueorderedset_asNode_().asList();
 						int q=lrs.hashCode();
 						//System.out.println("The ordered set is:"+q);
 					}
 				    	else {
-						 if((SOURCEINTERVAL).equals(null)) {
+						 if(!SOURCEINTERVAL.equals(null)) {
 							determineScaleOfMeasurementOfSourceValues();
 							if(determineScaleOfMeasurementOfSourceValues()== SOM_ORDINAL) {
 								List<Node> cvn =this.getAllExcludesourcevalue_asNode_().asList();
@@ -189,7 +189,7 @@ public class ValueMapping extends Valuemapping {
 				addressedTargetValueSituation = 4;
 			} 
 			// if multiple target values are defined ...
-			else {
+			 else {
 				addressedTargetValueSituation = 3;
 				// store all values set via targetValue as our new unordered set
 				List<Node> ls = this.getAllTargetvalue_asNode_().asList(); // why Node? -> values may be resources or literals
