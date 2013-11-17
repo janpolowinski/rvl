@@ -124,6 +124,7 @@ public class ValueMapping extends Valuemapping {
 			// is exactly 1 source value defined?
 			if (numberOfSourceValues == 1) {
 				addressedSourceValueSituation = 4;
+				
 			} 
 			// if multiple source values are defined ...
 			else {
@@ -143,7 +144,33 @@ public class ValueMapping extends Valuemapping {
 		}
 		// when no source value is defined
 		else {
-			
+			if(SOURCEVALUESET != null) {
+				List<Node> cvn =this.getAllExcludesourcevalue_asNode_().asList();
+			   sourceValuesUnorderedSet= new HashSet<Node>(cvn);
+				//System.out.println(cvn);
+			}
+			else{
+				if(SOURCEFILTER!=null) {
+					determineScaleOfMeasurementOfSourceValues();
+				}
+				else {
+					if(SOURCEVALUEORDEREDSET!=null) {
+						List<Node> lrs=this.getAllSourcevalueorderedset_asNode_().asList();
+						int q=lrs.hashCode();
+						//System.out.println("The ordered set is:"+q);
+					}
+				    	else {
+						 if(SOURCEINTERVAL!=null) {
+							determineScaleOfMeasurementOfSourceValues();
+							if(determineScaleOfMeasurementOfSourceValues()== SOM_ORDINAL) {
+								List<Node> cvn =this.getAllExcludesourcevalue_asNode_().asList();
+								   sourceValuesUnorderedSet= new HashSet<Node>(cvn);	
+							}
+							 else {int l=CONTINUOUS_RANGE; }
+						}
+					}
+				}
+			}
 		}
 	}
 	
