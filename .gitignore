@@ -4,3 +4,11 @@
 *.jar
 *.war
 *.ear
+
+org.purl.rvl.tooling.rvl-interpreter/.classpath
+
+org.purl.rvl.tooling.codegen.rdfreactor/.classpath
+
+org.purl.rvl.tooling.rvl-interpreter/avm.ttl
+
+*.prefs

@@ -82,7 +82,7 @@ public class LoadMappingInstances {
 //		  System.out.println("LLLLLLLLLLLLLLLLLLLLLLLLLLLL" + System.getProperty("line.separator"));
 //		  
 
-		   //listAllMappings();
+		  listAllMappings();
 
 		   
 		// testMappingCreation()	

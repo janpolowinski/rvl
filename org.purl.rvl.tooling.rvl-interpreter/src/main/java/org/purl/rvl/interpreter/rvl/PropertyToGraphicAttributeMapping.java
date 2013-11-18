@@ -60,6 +60,8 @@ public class PropertyToGraphicAttributeMapping extends
 			s += "		" + vm +  NL;
 		}
 		
+		/*
+		// seems to cause an exception, but not on every machine?! "java.lang.UnsupportedOperationException: Variable (Singleton) cannot be used for SPARQL queries"
 		s += "Explicit (simple 1-1) VMs:" + NL;
 		Map<Node, Node> map = getExplicitlyMappedValues();
 		Set<Entry<Node, Node>> set = map.entrySet();
@@ -67,6 +69,7 @@ public class PropertyToGraphicAttributeMapping extends
 			Entry<Node, Node> svURItvURIPair = (Entry<Node, Node>) iterator.next();
 			s+= "	" + svURItvURIPair.getKey() + " --> " + svURItvURIPair.getValue() + NL;
 		}
+		*/
 		return s;
 	}
 	
@@ -78,6 +81,7 @@ public class PropertyToGraphicAttributeMapping extends
 	public Map<Node, Node> getExplicitlyMappedValues(){
 		
 		Map<Node, Node> map = new HashMap<Node, Node>();
+	
 		
 		// get all subjects and the sv/tv table via SPARQL
 				String querySubjectsAndSVtoTVMapForGivenProperty = "" +
@@ -93,6 +97,7 @@ public class PropertyToGraphicAttributeMapping extends
 		for(QueryRow row : explMapResults) {
 			map.put(row.getValue("sv"),row.getValue("tv"));
 		}
+		
 
 		return map;
 		

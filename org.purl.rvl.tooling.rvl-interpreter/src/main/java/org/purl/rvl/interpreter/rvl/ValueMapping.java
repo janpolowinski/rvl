@@ -142,7 +142,7 @@ public class ValueMapping extends Valuemapping {
 		}
 		// when no source value is defined
 		else {
-			if((SOURCEVALUESET).equals(null)) {
+			if(this.hasSourcevalueset()) {
 				List<Node> cvn =this.getAllExcludesourcevalue_asNode_().asList();
 			  // remove(sourceValuesUnorderedSet);
 				//System.out.println(cvn);
