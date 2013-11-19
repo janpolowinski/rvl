@@ -1,5 +1,4 @@
 package org.purl.rvl.interpreter.rvl;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -145,27 +144,37 @@ public class ValueMapping extends Valuemapping {
 		}
 		// when no source value is defined
 		else {
-			if(!SOURCEVALUESET.equals(null)) {
-				List<Node> cvn =this.getAllExcludesourcevalue_asNode_().asList();
+			if(this.hasSourcevalueset()) {
+				Container con = 
+						this.getAllSourcevalueset_as().firstValue();
+			con=this.getAllSourcevalueset_as().firstValue();
+				if (null!=con) {
+					List<Node> vvlJavaList = con.getAllMember_asNode_().asList();
+					sourceValuesUnorderedSet = new HashSet<Node>(vvlJavaList);
+                    vvlJavaList.clear();
+                   // removeAllExcludesourcevalue();
+				}
+				//List<Node> cvn =this.getAllExcludesourcevalue_asNode_().asList();
 			  // remove(sourceValuesUnorderedSet);
 				//System.out.println(cvn);
 			}
 			else{
-				if(!SOURCEFILTER.equals(null)) {
+				if(this.hasSourcefilter()) {
 					determineScaleOfMeasurementOfSourceValues();
 				}
 				else {
-					if(!SOURCEVALUEORDEREDSET.equals(null)) {
+					if(this.hasSourcevalueorderedset()) {
 						List<Node> lrs=this.getAllSourcevalueorderedset_asNode_().asList();
 						int q=lrs.hashCode();
 						//System.out.println("The ordered set is:"+q);
 					}
 				    	else {
-						 if(!SOURCEINTERVAL.equals(null)) {
+						 if(this.hasSourceinterval()) {
 							determineScaleOfMeasurementOfSourceValues();
 							if(determineScaleOfMeasurementOfSourceValues()== SOM_ORDINAL) {
 								List<Node> cvn =this.getAllExcludesourcevalue_asNode_().asList();
-								   sourceValuesUnorderedSet= new HashSet<Node>(cvn);	
+								cvn.clear();
+								//removeAllExcludesourcevalue();
 							}
 							 else {int l=CONTINUOUS_RANGE; }
 						}
