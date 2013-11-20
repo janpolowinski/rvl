@@ -224,8 +224,41 @@ public class ValueMapping extends Valuemapping {
 				if (null!=vvl) {
 					List<Node> vvlJavaList = vvl.getAllMember_asNode_().asList();
 					targetValuesUnorderedSet = new HashSet<Node>(vvlJavaList);
+				    vvlJavaList.clear();
 				}
-
+              }
+			else {
+				if((this.hasTargetvaluelist())||(this.hasTargetvalueorderedset())||(this.hasTargetvaluecycle())) {
+					VisualValueList vvl = 
+							this.getAllTargetvalueset_as().firstValue();
+					List<Node> vvlJavaList = vvl.getAllMember_asNode_().asList();
+					targetValuesUnorderedSet = new HashSet<Node>(vvlJavaList);
+				    vvlJavaList.clear();
+				    if(this.hasInvertorderoftargetvalues()== true){
+				    	vvlJavaList=this.getAllInvertorderoftargetvalues_asNode_().asList();
+				    }
+				   // else { Restricted list}
+				}
+				else {
+					if(this.hasTargetvalueinterval()) {
+						determineScaleOfMeasurementOfSourceValues();
+						if(determineScaleOfMeasurementOfSourceValues()== SOM_ORDINAL) {
+							List<Node> cvn =this.getAllExcludesourcevalue_asNode_().asList();
+							   cvn.clear();	
+						}	
+					}
+					else{
+						if(this.hasInvertorderoftargetvalues()== true){
+							VisualValueList vvl = 
+									this.getAllTargetvalueset_as().firstValue();
+							List<Node> vvlJavaList = vvl.getAllMember_asNode_().asList();
+					    	//vvlJavaList=this.getAllinvert;
+					    }
+						else {
+							int list=CONTINUOUS_RANGE;
+							}
+					}
+				}
 			}
 			
 		}
