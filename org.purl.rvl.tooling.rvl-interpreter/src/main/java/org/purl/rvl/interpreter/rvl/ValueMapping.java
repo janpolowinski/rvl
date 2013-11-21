@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.HashSet;
+
+
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.CaseInsensitiveMap;
@@ -21,7 +24,7 @@ import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.interpreter.gen.rvl.Valuemapping;
 import org.purl.rvl.interpreter.gen.rvl.VisualValueList;
 import org.purl.rvl.interpreter.mapping.CalculatedValueMapping;
-
+import com.google.common.collect.Sets;
 /**
  * @author Jan Polowinski
  *
@@ -40,13 +43,13 @@ public class ValueMapping extends Valuemapping {
 	// how to store a range? using interval? also as a list?
 	 private Set<Node> sourceValuesUnorderedSet; // disctinction necessary? or just store collection?
 	// single source values do not need to be stored
-	
+	private Set<Node> sourceValueSet;
 	// SET OF ADDRESSED TARGET VALUES:
 	private int addressedTargetValueSituation = 0;
 	
 	// ...
 	private Set<Node> targetValuesUnorderedSet; // disctinction necessary? or just store collection?
-	int ac;
+	private Set<Node> targetValueSet;
 	
 	// Scale of Measurement
 	static final int SOM_UNKNOWN = 0;
@@ -133,12 +136,16 @@ public class ValueMapping extends Valuemapping {
 				// TODO: problem at the moment strings (literals) and resources are allowed, therefore node is used here. resource does not work somehow
 				List<Node> ls = this.getAllSourcevalue_asNode_().asList();
 				sourceValuesUnorderedSet = new HashSet<Node>(ls);
-				
+				Set<Node> s=Sets.union(sourceValuesUnorderedSet, sourceValueSet );
 				// do we need to merge them with an additionally defined set?
+				List<Node> cvn =this.getAllExcludesourcevalue_asNode_().asList();
+				cvn.clear();
 				Container svs = 
 						this.getAllSourcevalueset_as().firstValue();
 				if (null!=svs) {
 					 // TODO add all values set via sourceValue to the container and store it as our new unordered set
+					List<Node> vvlJavaList = svs.getAllMember_asNode_().asList();
+					sourceValuesUnorderedSet = new HashSet<Node>(vvlJavaList);
 				}
 			}
 		}
@@ -205,6 +212,9 @@ public class ValueMapping extends Valuemapping {
 				targetValuesUnorderedSet = new HashSet<Node>(ls);
 				
 				// do we need to merge them with an additionally defined set?
+				Set<Node> s=Sets.union(targetValuesUnorderedSet, targetValueSet );
+				List<Node> cvn =this.getAllExcludesourcevalue_asNode_().asList();
+				cvn.clear();
 				VisualValueList vvl = 
 						this.getAllTargetvalueset_as().firstValue();
 				if (null!=vvl) {
