@@ -91,7 +91,7 @@ public class ValueMapping extends Valuemapping {
         public Collection<CalculatedValueMapping> getCalculatedValueMappings(){
                 calculateValueMappings();
                 
-                System.out.println("addressedSourceValueSituation: " + addressedSourceValueSituation);
+                //System.out.println("addressedSourceValueSituation: " + addressedSourceValueSituation);
                 
                 //cvms.add(new CalculatedValueMapping("forest","green"));
                 //cvms.add(new CalculatedValueMapping("desert","yellow"));
@@ -118,19 +118,22 @@ public class ValueMapping extends Valuemapping {
         }
 
 
-        private void determineAdressedSourceValues() {
+        private int determineAdressedSourceValues() {
+        	
+        		int addressedSourceValueSituation = ValueMapping.UNKNOWN;
+        	
                 // is a source value defined?
                 long numberOfSourceValues = this.getAllSourcevalue_asNode_().asList().size(); 
                 if (numberOfSourceValues >= 1) {
                         
                         // is exactly 1 source value defined?
                         if (numberOfSourceValues == 1) {
-                                addressedSourceValueSituation = 4;
+                                addressedSourceValueSituation = ValueMapping.SINGLE_VALUE;
                                 
                         } 
                         // if multiple source values are defined ...
                         else {
-                                addressedSourceValueSituation = 3;
+                                addressedSourceValueSituation = ValueMapping.UNORDERED_SET;
                                 // store all values set via sourceValue as our new unordered set
                                 // TODO: problem at the moment strings (literals) and resources are allowed, therefore node is used here. resource does not work somehow
                                 List<Node> ls = this.getAllSourcevalue_asNode_().asList();
@@ -188,89 +191,116 @@ public class ValueMapping extends Valuemapping {
                                 }
                         }
                 }
+                
+                return addressedSourceValueSituation;
         }
         
         /**
          * determines the target values to be used in in this value mapping 
          * (as a basis for calculating the VM)
          */
-        private void determineAdressedTargetValues() {
-                // is a target value defined?
-                long numberOfTargetValues = this.getAllTargetvalue_asNode_().asList().size(); 
-                if (numberOfTargetValues >= 1) {
-                        
-                        // is exactly 1 target value defined?
-                        if (numberOfTargetValues == 1) {
-                                addressedTargetValueSituation = 4;
-                        } 
-                        // if multiple target values are defined ...
-                         else {
-                                addressedTargetValueSituation = 3;
-                                // store all values set via targetValue as our new unordered set
-                                List<Node> ls = this.getAllTargetvalue_asNode_().asList(); // why Node? -> values may be resources or literals
-                                targetValuesUnorderedSet = new HashSet<Node>(ls);
-                                
-                                // do we need to merge them with an additionally defined set?
-                                //Set<Node> s=Sets.union(targetValuesUnorderedSet, targetValueSet );
-                                List<Node> cvn =this.getAllExcludesourcevalue_asNode_().asList();
-                                cvn.clear();
-                                VisualValueList vvl = 
-                                                this.getAllTargetvalueset_as().firstValue();
-                                if (null!=vvl) {
-                                         // TODO merge all values set via "targetValue" with the "visual value list" and store it as our new unordered set
-                                        List<Node> vvlJavaList = vvl.getAllMember_asNode_().asList();
-                                        targetValuesUnorderedSet.addAll(vvlJavaList);
-                                }
-                        }
-                }
-                // when "target value" is not defined
-                else {
-                        // if a "target value set" is defined
-                        if(this.hasTargetvalueset()) {
-                                // TODO refactor redundant code
-                                VisualValueList vvl = 
-                                                this.getAllTargetvalueset_as().firstValue();
-                                if (null!=vvl) {
-                                        List<Node> vvlJavaList = vvl.getAllMember_asNode_().asList();
-                                        targetValuesUnorderedSet = new HashSet<Node>(vvlJavaList);
-                                    vvlJavaList.clear();
-                                }
-              }
-                        else {
-                                if((this.hasTargetvaluelist())||(this.hasTargetvalueorderedset())||(this.hasTargetvaluecycle())) {
-                                        VisualValueList vvl = 
-                                                        this.getAllTargetvalues_abstract__as().firstValue();
-                                        List<Node> vvlJavaList = vvl.getAllMember_asNode_().asList();
-                                        targetValuesUnorderedSet = new HashSet<Node>(vvlJavaList);
-                                    if(this.hasInvertorderoftargetvalues()){
-                                            //vvlJavaList =  // Use ListUtils or iterate to invert list
-                                    }
-                                   // else { Restricted list}
-                                }
-                                else {
-                                        if(this.hasTargetvalueinterval()) {
-                                                determineScaleOfMeasurementOfSourceValues();
-                                                if(determineScaleOfMeasurementOfSourceValues()== SOM_ORDINAL) {
-                                                        List<Node> cvn =this.getAllExcludesourcevalue_asNode_().asList();
-                                                           cvn.clear();        
-                                                }        
-                                        }
-                                        else{
-                                                if(this.hasInvertorderoftargetvalues()== true){
-                                                        VisualValueList vvl = 
-                                                                        this.getAllTargetvalueset_as().firstValue();
-                                                        List<Node> vvlJavaList = vvl.getAllMember_asNode_().asList();
-                                                    //vvlJavaList=this.getAllinvert;
-                                            }
-                                                else {
-                                                        int list=CONTINUOUS_RANGE;
-                                                        }
-                                        }
-                                }
-                        }
-                        
-                }
-        }
+	private int determineAdressedTargetValues() {
+
+		int addressedTargetValueSituation = 0; // ValueMapping.UNKNOWN;
+
+		// is a target value defined?
+		long numberOfTargetValues = this.getAllTargetvalue_asNode_().asList()
+				.size();
+		if (numberOfTargetValues >= 1) {
+
+			// is exactly 1 target value defined?
+			if (numberOfTargetValues == 1) {
+				addressedTargetValueSituation = ValueMapping.SINGLE_VALUE;
+			}
+			// if multiple target values are defined ...
+			else {
+				addressedTargetValueSituation = ValueMapping.UNORDERED_SET;
+				// store all values set via targetValue as our new unordered set
+				List<Node> ls = this.getAllTargetvalue_asNode_().asList(); // why
+																			// Node?
+																			// ->
+																			// values
+																			// may
+																			// be
+																			// resources
+																			// or
+																			// literals
+				targetValuesUnorderedSet = new HashSet<Node>(ls);
+
+				// do we need to merge them with an additionally defined set?
+				// Set<Node> s=Sets.union(targetValuesUnorderedSet,
+				// targetValueSet );
+				List<Node> cvn = this.getAllExcludesourcevalue_asNode_()
+						.asList();
+				cvn.clear();
+				VisualValueList vvl = this.getAllTargetvalueset_as()
+						.firstValue();
+				if (null != vvl) {
+					// TODO merge all values set via "targetValue" with the
+					// "visual value list" and store it as our new unordered set
+					List<Node> vvlJavaList = vvl.getAllMember_asNode_()
+							.asList();
+					targetValuesUnorderedSet.addAll(vvlJavaList);
+				}
+			}
+		}
+		// when "target value" is not defined
+		else {
+			// if a "target value set" is defined
+			if (this.hasTargetvalueset()) {
+				// TODO refactor redundant code
+				VisualValueList vvl = this.getAllTargetvalueset_as()
+						.firstValue();
+				if (null != vvl) {
+					List<Node> vvlJavaList = vvl.getAllMember_asNode_()
+							.asList();
+					targetValuesUnorderedSet = new HashSet<Node>(vvlJavaList);
+					vvlJavaList.clear();
+				}
+				addressedTargetValueSituation = ValueMapping.UNORDERED_SET;
+
+			} else {
+				if ((this.hasTargetvaluelist())
+						|| (this.hasTargetvalueorderedset())
+						|| (this.hasTargetvaluecycle())) {
+					VisualValueList vvl = this
+							.getAllTargetvalues_abstract__as().firstValue();
+					List<Node> vvlJavaList = vvl.getAllMember_asNode_()
+							.asList();
+					targetValuesUnorderedSet = new HashSet<Node>(vvlJavaList);
+					if (this.hasInvertorderoftargetvalues()) {
+						// vvlJavaList = // Use ListUtils or iterate to invert
+						// list
+					}
+					// else { Restricted list}
+					addressedTargetValueSituation = ValueMapping.ORDERED_SET;
+				} else {
+					if (this.hasTargetvalueinterval()) {
+						determineScaleOfMeasurementOfSourceValues();
+						if (determineScaleOfMeasurementOfSourceValues() == SOM_ORDINAL) {
+							List<Node> cvn = this
+									.getAllExcludesourcevalue_asNode_()
+									.asList();
+							cvn.clear();
+						}
+					} else {
+						if (this.hasInvertorderoftargetvalues() == true) {
+							VisualValueList vvl = this
+									.getAllTargetvalueset_as().firstValue();
+							List<Node> vvlJavaList = vvl.getAllMember_asNode_()
+									.asList();
+							// vvlJavaList=this.getAllinvert;
+						} else {
+							int list = CONTINUOUS_RANGE;
+						}
+					}
+				}
+			}
+
+		}
+
+		return addressedTargetValueSituation;
+	}
 
         /**
          * Checks whether this value mapping only defines a 1-to-1 manual mappign of values
@@ -294,12 +324,14 @@ public class ValueMapping extends Valuemapping {
         @Override
         public String toString() {
                 String s = "";
-                s += getCalculatedValueMappings() + NL;
+                //s += getCalculatedValueMappings() + NL;
                 s += "  used in PM: " + getPropertyMapping().getAllLabel_as().firstValue() + NL;
                 s += "  SoM of SP: " + getSomName(determineScaleOfMeasurementOfSourceValues()) + NL;
                 s += "  SoM of TV: " + getSomName(determineScaleOfMeasurementOfTargetValues()) + NL;
+                s += "  addressed SV situation: " + getNameForValueSituation(determineAdressedSourceValues()) + NL;
+                s += "  addressed TV situation: " + getNameForValueSituation(determineAdressedTargetValues()) + NL;
                 getPropertyMapping();
-                return s + "further describe VM here" + NL;
+                return s + NL;
         }
         
         private int determineScaleOfMeasurementOfTargetValues() {
@@ -352,6 +384,24 @@ public class ValueMapping extends Valuemapping {
                 case 3: return "quantitative";
                 default: return "unknown";
                 }
+        }
+        
+        private String getNameForValueSituation(int situationID) {
+        	
+        	switch (situationID) {
+			case UNKNOWN:
+				return "unknown";
+			case CONTINUOUS_RANGE:
+				return "cont. range";
+			case ORDERED_SET:
+				return "ordered set or list";
+			case UNORDERED_SET:
+				return "set";
+			case SINGLE_VALUE:
+				return "single value";
+			default:
+				return "unknown";
+			}
         }
 
 }

@@ -57,7 +57,7 @@ public class PropertyToGraphicAttributeMapping extends
 		ClosableIterator<Valuemapping> vmIterator = this.getAllValuemapping_as().asClosableIterator();
 		while (vmIterator.hasNext()) {
 			ValueMapping vm = (ValueMapping) vmIterator.next().castTo(ValueMapping.class);
-			s += "		" + vm +  NL;
+			s += "" + vm +  NL;
 		}
 		
 		/*
