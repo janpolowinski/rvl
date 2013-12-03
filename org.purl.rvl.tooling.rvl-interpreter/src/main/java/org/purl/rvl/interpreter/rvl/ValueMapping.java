@@ -24,7 +24,6 @@ import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.interpreter.gen.rvl.Valuemapping;
 import org.purl.rvl.interpreter.gen.rvl.VisualValueList;
 import org.purl.rvl.interpreter.mapping.CalculatedValueMapping;
-import com.google.common.collect.Sets;
 /**
  * @author Jan Polowinski
  *
@@ -136,7 +135,7 @@ public class ValueMapping extends Valuemapping {
                                 // TODO: problem at the moment strings (literals) and resources are allowed, therefore node is used here. resource does not work somehow
                                 List<Node> ls = this.getAllSourcevalue_asNode_().asList();
                                 sourceValuesUnorderedSet = new HashSet<Node>(ls);
-                                Set<Node> s=Sets.union(sourceValuesUnorderedSet, sourceValueSet );
+                                //Set<Node> s=Sets.union(sourceValuesUnorderedSet, sourceValueSet );
                                 // do we need to merge them with an additionally defined set?
                                 List<Node> cvn =this.getAllExcludesourcevalue_asNode_().asList();
                                 cvn.clear();
@@ -181,7 +180,7 @@ public class ValueMapping extends Valuemapping {
                                                         if(determineScaleOfMeasurementOfSourceValues()== SOM_ORDINAL) {
                                                                 List<Node> cvn =this.getAllExcludesourcevalue_asNode_().asList();
                                                                 cvn.clear();
-                                                                //removeAllExcludesourcevalue();
+                                                                sourceValuesUnorderedSet.removeAll(cvn);
                                                         }
                                                          else {int l=CONTINUOUS_RANGE; }
                                                 }
@@ -212,7 +211,7 @@ public class ValueMapping extends Valuemapping {
                                 targetValuesUnorderedSet = new HashSet<Node>(ls);
                                 
                                 // do we need to merge them with an additionally defined set?
-                                Set<Node> s=Sets.union(targetValuesUnorderedSet, targetValueSet );
+                                //Set<Node> s=Sets.union(targetValuesUnorderedSet, targetValueSet );
                                 List<Node> cvn =this.getAllExcludesourcevalue_asNode_().asList();
                                 cvn.clear();
                                 VisualValueList vvl = 
@@ -240,12 +239,11 @@ public class ValueMapping extends Valuemapping {
                         else {
                                 if((this.hasTargetvaluelist())||(this.hasTargetvalueorderedset())||(this.hasTargetvaluecycle())) {
                                         VisualValueList vvl = 
-                                                        this.getAllTargetvalueset_as().firstValue();
+                                                        this.getAllTargetvalues_abstract__as().firstValue();
                                         List<Node> vvlJavaList = vvl.getAllMember_asNode_().asList();
                                         targetValuesUnorderedSet = new HashSet<Node>(vvlJavaList);
-                                    vvlJavaList.clear();
-                                    if(this.hasInvertorderoftargetvalues()== true){
-                                            vvlJavaList=this.getAllInvertorderoftargetvalues_asNode_().asList();
+                                    if(this.hasInvertorderoftargetvalues()){
+                                            //vvlJavaList =  // Use ListUtils or iterate to invert list
                                     }
                                    // else { Restricted list}
                                 }
