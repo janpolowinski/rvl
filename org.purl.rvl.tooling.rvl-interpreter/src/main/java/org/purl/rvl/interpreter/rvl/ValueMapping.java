@@ -1,4 +1,4 @@
-package org.purl.rvl.interpreter.rvl;
+package org.purl.rvl.interpreter.gen.rvl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
-
-
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.CaseInsensitiveMap;
@@ -21,6 +19,7 @@ import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.ontoware.rdfreactor.schema.rdfs.Container;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
+import org.purl.rvl.interpreter.gen.rvl.PropertyMapping;
 import org.purl.rvl.interpreter.gen.rvl.Valuemapping;
 import org.purl.rvl.interpreter.gen.rvl.VisualValueList;
 import org.purl.rvl.interpreter.mapping.CalculatedValueMapping;
@@ -179,6 +178,7 @@ public class ValueMapping extends Valuemapping {
                                         }
                                             else {
                                                  if(this.hasSourceinterval()) {
+                                                	 addressedSourceValueSituation= ValueMapping.CONTINUOUS_RANGE;
                                                         determineScaleOfMeasurementOfSourceValues();
                                                         if(determineScaleOfMeasurementOfSourceValues()== SOM_ORDINAL) {
                                                                 List<Node> cvn =this.getAllExcludesourcevalue_asNode_().asList();
@@ -276,6 +276,7 @@ public class ValueMapping extends Valuemapping {
 					addressedTargetValueSituation = ValueMapping.ORDERED_SET;
 				} else {
 					if (this.hasTargetvalueinterval()) {
+						addressedTargetValueSituation= ValueMapping.CONTINUOUS_RANGE;
 						determineScaleOfMeasurementOfSourceValues();
 						if (determineScaleOfMeasurementOfSourceValues() == SOM_ORDINAL) {
 							List<Node> cvn = this
@@ -325,6 +326,7 @@ public class ValueMapping extends Valuemapping {
         public String toString() {
                 String s = "";
                 //s += getCalculatedValueMappings() + NL;
+                s+="The unordered list: " + getprinting() + NL;
                 s += "  used in PM: " + getPropertyMapping().getAllLabel_as().firstValue() + NL;
                 s += "  SoM of SP: " + getSomName(determineScaleOfMeasurementOfSourceValues()) + NL;
                 s += "  SoM of TV: " + getSomName(determineScaleOfMeasurementOfTargetValues()) + NL;
@@ -377,6 +379,16 @@ public class ValueMapping extends Valuemapping {
                 return new PropertyMapping(model,res,false);
         }
         
+private String getprinting() {
+        	
+        	if(addressedSourceValueSituation==UNORDERED_SET) {
+        		String s=  sourceValuesUnorderedSet.toString() ;
+        		return s;
+        	}
+			return "This is the unordered set: ";
+        	
+        }
+         
         private String getSomName(int somID){
                 switch (somID) {
                 case 1: return "nominal";
