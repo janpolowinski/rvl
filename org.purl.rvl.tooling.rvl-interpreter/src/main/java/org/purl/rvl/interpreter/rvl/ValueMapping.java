@@ -1,4 +1,4 @@
-package org.purl.rvl.interpreter.gen.rvl;
+package org.purl.rvl.interpreter.rvl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -40,7 +40,9 @@ public class ValueMapping extends Valuemapping {
         private int addressedSourceValueSituation = 0;
         // how to store a range? using interval? also as a list?
          private Set<Node> sourceValuesUnorderedSet; // disctinction necessary? or just store collection?
-        // single source values do not need to be stored
+         private Set<Node> sourceValueOrderedSet;
+         private Set<Node> singleValue;
+         // single source values do not need to be stored
         private Set<Node> sourceValueSet;
         // SET OF ADDRESSED TARGET VALUES:
         private int addressedTargetValueSituation = 0;
@@ -128,6 +130,8 @@ public class ValueMapping extends Valuemapping {
                         // is exactly 1 source value defined?
                         if (numberOfSourceValues == 1) {
                                 addressedSourceValueSituation = ValueMapping.SINGLE_VALUE;
+                                List<Node> ls = this.getAllSourcevalue_asNode_().asList();
+                                singleValue = new HashSet<Node>(ls);
                                 
                         } 
                         // if multiple source values are defined ...
@@ -159,6 +163,7 @@ public class ValueMapping extends Valuemapping {
                                 if (null!=con) {
                                         List<Node> vvlJavaList = con.getAllMember_asNode_().asList();
                                         sourceValuesUnorderedSet = new HashSet<Node>(vvlJavaList);
+                                        
                     vvlJavaList.clear();
                    // removeAllExcludesourcevalue();
                                 }
@@ -171,10 +176,21 @@ public class ValueMapping extends Valuemapping {
                                         determineScaleOfMeasurementOfSourceValues();
                                 }
                                 else {
+                                	
                                         if(this.hasSourcevalueorderedset()) {
+                                        	  /* addressedSourceValueSituation= ValueMapping.ORDERED_SET;
                                                 List<Node> lrs=this.getAllSourcevalueorderedset_asNode_().asList();
-                                                int q=lrs.hashCode();
-                                                //System.out.println("The ordered set is:"+q);
+                                                sourceValueOrderedSet= new HashSet<Node>(lrs); */
+                                        	addressedSourceValueSituation= ValueMapping.ORDERED_SET;
+                                        	 Container con = 
+                                                     this.getAllSourcevalueset_as().firstValue();
+                             con=this.getAllSourcevalueorderedset_as().firstValue();
+                                     if (null!=con) {
+                                             List<Node> vvlJavaList = con.getAllMember_asNode_().asList();
+                                             sourceValueOrderedSet = new HashSet<Node>(vvlJavaList);
+                                             vvlJavaList.clear();
+                                                //System.out.println("The ordered set is:"+q); 
+                                        }
                                         }
                                             else {
                                                  if(this.hasSourceinterval()) {
@@ -326,7 +342,7 @@ public class ValueMapping extends Valuemapping {
         public String toString() {
                 String s = "";
                 //s += getCalculatedValueMappings() + NL;
-                s+="The unordered list: " + getprinting() + NL;
+                 s+="The unordered list: " + getprinting(determineAdressedSourceValues()) + NL;
                 s += "  used in PM: " + getPropertyMapping().getAllLabel_as().firstValue() + NL;
                 s += "  SoM of SP: " + getSomName(determineScaleOfMeasurementOfSourceValues()) + NL;
                 s += "  SoM of TV: " + getSomName(determineScaleOfMeasurementOfTargetValues()) + NL;
@@ -379,15 +395,32 @@ public class ValueMapping extends Valuemapping {
                 return new PropertyMapping(model,res,false);
         }
         
-private String getprinting() {
+private String getprinting(int ss) {
         	
-        	if(addressedSourceValueSituation==UNORDERED_SET) {
-        		String s=  sourceValuesUnorderedSet.toString() ;
-        		return s;
-        	}
-			return "This is the unordered set: ";
-        	
-        }
+	switch(ss) {
+	
+	case UNORDERED_SET:
+		String s= sourceValuesUnorderedSet.toString();
+		System.out.println("******Source Value unordered set:********* \n" + s);
+		return s;
+	
+	case ORDERED_SET:
+		String s1= sourceValueOrderedSet.toString();
+		System.out.println("********Source Value ordered set:**********\n" + s1);
+		return s1; 
+		
+	case SINGLE_VALUE :
+        String s2= singleValue.toString();
+		System.out.println("*****Single Value: *******" + s2);
+		
+	case CONTINUOUS_RANGE :
+		
+		
+	
+	  default: return null;
+	}
+	
+        } 
          
         private String getSomName(int somID){
                 switch (somID) {
