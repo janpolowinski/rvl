@@ -101,7 +101,7 @@ public class Color extends org.purl.rvl.interpreter.gen.viso.graphic.Color {
 		}
 	}
 	
-	public String toHexString() throws NullPointerException {
+	public String toHexString() {
 		  String hexColour = Integer.toHexString(getColor_as_JavaAWT().getRGB() & 0xffffff);
 		  if (hexColour.length() < 6) {
 		    hexColour = "000000".substring(0, 6 - hexColour.length()) + hexColour;

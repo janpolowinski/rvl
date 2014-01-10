@@ -9,7 +9,9 @@ import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.purl.rvl.interpreter.gen.viso.graphic.DirectedLinking;
+import javax.xml.bind.annotation.*;
 
+@XmlAccessorType(XmlAccessType.NONE)
 public class GraphicObject extends
 		org.purl.rvl.interpreter.gen.viso.graphic.GraphicObject {
 	
@@ -79,4 +81,47 @@ public class GraphicObject extends
 		
 		return s;
 	}
+	
+	@XmlElement(name="label")
+	public String getLabel() {
+		return this.getAllLabel_as().firstValue().toString();
+	}
+	
+	@XmlElement(name="color_rgb_hex")
+	public String getColorHex() {
+		String colorHex = "";
+
+		if(this.hasColornamed()) {
+			org.purl.rvl.interpreter.viso.graphic.Color startNodeColor = 
+				(org.purl.rvl.interpreter.viso.graphic.Color) this.getAllColornamed_as().firstValue().castTo(org.purl.rvl.interpreter.viso.graphic.Color.class);
+			try {
+				colorHex = startNodeColor.toHexString();
+			} catch (Exception e) {
+				System.out.println("Couldn't get color values (incomplete?). Default will be used.");
+			}
+		}
+		
+		if (colorHex.equals("")) {
+			colorHex = org.purl.rvl.interpreter.viso.graphic.Color.getDefaultColorHex();
+		}
+		return colorHex;
+	}
+	
+	@XmlElement(name="shape_d3_name")
+	public String getShape() {
+		String shapeD3Name = "";
+		try {
+			if(this.hasShapenamed()) {
+				ShapeX startNodeShape = (ShapeX) this.getAllShapenamed_as().firstValue().castTo(ShapeX.class);
+				shapeD3Name = startNodeShape.toD3Name();
+			}
+		} catch (Exception e) {
+			System.err.println("Couldn't get shape value (incomplete?). Default will be used.");
+		}
+		if (shapeD3Name.equals("")) {
+			shapeD3Name = ShapeX.getDefaultD3Name();
+		}
+		return shapeD3Name;
+	}
+
 }
