@@ -53,7 +53,7 @@ d3.json("data.json", function(error, graph) {
 	  ;
 
   node.append("title")
-      .text(function(d) { return d.name; });
+      .text(function(d) { return d.label; });
 
   force.on("tick", function() {
     link.attr("x1", function(d) { return d.source.x; })

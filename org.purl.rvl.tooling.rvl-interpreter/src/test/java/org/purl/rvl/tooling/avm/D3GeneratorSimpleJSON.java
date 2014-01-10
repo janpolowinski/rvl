@@ -111,6 +111,8 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				System.err.println("No links could be generated." + e);
 			}		
 		}
+		
+		d3data.put("links", listOfLinks);
 				
 		System.out.print(d3data);
 		writeJSONToFile(d3data.toJSONString());
