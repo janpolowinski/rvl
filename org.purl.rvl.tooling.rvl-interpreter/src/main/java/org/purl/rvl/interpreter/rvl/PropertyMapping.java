@@ -3,6 +3,7 @@ package org.purl.rvl.interpreter.rvl;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import javax.naming.InsufficientResourcesException;
 
@@ -18,6 +19,8 @@ import org.ontoware.rdfreactor.schema.rdfs.Property;
 
 public class PropertyMapping extends
 		org.purl.rvl.interpreter.gen.rvl.PropertyMapping {
+	
+private final static Logger LOGGER = Logger.getLogger(PropertyMapping.class .getName()); 
 
 static final String NL =  System.getProperty("line.separator");
 	
@@ -55,24 +58,25 @@ static final String NL =  System.getProperty("line.separator");
 		// try to get the string description from the (manual) Mapping class, which is not in the super-class hierarchy
 		Mapping m = (Mapping) this.castTo(Mapping.class);
 		s += m.toString();
-		
-		Property sp = this.getAllSourceproperty_as().firstValue();
-		//Property tgr = this.getAllTargetgraphicrelation_abstract__as().firstValue();
-		s += "source property: " + sp.getAllLabel_as().firstValue() + NL;
-		s += "target graphic relation: " + this.getAllTargetgraphicrelation_abstract__as().firstValue() + NL ;
-		
+
 		// affected resources:
 		Set<Resource> subjectSet;
 		try {
 			subjectSet = getAffectedResources();
 			for (Iterator<Resource> iterator = subjectSet.iterator(); iterator.hasNext();) {
 				Resource resource = (Resource) iterator.next();
-				s += "affects: " + resource +  NL;
+				s += "     affects: " + resource +  NL;
 			}
-			s+= NL;
 		} catch (InsufficientMappingSpecificationExecption e) {
-			e.printStackTrace();
+			LOGGER.warning(e.getMessage());
+			//e.printStackTrace();
 		}
+		
+		Property sp = this.getAllSourceproperty_as().firstValue();
+		//Property tgr = this.getAllTargetgraphicrelation_abstract__as().firstValue();
+		s += "     source property: " + sp.getAllLabel_as().firstValue() + NL;
+		//s += "     target graphic relation: " + this.getAllTargetgraphicrelation_abstract__as().firstValue() + NL ;
+
 				
 		return s;
 	}
@@ -87,14 +91,16 @@ static final String NL =  System.getProperty("line.separator");
 		
 		Set<Resource> subjectSet = new HashSet<Resource>();
 		Property sp = null;
+		
 		try {
 			sp = getAllSourceproperty_as().firstValue();
-		} 
-		catch (Exception e) {
-			System.err.println("Mapping insuffienctly specified: Missing sourceproperty");
-			// TODO: handle exception
 		}
-		//throw new InsufficientResourcesException();
+		finally {
+			if(sp==null) {
+				LOGGER.warning("Mapping has missing sourceproperty");
+				throw new InsufficientMappingSpecificationExecption();
+			}
+		}					
 
 		ClosableIterator<Statement> spStIt = model.findStatements(Variable.ANY, sp.asURI(), Variable.ANY);
 		while (spStIt.hasNext()) {

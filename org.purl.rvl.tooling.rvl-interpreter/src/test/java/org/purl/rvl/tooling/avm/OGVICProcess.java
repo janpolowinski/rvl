@@ -1,9 +1,13 @@
 package org.purl.rvl.tooling.avm;
 
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Set;
+import java.util.Properties;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.RDF2Go;
@@ -12,8 +16,8 @@ import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.Syntax;
 import org.ontoware.rdfreactor.schema.rdfs.Resource;
+import org.purl.rvl.interpreter.viso.graphic.Color;
 import org.purl.rvl.interpreter.viso.graphic.GraphicObject;
-import org.purl.rvl.interpreter.viso.graphic.GraphicSpace;
 
 
 public class OGVICProcess {
@@ -32,29 +36,74 @@ public class OGVICProcess {
 	public static final String RVL_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl.owl";
 	public static final String VISO_LOCAL_REL = "../org.purl.rvl.vocabulary/viso-branch/viso-graphic-inference.ttl";
 
+	private final static Logger LOGGER = Logger.getLogger(OGVICProcess.class .getName()); 
+	private final static Logger LOGGER_RVL_PACKAGE = Logger.getLogger("org.purl.rvl"); 
+	
+	static final String NL =  System.getProperty("line.separator");
+	
+	
+    static {
+    	  	
+		//LOGGER.setLevel(Level.SEVERE); 
+		//LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.SEVERE); 
+		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.FINE);
+
+		
+		// In order to show log entrys of the fine level, we need to create a new handler as well
+        ConsoleHandler handler = new ConsoleHandler();
+        // PUBLISH this level
+        handler.setLevel(Level.FINEST);
+        
+        CustomRecordFormatter formatter = new CustomRecordFormatter();
+        handler.setFormatter(formatter); // out-comment this line to use the normal formatting with method and date
+        
+        LOGGER_RVL_PACKAGE.setUseParentHandlers(false); // otherwise double output of log entries
+        LOGGER_RVL_PACKAGE.addHandler(handler);
+		
+		/*
+		// properties file read, but does not seem to be evaluatet correctly -> no logs shown in console
+		Properties preferences = new Properties();
+		try {
+		    FileInputStream configFile = new FileInputStream("logging.properties");
+		    preferences.load(configFile);
+		    LogManager.getLogManager().readConfiguration(configFile);
+			//LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.ALL);
+		} catch (IOException ex)
+		{
+		    System.out.println("WARNING: Could not open configuration file");
+		    System.out.println("WARNING: Logging not configured (console output only)");
+		}
+		*/
+        }
+    
+    
+	
 	/**
 	 * @param args
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) {
+		
 		initRDF2GoModel();
+
+		//builder = new ExampleAVMBuilder(model, modelVISO);
+		//builder.createTestGraphicObjects();
+		//builder.createTestLinkingDirectedRelations();
 		
 		
-//		builder = new ExampleAVMBuilder(model, modelVISO);
-//		builder.createTestGraphicObjects();
-//		builder.createTestLinkingDirectedRelations();
 		
+		//SimpleRVLInterpreter rvlInterpreter = new SimpleRVLInterpreter(model, modelVISO);
+		//rvlInterpreter.interpretSimpleP2GArvlMappings();
+		//rvlInterpreter.interpretP2GO2ORMappings();
+		//rvlInterpreter.interpretResourceLabelAsGOLabelForAllCreatedResources();		
 		
-		
-		SimpleRVLInterpreter rvlInterpreter = new SimpleRVLInterpreter(model, modelVISO);
-		rvlInterpreter.interpreteSimpleP2GArvlMappings();
-		rvlInterpreter.interpretesP2GO2ORMappings();
-		
-		
+		/*
 		d3Generator = new D3GeneratorSimpleJSON(model, modelVISO);
-		((D3GeneratorSimpleJSON)d3Generator).generateJSONforD3();
-		d3Generator.writeAVMToFile();
-		
+		String json = ((D3GeneratorSimpleJSON)d3Generator).generateJSONforD3();
+		LOGGER.fine("JSON data is: " + NL +  json);
+		d3Generator.writeJSONToFile(json);
+		//d3Generator.writeAVMToFile();
+		*/
 
 		/*
 		d3Generator = new D3JacksonBinding(model, modelVISO);
@@ -63,15 +112,29 @@ public class OGVICProcess {
 		try {
 			((D3JacksonBinding)d3Generator).writeGraphicSpaceAsJSON(graphicSpace, new File(jsonFileRelName));
 		} catch (Exception e) {
-			System.out.println("Problem writing to JSON file");
+			LOGGER.info("Problem writing to JSON file");
 			e.printStackTrace();
 		}
 		*/
 
 		//listAllGOs();
+		listAllColors();
 		
 	}
 	
+
+	private static void listAllColors() {
+		System.out.println("List of all colors in the VISO model:");
+		System.out.println();
+		
+		ClosableIterator<? extends org.purl.rvl.interpreter.gen.viso.graphic.Color> goIt = 
+				org.purl.rvl.interpreter.gen.viso.graphic.Color.getAllInstances_as(modelVISO).asClosableIterator();
+		while (goIt.hasNext()) {
+			Color color = (Color) goIt.next().castTo(Color.class);
+			LOGGER.info(color.toString());
+		}	
+	}
+
 
 	protected static void initRDF2GoModel() throws ModelRuntimeException {
 		// explicitly specify to use a specific ontology api here:
@@ -98,8 +161,7 @@ public class OGVICProcess {
 				model.readFrom(new FileReader(REM_LOCAL_REL),
 						Syntax.Turtle);
 			} catch (IOException e) {
-				System.out.println("Problem reading one of the files into the model");
-				e.printStackTrace();
+				LOGGER.severe("Problem reading one of the RDF files into the model: " + e);
 			}
 			
 			ExampleAVMBuilder builder = new ExampleAVMBuilder(model,modelVISO);
@@ -110,6 +172,10 @@ public class OGVICProcess {
 	 * List all Graphic Objects in the model
 	 */
 	protected static void listAllGOs() {	
+		
+		System.out.println("List of all Graphic Objects in the model:");
+		System.out.println();
+		
 		ClosableIterator<? extends org.purl.rvl.interpreter.gen.viso.graphic.GraphicObject> goIt = 
 				org.purl.rvl.interpreter.gen.viso.graphic.GraphicObject.getAllInstances_as(model).asClosableIterator();
 		while (goIt.hasNext()) {
@@ -127,14 +193,14 @@ public class OGVICProcess {
 		while (resIt.hasNext()) {
 			Resource res = (Resource) resIt.next();
 	
-			System.out.println(res);
-			//System.out.println("Types:" + go.getAllType_as().asArray()[0].asURI());
+			LOGGER.info(res.toString());
+			//LOGGER.info("Types:" + go.getAllType_as().asArray()[0].asURI());
 			
 			for (org.ontoware.rdfreactor.schema.rdfs.Class type : res.getAllType_as().asList()) {
 				try {
-					System.out.println("       T: " + type.asURI());
+					LOGGER.info("T: " + type.asURI());
 				} catch (ClassCastException e) {
-					System.err.println("evtl. blanknote");
+					LOGGER.severe("evtl. blanknote");
 				}
 			}
 		}		

@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
@@ -18,6 +20,9 @@ public class ExampleAVMBuilder {
 	protected Model model;
 	private Model modelVISO;
 	
+	private final static Logger LOGGER = Logger.getLogger(ExampleAVMBuilder.class .getName()); 
+	
+	
 	/**
 	 * Creates example (n-ary) linking relations between the available GOs in the model
 	 */
@@ -30,7 +35,7 @@ public class ExampleAVMBuilder {
 		
 		Iterator<? extends org.purl.rvl.interpreter.gen.viso.graphic.GraphicObject> startNodeIt = startNodeList.iterator();
 		Iterator<? extends org.purl.rvl.interpreter.gen.viso.graphic.GraphicObject> endNodeIt = endNodeList.iterator();
-		System.out.println("The last GO (" + endNodeIt.next() + ") will not be linked to another GO.");
+		LOGGER.info("Creating Linking-relations. The last GO (" + endNodeIt.next() + ") will not be linked to another GO.");
 		
 		while (startNodeIt.hasNext() &&  endNodeIt.hasNext()) {
 			GraphicObject startNode = (GraphicObject) startNodeIt.next().castTo(GraphicObject.class);
@@ -43,7 +48,7 @@ public class ExampleAVMBuilder {
 					new org.purl.rvl.interpreter.viso.graphic.Color(model, "http://purl.org/viso/graphic/Red", true);
 			newColor.setColorRGB("#FF00FF");
 			Color red = Color.getInstance(model, new URIImpl("http://purl.org/viso/graphic/Red"));
-			//System.out.println("color label: " + red.getAllLabel_as().firstValue());
+			//LOGGER.info("color label: " + red.getAllLabel_as().firstValue());
 			startNode.setColornamed(newColor);
 			startNode.setColornamed(red);
 			
@@ -78,7 +83,7 @@ public class ExampleAVMBuilder {
 	    go.setLabel("GO " + i);
 	    if (colorIt.hasNext()) {
 	    	Color color = colorIt.next();
-	    	System.out.println(color);
+	    	LOGGER.finer("Created GO with color " + color.toString());
 	    	go.setColornamed(color);
 	    	
 	    }
@@ -107,7 +112,7 @@ public class ExampleAVMBuilder {
 	//			GraphicObject container = (GraphicObject) goIt.next().castTo(GraphicObject.class);
 	//			GraphicObject containee = (GraphicObject) containedIt.next().castTo(GraphicObject.class);
 	//			if(containedIt.hasNext()) container.setContains(containee);
-	//			System.out.println(container);
+	//			LOGGER.info(container);
 	//		}
 			
 			// TODO: refactor to use closable iterator directly
@@ -116,13 +121,13 @@ public class ExampleAVMBuilder {
 			
 			Iterator<? extends org.purl.rvl.interpreter.gen.viso.graphic.GraphicObject> containerIt = containerList.iterator();
 			Iterator<? extends org.purl.rvl.interpreter.gen.viso.graphic.GraphicObject> containeeIt = containeeList.iterator();
-			System.out.println("The first GO (" + containerIt.next() + ") will not be contained by another GO.");
+			LOGGER.info("The first GO (" + containerIt.next() + ") will not be contained by another GO.");
 			
 			while (containerIt.hasNext() &&  containeeIt.hasNext()) {
 				GraphicObject container = (GraphicObject) containerIt.next().castTo(GraphicObject.class);
 				GraphicObject containee = (GraphicObject) containeeIt.next().castTo(GraphicObject.class);
 				container.addContains(containee);
-				//System.out.println(containee);
+				//LOGGER.info(containee);
 			}
 		}
 
@@ -134,6 +139,8 @@ public class ExampleAVMBuilder {
 		super();
 		this.model = model;
 		this.modelVISO = modelVISO;
+		
+		//LOGGER.setLevel(Level.SEVERE); 
 	}
 
 

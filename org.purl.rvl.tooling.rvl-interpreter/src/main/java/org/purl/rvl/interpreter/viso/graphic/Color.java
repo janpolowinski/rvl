@@ -1,13 +1,17 @@
 package org.purl.rvl.interpreter.viso.graphic;
 
+import java.util.logging.Logger;
+
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
+import org.purl.rvl.interpreter.rvl.IncompleteColorValuesException;
 
 public class Color extends org.purl.rvl.interpreter.gen.viso.graphic.Color {
 
+	private final static Logger LOGGER = Logger.getLogger(Color.class .getName()); 
 
 	static final String NL =  System.getProperty("line.separator");
 	
@@ -83,12 +87,18 @@ public class Color extends org.purl.rvl.interpreter.gen.viso.graphic.Color {
 	}
 
 	
-	public java.awt.Color getColor_as_JavaAWT(){
+	public java.awt.Color getColor_as_JavaAWT() throws IncompleteColorValuesException {
 		
 		String rgb = getAllColorRGB_as().firstValue();
 		
-		if(null!=rgb){
-			return java.awt.Color.decode(rgb);
+		if(null!=rgb){ 
+			try {
+				return java.awt.Color.decode(rgb);
+			} catch (NumberFormatException e) {
+				LOGGER.warning("Problem decoding the RGB value of " + super.toString());
+				throw new IncompleteColorValuesException();
+				//throw new NumberFormatException();
+			}
 		}
 		else if(hasColorRGBRed() && hasColorRGBGreen() && hasColorRGBBlue()) {
 				r = getAllColorRGBRed_as().firstValue().intValue();
@@ -97,11 +107,13 @@ public class Color extends org.purl.rvl.interpreter.gen.viso.graphic.Color {
 				return new java.awt.Color(r,g,b);
 		} 
 		else {
-			return null;
+			throw new IncompleteColorValuesException();
+//			LOGGER.warning("Incomplete (or no) color values found for " + super.toString());
+//			return null;
 		}
 	}
 	
-	public String toHexString() {
+	public String toHexString() throws IncompleteColorValuesException {
 		  String hexColour = Integer.toHexString(getColor_as_JavaAWT().getRGB() & 0xffffff);
 		  if (hexColour.length() < 6) {
 		    hexColour = "000000".substring(0, 6 - hexColour.length()) + hexColour;
@@ -130,16 +142,22 @@ public class Color extends org.purl.rvl.interpreter.gen.viso.graphic.Color {
 	@Override
 	public String toString() {
 		String s = "";
-		if (hasLabels()) s += getAllLabel_as().firstValue() + " "; 
-		s += super.toString();
+		if (hasLabels()) 
+			s += "color " + getAllLabel_as().firstValue() + NL; 
+		s += "      " + super.toString() + ", ";
+		
 		try{
 			s += getColor_as_JavaAWT();
-			s += ", hex: " + toHexString();
+			try{
+				s += ", hex: " + toHexString();
+			}
+			catch (NumberFormatException e) {
+				LOGGER.warning("Problem getting hex color for " + super.toString() + ". Missing color values?");
+			}
 		}
-		catch (NullPointerException e) {
-			System.err.println("problem getting hex color for color " + super.toString() + " Missing color values?");
+		catch (IncompleteColorValuesException e) {
+			LOGGER.warning("Problem creating AWT color for " + super.toString() + ". Missing color values?");
 		}
-		s += NL;
 		
 		return s;
 	}

@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.json.simple.JSONObject;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
@@ -24,23 +25,11 @@ import org.purl.rvl.interpreter.viso.graphic.GraphicObject;
  *
  */
 public class D3GeneratorSimpleJSON extends D3GeneratorBase {
-
 	
-	/**
-	 * Saves a String to JSON file
-	 */
-	public void writeJSONToFile(String fileContent){
-		try {
-			FileWriter writer = new FileWriter(OGVICProcess.jsonFileRelName);
-			writer.write(fileContent);
-			writer.flush();
-			writer.close();
-			System.out.println("JSON written to " + OGVICProcess.jsonFileRelName);
-			// System.out.println(fileContent);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+	
+	private final static Logger LOGGER = Logger.getLogger(D3GeneratorBase.class .getName()); 
+	static final String NL =  System.getProperty("line.separator");
+
 	
 	
 	/**
@@ -54,7 +43,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 	/**
 	 * Generates JSON using SimpleJSON (Jackson JSON-Binding-Version also exists)
 	 */
-	public void generateJSONforD3(){
+	public String generateJSONforD3(){
 		
 		// evtl. move the following ...
 			org.purl.rvl.interpreter.gen.viso.graphic.GraphicObject[] goArray = 
@@ -101,21 +90,22 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				while (dlRelIt.hasNext()) {
 					DirectedLinking dlRel = (DirectedLinking) dlRelIt.next().castTo(DirectedLinking.class); // TODO wieso liess sich GO zu DLRel casten???
 					GraphicObject endNode = (GraphicObject) dlRel.getAllEndnode_as().firstValue().castTo(GraphicObject.class);
+					GraphicObject connector = (GraphicObject) dlRel.getAllLinkingconnector_as().firstValue().castTo(GraphicObject.class);
 					// get index of the endNode in the above generated Map
 					Map link = new LinkedHashMap();
 					link.put("source", i);
 					link.put("target", goMap.get(endNode));
 					link.put("value", "1");
+					link.put("color_rgb_hex", connector.getColorHex());
 					listOfLinks.add(link);				}
 			} catch (Exception e) {
-				System.err.println("No links could be generated." + e);
+				LOGGER.warning("No links could be generated." + e);
 			}		
 		}
 		
 		d3data.put("links", listOfLinks);
-				
-		System.out.print(d3data);
-		writeJSONToFile(d3data.toJSONString());
+		
+		return d3data.toJSONString();
 	}
 	
 }

@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
@@ -45,12 +47,17 @@ public class SimpleRVLInterpreter {
 	protected Model model;
 	private Model modelVISO;
 	private Random random;
+	private Map<org.ontoware.rdf2go.model.node.Resource,GraphicObject> resourceGraphicObjectMap; 
+	
+	private final static Logger LOGGER = Logger.getLogger(SimpleRVLInterpreter.class .getName()); 
+	static final String NL =  System.getProperty("line.separator");
 
 	public SimpleRVLInterpreter(Model model, Model modelVISO) {
 		super();
 		this.model = model;
 		this.modelVISO = modelVISO;
-		random = new Random();
+		this.random = new Random();
+		this.resourceGraphicObjectMap = new HashMap<org.ontoware.rdf2go.model.node.Resource, GraphicObject>();
 	}
 	
 	/**
@@ -58,16 +65,17 @@ public class SimpleRVLInterpreter {
 	 * Creates new GO for all affected resources.
 	 * TODO: merge/reuse GOs
 	 */
-	public void interpretesP2GO2ORMappings() {
+	public void interpretP2GO2ORMappings() {
 		
 		// get all P2GO2OR mappings to linking and create n-ary linking relations
 		Set<PropertyToGO2ORMapping> setOfMappingsToLinking = getAllMappingsToLinking();
 		
-		// for each simple mapping
+		// for each mapping
 		for (Iterator<PropertyToGO2ORMapping> iterator = setOfMappingsToLinking
 				.iterator(); iterator.hasNext();) {
 			PropertyToGO2ORMapping p2go2orm = (PropertyToGO2ORMapping) iterator.next();
-			System.out.println(p2go2orm);
+			LOGGER.fine("Interpreting the mapping: " + NL + 
+					     p2go2orm.toString());
 			
 			PropertyMapping pm = (PropertyMapping) p2go2orm.castTo(PropertyMapping.class);
 			Set<org.ontoware.rdf2go.model.node.Resource> subjectSet;
@@ -77,11 +85,12 @@ public class SimpleRVLInterpreter {
 				
 				// for each affected resource
 				for (Iterator<org.ontoware.rdf2go.model.node.Resource> iterator2 = subjectSet.iterator(); iterator2.hasNext();) {
-					org.ontoware.rdf2go.model.node.Resource resource = iterator2.next().asResource(); // strange: unlike in the toString() method of PM, we cannot simply cast to resource here, only to URI!
-					//System.out.println("affects: " + resource +  NL);
 					
-					// create a startNode GO for each affected resource
-				    GraphicObject startNode = new GraphicObject(model,"http://purl.org/rvl/example-avm/GO_" + random.nextInt(), true);
+					org.ontoware.rdf2go.model.node.Resource resource = iterator2.next().asResource(); // strange: unlike in the toString() method of PM, we cannot simply cast to resource here, only to URI!
+
+					// create a startNode GO for each affected resource or get the GO, if it already exists
+				    //GraphicObject startNode = new GraphicObject(model,"http://purl.org/rvl/example-avm/GO_" + random.nextInt(), true);
+				    GraphicObject startNode = createOrGetGraphicObject(resource);
 
 					// Get the (first) object and create an endNode GO for the object
 			    	Node object = null;
@@ -89,19 +98,21 @@ public class SimpleRVLInterpreter {
 					while (resSpStmtIt.hasNext()) {
 						Statement statement = (Statement) resSpStmtIt.next();
 						object = statement.getObject();
-						System.out.println(object);
+						LOGGER.finest("Creating endNode for: " + //NL + 
+								     object.toString());
 					}
-			    	GraphicObject endNode = new GraphicObject(model,"http://purl.org/rvl/example-avm/GO_" + random.nextInt(), true);
+			    	GraphicObject endNode = createOrGetGraphicObject((org.ontoware.rdf2go.model.node.Resource)object);
 			    	
 			    	// create the linking relation
 			    	DirectedLinking dlRel = new DirectedLinking(model, true);
 			    	
 					// create a connector and add exemplary color
 					GraphicObject connector = new GraphicObject(model, true);
-					//connector.setColornamed(red);
+					connector.setColornamed(new org.purl.rvl.interpreter.viso.graphic.Color(model, "http://purl.org/viso/graphic/Red", true));
 					//connector.setColorhslhue(new Float(155));
 					//connector.setColorhslsaturation(new Float(100));
 					//connector.setColorhsllightness(new Float(50));
+					connector.setLabel("only a connector, should be filtered out");
 					
 					// configure the relation
 					dlRel.setStartnode(startNode);
@@ -109,30 +120,37 @@ public class SimpleRVLInterpreter {
 					dlRel.setLinkingconnector(connector);
 					startNode.setLinkedto(dlRel);
 					endNode.setLinkedfrom(dlRel);
-			    	
-			    	// TODO: possibly redundant! (already done in P2GA mapping)
-				    // perform the default label mapping, when not already set
-				    // TODO this is simply using rdfs:label of the GOs now, not the n-ary graphic labeling!
-				    // only rdfreactor resources have labels ...
-					if(!startNode.hasLabels()) {
-						performDefaultLabelMapping(startNode,resource);
-					}
-					if(!endNode.hasLabels()) {
-						performDefaultLabelMapping(endNode,resource);
-					}
 				}
-				
-				
-				
-				
+	
 			} catch (InsufficientMappingSpecificationExecption e) {
-				System.err.println("No resources affected, since mapping insuffiently specified.");
-				e.printStackTrace();
+				LOGGER.warning(e.getMessage());
+				LOGGER.warning("--> No resources will be affected by mapping " + pm );
+				//e.printStackTrace();
 			}
 	
 		}
 		
+		LOGGER.fine("The size of the Resource-to-GraphicObject map is " + resourceGraphicObjectMap.size()+".");
 		
+		
+	}
+
+	/**
+	 * Creates a GraphicObject for a Resource or returns the existing GraphicObject, if already created before
+	 * @param resource
+	 * @return the GraphicObject representing the resource
+	 */
+	private GraphicObject createOrGetGraphicObject(org.ontoware.rdf2go.model.node.Resource resource) {
+		if (resourceGraphicObjectMap.containsKey(resource)) {
+			LOGGER.finest("found existing GO for " + resource);
+			return resourceGraphicObjectMap.get(resource);
+		} 
+		else {
+			GraphicObject go = new GraphicObject(model,"http://purl.org/rvl/example-avm/GO_" + random.nextInt(), true);
+			resourceGraphicObjectMap.put(resource, go);
+			LOGGER.finer("Newly created GO for " + resource);
+			return go;
+		}
 	}
 
 
@@ -141,7 +159,7 @@ public class SimpleRVLInterpreter {
 	 * Interprets the simple P2GA mappings, i.e. those without need for calculating value mappings. 
 	 * Creates GO for all affected resources.
 	 */
-	public void interpreteSimpleP2GArvlMappings() {
+	public void interpretSimpleP2GArvlMappings() {
 		
 		Set<PropertyToGraphicAttributeMapping> setOfSimpleP2GAMappings = getAllP2GAMappingsWithExplicitMappings();
 		
@@ -149,7 +167,7 @@ public class SimpleRVLInterpreter {
 		for (Iterator<PropertyToGraphicAttributeMapping> iterator = setOfSimpleP2GAMappings
 				.iterator(); iterator.hasNext();) {
 			PropertyToGraphicAttributeMapping p2gam = (PropertyToGraphicAttributeMapping) iterator.next();
-			//System.out.println(p2gam);
+			//LOGGER.info(p2gam);
 			
 			// get the mapping table SV->TV
 			Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
@@ -164,10 +182,10 @@ public class SimpleRVLInterpreter {
 				// for each affected resource
 				for (Iterator<org.ontoware.rdf2go.model.node.Resource> iterator2 = subjectSet.iterator(); iterator2.hasNext();) {
 					org.ontoware.rdf2go.model.node.Resource resource = iterator2.next().asResource(); // strange: unlike in the toString() method of PM, we cannot simply cast to resource here, only to URI!
-					//System.out.println("affects: " + resource +  NL);
+					//LOGGER.info("affects: " + resource +  NL);
 					
 					// create a GO for each affected resource
-				    GraphicObject go = new GraphicObject(model,"http://purl.org/rvl/example-avm/GO_" + random.nextInt(), true);
+				    GraphicObject go = createOrGetGraphicObject(resource);
 			    	Node sv = null;
 				    
 				    // get the (first) source value of the resource for the mapped property
@@ -175,7 +193,7 @@ public class SimpleRVLInterpreter {
 					while (resSpStmtIt.hasNext()) {
 						Statement statement = (Statement) resSpStmtIt.next();
 						sv = statement.getObject();
-						//System.out.println(sv);
+						//LOGGER.info(sv);
 					}
 								
 					// get the target value for the sv
@@ -186,29 +204,37 @@ public class SimpleRVLInterpreter {
 					    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/color_named")) {
 					    	Color color = Color.getInstance(model, tv.asURI());
 					    	go.setColornamed(color);
-					    	//System.out.println("set color to " + color + " for sv " + sv);
+					    	//LOGGER.info("set color to " + color + " for sv " + sv);
 					    }
 					    
 				    	// if we are mapping to named shapes
 					    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/shape_named")) {
 					    	Shape shape = ShapeX.getInstance(model, tv.asURI());
 					    	go.setShapenamed(shape);
-					    	//System.out.println("set shape to " + shape + " for sv " + sv + NL);
+					    	//LOGGER.info("set shape to " + shape + " for sv " + sv + NL);
 					    }
 			    	}
-				    
-				    // perform the default label mapping, when not already set
-				    // TODO this is simply using rdfs:label of the GOs now, not the n-ary graphic labeling!
-				    // only rdfreactor resources have labels ...
-					if(!go.hasLabels()) {
-						performDefaultLabelMapping(go,resource);
-					}
 				}
 			} catch (InsufficientMappingSpecificationExecption e) {
-				System.err.println("No resources affected, since mapping insuffiently specified.");
-				e.printStackTrace();
+				LOGGER.warning(e.getMessage());
+				LOGGER.warning("--> No resources will be affected by mapping " + pm );
+				//e.printStackTrace();	
 			} 
 			
+		}
+	}
+	
+	public void interpretResourceLabelAsGOLabelForAllCreatedResources(){
+		for (Map.Entry<org.ontoware.rdf2go.model.node.Resource,GraphicObject> entry : resourceGraphicObjectMap.entrySet()) {
+			//LOGGER.info(entry.getKey() + " with value " + entry.getValue());
+			// perform the default label mapping, when not already set
+		    // TODO this is simply using rdfs:label of the GOs now, not the n-ary graphic labeling!
+		    // only rdfreactor resources have labels ...
+			GraphicObject go = entry.getValue();
+			org.ontoware.rdf2go.model.node.Resource resource = entry.getKey();
+			if(!go.hasLabels()) {
+				performDefaultLabelMapping(go,resource);
+			}
 		}
 	}
 	
@@ -242,17 +268,17 @@ public class SimpleRVLInterpreter {
 				"    FILTER (?svCount = 1 ) " +
 				"} " ;
 		
-		//System.out.println("All mappings with explicit value mappings (VMs with only 1 source value)");
-		//System.out.println(queryString);
+		//LOGGER.info("All mappings with explicit value mappings (VMs with only 1 source value)");
+		//LOGGER.info(queryString);
 		
 		QueryResultTable results = model.sparqlSelect(queryString);
-//		for(QueryRow row : results) {System.out.println(row); }
-//		for(String var : results.getVariables()) { System.out.println(var); }
+//		for(QueryRow row : results) {LOGGER.info(row); }
+//		for(String var : results.getVariables()) { LOGGER.info(var); }
 		
 		for(QueryRow row : results) {
 			Property_to_Graphic_AttributeMapping p2gam = Property_to_Graphic_AttributeMapping.getInstance(model, (URI)row.getValue("p2gam"));
 			mappingSet.add((PropertyToGraphicAttributeMapping)p2gam.castTo(PropertyToGraphicAttributeMapping.class));
-			//System.out.println(row.getValue("p2gam"));
+			//LOGGER.info(row.getValue("p2gam"));
 		}
 		
 		return mappingSet;
@@ -269,17 +295,17 @@ public class SimpleRVLInterpreter {
 				"    ?mapping <" + PropertyToGO2ORMapping.TARGETOBJECT_TO_OBJECTRELATION + "> <" + DirectedLinking.RDFS_CLASS + "> . " +
 				"} " ;
 		
-		System.out.println("All mappings to Directed Linking");
-		System.out.println(queryString);
+		LOGGER.finer("SPARQL: query all mappings to Directed Linking:" + NL + 
+				     queryString);
 		
 		QueryResultTable results = model.sparqlSelect(queryString);
-		//for(QueryRow row : results) {System.out.println(row); }
-		//for(String var : results.getVariables()) { System.out.println(var); }
+		//for(QueryRow row : results) {LOGGER.info(row); }
+		//for(String var : results.getVariables()) { LOGGER.info(var); }
 		
 		for(QueryRow row : results) {
 			Property_to_Graphic_Object_to_Object_RelationMapping mapping = Property_to_Graphic_Object_to_Object_RelationMapping.getInstance(model, (URI)row.getValue("mapping"));
 			mappingSet.add((PropertyToGO2ORMapping)mapping.castTo(PropertyToGO2ORMapping.class));
-			//System.out.println(row.getValue("mapping"));
+			//LOGGER.fine(row.getValue("mapping"));
 		}
 		
 		return mappingSet;

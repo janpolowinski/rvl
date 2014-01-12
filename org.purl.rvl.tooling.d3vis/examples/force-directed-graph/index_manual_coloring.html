@@ -41,7 +41,10 @@ d3.json("data.json", function(error, graph) {
       .data(graph.links)
     .enter().append("line")
       .attr("class", "link")
-      .style("stroke-width", function(d) { return Math.sqrt(d.value); });
+      //.style("stroke-width", function(d) { return Math.sqrt(d.value); })
+	  .style("stroke", function(d) { return d.color_rgb_hex; })
+	  .style("stroke-width", function(d) { return 10 })
+	  ;
 
   var node = svg.selectAll(".node")
       .data(graph.nodes)

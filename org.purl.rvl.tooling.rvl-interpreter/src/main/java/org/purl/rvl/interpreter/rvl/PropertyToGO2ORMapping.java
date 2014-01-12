@@ -52,15 +52,15 @@ public class PropertyToGO2ORMapping extends
 		
 		// targetAttribute is specific to P2GAM
 		GraphicObjectToObjectRelation tgo2or = this.getAllTargetobject_to_objectrelation_as().firstValue();
-		String tgaString = tgo2or.getAllLabel_as().count()>0 ? tgo2or.getAllLabel_as().firstValue() : tgo2or.toString();
-		s += "from P2GO2ORM(m): target GOTOR: " + tgaString + NL ;
+		String tgrString = tgo2or.getAllLabel_as().count()>0 ? tgo2or.getAllLabel_as().firstValue() : tgo2or.toString();
+		s += "     target GOTOR: " + tgrString + NL ;
 		
 		// list sub-mappings
 		Sub_mappingrelation smr = this.getAllSub_mapping_as().firstValue();
-		s += smr + NL;
-		s += "from P2GO2ORM(m): Sub-mapping to mapping: " + smr.getAllSub_mapping_as().firstValue() + NL ;
-		s += "from P2GO2ORM(m): Sub-mapping on role: " + smr.getAllOnrole_as().firstValue() + NL ;
-		s += "from P2GO2ORM(m): Sub-mapping on triple part: " + smr.getAllOntriplepart_as().firstValue() + NL ;
+		s += "     Sub-mappig relation: " + smr + NL;
+		s += "          Sub-mapping to mapping: " + smr.getAllSub_mapping_as().firstValue() + NL ;
+		s += "          Sub-mapping on role: " + smr.getAllOnrole_as().firstValue() + NL ;
+		s += "          Sub-mapping on triple part: " + smr.getAllOntriplepart_as().firstValue() + NL ;
 
 		return s;
 	}
