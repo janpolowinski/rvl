@@ -23,7 +23,7 @@ public class VISOapiGenerator {
 	
 	final public static String VISO_GRAPHIC_EXTRA = "../org.purl.rvl.vocabulary/viso-branch/viso-graphic-extra-for-codegen.ttl";
 	
-	public static final String PACKAGE = "org.purl.rvl.interpreter.gen.viso.graphic";
+	public static final String PACKAGE = "org.purl.rvl.java.gen.viso.graphic";
 
 	public static void main(String[] args) throws Exception {
 		

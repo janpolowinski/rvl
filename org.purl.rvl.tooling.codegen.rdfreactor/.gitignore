@@ -1,5 +1,5 @@
 /target
-/src/main/java/org/purl/rvl/interpreter/rvlsmall
+/src/main/java/org/purl/rvl/java/rvlsmall
 *.DS_Store
 .DS_Store
 
@@ -7,5 +7,5 @@
 *.log.1
 /new.ttl
 avm.ttl
-/src/main/java/org/purl/rvl/interpreter/gen/
+/src/main/java/org/purl/rvl/java/gen/
 /.classpath

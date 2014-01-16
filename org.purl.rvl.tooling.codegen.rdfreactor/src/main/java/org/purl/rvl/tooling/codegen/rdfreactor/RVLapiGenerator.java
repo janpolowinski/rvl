@@ -29,7 +29,7 @@ public class RVLapiGenerator {
 //	public static final String ONTOLOGY_URL = PATH_TO_PROJECT_ONTOLOGIES + "pizza.owl";
 //	public static final String ONTOLOGY_URL = PATH_TO_PROJECT_ONTOLOGIES + "people+pets.owl";
 	
-	public static final String PACKAGE = "org.purl.rvl.interpreter.gen.rvl";
+	public static final String PACKAGE = "org.purl.rvl.java.gen.rvl";
 //	public static final String PACKAGE = "org.purl.rvl.test.pizza";
 //	public static final String PACKAGE = "org.purl.rvl.test.peopelpets";
 	
