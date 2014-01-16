@@ -37,8 +37,8 @@ public class OGVICProcess {
 	public static final String VISO_LOCAL_REL = "../org.purl.rvl.vocabulary/viso-branch/viso-graphic-inference.ttl";
 	
 	public static final String GEN_MODEL_FILE_FOLDER = "gen";
-	protected static final String TMP_RVL_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "tempRvl.ttl";
-	public static final String TMP_AVM_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "tempAVM.ttl";
+	protected static final String TMP_RVL_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempRvl.ttl";
+	public static final String TMP_AVM_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempAVM.ttl";
 
 
 	private final static Logger LOGGER = Logger.getLogger(OGVICProcess.class .getName()); 
