@@ -53,7 +53,7 @@ public class ModelBuilder {
 	
 		// create the RDF2GO Models
 		//model = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
-		model = RDF2Go.getModelFactory().createModel(Reasoning.none);
+		model = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		model.open();
 		modelVISO = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		modelVISO.open();

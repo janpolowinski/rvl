@@ -57,7 +57,7 @@ public class MappingModelTest {
 
 	}
 	
-	//@Test
+	@Test
 	public void testListAllMappings() {
 		RVLUtils.listAllMappings(model);
 	}
@@ -68,25 +68,6 @@ public class MappingModelTest {
 		RVLUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithAnonymousSubmappingToNamedMappingOnConnector");
 		RVLUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithAnonSubmappingOnConnector");
 	}
-	
-
-/*
-		# sub-mapping - 
-		# PM with a sub-mapping to an existing, named mapping
-		# CHANGE IN LISTINGS: rdf:predicate, not rvl:predicate ; vg:targetAttribute vs vg:targetGraphicAttribute
-		rexm:PMwithNamedSubmappingOnConnector
-		      rdf:type rvl:PropertyMapping ;
-		      rdfs:label "PM with a sub-mapping to an existing, named mapping"^^xsd:string ;
-		      rvl:sourceProperty rexd:cites ;
-		      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
-		      rvl:subMapping [
-		        a rvl:SubMappingRelation ;
-		        rvl:subMapping-onRole vg:linking_connector;
-		        rvl:subMapping-onTriplePart rdf:predicate;
-		        rvl:subMapping-mapping rexm:PMfromID2ColorNamed;
-		      ]
-		      .
-*/
 	
 	@Test
 	public void testJena(){
