@@ -55,13 +55,20 @@ public class PropertyToGO2ORMapping extends
 		String tgrString = tgo2or.getAllLabel_as().count()>0 ? tgo2or.getAllLabel_as().firstValue() : tgo2or.toString();
 		s += "     target GOTOR: " + tgrString + NL ;
 		
-		// list sub-mappings
-		Sub_mappingrelation smr = this.getAllSub_mapping_as().firstValue();
-		s += "     Sub-mappig relation: " + smr + NL;
-		s += "          Sub-mapping to mapping: " + smr.getAllSub_mapping_as().firstValue() + NL ;
-		s += "          Sub-mapping on role: " + smr.getAllOnrole_as().firstValue() + NL ;
-		s += "          Sub-mapping on triple part: " + smr.getAllOntriplepart_as().firstValue() + NL ;
-
+		if (pm.hasSub_mapping()) {
+			// list sub-mappings
+			Sub_mappingrelation smr = this.getAllSub_mapping_as().firstValue();
+			s += "     Submappig relation: " + smr + NL;
+			s += "          type: " + smr.getAllType_as().firstValue() + NL ;
+			
+			//if(smr.has)
+			//	s += "          Submapping to mapping: " + smr.getAllSub_mapping_as() + NL ; // wrong property
+			if(smr.hasOnrole())
+				s += "          Submapping on role: " + smr.getAllOnrole_as().firstValue() + NL ; // null when used on blank nodes???
+			if(smr.hasOntriplepart())
+				s += "          Submapping on triple part: " + smr.getAllOntriplepart_as() + NL ; // why null?
+		}
+		
 		return s;
 	}
 

@@ -44,7 +44,7 @@ public class GraphicObject extends
 
 	public GraphicObject(Model model, boolean write) {
 		super(model, write);
-		// TODO Auto-generated constructor stub
+		this.setColornamed(Color.getDefaultColor(model));
 	}
 
 	

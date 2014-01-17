@@ -162,4 +162,9 @@ public class Color extends org.purl.rvl.java.gen.viso.graphic.Color {
 		return s;
 	}
 
+	// TODO performance: reuse color objects?
+	public static Color getDefaultColor(Model model) {
+		return new org.purl.rvl.java.viso.graphic.Color(model, "http://purl.org/viso/graphic/Grey", true);
+	}
+
 }

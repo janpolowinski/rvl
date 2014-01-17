@@ -52,7 +52,8 @@ public class ModelBuilder {
 		// for ModelFactoryImpls to register.
 	
 		// create the RDF2GO Models
-		model = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		//model = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		model = RDF2Go.getModelFactory().createModel(Reasoning.none);
 		model.open();
 		modelVISO = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		modelVISO.open();

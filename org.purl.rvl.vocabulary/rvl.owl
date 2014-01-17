@@ -133,7 +133,7 @@ TODO: Also a cascading mechanism is needed to determine the winning mapping, whe
       <owl:Class rdf:about="http://purl.org/rvl/Mapping"/>
     </rdfs:subClassOf>
     <dct:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >A convenience mapping. Stands for the frequently needed case of a property mapping of a resources ID (represented by the property "uriPseudoProperty") to a target graphic attribute plus an attached value mapping from a specific source value to a fixed graphic attribute value. It can be used in combination with inheritedBy and passedTo in order to easily transfer the same value to all instances or subclasses of some specific resource.
+    >A convenience mapping. Stands for the frequently needed case of a property mapping of a resources ID (represented by the property "rvl:ID") to a target graphic attribute plus an attached value mapping from a specific source value to a fixed graphic attribute value. It can be used in combination with inheritedBy and passedTo in order to easily transfer the same value to all instances or subclasses of some specific resource.
 
 While the sourceProperty is implicitly clear (the ID), it is necessary to state the target graphic attribute when only a value of a simple data type, is given as a target value. For example take the value "10.5" - is it a height or a width? For the target value viso-graphic:red it is clear that it is a named color value, therefore, the target graphic attribute viso-graphic:color_named can be omitted.
 
@@ -1068,7 +1068,7 @@ TMPOFF: domain also PropertyToGraphicAttributeMapping</skos:editorialNote>
     <dct:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Points to a part of an RDF statement to define on which part of a statement, submappings should be applied. Please refer to "SubMappingRelation" for details.</dct:description>
   </rdf:Property>
-  <rdf:Property rdf:about="http://purl.org/rvl/uriPseudoProperty">
+  <rdf:Property rdf:about="http://purl.org/rvl/ID">
     <dct:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Used to allow for referring to the URI of an individual or property. </dct:description>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"

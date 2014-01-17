@@ -7,8 +7,19 @@ import java.util.Random;
 import org.junit.Before;
 import org.junit.Test;
 import org.ontoware.rdf2go.model.Model;
+import org.openrdf.rdf2go.StatementIterator;
 import org.purl.rvl.tooling.ModelBuilder;
 import org.purl.rvl.tooling.util.RVLUtils;
+
+import com.hp.hpl.jena.ontology.OntClass;
+import com.hp.hpl.jena.ontology.OntModel;
+import com.hp.hpl.jena.ontology.OntResource;
+import com.hp.hpl.jena.rdf.model.Property;
+import com.hp.hpl.jena.rdf.model.RDFNode;
+import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.Statement;
+import com.hp.hpl.jena.rdf.model.StmtIterator;
+import com.hp.hpl.jena.rdf.model.impl.ModelCom;
 
 public class MappingModelTest {
 	
@@ -19,7 +30,7 @@ public class MappingModelTest {
 		model = ModelBuilder.getModel();
 	}
 
-	@Test
+	//@Test
 	public void create10Mappings() {
 		
 		Random random = new Random();
@@ -46,14 +57,78 @@ public class MappingModelTest {
 
 	}
 	
-	@Test
+	//@Test
 	public void testListAllMappings() {
-		
-		System.out.println("");
-		System.out.println("List of all mappings in the model:");
-		System.out.println("");
-		
 		RVLUtils.listAllMappings(model);
 	}
+	
+	@Test
+	public void testPrintMappingWithURI(){
+		RVLUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithNamedSubmappingToNamedMappingOnConnector");
+		//RVLUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithAnonymousSubmappingToNamedMappingOnConnector");
+	}
+	
+
+/*
+		# sub-mapping - 
+		# PM with a sub-mapping to an existing, named mapping
+		# CHANGE IN LISTINGS: rdf:predicate, not rvl:predicate ; vg:targetAttribute vs vg:targetGraphicAttribute
+		rexm:PMwithNamedSubmappingOnConnector
+		      rdf:type rvl:PropertyMapping ;
+		      rdfs:label "PM with a sub-mapping to an existing, named mapping"^^xsd:string ;
+		      rvl:sourceProperty rexd:cites ;
+		      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
+		      rvl:subMapping [
+		        a rvl:SubMappingRelation ;
+		        rvl:submapping_onRole vg:linking_connector;
+		        rvl:submapping_onTriplePart rdf:predicate;
+		        rvl:submapping_mapping rexm:PMfromID2ColorNamed;
+		      ]
+		      .
+*/
+	
+	//@Test
+	public void testJena(){
+		System.out.println("Access via Jena:");
+		System.out.println();
+		ModelCom jenaModelCom = (ModelCom) model.getUnderlyingModelImplementation();
+	
+		Property subMappingProperty =  jenaModelCom.getProperty("http://purl.org/rvl/subMapping");
+		Property onTriplePartProperty =  jenaModelCom.getProperty("http://purl.org/rvl/submapping_onTriplePart");
+		Property onRoleProperty =  jenaModelCom.getProperty("http://purl.org/rvl/submapping_onRole");
+		Property mappingProperty =  jenaModelCom.getProperty("http://purl.org/rvl/submapping_mapping");
+		
+		Resource resource =  jenaModelCom.getResource("http://purl.org/rvl/example-mappings/PMwithNamedSubmappingToNamedMappingOnConnector");
+		Statement subMappingStatement =  jenaModelCom.getProperty(resource, subMappingProperty);
+		RDFNode subMappingNode = subMappingStatement.getObject();
+		
+		System.out.println("all statements with subject: " + subMappingNode);
+		StmtIterator it = jenaModelCom.listStatements(subMappingNode.asResource(), null, (RDFNode) null);
+		while (it.hasNext()) {
+			System.out.println("  "+it.next());
+		}
+		
+		System.out.println();
+		
+		Property p = onRoleProperty;
+		System.out.println("statements with subject: " + subMappingNode + " and property " + p);
+		StmtIterator it2 = jenaModelCom.listStatements(subMappingNode.asResource(), p, (RDFNode) null);
+		while (it2.hasNext()) {
+			System.out.println("  "+it2.next());
+		}
+		
+		System.out.println();
+		
+		//OntClass mappingClass = jenaModel.getOntClass("http://purl.org/rvl/example-mappings/PMwithNamedSubmappingToNamedMappingOnConnector");
+		//OntResource sourcePropertyValue = (OntResource) thisInstance.getPropertyValue(m.getProperty("http://purl.org/rvl/sourceProperty"));
+		System.out.println("Mapping: " + resource);
+		System.out.println("  SubMapping: " + subMappingNode.asResource());
+		System.out.println("    _onRole: " + jenaModelCom.getProperty(subMappingNode.asResource(), onRoleProperty).getObject());
+		System.out.println("    _mapping: " + jenaModelCom.getProperty(subMappingNode.asResource(), mappingProperty).getObject());
+		System.out.println("    _onTriplePart: " + jenaModelCom.getProperty(subMappingNode.asResource(), onTriplePartProperty).getObject());
+	}
+	
+	
+
 	
 }
