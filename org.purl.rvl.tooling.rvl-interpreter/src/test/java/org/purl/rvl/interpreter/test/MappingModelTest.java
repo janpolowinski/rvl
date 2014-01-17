@@ -81,9 +81,9 @@ public class MappingModelTest {
 		      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
 		      rvl:subMapping [
 		        a rvl:SubMappingRelation ;
-		        rvl:subMapping_onRole vg:linking_connector;
-		        rvl:subMapping_onTriplePart rdf:predicate;
-		        rvl:subMapping_mapping rexm:PMfromID2ColorNamed;
+		        rvl:subMapping-onRole vg:linking_connector;
+		        rvl:subMapping-onTriplePart rdf:predicate;
+		        rvl:subMapping-mapping rexm:PMfromID2ColorNamed;
 		      ]
 		      .
 */
@@ -95,9 +95,9 @@ public class MappingModelTest {
 		ModelCom jenaModelCom = (ModelCom) model.getUnderlyingModelImplementation();
 	
 		Property subMappingProperty =  jenaModelCom.getProperty("http://purl.org/rvl/subMapping");
-		Property onTriplePartProperty =  jenaModelCom.getProperty("http://purl.org/rvl/subMapping_onTriplePart");
-		Property onRoleProperty =  jenaModelCom.getProperty("http://purl.org/rvl/subMapping_onRole");
-		Property mappingProperty =  jenaModelCom.getProperty("http://purl.org/rvl/subMapping_mapping");
+		Property onTriplePartProperty =  jenaModelCom.getProperty("http://purl.org/rvl/subMapping-onTriplePart");
+		Property onRoleProperty =  jenaModelCom.getProperty("http://purl.org/rvl/subMapping-onRole");
+		Property mappingProperty =  jenaModelCom.getProperty("http://purl.org/rvl/subMapping-mapping");
 		
 		Resource resource =  jenaModelCom.getResource("http://purl.org/rvl/example-mappings/PMwithNamedSubmappingToNamedMappingOnConnector");
 		Statement subMappingStatement =  jenaModelCom.getProperty(resource, subMappingProperty);
@@ -124,9 +124,9 @@ public class MappingModelTest {
 		//OntResource sourcePropertyValue = (OntResource) thisInstance.getPropertyValue(m.getProperty("http://purl.org/rvl/sourceProperty"));
 		System.out.println("Mapping: " + resource);
 		System.out.println("  SubMapping: " + subMappingNode.asResource());
-		System.out.println("    _onRole: " + jenaModelCom.getProperty(subMappingNode.asResource(), onRoleProperty).getObject());
-		System.out.println("    _mapping: " + jenaModelCom.getProperty(subMappingNode.asResource(), mappingProperty).getObject());
-		System.out.println("    _onTriplePart: " + jenaModelCom.getProperty(subMappingNode.asResource(), onTriplePartProperty).getObject());
+		System.out.println("    -onRole: " + jenaModelCom.getProperty(subMappingNode.asResource(), onRoleProperty).getObject());
+		System.out.println("    -mapping: " + jenaModelCom.getProperty(subMappingNode.asResource(), mappingProperty).getObject());
+		System.out.println("    -onTriplePart: " + jenaModelCom.getProperty(subMappingNode.asResource(), onTriplePartProperty).getObject());
 	}
 	
 	

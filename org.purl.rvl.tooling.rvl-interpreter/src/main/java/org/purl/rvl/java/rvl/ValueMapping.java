@@ -144,9 +144,7 @@ public class ValueMapping extends Valuemapping {
                                 //Set<Node> s=Sets.union(sourceValuesUnorderedSet, sourceValueSet );
                                 // do we need to merge them with an additionally defined set?
                                 List<Node> cvn =this.getAllExcludesourcevalue_asNode_().asList();
-                                cvn.clear();
-                                Container svs = 
-                                                this.getAllSourcevalueset_as().firstValue();
+                                org.ontoware.rdfreactor.schema.rdfs.List svs = this.getAllSourcevalueset_as().firstValue();
                                 if (null!=svs) {
                                          // TODO add all values set via sourceValue to the container and store it as our new unordered set
                                         List<Node> vvlJavaList = svs.getAllMember_asNode_().asList();
@@ -157,9 +155,7 @@ public class ValueMapping extends Valuemapping {
                 // when no source value is defined
                 else {
                         if(this.hasSourcevalueset()) {
-                                Container con = 
-                                                this.getAllSourcevalueset_as().firstValue();
-                        con=this.getAllSourcevalueset_as().firstValue();
+                        	org.ontoware.rdfreactor.schema.rdfs.List con = this.getAllSourcevalueset_as().firstValue();
                                 if (null!=con) {
                                         List<Node> vvlJavaList = con.getAllMember_asNode_().asList();
                                         sourceValuesUnorderedSet = new HashSet<Node>(vvlJavaList);
@@ -182,9 +178,7 @@ public class ValueMapping extends Valuemapping {
                                                 List<Node> lrs=this.getAllSourcevalueorderedset_asNode_().asList();
                                                 sourceValueOrderedSet= new HashSet<Node>(lrs); */
                                         	addressedSourceValueSituation= ValueMapping.ORDERED_SET;
-                                        	 Container con = 
-                                                     this.getAllSourcevalueset_as().firstValue();
-                             con=this.getAllSourcevalueorderedset_as().firstValue();
+                                        	org.ontoware.rdfreactor.schema.rdfs.List con = this.getAllSourcevalueorderedset_as().firstValue();
                                      if (null!=con) {
                                              List<Node> vvlJavaList = con.getAllMember_asNode_().asList();
                                              sourceValueOrderedSet = new HashSet<Node>(vvlJavaList);

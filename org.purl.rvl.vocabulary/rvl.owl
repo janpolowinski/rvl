@@ -284,7 +284,7 @@ Please note: The span of source values can also be set LARGER than the span impl
   </owl:Class>
   <owl:Class rdf:about="http://purl.org/rvl/SubMappingRelation">
     <dct:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Creates an n-ary relation between a base mapping and a sub-mapping, which is applied on the graphic object playing the role defined by rvl:subMapping_onRole. This allows for reusing existing mappings as sub-mappings. Additionally to the role, also the resource may be defined, the sub-mapping should work with. By default this is the object of the source-data-triple mapped by the "super-mapping", but it may be changed to the predicate or subject by using rvl:subMapping_onTriplePart.
+    >Creates an n-ary relation between a base mapping and a sub-mapping, which is applied on the graphic object playing the role defined by rvl:subMapping-onRole. This allows for reusing existing mappings as sub-mappings. Additionally to the role, also the resource may be defined, the sub-mapping should work with. By default this is the object of the source-data-triple mapped by the "super-mapping", but it may be changed to the predicate or subject by using rvl:subMapping-onTriplePart.
 
 Using sub-mappings has the following effects/benefits as opposed to defining a new standalone mapping (simultaneous composition):
 &lt;ul&gt;&lt;li&gt;Sub-mappings refine the graphic elements the super-mapping has worked on (each role can be referenced)&lt;/li&gt;
@@ -307,7 +307,7 @@ TODO PROTOTYPE: Not used in most examples at the moment. Instead hasSubMapping i
       <owl:Restriction>
         <owl:onClass rdf:resource="http://purl.org/rvl/Mapping"/>
         <owl:onProperty>
-          <owl:FunctionalProperty rdf:about="http://purl.org/rvl/subMapping_mapping"/>
+          <owl:FunctionalProperty rdf:about="http://purl.org/rvl/subMapping-mapping"/>
         </owl:onProperty>
         <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger"
         >1</owl:qualifiedCardinality>
@@ -317,7 +317,7 @@ TODO PROTOTYPE: Not used in most examples at the moment. Instead hasSubMapping i
       <owl:Restriction>
         <owl:onClass rdf:resource="http://purl.org/viso/graphic/SyntacticRole"/>
         <owl:onProperty>
-          <owl:FunctionalProperty rdf:about="http://purl.org/rvl/subMapping_onRole"/>
+          <owl:FunctionalProperty rdf:about="http://purl.org/rvl/subMapping-onRole"/>
         </owl:onProperty>
         <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger"
         >1</owl:qualifiedCardinality>
@@ -1054,7 +1054,7 @@ TMPOFF: domain also PropertyToGraphicAttributeMapping</skos:editorialNote>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >upper bound inclusive</rdfs:label>
   </rdf:Property>
-  <rdf:Property rdf:about="http://purl.org/rvl/subMapping_onTriplePart">
+  <rdf:Property rdf:about="http://purl.org/rvl/subMapping-onTriplePart">
     <swstatus:term_status rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >unstable</swstatus:term_status>
     <swstatus:term_status rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -1435,7 +1435,7 @@ TODO: Do we need the two sub-properties?</skos:editorialNote>
     >Abstract property. The graphic relation to be used in a mapping. Sub-properties need to be used in mappings - either targetGraphicAttribute or targetObjToObjRelation.</dct:description>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
   </owl:FunctionalProperty>
-  <owl:FunctionalProperty rdf:about="http://purl.org/rvl/subMapping_mapping">
+  <owl:FunctionalProperty rdf:about="http://purl.org/rvl/subMapping-mapping">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >sub-mapping</rdfs:label>
     <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/subMappingRelationProperty"/>
@@ -1492,7 +1492,7 @@ TODO: Do we need the two sub-properties?</skos:editorialNote>
 FSL-selectors: If we also allow expressions in a path-language: Can the necessary triples be selected this way? S,P,O need to be known after each matched selektion! FSL always selects a set of nodes or properties, so this will be difficult/impossible?! </skos:editorialNote>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
   </owl:FunctionalProperty>
-  <owl:FunctionalProperty rdf:about="http://purl.org/rvl/subMapping_onRole">
+  <owl:FunctionalProperty rdf:about="http://purl.org/rvl/subMapping-onRole">
     <rdfs:subPropertyOf rdf:resource="http://purl.org/rvl/subMappingRelationProperty"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >on role</rdfs:label>

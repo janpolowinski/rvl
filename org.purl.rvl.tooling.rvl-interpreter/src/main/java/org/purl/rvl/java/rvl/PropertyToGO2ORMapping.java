@@ -59,14 +59,13 @@ public class PropertyToGO2ORMapping extends
 			// list sub-mappings
 			Sub_mappingrelation smr = this.getAllSub_mapping_as().firstValue();
 			s += "     Submappig relation: " + smr + NL;
-			s += "          type: " + smr.getAllType_as().firstValue() + NL ;
-			
+			//s += "          type: " + smr.getAllType_as().firstValue() + NL ;
 			if(smr.hasSub_mapping())
-				s += "          Submapping to mapping: " + smr.getAllSub_mapping_as().firstValue()+ NL ; // wrong return type and wrong methode name, but seems to work
+				s += "          ... to mapping: " + smr.getAllSub_mapping_as().firstValue()+ NL ; // wrong return type and wrong methode name, but seems to work
 			if(smr.hasOnrole())
-				s += "          Submapping on role: " + smr.getAllOnrole_as().firstValue() + NL ; // null when used on blank nodes???
+				s += "          ... on role: " + smr.getAllOnrole_as().firstValue() + NL ;
 			if(smr.hasOntriplepart())
-				s += "          Submapping on triple part: " + smr.getAllOntriplepart_as().firstValue() + NL ;
+				s += "          ... on triple part: " + smr.getAllOntriplepart_as().firstValue() + NL ;
 		}
 		
 		return s;
