@@ -284,7 +284,7 @@ Please note: The span of source values can also be set LARGER than the span impl
   </owl:Class>
   <owl:Class rdf:about="http://purl.org/rvl/SubMappingRelation">
     <dct:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Creates an n-ary relation between a base mapping and a sub-mapping, which is applied on the graphic object playing the role defined by rvl:submapping_onRole. This allows for reusing existing mappings as sub-mappings. Additionally to the role, also the resource may be defined, the sub-mapping should work with. By default this is the object of the source-data-triple mapped by the "super-mapping", but it may be changed to the predicate or subject by using rvl:submapping_onTriplePart.
+    >Creates an n-ary relation between a base mapping and a sub-mapping, which is applied on the graphic object playing the role defined by rvl:subMapping_onRole. This allows for reusing existing mappings as sub-mappings. Additionally to the role, also the resource may be defined, the sub-mapping should work with. By default this is the object of the source-data-triple mapped by the "super-mapping", but it may be changed to the predicate or subject by using rvl:subMapping_onTriplePart.
 
 Using sub-mappings has the following effects/benefits as opposed to defining a new standalone mapping (simultaneous composition):
 &lt;ul&gt;&lt;li&gt;Sub-mappings refine the graphic elements the super-mapping has worked on (each role can be referenced)&lt;/li&gt;

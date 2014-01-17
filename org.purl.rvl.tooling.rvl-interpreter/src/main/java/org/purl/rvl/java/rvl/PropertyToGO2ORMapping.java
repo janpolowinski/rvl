@@ -61,12 +61,12 @@ public class PropertyToGO2ORMapping extends
 			s += "     Submappig relation: " + smr + NL;
 			s += "          type: " + smr.getAllType_as().firstValue() + NL ;
 			
-			//if(smr.has)
-			//	s += "          Submapping to mapping: " + smr.getAllSub_mapping_as() + NL ; // wrong property
+			if(smr.hasSub_mapping())
+				s += "          Submapping to mapping: " + smr.getAllSub_mapping_as().firstValue()+ NL ; // wrong return type and wrong methode name, but seems to work
 			if(smr.hasOnrole())
 				s += "          Submapping on role: " + smr.getAllOnrole_as().firstValue() + NL ; // null when used on blank nodes???
 			if(smr.hasOntriplepart())
-				s += "          Submapping on triple part: " + smr.getAllOntriplepart_as() + NL ; // why null?
+				s += "          Submapping on triple part: " + smr.getAllOntriplepart_as().firstValue() + NL ;
 		}
 		
 		return s;

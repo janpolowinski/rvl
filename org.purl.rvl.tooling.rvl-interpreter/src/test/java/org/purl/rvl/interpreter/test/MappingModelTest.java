@@ -65,7 +65,8 @@ public class MappingModelTest {
 	@Test
 	public void testPrintMappingWithURI(){
 		RVLUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithNamedSubmappingToNamedMappingOnConnector");
-		//RVLUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithAnonymousSubmappingToNamedMappingOnConnector");
+		RVLUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithAnonymousSubmappingToNamedMappingOnConnector");
+		RVLUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithAnonSubmappingOnConnector");
 	}
 	
 
@@ -80,23 +81,23 @@ public class MappingModelTest {
 		      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
 		      rvl:subMapping [
 		        a rvl:SubMappingRelation ;
-		        rvl:submapping_onRole vg:linking_connector;
-		        rvl:submapping_onTriplePart rdf:predicate;
-		        rvl:submapping_mapping rexm:PMfromID2ColorNamed;
+		        rvl:subMapping_onRole vg:linking_connector;
+		        rvl:subMapping_onTriplePart rdf:predicate;
+		        rvl:subMapping_mapping rexm:PMfromID2ColorNamed;
 		      ]
 		      .
 */
 	
-	//@Test
+	@Test
 	public void testJena(){
 		System.out.println("Access via Jena:");
 		System.out.println();
 		ModelCom jenaModelCom = (ModelCom) model.getUnderlyingModelImplementation();
 	
 		Property subMappingProperty =  jenaModelCom.getProperty("http://purl.org/rvl/subMapping");
-		Property onTriplePartProperty =  jenaModelCom.getProperty("http://purl.org/rvl/submapping_onTriplePart");
-		Property onRoleProperty =  jenaModelCom.getProperty("http://purl.org/rvl/submapping_onRole");
-		Property mappingProperty =  jenaModelCom.getProperty("http://purl.org/rvl/submapping_mapping");
+		Property onTriplePartProperty =  jenaModelCom.getProperty("http://purl.org/rvl/subMapping_onTriplePart");
+		Property onRoleProperty =  jenaModelCom.getProperty("http://purl.org/rvl/subMapping_onRole");
+		Property mappingProperty =  jenaModelCom.getProperty("http://purl.org/rvl/subMapping_mapping");
 		
 		Resource resource =  jenaModelCom.getResource("http://purl.org/rvl/example-mappings/PMwithNamedSubmappingToNamedMappingOnConnector");
 		Statement subMappingStatement =  jenaModelCom.getProperty(resource, subMappingProperty);

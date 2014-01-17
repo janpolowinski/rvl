@@ -333,31 +333,31 @@ rexm:PMwithAnonymousSubmappingToNamedMappingOnConnector
       rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
       rvl:subMapping [
         rdf:type rvl:SubMappingRelation ;
-        rvl:submapping_onRole vg:linking_connector;
-        rvl:submapping_onTriplePart rdf:predicate;
-        rvl:submapping_mapping rexm:PMfromID2ColorNamed;
+        rvl:subMapping_onRole vg:linking_connector;
+        rvl:subMapping_onTriplePart rdf:predicate;
+        rvl:subMapping_mapping rexm:PMfromID2ColorNamed;
       ]
       .
       
 rexm:NamedSubMappingRelation
     rdf:type rvl:SubMappingRelation ;  
-	rvl:submapping_onRole vg:linking_connector;
-    rvl:submapping_onTriplePart rdf:predicate;
-    rvl:submapping_mapping rexm:PMfromID2ColorNamed .
+	rvl:subMapping_onRole vg:linking_connector;
+    rvl:subMapping_onTriplePart rdf:predicate;
+    rvl:subMapping_mapping rexm:PMfromID2ColorNamed .
       
 # sub-mapping - 
 # PM with an anonymous, blank-node sub-mapping that maps the color of the connector created by the first mapping
 # CHANGE IN LISTINGS: rdf:predicate, not rvl:predicate ; vg:targetAttribute vs vg:targetGraphicAttribute
 rexm:PMwithAnonSubmappingOnConnector
-      rdf:type rvl:PropertyMapping ;
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
       rdfs:label "PM with an anonymous, blank node sub-mapping that maps the color of the connector created by the first mapping"^^xsd:string ;
       rvl:sourceProperty rexd:cites ;
       rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
       rvl:subMapping [
         a rvl:SubMappingRelation ;
-        rvl:submapping_onRole vg:linking_connector;
-        rvl:submapping_onTriplePart rdf:predicate;
-        rvl:submapping_mapping [
+        rvl:subMapping_onRole vg:linking_connector;
+        rvl:subMapping_onTriplePart rdf:predicate;
+        rvl:subMapping_mapping [
 			a rvl:PropertyMapping ;
  			rvl:sourceProperty rvl:ID ;
  			rvl:targetAttribute vg:color_named ;
