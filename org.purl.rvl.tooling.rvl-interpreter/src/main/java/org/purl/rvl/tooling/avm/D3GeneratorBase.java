@@ -39,8 +39,13 @@ public class D3GeneratorBase {
 	public void writeAVMToFile(){
 
 	    try {
-	     FileWriter writer = new FileWriter(OGVICProcess.TMP_AVM_MODEL_FILE_NAME);
+		String fileName = OGVICProcess.TMP_AVM_MODEL_FILE_NAME;
+			
+	     FileWriter writer = new FileWriter(fileName);
 	     model.writeTo(writer, Syntax.Turtle);
+	     writer.flush();
+		 writer.close();
+	     LOGGER.info("AVM written to " + fileName + " as Turtle");
 	    } catch (IOException e) {
 	     e.printStackTrace();
 	    }

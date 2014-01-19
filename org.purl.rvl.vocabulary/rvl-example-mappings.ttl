@@ -383,6 +383,15 @@ rexm:PMfromID2ColorNamed
       rdfs:label "PM from ID to color (used as a submapping)"^^xsd:string ;
  	  rvl:sourceProperty rvl:ID ;
  	  rvl:targetAttribute vg:color_named ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:cites;
+        rvl:targetValue vg:Red;
+      ],[
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:citesCritical;
+        rvl:targetValue vg:Green;
+      ]
       .              
       
 

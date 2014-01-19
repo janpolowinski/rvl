@@ -1,10 +1,16 @@
 package org.purl.rvl.tooling.util;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
+import org.ontoware.rdf2go.model.QueryResultTable;
+import org.ontoware.rdf2go.model.QueryRow;
 import org.ontoware.rdfreactor.schema.rdfs.Resource;
+import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
+import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
 import org.purl.rvl.java.viso.graphic.Color;
 import org.purl.rvl.java.viso.graphic.GraphicObject;
 
@@ -64,6 +70,36 @@ public class AVMUtils {
 				}
 			}
 		}		
+	}
+	
+	/**
+	 * Get only the GraphicObjects that need to be displayed. Remove objects
+	 * playing the role of connectors for example.
+	 * 
+	 * @return
+	 */
+	public static Set<GraphicObject> getRelevantGraphicObjects(Model model) {
+
+		Set<GraphicObject> gos = new HashSet<GraphicObject>();
+
+		// get all subjects and the sv/tv table via SPARQL
+		String query = "" + 
+				"SELECT DISTINCT ?go " + 
+				"WHERE { " +
+				"	?go a " + GraphicObject.RDFS_CLASS.toSPARQL() + " ." +
+//				"	?someRelation " + DirectedLinking.STARTNODE.toSPARQL() + " ?go ." +
+				"	FILTER NOT EXISTS { ?someRelation " + DirectedLinking.LINKINGCONNECTOR .toSPARQL() + " ?go . }" +
+				"} ";
+		System.out.println(query);
+
+		QueryResultTable explMapResults = model.sparqlSelect(query);
+		for (QueryRow row : explMapResults) {
+			System.out.println(row.getValue("go"));
+			gos.add((GraphicObject) GraphicObject.getInstance(model, row
+					.getValue("go").asURI()).castTo(GraphicObject.class));
+		}
+
+		return gos;
 	}
 
 }

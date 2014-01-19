@@ -29,7 +29,7 @@ public class RVLUtils {
 		Mapping mapping;
 		while (mappingIterator.hasNext()) {
 			mapping = (Mapping) mappingIterator.next().castTo(Mapping.class);
-			printMappingAsSpecificAsPossible(mapping);
+			mappingToStringAsSpecificAsPossible(mapping);
 		}
 	}
 
@@ -40,29 +40,47 @@ public class RVLUtils {
 			System.out.println("");
 			
 		  	org.purl.rvl.java.gen.rvl.Mapping mapping = Mapping.getInstance(model, new URIImpl(uriString));
-			printMappingAsSpecificAsPossible((Mapping) mapping.castTo(Mapping.class));
+		  	System.out.println(mappingToStringAsSpecificAsPossible((Mapping) mapping.castTo(Mapping.class)));
 	  }
 	  
-	  private static void printMappingAsSpecificAsPossible(Mapping mapping){
+	  public static void printMapping(org.purl.rvl.java.gen.rvl.Mapping mapping){  
+		  printMapping((Mapping)mapping.castTo(Mapping.class));
+	  }
+	  
+	  
+	  public static void printMapping(Mapping mapping){
+		  
+			System.out.println("");
+			System.out.println("Mapping details: ");
+			System.out.println("");
+			
+			System.out.println(mappingToStringAsSpecificAsPossible((Mapping) mapping.castTo(Mapping.class)));
+	  }
+	  
+	  public static String mappingToStringAsSpecificAsPossible(Mapping mapping){
+		
+		 String s = "";
 		  
 		// print as P2GAM (value mappings ... )
 		if(mapping.isInstanceof(org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping.RDFS_CLASS)) {
 			org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping p2gam = 
 					(org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping) mapping.castTo(
 							org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping.class);
-			System.out.println(p2gam);
+			s += p2gam;
 		}
 		// print as P2GO2ORM (submappings ... )
 		else if(mapping.isInstanceof(org.purl.rvl.java.rvl.PropertyToGO2ORMapping.RDFS_CLASS)) {
 			org.purl.rvl.java.rvl.PropertyToGO2ORMapping p2go2orm = 
 					(org.purl.rvl.java.rvl.PropertyToGO2ORMapping) mapping.castTo(
 							org.purl.rvl.java.rvl.PropertyToGO2ORMapping.class);
-			System.out.println(p2go2orm);
+			s += p2go2orm;
 		}
 		// print as general mapping
 		else {
-			System.out.println(mapping);
+			s += mapping;
 		}
+		
+		return s;
 		
 	  }
 

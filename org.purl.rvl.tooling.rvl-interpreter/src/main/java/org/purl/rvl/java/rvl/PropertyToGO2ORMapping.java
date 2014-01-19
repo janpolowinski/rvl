@@ -8,6 +8,7 @@ import org.ontoware.rdf2go.model.node.URI;
 import org.purl.rvl.java.gen.rvl.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
 import org.purl.rvl.java.gen.rvl.Sub_mappingrelation;
+import org.purl.rvl.tooling.util.RVLUtils;
 
 public class PropertyToGO2ORMapping extends
 		Property_to_Graphic_Object_to_Object_RelationMapping {
@@ -60,12 +61,18 @@ public class PropertyToGO2ORMapping extends
 			Sub_mappingrelation smr = this.getAllSub_mapping_as().firstValue();
 			s += "     Submappig relation: " + smr + NL;
 			//s += "          type: " + smr.getAllType_as().firstValue() + NL ;
-			if(smr.hasSub_mapping())
-				s += "          ... to mapping: " + smr.getAllSub_mapping_as().firstValue()+ NL ; // wrong return type and wrong methode name, but seems to work
 			if(smr.hasOnrole())
 				s += "          ... on role: " + smr.getAllOnrole_as().firstValue() + NL ;
 			if(smr.hasOntriplepart())
 				s += "          ... on triple part: " + smr.getAllOntriplepart_as().firstValue() + NL ;
+			if(smr.hasSub_mapping()) {
+				org.purl.rvl.java.gen.rvl.Mapping mapping = smr.getAllSub_mapping_as().firstValue();
+				s += "          ... to mapping: " + mapping + NL ; // wrong return type and wrong methode name, but seems to work
+				s += "              ... Sub-Mapping-Details: " + NL;
+				s += NL;
+				s += RVLUtils.mappingToStringAsSpecificAsPossible((Mapping)mapping.castTo(Mapping.class)) + NL ;
+			}
+	
 		}
 		
 		return s;

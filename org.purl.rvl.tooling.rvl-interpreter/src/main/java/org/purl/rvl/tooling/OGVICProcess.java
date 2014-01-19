@@ -51,7 +51,7 @@ public class OGVICProcess {
     	  	
 		//LOGGER.setLevel(Level.SEVERE); 
 		//LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.SEVERE); 
-		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.FINE);
+		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.FINEST);
 
 		
 		// In order to show log entrys of the fine level, we need to create a new handler as well
@@ -91,11 +91,11 @@ public class OGVICProcess {
 		
 		initRDF2GoModels();
 
-		///*
+		/*
 		builder = new ExampleAVMBuilder(model, modelVISO);
 		builder.createTestGraphicObjects();
 		builder.createTestLinkingDirectedRelations();
-		//*/
+		*/
 		
 		SimpleRVLInterpreter rvlInterpreter = new SimpleRVLInterpreter(model, modelVISO);
 		rvlInterpreter.interpretSimpleP2GArvlMappings();
@@ -107,7 +107,7 @@ public class OGVICProcess {
 		String json = ((D3GeneratorSimpleJSON)d3Generator).generateJSONforD3();
 		LOGGER.fine("JSON data is: " + NL +  json);
 		d3Generator.writeJSONToFile(json);
-		d3Generator.writeAVMToFile();
+		//d3Generator.writeAVMToFile();
 		
 
 		/*

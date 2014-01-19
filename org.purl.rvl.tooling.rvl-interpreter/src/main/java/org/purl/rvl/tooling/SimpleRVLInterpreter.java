@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.ontoware.aifbcommons.collection.ClosableIterable;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.QueryResultTable;
@@ -16,12 +18,15 @@ import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
+import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.ontoware.rdfreactor.schema.rdfs.Resource;
 import org.purl.rvl.java.exception.InsufficientMappingSpecificationExecption;
 import org.purl.rvl.java.gen.rvl.GraphicAttribute;
+import org.purl.rvl.java.gen.rvl.Mapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
+import org.purl.rvl.java.gen.rvl.Sub_mappingrelation;
 import org.purl.rvl.java.gen.viso.graphic.Color;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.Shape;
@@ -31,6 +36,7 @@ import org.purl.rvl.java.rvl.PropertyToGO2ORMapping;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping;
 import org.purl.rvl.java.viso.graphic.GraphicObject;
 import org.purl.rvl.java.viso.graphic.ShapeX;
+import org.purl.rvl.tooling.util.RVLUtils;
 
 public class SimpleRVLInterpreter {
 	
@@ -73,41 +79,54 @@ public class SimpleRVLInterpreter {
 				Set<org.ontoware.rdf2go.model.node.Resource> subjectSet = pm.getAffectedResources();
 				Property sp = pm.getAllSourceproperty_as().firstValue();
 				
-				// for each affected resource
+				// for each affected resource // TODO do we need the effected resources here at all, or can we directly work on statements?
 				for (Iterator<org.ontoware.rdf2go.model.node.Resource> iterator2 = subjectSet.iterator(); iterator2.hasNext();) {
 					
-					org.ontoware.rdf2go.model.node.Resource resource = iterator2.next().asResource(); // strange: unlike in the toString() method of PM, we cannot simply cast to resource here, only to URI!
-
-					// create a startNode GO for each affected resource or get the GO, if it already exists
-				    GraphicObject startNode = createOrGetGraphicObject(resource);
-
-					// Get the (first) object and create an endNode GO for the object
-			    	Node object = null;
-				    ClosableIterator<Statement> resSpStmtIt = model.findStatements(resource, sp.asURI(), Variable.ANY);
+					org.ontoware.rdf2go.model.node.Resource subjectResource = iterator2.next().asResource(); // strange: unlike in the toString() method of PM, we cannot simply cast to resource here, only to URI!
+			    	
+			    	// problem: while iterating a statement iterator no instances may be created 
+			    	// --> concurrend modification exception
+			    	// solution: first create a set of statements, then iterate
+			    	Set<Statement> resSpStmtSet = new HashSet<Statement>();
+			    	ClosableIterator<Statement> resSpStmtIt = model.findStatements(subjectResource, sp.asURI(), Variable.ANY);
 					while (resSpStmtIt.hasNext()) {
 						Statement statement = (Statement) resSpStmtIt.next();
-						object = statement.getObject();
-						LOGGER.finest("Creating endNode for: " + object.toString());
+						resSpStmtSet.add(statement);
 					}
-			    	GraphicObject endNode = createOrGetGraphicObject((org.ontoware.rdf2go.model.node.Resource)object);
-			    	
-			    	// create the linking relation
-			    	DirectedLinking dlRel = new DirectedLinking(model, true);
-			    	
-					// create a connector and add default color
-					GraphicObject connector = new GraphicObject(model, true);
-
-					// check for sub-mappings and modify the connector accordingly (-> generalize!)
-					checkForSubmappingsAndApplyToConnector(pm,connector);
 					
-					// configure the relation
-					dlRel.setStartnode(startNode);
-					dlRel.setEndnode(endNode);
-					dlRel.setLinkingconnector(connector);
-					startNode.setLinkedto(dlRel);
-					endNode.setLinkedfrom(dlRel);	
+					for (Iterator<Statement> resSpStmtSetIt = resSpStmtSet.iterator(); resSpStmtSetIt
+							.hasNext();) {
+						Statement statement = (Statement) resSpStmtSetIt.next();
+						LOGGER.warning("Statement to be mapped : " + statement);
+
+						// For each statement, create a startNode GO representing the subject (if not exists)
+					    GraphicObject startNode = createOrGetGraphicObject(subjectResource);
+				    	LOGGER.finest("Assigned startNode for: " + subjectResource.toString());
+						
+						// For each statement, create an endNode GO representing the object (if not exists)
+				    	Node object = statement.getObject();
+						
+						GraphicObject endNode = createOrGetGraphicObject((org.ontoware.rdf2go.model.node.Resource)object);
+				    	LOGGER.finest("Assigned endNode for: " + object.toString());
+				    	
+				    	// create the linking relation
+				    	DirectedLinking dlRel = new DirectedLinking(model, true);
+				    	
+						// create a connector and add default color
+						GraphicObject connector = new GraphicObject(model, true);
+
+						// check for sub-mappings and modify the connector accordingly (-> generalize!)
+						checkForSubmappingsAndApplyToConnector(pm,statement,connector);
+						
+						// configure the relation
+						dlRel.setStartnode(startNode);
+						dlRel.setEndnode(endNode);
+						dlRel.setLinkingconnector(connector);
+						startNode.setLinkedto(dlRel);
+						endNode.setLinkedfrom(dlRel);	
+					}
 				}
-	
+
 			} catch (InsufficientMappingSpecificationExecption e) {
 				LOGGER.warning(e.getMessage());
 				LOGGER.warning("--> No resources will be affected by mapping " + pm );
@@ -121,13 +140,91 @@ public class SimpleRVLInterpreter {
 		
 	}
 
-	private void checkForSubmappingsAndApplyToConnector(PropertyMapping pm, GraphicObject connector) {
-		connector.setLabel("only a connector, should be filtered out");
+	private void checkForSubmappingsAndApplyToConnector(PropertyMapping pm, Statement mainStatement, GraphicObject connector) {
+		
+		String label = "";
 		
 		if(pm.hasSub_mapping()){
-			connector.setColornamed(new org.purl.rvl.java.viso.graphic.Color(model, "http://purl.org/viso/graphic/Yellow", true));
-			connector.setLabel("Connector with an applied submapping");
+			Sub_mappingrelation smr = pm.getAllSub_mapping_as().firstValue();
+
+			if(smr.hasSub_mapping() && smr.hasOnrole()){
+				Mapping subMapping = smr.getAllSub_mapping_as().firstValue();
+				
+				label += " ... to mapping: " + subMapping ; // wrong return type and wrong methode name, but seems to work
+				label += " ... on role: " + smr.getAllOnrole_as().firstValue() ;
+				connector.setColornamed(new org.purl.rvl.java.viso.graphic.Color(model, "http://purl.org/viso/graphic/Yellow", true));
+				
+				
+				label += RVLUtils.mappingToStringAsSpecificAsPossible((org.purl.rvl.java.rvl.Mapping)subMapping.castTo(org.purl.rvl.java.rvl.Mapping.class)) + NL ;
+
+				PropertyToGraphicAttributeMapping p2gam = (PropertyToGraphicAttributeMapping)subMapping.castTo(PropertyToGraphicAttributeMapping.class);
+				
+				// get the subproperties as subjects of the new mapping --> do this in the calculation of value mappings instead
+		
+				if(p2gam.hasValuemapping()) {
+				
+					Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
+					
+					if(!svUriTVuriMap.isEmpty()){
+						
+						for (Entry<Node, Node> entry : svUriTVuriMap.entrySet()) {
+							Node sv = entry.getKey();
+							Node tv = entry.getValue();
+							label += "source and target values: "+sv+" --> "+tv+"" + NL;
+						}
+						
+					}
+					///Node triplePartValue = ...
+					
+					//Node property = (Node) model.getProperty(new URIImpl("http://purl.org/rvl/example-data/cites"));
+					
+					Node colorNode = svUriTVuriMap.get(mainStatement.getPredicate());
+					Color color = Color.getInstance(model, colorNode.asResource());
+					LOGGER.info("color: " + color.toString());
+					connector.setColornamed(color);
+					
+				}
+				
+				/*
+		    	Node sv = null;
+			    
+			    // get the (first) source value of the resource for the mapped property
+			    ClosableIterator<Statement> resSpStmtIt = model.findStatements(resource, sp.asURI(), Variable.ANY);
+				while (resSpStmtIt.hasNext()) {
+					Statement statement = (Statement) resSpStmtIt.next();
+					sv = statement.getObject();
+					//LOGGER.info(sv);
+				}
+				
+				
+							
+				// get the target value for the sv
+		    	Node tv = svUriTVuriMap.get(sv);
+		    	
+		    	if(tv!=null) {
+			    	// if we are mapping to named colors
+				    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/color_named")) {
+				    	Color color = Color.getInstance(model, tv.asURI());
+				    	go.setColornamed(color);
+				    	//LOGGER.info("set color to " + color + " for sv " + sv);
+				    }
+				    
+			    	// if we are mapping to named shapes
+				    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/shape_named")) {
+				    	Shape shape = ShapeX.getInstance(model, tv.asURI());
+				    	go.setShapenamed(shape);
+				    	//LOGGER.info("set shape to " + shape + " for sv " + sv + NL);
+				    }
+		    	}
+		    	
+		    	*/
+			}
+			if(smr.hasOntriplepart()) {
+				label += " ... on triple part: " + smr.getAllOntriplepart_as().firstValue() ;
+			}
 		}
+		connector.setLabel("Connector with an applied submapping: " + label);
+		
 		//
 		//connector.setColorhslhue(new Float(155));
 		//connector.setColorhslsaturation(new Float(100));
@@ -227,7 +324,7 @@ public class SimpleRVLInterpreter {
 	 */
 	private GraphicObject createOrGetGraphicObject(org.ontoware.rdf2go.model.node.Resource resource) {
 		if (resourceGraphicObjectMap.containsKey(resource)) {
-			LOGGER.finest("found existing GO for " + resource);
+			LOGGER.finest("Found existing GO for " + resource);
 			return resourceGraphicObjectMap.get(resource);
 		} 
 		else {

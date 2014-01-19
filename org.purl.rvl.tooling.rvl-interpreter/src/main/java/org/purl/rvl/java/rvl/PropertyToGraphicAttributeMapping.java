@@ -23,6 +23,8 @@ public class PropertyToGraphicAttributeMapping extends
 	
 	private static final long serialVersionUID = 5391124674649010787L;
 	static final String NL =  System.getProperty("line.separator");
+	
+	Map<Node, Node> explicitlyMappedValues;
 
 	public PropertyToGraphicAttributeMapping(Model model, boolean write) {
 		super(model, write);
@@ -40,39 +42,6 @@ public class PropertyToGraphicAttributeMapping extends
 		// TODO Auto-generated constructor stub
 	}
 	
-	public String toString(){
-		
-		String s = "";
-		
-		// try to get the string description from the (manual) PropertyMapping class, which is not in the super-class hierarchy
-		PropertyMapping pm = (PropertyMapping) this.castTo(PropertyMapping.class);
-		s += pm.toString();
-		
-		//targetAttribute is specific to P2GAM
-		GraphicAttribute tga = this.getAllTargetattribute_as().firstValue();
-		String tgaString = tga.getAllLabel_as().count()>0 ? tga.getAllLabel_as().firstValue() : tga.toString();
-		//s += "Target graphic attribute: " + tgaString + NL ;
-		
-		s += "Value mappings:" + NL;
-		ClosableIterator<Valuemapping> vmIterator = this.getAllValuemapping_as().asClosableIterator();
-		while (vmIterator.hasNext()) {
-			ValueMapping vm = (ValueMapping) vmIterator.next().castTo(ValueMapping.class);
-			s += "" + vm +  NL;
-		}
-		
-		/*
-		// seems to cause an exception, but not on every machine?! "java.lang.UnsupportedOperationException: Variable (Singleton) cannot be used for SPARQL queries"
-		s += "Explicit (simple 1-1) VMs:" + NL;
-		Map<Node, Node> map = getExplicitlyMappedValues();
-		Set<Entry<Node, Node>> set = map.entrySet();
-		for (Iterator<Entry<Node, Node>> iterator = set.iterator(); iterator.hasNext();) {
-			Entry<Node, Node> svURItvURIPair = (Entry<Node, Node>) iterator.next();
-			s+= "	" + svURItvURIPair.getKey() + " --> " + svURItvURIPair.getValue() + NL;
-		}
-		*/
-		return s;
-	}
-	
 	/**
 	 * Creates and returns a map of URIs of all explicitly mapped values 
 	 * and their target graphic values.
@@ -80,26 +49,30 @@ public class PropertyToGraphicAttributeMapping extends
 	 */
 	public Map<Node, Node> getExplicitlyMappedValues(){
 		
-		Map<Node, Node> map = new HashMap<Node, Node>();
-	
-		
-		// get all subjects and the sv/tv table via SPARQL
-				String querySubjectsAndSVtoTVMapForGivenProperty = "" +
-						"SELECT DISTINCT ?sv ?tv " +
-						"WHERE { " +
-					    	toSPARQL() + " <" + VALUEMAPPING + "> ?vm ." + 
-					    "	?vm <" + ValueMapping.SOURCEVALUE + "> ?sv . " +
-					    "	?vm <" + ValueMapping.TARGETVALUE + "> ?tv . " + 
-						"} ";
-		//System.out.println(querySubjectsAndSVtoTVMapForGivenProperty);
-		
-		QueryResultTable explMapResults = model.sparqlSelect(querySubjectsAndSVtoTVMapForGivenProperty);
-		for(QueryRow row : explMapResults) {
-			map.put(row.getValue("sv"),row.getValue("tv"));
-		}
-		
+		if (null == explicitlyMappedValues) {
+			
+			// TODO: evtl. check already here if VM exist at all with hasValueMapping() for blank nodes the toSPARQL() issued an exception
 
-		return map;
+			explicitlyMappedValues = new HashMap<Node, Node>();
+			
+			// get all subjects and the sv/tv table via SPARQL
+					String querySubjectsAndSVtoTVMapForGivenProperty = "" +
+							"SELECT DISTINCT ?sv ?tv " +
+							"WHERE { " +
+						    	toSPARQL() + " <" + VALUEMAPPING + "> ?vm ." + 
+						    "	?vm <" + ValueMapping.SOURCEVALUE + "> ?sv . " +
+						    "	?vm <" + ValueMapping.TARGETVALUE + "> ?tv . " + 
+							"} ";
+			//System.out.println(querySubjectsAndSVtoTVMapForGivenProperty);
+			
+			QueryResultTable explMapResults = model.sparqlSelect(querySubjectsAndSVtoTVMapForGivenProperty);
+			for(QueryRow row : explMapResults) {
+				explicitlyMappedValues.put(row.getValue("sv"),row.getValue("tv"));
+			}
+		}
+
+		return explicitlyMappedValues;
+		
 		
 		/*
 		// TRIAL WITH COMPLEX SPARQL QUERY: leads to concurrent modification exception wehen GOs are edited:
@@ -139,6 +112,61 @@ public class PropertyToGraphicAttributeMapping extends
 		}
 		
 		*/
+	}
+
+	public String toString(){
+		
+		String s = "";
+		
+		// try to get the string description from the (manual) PropertyMapping class, which is not in the super-class hierarchy
+		PropertyMapping pm = (PropertyMapping) this.castTo(PropertyMapping.class);
+		s += pm.toString();
+		
+		//targetAttribute is specific to P2GAM
+		GraphicAttribute tga = this.getAllTargetattribute_as().firstValue();
+		String tgaString = tga.getAllLabel_as().count()>0 ? tga.getAllLabel_as().firstValue() : tga.toString();
+		s += "     Target graphic attribute: " + tgaString + NL ;
+		
+		if(this.hasValuemapping()) {
+
+			Map<Node, Node> svUriTVuriMap = this.getExplicitlyMappedValues();	
+			
+			if(!svUriTVuriMap.isEmpty()){
+				s += "     (value mappings not yet calculated ... showing only explicit ones:)" + NL;
+				
+				for (Entry<Node, Node> entry : svUriTVuriMap.entrySet()) {
+					Node sv = entry.getKey();
+					Node tv = entry.getValue();
+					s += "       " + sv + " --> " + tv + NL;
+				}
+				
+			}
+			else {
+				s += "     (value mappings not yet calculated ...)" + NL;
+				
+				/*s += "     Value mappings:" + NL;
+				ClosableIterator<Valuemapping> vmIterator = this.getAllValuemapping_as().asClosableIterator();
+				while (vmIterator.hasNext()) {
+					ValueMapping vm = (ValueMapping) vmIterator.next().castTo(ValueMapping.class);
+					s += "" + vm + NL;
+				}*/
+			}
+		}
+		else {
+			s += "     (with no explicit value mappings)" + NL;
+		}
+		
+		/*
+		// seems to cause an exception, but not on every machine?! "java.lang.UnsupportedOperationException: Variable (Singleton) cannot be used for SPARQL queries"
+		s += "Explicit (simple 1-1) VMs:" + NL;
+		Map<Node, Node> map = getExplicitlyMappedValues();
+		Set<Entry<Node, Node>> set = map.entrySet();
+		for (Iterator<Entry<Node, Node>> iterator = set.iterator(); iterator.hasNext();) {
+			Entry<Node, Node> svURItvURIPair = (Entry<Node, Node>) iterator.next();
+			s+= "	" + svURItvURIPair.getKey() + " --> " + svURItvURIPair.getValue() + NL;
+		}
+		*/
+		return s;
 	}
 
 }

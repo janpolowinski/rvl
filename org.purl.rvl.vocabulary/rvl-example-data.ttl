@@ -32,6 +32,8 @@
       rdfs:label "Amazing Grace"^^xsd:string ;
       :category :Spirituality ;
       :cites  :Holy_Bible ;
+      :cites  :Atlas_of_Remote_Islands ;
+      :cites  :Amazing_Grace ;
       :hasCost "2"^^xsd:float .
 
 :Atlas_of_Remote_Islands
@@ -327,3 +329,5 @@
       rdfs:range :Field ;
       rdfs:subPropertyOf viso-data:hasNominalSoM ;
       rdfs:subPropertyOf :domainProperty .
+      
+:citesCritical rdfs:subPropertyOf :cites .
