@@ -16,17 +16,7 @@ public class ModelBuilder {
 	protected static Model model;
 	protected static Model modelVISO;
 	
-	protected static final String tmpAvmModelFileName = "avm.ttl";
-	//protected static String JSON_FILE_NAME_REL = "../org.purl.rvl.tooling.d3vis/examples/force-layouted-nodes/data.json";
-	protected static String jsonFileRelName = "../org.purl.rvl.tooling.d3vis/examples/force-directed-graph/data.json";
-	
-	public static final String REM_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl-example-mappings.ttl";
-	public static final String REXD_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl-example-data.ttl";
-	public static final String RVL_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl.owl";
-	public static final String VISO_LOCAL_REL = "../org.purl.rvl.vocabulary/viso-branch/viso-graphic-inference.ttl";
-
 	private final static Logger LOGGER = Logger.getLogger(ModelBuilder.class.getName()); 
-	
 	static final String NL =  System.getProperty("line.separator");
 	
 
@@ -70,15 +60,15 @@ public class ModelBuilder {
 		  
 	
 		try {
-			modelVISO.readFrom(new FileReader(VISO_LOCAL_REL),
+			modelVISO.readFrom(new FileReader(OGVICProcess.VISO_LOCAL_REL),
 					Syntax.Turtle);
-			model.readFrom(new FileReader(VISO_LOCAL_REL),
+			model.readFrom(new FileReader(OGVICProcess.VISO_LOCAL_REL),
 					Syntax.Turtle);
-			model.readFrom(new FileReader(RVL_LOCAL_REL),
+			model.readFrom(new FileReader(OGVICProcess.RVL_LOCAL_REL),
 					Syntax.RdfXml);
-			model.readFrom(new FileReader(REXD_LOCAL_REL),
+			model.readFrom(new FileReader(OGVICProcess.REXD_LOCAL_REL),
 					Syntax.Turtle);
-			model.readFrom(new FileReader(REM_LOCAL_REL),
+			model.readFrom(new FileReader(OGVICProcess.REM_LOCAL_REL),
 					Syntax.Turtle);
 		} catch (IOException e) {
 			LOGGER.severe("Problem reading one of the RDF files into the model: " + e);

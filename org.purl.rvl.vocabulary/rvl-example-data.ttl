@@ -1,12 +1,12 @@
-# Saved by TopBraid on Sat May 25 16:09:07 CEST 2013
+# Saved by TopBraid on Sun Jan 19 18:28:31 CET 2014
 # baseURI: http://purl.org/rvl/example-data/
 
 @prefix :        <http://purl.org/rvl/example-data/> .
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix viso-data:  <http://purl.org/viso/data/> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
-@prefix viso-data:     <http://purl.org/viso/data/> .
 
 :     rdf:type owl:Ontology .
 
@@ -31,9 +31,8 @@
       rdf:type :Book ;
       rdfs:label "Amazing Grace"^^xsd:string ;
       :category :Spirituality ;
-      :cites  :Holy_Bible ;
-      :cites  :Atlas_of_Remote_Islands ;
-      :cites  :Amazing_Grace ;
+      :cites  :Amazing_Grace , :Atlas_of_Remote_Islands , :Holy_Bible ;
+      :citesCritical :Atlas_of_Remote_Islands ;
       :hasCost "2"^^xsd:float .
 
 :Atlas_of_Remote_Islands
@@ -280,18 +279,19 @@
       :hasCost "55"^^xsd:float .
 
 :category
-      rdf:type owl:DatatypeProperty , rdf:Property ;
+      rdf:type rdf:Property , owl:DatatypeProperty ;
       rdfs:label "belongs to category"^^xsd:string ;
       rdfs:range :Field ;
-      rdfs:subPropertyOf viso-data:hasNominalSoM ;
-      rdfs:subPropertyOf :domainProperty .
+      rdfs:subPropertyOf :domainProperty , viso-data:hasNominalSoM .
 
 :cites
-      rdf:type owl:DatatypeProperty , rdf:Property ;
+      rdf:type rdf:Property , owl:DatatypeProperty ;
       rdfs:label "Cites to book"^^xsd:string ;
       rdfs:range :Field ;
-      rdfs:subPropertyOf viso-data:hasNominalSoM ;
-      rdfs:subPropertyOf :domainProperty .
+      rdfs:subPropertyOf :domainProperty , viso-data:hasNominalSoM .
+
+:citesCritical
+      rdfs:subPropertyOf :cites .
 
 :domainProperty
       rdf:type rdf:Property .
@@ -301,33 +301,25 @@
       rdfs:comment "estimated realisation costs in EUR"^^xsd:string ;
       rdfs:label "Cost"^^xsd:string ;
       rdfs:range xsd:float ;
-      rdfs:subPropertyOf :domainProperty ;      
-      rdfs:subPropertyOf viso-data:hasQuantitativeSoM .
-
+      rdfs:subPropertyOf :domainProperty , viso-data:hasQuantitativeSoM .
 
 :hasResponseTimeInMs
       rdf:type rdf:Property , owl:DatatypeProperty ;
       rdfs:label "has response time in ms"^^xsd:string ;
-      rdfs:subPropertyOf viso-data:hasQuantitativeSoM ;
-      rdfs:subPropertyOf :domainProperty .
+      rdfs:subPropertyOf :domainProperty , viso-data:hasQuantitativeSoM .
 
 :isInConflictWith
-      rdf:type owl:ObjectProperty , rdf:Property , owl:SymmetricProperty ;
+      rdf:type rdf:Property , owl:ObjectProperty , owl:SymmetricProperty ;
       rdfs:label "is in conflict with"^^xsd:string ;
-      rdfs:subPropertyOf :domainProperty ;
-      rdfs:subPropertyOf viso-data:hasNominalSoM ;
+      rdfs:subPropertyOf :domainProperty , viso-data:hasNominalSoM ;
       owl:inverseOf :isInConflictWith .
 
 :isRefinementOf
       rdf:type owl:ObjectProperty ;
-      rdfs:subPropertyOf viso-data:hasNominalSoM ;
-      rdfs:subPropertyOf :domainProperty .
+      rdfs:subPropertyOf :domainProperty , viso-data:hasNominalSoM .
 
 :workingField
       rdf:type rdf:Property , owl:DatatypeProperty ;
       rdfs:label "Field for Author"^^xsd:string ;
       rdfs:range :Field ;
-      rdfs:subPropertyOf viso-data:hasNominalSoM ;
-      rdfs:subPropertyOf :domainProperty .
-      
-:citesCritical rdfs:subPropertyOf :cites .
+      rdfs:subPropertyOf :domainProperty , viso-data:hasNominalSoM .

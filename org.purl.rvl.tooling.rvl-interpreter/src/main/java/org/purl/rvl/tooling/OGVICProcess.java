@@ -31,7 +31,7 @@ public class OGVICProcess {
 	//public static String JSON_FILE_NAME_REL = "../org.purl.rvl.tooling.d3vis/examples/force-layouted-nodes/data.json";
 	public static String JSON_FILE_NAME_REL = "../org.purl.rvl.tooling.d3vis/examples/force-directed-graph/data.json";
 	
-	public static final String REM_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl-example-mappings.ttl";
+	public static final String REM_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl-example-mappings-mini.ttl";
 	public static final String REXD_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl-example-data.ttl";
 	public static final String RVL_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl.owl";
 	public static final String VISO_LOCAL_REL = "../org.purl.rvl.vocabulary/viso-branch/viso-graphic-inference.ttl";

@@ -98,7 +98,7 @@ public class GraphicObject extends
 			try {
 				colorHex = startNodeColor.toHexString();
 			} catch (Exception e) {
-				System.out.println("Couldn't get color values (incomplete?). Default will be used.");
+				System.err.println("Couldn't get color values (incomplete?). Default will be used.");
 			}
 		}
 		

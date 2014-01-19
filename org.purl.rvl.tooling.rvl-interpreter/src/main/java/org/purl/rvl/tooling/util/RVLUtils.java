@@ -1,11 +1,22 @@
 package org.purl.rvl.tooling.util;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
+import org.ontoware.rdf2go.model.QueryResultTable;
+import org.ontoware.rdf2go.model.QueryRow;
+import org.ontoware.rdf2go.model.Statement;
+import org.ontoware.rdf2go.model.impl.StatementImpl;
+import org.ontoware.rdf2go.model.node.Node;
+import org.ontoware.rdf2go.model.node.URI;
+import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.ontoware.rdfreactor.runtime.ReactorResult;
+import org.ontoware.rdfreactor.schema.bootstrap.Property;
 import org.purl.rvl.java.rvl.Mapping;
 
 public class RVLUtils {
@@ -83,5 +94,51 @@ public class RVLUtils {
 		return s;
 		
 	  }
+
+	public static Iterator<Statement> findStatementsPreferingThoseUsingASubProperty(
+			Model model,
+			org.ontoware.rdf2go.model.node.Resource subjectResource, URI spURI,
+			Variable any) {
+		
+		Set<Statement> stmtSet = new HashSet<Statement>();
+		
+		// somehow this query does not behave like in topbraid. filtering does not replace the general statements by specific ones
+		String query = "" + 
+				"SELECT DISTINCT ?p ?o " + 
+				"WHERE { " +
+				subjectResource.toSPARQL() + " ?p ?o . " + 
+				"?p " + Property.SUBPROPERTYOF.toSPARQL() + "* " + spURI.toSPARQL() + " " +
+				//" FILTER NOT EXISTS { ?pp " + Property.SUBPROPERTYOF.toSPARQL() + " " + spURI.toSPARQL() + " . " +
+				//					  subjectResource.toSPARQL() + " ?pp ?o . " + 
+				//" FILTER(?pp != ?p) " +
+				//" } " +
+				"} ";
+		LOGGER.finer("Query for getting statements including those using a subproperty of " + spURI + " :");
+		LOGGER.finer(query);
+		
+		/*
+			SELECT DISTINCT ?s ?p ?o WHERE { 
+			<http://purl.org/rvl/example-data/Amazing_Grace> ?p ?o .
+			?p rdfs:subPropertyOf* <http://purl.org/rvl/example-data/cites> . 
+			FILTER NOT EXISTS {
+   				?pp rdfs:subPropertyOf <http://purl.org/rvl/example-data/cites> . 
+			    <http://purl.org/rvl/example-data/Amazing_Grace> ?pp ?o  
+					FILTER (?p != ?pp)
+			}
+		} 
+		} 
+		
+		*/
+		
+		QueryResultTable explMapResults = model.sparqlSelect(query);
+		for (QueryRow row : explMapResults) {
+			LOGGER.finest("fetched SPARQL result row: " + row);
+			Statement stmt = new StatementImpl(null, subjectResource, row.getValue("p").asURI(), row.getValue("o"));
+			LOGGER.finer("build Statement: " + stmt.toString());
+			stmtSet.add(stmt);
+		}
+		
+		return stmtSet.iterator();
+	}
 
 }
