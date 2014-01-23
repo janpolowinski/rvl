@@ -44,7 +44,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 		super(model, modelVISO);
 	}
 	
-	
+	// TODO move to some upper class or AVMUTils
 	private Set<GraphicObject> getAllGraphicObjects(){
 		
 		Set<GraphicObject> gos = new HashSet<GraphicObject>();

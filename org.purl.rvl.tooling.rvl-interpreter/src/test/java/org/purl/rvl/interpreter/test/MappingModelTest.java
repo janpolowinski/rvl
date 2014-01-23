@@ -27,7 +27,11 @@ public class MappingModelTest {
 
 	@Before
 	public void setUp() throws Exception {
-		model = ModelBuilder.getModel();
+		
+		ModelBuilder modelBuilder = new ModelBuilder();
+		modelBuilder.initRDF2GoModels();
+		
+		model = modelBuilder.getModel();
 	}
 
 	//@Test

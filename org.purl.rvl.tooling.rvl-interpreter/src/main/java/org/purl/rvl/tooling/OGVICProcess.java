@@ -15,6 +15,7 @@ import org.purl.rvl.java.viso.graphic.GraphicObject;
 import org.purl.rvl.java.viso.graphic.GraphicSpace;
 import org.purl.rvl.tooling.avm.D3GeneratorBase;
 import org.purl.rvl.tooling.avm.D3GeneratorSimpleJSON;
+import org.purl.rvl.tooling.avm.D3GeneratorTreeJSON;
 import org.purl.rvl.tooling.avm.D3JacksonBinding;
 import org.purl.rvl.tooling.avm.ExampleAVMBuilder;
 import org.purl.rvl.tooling.util.AVMUtils;
@@ -27,12 +28,40 @@ public class OGVICProcess {
 	protected static Model modelVISO;
 	protected static ExampleAVMBuilder builder;
 	protected static D3GeneratorBase d3Generator;
-		
-	//public static String JSON_FILE_NAME_REL = "../org.purl.rvl.tooling.d3vis/examples/force-layouted-nodes/data.json";
-	public static String JSON_FILE_NAME_REL = "../org.purl.rvl.tooling.d3vis/examples/force-directed-graph/data.json";
 	
+	public static boolean REGENERATE_AVM = false;
+		
+	//public static final String JSON_FILE_NAME_REL = "../org.purl.rvl.tooling.d3vis/examples/force-layouted-nodes/data.json";
+	
+	///*
 	public static final String REM_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl-example-mappings-mini.ttl";
 	public static final String REXD_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl-example-data.ttl";
+	public static final String REXD_URI = "http://purl.org/rvl/example-data";
+	public static final int AVM_GENERATOR = D3GeneratorBase.GENERATOR_TREE_JSON; 
+	public static final String JSON_FILE_NAME_REL = "../org.purl.rvl.tooling.d3vis/examples/collapsible_tree/data.json";
+	//public static final String JSON_FILE_NAME_REL = "../org.purl.rvl.tooling.d3vis/examples/reingold-tilford-tree/data.json";
+	//public static final String JSON_FILE_NAME_REL = "../org.purl.rvl.tooling.d3vis/examples/radial-reingold-tilford-tree/data.json";
+	//public static final String JSON_FILE_NAME_REL = "../org.purl.rvl.tooling.d3vis/examples/force-directed-graph/data.json";
+	//*/
+	
+	
+	/*
+	public static final String REM_LOCAL_REL = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies/Bio/PO/MappingExample/po-rvl-mapping-example.ttl";
+	public static final String REXD_LOCAL_REL = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies/Bio/PO/po_anatomy_prepared_and_simplified.owl";
+	public static final String REXD_URI = "http://purl.org/obo/owl/";
+	public static final int AVM_GENERATOR = D3GeneratorBase.GENERATOR_SIMPLE_JSON; 
+	public static final String JSON_FILE_NAME_REL = "../org.purl.rvl.tooling.d3vis/examples/force-directed-graph/data.json";
+	*/
+	
+	/*
+	public static final String REM_LOCAL_REL = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies/Bio/PO/MappingExample/po-rvl-mapping-example.ttl";
+	public static final String REXD_LOCAL_REL = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies/Bio/PO/po_anatomy_prepared_and_simplified.owl";
+	public static final String REXD_URI = "http://purl.org/rvl";
+	public static final int AVM_GENERATOR = D3GeneratorBase.GENERATOR_SIMPLE_JSON; 
+	public static final String JSON_FILE_NAME_REL = "../org.purl.rvl.tooling.d3vis/examples/force-directed-graph/data.json";
+	*/
+	
+	
 	public static final String RVL_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl.owl";
 	public static final String VISO_LOCAL_REL = "../org.purl.rvl.vocabulary/viso-branch/viso-graphic-inference.ttl";
 	
@@ -51,7 +80,7 @@ public class OGVICProcess {
     	  	
 		//LOGGER.setLevel(Level.SEVERE); 
 		//LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.SEVERE); 
-		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.FINEST);
+		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.OFF);
 
 		
 		// In order to show log entrys of the fine level, we need to create a new handler as well
@@ -89,25 +118,54 @@ public class OGVICProcess {
 	 */
 	public static void main(String[] args) {
 		
-		initRDF2GoModels();
+		ModelBuilder modelBuilder = new ModelBuilder();
+		
+		if (REGENERATE_AVM) {
+			
+			modelBuilder.initRDF2GoModels();
+			model = modelBuilder.getModel();
+			modelVISO = modelBuilder.getVISOModel();
+			
+			/*
+			builder = new ExampleAVMBuilder(model, modelVISO);
+			builder.createTestGraphicObjects();
+			builder.createTestLinkingDirectedRelations();
+			*/
+			
+			SimpleRVLInterpreter rvlInterpreter = new SimpleRVLInterpreter(model, modelVISO);
+			rvlInterpreter.interpretSimpleP2GArvlMappings();
+			rvlInterpreter.interpretP2GO2ORMappings();
+			rvlInterpreter.interpretResourceLabelAsGOLabelForAllCreatedResources();	
+		}
+		else {
+			LOGGER.info("AVM regeneration OFF! Will not interpret any new mappings, but load AVM from " + TMP_AVM_MODEL_FILE_NAME);	
+			modelBuilder.initFromTmpAVMFile();
+			model = modelBuilder.getModel();
+			modelVISO = modelBuilder.getVISOModel();
+		}
+		
+		String json = "";
+		
+		if (AVM_GENERATOR == D3GeneratorBase.GENERATOR_SIMPLE_JSON) {
+			d3Generator = new D3GeneratorSimpleJSON(model, modelVISO);
+			json = ((D3GeneratorSimpleJSON)d3Generator).generateJSONforD3();
+		}
+		else if (AVM_GENERATOR == D3GeneratorBase.GENERATOR_TREE_JSON) {
+			d3Generator = new D3GeneratorTreeJSON(model, modelVISO);
+			json = ((D3GeneratorTreeJSON)d3Generator).generateJSONforD3();
 
-		/*
-		builder = new ExampleAVMBuilder(model, modelVISO);
-		builder.createTestGraphicObjects();
-		builder.createTestLinkingDirectedRelations();
-		*/
+		} else {
+			d3Generator = new D3GeneratorTreeJSON(model, modelVISO);
+			json = ((D3GeneratorTreeJSON)d3Generator).generateJSONforD3();
+		}
 		
-		SimpleRVLInterpreter rvlInterpreter = new SimpleRVLInterpreter(model, modelVISO);
-		rvlInterpreter.interpretSimpleP2GArvlMappings();
-		rvlInterpreter.interpretP2GO2ORMappings();
-		rvlInterpreter.interpretResourceLabelAsGOLabelForAllCreatedResources();		
-		
-		
-		d3Generator = new D3GeneratorSimpleJSON(model, modelVISO);
-		String json = ((D3GeneratorSimpleJSON)d3Generator).generateJSONforD3();
 		LOGGER.fine("JSON data is: " + NL +  json);
 		d3Generator.writeJSONToFile(json);
-		//d3Generator.writeAVMToFile();
+		
+		// this is done later, since it takes much time
+		if (REGENERATE_AVM) {
+			writeAVMToFile();
+		}
 		
 
 		/*
@@ -134,23 +192,42 @@ public class OGVICProcess {
 
 	}
 
-
-
-	private static void initRDF2GoModels() {
-		model = ModelBuilder.getModel();
-		modelVISO = ModelBuilder.getVISOModel();
-	}
 	
 	/**
 	 * Write a model to file in Turtle serialisation
 	 * @param fileName
 	 */
-	private static void writeRDFModelToFile(Model modelToWrite, String fileName) {
+	private static void writeModelToFile(Model modelToWrite, String fileName) {
+		
 		try {
-		 FileWriter writer = new FileWriter(fileName);
-		 modelToWrite.writeTo(writer, Syntax.Turtle);
+			
+			FileWriter writer = new FileWriter(fileName);
+			modelToWrite.writeTo(writer, Syntax.Turtle);
+			
 		} catch (IOException e) {
-		 e.printStackTrace();
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Saves the whole Model to a tmp file 
+	 * TODO: does not currently filter out non-avm triples!
+	 */
+	public static void writeAVMToFile() {
+
+		try {
+			
+			String fileName = OGVICProcess.TMP_AVM_MODEL_FILE_NAME;
+			FileWriter writer = new FileWriter(fileName);
+			
+			model.writeTo(writer, Syntax.Turtle);
+			writer.flush();
+			writer.close();
+			
+			LOGGER.info("AVM written to " + fileName + " as Turtle");
+			
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

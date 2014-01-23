@@ -1,9 +1,13 @@
 package org.purl.rvl.tooling;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
@@ -13,28 +17,24 @@ import org.ontoware.rdf2go.model.Syntax;
 
 public class ModelBuilder {
 	
-	protected static Model model;
-	protected static Model modelVISO;
+	protected Model model;
+	protected Model modelVISO;
 	
 	private final static Logger LOGGER = Logger.getLogger(ModelBuilder.class.getName()); 
 	static final String NL =  System.getProperty("line.separator");
 	
 
-	static{
-		initRDF2GoModels();
-	}
-
-	public static Model getModel(){
+	public Model getModel(){
 		return model;
 		}
 	
-	public static Model getVISOModel(){
+	public Model getVISOModel(){
 		return modelVISO;
 		}
 	
 
 
-	protected static void initRDF2GoModels() throws ModelRuntimeException {
+	public void initRDF2GoModels() throws ModelRuntimeException {
 		// explicitly specify to use a specific ontology api here:
 		// RDF2Go.register( new org.ontoware.rdf2go.impl.jena.ModelFactoryImpl());
 		// RDF2Go.register( new org.openrdf.rdf2go.RepositoryModelFactory() );
@@ -60,18 +60,57 @@ public class ModelBuilder {
 		  
 	
 		try {
-			modelVISO.readFrom(new FileReader(OGVICProcess.VISO_LOCAL_REL),
-					Syntax.Turtle);
-			model.readFrom(new FileReader(OGVICProcess.VISO_LOCAL_REL),
-					Syntax.Turtle);
-			model.readFrom(new FileReader(OGVICProcess.RVL_LOCAL_REL),
-					Syntax.RdfXml);
-			model.readFrom(new FileReader(OGVICProcess.REXD_LOCAL_REL),
-					Syntax.Turtle);
-			model.readFrom(new FileReader(OGVICProcess.REM_LOCAL_REL),
-					Syntax.Turtle);
+			
+			readFromAnySyntax(modelVISO,OGVICProcess.VISO_LOCAL_REL);
+			readFromAnySyntax(model,OGVICProcess.VISO_LOCAL_REL);
+			readFromAnySyntax(model,OGVICProcess.RVL_LOCAL_REL);
+			readFromAnySyntax(model,OGVICProcess.REXD_LOCAL_REL);
+			readFromAnySyntax(model,OGVICProcess.REM_LOCAL_REL);
+			
 		} catch (IOException e) {
 			LOGGER.severe("Problem reading one of the RDF files into the model: " + e);
+		}
+	}
+	
+	/**
+	 * Only reads the AVM from the tmp file into the model
+	 * 
+	 * @throws ModelRuntimeException
+	 */
+	protected void initFromTmpAVMFile() throws ModelRuntimeException {
+		model = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		model.open();
+		modelVISO = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		modelVISO.open();
+
+		try {
+			readFromAnySyntax(model,OGVICProcess.TMP_AVM_MODEL_FILE_NAME);
+			readFromAnySyntax(modelVISO,OGVICProcess.VISO_LOCAL_REL);
+		} catch (IOException e) {
+			LOGGER.severe("Problem reading the tmp AVM model from file: " + e);
+		}
+	}
+
+	private static void readFromAnySyntax(Model model, String fileName) throws IOException,
+			FileNotFoundException {
+		
+		File file = new File(fileName);
+		if (file.exists()) {
+			
+			String extension = FilenameUtils.getExtension(fileName);
+			
+			if (extension.equals("ttl") || extension.equals("n3")) {
+				model.readFrom(new FileReader(file),
+						Syntax.Turtle);
+			} else {
+				model.readFrom(new FileReader(file),
+						Syntax.RdfXml);
+			}
+
+			LOGGER.info("Reading file into a model: " + fileName);
+			
+		} else {
+			throw new IOException("File not found: " + fileName);
 		}
 	}
 

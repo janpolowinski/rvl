@@ -174,7 +174,7 @@
       rdf:type :Book ;
       rdfs:label "Proof of Heaven"^^xsd:string ;
       :category :Spirituality ;
-      :cites  :Holy_Bible ;
+      :cites  :Holy_Bible, :Amazing_Grace , :Atlas_of_Remote_Islands  ;
       :hasCost "10"^^xsd:float .
 
 :Sci-Fi

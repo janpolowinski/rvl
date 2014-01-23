@@ -1,6 +1,7 @@
 package org.purl.rvl.tooling.util;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -90,7 +91,7 @@ public class AVMUtils {
 //				"	?someRelation " + DirectedLinking.STARTNODE.toSPARQL() + " ?go ." +
 				"	FILTER NOT EXISTS { ?someRelation " + DirectedLinking.LINKINGCONNECTOR .toSPARQL() + " ?go . }" +
 				"} ";
-		System.out.println(query);
+		LOGGER.finest("query for relevant GOs: " + query);
 
 		QueryResultTable explMapResults = model.sparqlSelect(query);
 		for (QueryRow row : explMapResults) {
@@ -101,5 +102,82 @@ public class AVMUtils {
 
 		return gos;
 	}
+
+	/**
+	 * Returns a root node, i.e without incoming link, but with at least one outgoing link
+	 * 
+	 * @param model
+	 * @return
+	 */
+	public static GraphicObject getRootNodeGraphicObject(Model model) {
+				
+		Set<GraphicObject> rootNodes = getRootNodesGraphicObject(model);
+		GraphicObject pickedRootNode = null;
+		
+		if (rootNodes.size()>1) {
+			LOGGER.info("multiple root node found. will return one of them");
+		}
+
+		for (Iterator<GraphicObject> iterator = rootNodes.iterator(); iterator.hasNext();) {
+			pickedRootNode = (GraphicObject) iterator.next();
+			break; // TODO: select best - not first
+		}
+		
+		return pickedRootNode;
+	}
+	
+	public static Set<GraphicObject> getRootNodesGraphicObject(Model model) {
+		
+		Set<GraphicObject> rootNodes = new HashSet<GraphicObject>();
+
+		String query = "" + 
+				"SELECT DISTINCT ?go " + 
+				"WHERE { " +
+				"	?go a " + GraphicObject.RDFS_CLASS.toSPARQL() + " ." +
+				"	?someRelation " + DirectedLinking.STARTNODE .toSPARQL() + " ?go ." + 
+						// (some relation points to the go as a startNode)
+				"	FILTER NOT EXISTS { ?someOtherRelation " + DirectedLinking.ENDNODE .toSPARQL() + " ?go . }" + 
+						// (no relation points to the go as an endNode)
+				"} ";
+		LOGGER.finest("query for root nodes: " + query);
+
+		QueryResultTable rootNodeResults = model.sparqlSelect(query);
+		for (QueryRow row : rootNodeResults) {
+			
+			GraphicObject possibleRootNode = (GraphicObject) GraphicObject.getInstance(model, row
+					.getValue("go").asURI()).castTo(GraphicObject.class);
+			
+			LOGGER.finer("Found possible root node " + possibleRootNode.asURI() + " (" + possibleRootNode.getLabel() +")");
+			rootNodes.add(possibleRootNode);
+		}
+
+		return rootNodes;
+	}
+
+
+	public static Set<DirectedLinking> getDirectedLinkingRelationsFrom(
+			Model model, GraphicObject parentGO) {
+		
+		Set<DirectedLinking> dlFromHere = new HashSet<DirectedLinking>();
+
+		String query = "" + 
+				"SELECT DISTINCT ?dl " + 
+				"WHERE { " +
+				"	?dl a " + DirectedLinking.RDFS_CLASS.toSPARQL() + " ." +
+				"	?dl " + DirectedLinking.STARTNODE .toSPARQL() + parentGO.toSPARQL() + " ." + 
+						// (some relation points to the go as a startNode)
+				"} ";
+		LOGGER.finest("query for dl relations with start node " + parentGO.asURI() + " : " + query);
+
+		QueryResultTable results = model.sparqlSelect(query);
+		for (QueryRow row : results) {
+			dlFromHere.add(DirectedLinking.getInstance(model, row
+					.getValue("dl").asURI()));
+		}
+		
+		return dlFromHere;
+	}
+
+
 
 }

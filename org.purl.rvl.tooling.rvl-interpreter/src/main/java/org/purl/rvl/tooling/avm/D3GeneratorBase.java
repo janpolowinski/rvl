@@ -10,6 +10,9 @@ import org.purl.rvl.tooling.OGVICProcess;
 
 
 public class D3GeneratorBase {
+	
+	public static final int GENERATOR_SIMPLE_JSON = 1;
+	public static final int GENERATOR_TREE_JSON = 2;
 
 	protected static final String NL = System.getProperty("line.separator");
 
@@ -32,24 +35,7 @@ public class D3GeneratorBase {
 		super();
 	}
 
-	/**
-	 * Saves the whole Model to a tmp file 
-	 * TODO: does not currently filter out non-avm triples!
-	 */
-	public void writeAVMToFile(){
 
-	    try {
-		String fileName = OGVICProcess.TMP_AVM_MODEL_FILE_NAME;
-			
-	     FileWriter writer = new FileWriter(fileName);
-	     model.writeTo(writer, Syntax.Turtle);
-	     writer.flush();
-		 writer.close();
-	     LOGGER.info("AVM written to " + fileName + " as Turtle");
-	    } catch (IOException e) {
-	     e.printStackTrace();
-	    }
-	 }
 
 	/**
 	 * Saves a String to JSON file

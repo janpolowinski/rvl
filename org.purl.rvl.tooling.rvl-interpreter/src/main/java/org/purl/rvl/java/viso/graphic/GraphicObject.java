@@ -1,6 +1,7 @@
 package org.purl.rvl.java.viso.graphic;
 
 import java.util.Iterator;
+import java.util.logging.Logger;
 
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
@@ -85,7 +86,16 @@ public class GraphicObject extends
 	
 	@XmlElement(name="label")
 	public String getLabel() {
-		return this.getAllLabel_as().firstValue().toString();
+		
+		String genLabel = "";
+		
+		try {
+			genLabel =  this.getAllLabel_as().firstValue().toString();
+		} catch (Exception e) {
+			System.out.println("no label found for" + this.asURI());
+		}
+		
+		return genLabel;
 	}
 	
 	@XmlElement(name="color_rgb_hex")

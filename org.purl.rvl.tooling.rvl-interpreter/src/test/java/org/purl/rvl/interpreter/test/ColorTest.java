@@ -16,7 +16,11 @@ public class ColorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		model = ModelBuilder.getVISOModel();
+		
+		ModelBuilder modelBuilder = new ModelBuilder();
+		modelBuilder.initRDF2GoModels();
+		
+		model = modelBuilder.getVISOModel();
 	}
 
 	@Test

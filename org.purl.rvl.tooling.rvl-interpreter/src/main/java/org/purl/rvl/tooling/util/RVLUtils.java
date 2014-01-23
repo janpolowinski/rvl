@@ -102,40 +102,46 @@ public class RVLUtils {
 		
 		Set<Statement> stmtSet = new HashSet<Statement>();
 		
-		// somehow this query does not behave like in topbraid. filtering does not replace the general statements by specific ones
-		String query = "" + 
-				"SELECT DISTINCT ?p ?o " + 
-				"WHERE { " +
-				subjectResource.toSPARQL() + " ?p ?o . " + 
-				"?p " + Property.SUBPROPERTYOF.toSPARQL() + "* " + spURI.toSPARQL() + " " +
-				//" FILTER NOT EXISTS { ?pp " + Property.SUBPROPERTYOF.toSPARQL() + " " + spURI.toSPARQL() + " . " +
-				//					  subjectResource.toSPARQL() + " ?pp ?o . " + 
-				//" FILTER(?pp != ?p) " +
-				//" } " +
-				"} ";
-		LOGGER.finer("Query for getting statements including those using a subproperty of " + spURI + " :");
-		LOGGER.finer(query);
+		try{
 		
-		/*
-			SELECT DISTINCT ?s ?p ?o WHERE { 
-			<http://purl.org/rvl/example-data/Amazing_Grace> ?p ?o .
-			?p rdfs:subPropertyOf* <http://purl.org/rvl/example-data/cites> . 
-			FILTER NOT EXISTS {
-   				?pp rdfs:subPropertyOf <http://purl.org/rvl/example-data/cites> . 
-			    <http://purl.org/rvl/example-data/Amazing_Grace> ?pp ?o  
-					FILTER (?p != ?pp)
+			// somehow this query does not behave like in topbraid. filtering does not replace the general statements by specific ones
+			String query = "" + 
+					"SELECT DISTINCT ?p ?o " + 
+					"WHERE { " +
+					subjectResource.toSPARQL() + " ?p ?o . " + 
+					"?p " + Property.SUBPROPERTYOF.toSPARQL() + "* " + spURI.toSPARQL() + " " +
+					//" FILTER NOT EXISTS { ?pp " + Property.SUBPROPERTYOF.toSPARQL() + " " + spURI.toSPARQL() + " . " +
+					//					  subjectResource.toSPARQL() + " ?pp ?o . " + 
+					//" FILTER(?pp != ?p) " +
+					//" } " +
+					"} ";
+			LOGGER.finer("Query for getting statements including those using a subproperty of " + spURI + " :");
+			LOGGER.finer(query);
+			
+			/*
+				SELECT DISTINCT ?s ?p ?o WHERE { 
+				<http://purl.org/rvl/example-data/Amazing_Grace> ?p ?o .
+				?p rdfs:subPropertyOf* <http://purl.org/rvl/example-data/cites> . 
+				FILTER NOT EXISTS {
+	   				?pp rdfs:subPropertyOf <http://purl.org/rvl/example-data/cites> . 
+				    <http://purl.org/rvl/example-data/Amazing_Grace> ?pp ?o  
+						FILTER (?p != ?pp)
+				}
+			} 
+			} 
+			
+			*/
+			
+			QueryResultTable explMapResults = model.sparqlSelect(query);
+			for (QueryRow row : explMapResults) {
+				LOGGER.finest("fetched SPARQL result row: " + row);
+				Statement stmt = new StatementImpl(null, subjectResource, row.getValue("p").asURI(), row.getValue("o"));
+				LOGGER.finer("build Statement: " + stmt.toString());
+				stmtSet.add(stmt);
 			}
-		} 
-		} 
 		
-		*/
-		
-		QueryResultTable explMapResults = model.sparqlSelect(query);
-		for (QueryRow row : explMapResults) {
-			LOGGER.finest("fetched SPARQL result row: " + row);
-			Statement stmt = new StatementImpl(null, subjectResource, row.getValue("p").asURI(), row.getValue("o"));
-			LOGGER.finer("build Statement: " + stmt.toString());
-			stmtSet.add(stmt);
+		} catch (UnsupportedOperationException e){
+			LOGGER.warning("Problem with query to get statements for linking (blank node?): " + e.getStackTrace());
 		}
 		
 		return stmtSet.iterator();

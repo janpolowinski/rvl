@@ -96,47 +96,58 @@ public class SimpleRVLInterpreter {
 				
 				org.ontoware.rdf2go.model.node.Resource subjectResource = iterator2.next().asResource(); // strange: unlike in the toString() method of PM, we cannot simply cast to resource here, only to URI!
 		    	
-		    	// problem: while iterating a statement iterator no instances may be created 
-		    	// --> concurrend modification exception
-		    	// solution: first create a set of statements, then iterate
-		    	Set<Statement> resSpStmtSet = new HashSet<Statement>();
-		    	//ClosableIterator<Statement> resSpStmtIt = model.findStatements(subjectResource, sp.asURI(), Variable.ANY); // will ignore statements using a subproperty of sp
-		    	Iterator<Statement> resSpStmtIt = RVLUtils.findStatementsPreferingThoseUsingASubProperty(model, subjectResource, sp.asURI(), Variable.ANY); // should include statements using a subproperty of sp
-				while (resSpStmtIt.hasNext()) {
-					Statement statement = (Statement) resSpStmtIt.next();
-					resSpStmtSet.add(statement);
+				// temp ignore blank nodes
+				boolean nodeIsBlankNode = true;
+				try {
+					subjectResource.asURI();
+					nodeIsBlankNode = false;
+				} catch (ClassCastException e) {
+					LOGGER.finer("ignoring blank node when creating linking relations: " + subjectResource);
 				}
+				if (!nodeIsBlankNode) {
 				
-				for (Iterator<Statement> resSpStmtSetIt = resSpStmtSet.iterator(); resSpStmtSetIt
-						.hasNext();) {
-					Statement statement = (Statement) resSpStmtSetIt.next();
-					LOGGER.warning("Statement to be mapped : " + statement);
-
-					// For each statement, create a startNode GO representing the subject (if not exists)
-				    GraphicObject startNode = createOrGetGraphicObject(subjectResource);
-			    	LOGGER.finest("Assigned startNode for: " + subjectResource.toString());
+			    	// problem: while iterating a statement iterator no instances may be created 
+			    	// --> concurrend modification exception
+			    	// solution: first create a set of statements, then iterate
+			    	Set<Statement> resSpStmtSet = new HashSet<Statement>();
+			    	//ClosableIterator<Statement> resSpStmtIt = model.findStatements(subjectResource, sp.asURI(), Variable.ANY); // will ignore statements using a subproperty of sp
+			    	Iterator<Statement> resSpStmtIt = RVLUtils.findStatementsPreferingThoseUsingASubProperty(model, subjectResource, sp.asURI(), Variable.ANY); // should include statements using a subproperty of sp
+					while (resSpStmtIt.hasNext()) {
+						Statement statement = (Statement) resSpStmtIt.next();
+						resSpStmtSet.add(statement);
+					}
 					
-					// For each statement, create an endNode GO representing the object (if not exists)
-			    	Node object = statement.getObject();
-					
-					GraphicObject endNode = createOrGetGraphicObject((org.ontoware.rdf2go.model.node.Resource)object);
-			    	LOGGER.finest("Assigned endNode for: " + object.toString());
-			    	
-			    	// create the linking relation
-			    	DirectedLinking dlRel = new DirectedLinking(model, true);
-			    	
-					// create a connector and add default color
-					GraphicObject connector = new GraphicObject(model, true);
-
-					// check for sub-mappings and modify the connector accordingly (-> generalize!)
-					checkForSubmappingsAndApplyToConnector(pm,statement,connector);
-					
-					// configure the relation
-					dlRel.setStartnode(startNode);
-					dlRel.setEndnode(endNode);
-					dlRel.setLinkingconnector(connector);
-					startNode.setLinkedto(dlRel);
-					endNode.setLinkedfrom(dlRel);	
+					for (Iterator<Statement> resSpStmtSetIt = resSpStmtSet.iterator(); resSpStmtSetIt
+							.hasNext();) {
+						Statement statement = (Statement) resSpStmtSetIt.next();
+						LOGGER.warning("Statement to be mapped : " + statement);
+	
+						// For each statement, create a startNode GO representing the subject (if not exists)
+					    GraphicObject startNode = createOrGetGraphicObject(subjectResource);
+				    	LOGGER.finest("Assigned startNode for: " + subjectResource.toString());
+						
+						// For each statement, create an endNode GO representing the object (if not exists)
+				    	Node object = statement.getObject();
+						
+						GraphicObject endNode = createOrGetGraphicObject((org.ontoware.rdf2go.model.node.Resource)object);
+				    	LOGGER.finest("Assigned endNode for: " + object.toString());
+				    	
+				    	// create the linking relation
+				    	DirectedLinking dlRel = new DirectedLinking(model, true);
+				    	
+						// create a connector and add default color
+						GraphicObject connector = new GraphicObject(model, true);
+	
+						// check for sub-mappings and modify the connector accordingly (-> generalize!)
+						checkForSubmappingsAndApplyToConnector(pm,statement,connector);
+						
+						// configure the relation
+						dlRel.setStartnode(startNode);
+						dlRel.setEndnode(endNode);
+						dlRel.setLinkingconnector(connector);
+						startNode.setLinkedto(dlRel);
+						endNode.setLinkedfrom(dlRel);	
+					}
 				}
 			}
 
@@ -353,9 +364,13 @@ public class SimpleRVLInterpreter {
 	 */
 	private void performDefaultLabelMapping(GraphicObject go,
 			org.ontoware.rdf2go.model.node.Resource resource) {
-		// Thing OK? What is domain of rdfs:label? rdfreactor.Resource does not work
+		// TODO performance: Thing OK? What is domain of rdfs:label? rdfreactor. Resource does not work
 		Resource r = Thing1.getInstance(model, resource);
+		try {
 		go.setLabel(r.getAllLabel_as().firstValue());
+		} catch (Exception e) {
+			LOGGER.finest("no label assigned for resource " + r);
+		}
 	}
 
 	/**

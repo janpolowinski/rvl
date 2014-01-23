@@ -12,11 +12,13 @@ import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.BlankNode;
+import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.java.exception.InsufficientMappingSpecificationExecption;
+import org.purl.rvl.tooling.OGVICProcess;
 
 public class PropertyMapping extends
 		org.purl.rvl.java.gen.rvl.PropertyMapping {
@@ -106,8 +108,20 @@ static final String NL =  System.getProperty("line.separator");
 		ClosableIterator<Statement> spStIt = model.findStatements(Variable.ANY, sp.asURI(), Variable.ANY);
 		while (spStIt.hasNext()) {
 			Statement statement = (Statement) spStIt.next();
+			Resource subject = statement.getSubject();
 			//System.out.println(statement.getSubject());
-			subjectSet.add(statement.getSubject());
+			
+			try{
+				// TODO hack: ignore statements with subjects other than those starting with the data graph URI
+				if (subject.asURI().toString().startsWith(OGVICProcess.REXD_URI)) {
+					subjectSet.add(subject);
+				}
+				else
+					LOGGER.finest("ignored affected resource " + subject + " not starting with " + OGVICProcess.REXD_URI);
+			}
+			catch (ClassCastException e) {
+				LOGGER.info("ignoring resource (may be a blank node): " + subject);
+			}	
 		}
 		return subjectSet;
 	}
