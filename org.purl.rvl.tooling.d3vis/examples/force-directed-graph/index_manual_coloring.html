@@ -149,10 +149,8 @@ d3.json("data.json", function(error, graph) {
 		
 		
 	
-/*
-	  circle.append("title")
-	      .text(function(d) { return d.label; });
-		  */
+   elemEnter.append("svg:title")
+	      .text(function(d) { return d.full_label; });
 	
 	/*
 	  force.on("tick", function() {

@@ -22,6 +22,7 @@ import org.ontoware.rdf2go.model.Syntax;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.viso.graphic.GraphicObject;
 import org.purl.rvl.tooling.util.AVMUtils;
+import org.purl.rvl.tooling.util.D3Utils;
 
 
 /**
@@ -97,7 +98,8 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			String startNodeShapeD3Name = startNode.getShape();
 			
 			Map node = new LinkedHashMap();
-			node.put("label", startNode.getAllLabel_as().firstValue());
+			node.put("label", D3Utils.shortenLabel(startNode.getLabel()));
+			node.put("full_label", startNode.getLabel());
 			node.put("color_rgb_hex", startNodeColorRGBHex);
 			node.put("shape_d3_name", startNodeShapeD3Name);
 			

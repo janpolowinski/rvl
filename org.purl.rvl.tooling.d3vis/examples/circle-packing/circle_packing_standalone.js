@@ -11,7 +11,7 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(2,2)");
 
-d3.json("data.json", function(error, root) {
+d3.json("circle_packing.json", function(error, root) {
   var node = svg.datum(root).selectAll(".node")
       .data(pack.nodes)
     .enter().append("g")

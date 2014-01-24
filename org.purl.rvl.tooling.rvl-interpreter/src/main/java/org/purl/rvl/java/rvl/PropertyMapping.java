@@ -104,7 +104,8 @@ static final String NL =  System.getProperty("line.separator");
 				throw new InsufficientMappingSpecificationExecption();
 			}
 		}					
-
+		
+		// TODO: problem: will not handle Class-Restriction-Relations
 		ClosableIterator<Statement> spStIt = model.findStatements(Variable.ANY, sp.asURI(), Variable.ANY);
 		while (spStIt.hasNext()) {
 			Statement statement = (Statement) spStIt.next();

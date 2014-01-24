@@ -17,7 +17,12 @@ import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.ontoware.rdfreactor.runtime.ReactorResult;
 import org.ontoware.rdfreactor.schema.bootstrap.Property;
+import org.ontoware.rdfreactor.schema.owl.Restriction;
+import org.ontoware.rdfreactor.schema.rdfs.Class;
+import org.ontoware.rdfreactor.schema.rdfs.Resource;
+import org.openrdf.repository.sparql.query.SPARQLQuery;
 import org.purl.rvl.java.rvl.Mapping;
+import org.purl.rvl.java.rvlsmall.Thing1;
 
 public class RVLUtils {
 	
@@ -145,6 +150,59 @@ public class RVLUtils {
 		}
 		
 		return stmtSet.iterator();
+	}
+
+	public static Set<Statement> findRelationsOnClassLevel(
+			Model model,
+			//org.ontoware.rdf2go.model.node.Resource subjectResource,
+			URI spURI) {
+		
+		QueryResultTable results = null;
+		Set<Statement> stmtSet = new HashSet<Statement>();
+
+		
+		try{
+			
+			String query = "" + 
+					"SELECT DISTINCT ?s ?o " + 
+					"WHERE { " +
+					//subjectResource.toSPARQL() + " " + Class.SUBCLASSOF.toSPARQL() + " ?restrictionClass . " +
+					"?s  " + Class.SUBCLASSOF.toSPARQL() + " ?restrictionClass . " +
+					"?restrictionClass a " + Restriction.RDFS_CLASS.toSPARQL() + " . " +  
+					"?restrictionClass " + Restriction.ONPROPERTY.toSPARQL() + " " + spURI.toSPARQL() + " . " + 
+					"?restrictionClass " + Restriction.SOMEVALUESFROM.toSPARQL() +  " ?o . " + 
+					"} ";
+			LOGGER.finer("Query for getting relations on class level for " + spURI + " :");
+			LOGGER.finer(query);
+			
+			/*
+			WHERE {
+      ?this rdfs:subClassOf ?restrictionClass .
+    ?restrictionClass a owl:Restriction .
+    ?restrictionClass owl:onProperty <http://purl.org/obo/owl/OBO_REL#part_of> .
+    ?restrictionClass owl:someValuesFrom ?whole .
+    ?this rdfs:label ?thisLabel .
+			}
+			*/
+
+			results = model.sparqlSelect(query);
+			
+			for (QueryRow row : results) {
+				LOGGER.finest("fetched SPARQL result row: " + row);
+				try {
+					Statement stmt = new StatementImpl(null, row.getValue("s").asURI(), spURI, row.getValue("o"));
+					LOGGER.finer("build Statement: " + stmt.toString());
+					stmtSet.add(stmt);
+				} catch (Exception e) {
+					LOGGER.finer("Problem building Statement for : " + row );
+				}
+			}
+				
+		} catch (UnsupportedOperationException e){
+			LOGGER.warning("Problem with query to get relations on class level (blank node?): " + e.getStackTrace());
+		}
+		
+		return stmtSet;
 	}
 
 }

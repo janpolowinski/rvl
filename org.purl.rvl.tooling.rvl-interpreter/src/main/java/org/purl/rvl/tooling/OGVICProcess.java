@@ -29,11 +29,12 @@ public class OGVICProcess {
 	protected static ExampleAVMBuilder builder;
 	protected static D3GeneratorBase d3Generator;
 	
-	public static boolean REGENERATE_AVM = false;
+	public static boolean REGENERATE_AVM = true;
+	public static boolean WRITE_AVM = false;
 		
 	//public static final String JSON_FILE_NAME_REL = "../org.purl.rvl.tooling.d3vis/examples/force-layouted-nodes/data.json";
 	
-	///*
+	/*
 	public static final String REM_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl-example-mappings-mini.ttl";
 	public static final String REXD_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl-example-data.ttl";
 	public static final String REXD_URI = "http://purl.org/rvl/example-data";
@@ -42,16 +43,49 @@ public class OGVICProcess {
 	//public static final String JSON_FILE_NAME_REL = "../org.purl.rvl.tooling.d3vis/examples/reingold-tilford-tree/data.json";
 	//public static final String JSON_FILE_NAME_REL = "../org.purl.rvl.tooling.d3vis/examples/radial-reingold-tilford-tree/data.json";
 	//public static final String JSON_FILE_NAME_REL = "../org.purl.rvl.tooling.d3vis/examples/force-directed-graph/data.json";
-	//*/
+	*/
 	
+	/* RVL
+	// problem (no root ndoes found) here probably because subClassOf etc. are reflexiv and our method for finding root nodes does not work here! -> exlude direct "loop" relations
+	public static final String REM_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl-example-mappings-bootstrap.ttl";
+	public static final String REXD_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl-example-data.ttl";
+	public static final String REXD_URI = "http://purl.org/rvl";
 	
-	/*
+	//public static final int AVM_GENERATOR = D3GeneratorBase.GENERATOR_TREE_JSON; 
+	//public static final String JSON_FILE_NAME_REL = "../org.purl.rvl.tooling.d3vis/examples/collapsible_tree/data.json";
+	
+	public static final int AVM_GENERATOR = D3GeneratorBase.GENERATOR_SIMPLE_JSON; 
+	public static final String JSON_FILE_NAME_REL = "../org.purl.rvl.tooling.d3vis/examples/force-directed-graph/data.json";
+
+	*/
+	
+	/* RO
+	public static final String REM_LOCAL_REL = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies/Requirements/stRO/MappingExample/ro-rvl-mapping-example.ttl";
+	public static final String REXD_LOCAL_REL = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies/Requirements/stRO/semvis-example-ro.ttl";
+	public static final String REXD_URI = "http://purl.org/ro/semvis-example/";
+	
+	//public static final int AVM_GENERATOR = D3GeneratorBase.GENERATOR_TREE_JSON; 
+	//public static final String JSON_FILE_NAME_REL = "../org.purl.rvl.tooling.d3vis/examples/collapsible_tree/data.json";
+	
+	public static final int AVM_GENERATOR = D3GeneratorBase.GENERATOR_SIMPLE_JSON; 
+	public static final String JSON_FILE_NAME_REL = "../org.purl.rvl.tooling.d3vis/examples/force-directed-graph/data.json";
+
+	*/
+	
+
+	
+	///* PO
 	public static final String REM_LOCAL_REL = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies/Bio/PO/MappingExample/po-rvl-mapping-example.ttl";
 	public static final String REXD_LOCAL_REL = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies/Bio/PO/po_anatomy_prepared_and_simplified.owl";
 	public static final String REXD_URI = "http://purl.org/obo/owl/";
-	public static final int AVM_GENERATOR = D3GeneratorBase.GENERATOR_SIMPLE_JSON; 
-	public static final String JSON_FILE_NAME_REL = "../org.purl.rvl.tooling.d3vis/examples/force-directed-graph/data.json";
-	*/
+	
+	public static final int AVM_GENERATOR = D3GeneratorBase.GENERATOR_TREE_JSON; 
+	public static final String JSON_FILE_NAME_REL = "../org.purl.rvl.tooling.d3vis/examples/collapsible_tree/data.json";
+	
+	//public static final int AVM_GENERATOR = D3GeneratorBase.GENERATOR_SIMPLE_JSON; 
+	//public static final String JSON_FILE_NAME_REL = "../org.purl.rvl.tooling.d3vis/examples/force-directed-graph/data.json";
+
+	//*/
 	
 	/*
 	public static final String REM_LOCAL_REL = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies/Bio/PO/MappingExample/po-rvl-mapping-example.ttl";
@@ -80,7 +114,7 @@ public class OGVICProcess {
     	  	
 		//LOGGER.setLevel(Level.SEVERE); 
 		//LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.SEVERE); 
-		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.OFF);
+		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.FINEST);
 
 		
 		// In order to show log entrys of the fine level, we need to create a new handler as well
@@ -163,7 +197,7 @@ public class OGVICProcess {
 		d3Generator.writeJSONToFile(json);
 		
 		// this is done later, since it takes much time
-		if (REGENERATE_AVM) {
+		if (REGENERATE_AVM && WRITE_AVM) {
 			writeAVMToFile();
 		}
 		

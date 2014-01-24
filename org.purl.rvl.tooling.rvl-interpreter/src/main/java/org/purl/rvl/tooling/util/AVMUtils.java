@@ -9,7 +9,12 @@ import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.QueryResultTable;
 import org.ontoware.rdf2go.model.QueryRow;
+import org.ontoware.rdf2go.model.node.Node;
+import org.ontoware.rdf2go.model.node.URI;
+import org.ontoware.rdf2go.util.RDFTool;
 import org.ontoware.rdfreactor.schema.rdfs.Resource;
+import org.openrdf.sail.rdbms.managers.UriManager;
+import org.purl.rvl.java.gen.rvl.Thing1;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
 import org.purl.rvl.java.viso.graphic.Color;
@@ -177,7 +182,47 @@ public class AVMUtils {
 		
 		return dlFromHere;
 	}
+	
+	
+	public static String getOrGenerateDefaultLabelString(Model model, org.ontoware.rdf2go.model.node.Resource resource){
+		
+		String genLabel = "";
+		
+		
+			genLabel =  getLocalName(model, resource);
+		
+			/* USE built-in function of RDF2GO instead:
+			
+			// TODO performance: Thing OK? What is domain of rdfs:label? rdfreactor. Resource does not work
+			org.ontoware.rdfreactor.schema.rdfs.Resource representedResource = Thing1.getInstance(model, resource);
+			
+			try {
+				genLabel = representedResource.getAllLabel_as().firstValue().toString();
+				} catch (Exception e) {
+					// this may cause another exception (URI for blank nodes)
+					LOGGER.finest("No label found for " + representedResource.asURI());
+			}
+			
+			if(genLabel.equals("")) {
+				try {
+					LOGGER.finest("Will try to generate label from the resources URI (" + representedResource.asURI() +")");
+					genLabel = getLocalName(model, representedResource);
+				} catch (Exception e) {
+					LOGGER.warning("Could not generate label from the resources URI (blank node?)" + e.getStackTrace());
+				}
+			}		
+			*/
 
+		LOGGER.finest("Using label " + genLabel);	
+		return genLabel;
+	}
+
+	public static String getLocalName(Model model, Node node){
+		
+		String localName =  RDFTool.getGoodLabel(node, model);
+		
+		return localName;
+	}
 
 
 }

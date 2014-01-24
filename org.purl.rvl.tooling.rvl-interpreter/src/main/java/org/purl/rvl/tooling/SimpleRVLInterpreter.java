@@ -36,6 +36,7 @@ import org.purl.rvl.java.rvl.PropertyToGO2ORMapping;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping;
 import org.purl.rvl.java.viso.graphic.GraphicObject;
 import org.purl.rvl.java.viso.graphic.ShapeX;
+import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.RVLUtils;
 
 public class SimpleRVLInterpreter {
@@ -73,7 +74,8 @@ public class SimpleRVLInterpreter {
 				.iterator(); iterator.hasNext();) {
 			
 			PropertyToGO2ORMapping p2go2orm = (PropertyToGO2ORMapping) iterator.next();
-			interpretMappingToLinking(p2go2orm);
+			//interpretMappingToLinking(p2go2orm);
+			interpretClassLevelRelations(p2go2orm);
 	
 		}
 		
@@ -81,6 +83,73 @@ public class SimpleRVLInterpreter {
 	}
 
 	
+	private void interpretClassLevelRelations(PropertyToGO2ORMapping p2go2orm) {
+		
+		Property sp = p2go2orm.getAllSourceproperty_as().firstValue();
+		boolean invertSourceProperty = p2go2orm.hasInvertsourceproperty();
+		
+		//RVLUtils.findRelationsOnClassLevel(model, subjectResource, sp.asURI());
+		Set<Statement> stmtSet =  RVLUtils.findRelationsOnClassLevel(model, sp.asURI());
+		
+		
+		for (Iterator<Statement> iterator = stmtSet.iterator(); iterator.hasNext();) {
+			Statement statement = (Statement) iterator.next();
+						
+			try {
+			
+				org.ontoware.rdf2go.model.node.Resource subject = statement.getSubject();
+				org.ontoware.rdf2go.model.node.Resource object = statement.getObject().asResource();
+				
+				LOGGER.finest("Subject label " + AVMUtils.getLocalName(model,subject));
+				LOGGER.finest("Object label " + AVMUtils.getLocalName(model,object));
+	
+				LOGGER.warning("Statement to be mapped : " + statement);
+
+				// For each statement, create a startNode GO representing the subject (if not exists)
+			    GraphicObject subjectNode = createOrGetGraphicObject(subject);
+		    	LOGGER.finest("Assigned startNode for: " + subject.toString());
+				
+				// For each statement, create an endNode GO representing the object (if not exists)
+		    	//Node object = statement.getObject();
+				
+				GraphicObject objectNode = createOrGetGraphicObject((org.ontoware.rdf2go.model.node.Resource)object);
+		    	LOGGER.finest("Assigned endNode for: " + object.toString());
+		    	
+		    	// create the linking relation
+		    	DirectedLinking dlRel = new DirectedLinking(model, true);
+		    	
+				// create a connector and add default color
+				GraphicObject connector = new GraphicObject(model, true);
+
+				// check for sub-mappings and modify the connector accordingly (-> generalize!)
+				//checkForSubmappingsAndApplyToConnector(pm,statement,connector);
+				
+				
+				// configure the relation
+				if(invertSourceProperty) {
+					LOGGER.info("The 'inverse' of the source property (" + sp.asURI() + ") will be used, according to mapping settings.");
+					dlRel.setEndnode(subjectNode);
+					dlRel.setStartnode(objectNode);
+					subjectNode.setLinkedfrom(dlRel);
+					objectNode.setLinkedto(dlRel);
+				} else {
+					dlRel.setStartnode(subjectNode);
+					dlRel.setEndnode(objectNode);
+					subjectNode.setLinkedto(dlRel);
+					objectNode.setLinkedfrom(dlRel);
+				}
+				dlRel.setLinkingconnector(connector);
+	
+				
+			}
+			catch (Exception e) {
+				LOGGER.finest("Problem creating GOS");
+				LOGGER.finest(e.getMessage());
+			}
+		}
+		
+	}
+
 	private void interpretMappingToLinking(PropertyToGO2ORMapping p2go2orm) {
 		
 		PropertyMapping pm = (PropertyMapping) p2go2orm.castTo(PropertyMapping.class);
@@ -351,6 +420,7 @@ public class SimpleRVLInterpreter {
 		} 
 		else {
 			GraphicObject go = new GraphicObject(model,"http://purl.org/rvl/example-avm/GO_" + random.nextInt(), true);
+			go.setRepresents(resource);
 			resourceGraphicObjectMap.put(resource, go);
 			LOGGER.finer("Newly created GO for " + resource);
 			return go;
@@ -364,12 +434,14 @@ public class SimpleRVLInterpreter {
 	 */
 	private void performDefaultLabelMapping(GraphicObject go,
 			org.ontoware.rdf2go.model.node.Resource resource) {
-		// TODO performance: Thing OK? What is domain of rdfs:label? rdfreactor. Resource does not work
-		Resource r = Thing1.getInstance(model, resource);
+		
+		//LOGGER.finest("Problems getting represented resource, no label generated for GO " + this.asURI());
+
 		try {
-		go.setLabel(r.getAllLabel_as().firstValue());
+			go.setLabel(AVMUtils.getOrGenerateDefaultLabelString(model, resource));
 		} catch (Exception e) {
-			LOGGER.finest("no label assigned for resource " + r);
+			LOGGER.finest("No label could be assigned for resource " + resource + " to GO " + go.asURI().toString() + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 

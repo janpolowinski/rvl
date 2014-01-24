@@ -9,6 +9,7 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
+import org.purl.rvl.java.gen.rvl.Thing1;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 
 import javax.xml.bind.annotation.*;
@@ -19,7 +20,10 @@ public class GraphicObject extends
 	
 	private static final long serialVersionUID = -9112269162175431905L;
 	
+	private final static Logger LOGGER = Logger.getLogger(GraphicObject.class.getName()); 
 	static final String NL =  System.getProperty("line.separator");
+	
+	Resource representedResource;
 
 	public GraphicObject(Model model, URI classURI,
 			Resource instanceIdentifier, boolean write) {
@@ -87,15 +91,8 @@ public class GraphicObject extends
 	@XmlElement(name="label")
 	public String getLabel() {
 		
-		String genLabel = "";
+		return this.getAllLabel_as().firstValue().toString();
 		
-		try {
-			genLabel =  this.getAllLabel_as().firstValue().toString();
-		} catch (Exception e) {
-			System.out.println("no label found for" + this.asURI());
-		}
-		
-		return genLabel;
 	}
 	
 	@XmlElement(name="color_rgb_hex")
@@ -134,5 +131,14 @@ public class GraphicObject extends
 		}
 		return shapeD3Name;
 	}
+
+	public void setRepresents(org.ontoware.rdf2go.model.node.Resource resource) {
+		this.representedResource = resource;
+	}
+	
+	private Resource getRepresentedResource() {
+		return representedResource;
+	}
+
 
 }
