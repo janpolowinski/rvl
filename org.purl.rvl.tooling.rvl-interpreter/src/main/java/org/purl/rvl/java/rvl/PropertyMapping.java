@@ -18,7 +18,7 @@ import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.java.exception.InsufficientMappingSpecificationExecption;
-import org.purl.rvl.tooling.OGVICProcess;
+import org.purl.rvl.tooling.process.OGVICProcess;
 
 public class PropertyMapping extends
 		org.purl.rvl.java.gen.rvl.PropertyMapping {
@@ -112,13 +112,16 @@ static final String NL =  System.getProperty("line.separator");
 			Resource subject = statement.getSubject();
 			//System.out.println(statement.getSubject());
 			
+			// TODO hack: ignore statements with subjects other than those starting with the data graph URI
+			String uriStartString = OGVICProcess.getInstance().getUriStart();
+			
 			try{
-				// TODO hack: ignore statements with subjects other than those starting with the data graph URI
-				if (subject.asURI().toString().startsWith(OGVICProcess.REXD_URI)) {
+
+				if (subject.asURI().toString().startsWith(uriStartString)) {
 					subjectSet.add(subject);
 				}
 				else
-					LOGGER.finest("ignored affected resource " + subject + " not starting with " + OGVICProcess.REXD_URI);
+					LOGGER.finest("ignored affected resource " + subject + " not starting with " + uriStartString);
 			}
 			catch (ClassCastException e) {
 				LOGGER.info("ignoring resource (may be a blank node): " + subject);

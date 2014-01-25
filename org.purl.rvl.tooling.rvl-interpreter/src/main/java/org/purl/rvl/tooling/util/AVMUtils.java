@@ -133,6 +133,11 @@ public class AVMUtils {
 	
 	public static Set<GraphicObject> getRootNodesGraphicObject(Model model) {
 		
+		if (null==model) {
+			LOGGER.warning("Model was null. Couldn't get root nodes.");
+			return null;
+		}
+		
 		Set<GraphicObject> rootNodes = new HashSet<GraphicObject>();
 
 		String query = "" + 

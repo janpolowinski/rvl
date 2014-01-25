@@ -39,6 +39,10 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 	
 	private int currentDepth = 0;
 	
+	public D3GeneratorTreeJSON() {
+		super();
+	}
+	
 	/**
 	 * @param model
 	 * @param modelVISO
@@ -69,6 +73,9 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 	}*/
 	
 	
+
+
+
 	/**
 	 * Generates JSON using SimpleJSON (Jackson JSON-Binding-Version also exists)
 	 */

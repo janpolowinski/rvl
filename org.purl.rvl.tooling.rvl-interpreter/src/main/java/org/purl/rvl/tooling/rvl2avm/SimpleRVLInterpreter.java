@@ -1,4 +1,4 @@
-package org.purl.rvl.tooling;
+package org.purl.rvl.tooling.rvl2avm;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,6 +8,8 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 import java.util.logging.Logger;
+
+import junit.framework.Assert;
 
 import org.ontoware.aifbcommons.collection.ClosableIterable;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
@@ -39,30 +41,34 @@ import org.purl.rvl.java.viso.graphic.ShapeX;
 import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.RVLUtils;
 
-public class SimpleRVLInterpreter {
+public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	
-	protected Model model;
-	private Model modelVISO;
-	private Random random;
-	private Map<org.ontoware.rdf2go.model.node.Resource,GraphicObject> resourceGraphicObjectMap; 
+
 	
 	private final static Logger LOGGER = Logger.getLogger(SimpleRVLInterpreter.class .getName()); 
-	static final String NL =  System.getProperty("line.separator");
 
-	public SimpleRVLInterpreter(Model model, Model modelVISO) {
+	public SimpleRVLInterpreter() {
 		super();
-		this.model = model;
-		this.modelVISO = modelVISO;
-		this.random = new Random();
-		this.resourceGraphicObjectMap = new HashMap<org.ontoware.rdf2go.model.node.Resource, GraphicObject>();
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.purl.rvl.tooling.rvl2avm.RVLInterpreterBase#interpretMappings()
+	 */
+	@Override
+	public void interpretMappings() {
+		super.interpretMappings();
+		LOGGER.info("Interpreting mappings using " + this.getClass().getName());
+		interpretSimpleP2GArvlMappings();
+		interpretP2GO2ORMappings();
+		interpretResourceLabelAsGOLabelForAllCreatedResources();
+	}
+
 	/**
 	 * Interprets the P2GO2OR mappings. (ONLY LINKING AT THE MOMENT -> GENERALIZE)
 	 * Creates new GO for all affected resources if they don't exist already.
 	 * TODO: merge/reuse GOs
 	 */
-	public void interpretP2GO2ORMappings() {
+	protected void interpretP2GO2ORMappings() {
 		
 		// get all P2GO2OR mappings to linking and create n-ary linking relations
 		Set<PropertyToGO2ORMapping> setOfMappingsToLinking = getAllMappingsToLinking();
@@ -74,8 +80,8 @@ public class SimpleRVLInterpreter {
 				.iterator(); iterator.hasNext();) {
 			
 			PropertyToGO2ORMapping p2go2orm = (PropertyToGO2ORMapping) iterator.next();
-			//interpretMappingToLinking(p2go2orm);
-			interpretClassLevelRelations(p2go2orm);
+			interpretMappingToLinking(p2go2orm);
+			//interpretClassLevelRelations(p2go2orm);
 	
 		}
 		
@@ -83,7 +89,7 @@ public class SimpleRVLInterpreter {
 	}
 
 	
-	private void interpretClassLevelRelations(PropertyToGO2ORMapping p2go2orm) {
+	protected void interpretClassLevelRelations(PropertyToGO2ORMapping p2go2orm) {
 		
 		Property sp = p2go2orm.getAllSourceproperty_as().firstValue();
 		boolean invertSourceProperty = p2go2orm.hasInvertsourceproperty();
@@ -150,7 +156,7 @@ public class SimpleRVLInterpreter {
 		
 	}
 
-	private void interpretMappingToLinking(PropertyToGO2ORMapping p2go2orm) {
+	protected void interpretMappingToLinking(PropertyToGO2ORMapping p2go2orm) {
 		
 		PropertyMapping pm = (PropertyMapping) p2go2orm.castTo(PropertyMapping.class);
 		LOGGER.fine("Interpreting the mapping: " + NL + p2go2orm.toString());
@@ -227,7 +233,7 @@ public class SimpleRVLInterpreter {
 		}
 	}
 
-	private void checkForSubmappingsAndApplyToConnector(PropertyMapping pm, Statement mainStatement, GraphicObject connector) {
+	protected void checkForSubmappingsAndApplyToConnector(PropertyMapping pm, Statement mainStatement, GraphicObject connector) {
 		
 		String label = "";
 		
@@ -326,7 +332,12 @@ public class SimpleRVLInterpreter {
 	 * Interprets the simple P2GA mappings, i.e. those without need for calculating value mappings. 
 	 * Creates GO for all affected resources if they don't exist already.
 	 */
-	public void interpretSimpleP2GArvlMappings() {
+	protected void interpretSimpleP2GArvlMappings() {
+		
+		if (null==model) {
+			LOGGER.severe("Cannot interprete mappings, since model is null.");
+			return;
+		}
 		
 		Set<PropertyToGraphicAttributeMapping> setOfSimpleP2GAMappings = getAllP2GAMappingsWithExplicitMappings();
 		
@@ -394,7 +405,7 @@ public class SimpleRVLInterpreter {
 	/**
 	 * Iterates through all GOs in the GO map and performs a default label mapping on them
 	 */
-	public void interpretResourceLabelAsGOLabelForAllCreatedResources(){
+	protected void interpretResourceLabelAsGOLabelForAllCreatedResources(){
 		for (Map.Entry<org.ontoware.rdf2go.model.node.Resource,GraphicObject> entry : resourceGraphicObjectMap.entrySet()) {
 			//LOGGER.info(entry.getKey() + " with value " + entry.getValue());
 			// perform the default label mapping, when not already set
@@ -408,25 +419,6 @@ public class SimpleRVLInterpreter {
 		}
 	}
 	
-	/**
-	 * Creates a GraphicObject for a Resource or returns the existing GraphicObject, if already created before
-	 * @param resource
-	 * @return the GraphicObject representing the resource
-	 */
-	private GraphicObject createOrGetGraphicObject(org.ontoware.rdf2go.model.node.Resource resource) {
-		if (resourceGraphicObjectMap.containsKey(resource)) {
-			LOGGER.finest("Found existing GO for " + resource);
-			return resourceGraphicObjectMap.get(resource);
-		} 
-		else {
-			GraphicObject go = new GraphicObject(model,"http://purl.org/rvl/example-avm/GO_" + random.nextInt(), true);
-			go.setRepresents(resource);
-			resourceGraphicObjectMap.put(resource, go);
-			LOGGER.finer("Newly created GO for " + resource);
-			return go;
-		}
-	}
-
 	/**
 	 * Sets the label of a GO to the resources (first) label
 	 * @param go
@@ -443,72 +435,6 @@ public class SimpleRVLInterpreter {
 			LOGGER.finest("No label could be assigned for resource " + resource + " to GO " + go.asURI().toString() + e.getMessage());
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * Get all the mappings that require no calculation, because they only have explicit 1-1-value-mappings
-	 */
-	private Set<PropertyToGraphicAttributeMapping> getAllP2GAMappingsWithExplicitMappings(){
-		
-		Set<PropertyToGraphicAttributeMapping> mappingSet = new HashSet<PropertyToGraphicAttributeMapping>();
-
-		String queryString = "" +
-				"SELECT DISTINCT ?p2gam " +
-				"WHERE { " +
-				"    ?p2gam a <" + PropertyToGraphicAttributeMapping.RDFS_CLASS + "> . " +
-				"    ?p2gam <" + PropertyToGraphicAttributeMapping.VALUEMAPPING + "> ?vm . " +
-				"	{ " +
-				"	SELECT ?vm  (COUNT(?sv) AS ?svCount) " +
-				"       WHERE " +
-				"       { " +
-				"	 		  ?vm <" + PropertyToGraphicAttributeMapping.SOURCEVALUE + "> ?sv  " +
-				"       } " +
-				"        GROUP BY ?vm " +
-				"	} " +
-				"    FILTER (?svCount = 1 ) " +
-				"} " ;
-		
-		//LOGGER.info("All mappings with explicit value mappings (VMs with only 1 source value)");
-		//LOGGER.info(queryString);
-		
-		QueryResultTable results = model.sparqlSelect(queryString);
-//		for(QueryRow row : results) {LOGGER.info(row); }
-//		for(String var : results.getVariables()) { LOGGER.info(var); }
-		
-		for(QueryRow row : results) {
-			Property_to_Graphic_AttributeMapping p2gam = Property_to_Graphic_AttributeMapping.getInstance(model, (URI)row.getValue("p2gam"));
-			mappingSet.add((PropertyToGraphicAttributeMapping)p2gam.castTo(PropertyToGraphicAttributeMapping.class));
-			//LOGGER.info(row.getValue("p2gam"));
-		}
-		
-		return mappingSet;
-	}
-	
-	private Set<PropertyToGO2ORMapping> getAllMappingsToLinking() {
-		
-		Set<PropertyToGO2ORMapping> mappingSet = new HashSet<PropertyToGO2ORMapping>();
-
-		String queryString = "" +
-				"SELECT DISTINCT ?mapping " +
-				"WHERE { " +
-				"    ?mapping a <" + PropertyToGO2ORMapping.RDFS_CLASS + "> . " +
-				"    ?mapping <" + PropertyToGO2ORMapping.TARGETOBJECT_TO_OBJECTRELATION + "> <" + DirectedLinking.RDFS_CLASS + "> . " +
-				"} " ;
-		
-		LOGGER.finer("SPARQL: query all mappings to Directed Linking:" + NL + 
-				     queryString);
-		
-		QueryResultTable results = model.sparqlSelect(queryString);
-		//for(QueryRow row : results) {LOGGER.info(row); }
-		//for(String var : results.getVariables()) { LOGGER.info(var); }
-		
-		for(QueryRow row : results) {
-			Property_to_Graphic_Object_to_Object_RelationMapping mapping = Property_to_Graphic_Object_to_Object_RelationMapping.getInstance(model, (URI)row.getValue("mapping"));
-			mappingSet.add((PropertyToGO2ORMapping)mapping.castTo(PropertyToGO2ORMapping.class));
-			LOGGER.info("Found mapping to linking: " + row.getValue("mapping").toString());
-		}
-		
-		return mappingSet;
 	}
 
 }

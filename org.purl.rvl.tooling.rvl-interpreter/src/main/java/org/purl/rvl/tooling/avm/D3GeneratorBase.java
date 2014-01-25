@@ -5,11 +5,10 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.model.Model;
-import org.ontoware.rdf2go.model.Syntax;
-import org.purl.rvl.tooling.OGVICProcess;
+import org.purl.rvl.tooling.process.OGVICProcess;
 
 
-public class D3GeneratorBase {
+public abstract class D3GeneratorBase {
 	
 	public static final int GENERATOR_SIMPLE_JSON = 1;
 	public static final int GENERATOR_TREE_JSON = 2;
@@ -21,6 +20,12 @@ public class D3GeneratorBase {
 	
 	private final static Logger LOGGER = Logger.getLogger(D3GeneratorBase.class .getName()); 
 	
+	
+	public D3GeneratorBase() {
+		super();
+	}
+
+	
 	/**
 	 * @param model
 	 * @param modelVISO
@@ -31,9 +36,6 @@ public class D3GeneratorBase {
 		this.modelVISO = modelVISO;
 	}
 
-	public D3GeneratorBase() {
-		super();
-	}
 
 
 
@@ -42,7 +44,7 @@ public class D3GeneratorBase {
 	 */
 	public void writeJSONToFile(String fileContent){
 		try {
-			String fileName = OGVICProcess.JSON_FILE_NAME_REL;
+			String fileName = OGVICProcess.getInstance().getJsonFileNameRel();
 			
 			FileWriter writer = new FileWriter(fileName);
 			writer.write(fileContent);
@@ -54,5 +56,11 @@ public class D3GeneratorBase {
 			e.printStackTrace();
 		}
 	}
+
+	public void init(Model model) {
+		this.model = model;
+	}
+	
+	public abstract String generateJSONforD3();
 	
 }

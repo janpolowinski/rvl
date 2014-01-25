@@ -1,4 +1,4 @@
-package org.purl.rvl.tooling.avm;
+package org.purl.rvl.tooling.rvl2avm;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -14,19 +14,38 @@ import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.purl.rvl.java.gen.viso.graphic.Color;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObject;
+import org.purl.rvl.tooling.process.OGVICProcess;
 
-public class ExampleAVMBuilder {
+public class FakeRVLInterpreter extends RVLInterpreterBase {
+		
+	private final static Logger LOGGER = Logger.getLogger(FakeRVLInterpreter.class .getName()); 
 	
-	protected Model model;
 	private Model modelVISO;
 	
-	private final static Logger LOGGER = Logger.getLogger(ExampleAVMBuilder.class .getName()); 
-	
-	
+	/**
+	 * @param model
+	 * @param modelVISO
+	 */
+	public FakeRVLInterpreter() {
+		super();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.purl.rvl.tooling.rvl2avm.RVLInterpreterBase#interpretMappings()
+	 */
+	@Override
+	public void interpretMappings() {
+		super.interpretMappings();
+		LOGGER.info("Using fake interpreter: Will create some example AVM instead of interpreting RVL.");
+		createTestGraphicObjects();
+		createTestLinkingDirectedRelations();
+		createTestContainmentRelations();
+	}
+
 	/**
 	 * Creates example (n-ary) linking relations between the available GOs in the model
 	 */
-	public void createTestLinkingDirectedRelations() {
+	private void createTestLinkingDirectedRelations() {
 				
 		List<? extends org.purl.rvl.java.gen.viso.graphic.GraphicObject> startNodeList = 
 				org.purl.rvl.java.gen.viso.graphic.GraphicObject.getAllInstances_as(model).asList();
@@ -68,30 +87,31 @@ public class ExampleAVMBuilder {
 		}
 	}
 	
-	public Set<org.purl.rvl.java.viso.graphic.GraphicObject> createTestGraphicObjects() {
+	private Set<org.purl.rvl.java.viso.graphic.GraphicObject> createTestGraphicObjects() {
 		Random random = new Random();
 		float positionX = 0;
 		HashSet<org.purl.rvl.java.viso.graphic.GraphicObject> goSet = new HashSet<org.purl.rvl.java.viso.graphic.GraphicObject>();
 
+		// get all available colors (TODO: this only works with an extra VISO-Model! -> otherwise concurrent modification exception ...)
 		ClosableIterator<?extends Color> colorIt = Color.getAllInstances_as(modelVISO).asClosableIterator();
+		
+		for (int i = 0; i < 15; i++) {
+			int aID = random.nextInt(100000);
+			GraphicObject go = new GraphicObject(model,
+					"http://purl.org/rvl/example-avm/GO_" + aID, true);
+			go.setLabel("GO " + i);
+			if (colorIt.hasNext()) {
+				Color color = colorIt.next();
+				LOGGER.finer("Created GO with color " + color.toString());
+				go.setColornamed(color);
 
-		// get all available colors
-		colorIt = Color.getAllInstances_as(modelVISO).asClosableIterator();
-	   for (int i = 0; i < 15; i++) {
-	    int aID = random.nextInt(100000);
-	    GraphicObject go = new GraphicObject(model,"http://purl.org/rvl/example-avm/GO_" + aID, true);
-	    go.setLabel("GO " + i);
-	    if (colorIt.hasNext()) {
-	    	Color color = colorIt.next();
-	    	LOGGER.finer("Created GO with color " + color.toString());
-	    	go.setColornamed(color);
-	    	
-	    }
-	    positionX = i*50;
-	    go.setXposition(positionX);
-	    go.setHeight(positionX);
-	    goSet.add((org.purl.rvl.java.viso.graphic.GraphicObject)go.castTo(org.purl.rvl.java.viso.graphic.GraphicObject.class));
-	   }
+			}
+			positionX = i * 50;
+			go.setXposition(positionX);
+			go.setHeight(positionX);
+			goSet.add((org.purl.rvl.java.viso.graphic.GraphicObject) go
+					.castTo(org.purl.rvl.java.viso.graphic.GraphicObject.class));
+		}
 	   
 	   return goSet;
 	}
@@ -99,7 +119,7 @@ public class ExampleAVMBuilder {
 	/**
 	 * Creates example (old binary) containment relations between the available GOs in the model
 	 */
-	public void createTestContainmentRelations() {
+	private void createTestContainmentRelations() {
 			//Model tmpModel = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 			//tmpModel.open();
 			//tmpModel.addAll(model.iterator()); tmpModel.addAll(modelVISO.iterator()); // causes all instances to be iterated below!!!! not only GOs!!!
@@ -131,16 +151,14 @@ public class ExampleAVMBuilder {
 			}
 		}
 
-	/**
-	 * @param model
-	 * @param modelVISO
+	/* (non-Javadoc)
+	 * @see org.purl.rvl.tooling.rvl2avm.RVLInterpreterBase#init(org.ontoware.rdf2go.model.Model)
 	 */
-	public ExampleAVMBuilder(Model model, Model modelVISO) {
-		super();
-		this.model = model;
-		this.modelVISO = modelVISO;
-		
-		//LOGGER.setLevel(Level.SEVERE); 
+	@Override
+	public void init(Model model) {
+		// TODO Auto-generated method stub
+		super.init(model);
+		this.modelVISO = OGVICProcess.getInstance().getModelVISO();
 	}
 
 

@@ -36,6 +36,9 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 	static final String NL =  System.getProperty("line.separator");
 
 	
+	public D3GeneratorSimpleJSON() {
+		super();
+	}
 	
 	/**
 	 * @param model
@@ -45,6 +48,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 		super(model, modelVISO);
 	}
 	
+
 	// TODO move to some upper class or AVMUTils
 	private Set<GraphicObject> getAllGraphicObjects(){
 		
