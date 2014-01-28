@@ -73,7 +73,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		// get all P2GO2OR mappings to linking and create n-ary linking relations
 		Set<PropertyToGO2ORMapping> setOfMappingsToLinking = getAllMappingsToLinking();
 		
-		LOGGER.info("Will evaluate " +setOfMappingsToLinking.size()+ "PGOTOR mappings.");
+		LOGGER.info("Will evaluate " +setOfMappingsToLinking.size()+ " PGOTOR mappings.");
 		
 		// for each mapping
 		for (Iterator<PropertyToGO2ORMapping> iterator = setOfMappingsToLinking
@@ -109,7 +109,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				LOGGER.finest("Subject label " + AVMUtils.getLocalName(model,subject));
 				LOGGER.finest("Object label " + AVMUtils.getLocalName(model,object));
 	
-				LOGGER.warning("Statement to be mapped : " + statement);
+				LOGGER.fine("Statement to be mapped : " + statement);
 
 				// For each statement, create a startNode GO representing the subject (if not exists)
 			    GraphicObject subjectNode = createOrGetGraphicObject(subject);
@@ -195,7 +195,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					for (Iterator<Statement> resSpStmtSetIt = resSpStmtSet.iterator(); resSpStmtSetIt
 							.hasNext();) {
 						Statement statement = (Statement) resSpStmtSetIt.next();
-						LOGGER.warning("Statement to be mapped : " + statement);
+						LOGGER.fine("Statement to be mapped : " + statement);
 	
 						// For each statement, create a startNode GO representing the subject (if not exists)
 					    GraphicObject startNode = createOrGetGraphicObject(subjectResource);

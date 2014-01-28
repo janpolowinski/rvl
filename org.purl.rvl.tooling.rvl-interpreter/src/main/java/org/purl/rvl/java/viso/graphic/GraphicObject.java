@@ -100,12 +100,12 @@ public class GraphicObject extends
 		String colorHex = "";
 
 		if(this.hasColornamed()) {
-			org.purl.rvl.java.viso.graphic.Color startNodeColor = 
+			org.purl.rvl.java.viso.graphic.Color colorNamed = 
 				(org.purl.rvl.java.viso.graphic.Color) this.getAllColornamed_as().firstValue().castTo(org.purl.rvl.java.viso.graphic.Color.class);
 			try {
-				colorHex = startNodeColor.toHexString();
+				colorHex = colorNamed.toHexString();
 			} catch (Exception e) {
-				System.err.println("Couldn't get color values (incomplete?). Default will be used.");
+				LOGGER.finest("Couldn't get color value(s) for " + colorNamed.asURI()  + " (incomplete?). Default will be used.");
 			}
 		}
 		
@@ -118,13 +118,15 @@ public class GraphicObject extends
 	@XmlElement(name="shape_d3_name")
 	public String getShape() {
 		String shapeD3Name = "";
-		try {
-			if(this.hasShapenamed()) {
-				ShapeX startNodeShape = (ShapeX) this.getAllShapenamed_as().firstValue().castTo(ShapeX.class);
-				shapeD3Name = startNodeShape.toD3Name();
+		
+		if(this.hasShapenamed()) {
+			ShapeX shape = (ShapeX) this.getAllShapenamed_as().firstValue().castTo(ShapeX.class);
+			try {
+				shapeD3Name = shape.toD3Name();
 			}
-		} catch (Exception e) {
-			System.err.println("Couldn't get shape value (incomplete?). Default will be used.");
+			catch (Exception e) {
+				LOGGER.finest("Couldn't get shape value for " + shape.asURI()  + " (incomplete?). Default will be used.");
+			}
 		}
 		if (shapeD3Name.equals("")) {
 			shapeD3Name = ShapeX.getDefaultD3Name();

@@ -115,6 +115,8 @@ static final String NL =  System.getProperty("line.separator");
 			// TODO hack: ignore statements with subjects other than those starting with the data graph URI
 			String uriStartString = OGVICProcess.getInstance().getUriStart();
 			
+			int ignoredResources = 0;
+			
 			try{
 
 				if (subject.asURI().toString().startsWith(uriStartString)) {
@@ -124,8 +126,11 @@ static final String NL =  System.getProperty("line.separator");
 					LOGGER.finest("ignored affected resource " + subject + " not starting with " + uriStartString);
 			}
 			catch (ClassCastException e) {
-				LOGGER.info("ignoring resource (may be a blank node): " + subject);
+				ignoredResources++;
+				LOGGER.finest("ignoring resource (may be a blank node): " + subject);
 			}	
+			if (ignoredResources>0)
+				LOGGER.finer(ignoredResources + " resources have been ignored for subject " + subject +  " when calculating the affected mappings (may be it was a blank node?).");
 		}
 		return subjectSet;
 	}

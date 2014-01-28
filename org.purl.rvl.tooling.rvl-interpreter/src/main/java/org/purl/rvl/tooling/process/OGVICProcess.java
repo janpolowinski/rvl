@@ -50,7 +50,7 @@ public class OGVICProcess {
 	private String uriStart = "";
 	private String jsonFileNameRel = "";
 
-	private final static Logger LOGGER = Logger.getLogger(OGVICProcess.class .getName()); 
+	private final static Logger LOGGER = Logger.getLogger(OGVICProcess.class.getName()); 
 	private final static Logger LOGGER_RVL_PACKAGE = Logger.getLogger("org.purl.rvl"); 
 	
 	static final String NL =  System.getProperty("line.separator");
@@ -60,7 +60,7 @@ public class OGVICProcess {
     	  	
 		//LOGGER.setLevel(Level.SEVERE); 
 		//LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.SEVERE); 
-		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.FINEST);
+		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.INFO);
 
 		
 		// In order to show log entrys of the fine level, we need to create a new handler as well

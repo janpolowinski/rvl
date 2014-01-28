@@ -13,6 +13,7 @@ public class Color extends org.purl.rvl.java.gen.viso.graphic.Color {
 
 	private final static Logger LOGGER = Logger.getLogger(Color.class .getName()); 
 
+	static Color defaultColor;
 	static final String NL =  System.getProperty("line.separator");
 	
 	int r = -1;
@@ -162,9 +163,11 @@ public class Color extends org.purl.rvl.java.gen.viso.graphic.Color {
 		return s;
 	}
 
-	// TODO performance: reuse color objects?
 	public static Color getDefaultColor(Model model) {
-		return new org.purl.rvl.java.viso.graphic.Color(model, "http://purl.org/viso/graphic/Grey", true);
+		if (null==defaultColor) {
+			defaultColor =  new org.purl.rvl.java.viso.graphic.Color(model, "http://purl.org/viso/graphic/Grey", true);
+		}
+		return defaultColor;
 	}
 
 }

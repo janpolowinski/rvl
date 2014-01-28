@@ -23,7 +23,7 @@ public class FileRegistry {
 		File file = new File(fileName);
 		if (file.exists()) {
 
-			LOGGER.info("Adding file to the registry: " + fileName);
+			LOGGER.finer("Adding file to the registry: " + fileName);
 			addFile(file);
 			
 		} else {

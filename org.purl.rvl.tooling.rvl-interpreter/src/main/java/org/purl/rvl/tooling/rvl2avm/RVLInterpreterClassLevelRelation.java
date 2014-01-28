@@ -73,7 +73,7 @@ public class RVLInterpreterClassLevelRelation  extends SimpleRVLInterpreter {
 		// get all P2GO2OR mappings to linking and create n-ary linking relations
 		Set<PropertyToGO2ORMapping> setOfMappingsToLinking = getAllMappingsToLinking();
 		
-		LOGGER.info("Will evaluate " +setOfMappingsToLinking.size()+ "PGOTOR mappings.");
+		LOGGER.info("Will evaluate " +setOfMappingsToLinking.size()+ " PGOTOR mapping(s).");
 		
 		// for each mapping
 		for (Iterator<PropertyToGO2ORMapping> iterator = setOfMappingsToLinking

@@ -79,20 +79,20 @@ public class ModelBuilder {
 		
 		for (Iterator<File> iterator = ontologyFileRegistry.getFiles().iterator(); iterator.hasNext();) {
 			File file = (File) iterator.next();
-			LOGGER.info("Found registered ontology file: " + file.getAbsolutePath().toString());
+			LOGGER.finer("Found registered ontology file: " + file.getAbsolutePath().toString());
 			readFromAnySyntax(model,file);
 			readFromAnySyntax(modelVISO,file);
 		}
 		
 		for (Iterator<File> iterator = dataFileRegistry.getFiles().iterator(); iterator.hasNext();) {
 			File file = (File) iterator.next();
-			LOGGER.info("Found registered data file: " + file.getAbsolutePath().toString());
+			LOGGER.finer("Found registered data file: " + file.getAbsolutePath().toString());
 			readFromAnySyntax(model,file);
 		}
 		
 		for (Iterator<File> iterator = mappingFileRegistry.getFiles().iterator(); iterator.hasNext();) {
 			File file = (File) iterator.next();
-			LOGGER.info("Found registered mapping file: " + file.getAbsolutePath().toString());
+			LOGGER.finer("Found registered mapping file: " + file.getAbsolutePath().toString());
 			readFromAnySyntax(model,file);
 		}
 		
@@ -141,10 +141,10 @@ public class ModelBuilder {
 						Syntax.RdfXml);
 			}
 		
-			LOGGER.info("Reading file into a model: " + file.getPath());
+			LOGGER.info("Reading file into (some) model: " + file.getPath());
 			
 		} catch (FileNotFoundException e) {
-			LOGGER.info("File could not be read into the model, sicne it wasn't found: " +  file.getPath());
+			LOGGER.info("File could not be read into the model, since it wasn't found: " +  file.getPath());
 		} catch (IOException e) {
 			LOGGER.info("File could not be read into the model: " +  file.getPath());
 			e.printStackTrace();

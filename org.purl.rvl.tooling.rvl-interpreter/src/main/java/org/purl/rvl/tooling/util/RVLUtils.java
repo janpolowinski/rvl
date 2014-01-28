@@ -120,8 +120,8 @@ public class RVLUtils {
 					//" FILTER(?pp != ?p) " +
 					//" } " +
 					"} ";
-			LOGGER.finer("Query for getting statements including those using a subproperty of " + spURI + " :");
-			LOGGER.finer(query);
+			LOGGER.finer("Query for getting statements including those using a subproperty of " + spURI);
+			LOGGER.finest("Query :" + query);
 			
 			/*
 				SELECT DISTINCT ?s ?p ?o WHERE { 
@@ -172,8 +172,8 @@ public class RVLUtils {
 					"?restrictionClass " + Restriction.ONPROPERTY.toSPARQL() + " " + spURI.toSPARQL() + " . " + 
 					"?restrictionClass " + Restriction.SOMEVALUESFROM.toSPARQL() +  " ?o . " + 
 					"} ";
-			LOGGER.finer("Query for getting relations on class level for " + spURI + " :");
-			LOGGER.finer(query);
+			LOGGER.finer("Query for getting relations on class level for " + spURI);
+			LOGGER.finest("Query: " + query);
 			
 			/*
 			WHERE {
@@ -194,7 +194,7 @@ public class RVLUtils {
 					LOGGER.finer("build Statement: " + stmt.toString());
 					stmtSet.add(stmt);
 				} catch (Exception e) {
-					LOGGER.finer("Problem building Statement for : " + row );
+					LOGGER.warning("Problem building Statement for : " + row );
 				}
 			}
 				

@@ -177,7 +177,11 @@ public class AVMUtils {
 				"	?dl " + DirectedLinking.STARTNODE .toSPARQL() + parentGO.toSPARQL() + " ." + 
 						// (some relation points to the go as a startNode)
 				"} ";
-		LOGGER.finest("query for dl relations with start node " + parentGO.asURI() + " : " + query);
+		
+		String parentGOLabel = "";
+		try{parentGOLabel = parentGO.getLabel() ; } catch (Exception e) {}
+		LOGGER.finer("Query for directed linking relations with start node " + parentGOLabel + " " + parentGO.asURI());
+		LOGGER.finest("Query: " + query);
 
 		QueryResultTable results = model.sparqlSelect(query);
 		for (QueryRow row : results) {
