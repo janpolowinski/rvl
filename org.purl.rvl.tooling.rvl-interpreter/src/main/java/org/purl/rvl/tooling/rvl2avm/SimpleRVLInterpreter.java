@@ -55,9 +55,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	 * @see org.purl.rvl.tooling.rvl2avm.RVLInterpreterBase#interpretMappings()
 	 */
 	@Override
-	public void interpretMappings() {
-		super.interpretMappings();
-		LOGGER.info("Interpreting mappings using " + this.getClass().getName());
+	protected void interpretMappingsInternal() {
 		interpretSimpleP2GArvlMappings();
 		interpretP2GO2ORMappings();
 		interpretResourceLabelAsGOLabelForAllCreatedResources();
@@ -260,13 +258,13 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					
 					if(!svUriTVuriMap.isEmpty()){
 						
-						LOGGER.info("map of sv and tv for submapping:");
+						LOGGER.finest("map of sv and tv for submapping:");
 						
 						for (Entry<Node, Node> entry : svUriTVuriMap.entrySet()) {
 							Node sv = entry.getKey();
 							Node tv = entry.getValue();
 							label += "source and target values: "+sv+" --> "+tv+"" + NL;
-							LOGGER.info(sv+" --> "+tv);
+							LOGGER.finest(sv+" --> "+tv);
 						}
 						
 					}
@@ -277,7 +275,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					URI predicate = mainStatement.getPredicate();
 					Node colorNode = svUriTVuriMap.get(predicate);
 					Color color = Color.getInstance(model, colorNode.asResource());
-					LOGGER.info("submapping: selected color for predicate (" + predicate + "): " + color.toString());
+					LOGGER.fine("submapping: selected color for predicate (" + predicate + "): " + color.toString());
 					connector.setColornamed(color);
 					
 				}

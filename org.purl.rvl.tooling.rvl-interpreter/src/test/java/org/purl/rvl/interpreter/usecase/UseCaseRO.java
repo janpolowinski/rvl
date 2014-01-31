@@ -1,7 +1,10 @@
-package org.purl.rvl.tooling.process;
+package org.purl.rvl.interpreter.usecase;
 
 import org.junit.Test;
+import org.purl.rvl.interpreter.test.TestOGVICProcess;
 import org.purl.rvl.tooling.avm.D3GeneratorTreeJSON;
+import org.purl.rvl.tooling.process.ExampleData;
+import org.purl.rvl.tooling.process.ExampleMapping;
 
 public class UseCaseRO extends TestOGVICProcess {
 	

@@ -147,7 +147,6 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 					DirectedLinking.getAllInstances_as(model).asClosableIterator();
 			while (dlRelIt.hasNext()) {
 				DirectedLinking dlRel = (DirectedLinking) dlRelIt.next().castTo(DirectedLinking.class); // TODO wieso liess sich GO zu DLRel casten???
-				LOGGER.info("Generating JSON link for " + dlRel);
 				GraphicObject startNode = (GraphicObject) dlRel.getAllStartnode_as().firstValue().castTo(GraphicObject.class);
 				GraphicObject endNode = (GraphicObject) dlRel.getAllEndnode_as().firstValue().castTo(GraphicObject.class);
 				GraphicObject connector = (GraphicObject) dlRel.getAllLinkingconnector_as().firstValue().castTo(GraphicObject.class);
@@ -157,7 +156,9 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				link.put("target", goMap.get(endNode));
 				link.put("value", "1");
 				link.put("color_rgb_hex", connector.getColorHex());
-				listOfLinks.add(link);				}
+				listOfLinks.add(link);
+				LOGGER.finer("Generated JSON link for " + dlRel + " (" + startNode.getLabel() + " --> " + endNode.getLabel() +")" );
+				}
 		} catch (Exception e) {
 			LOGGER.warning("No links could be generated." + e);
 		}		

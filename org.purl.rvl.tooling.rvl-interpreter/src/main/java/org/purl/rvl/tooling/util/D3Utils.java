@@ -28,7 +28,10 @@ public class D3Utils {
 	public static int MAX_LABEL_LENGTH = 15;
 
 	public static Object shortenLabel(String label) {
-		return StringUtils.substring(label, 0, MAX_LABEL_LENGTH) + "...";
+		if(label.length() > MAX_LABEL_LENGTH) {
+			return StringUtils.substring(label, 0, MAX_LABEL_LENGTH) + "...";
+		}
+		else return label;
 	}
 	
 	

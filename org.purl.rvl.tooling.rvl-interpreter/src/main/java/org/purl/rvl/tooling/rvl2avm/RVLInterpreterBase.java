@@ -67,10 +67,15 @@ public abstract class RVLInterpreterBase {
 	 */
 	public void interpretMappings() {
 		LOGGER.info("Starting mapping interpretation ... ");
+		LOGGER.info("Interpreting mappings using " + this.getClass().getName());
+		interpretMappingsInternal();
 	}
 
 	
 	
+	abstract protected void interpretMappingsInternal();
+
+
 	/**
 	 * Creates a GraphicObject for a Resource or returns the existing GraphicObject, if already created before
 	 * @param resource

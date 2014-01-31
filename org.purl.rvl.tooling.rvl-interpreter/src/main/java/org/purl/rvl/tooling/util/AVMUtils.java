@@ -100,9 +100,10 @@ public class AVMUtils {
 
 		QueryResultTable explMapResults = model.sparqlSelect(query);
 		for (QueryRow row : explMapResults) {
-			System.out.println(row.getValue("go"));
-			gos.add((GraphicObject) GraphicObject.getInstance(model, row
-					.getValue("go").asURI()).castTo(GraphicObject.class));
+			GraphicObject go = (GraphicObject) GraphicObject.getInstance(model, row
+					.getValue("go").asURI()).castTo(GraphicObject.class);
+			gos.add(go);
+			LOGGER.finest("Found relevant GO: " + row.getValue("go").toString() + " (" + go.getLabel() + ")");
 		}
 
 		return gos;

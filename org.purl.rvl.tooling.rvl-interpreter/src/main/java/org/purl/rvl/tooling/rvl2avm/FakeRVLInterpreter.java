@@ -34,8 +34,7 @@ public class FakeRVLInterpreter extends RVLInterpreterBase {
 	 * @see org.purl.rvl.tooling.rvl2avm.RVLInterpreterBase#interpretMappings()
 	 */
 	@Override
-	public void interpretMappings() {
-		super.interpretMappings();
+	protected void interpretMappingsInternal() {
 		LOGGER.info("Using fake interpreter: Will create some example AVM instead of interpreting RVL.");
 		createTestGraphicObjects();
 		createTestLinkingDirectedRelations();

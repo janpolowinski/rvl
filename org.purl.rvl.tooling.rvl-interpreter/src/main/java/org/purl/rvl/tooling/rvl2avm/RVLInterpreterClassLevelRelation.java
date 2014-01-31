@@ -55,9 +55,7 @@ public class RVLInterpreterClassLevelRelation  extends SimpleRVLInterpreter {
 	 * @see org.purl.rvl.tooling.rvl2avm.RVLInterpreterBase#interpretMappings()
 	 */
 	@Override
-	public void interpretMappings() {
-		super.interpretMappings();
-		LOGGER.info("Interpreting mappings using " + this.getClass().getName());
+	protected void interpretMappingsInternal() {
 		interpretSimpleP2GArvlMappings();
 		interpretP2GO2ORMappings();
 		interpretResourceLabelAsGOLabelForAllCreatedResources();
