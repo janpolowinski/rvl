@@ -71,8 +71,6 @@ public abstract class RVLInterpreterBase {
 		interpretMappingsInternal();
 	}
 
-	
-	
 	abstract protected void interpretMappingsInternal();
 
 
@@ -159,6 +157,41 @@ public abstract class RVLInterpreterBase {
 		}
 		
 		return mappingSet;
+	}
+	
+	/**
+	 * Iterates through all GOs in the GO map and performs a default label mapping on them
+	 */
+	protected void interpretResourceLabelAsGOLabelForAllCreatedResources(){
+		for (Map.Entry<org.ontoware.rdf2go.model.node.Resource,GraphicObject> entry : resourceGraphicObjectMap.entrySet()) {
+			//LOGGER.info(entry.getKey() + " with value " + entry.getValue());
+			// perform the default label mapping, when not already set
+		    // TODO this is simply using rdfs:label of the GOs now, not the n-ary graphic labeling!
+		    // only rdfreactor resources have labels ...
+			GraphicObject go = entry.getValue();
+			org.ontoware.rdf2go.model.node.Resource resource = entry.getKey();
+			if(!go.hasLabels()) {
+				performDefaultLabelMapping(go,resource);
+			}
+		}
+	}
+	
+	/**
+	 * Sets the label of a GO to the resources (first) label
+	 * @param go
+	 * @param resource
+	 */
+	private void performDefaultLabelMapping(GraphicObject go,
+			org.ontoware.rdf2go.model.node.Resource resource) {
+		
+		//LOGGER.finest("Problems getting represented resource, no label generated for GO " + this.asURI());
+
+		try {
+			go.setLabel(AVMUtils.getOrGenerateDefaultLabelString(model, resource));
+		} catch (Exception e) {
+			LOGGER.finest("No label could be assigned for resource " + resource + " to GO " + go.asURI().toString() + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 }

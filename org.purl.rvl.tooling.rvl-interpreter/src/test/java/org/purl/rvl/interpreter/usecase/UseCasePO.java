@@ -5,7 +5,7 @@ import org.purl.rvl.interpreter.test.TestOGVICProcess;
 import org.purl.rvl.tooling.avm.D3GeneratorTreeJSON;
 import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
-import org.purl.rvl.tooling.rvl2avm.RVLInterpreterClassLevelRelation;
+import org.purl.rvl.tooling.rvl2avm.SimpleRVLInterpreter;
 
 public class UseCasePO extends TestOGVICProcess {
 	
@@ -18,7 +18,7 @@ public class UseCasePO extends TestOGVICProcess {
 		process.registerMappingFile(ExampleMapping.PO);
 		process.registerDataFile(ExampleData.PO_SIMPLIFIED);
 		
-		process.setRvlInterpreter(new RVLInterpreterClassLevelRelation());
+		process.setRvlInterpreter(new SimpleRVLInterpreter());
 		process.setD3Generator(new D3GeneratorTreeJSON());
 		
 		process.runOGVICProcess();

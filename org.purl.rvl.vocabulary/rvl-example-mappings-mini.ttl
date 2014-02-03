@@ -116,13 +116,18 @@ rexm:PMfromID2ColorNamed
  	  rvl:valueMapping [
         a rvl:ValueMapping ;
 		rvl:sourceValue rexd:cites;
-        rvl:targetValue vg:Red;
+        rvl:targetValue vg:Green;
       ],[
         a rvl:ValueMapping ;
 		rvl:sourceValue rexd:citesCritical;
-        rvl:targetValue vg:Green;
+        rvl:targetValue vg:Yellow;
+      ],[
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:citesVeryCritical;
+        rvl:targetValue vg:Red;
       ]
       .              
+      
       
 
 rexm:ExampleNamedSourceValueList

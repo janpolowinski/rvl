@@ -31,8 +31,9 @@
       rdf:type :Book ;
       rdfs:label "Amazing Grace"^^xsd:string ;
       :category :Spirituality ;
-      :cites  :Amazing_Grace , :Atlas_of_Remote_Islands , :Holy_Bible ;
-      :citesCritical :Atlas_of_Remote_Islands ;
+      :cites :Atlas_of_Remote_Islands ;
+      :citesCritical  :Amazing_Grace , :Holy_Bible ;
+      :citesVeryCritical :Atlas_of_Remote_Islands ;
       :hasCost "2"^^xsd:float .
 
 :Atlas_of_Remote_Islands
@@ -292,6 +293,9 @@
 
 :citesCritical
       rdfs:subPropertyOf :cites .
+      
+:citesVeryCritical
+      rdfs:subPropertyOf :citesCritical .
 
 :domainProperty
       rdf:type rdf:Property .

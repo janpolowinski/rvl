@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.ontoware.aifbcommons.collection.ClosableIterable;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.QueryResultTable;
@@ -99,49 +100,46 @@ public class RVLUtils {
 		return s;
 		
 	  }
-
-	public static Iterator<Statement> findStatementsPreferingThoseUsingASubProperty(
-			Model model,
-			org.ontoware.rdf2go.model.node.Resource subjectResource, URI spURI,
-			Variable any) {
+	
+	public static Set<Statement> findStatementsPreferingThoseUsingASubProperty(
+			Model model, URI spURI) {
 		
-		Set<Statement> stmtSet = new HashSet<Statement>();
+			Set<Statement> stmtSet = new HashSet<Statement>();
 		
 		try{
 		
 			// somehow this query does not behave like in topbraid. filtering does not replace the general statements by specific ones
 			String query = "" + 
-					"SELECT DISTINCT ?p ?o " + 
-					"WHERE { " +
-					subjectResource.toSPARQL() + " ?p ?o . " + 
-					"?p " + Property.SUBPROPERTYOF.toSPARQL() + "* " + spURI.toSPARQL() + " " +
-					//" FILTER NOT EXISTS { ?pp " + Property.SUBPROPERTYOF.toSPARQL() + " " + spURI.toSPARQL() + " . " +
-					//					  subjectResource.toSPARQL() + " ?pp ?o . " + 
-					//" FILTER(?pp != ?p) " +
-					//" } " +
-					"} ";
-			LOGGER.finer("Query for getting statements including those using a subproperty of " + spURI);
-			LOGGER.finest("Query :" + query);
+					" SELECT DISTINCT ?s ?p ?o " + 
+					" WHERE { " +
+					" ?s ?p ?o . " + 
+					" ?p " + Property.SUBPROPERTYOF.toSPARQL() + "* " + spURI.toSPARQL() + " " +
+					" FILTER NOT EXISTS { " + 
+							" ?s ?pp ?o . " + 
+					        " ?pp " + Property.SUBPROPERTYOF.toSPARQL() + "+ ?p " +		 
+					" FILTER(?pp != ?p) " +
+					" } " +
+					" } ";
+			LOGGER.finer("Query for statements including those using a subproperty of " + spURI);
+			LOGGER.warning("Query :" + query);
 			
 			/*
-				SELECT DISTINCT ?s ?p ?o WHERE { 
-				<http://purl.org/rvl/example-data/Amazing_Grace> ?p ?o .
+			 SELECT DISTINCT ?s ?p ?o WHERE { 
+				?s ?p ?o .
 				?p rdfs:subPropertyOf* <http://purl.org/rvl/example-data/cites> . 
 				FILTER NOT EXISTS {
-	   				?pp rdfs:subPropertyOf <http://purl.org/rvl/example-data/cites> . 
-				    <http://purl.org/rvl/example-data/Amazing_Grace> ?pp ?o  
-						FILTER (?p != ?pp)
+				    ?s ?pp ?o  .
+	   				?pp rdfs:subPropertyOf+ ?p . 
+					FILTER (?pp != ?p)
 				}
-			} 
-			} 
-			
+			}
 			*/
 			
 			QueryResultTable explMapResults = model.sparqlSelect(query);
 			for (QueryRow row : explMapResults) {
 				LOGGER.finest("fetched SPARQL result row: " + row);
-				Statement stmt = new StatementImpl(null, subjectResource, row.getValue("p").asURI(), row.getValue("o"));
-				LOGGER.finer("build Statement: " + stmt.toString());
+				Statement stmt = new StatementImpl(null, row.getValue("s").asURI(), row.getValue("p").asURI(), row.getValue("o"));
+				LOGGER.warning("build Statement: " + stmt.toString());
 				stmtSet.add(stmt);
 			}
 		
@@ -149,7 +147,7 @@ public class RVLUtils {
 			LOGGER.warning("Problem with query to get statements for linking (blank node?): " + e.getStackTrace());
 		}
 		
-		return stmtSet.iterator();
+		return stmtSet;
 	}
 
 	public static Set<Statement> findRelationsOnClassLevel(
@@ -204,5 +202,7 @@ public class RVLUtils {
 		
 		return stmtSet;
 	}
+
+
 
 }

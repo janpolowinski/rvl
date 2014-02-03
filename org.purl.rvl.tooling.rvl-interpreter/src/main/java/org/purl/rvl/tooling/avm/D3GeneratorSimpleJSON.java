@@ -155,6 +155,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				link.put("source", goMap.get(startNode));
 				link.put("target", goMap.get(endNode));
 				link.put("value", "1");
+				link.put("label", connector.getLabel());
 				link.put("color_rgb_hex", connector.getColorHex());
 				listOfLinks.add(link);
 				LOGGER.finer("Generated JSON link for " + dlRel + " (" + startNode.getLabel() + " --> " + endNode.getLabel() +")" );

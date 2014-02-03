@@ -21,6 +21,7 @@ import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
+import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.ontoware.rdfreactor.schema.rdfs.Resource;
 import org.purl.rvl.java.exception.InsufficientMappingSpecificationExecption;
@@ -78,26 +79,57 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				.iterator(); iterator.hasNext();) {
 			
 			PropertyToGO2ORMapping p2go2orm = (PropertyToGO2ORMapping) iterator.next();
-			interpretMappingToLinking(p2go2orm);
-			//interpretClassLevelRelations(p2go2orm);
-	
+			interpretMappingToLinking(p2go2orm); // does not yet work for submappings use instead :
+			//interpretMappingToLinkingForAffectedResources(p2go2orm);
 		}
 		
 		LOGGER.fine("The size of the Resource-to-GraphicObject map is " + resourceGraphicObjectMap.size()+".");
 	}
 
 	
-	protected void interpretClassLevelRelations(PropertyToGO2ORMapping p2go2orm) {
+	protected void interpretMappingToLinking(PropertyToGO2ORMapping p2go2orm) {
+
+		Property sp = null;
+		boolean invertSourceProperty = false;
+		Iterator<Statement> stmtSetIterator = null;
+
+		// check some settings and skip if mapping incomplete
+		try {
+			sp = p2go2orm.getAllSourceproperty_as().firstValue();
+			if (null==sp) throw new InsufficientMappingSpecificationExecption();
+			
+			invertSourceProperty = p2go2orm.hasInvertsourceproperty();
+			
+			PropertyMapping pm = (PropertyMapping) p2go2orm.castTo(PropertyMapping.class);
+			LOGGER.fine("Interpreting the mapping: " + NL + pm.toString());
+		}
+		catch (InsufficientMappingSpecificationExecption e) {
+			LOGGER.warning(e.getMessage());
+			return;
+		}
+
 		
-		Property sp = p2go2orm.getAllSourceproperty_as().firstValue();
-		boolean invertSourceProperty = p2go2orm.hasInvertsourceproperty();
+		// consider inherited relations, including those between classes (someValueFrom ...)
+		if(p2go2orm.hasInheritedby()) {
+			try{
+				Property inheritedBy = (Property)p2go2orm.getAllInheritedby_as().firstValue().castTo(Property.class);
+				if (inheritedBy.toString().equals(Restriction.SOMEVALUESFROM));
+
+				 stmtSetIterator =  RVLUtils.findRelationsOnClassLevel(model, sp.asURI()).iterator();
+			}
+			catch (Exception e) {
+				LOGGER.warning("Problem evaluating inheritedBy setting - not a Property?");
+			}
+		}
+		else {
+			 // should include statements using a subproperty of sp
+			 stmtSetIterator = RVLUtils.findStatementsPreferingThoseUsingASubProperty(model, sp.asURI()).iterator(); 
+		}
 		
-		//RVLUtils.findRelationsOnClassLevel(model, subjectResource, sp.asURI());
-		Set<Statement> stmtSet =  RVLUtils.findRelationsOnClassLevel(model, sp.asURI());
 		
-		
-		for (Iterator<Statement> iterator = stmtSet.iterator(); iterator.hasNext();) {
-			Statement statement = (Statement) iterator.next();
+		while (stmtSetIterator.hasNext()) {
+			
+			Statement statement = (Statement) stmtSetIterator.next();
 						
 			try {
 			
@@ -111,13 +143,13 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 
 				// For each statement, create a startNode GO representing the subject (if not exists)
 			    GraphicObject subjectNode = createOrGetGraphicObject(subject);
-		    	LOGGER.finest("Assigned startNode for: " + subject.toString());
+		    	LOGGER.finest("Created GO for subject: " + subject.toString());
 				
 				// For each statement, create an endNode GO representing the object (if not exists)
 		    	//Node object = statement.getObject();
 				
 				GraphicObject objectNode = createOrGetGraphicObject((org.ontoware.rdf2go.model.node.Resource)object);
-		    	LOGGER.finest("Assigned endNode for: " + object.toString());
+		    	LOGGER.finest("Created GO for object: " + object.toString());
 		    	
 		    	// create the linking relation
 		    	DirectedLinking dlRel = new DirectedLinking(model, true);
@@ -126,8 +158,10 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				GraphicObject connector = new GraphicObject(model, true);
 
 				// check for sub-mappings and modify the connector accordingly (-> generalize!)
-				//checkForSubmappingsAndApplyToConnector(pm,statement,connector);
-				
+				if(p2go2orm.hasSub_mapping()){
+					applySubmappingToConnector(p2go2orm,statement,connector);
+				}
+
 				
 				// configure the relation
 				if(invertSourceProperty) {
@@ -143,181 +177,184 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					objectNode.setLinkedfrom(dlRel);
 				}
 				dlRel.setLinkingconnector(connector);
-	
 				
 			}
 			catch (Exception e) {
-				LOGGER.finest("Problem creating GOS");
+				LOGGER.finest("Problem creating GOs");
 				LOGGER.finest(e.getMessage());
 			}
 		}
 		
 	}
 
-	protected void interpretMappingToLinking(PropertyToGO2ORMapping p2go2orm) {
-		
-		PropertyMapping pm = (PropertyMapping) p2go2orm.castTo(PropertyMapping.class);
-		LOGGER.fine("Interpreting the mapping: " + NL + p2go2orm.toString());
-		
-		try {
-			// get the subjects affected by the mapping // TODO: here we could also work with statements using the source property directly?!
-			Set<org.ontoware.rdf2go.model.node.Resource> subjectSet = pm.getAffectedResources();
-			Property sp = pm.getAllSourceproperty_as().firstValue();
-			
-			// for each affected resource // TODO do we need the effected resources here at all, or can we directly work on statements?
-			for (Iterator<org.ontoware.rdf2go.model.node.Resource> iterator2 = subjectSet.iterator(); iterator2.hasNext();) {
-				
-				org.ontoware.rdf2go.model.node.Resource subjectResource = iterator2.next().asResource(); // strange: unlike in the toString() method of PM, we cannot simply cast to resource here, only to URI!
-		    	
-				// temp ignore blank nodes
-				boolean nodeIsBlankNode = true;
-				try {
-					subjectResource.asURI();
-					nodeIsBlankNode = false;
-				} catch (ClassCastException e) {
-					LOGGER.finer("ignoring blank node when creating linking relations: " + subjectResource);
-				}
-				if (!nodeIsBlankNode) {
-				
-			    	// problem: while iterating a statement iterator no instances may be created 
-			    	// --> concurrend modification exception
-			    	// solution: first create a set of statements, then iterate
-			    	Set<Statement> resSpStmtSet = new HashSet<Statement>();
-			    	//ClosableIterator<Statement> resSpStmtIt = model.findStatements(subjectResource, sp.asURI(), Variable.ANY); // will ignore statements using a subproperty of sp
-			    	Iterator<Statement> resSpStmtIt = RVLUtils.findStatementsPreferingThoseUsingASubProperty(model, subjectResource, sp.asURI(), Variable.ANY); // should include statements using a subproperty of sp
-					while (resSpStmtIt.hasNext()) {
-						Statement statement = (Statement) resSpStmtIt.next();
-						resSpStmtSet.add(statement);
-					}
-					
-					for (Iterator<Statement> resSpStmtSetIt = resSpStmtSet.iterator(); resSpStmtSetIt
-							.hasNext();) {
-						Statement statement = (Statement) resSpStmtSetIt.next();
-						LOGGER.fine("Statement to be mapped : " + statement);
-	
-						// For each statement, create a startNode GO representing the subject (if not exists)
-					    GraphicObject startNode = createOrGetGraphicObject(subjectResource);
-				    	LOGGER.finest("Assigned startNode for: " + subjectResource.toString());
-						
-						// For each statement, create an endNode GO representing the object (if not exists)
-				    	Node object = statement.getObject();
-						
-						GraphicObject endNode = createOrGetGraphicObject((org.ontoware.rdf2go.model.node.Resource)object);
-				    	LOGGER.finest("Assigned endNode for: " + object.toString());
-				    	
-				    	// create the linking relation
-				    	DirectedLinking dlRel = new DirectedLinking(model, true);
-				    	
-						// create a connector and add default color
-						GraphicObject connector = new GraphicObject(model, true);
-	
-						// check for sub-mappings and modify the connector accordingly (-> generalize!)
-						checkForSubmappingsAndApplyToConnector(pm,statement,connector);
-						
-						// configure the relation
-						dlRel.setStartnode(startNode);
-						dlRel.setEndnode(endNode);
-						dlRel.setLinkingconnector(connector);
-						startNode.setLinkedto(dlRel);
-						endNode.setLinkedfrom(dlRel);	
-					}
-				}
-			}
+//	protected void oldInterpretMappingToLinkingForAffectedResources(PropertyToGO2ORMapping p2go2orm) {
+//		
+//		PropertyMapping pm = (PropertyMapping) p2go2orm.castTo(PropertyMapping.class);
+//		
+//		try {
+//			// get the subjects affected by the mapping // TODO: here we could also work with statements using the source property directly?!
+//			Set<org.ontoware.rdf2go.model.node.Resource> subjectSet = pm.getAffectedResources();
+//			Property sp = pm.getAllSourceproperty_as().firstValue();
+//			
+//			// for each affected resource // TODO do we need the effected resources here at all, or can we directly work on statements?
+//			for (Iterator<org.ontoware.rdf2go.model.node.Resource> iterator2 = subjectSet.iterator(); iterator2.hasNext();) {
+//				
+//				org.ontoware.rdf2go.model.node.Resource subjectResource = iterator2.next().asResource(); // strange: unlike in the toString() method of PM, we cannot simply cast to resource here, only to URI!
+//		    	
+//				// temp ignore blank nodes
+//				boolean nodeIsBlankNode = true;
+//				try {
+//					subjectResource.asURI();
+//					nodeIsBlankNode = false;
+//				} catch (ClassCastException e) {
+//					LOGGER.finer("ignoring blank node when creating linking relations: " + subjectResource);
+//				}
+//				if (!nodeIsBlankNode) {
+//				
+//			    	// problem: while iterating a statement iterator no instances may be created 
+//			    	// --> concurrend modification exception
+//			    	// solution: first create a set of statements, then iterate
+//			    	Set<Statement> resSpStmtSet = new HashSet<Statement>();
+//			    	//ClosableIterator<Statement> resSpStmtIt = model.findStatements(subjectResource, sp.asURI(), Variable.ANY); // will ignore statements using a subproperty of sp
+//			    	Iterator<Statement> resSpStmtIt = RVLUtils.oldFindStatementsPreferingThoseUsingASubProperty(model, subjectResource, sp.asURI(),Variable.ANY).iterator(); // should include statements using a subproperty of sp
+//					while (resSpStmtIt.hasNext()) {
+//						Statement statement = (Statement) resSpStmtIt.next();
+//						resSpStmtSet.add(statement);
+//					}
+//					
+//					for (Iterator<Statement> resSpStmtSetIt = resSpStmtSet.iterator(); resSpStmtSetIt
+//							.hasNext();) {
+//						Statement statement = (Statement) resSpStmtSetIt.next();
+//						LOGGER.fine("Statement to be mapped : " + statement);
+//	
+//						// For each statement, create a startNode GO representing the subject (if not exists)
+//					    GraphicObject startNode = createOrGetGraphicObject(subjectResource);
+//				    	LOGGER.finest("Assigned startNode for: " + subjectResource.toString());
+//						
+//						// For each statement, create an endNode GO representing the object (if not exists)
+//				    	Node object = statement.getObject();
+//						
+//						GraphicObject endNode = createOrGetGraphicObject((org.ontoware.rdf2go.model.node.Resource)object);
+//				    	LOGGER.finest("Assigned endNode for: " + object.toString());
+//				    	
+//				    	// create the linking relation
+//				    	DirectedLinking dlRel = new DirectedLinking(model, true);
+//				    	
+//						// create a connector and add default color
+//						GraphicObject connector = new GraphicObject(model, true);
+//	
+//						// check for sub-mappings and modify the connector accordingly (-> generalize!)
+//						checkForSubmappingsAndApplyToConnector(p2go2orm,statement,connector);
+//						
+//						// configure the relation
+//						dlRel.setStartnode(startNode);
+//						dlRel.setEndnode(endNode);
+//						dlRel.setLinkingconnector(connector);
+//						startNode.setLinkedto(dlRel);
+//						endNode.setLinkedfrom(dlRel);	
+//					}
+//				}
+//			}
+//
+//		} catch (InsufficientMappingSpecificationExecption e) {
+//			LOGGER.warning(e.getMessage());
+//			LOGGER.warning("--> No resources will be affected by mapping " + pm );
+//			//e.printStackTrace();
+//		}
+//	}
 
-		} catch (InsufficientMappingSpecificationExecption e) {
-			LOGGER.warning(e.getMessage());
-			LOGGER.warning("--> No resources will be affected by mapping " + pm );
-			//e.printStackTrace();
-		}
-	}
-
-	protected void checkForSubmappingsAndApplyToConnector(PropertyMapping pm, Statement mainStatement, GraphicObject connector) {
+	/**
+	 * Sets the color of the connector according to evtl. existent submappings
+	 * 
+	 * @param p2go2orm
+	 * @param mainStatement
+	 * @param connector
+	 */
+	protected void applySubmappingToConnector(PropertyToGO2ORMapping p2go2orm, Statement mainStatement, GraphicObject connector) {
 		
 		String label = "";
-		
-		if(pm.hasSub_mapping()){
-			Sub_mappingrelation smr = pm.getAllSub_mapping_as().firstValue();
+		Sub_mappingrelation smr = p2go2orm.getAllSub_mapping_as().firstValue();
 
-			if(smr.hasSub_mapping() && smr.hasOnrole()){
-				Mapping subMapping = smr.getAllSub_mapping_as().firstValue();
-				
-				label += " ... to mapping: " + subMapping ; // wrong return type and wrong methode name, but seems to work
-				label += " ... on role: " + smr.getAllOnrole_as().firstValue() ;
-				connector.setColornamed(new org.purl.rvl.java.viso.graphic.Color(model, "http://purl.org/viso/graphic/Yellow", true));
-				
-				
-				label += RVLUtils.mappingToStringAsSpecificAsPossible((org.purl.rvl.java.rvl.Mapping)subMapping.castTo(org.purl.rvl.java.rvl.Mapping.class)) + NL ;
+		if(smr.hasSub_mapping() && smr.hasOnrole()){
+			
+			Mapping subMapping = smr.getAllSub_mapping_as().firstValue();
+			
+			label += " ... to mapping: " + subMapping ; // wrong return type and wrong methode name, but seems to work
+			label += " ... on role: " + smr.getAllOnrole_as().firstValue() ;
+			label += RVLUtils.mappingToStringAsSpecificAsPossible((org.purl.rvl.java.rvl.Mapping)subMapping.castTo(org.purl.rvl.java.rvl.Mapping.class)) + NL ;
+			
+			//connector.setColornamed(new org.purl.rvl.java.viso.graphic.Color(model, "http://purl.org/viso/graphic/Yellow", true));
 
-				PropertyToGraphicAttributeMapping p2gam = (PropertyToGraphicAttributeMapping)subMapping.castTo(PropertyToGraphicAttributeMapping.class);
+			PropertyToGraphicAttributeMapping p2gam = (PropertyToGraphicAttributeMapping)subMapping.castTo(PropertyToGraphicAttributeMapping.class);
+			
+			// get the subproperties as subjects of the new mapping --> do this in the calculation of value mappings instead
+	
+			if(p2gam.hasValuemapping()) {
+			
+				Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
 				
-				// get the subproperties as subjects of the new mapping --> do this in the calculation of value mappings instead
-		
-				if(p2gam.hasValuemapping()) {
-				
-					Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
+				if(!svUriTVuriMap.isEmpty()){
 					
-					if(!svUriTVuriMap.isEmpty()){
-						
-						LOGGER.finest("map of sv and tv for submapping:");
-						
-						for (Entry<Node, Node> entry : svUriTVuriMap.entrySet()) {
-							Node sv = entry.getKey();
-							Node tv = entry.getValue();
-							label += "source and target values: "+sv+" --> "+tv+"" + NL;
-							LOGGER.finest(sv+" --> "+tv);
-						}
-						
+					LOGGER.finest("map of sv and tv for submapping:");
+					
+					for (Entry<Node, Node> entry : svUriTVuriMap.entrySet()) {
+						Node sv = entry.getKey();
+						Node tv = entry.getValue();
+						label += "source and target values: "+sv+" --> "+tv+"" + NL;
+						LOGGER.finest(sv+" --> "+tv);
 					}
-					///Node triplePartValue = ...
-					
-					//Node property = (Node) model.getProperty(new URIImpl("http://purl.org/rvl/example-data/cites"));
-					
-					URI predicate = mainStatement.getPredicate();
-					Node colorNode = svUriTVuriMap.get(predicate);
-					Color color = Color.getInstance(model, colorNode.asResource());
-					LOGGER.fine("submapping: selected color for predicate (" + predicate + "): " + color.toString());
-					connector.setColornamed(color);
 					
 				}
+				///Node triplePartValue = ...
 				
-				/*
-		    	Node sv = null;
+				//Node property = (Node) model.getProperty(new URIImpl("http://purl.org/rvl/example-data/cites"));
+				
+				URI predicate = mainStatement.getPredicate();
+				Node colorNode = svUriTVuriMap.get(predicate);
+				Color color = Color.getInstance(model, colorNode.asResource());
+				LOGGER.fine("submapping: selected color for predicate (" + predicate + "): " + color.toString());
+				connector.setColornamed(color);
+				
+			}
+			
+			/*
+	    	Node sv = null;
+		    
+		    // get the (first) source value of the resource for the mapped property
+		    ClosableIterator<Statement> resSpStmtIt = model.findStatements(resource, sp.asURI(), Variable.ANY);
+			while (resSpStmtIt.hasNext()) {
+				Statement statement = (Statement) resSpStmtIt.next();
+				sv = statement.getObject();
+				//LOGGER.info(sv);
+			}
+			
+			
+						
+			// get the target value for the sv
+	    	Node tv = svUriTVuriMap.get(sv);
+	    	
+	    	if(tv!=null) {
+		    	// if we are mapping to named colors
+			    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/color_named")) {
+			    	Color color = Color.getInstance(model, tv.asURI());
+			    	go.setColornamed(color);
+			    	//LOGGER.info("set color to " + color + " for sv " + sv);
+			    }
 			    
-			    // get the (first) source value of the resource for the mapped property
-			    ClosableIterator<Statement> resSpStmtIt = model.findStatements(resource, sp.asURI(), Variable.ANY);
-				while (resSpStmtIt.hasNext()) {
-					Statement statement = (Statement) resSpStmtIt.next();
-					sv = statement.getObject();
-					//LOGGER.info(sv);
-				}
-				
-				
-							
-				// get the target value for the sv
-		    	Node tv = svUriTVuriMap.get(sv);
-		    	
-		    	if(tv!=null) {
-			    	// if we are mapping to named colors
-				    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/color_named")) {
-				    	Color color = Color.getInstance(model, tv.asURI());
-				    	go.setColornamed(color);
-				    	//LOGGER.info("set color to " + color + " for sv " + sv);
-				    }
-				    
-			    	// if we are mapping to named shapes
-				    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/shape_named")) {
-				    	Shape shape = ShapeX.getInstance(model, tv.asURI());
-				    	go.setShapenamed(shape);
-				    	//LOGGER.info("set shape to " + shape + " for sv " + sv + NL);
-				    }
-		    	}
-		    	
-		    	*/
-			}
-			if(smr.hasOntriplepart()) {
-				label += " ... on triple part: " + smr.getAllOntriplepart_as().firstValue() ;
-			}
+		    	// if we are mapping to named shapes
+			    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/shape_named")) {
+			    	Shape shape = ShapeX.getInstance(model, tv.asURI());
+			    	go.setShapenamed(shape);
+			    	//LOGGER.info("set shape to " + shape + " for sv " + sv + NL);
+			    }
+	    	}
+	    	
+	    	*/
 		}
+		if(smr.hasOntriplepart()) {
+			label += " ... on triple part: " + smr.getAllOntriplepart_as().firstValue() ;
+		}
+
 		connector.setLabel("Connector with an applied submapping: " + label);
 		
 		//
@@ -400,39 +437,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		}
 	}
 	
-	/**
-	 * Iterates through all GOs in the GO map and performs a default label mapping on them
-	 */
-	protected void interpretResourceLabelAsGOLabelForAllCreatedResources(){
-		for (Map.Entry<org.ontoware.rdf2go.model.node.Resource,GraphicObject> entry : resourceGraphicObjectMap.entrySet()) {
-			//LOGGER.info(entry.getKey() + " with value " + entry.getValue());
-			// perform the default label mapping, when not already set
-		    // TODO this is simply using rdfs:label of the GOs now, not the n-ary graphic labeling!
-		    // only rdfreactor resources have labels ...
-			GraphicObject go = entry.getValue();
-			org.ontoware.rdf2go.model.node.Resource resource = entry.getKey();
-			if(!go.hasLabels()) {
-				performDefaultLabelMapping(go,resource);
-			}
-		}
-	}
 	
-	/**
-	 * Sets the label of a GO to the resources (first) label
-	 * @param go
-	 * @param resource
-	 */
-	private void performDefaultLabelMapping(GraphicObject go,
-			org.ontoware.rdf2go.model.node.Resource resource) {
-		
-		//LOGGER.finest("Problems getting represented resource, no label generated for GO " + this.asURI());
-
-		try {
-			go.setLabel(AVMUtils.getOrGenerateDefaultLabelString(model, resource));
-		} catch (Exception e) {
-			LOGGER.finest("No label could be assigned for resource " + resource + " to GO " + go.asURI().toString() + e.getMessage());
-			e.printStackTrace();
-		}
-	}
+	
+	
 
 }

@@ -107,6 +107,9 @@ d3.json("data.json", function(error, graph) {
 			return "url(#" + "link" + ")";
     	})
 		;
+		
+		path.append("svg:title")
+	      .text(function(d) { return d.label; });
 	
 
 	    /*Create and place the "blocks" containing the circle and the text */  
