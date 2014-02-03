@@ -106,9 +106,8 @@ public class RVLUtils {
 		
 			Set<Statement> stmtSet = new HashSet<Statement>();
 		
-		try{
-		
-			// somehow this query does not behave like in topbraid. filtering does not replace the general statements by specific ones
+		try {
+	
 			String query = "" + 
 					" SELECT DISTINCT ?s ?p ?o " + 
 					" WHERE { " +
@@ -120,7 +119,7 @@ public class RVLUtils {
 					" FILTER(?pp != ?p) " +
 					" } " +
 					" } ";
-			LOGGER.finer("Query for statements including those using a subproperty of " + spURI);
+			LOGGER.finer("Query statements with property (respectively most specific subproperty of) :" + spURI);
 			LOGGER.warning("Query :" + query);
 			
 			/*
@@ -172,16 +171,6 @@ public class RVLUtils {
 					"} ";
 			LOGGER.finer("Query for getting relations on class level for " + spURI);
 			LOGGER.finest("Query: " + query);
-			
-			/*
-			WHERE {
-      ?this rdfs:subClassOf ?restrictionClass .
-    ?restrictionClass a owl:Restriction .
-    ?restrictionClass owl:onProperty <http://purl.org/obo/owl/OBO_REL#part_of> .
-    ?restrictionClass owl:someValuesFrom ?whole .
-    ?this rdfs:label ?thisLabel .
-			}
-			*/
 
 			results = model.sparqlSelect(query);
 			
