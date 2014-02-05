@@ -154,9 +154,9 @@ public class FakeRVLInterpreter extends RVLInterpreterBase {
 	 * @see org.purl.rvl.tooling.rvl2avm.RVLInterpreterBase#init(org.ontoware.rdf2go.model.Model)
 	 */
 	@Override
-	public void init(Model model) {
+	public void init(Model model, Model modelAVM) {
 		// TODO Auto-generated method stub
-		super.init(model);
+		super.init(model,modelAVM);
 		this.modelVISO = OGVICProcess.getInstance().getModelVISO();
 	}
 

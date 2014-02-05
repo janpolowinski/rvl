@@ -19,8 +19,11 @@ import org.json.simple.JSONObject;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.Syntax;
+import org.purl.rvl.java.exception.IncompleteColorValuesException;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
+import org.purl.rvl.java.viso.graphic.Color;
 import org.purl.rvl.java.viso.graphic.GraphicObject;
+import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.D3Utils;
 
@@ -41,7 +44,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 	}
 	
 	/**
-	 * @param model
+	 * @param modelAVM
 	 * @param modelVISO
 	 */
 	public D3GeneratorSimpleJSON(Model model, Model modelVISO) {
@@ -55,7 +58,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 		Set<GraphicObject> gos = new HashSet<GraphicObject>();
 		
 		org.purl.rvl.java.gen.viso.graphic.GraphicObject[] goArray = 
-				org.purl.rvl.java.gen.viso.graphic.GraphicObject.getAllInstances_as(model).asArray();
+				org.purl.rvl.java.gen.viso.graphic.GraphicObject.getAllInstances_as(modelAVM).asArray();
 		
 		for (int i = 0; i < goArray.length; i++) {
 			GraphicObject startNode = (GraphicObject) goArray[i].castTo(GraphicObject.class);
@@ -70,7 +73,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 	 */
 	public String generateJSONforD3(){
 		
-		Set<GraphicObject> goSet = AVMUtils.getRelevantGraphicObjects(model);
+		Set<GraphicObject> goSet = AVMUtils.getRelevantGraphicObjects(modelAVM);
 		GraphicObject[] goArray = new GraphicObject[goSet.size()];
 		Map<GraphicObject, Integer> goMap = new HashMap<GraphicObject, Integer>(50);	
 		
@@ -97,7 +100,16 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			GraphicObject startNode = goArray[i];
 			
 			//color
-			String startNodeColorRGBHex = startNode.getColorHex();
+			//String startNodeColorRGBHex = startNode.getColorHex(); // TODO: problem: when AVM does not include VISO, a GO cannot calculate its color values. merge models, or use AVMUtils to get the colorvalue
+			String startNodeColorRGBHex = "#ccc";
+			try {
+				Color color = startNode.getColorNamed();
+				Model modelVISO = OGVICProcess.getInstance().getModelVISO();
+				startNodeColorRGBHex = AVMUtils.colorNamedToColorRGBHex(modelVISO, color );
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
 			// shape
 			String startNodeShapeD3Name = startNode.getShape();
 			
@@ -144,7 +156,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 		
 		try {
 			ClosableIterator<? extends DirectedLinking> dlRelIt =
-					DirectedLinking.getAllInstances_as(model).asClosableIterator();
+					DirectedLinking.getAllInstances_as(modelAVM).asClosableIterator();
 			while (dlRelIt.hasNext()) {
 				DirectedLinking dlRel = (DirectedLinking) dlRelIt.next().castTo(DirectedLinking.class); // TODO wieso liess sich GO zu DLRel casten???
 				GraphicObject startNode = (GraphicObject) dlRel.getAllStartnode_as().firstValue().castTo(GraphicObject.class);
@@ -156,7 +168,18 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				link.put("target", goMap.get(endNode));
 				link.put("value", "1");
 				link.put("label", connector.getLabel());
-				link.put("color_rgb_hex", connector.getColorHex());
+				
+				String connectorColorRGBHex = "#ccc";
+				try {
+					Color color = connector.getColorNamed();
+					Model modelVISO = OGVICProcess.getInstance().getModelVISO();
+					connectorColorRGBHex = AVMUtils.colorNamedToColorRGBHex(modelVISO, color );
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+				link.put("color_rgb_hex", connectorColorRGBHex);
+				//link.put("color_rgb_hex", connector.getColorHex());
 				listOfLinks.add(link);
 				LOGGER.finer("Generated JSON link for " + dlRel + " (" + startNode.getLabel() + " --> " + endNode.getLabel() +")" );
 				}

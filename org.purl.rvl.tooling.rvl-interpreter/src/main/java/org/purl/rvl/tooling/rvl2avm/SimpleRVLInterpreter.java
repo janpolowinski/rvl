@@ -144,8 +144,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				org.ontoware.rdf2go.model.node.Resource subject = statement.getSubject();
 				org.ontoware.rdf2go.model.node.Resource object = statement.getObject().asResource();
 				
-				LOGGER.finest("Subject label " + AVMUtils.getLocalName(model,subject));
-				LOGGER.finest("Object label " + AVMUtils.getLocalName(model,object));
+				LOGGER.finest("Subject label " + AVMUtils.getLocalName(modelAVM,subject));
+				LOGGER.finest("Object label " + AVMUtils.getLocalName(modelAVM,object));
 	
 				LOGGER.fine("Statement to be mapped : " + statement);
 
@@ -160,10 +160,10 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		    	LOGGER.finest("Created GO for object: " + object.toString());
 		    	
 		    	// create the linking relation
-		    	DirectedLinking dlRel = new DirectedLinking(model, true);
+		    	DirectedLinking dlRel = new DirectedLinking(modelAVM, true);
 		    	
 				// create a connector and add default color
-				GraphicObject connector = new GraphicObject(model, true);
+				GraphicObject connector = new GraphicObject(modelAVM, true);
 
 				// check for sub-mappings and modify the connector accordingly (-> generalize!)
 				if(p2go2orm.hasSub_mapping()){
@@ -187,8 +187,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				
 			}
 			catch (Exception e) {
-				LOGGER.finest("Problem creating GOs");
-				LOGGER.finest(e.getMessage());
+				LOGGER.warning("Problem creating GOs: " + e.getMessage());
 			}
 			
 			processedGraphicRelations++;	

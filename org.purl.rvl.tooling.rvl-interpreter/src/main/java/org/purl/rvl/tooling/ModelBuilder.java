@@ -5,10 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.logging.Logger;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
@@ -23,8 +21,9 @@ import org.purl.rvl.tooling.process.OGVICProcess;
 
 public class ModelBuilder {
 	
-	protected Model model;
-	protected Model modelVISO;
+	private Model model;
+	private Model modelVISO;
+	private Model modelAVM;
 	
 	private final static Logger LOGGER = Logger.getLogger(ModelBuilder.class.getName()); 
 	static final String NL =  System.getProperty("line.separator");
@@ -36,6 +35,10 @@ public class ModelBuilder {
 	
 	public Model getVISOModel(){
 		return modelVISO;
+		}
+	
+	public Model getAVMModel(){
+		return modelAVM;
 		}
 	
 
@@ -75,7 +78,11 @@ public class ModelBuilder {
 		model = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		model.open();
 		modelVISO = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
-		modelVISO.open();	
+		modelVISO.open();
+		
+		// empty model to hold the AVM
+		modelAVM = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		modelAVM.open();	
 		
 		for (Iterator<File> iterator = ontologyFileRegistry.getFiles().iterator(); iterator.hasNext();) {
 			File file = (File) iterator.next();
@@ -104,14 +111,11 @@ public class ModelBuilder {
 	 * @throws ModelRuntimeException
 	 */
 	public void initFromTmpAVMFile() throws ModelRuntimeException {
-		model = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
-		model.open();
-		modelVISO = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
-		modelVISO.open();
+		modelAVM = RDF2Go.getModelFactory().createModel(Reasoning.none);
+		modelAVM.open();
 
 		try {
-			readFromAnySyntax(model,OGVICProcess.TMP_AVM_MODEL_FILE_NAME);
-			readFromAnySyntax(modelVISO,OGVICProcess.VISO_LOCAL_REL);
+			readFromAnySyntax(modelAVM,OGVICProcess.TMP_AVM_MODEL_FILE_NAME);
 		} catch (Exception e) {
 			LOGGER.severe("Problem reading the tmp AVM model from file: " + e);
 		}

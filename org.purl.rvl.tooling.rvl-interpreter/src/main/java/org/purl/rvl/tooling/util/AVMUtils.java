@@ -14,6 +14,7 @@ import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.util.RDFTool;
 import org.ontoware.rdfreactor.schema.rdfs.Resource;
 import org.openrdf.sail.rdbms.managers.UriManager;
+import org.purl.rvl.java.exception.IncompleteColorValuesException;
 import org.purl.rvl.java.gen.rvl.Thing1;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
@@ -241,6 +242,11 @@ public class AVMUtils {
 		return localName;
 		
 		
+	}
+
+	public static String colorNamedToColorRGBHex(Model model, Color colorNamed) throws IncompleteColorValuesException {
+		Color fullColor = (Color)Color.getInstance(model, colorNamed.asURI()).castTo(Color.class);
+		return fullColor.toHexString();
 	}
 
 

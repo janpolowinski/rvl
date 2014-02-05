@@ -144,5 +144,9 @@ public class GraphicObject extends
 		return representedResource;
 	}
 
+	public Color getColorNamed() {
+		return (Color) this.getAllColornamed_as().firstValue().castTo(Color.class);
+	}
+
 
 }

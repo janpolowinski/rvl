@@ -15,7 +15,7 @@ public abstract class D3GeneratorBase {
 
 	protected static final String NL = System.getProperty("line.separator");
 
-	protected Model model;
+	protected Model modelAVM;
 	protected Model modelVISO;
 	
 	private final static Logger LOGGER = Logger.getLogger(D3GeneratorBase.class .getName()); 
@@ -27,12 +27,12 @@ public abstract class D3GeneratorBase {
 
 	
 	/**
-	 * @param model
+	 * @param modelAVM
 	 * @param modelVISO
 	 */
 	public D3GeneratorBase(Model model, Model modelVISO) {
 		super();
-		this.model = model;
+		this.modelAVM = model;
 		this.modelVISO = modelVISO;
 	}
 
@@ -57,8 +57,8 @@ public abstract class D3GeneratorBase {
 		}
 	}
 
-	public void init(Model model) {
-		this.model = model;
+	public void init(Model modelAVM) {
+		this.modelAVM = modelAVM;
 	}
 	
 	public abstract String generateJSONforD3();

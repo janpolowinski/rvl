@@ -29,7 +29,7 @@ public class OGVICProcess {
 	
 	private static OGVICProcess instance = null;
 	
-	public static int MAX_GRAPHIC_RELATIONS_PER_MAPPING = 250;
+	public static int MAX_GRAPHIC_RELATIONS_PER_MAPPING = 100;
 	
 	public static boolean REGENERATE_AVM = true;
 	public static boolean WRITE_AVM = false;
@@ -44,6 +44,8 @@ public class OGVICProcess {
 	
 	protected static Model model;
 	protected static Model modelVISO;
+	protected static Model modelAVM;
+	
 	protected static FakeRVLInterpreter avmBuilder;
 	protected D3GeneratorBase d3Generator;
 	protected RVLInterpreterBase rvlInterpreter;
@@ -52,6 +54,8 @@ public class OGVICProcess {
 	private final  FileRegistry mappingFileRegistry = new FileRegistry(); // Mapping files (each interpreted as a mapping set)
 	private String uriStart = "";
 	private String jsonFileNameRel = "";
+
+
 
 	private final static Logger LOGGER = Logger.getLogger(OGVICProcess.class.getName()); 
 	private final static Logger LOGGER_RVL_PACKAGE = Logger.getLogger("org.purl.rvl"); 
@@ -63,7 +67,7 @@ public class OGVICProcess {
     	  	
 		//LOGGER.setLevel(Level.SEVERE); 
 		//LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.SEVERE); 
-		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.INFO);
+		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.OFF);
 
 		
 		// In order to show log entrys of the fine level, we need to create a new handler as well
@@ -118,6 +122,7 @@ public class OGVICProcess {
 			} 
 			model = modelBuilder.getModel();
 			modelVISO = modelBuilder.getVISOModel();
+			modelAVM = modelBuilder.getAVMModel();
 			
 			// create and set an interpreter, if not already set
 			if (null==rvlInterpreter) {
@@ -125,7 +130,7 @@ public class OGVICProcess {
 				//rvlInterpreter = new FakeRVLInterpreter();
 				rvlInterpreter = new SimpleRVLInterpreter();
 			}
-			rvlInterpreter.init(model);
+			rvlInterpreter.init(model,modelAVM);
 			
 			// interprete RVL mappings
 			interpreteRVL2AVM();	
@@ -142,7 +147,7 @@ public class OGVICProcess {
 				LOGGER.warning("JSON generator was not set, using default one.");
 				setD3Generator(new D3GeneratorSimpleJSON());
 			}
-			d3Generator.init(model);
+			d3Generator.init(modelAVM);
 	
 			
 			// transform AVM 2 JSON
@@ -168,8 +173,7 @@ public class OGVICProcess {
 	private void readAVMFromFile(ModelBuilder modelBuilder) {
 		LOGGER.info("AVM regeneration OFF! Will not interpret any new mappings, but load AVM from " + TMP_AVM_MODEL_FILE_NAME);	
 		modelBuilder.initFromTmpAVMFile();
-		model = modelBuilder.getModel();
-		modelVISO = modelBuilder.getVISOModel();
+		modelAVM = modelBuilder.getAVMModel();
 	}
 
 	private void interpreteRVL2AVM() {
@@ -209,7 +213,7 @@ public class OGVICProcess {
 			String fileName = OGVICProcess.TMP_AVM_MODEL_FILE_NAME;
 			FileWriter writer = new FileWriter(fileName);
 			
-			model.writeTo(writer, Syntax.Turtle);
+			modelAVM.writeTo(writer, Syntax.Turtle);
 			writer.flush();
 			writer.close();
 			

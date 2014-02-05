@@ -42,7 +42,7 @@ import org.purl.rvl.tooling.util.RVLUtils;
 public abstract class RVLInterpreterBase {
 	
 	protected Model model;
-	//private Model modelVISO;
+	protected Model modelAVM;
 	protected Map<org.ontoware.rdf2go.model.node.Resource,GraphicObject> resourceGraphicObjectMap; 
 	protected Random random;
 
@@ -55,8 +55,9 @@ public abstract class RVLInterpreterBase {
 	}
 	
 
-	public void init(Model model) {
+	public void init(Model model, Model modelAVM) {
 		this.model = model;
+		this.modelAVM = modelAVM;
 		this.random = new Random();
 		this.resourceGraphicObjectMap = new HashMap<org.ontoware.rdf2go.model.node.Resource, GraphicObject>();
 	}
@@ -85,7 +86,7 @@ public abstract class RVLInterpreterBase {
 			return resourceGraphicObjectMap.get(resource);
 		} 
 		else {
-			GraphicObject go = new GraphicObject(model,"http://purl.org/rvl/example-avm/GO_" + random.nextInt(), true);
+			GraphicObject go = new GraphicObject(modelAVM,"http://purl.org/rvl/example-avm/GO_" + random.nextInt(), true);
 			go.setRepresents(resource);
 			resourceGraphicObjectMap.put(resource, go);
 			LOGGER.finer("Newly created GO for " + resource);

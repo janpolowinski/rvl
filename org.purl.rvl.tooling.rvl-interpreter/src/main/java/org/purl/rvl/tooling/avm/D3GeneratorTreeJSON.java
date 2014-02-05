@@ -44,7 +44,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 	}
 	
 	/**
-	 * @param model
+	 * @param modelAVM
 	 * @param modelVISO
 	 */
 	public D3GeneratorTreeJSON(Model model, Model modelVISO) {
@@ -59,7 +59,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		
 		JSONObject d3data = new JSONObject();
 
-		GraphicObject rootNode = AVMUtils.getRootNodeGraphicObject(model);
+		GraphicObject rootNode = AVMUtils.getRootNodeGraphicObject(modelAVM);
 		if (null != rootNode) {
 			// generate JSON root object
 			d3data.put("label", rootNode.getLabel());
@@ -84,7 +84,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		// generate empty JSON root object, containing all actual root nodes
 		JSONObject d3data = new JSONObject();
 
-		Set<GraphicObject> rootNodeSet = AVMUtils.getRootNodesGraphicObject(model);
+		Set<GraphicObject> rootNodeSet = AVMUtils.getRootNodesGraphicObject(modelAVM);
 		if (null!=rootNodeSet && !rootNodeSet.isEmpty()) {
 			
 			List listOfRootNodes = new LinkedList();
@@ -113,7 +113,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 	private List generateChildrenListFor(GraphicObject parentGO) {
 		
 		List listOfChildren = new LinkedList();
-		Set<DirectedLinking> directedLinkingsFromHere = AVMUtils.getDirectedLinkingRelationsFrom(model, parentGO);
+		Set<DirectedLinking> directedLinkingsFromHere = AVMUtils.getDirectedLinkingRelationsFrom(modelAVM, parentGO);
 		
 		if(!directedLinkingsFromHere.isEmpty() && currentDepth<=MAX_DEPTH) {
 			
