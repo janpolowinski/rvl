@@ -27,7 +27,7 @@ import org.purl.rvl.java.mapping.CalculatedValueMapping;
  * @author Jan Polowinski
  *
  */
-public class ValueMapping extends Valuemapping {
+public class ValueMapping extends Valuemapping implements MappingIF {
 
         static final String NL =  System.getProperty("line.separator");
         
@@ -442,5 +442,11 @@ private String getprinting(int ss) {
 				return "unknown";
 			}
         }
+
+    	public boolean isDisabled() {
+    		if (this.hasDisabled()) {
+    			return this.getAllDisabled_as().firstValue();
+    		} else return false;
+    	}
 
 }

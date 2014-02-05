@@ -7,7 +7,7 @@ import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 
-public class Mapping extends org.purl.rvl.java.gen.rvl.Mapping {
+public class Mapping extends org.purl.rvl.java.gen.rvl.Mapping implements MappingIF {
 
 	static final String NL =  System.getProperty("line.separator");
 
@@ -61,6 +61,12 @@ public class Mapping extends org.purl.rvl.java.gen.rvl.Mapping {
 		}
 		
 		return s;
+	}
+
+	public boolean isDisabled() {
+		if (this.hasDisabled()) {
+			return this.getAllDisabled_as().firstValue();
+		} else return false;
 	}
 
 }

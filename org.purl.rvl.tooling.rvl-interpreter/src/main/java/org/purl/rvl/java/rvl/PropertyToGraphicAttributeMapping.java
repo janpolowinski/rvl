@@ -19,7 +19,7 @@ import org.purl.rvl.java.gen.rvl.Valuemapping;
 
 
 public class PropertyToGraphicAttributeMapping extends
-		Property_to_Graphic_AttributeMapping {
+		Property_to_Graphic_AttributeMapping implements MappingIF {
 	
 	private static final long serialVersionUID = 5391124674649010787L;
 	static final String NL =  System.getProperty("line.separator");
@@ -167,6 +167,15 @@ public class PropertyToGraphicAttributeMapping extends
 		}
 		*/
 		return s;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.purl.rvl.java.rvl.MappingIF#isDisabled()
+	 */
+	public boolean isDisabled() {
+		if (this.hasDisabled()) {
+			return this.getAllDisabled_as().firstValue();
+		} else return false;
 	}
 
 }

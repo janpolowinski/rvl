@@ -24,6 +24,7 @@ import org.ontoware.rdfreactor.schema.rdfs.Resource;
 import org.openrdf.repository.sparql.query.SPARQLQuery;
 import org.purl.rvl.java.rvl.Mapping;
 import org.purl.rvl.java.rvlsmall.Thing1;
+import org.purl.rvl.tooling.process.OGVICProcess;
 
 public class RVLUtils {
 	
@@ -118,9 +119,13 @@ public class RVLUtils {
 					        " ?pp " + Property.SUBPROPERTYOF.toSPARQL() + "+ ?p " +		 
 					" FILTER(?pp != ?p) " +
 					" } " +
-					" } ";
-			LOGGER.finer("Query statements with property (respectively most specific subproperty of) :" + spURI);
-			LOGGER.warning("Query :" + query);
+					" FILTER(?s != ?o) " + // TODO: this stops reflexive arcs completely! make optional
+					" FILTER isIRI(?s) " + // TODO: this stops blank nodes as subjects ...
+					" FILTER isIRI(?o) " + // .. or opbjects! make optional!
+					" } " + 
+					" LIMIT " + OGVICProcess.MAX_GRAPHIC_RELATIONS_PER_MAPPING + " ";
+			LOGGER.fine("Query statements with property (respectively most specific subproperty of) :" + spURI);
+			LOGGER.finest("Query :" + query);
 			
 			/*
 			 SELECT DISTINCT ?s ?p ?o WHERE { 
@@ -135,16 +140,26 @@ public class RVLUtils {
 			*/
 			
 			QueryResultTable explMapResults = model.sparqlSelect(query);
+			
 			for (QueryRow row : explMapResults) {
 				LOGGER.finest("fetched SPARQL result row: " + row);
-				Statement stmt = new StatementImpl(null, row.getValue("s").asURI(), row.getValue("p").asURI(), row.getValue("o"));
-				LOGGER.warning("build Statement: " + stmt.toString());
-				stmtSet.add(stmt);
+				try {
+					Statement stmt = new StatementImpl(null, row.getValue("s").asURI(), row.getValue("p").asURI(), row.getValue("o"));
+					LOGGER.finest("build Statement: " + stmt.toString());
+					if(row.getValue("s").asURI().toString().startsWith(OGVICProcess.getInstance().getUriStart())) {
+						stmtSet.add(stmt);
+						LOGGER.finer("added Statement: " + stmt.toString());
+					} else {
+						LOGGER.finer("skipped Statement: " + stmt.toString());
+					}
+				} catch (ClassCastException e){
+					LOGGER.finer("Skipped statement for linking (blank node casting to URI?): " + e.getMessage());
+				}
 			}
 		
 		} catch (UnsupportedOperationException e){
-			LOGGER.warning("Problem with query to get statements for linking (blank node?): " + e.getStackTrace());
-		}
+			LOGGER.warning("Problem with query to get statements for linking (blank node?): " + e.getMessage());
+		} 
 		
 		return stmtSet;
 	}

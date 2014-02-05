@@ -11,6 +11,7 @@ import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.purl.rvl.java.gen.rvl.Thing1;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
+import org.purl.rvl.tooling.util.AVMUtils;
 
 import javax.xml.bind.annotation.*;
 
@@ -91,7 +92,8 @@ public class GraphicObject extends
 	@XmlElement(name="label")
 	public String getLabel() {
 		
-		return this.getAllLabel_as().firstValue().toString();
+		return  AVMUtils.getLocalName(model, this.asURI()); // sending a GraphicObject instead of a URI, causes class cast problems
+				//this.getAllLabel_as().firstValue().toString();
 		
 	}
 	

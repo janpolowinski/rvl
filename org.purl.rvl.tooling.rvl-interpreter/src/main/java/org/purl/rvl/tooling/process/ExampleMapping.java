@@ -8,6 +8,8 @@ public class ExampleMapping {
 	public static final String RO = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies/Requirements/stRO/MappingExample/ro-rvl-mapping-example.ttl";
 	public static final String PO = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies/Bio/PO/MappingExample/po-rvl-mapping-example.ttl";
 	public static final String RVL_EXAMPLE = "../org.purl.rvl.vocabulary/rvl-example-mappings.ttl";
-
+	public static final String ZFO = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies/Bio/Zebrafish/MappingExample/zfa-rvl-mapping-example.n3";
+	public static final String ZFO_X = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies/Bio/Zebrafish/MappingExample/ZFO-X.n3";
+	public static final String ZFO_Y = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies/Bio/Zebrafish/MappingExample/ZFO-Y.n3";
 
 }

@@ -21,7 +21,7 @@ import org.purl.rvl.java.exception.InsufficientMappingSpecificationExecption;
 import org.purl.rvl.tooling.process.OGVICProcess;
 
 public class PropertyMapping extends
-		org.purl.rvl.java.gen.rvl.PropertyMapping {
+		org.purl.rvl.java.gen.rvl.PropertyMapping  implements MappingIF {
 	
 private final static Logger LOGGER = Logger.getLogger(PropertyMapping.class .getName()); 
 
@@ -68,7 +68,7 @@ static final String NL =  System.getProperty("line.separator");
 			subjectSet = getAffectedResources();
 			for (Iterator<Resource> iterator = subjectSet.iterator(); iterator.hasNext();) {
 				Resource resource = (Resource) iterator.next();
-				s += "     affects: " + resource +  NL;
+				//s += "     affects: " + resource +  NL;
 			}
 		} catch (InsufficientMappingSpecificationExecption e) {
 			LOGGER.warning(e.getMessage());
@@ -77,7 +77,7 @@ static final String NL =  System.getProperty("line.separator");
 		
 		Property sp = this.getAllSourceproperty_as().firstValue();
 		//Property tgr = this.getAllTargetgraphicrelation_abstract__as().firstValue();
-		s += "     source property: " + sp.getAllLabel_as().firstValue() + NL;
+		s += "     source property: " + sp.asURI() + NL;
 		//s += "     target graphic relation: " + this.getAllTargetgraphicrelation_abstract__as().firstValue() + NL ;
 
 				
@@ -133,6 +133,12 @@ static final String NL =  System.getProperty("line.separator");
 				LOGGER.finer(ignoredResources + " resources have been ignored for subject " + subject +  " when calculating the affected mappings (may be it was a blank node?).");
 		}
 		return subjectSet;
+	}
+
+	public boolean isDisabled() {
+		if (this.hasDisabled()) {
+			return this.getAllDisabled_as().firstValue();
+		} else return false;
 	}
 	
 

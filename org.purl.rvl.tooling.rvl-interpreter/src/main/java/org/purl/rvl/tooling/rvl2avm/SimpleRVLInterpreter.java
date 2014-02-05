@@ -39,6 +39,7 @@ import org.purl.rvl.java.rvl.PropertyToGO2ORMapping;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping;
 import org.purl.rvl.java.viso.graphic.GraphicObject;
 import org.purl.rvl.java.viso.graphic.ShapeX;
+import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.RVLUtils;
 
@@ -79,8 +80,13 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				.iterator(); iterator.hasNext();) {
 			
 			PropertyToGO2ORMapping p2go2orm = (PropertyToGO2ORMapping) iterator.next();
-			interpretMappingToLinking(p2go2orm); // does not yet work for submappings use instead :
-			//interpretMappingToLinkingForAffectedResources(p2go2orm);
+			
+			if (p2go2orm.isDisabled()) {
+				LOGGER.info("Ignored disabled P2GO2OR mapping " + p2go2orm.asURI());
+				continue;
+			}
+			
+			interpretMappingToLinking(p2go2orm);
 		}
 		
 		LOGGER.fine("The size of the Resource-to-GraphicObject map is " + resourceGraphicObjectMap.size()+".");
@@ -98,10 +104,11 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			sp = p2go2orm.getAllSourceproperty_as().firstValue();
 			if (null==sp) throw new InsufficientMappingSpecificationExecption();
 			
-			invertSourceProperty = p2go2orm.hasInvertsourceproperty();
+			invertSourceProperty = p2go2orm.isInvertSourceProperty();
 			
 			PropertyMapping pm = (PropertyMapping) p2go2orm.castTo(PropertyMapping.class);
 			LOGGER.fine("Interpreting the mapping: " + NL + pm.toString());
+			LOGGER.fine("The 'inverse' of the source property (" + sp.asURI() + ") will be used, according to mapping settings.");
 		}
 		catch (InsufficientMappingSpecificationExecption e) {
 			LOGGER.warning(e.getMessage());
@@ -127,7 +134,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		}
 		
 		
-		while (stmtSetIterator.hasNext()) {
+		int processedGraphicRelations = 0;	
+		while (stmtSetIterator.hasNext() && processedGraphicRelations < OGVICProcess.MAX_GRAPHIC_RELATIONS_PER_MAPPING) {
 			
 			Statement statement = (Statement) stmtSetIterator.next();
 						
@@ -165,7 +173,6 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				
 				// configure the relation
 				if(invertSourceProperty) {
-					LOGGER.info("The 'inverse' of the source property (" + sp.asURI() + ") will be used, according to mapping settings.");
 					dlRel.setEndnode(subjectNode);
 					dlRel.setStartnode(objectNode);
 					subjectNode.setLinkedfrom(dlRel);
@@ -183,6 +190,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				LOGGER.finest("Problem creating GOs");
 				LOGGER.finest(e.getMessage());
 			}
+			
+			processedGraphicRelations++;	
 		}
 		
 	}
@@ -379,8 +388,15 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		// for each simple mapping
 		for (Iterator<PropertyToGraphicAttributeMapping> iterator = setOfSimpleP2GAMappings
 				.iterator(); iterator.hasNext();) {
+			
 			PropertyToGraphicAttributeMapping p2gam = (PropertyToGraphicAttributeMapping) iterator.next();
-			//LOGGER.info(p2gam);
+			
+			if (p2gam.isDisabled()) {
+				LOGGER.info("Ignored disabled simple P2GAM mapping " + p2gam.asURI() );
+				continue;
+			}
+
+			LOGGER.info("Interpret simple P2GAM mapping " + p2gam.asURI() );
 			
 			// get the mapping table SV->TV
 			Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	

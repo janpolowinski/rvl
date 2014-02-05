@@ -11,7 +11,7 @@ import org.purl.rvl.java.gen.rvl.Sub_mappingrelation;
 import org.purl.rvl.tooling.util.RVLUtils;
 
 public class PropertyToGO2ORMapping extends
-		Property_to_Graphic_Object_to_Object_RelationMapping {
+		Property_to_Graphic_Object_to_Object_RelationMapping implements MappingIF {
 	
 	static final String NL =  System.getProperty("line.separator");
 	
@@ -76,6 +76,19 @@ public class PropertyToGO2ORMapping extends
 		}
 		
 		return s;
+	}
+
+
+	public boolean isDisabled() {
+		if (this.hasDisabled()) {
+			return this.getAllDisabled_as().firstValue();
+		} else return false;
+	}
+
+	public boolean isInvertSourceProperty() {
+		if (this.hasInvertsourceproperty()) {
+			return this.getAllInvertsourceproperty_as().firstValue();
+		} else return false;
 	}
 
 }

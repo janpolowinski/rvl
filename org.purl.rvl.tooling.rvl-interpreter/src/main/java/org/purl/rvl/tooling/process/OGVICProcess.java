@@ -29,8 +29,11 @@ public class OGVICProcess {
 	
 	private static OGVICProcess instance = null;
 	
+	public static int MAX_GRAPHIC_RELATIONS_PER_MAPPING = 250;
+	
 	public static boolean REGENERATE_AVM = true;
 	public static boolean WRITE_AVM = false;
+	public static boolean WRITE_JSON = true;
 	
 	public static final String RVL_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl.owl";
 	public static final String VISO_LOCAL_REL = "../org.purl.rvl.vocabulary/viso-branch/viso-graphic-inference.ttl";
@@ -60,7 +63,7 @@ public class OGVICProcess {
     	  	
 		//LOGGER.setLevel(Level.SEVERE); 
 		//LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.SEVERE); 
-		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.FINE);
+		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.INFO);
 
 		
 		// In order to show log entrys of the fine level, we need to create a new handler as well
@@ -128,27 +131,33 @@ public class OGVICProcess {
 			interpreteRVL2AVM();	
 			
 		}
-		else {
+		else if (WRITE_JSON) {
 			readAVMFromFile(modelBuilder);
 		}
 		
-		// create and set a generator, if not already set
-		if (null==d3Generator) {
-			LOGGER.warning("JSON generator was not set, using default one.");
-			setD3Generator(new D3GeneratorSimpleJSON());
+		if (WRITE_JSON) {
+		
+			// create and set a generator, if not already set
+			if (null==d3Generator) {
+				LOGGER.warning("JSON generator was not set, using default one.");
+				setD3Generator(new D3GeneratorSimpleJSON());
+			}
+			d3Generator.init(model);
+	
+			
+			// transform AVM 2 JSON
+			String json = transformAVM2JSON();
+			LOGGER.info("JSON data is: " + NL +  json);
+			d3Generator.writeJSONToFile(json);
+			
 		}
-		d3Generator.init(model);
-
-		
-		// transform AVM 2 JSON
-		String json = transformAVM2JSON();
-		LOGGER.info("JSON data is: " + NL +  json);
-		d3Generator.writeJSONToFile(json);
-		
+			
 		// write the AVM to a file (this is done in the end, since it takes much time)
 		if (REGENERATE_AVM && WRITE_AVM) {
 			writeAVMToFile();
 		}
+		
+
 
 		
 	    // close the model

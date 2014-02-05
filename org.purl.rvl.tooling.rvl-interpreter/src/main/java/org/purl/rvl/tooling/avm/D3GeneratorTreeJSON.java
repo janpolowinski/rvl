@@ -160,7 +160,10 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		child.put("connector_color_rgb_hex", connectorColorRGBHex);
 		
 		// break possible circles
-		child.put("children", generateChildrenListFor(endNode));
+		List childrenList = generateChildrenListFor(endNode);
+		if (!childrenList.isEmpty()) {
+			child.put("children", childrenList);
+		}
 		
 		return child;
 	}

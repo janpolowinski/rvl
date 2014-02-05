@@ -161,7 +161,8 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				LOGGER.finer("Generated JSON link for " + dlRel + " (" + startNode.getLabel() + " --> " + endNode.getLabel() +")" );
 				}
 		} catch (Exception e) {
-			LOGGER.warning("No links could be generated." + e);
+			LOGGER.warning("No JSON links could be generated. " + e.getMessage());
+			e.printStackTrace();
 		}		
 		
 		d3data.put("links", listOfLinks);

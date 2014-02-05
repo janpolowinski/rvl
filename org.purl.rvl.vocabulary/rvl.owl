@@ -1301,6 +1301,16 @@ TODO: Also arbitrary transformations of the scale should be possible.</skos:edit
     >INFO: Became necessary to label the ad-hoc sets which may occur by using sourceValue multiple times.</skos:editorialNote>
     <rdfs:domain rdf:resource="http://purl.org/rvl/ValueMapping"/>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://purl.org/rvl/disabled">
+    <rdfs:domain rdf:resource="http://purl.org/rvl/Mapping"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >disabled</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <dct:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Defines whether the mapping should be ignored during the evaluation of mappings.</dct:description>
+    <swstatus:term_status rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >stable</swstatus:term_status>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:about="http://purl.org/rvl/includeInLegend">
     <rdfs:domain rdf:resource="http://purl.org/rvl/Mapping"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
