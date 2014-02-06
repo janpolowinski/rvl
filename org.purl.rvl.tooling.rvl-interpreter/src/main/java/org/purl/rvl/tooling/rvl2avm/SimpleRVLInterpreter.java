@@ -120,17 +120,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		if(p2go2orm.hasInheritedby()) {
 			try{
 				Property inheritedBy = (Property)p2go2orm.getAllInheritedby_as().firstValue().castTo(Property.class);
-				
-				if (inheritedBy.toString().equals(Restriction.SOMEVALUESFROM)) {
-					
-					stmtSetIterator = RVLUtils.findRelationsOnClassLevel(model,
-							sp.asURI()).iterator();
-					
-				} else if (inheritedBy.toString().equals(Restriction.ALLVALUESFROM)) {
-					
-					stmtSetIterator = RVLUtils.findRelationsOnClassLevel2(model,
-							sp.asURI()).iterator();
-				}
+				stmtSetIterator = RVLUtils.findRelationsOnClassLevel(model, sp.asURI(), inheritedBy).iterator();
 
 			}
 			catch (Exception e) {
@@ -425,13 +415,23 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				    GraphicObject go = createOrGetGraphicObject(resource);
 			    	Node sv = null;
 				    
-				    // get the (first) source value of the resource for the mapped property
-				    ClosableIterator<Statement> resSpStmtIt = model.findStatements(resource, sp.asURI(), Variable.ANY);
+
+				    // get a statement set here instead
+				    //Set<Statement> statementSet = RVLUtils.findStatementsOnInstanceOrClassLevel(model, p2gam); // TODO here subject is not constrained!! won't work
+				    Set<Statement> theStatementWithOurObject = RVLUtils.findObjectsOnInstanceOrClassLevel(model, resource, p2gam); // TODO here subject is not constrained!! won't work
+				    
+				    for (Iterator<Statement> stmtSetIt = theStatementWithOurObject.iterator(); stmtSetIt
+							.hasNext();) {
+						Statement statement = (Statement) stmtSetIt.next();
+						sv = statement.getObject(); // useless! will set sv many times
+					}
+				    
+				    /*
 					while (resSpStmtIt.hasNext()) {
 						Statement statement = (Statement) resSpStmtIt.next();
 						sv = statement.getObject();
 						//LOGGER.info(sv);
-					}
+					}*/
 								
 					// get the target value for the sv
 			    	Node tv = svUriTVuriMap.get(sv);

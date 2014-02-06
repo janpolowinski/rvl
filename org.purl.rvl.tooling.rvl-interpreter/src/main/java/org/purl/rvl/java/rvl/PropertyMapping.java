@@ -16,9 +16,11 @@ import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
+import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.java.exception.InsufficientMappingSpecificationExecption;
 import org.purl.rvl.tooling.process.OGVICProcess;
+import org.purl.rvl.tooling.util.RVLUtils;
 
 public class PropertyMapping extends
 		org.purl.rvl.java.gen.rvl.PropertyMapping  implements MappingIF {
@@ -92,6 +94,7 @@ static final String NL =  System.getProperty("line.separator");
 	 */
 	public Set<Resource> getAffectedResources() throws InsufficientMappingSpecificationExecption {
 		
+		Set<Statement> statementSet = new HashSet<Statement>();
 		Set<Resource> subjectSet = new HashSet<Resource>();
 		Property sp = null;
 		
@@ -104,13 +107,46 @@ static final String NL =  System.getProperty("line.separator");
 				throw new InsufficientMappingSpecificationExecption();
 			}
 		}					
+
 		
-		// TODO: problem: will not handle Class-Restriction-Relations
-		ClosableIterator<Statement> spStIt = model.findStatements(Variable.ANY, sp.asURI(), Variable.ANY);
-		while (spStIt.hasNext()) {
-			Statement statement = (Statement) spStIt.next();
+		// build a statement set by find methode or SPARQL
+
+		// consider inherited relations, including those between classes (someValueFrom ...)
+		if(this.hasInheritedby()) {
+			
+			try{
+				
+				Property inheritedBy = (Property)this.getAllInheritedby_as().firstValue().castTo(Property.class);
+				
+				// temp only support some and all values from ...
+				if (!(inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
+						|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())	)) {
+					LOGGER.warning("inheritedBy is set to a value, currently not supported.");
+					return subjectSet;
+				}
+				
+				statementSet = RVLUtils.findRelationsOnClassLevel(model, sp.asURI(), inheritedBy);
+
+			}
+			catch (Exception e) {
+				LOGGER.warning("Problem evaluating inheritedBy setting - not a rdf:Property?");
+			}
+		}
+		else {
+			ClosableIterator<Statement> it = model.findStatements(Variable.ANY, sp.asURI(), Variable.ANY);
+			while (it.hasNext()) {
+				statementSet.add(it.next());
+			}
+		}
+		
+		
+		// iterate the statement set
+		
+		for (Iterator<Statement> stmtSetIt = statementSet.iterator(); stmtSetIt.hasNext();) {
+			
+			Statement statement = (Statement) stmtSetIt.next();
+			
 			Resource subject = statement.getSubject();
-			//System.out.println(statement.getSubject());
 			
 			// TODO hack: ignore statements with subjects other than those starting with the data graph URI
 			String uriStartString = OGVICProcess.getInstance().getUriStart();
@@ -132,6 +168,7 @@ static final String NL =  System.getProperty("line.separator");
 			if (ignoredResources>0)
 				LOGGER.finer(ignoredResources + " resources have been ignored for subject " + subject +  " when calculating the affected mappings (may be it was a blank node?).");
 		}
+	
 		return subjectSet;
 	}
 

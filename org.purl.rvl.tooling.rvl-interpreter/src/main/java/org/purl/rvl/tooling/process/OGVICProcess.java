@@ -38,6 +38,8 @@ public class OGVICProcess {
 	public static final String RVL_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl.owl";
 	public static final String VISO_LOCAL_REL = "../org.purl.rvl.vocabulary/viso-branch/viso-graphic-inference.ttl";
 	
+	//public static final String USE_CASE_FOLDER = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies";
+	public static final String USE_CASE_FOLDER = "/Users/Jan/Documents/EclipseWorkspace/SemVisRecherche/CaseStudies";
 	public static final String GEN_MODEL_FILE_FOLDER = "gen";
 	protected static final String TMP_RVL_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempRvl.ttl";
 	public static final String TMP_AVM_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempAVM.ttl";
@@ -76,7 +78,7 @@ public class OGVICProcess {
         handler.setLevel(Level.FINEST);
         
         CustomRecordFormatter formatter = new CustomRecordFormatter();
-        //handler.setFormatter(formatter); // out-comment this line to use the normal formatting with method and date
+        handler.setFormatter(formatter); // out-comment this line to use the normal formatting with method and date
         
         LOGGER_RVL_PACKAGE.setUseParentHandlers(false); // otherwise double output of log entries
         LOGGER_RVL_PACKAGE.addHandler(handler);

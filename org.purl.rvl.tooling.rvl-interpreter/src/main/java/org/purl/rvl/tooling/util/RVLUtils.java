@@ -23,7 +23,7 @@ import org.ontoware.rdfreactor.schema.rdfs.Class;
 import org.ontoware.rdfreactor.schema.rdfs.Resource;
 import org.openrdf.repository.sparql.query.SPARQLQuery;
 import org.purl.rvl.java.rvl.Mapping;
-import org.purl.rvl.java.rvlsmall.Thing1;
+import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping;
 import org.purl.rvl.tooling.process.OGVICProcess;
 
 public class RVLUtils {
@@ -166,13 +166,19 @@ public class RVLUtils {
 
 	public static Set<Statement> findRelationsOnClassLevel(
 			Model model,
-			//org.ontoware.rdf2go.model.node.Resource subjectResource,
-			URI spURI) {
+			URI spURI, 
+			org.ontoware.rdfreactor.schema.rdfs.Property inheritedBy) {
 		
 		QueryResultTable results = null;
 		Set<Statement> stmtSet = new HashSet<Statement>();
-
 		
+		// temp only support some and all values from ...
+		if (!(inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
+				|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())	)) {
+			LOGGER.warning("inherited by is set to a value, currently not supported.");
+			return stmtSet;
+		}
+
 		try{
 			
 			String query = "" + 
@@ -182,7 +188,7 @@ public class RVLUtils {
 					"?s  " + Class.SUBCLASSOF.toSPARQL() + " ?restrictionClass . " +
 					"?restrictionClass a " + Restriction.RDFS_CLASS.toSPARQL() + " . " +  
 					"?restrictionClass " + Restriction.ONPROPERTY.toSPARQL() + " " + spURI.toSPARQL() + " . " + 
-					"?restrictionClass " + Restriction.SOMEVALUESFROM.toSPARQL() +  " ?o . " + 
+					"?restrictionClass " + inheritedBy.toSPARQL() +  " ?o . " + 
 					"} ";
 			LOGGER.finer("Query for getting relations on class level for " + spURI);
 			LOGGER.finest("Query: " + query);
@@ -207,47 +213,50 @@ public class RVLUtils {
 		return stmtSet;
 	}
 
-	public static Set<Statement> findRelationsOnClassLevel2(
+	public static Set<Statement> findStatementsOnInstanceOrClassLevel(
 			Model model,
-			//org.ontoware.rdf2go.model.node.Resource subjectResource,
-			URI spURI) {
+			PropertyToGraphicAttributeMapping p2gam) {
 		
-		QueryResultTable results = null;
-		Set<Statement> stmtSet = new HashSet<Statement>();
-
+			Set<Statement> statementSet = null;
 		
-		try{
+			URI spURI = p2gam.getAllSourceproperty_as().firstValue().asURI();
 			
-			String query = "" + 
-					"SELECT DISTINCT ?s ?o " + 
-					"WHERE { " +
-					//subjectResource.toSPARQL() + " " + Class.SUBCLASSOF.toSPARQL() + " ?restrictionClass . " +
-					"?s  " + Class.SUBCLASSOF.toSPARQL() + " ?restrictionClass . " +
-					"?restrictionClass a " + Restriction.RDFS_CLASS.toSPARQL() + " . " +  
-					"?restrictionClass " + Restriction.ONPROPERTY.toSPARQL() + " " + spURI.toSPARQL() + " . " + 
-					"?restrictionClass " + Restriction.ALLVALUESFROM.toSPARQL() +  " ?o . " + 
-					"} ";
-			LOGGER.finer("Query for getting relations on class level for " + spURI);
-			LOGGER.finest("Query: " + query);
-
-			results = model.sparqlSelect(query);
-			
-			for (QueryRow row : results) {
-				LOGGER.finest("fetched SPARQL result row: " + row);
-				try {
-					Statement stmt = new StatementImpl(null, row.getValue("s").asURI(), spURI, row.getValue("o"));
-					LOGGER.finer("build Statement: " + stmt.toString());
-					stmtSet.add(stmt);
-				} catch (Exception e) {
-					LOGGER.warning("Problem building Statement for : " + row );
-				}
-			}
+			if(p2gam.hasInheritedby()) {
 				
-		} catch (UnsupportedOperationException e){
-			LOGGER.warning("Problem with query to get relations on class level (blank node?): " + e.getStackTrace());
-		}
-		
-		return stmtSet;
+				try{
+					
+					org.ontoware.rdfreactor.schema.rdfs.Property inheritedBy = (org.ontoware.rdfreactor.schema.rdfs.Property)p2gam.getAllInheritedby_as().firstValue().castTo(org.ontoware.rdfreactor.schema.rdfs.Property.class);
+					
+					// temp only support some and all values from ...
+					if (!(inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
+							|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())	)) {
+						LOGGER.warning("inheritedBy is set to a value, currently not supported.");
+					} else {
+						statementSet =  findRelationsOnClassLevel(model, spURI, inheritedBy);
+					}
+					
+				}
+				catch (Exception e) {
+					LOGGER.warning("Problem evaluating inheritedBy setting - not a rdf:Property?");
+				}
+			} else {
+			    // get the (first) source value of the resource for the mapped property
+			    
+				ClosableIterator<Statement> it = model.findStatements(Variable.ANY, spURI, Variable.ANY); // TODO here subject is not constrained!! won't work
+				while (it.hasNext()) {
+					statementSet.add(it.next());
+				}
+
+			}
+			
+			return statementSet;
+	}
+
+	public static Set<Statement> findObjectsOnInstanceOrClassLevel(Model model,
+			org.ontoware.rdf2go.model.node.Resource resource,
+			PropertyToGraphicAttributeMapping p2gam) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
