@@ -12,5 +12,6 @@ public class ExampleMapping {
 	public static final String ZFO = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies/Bio/Zebrafish/MappingExample/zfa-rvl-mapping-example.n3";
 	public static final String ZFO_X = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies/Bio/Zebrafish/MappingExample/ZFO-X.n3";
 	public static final String ZFO_Y = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies/Bio/Zebrafish/MappingExample/ZFO-Y.n3";
+	public static final String AA = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies/Bio/AminoAcid/MappingExample/amino-acids-rvl-mapping-example.ttl";
 
 }

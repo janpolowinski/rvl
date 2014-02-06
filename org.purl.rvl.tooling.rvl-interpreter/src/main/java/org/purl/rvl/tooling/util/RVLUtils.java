@@ -207,6 +207,49 @@ public class RVLUtils {
 		return stmtSet;
 	}
 
+	public static Set<Statement> findRelationsOnClassLevel2(
+			Model model,
+			//org.ontoware.rdf2go.model.node.Resource subjectResource,
+			URI spURI) {
+		
+		QueryResultTable results = null;
+		Set<Statement> stmtSet = new HashSet<Statement>();
+
+		
+		try{
+			
+			String query = "" + 
+					"SELECT DISTINCT ?s ?o " + 
+					"WHERE { " +
+					//subjectResource.toSPARQL() + " " + Class.SUBCLASSOF.toSPARQL() + " ?restrictionClass . " +
+					"?s  " + Class.SUBCLASSOF.toSPARQL() + " ?restrictionClass . " +
+					"?restrictionClass a " + Restriction.RDFS_CLASS.toSPARQL() + " . " +  
+					"?restrictionClass " + Restriction.ONPROPERTY.toSPARQL() + " " + spURI.toSPARQL() + " . " + 
+					"?restrictionClass " + Restriction.ALLVALUESFROM.toSPARQL() +  " ?o . " + 
+					"} ";
+			LOGGER.finer("Query for getting relations on class level for " + spURI);
+			LOGGER.finest("Query: " + query);
+
+			results = model.sparqlSelect(query);
+			
+			for (QueryRow row : results) {
+				LOGGER.finest("fetched SPARQL result row: " + row);
+				try {
+					Statement stmt = new StatementImpl(null, row.getValue("s").asURI(), spURI, row.getValue("o"));
+					LOGGER.finer("build Statement: " + stmt.toString());
+					stmtSet.add(stmt);
+				} catch (Exception e) {
+					LOGGER.warning("Problem building Statement for : " + row );
+				}
+			}
+				
+		} catch (UnsupportedOperationException e){
+			LOGGER.warning("Problem with query to get relations on class level (blank node?): " + e.getStackTrace());
+		}
+		
+		return stmtSet;
+	}
+
 
 
 }

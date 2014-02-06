@@ -120,9 +120,18 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		if(p2go2orm.hasInheritedby()) {
 			try{
 				Property inheritedBy = (Property)p2go2orm.getAllInheritedby_as().firstValue().castTo(Property.class);
-				if (inheritedBy.toString().equals(Restriction.SOMEVALUESFROM));
+				
+				if (inheritedBy.toString().equals(Restriction.SOMEVALUESFROM)) {
+					
+					stmtSetIterator = RVLUtils.findRelationsOnClassLevel(model,
+							sp.asURI()).iterator();
+					
+				} else if (inheritedBy.toString().equals(Restriction.ALLVALUESFROM)) {
+					
+					stmtSetIterator = RVLUtils.findRelationsOnClassLevel2(model,
+							sp.asURI()).iterator();
+				}
 
-				 stmtSetIterator =  RVLUtils.findRelationsOnClassLevel(model, sp.asURI()).iterator();
 			}
 			catch (Exception e) {
 				LOGGER.warning("Problem evaluating inheritedBy setting - not a Property?");

@@ -8,4 +8,6 @@ public class ExampleData {
 	public static final String PO_SIMPLIFIED = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies/Bio/PO/po_anatomy_prepared_and_simplified.owl";
 	public static final String ZFO_SUBSET = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies/Bio/Zebrafish/ZFA_subset.owl";
 	public static final String ZFO = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies/Bio/Zebrafish/ZFA.owl";
+	public static final String AA = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies/Bio/AminoAcid/amino-acid.owl";
+
 }
