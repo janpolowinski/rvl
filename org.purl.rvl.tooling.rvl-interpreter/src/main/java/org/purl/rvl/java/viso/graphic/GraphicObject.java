@@ -11,6 +11,7 @@ import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.purl.rvl.java.gen.rvl.Thing1;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
+import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.AVMUtils;
 
 import javax.xml.bind.annotation.*;
@@ -102,12 +103,11 @@ public class GraphicObject extends
 		String colorHex = "";
 
 		if(this.hasColornamed()) {
-			org.purl.rvl.java.viso.graphic.Color colorNamed = 
-				(org.purl.rvl.java.viso.graphic.Color) this.getAllColornamed_as().firstValue().castTo(org.purl.rvl.java.viso.graphic.Color.class);
+			Color colorNamed = getColorNamed();
 			try {
 				colorHex = colorNamed.toHexString();
 			} catch (Exception e) {
-				LOGGER.finest("Couldn't get color value(s) for " + colorNamed.asURI()  + " (incomplete?). Default will be used.");
+				LOGGER.finest("Couldn't get color value(s) for " + colorNamed.asURI()  + " (" +  e.getMessage() + ") . Default will be used.");
 			}
 		}
 		
@@ -145,7 +145,15 @@ public class GraphicObject extends
 	}
 
 	public Color getColorNamed() {
-		return (Color) this.getAllColornamed_as().firstValue().castTo(Color.class);
+		if (hasColornamed()) {
+			// TODO: problem: when AVM does not include VISO, a GO cannot calculate its color values. merge models? or enrich for ease case?
+			Color colorInCurrentModel = (Color)this.getAllColornamed_as().firstValue().castTo(Color.class);
+			// "enrich" the color object by data from the VISO model
+			Model modelVISO = OGVICProcess.getInstance().getModelVISO();
+			Color colorInVISO = (Color)Color.getInstance(modelVISO, colorInCurrentModel.asURI()).castTo(Color.class);
+			return colorInVISO;
+		}
+		else return null;
 	}
 
 

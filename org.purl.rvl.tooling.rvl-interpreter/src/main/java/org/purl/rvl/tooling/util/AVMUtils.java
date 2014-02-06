@@ -244,10 +244,7 @@ public class AVMUtils {
 		
 	}
 
-	public static String colorNamedToColorRGBHex(Model model, Color colorNamed) throws IncompleteColorValuesException {
-		Color fullColor = (Color)Color.getInstance(model, colorNamed.asURI()).castTo(Color.class);
-		return fullColor.toHexString();
-	}
+
 
 
 }

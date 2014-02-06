@@ -100,16 +100,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			GraphicObject startNode = goArray[i];
 			
 			//color
-			//String startNodeColorRGBHex = startNode.getColorHex(); // TODO: problem: when AVM does not include VISO, a GO cannot calculate its color values. merge models, or use AVMUtils to get the colorvalue
-			String startNodeColorRGBHex = "#ccc";
-			try {
-				Color color = startNode.getColorNamed();
-				Model modelVISO = OGVICProcess.getInstance().getModelVISO();
-				startNodeColorRGBHex = AVMUtils.colorNamedToColorRGBHex(modelVISO, color );
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
+			String startNodeColorRGBHex = startNode.getColorHex();
 			// shape
 			String startNodeShapeD3Name = startNode.getShape();
 			
@@ -168,18 +159,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				link.put("target", goMap.get(endNode));
 				link.put("value", "1");
 				link.put("label", connector.getLabel());
-				
-				String connectorColorRGBHex = "#ccc";
-				try {
-					Color color = connector.getColorNamed();
-					Model modelVISO = OGVICProcess.getInstance().getModelVISO();
-					connectorColorRGBHex = AVMUtils.colorNamedToColorRGBHex(modelVISO, color );
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} 
-				link.put("color_rgb_hex", connectorColorRGBHex);
-				//link.put("color_rgb_hex", connector.getColorHex());
+				link.put("color_rgb_hex", connector.getColorHex());
 				listOfLinks.add(link);
 				LOGGER.finer("Generated JSON link for " + dlRel + " (" + startNode.getLabel() + " --> " + endNode.getLabel() +")" );
 				}
