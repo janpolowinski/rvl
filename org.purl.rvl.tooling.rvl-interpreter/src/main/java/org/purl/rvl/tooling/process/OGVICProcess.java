@@ -38,8 +38,8 @@ public class OGVICProcess {
 	public static final String RVL_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl.owl";
 	public static final String VISO_LOCAL_REL = "../org.purl.rvl.vocabulary/viso-branch/viso-graphic-inference.ttl";
 	
-	//public static final String USE_CASE_FOLDER = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies";
-	public static final String USE_CASE_FOLDER = "/Users/Jan/Documents/EclipseWorkspace/SemVisRecherche/CaseStudies";
+	public static final String USE_CASE_FOLDER = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies";
+	//public static final String USE_CASE_FOLDER = "/Users/Jan/Documents/EclipseWorkspace/SemVisRecherche/CaseStudies";
 	public static final String GEN_MODEL_FILE_FOLDER = "gen";
 	protected static final String TMP_RVL_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempRvl.ttl";
 	public static final String TMP_AVM_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempAVM.ttl";
@@ -69,7 +69,7 @@ public class OGVICProcess {
     	  	
 		//LOGGER.setLevel(Level.SEVERE); 
 		//LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.SEVERE); 
-		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.FINEST);
+		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.INFO);
 
 		
 		// In order to show log entrys of the fine level, we need to create a new handler as well

@@ -163,14 +163,28 @@ public class RVLUtils {
 		
 		return stmtSet;
 	}
+	
+	public static Set<Statement> findRelationsOnClassLevel(
+			Model model,
+			URI spURI, 
+			org.ontoware.rdfreactor.schema.rdfs.Property inheritedBy
+			) {
+		return findRelationsOnClassLevel(model, spURI, inheritedBy, null, null);
+	}
+
 
 	public static Set<Statement> findRelationsOnClassLevel(
 			Model model,
 			URI spURI, 
-			org.ontoware.rdfreactor.schema.rdfs.Property inheritedBy) {
+			org.ontoware.rdfreactor.schema.rdfs.Property inheritedBy,
+			org.ontoware.rdf2go.model.node.Resource subject,
+			org.ontoware.rdf2go.model.node.Node object
+			) {
 		
 		QueryResultTable results = null;
 		Set<Statement> stmtSet = new HashSet<Statement>();
+		String subjectString = "?s";
+		String objectString = "?o";
 		
 		// temp only support some and all values from ...
 		if (!(inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
@@ -179,17 +193,22 @@ public class RVLUtils {
 			return stmtSet;
 		}
 
+
+
 		try{
 			
 			String query = "" + 
-					"SELECT DISTINCT ?s ?o " + 
-					"WHERE { " +
-					//subjectResource.toSPARQL() + " " + Class.SUBCLASSOF.toSPARQL() + " ?restrictionClass . " +
-					"?s  " + Class.SUBCLASSOF.toSPARQL() + " ?restrictionClass . " +
-					"?restrictionClass a " + Restriction.RDFS_CLASS.toSPARQL() + " . " +  
-					"?restrictionClass " + Restriction.ONPROPERTY.toSPARQL() + " " + spURI.toSPARQL() + " . " + 
-					"?restrictionClass " + inheritedBy.toSPARQL() +  " ?o . " + 
-					"} ";
+					" SELECT DISTINCT ?s ?o " + 
+					" WHERE { " +
+					" ?s " + Class.SUBCLASSOF.toSPARQL() + " ?restrictionClass . " +
+					" ?restrictionClass a " + Restriction.RDFS_CLASS.toSPARQL() + " . " +  
+					" ?restrictionClass " + Restriction.ONPROPERTY.toSPARQL() + " " + spURI.toSPARQL() + " . " + 
+					" ?restrictionClass " + inheritedBy.toSPARQL() +  " ?o  " +  
+					" FILTER isIRI(?s) " ; // TODO: this stops blank nodes as subjects ... ;
+					// constrain object and subject of the "statements" if set
+					if (null!=subject) {query += " FILTER (?s = " +  subject.toSPARQL() + ") "; }
+					if (null!=object) {query += " FILTER (?o = " + object.toSPARQL() + ") "; }
+					query += " } ";
 			LOGGER.finer("Query for getting relations on class level for " + spURI);
 			LOGGER.finest("Query: " + query);
 
@@ -202,7 +221,7 @@ public class RVLUtils {
 					LOGGER.finer("build Statement: " + stmt.toString());
 					stmtSet.add(stmt);
 				} catch (Exception e) {
-					LOGGER.warning("Problem building Statement for : " + row );
+					LOGGER.warning("Problem building Statement for : " + row + "(" + e.getMessage() + ")" );
 				}
 			}
 				
@@ -212,10 +231,21 @@ public class RVLUtils {
 		
 		return stmtSet;
 	}
-
+	
 	public static Set<Statement> findStatementsOnInstanceOrClassLevel(
 			Model model,
 			PropertyToGraphicAttributeMapping p2gam) {
+		
+		return findRelationsOnInstanceOrClassLevel(model, p2gam, null, null);
+		
+	}
+
+	
+	public static Set<Statement> findRelationsOnInstanceOrClassLevel(
+			Model model,
+			PropertyToGraphicAttributeMapping p2gam,
+			org.ontoware.rdf2go.model.node.Resource subject,
+			org.ontoware.rdf2go.model.node.Node object) {
 		
 			Set<Statement> statementSet = null;
 		
@@ -232,17 +262,26 @@ public class RVLUtils {
 							|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())	)) {
 						LOGGER.warning("inheritedBy is set to a value, currently not supported.");
 					} else {
-						statementSet =  findRelationsOnClassLevel(model, spURI, inheritedBy);
+						statementSet =  findRelationsOnClassLevel(model, spURI, inheritedBy, subject, object);
 					}
 					
 				}
 				catch (Exception e) {
 					LOGGER.warning("Problem evaluating inheritedBy setting - not a rdf:Property?");
 				}
-			} else {
-			    // get the (first) source value of the resource for the mapped property
-			    
-				ClosableIterator<Statement> it = model.findStatements(Variable.ANY, spURI, Variable.ANY); // TODO here subject is not constrained!! won't work
+			} 
+			
+			else {
+				
+				ClosableIterator<Statement> it = model.findStatements(
+						null==subject ? Variable.ANY : subject
+						,
+						spURI
+						,
+						null==object ? 	Variable.ANY : object
+						);
+				
+				statementSet = new HashSet<Statement>();
 				while (it.hasNext()) {
 					statementSet.add(it.next());
 				}
@@ -252,12 +291,6 @@ public class RVLUtils {
 			return statementSet;
 	}
 
-	public static Set<Statement> findObjectsOnInstanceOrClassLevel(Model model,
-			org.ontoware.rdf2go.model.node.Resource resource,
-			PropertyToGraphicAttributeMapping p2gam) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 

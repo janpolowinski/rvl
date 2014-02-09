@@ -177,6 +177,13 @@ static final String NL =  System.getProperty("line.separator");
 			return this.getAllDisabled_as().firstValue();
 		} else return false;
 	}
+
+	public Property getSourceProperty() throws InsufficientMappingSpecificationExecption {
+		if (hasSourceproperty())
+			return this.getAllSourceproperty_as().firstValue();
+		else 
+			throw new InsufficientMappingSpecificationExecption();
+	}
 	
 
 }

@@ -13,6 +13,7 @@ import org.ontoware.rdf2go.model.QueryRow;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
+import org.purl.rvl.java.exception.InsufficientMappingSpecificationExecption;
 import org.purl.rvl.java.gen.rvl.GraphicAttribute;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Valuemapping;
@@ -176,6 +177,13 @@ public class PropertyToGraphicAttributeMapping extends
 		if (this.hasDisabled()) {
 			return this.getAllDisabled_as().firstValue();
 		} else return false;
+	}
+
+	public GraphicAttribute getTargetAttribute() throws InsufficientMappingSpecificationExecption {
+		if (hasTargetattribute()) {
+			return this.getAllTargetattribute_as().firstValue();
+		} else 
+			throw new InsufficientMappingSpecificationExecption();
 	}
 
 }

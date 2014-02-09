@@ -21,6 +21,7 @@
 # explicit value mappings - 
 # PM with explicit value mappings as blank nodes
 rexm:PMWithExplicitValueMappingsAsBlankNodes
+      rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rdfs:label "PM with explicit VM as blank nodes"^^xsd:string ;
       rvl:sourceProperty rexd:workingField ;
@@ -39,6 +40,7 @@ rexm:PMWithExplicitValueMappingsAsBlankNodes
 # explicit value mappings - 
 # VARIANT: PM with explicit value mappings as blank nodes (to color named)
 rexm:PMWithExplicitValueMappingsAsBlankNodesToColorNamed
+      rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rdfs:label "VARIANT: PM with explicit VM as blank nodes (to color named)"^^xsd:string ;
       rvl:sourceProperty rexd:workingField ;
@@ -58,6 +60,7 @@ rexm:PMWithExplicitValueMappingsAsBlankNodesToColorNamed
 # PM with explicit value mappings as extra nodes (non-blank)
 rexm:PMWithExplicitValueMappings
       rdf:type rvl:PropertyMapping ;
+      rvl:disabled "true"^^xsd:boolean ;
       rdfs:label "PM with explicit VM as extra (non-blank) nodes"^^xsd:string ;
       rvl:sourceProperty rexd:workingField ;
       rvl:targetAttribute vg:shape_named ; 
@@ -81,6 +84,7 @@ rexm:VMBiography2Square a rvl:ValueMapping ;
 # CHANGE IN LISTINGS: rdf:predicate, not rvl:predicate ; vg:targetAttribute vs vg:targetGraphicAttribute
 rexm:PMwithNamedSubmappingToNamedMappingOnConnector
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
       rdfs:label "PM with a sub-mapping to an existing, named mapping"^^xsd:string ;
       rvl:sourceProperty rexd:cites ;
       rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
@@ -101,6 +105,7 @@ rexm:NamedSubMappingRelation
 # CHANGE IN LISTINGS: color_hsl_lightness (add color_)
 rexm:PMwithoutValueMappingOfRangesInverted
       rdf:type rvl:PropertyMapping ;
+      rvl:disabled "true"^^xsd:boolean ;
       rdfs:label "PM without value mappings, which should result in a mapping from the maximum range of all available source values to the default set of target values. The source values are inverted before mapping."^^xsd:string ;
       rvl:sourceProperty rexd:hasCost ;
       rvl:targetAttribute vg:color_hsl_lightness ;
@@ -110,6 +115,7 @@ rexm:PMwithoutValueMappingOfRangesInverted
 # PM from ID to color (used as a submapping)
 rexm:PMfromID2ColorNamed
       rdf:type rvl:PropertyMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
       rdfs:label "PM from ID to color (used as a submapping)"^^xsd:string ;
  	  rvl:sourceProperty rvl:ID ;
  	  rvl:targetAttribute vg:color_named ;

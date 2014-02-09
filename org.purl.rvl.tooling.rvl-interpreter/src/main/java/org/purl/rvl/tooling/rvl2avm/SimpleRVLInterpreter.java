@@ -403,8 +403,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			try {
 				Set<org.ontoware.rdf2go.model.node.Resource> subjectSet;
 				subjectSet = pm.getAffectedResources();
-				Property sp = pm.getAllSourceproperty_as().firstValue();
-				GraphicAttribute tga = p2gam.getAllTargetattribute_as().firstValue();
+				Property sp = pm.getSourceProperty();
+				GraphicAttribute tga = p2gam.getTargetAttribute();
 				
 				// for each affected resource
 				for (Iterator<org.ontoware.rdf2go.model.node.Resource> iterator2 = subjectSet.iterator(); iterator2.hasNext();) {
@@ -418,7 +418,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 
 				    // get a statement set here instead
 				    //Set<Statement> statementSet = RVLUtils.findStatementsOnInstanceOrClassLevel(model, p2gam); // TODO here subject is not constrained!! won't work
-				    Set<Statement> theStatementWithOurObject = RVLUtils.findObjectsOnInstanceOrClassLevel(model, resource, p2gam); // TODO here subject is not constrained!! won't work
+				    Set<Statement> theStatementWithOurObject = RVLUtils.findRelationsOnInstanceOrClassLevel(model, p2gam, resource, null); // TODO here subject is not constrained!! won't work
 				    
 				    for (Iterator<Statement> stmtSetIt = theStatementWithOurObject.iterator(); stmtSetIt
 							.hasNext();) {
@@ -453,9 +453,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			    	}
 				}
 			} catch (InsufficientMappingSpecificationExecption e) {
-				LOGGER.warning(e.getMessage());
-				LOGGER.warning("--> No resources will be affected by mapping " + pm );
-				//e.printStackTrace();	
+				LOGGER.warning("No resources will be affected by mapping " + pm.asURI() + " (" + e.getMessage() + ")" );
 			} 
 			
 		}
