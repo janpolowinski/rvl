@@ -145,12 +145,12 @@ public class PropertyToGraphicAttributeMapping extends
 			else {
 				s += "     (value mappings not yet calculated ...)" + NL;
 				
-				/*s += "     Value mappings:" + NL;
+				s += "     Value mappings:" + NL;
 				ClosableIterator<Valuemapping> vmIterator = this.getAllValuemapping_as().asClosableIterator();
 				while (vmIterator.hasNext()) {
 					ValueMapping vm = (ValueMapping) vmIterator.next().castTo(ValueMapping.class);
 					s += "" + vm + NL;
-				}*/
+				}
 			}
 		}
 		else {

@@ -3,12 +3,17 @@ package org.purl.rvl.interpreter.test;
 import static org.junit.Assert.*;
 
 import java.util.Random;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.ontoware.rdf2go.model.Model;
 import org.openrdf.rdf2go.StatementIterator;
 import org.purl.rvl.tooling.ModelBuilder;
+import org.purl.rvl.tooling.util.CustomRecordFormatter;
 import org.purl.rvl.tooling.util.RVLUtils;
 
 import com.hp.hpl.jena.ontology.OntClass;
@@ -22,6 +27,29 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.rdf.model.impl.ModelCom;
 
 public class MappingModelTest {
+	
+	
+	private final static Logger LOGGER_RVL_PACKAGE = Logger.getLogger("org.purl.rvl"); 
+	
+	static {
+	
+		//LOGGER.setLevel(Level.SEVERE); 
+		//LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.SEVERE); 
+		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.FINEST);
+
+		
+		// In order to show log entrys of the fine level, we need to create a new handler as well
+        ConsoleHandler handler = new ConsoleHandler();
+        // PUBLISH this level
+        handler.setLevel(Level.FINEST);
+        
+        CustomRecordFormatter formatter = new CustomRecordFormatter();
+        handler.setFormatter(formatter); // out-comment this line to use the normal formatting with method and date
+        
+        LOGGER_RVL_PACKAGE.setUseParentHandlers(false); // otherwise double output of log entries
+        LOGGER_RVL_PACKAGE.addHandler(handler);
+		
+	}
 	
 	Model model;
 
@@ -66,14 +94,15 @@ public class MappingModelTest {
 		RVLUtils.listAllMappings(model);
 	}
 	
-	@Test
+	//@Test
 	public void testPrintMappingWithURI(){
-		RVLUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithNamedSubmappingToNamedMappingOnConnector");
-		RVLUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithAnonymousSubmappingToNamedMappingOnConnector");
-		RVLUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithAnonSubmappingOnConnector");
+		//RVLUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithNamedSubmappingToNamedMappingOnConnector");
+		//RVLUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithAnonymousSubmappingToNamedMappingOnConnector");
+		//RVLUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithAnonSubmappingOnConnector");
+		RVLUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithValueMappingOfRanges");
 	}
 	
-	@Test
+	//@Test
 	public void testJena(){
 		System.out.println("Access via Jena:");
 		System.out.println();

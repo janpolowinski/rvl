@@ -147,7 +147,7 @@ d3.json("data.json", function(error, graph) {
 		.attr("class", "nodeLabel")
 	    .attr("dx", function(d){return 10})
 		.attr("dy", function(d){return 0})
-	    .text(function(d){return d.label})
+	    .text(function(d){return d.label + " (shape: " + d.shape_d3_name + ")"})
 		;
 		
 		

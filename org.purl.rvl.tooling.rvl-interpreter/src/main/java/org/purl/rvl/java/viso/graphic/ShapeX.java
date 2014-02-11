@@ -70,7 +70,9 @@ public class ShapeX extends Shape {
 	}
 	
 	public String toD3Name() {
-		return "circle";
+		if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Square")) return "rect";
+		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Rhomb")) return "rhomb";
+		else return "circle";
 	}
 
 	public static String getDefaultD3Name() {

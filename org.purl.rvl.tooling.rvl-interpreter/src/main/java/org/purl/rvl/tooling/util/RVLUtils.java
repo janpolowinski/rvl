@@ -2,6 +2,8 @@ package org.purl.rvl.tooling.util;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -47,7 +49,9 @@ public class RVLUtils {
 		Mapping mapping;
 		while (mappingIterator.hasNext()) {
 			mapping = (Mapping) mappingIterator.next().castTo(Mapping.class);
-			mappingToStringAsSpecificAsPossible(mapping);
+			if(!mapping.isDisabled())
+				mappingToStringAsSpecificAsPossible(mapping);
+			//System.out.println(mappingToStringAsSpecificAsPossible(mapping));
 		}
 	}
 
@@ -198,18 +202,19 @@ public class RVLUtils {
 		try{
 			
 			String query = "" + 
-					" SELECT DISTINCT ?s ?o " + 
+					" SELECT DISTINCT ?s ?p ?o " + 
 					" WHERE { " +
 					" ?s " + Class.SUBCLASSOF.toSPARQL() + " ?restrictionClass . " +
 					" ?restrictionClass a " + Restriction.RDFS_CLASS.toSPARQL() + " . " +  
-					" ?restrictionClass " + Restriction.ONPROPERTY.toSPARQL() + " " + spURI.toSPARQL() + " . " + 
+					" ?p " + Property.SUBPROPERTYOF.toSPARQL() + "* " + spURI.toSPARQL() + " . " +
+					" ?restrictionClass " + Restriction.ONPROPERTY.toSPARQL() + " ?p . " + 
 					" ?restrictionClass " + inheritedBy.toSPARQL() +  " ?o  " +  
 					" FILTER isIRI(?s) " ; // TODO: this stops blank nodes as subjects ... ;
 					// constrain object and subject of the "statements" if set
 					if (null!=subject) {query += " FILTER (?s = " +  subject.toSPARQL() + ") "; }
 					if (null!=object) {query += " FILTER (?o = " + object.toSPARQL() + ") "; }
 					query += " } ";
-			LOGGER.finer("Query for getting relations on class level for " + spURI);
+			LOGGER.finer("Query for getting relations on class level for (subproperties of*) " + spURI);
 			LOGGER.finest("Query: " + query);
 
 			results = model.sparqlSelect(query);
@@ -217,7 +222,7 @@ public class RVLUtils {
 			for (QueryRow row : results) {
 				LOGGER.finest("fetched SPARQL result row: " + row);
 				try {
-					Statement stmt = new StatementImpl(null, row.getValue("s").asURI(), spURI, row.getValue("o"));
+					Statement stmt = new StatementImpl(null, row.getValue("s").asURI(), row.getValue("p").asURI(), row.getValue("o"));
 					LOGGER.finer("build Statement: " + stmt.toString());
 					stmtSet.add(stmt);
 				} catch (Exception e) {
@@ -226,7 +231,9 @@ public class RVLUtils {
 			}
 				
 		} catch (UnsupportedOperationException e){
-			LOGGER.warning("Problem with query to get relations on class level (blank node?): " + e.getStackTrace());
+			LOGGER.warning("Problem with query to get relations on class level (blank node?): " + e.getMessage());
+		} catch (Exception e){
+			LOGGER.warning("Problem with query to get relations on class level: " + e.getMessage());
 		}
 		
 		return stmtSet;
@@ -291,6 +298,27 @@ public class RVLUtils {
 			return statementSet;
 	}
 
+	
+	public static List<Node> rdfs2JavaList(org.ontoware.rdfreactor.schema.rdfs.List rdfsList) {
+		
+		List<Node> javaList = new LinkedList<Node>();
+		
+		// TODO recursive ...
+		/*
+		// get the rvl:sourceValueOrderedSet as an rdfs-list (not a java list):
+		org.ontoware.rdfreactor.schema.rdfs.List sourceValueOrderedSetList =
+			this.getAllSourcevalueorderedset_as().firstValue();
+		
+		List<org.ontoware.rdfreactor.schema.rdfs.Resource> resourceListTest = sourceValueOrderedSetList.getAllMember_as().asList();
+		resourceListTest = sourceValueOrderedSetList.getAllFirst_as().asList();
+		
+		LOGGER.info("resource list" + resourceListTest);
+*/
+		
+		
+		return javaList;
+		
+	}
 
 
 

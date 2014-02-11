@@ -448,7 +448,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/shape_named")) {
 					    	Shape shape = ShapeX.getInstance(model, tv.asURI());
 					    	go.setShapenamed(shape);
-					    	//LOGGER.info("set shape to " + shape + " for sv " + sv + NL);
+					    	LOGGER.finest("set shape to " + shape + " for sv " + sv + NL);
 					    }
 			    	}
 				}
