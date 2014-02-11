@@ -2,6 +2,7 @@ package org.purl.rvl.java.rvl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -46,6 +47,7 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 	private final static Logger LOGGER = Logger.getLogger(ValueMapping.class.getName()); 
 
 	// ADDRESSED SOURCE AND TARGET VALUES
+	static final int NOT_CALCULATED = -1;
 	static final int UNKNOWN = 0;
 	static final int CONTINUOUS_RANGE = 1;
 	static final int ORDERED_SET = 2;
@@ -66,18 +68,19 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 	final Property HAS_QUANTITATIVE_SOM = new Property(model, new URIImpl(
 			"http://purl.org/viso/data/hasQuantitativeSoM"), false);
 
-	//private int addressedSourceValueSituation = 0;
-	//private int addressedTargetValueSituation = 0;
+	private int addressedSourceValueSituation = NOT_CALCULATED;
+	private int addressedTargetValueSituation = NOT_CALCULATED;
 
 	// distinction into set, list necessary? or just store always a collection?
 	private Node sourceValuesSingleValue;
 	private Set<Node> sourceValuesUnorderedSet; 
 	private List<Node> sourceValuesOrderedSet;
-	private Interval sourceValuesContinuousInterval;
-	// how to store a range? using interval? also as a list?
+	private IntervalX sourceValuesContinuousInterval;
 
-
-	//private Set<Node> targetValuesUnorderedSet; // disctinction necessary? or just store collection?
+	private Node targetValuesSingleValue;
+	private Set<Node> targetValuesUnorderedSet; 
+	private List<Node> targetValuesList;
+	private IntervalX targetValuesContinuousInterval;
 
 
 	// cache calculated mappings
@@ -130,33 +133,118 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 	 */
 	private void calculateValueMappings() {
 
-		determineAdressedSourceValues();
-		determineAdressedTargetValues();
+		getAddressedSourceValueSituation();
+		getAddressedTargetValueSituation();
 
 		cvms = new HashSet<CalculatedValueMapping>();
 		
 		LOGGER.info("Calculating value mappings ... (to be implemented)");
 
-		/*
-		// discretisation?
-		if (this.getAllDiscretize_as().firstValue() != null
-				&& this.getAllDiscretize_as().firstValue() == true)
-			System.out
-					.println("the target value range should be discretised here ...");
-					*/
+
 	}
 	
 	
 	
 	
 	
-	
+	/**
+	 * determines the target values to be used in in this value mapping (as a
+	 * basis for calculating the VM)
+	 */
 	private int determineAdressedTargetValues() {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		LOGGER.info("Determining Target Value (Situation) for " + this.getPropertyMapping().asURI());
+
+		int addressedValueSituation = ValueMapping.UNKNOWN;
+
+		// are values defined via rvl:targetValue?
+		List<Node> singleTargetValueList = this.getAllTargetvalue_asNode_().asList();
+		long numberOfSingleTargetValues = singleTargetValueList.size();
+		
+		if (numberOfSingleTargetValues >= 1) {
+
+			// is exactly 1 rvl:targetValue defined?
+			if (numberOfSingleTargetValues == 1) {
+				addressedValueSituation = ValueMapping.SINGLE_VALUE;
+				targetValuesSingleValue = singleTargetValueList.get(0);
+
+			}
+			// if multiple rvl:targetValue are defined ...
+			else {
+				addressedValueSituation = ValueMapping.UNORDERED_SET;
+				// store all values set via targetValue as our new unordered set
+				// TODO: problem at the moment strings (literals) and resources
+				// are allowed, therefore node is used here.
+				targetValuesUnorderedSet = new HashSet<Node>(singleTargetValueList);
+				// do we need to merge them with an additionally defined set?
+				
+				// merge with rvl:targetValueSet if this was also defined ...
+				if (this.hasTargetvalueset()) {
+					targetValuesUnorderedSet.addAll(getTargetValueSet());
+				}
+				
+				// TODO exclude target values
+			}
+		}
+		
+		// if no values are defined via rvl:targetValue
+		else {
+			if (this.hasTargetvalueset() && !this.hasTargetvalueorderedset()) { // also ordered sets are sets!
+				
+				addressedValueSituation = ValueMapping.UNORDERED_SET;
+				targetValuesUnorderedSet = getTargetValueSet();
+				
+				// TODO: exclude target values
+				
+			} 
+			
+			// if no values are defined via rvl:targetValueSet
+			else {
+
+				//if (this.hasTargetvalueorderedset()) {
+				if (this.hasTargetvalues_abstract_()) {
+					
+					// TODO handle cycles etc. here and above : if ((this.hasTargetvaluelist()) || (this.hasTargetvalueorderedset()) || (this.hasTargetvaluecycle())) 
+					
+					addressedValueSituation = ValueMapping.ORDERED_SET;
+					
+					// TODO: exclude target values
+					
+					targetValuesList = getTargetValueList();
+				}
+			
+				// if no values are defined via rvl:targetValueOrderedSet
+				else {
+					
+					if (this.hasTargetvalueinterval()) {
+						
+						if (determineScaleOfMeasurementOfTargetValues() == SOM_ORDINAL) {
+							
+							addressedValueSituation = ValueMapping.ORDERED_SET;
+							
+							targetValuesList = calculateOrderedSetFromRange();
+							
+							// TODO: exclude target values
+							
+						} else {
+							
+							addressedValueSituation = ValueMapping.CONTINUOUS_RANGE;
+							
+							targetValuesContinuousInterval = new IntervalX(getTargetValueInterval());
+							
+						}
+						
+					}
+				}
+			}
+		}
+
+		return addressedValueSituation;
 	}
 
 	
+
+
 	private int determineAdressedSourceValues() {
 		
 		LOGGER.info("Determining Source Value (Situation) for " + this.getPropertyMapping().asURI());
@@ -244,7 +332,7 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 								
 								addressedValueSituation = ValueMapping.CONTINUOUS_RANGE;
 								
-								sourceValuesContinuousInterval = getSourceValueInterval();
+								sourceValuesContinuousInterval = new IntervalX(getSourceValueInterval());
 								
 							}
 							
@@ -379,18 +467,32 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 		HashSet<Node> set = null;
 		
 		if (this.hasSourcevalueset()) {
-			
-			// get the rvl:sourceValueSet as an rdfs-list (not a java list):
-			org.ontoware.rdfreactor.schema.rdfs.List sourceValueSetList =
-				this.getAllSourcevalueset_as().firstValue();
-			
-			List<Node> sourceValueSetJavaList = 
-				sourceValueSetList.getAllMember_asNode_().asList();
+
+			List<Node> sourceValueSetJavaList = RVLUtils.rdfs2JavaList(this.getAllSourcevalueset_as().firstValue());
 			
 			set = new HashSet<Node>(sourceValueSetJavaList);
 		}
 		return set;
 	}
+	
+private Set<Node> getTargetValueSet() {
+	
+	HashSet<Node> set = null;
+	List<Node> list = null;
+	
+	if (this.hasTargetvalueset()) {
+			
+			list = RVLUtils.rdfs2JavaList(
+					(org.ontoware.rdfreactor.schema.rdfs.List)
+					this.getAllTargetvalueset_as().firstValue().castTo(
+							org.ontoware.rdfreactor.schema.rdfs.List.class
+							)
+					);
+		
+		set = new HashSet<Node>(list);
+	}
+	return set;
+}
 	
 private List<Node> getSourceValueOrderedSet() {
 		
@@ -401,116 +503,46 @@ private List<Node> getSourceValueOrderedSet() {
 			orderedSet = RVLUtils.rdfs2JavaList(this.getAllSourcevalueorderedset_as().firstValue());
 			
 		}
-		return orderedSet;
+		return orderedSet; 
 	}
 
-/**
- * determines the target values to be used in in this value mapping (as a
- * basis for calculating the VM)
- */ /*
-private int determineAdressedTargetValues() {
-
-	int addressedTargetValueSituation = 0; // ValueMapping.UNKNOWN;
-
-	// is a target value defined?
-	long numberOfTargetValues = this.getAllTargetvalue_asNode_().asList()
-			.size();
-	if (numberOfTargetValues >= 1) {
-
-		// is exactly 1 target value defined?
-		if (numberOfTargetValues == 1) {
-			addressedTargetValueSituation = ValueMapping.SINGLE_VALUE;
-		}
-		// if multiple target values are defined ...
-		else {
-			addressedTargetValueSituation = ValueMapping.UNORDERED_SET;
-			// store all values set via targetValue as our new unordered set
-			List<Node> ls = this.getAllTargetvalue_asNode_().asList(); // why
-																		// Node?
-																		// ->
-																		// values
-																		// may
-																		// be
-																		// resources
-																		// or
-																		// literals
-			targetValuesUnorderedSet = new HashSet<Node>(ls);
-
-			// do we need to merge them with an additionally defined set?
-			// Set<Node> s=Sets.union(targetValuesUnorderedSet,
-			// targetValueSet );
-			List<Node> cvn = this.getAllExcludesourcevalue_asNode_()
-					.asList();
-			cvn.clear();
-			VisualValueList vvl = this.getAllTargetvalueset_as()
-					.firstValue();
-			if (null != vvl) {
-				// TODO merge all values set via "targetValue" with the
-				// "visual value list" and store it as our new unordered set
-				List<Node> vvlJavaList = vvl.getAllMember_asNode_()
-						.asList();
-				targetValuesUnorderedSet.addAll(vvlJavaList);
-			}
-		}
+private List<Node> getTargetValueList() {
+	
+	List<Node> list = null;
+	
+	// TODO handle cylcles etc. as well: 	
+	
+	//if (this.hasTargetvalueorderedset()) {
+	if (this.hasTargetvalues_abstract_()) {
+		
+		list = RVLUtils.rdfs2JavaList(
+				(org.ontoware.rdfreactor.schema.rdfs.List)
+				//this.getAllTargetvalueorderedset_as().firstValue().castTo(
+				this.getAllTargetvalues_abstract__as().firstValue().castTo(
+						org.ontoware.rdfreactor.schema.rdfs.List.class
+						)
+				);
 	}
-	// when "target value" is not defined
-	else {
-		// if a "target value set" is defined
-		if (this.hasTargetvalueset()) {
-			// TODO refactor redundant code
-			VisualValueList vvl = this.getAllTargetvalueset_as()
-					.firstValue();
-			if (null != vvl) {
-				List<Node> vvlJavaList = vvl.getAllMember_asNode_()
-						.asList();
-				targetValuesUnorderedSet = new HashSet<Node>(vvlJavaList);
-				vvlJavaList.clear();
-			}
-			addressedTargetValueSituation = ValueMapping.UNORDERED_SET;
-
-		} else {
-			if ((this.hasTargetvaluelist())
-					|| (this.hasTargetvalueorderedset())
-					|| (this.hasTargetvaluecycle())) {
-				VisualValueList vvl = this
-						.getAllTargetvalues_abstract__as().firstValue();
-				List<Node> vvlJavaList = vvl.getAllMember_asNode_()
-						.asList();
-				targetValuesUnorderedSet = new HashSet<Node>(vvlJavaList);
-				if (this.hasInvertorderoftargetvalues()) {
-					// vvlJavaList = // Use ListUtils or iterate to invert
-					// list
-				}
-				// else { Restricted list}
-				addressedTargetValueSituation = ValueMapping.ORDERED_SET;
-			} else {
-				if (this.hasTargetvalueinterval()) {
-					addressedTargetValueSituation = ValueMapping.CONTINUOUS_RANGE;
-					determineScaleOfMeasurementOfSourceValues();
-					if (determineScaleOfMeasurementOfSourceValues() == SOM_ORDINAL) {
-						List<Node> cvn = this
-								.getAllExcludesourcevalue_asNode_()
-								.asList();
-						cvn.clear();
-					}
-				} else {
-					if (this.hasInvertorderoftargetvalues() == true) {
-						VisualValueList vvl = this
-								.getAllTargetvalueset_as().firstValue();
-						List<Node> vvlJavaList = vvl.getAllMember_asNode_()
-								.asList();
-						// vvlJavaList=this.getAllinvert;
-					} else {
-						int list = CONTINUOUS_RANGE;
-					}
-				}
-			}
-		}
-
+	
+	if (invertOrderOfTargetValues()) {
+		Collections.reverse(list);
 	}
+	
+	return list; 
+}
 
-	return addressedTargetValueSituation;
-}*/
+
+private boolean invertOrderOfTargetValues() {
+
+	boolean invert = false;
+	
+	if (this.hasInvertorderoftargetvalues()) {
+		
+		invert = getAllInvertorderoftargetvalues_as().firstValue();
+		
+	}
+	return invert;
+}
 
 private List<Node> calculateOrderedSetFromRange() {
 	LOGGER.warning("ordered set cannot yet be derived from an  ordinal range.");
@@ -529,6 +561,18 @@ private Interval getSourceValueInterval() {
 	return interval;
 }
 
+private Interval getTargetValueInterval() {
+	
+	Interval interval = null;
+	
+	if (this.hasTargetvalueinterval()) {
+		
+		interval = getAllTargetvalueinterval_as().firstValue();
+		
+	}
+	return interval;
+}
+
 private String printAddressedSourceValues(int addressedSourceValueSituation) {
 	
 	String s = "";
@@ -538,26 +582,70 @@ private String printAddressedSourceValues(int addressedSourceValueSituation) {
 		switch (addressedSourceValueSituation) {
 		
 			case SINGLE_VALUE:
-				s += "*****Single source value: *******";
+				s += "Single source value: " ;
 				s += sourceValuesSingleValue.toString();
+				break;
 
 			case UNORDERED_SET:
-				s += "******Source value unordered set:********* \n";
+				s += "Source value unordered set: ";
 				s += sourceValuesUnorderedSet.toString();
+				break;
 
 			case ORDERED_SET:
-				s += "********Source value ordered set:**********\n";
+				s += "Source value ordered set: ";
 				s += sourceValuesOrderedSet.toString();
+				break;
 
 			case CONTINUOUS_RANGE:
-				s += "*****Continuous range of source values: *******";
+				s += "Continuous range of source values: ";
 				s += sourceValuesContinuousInterval.toString();
+				break;
 		}
 	
 	} catch (NullPointerException e) {
 		
 		String warning = "Could not describe the addressed source values for the " +
 				"situation " + getNameForValueSituation(addressedSourceValueSituation);
+		LOGGER.warning(warning);
+		s += warning;
+	}
+
+	return s;
+}
+
+
+private String printAddressedTargetValues(int addressedTargetValueSituation) {
+String s = "";
+	
+	try {
+
+		switch (addressedTargetValueSituation) {
+		
+			case SINGLE_VALUE:
+				s += "Single target value: " ;
+				s += targetValuesSingleValue.toString();
+				break;
+
+			case UNORDERED_SET:
+				s += "Target value unordered set: ";
+				s += targetValuesUnorderedSet.toString();
+				break;
+
+			case ORDERED_SET:
+				s += "Target value list: ";
+				s += targetValuesList.toString();
+				break;
+
+			case CONTINUOUS_RANGE:
+				s += "Continuous range of target values: ";
+				s += targetValuesContinuousInterval.toString();
+				break;
+		}
+	
+	} catch (NullPointerException e) {
+		
+		String warning = "Could not describe the addressed target values for the " +
+				"situation " + getNameForValueSituation(addressedTargetValueSituation);
 		LOGGER.warning(warning);
 		s += warning;
 	}
@@ -572,22 +660,54 @@ public String toString() {
 	
 	// s += getCalculatedValueMappings() + NL;
 	
-	s += "        used in PM: "
-			+ getPropertyMapping().getAllLabel_as().firstValue() + NL;
+	//s += "        used in PM: "
+	//		+ getPropertyMapping().getAllLabel_as().firstValue() + NL;
 	s += "        SoM of SP: "
 			+ getSomName(determineScaleOfMeasurementOfSourceValues()) + NL;
 	s += "        SoM of TV: "
 			+ getSomName(determineScaleOfMeasurementOfTargetValues()) + NL;
 	s += "        addressed SV situation: "
-			+ getNameForValueSituation(determineAdressedSourceValues())
+			+ getNameForValueSituation(getAddressedSourceValueSituation())
+			+ " (" + printAddressedSourceValues(getAddressedSourceValueSituation()) + ")" 
 			+ NL;
 	s += "        addressed TV situation: "
-			+ getNameForValueSituation(determineAdressedTargetValues())
+			+ getNameForValueSituation(getAddressedTargetValueSituation())
+			+ " (" + printAddressedTargetValues(getAddressedTargetValueSituation()) + ")" 
 			+ NL;
 	
-	s += "        " + printAddressedSourceValues(determineAdressedSourceValues()) + NL;
 	
 	return s + NL;
+}
+
+
+
+/**
+ * @return the addressedSourceValueSituation
+ */
+public int getAddressedSourceValueSituation() {
+	
+	if (this.addressedSourceValueSituation == NOT_CALCULATED) {
+		addressedSourceValueSituation = determineAdressedSourceValues();
+	}
+	return addressedSourceValueSituation;
+}
+
+/**
+ * @return the addressedTargetValueSituation
+ */
+public int getAddressedTargetValueSituation() {
+	if (this.addressedTargetValueSituation == NOT_CALCULATED) {
+		addressedTargetValueSituation = determineAdressedTargetValues();
+	}
+	return addressedTargetValueSituation;
+}
+
+public boolean isDiscretize(){
+	
+	if (hasDiscretize()) {
+		return this.getAllDiscretize_as().firstValue();
+	} else return false;
+
 }
 
 }

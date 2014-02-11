@@ -1,5 +1,6 @@
 package org.purl.rvl.tooling.util;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.apache.commons.collections.ListUtils;
 import org.ontoware.aifbcommons.collection.ClosableIterable;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
@@ -49,9 +51,10 @@ public class RVLUtils {
 		Mapping mapping;
 		while (mappingIterator.hasNext()) {
 			mapping = (Mapping) mappingIterator.next().castTo(Mapping.class);
-			if(!mapping.isDisabled())
-				mappingToStringAsSpecificAsPossible(mapping);
-			//System.out.println(mappingToStringAsSpecificAsPossible(mapping));
+			if(!mapping.isDisabled()) {
+				//mappingToStringAsSpecificAsPossible(mapping);
+				System.out.println(mappingToStringAsSpecificAsPossible(mapping));
+			}
 		}
 	}
 
@@ -301,21 +304,29 @@ public class RVLUtils {
 	
 	public static List<Node> rdfs2JavaList(org.ontoware.rdfreactor.schema.rdfs.List rdfsList) {
 		
-		List<Node> javaList = new LinkedList<Node>();
+		List<Node> javaList = rdfs2InvertedJavaList(rdfsList);
+		Collections.reverse(javaList);
 		
-		// TODO recursive ...
-		/*
-		// get the rvl:sourceValueOrderedSet as an rdfs-list (not a java list):
-		org.ontoware.rdfreactor.schema.rdfs.List sourceValueOrderedSetList =
-			this.getAllSourcevalueorderedset_as().firstValue();
+		return javaList ;
 		
-		List<org.ontoware.rdfreactor.schema.rdfs.Resource> resourceListTest = sourceValueOrderedSetList.getAllMember_as().asList();
-		resourceListTest = sourceValueOrderedSetList.getAllFirst_as().asList();
+	}
+	
+	private static List<Node> rdfs2InvertedJavaList(org.ontoware.rdfreactor.schema.rdfs.List rdfsList) {
 		
-		LOGGER.info("resource list" + resourceListTest);
-*/
+		List<Node> javaList = null;
 		
+		Node headRdfsList = rdfsList.getAllFirst_as().firstValue();
+		org.ontoware.rdfreactor.schema.rdfs.List restRdfsList = rdfsList.getAllRest_as().firstValue();
 		
+		if (headRdfsList == null) {
+			javaList = new LinkedList<Node>();
+		}
+		else {
+			javaList = rdfs2InvertedJavaList(restRdfsList);
+			javaList.add(headRdfsList);
+		}
+		
+		LOGGER.finest("Java list of nodes: " + javaList);
 		return javaList;
 		
 	}
