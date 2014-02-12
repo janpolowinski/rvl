@@ -283,13 +283,13 @@
       rdf:type rdf:Property , owl:DatatypeProperty ;
       rdfs:label "belongs to category"^^xsd:string ;
       rdfs:range :Field ;
-      rdfs:subPropertyOf :domainProperty , viso-data:hasNominalSoM .
+      rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value .
 
 :cites
       rdf:type rdf:Property , owl:DatatypeProperty ;
       rdfs:label "Cites to book"^^xsd:string ;
       rdfs:range :Field ;
-      rdfs:subPropertyOf :domainProperty , viso-data:hasNominalSoM .
+      rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value .
 
 :citesCritical
       rdfs:subPropertyOf :cites .
@@ -305,25 +305,25 @@
       rdfs:comment "estimated realisation costs in EUR"^^xsd:string ;
       rdfs:label "Cost"^^xsd:string ;
       rdfs:range xsd:float ;
-      rdfs:subPropertyOf :domainProperty , viso-data:hasQuantitativeSoM .
+      rdfs:subPropertyOf :domainProperty , viso-data:has_quantitative_value .
 
 :hasResponseTimeInMs
       rdf:type rdf:Property , owl:DatatypeProperty ;
       rdfs:label "has response time in ms"^^xsd:string ;
-      rdfs:subPropertyOf :domainProperty , viso-data:hasQuantitativeSoM .
+      rdfs:subPropertyOf :domainProperty , viso-data:has_quantitative_value .
 
 :isInConflictWith
       rdf:type rdf:Property , owl:ObjectProperty , owl:SymmetricProperty ;
       rdfs:label "is in conflict with"^^xsd:string ;
-      rdfs:subPropertyOf :domainProperty , viso-data:hasNominalSoM ;
+      rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value ;
       owl:inverseOf :isInConflictWith .
 
 :isRefinementOf
       rdf:type owl:ObjectProperty ;
-      rdfs:subPropertyOf :domainProperty , viso-data:hasNominalSoM .
+      rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value .
 
 :workingField
       rdf:type rdf:Property , owl:DatatypeProperty ;
       rdfs:label "Field for Author"^^xsd:string ;
       rdfs:range :Field ;
-      rdfs:subPropertyOf :domainProperty , viso-data:hasNominalSoM .
+      rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value .

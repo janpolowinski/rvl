@@ -1,4 +1,4 @@
-# Saved by TopBraid on Thu Nov 14 21:28:39 CET 2013
+# Saved by TopBraid on Wed Feb 12 19:22:46 CET 2014
 # baseURI: http://purl.org/viso/graphic/
 # imports: http://purl.org/viso/data/
 
@@ -30,6 +30,9 @@ viso-data:Dimension
                 owl:onProperty viso-graphic:has ;
                 owl:someValuesFrom viso-data:Scale_of_Measurement
               ] .
+
+viso-data:has_numeral_value
+      rdfs:range xsd:float .
 
 viso-graphic:
       rdf:type owl:Ontology ;
@@ -145,9 +148,9 @@ viso-graphic:Blue
       rdf:type viso-graphic:Color ;
       rdfs:label "Blue"^^xsd:string ;
       viso-graphic:color_hsl_lightness
-          "50"^^xsd:float ;
+              "50"^^xsd:float ;
       viso-graphic:color_rgb
-         "#0000FF"^^xsd:string .
+              "#0000FF"^^xsd:string .
 
 viso-graphic:Brightness
       rdf:type owl:Class ;
@@ -206,7 +209,7 @@ viso-graphic:Composite_Graphic_Object
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
                 owl:onProperty viso-graphic:consists_of ;
-                owl:someValuesFrom viso-graphic:Graphic_Space
+                owl:someValuesFrom viso-graphic:Syntactic_Structure
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
@@ -216,7 +219,7 @@ viso-graphic:Composite_Graphic_Object
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
                 owl:onProperty viso-graphic:consists_of ;
-                owl:someValuesFrom viso-graphic:Syntactic_Structure
+                owl:someValuesFrom viso-graphic:Graphic_Space
               ] ;
       owl:equivalentClass
               [ rdf:type owl:Class ;
@@ -245,13 +248,13 @@ viso-graphic:Composite_Structure
       rdfs:subClassOf viso-graphic:Syntactic_Structure ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:onProperty viso-graphic:uses ;
-                owl:someValuesFrom viso-graphic:Syntactic_Structure
+                owl:minCardinality "2"^^xsd:nonNegativeInteger ;
+                owl:onProperty viso-graphic:uses
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:minCardinality "2"^^xsd:nonNegativeInteger ;
-                owl:onProperty viso-graphic:uses
+                owl:onProperty viso-graphic:uses ;
+                owl:someValuesFrom viso-graphic:Syntactic_Structure
               ] .
 
 viso-graphic:Composite_Symbol
@@ -1163,9 +1166,14 @@ viso-graphic:Separation_by_Separator_Relation
                 owl:someValuesFrom <http://purl.org/viso/system/Spatial_Dimension>
               ] ;
       rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:onProperty viso-graphic:uses ;
-                owl:someValuesFrom viso-graphic:Spatial_Attribute
+              [ rdf:type owl:Class ;
+                owl:intersectionOf ([ rdf:type owl:Restriction ;
+                            owl:onProperty viso-graphic:separationBySeparator_separator ;
+                            owl:someValuesFrom viso-graphic:Graphic_Object
+                          ] [ rdf:type owl:Restriction ;
+                            owl:allValuesFrom viso-graphic:Graphic_Object ;
+                            owl:onProperty viso-graphic:separationBySeparator_separator
+                          ])
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Class ;
@@ -1193,14 +1201,9 @@ viso-graphic:Separation_by_Separator_Relation
                           ])
               ] ;
       rdfs:subClassOf
-              [ rdf:type owl:Class ;
-                owl:intersectionOf ([ rdf:type owl:Restriction ;
-                            owl:onProperty viso-graphic:separationBySeparator_separator ;
-                            owl:someValuesFrom viso-graphic:Graphic_Object
-                          ] [ rdf:type owl:Restriction ;
-                            owl:allValuesFrom viso-graphic:Graphic_Object ;
-                            owl:onProperty viso-graphic:separationBySeparator_separator
-                          ])
+              [ rdf:type owl:Restriction ;
+                owl:onProperty viso-graphic:uses ;
+                owl:someValuesFrom viso-graphic:Spatial_Attribute
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
@@ -1296,6 +1299,16 @@ viso-graphic:Spatial_Clustering_Relation
       rdfs:label "Spatial Clustering Relation" ;
       rdfs:subClassOf viso-graphic:Object-to-Object_Relation ;
       rdfs:subClassOf
+              [ rdf:type owl:Class ;
+                owl:intersectionOf ([ rdf:type owl:Restriction ;
+                            owl:onProperty viso-graphic:spatialClustering_value ;
+                            owl:someValuesFrom xsd:float
+                          ] [ rdf:type owl:Restriction ;
+                            owl:allValuesFrom xsd:float ;
+                            owl:onProperty viso-graphic:spatialClustering_value
+                          ])
+              ] ;
+      rdfs:subClassOf
               [ rdf:type owl:Restriction ;
                 owl:onProperty viso-graphic:uses ;
                 owl:someValuesFrom viso-graphic:Empty_Space
@@ -1315,16 +1328,6 @@ viso-graphic:Spatial_Clustering_Relation
                 owl:onProperty viso-graphic:uses ;
                 owl:someValuesFrom viso-graphic:Empty_Space
               ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Class ;
-                owl:intersectionOf ([ rdf:type owl:Restriction ;
-                            owl:onProperty viso-graphic:spatialClustering_value ;
-                            owl:someValuesFrom xsd:float
-                          ] [ rdf:type owl:Restriction ;
-                            owl:allValuesFrom xsd:float ;
-                            owl:onProperty viso-graphic:spatialClustering_value
-                          ])
-              ] ;
       dct:description <http://www-st.inf.tu-dresden.de/semvis/ontologies/viso/img/vr_spatial_clustering.png> ;
       swstatus:term_status
               "Not implemented yet."^^xsd:string , "stable"^^xsd:string ;
@@ -1337,12 +1340,12 @@ viso-graphic:Spatial_Clustering_of_Label_and_Node_Relation
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
                 owl:onProperty viso-graphic:uses ;
-                owl:someValuesFrom viso-graphic:Node_Class
+                owl:someValuesFrom viso-graphic:Label
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
                 owl:onProperty viso-graphic:uses ;
-                owl:someValuesFrom viso-graphic:Label
+                owl:someValuesFrom viso-graphic:Node_Class
               ] .
 
 viso-graphic:Spatial_Reference_Object
@@ -1411,16 +1414,6 @@ viso-graphic:Superimposition_Relation
       rdfs:label "Superimposition"^^xsd:string ;
       rdfs:subClassOf viso-graphic:Object-to-Object_Relation ;
       rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:onProperty viso-graphic:uses ;
-                owl:someValuesFrom viso-graphic:Visual_Layer
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:allValuesFrom xsd:float ;
-                owl:onProperty viso-graphic:superimposition_byPercent
-              ] ;
-      rdfs:subClassOf
               [ rdf:type owl:Class ;
                 owl:intersectionOf ([ rdf:type owl:Restriction ;
                             owl:onProperty viso-graphic:superimposition_superimposee ;
@@ -1429,6 +1422,16 @@ viso-graphic:Superimposition_Relation
                             owl:allValuesFrom viso-graphic:Graphic_Object ;
                             owl:onProperty viso-graphic:superimposition_superimposee
                           ])
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:allValuesFrom xsd:float ;
+                owl:onProperty viso-graphic:superimposition_byPercent
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:onProperty viso-graphic:uses ;
+                owl:someValuesFrom viso-graphic:Visual_Layer
               ] ;
       dct:description <http://www-st.inf.tu-dresden.de/semvis/ontologies/viso/img/vr_superimposition.png> ;
       swstatus:term_status
@@ -1655,7 +1658,7 @@ viso-graphic:area
       rdfs:domain viso-graphic:Graphic_Object ;
       rdfs:label "area"^^xsd:string ;
       rdfs:range xsd:float ;
-      rdfs:subPropertyOf viso-graphic:has_spatial_graphic_attribute .
+      rdfs:subPropertyOf viso-data:has_quantitative_value , viso-graphic:has_spatial_graphic_attribute .
 
 viso-graphic:associative
       rdf:type owl:DatatypeProperty ;
@@ -1676,7 +1679,7 @@ viso-graphic:color_brightness_named
       rdfs:domain viso-graphic:Graphic_Object ;
       rdfs:label "Color brightness named"^^xsd:string ;
       rdfs:range viso-graphic:Brightness ;
-      rdfs:subPropertyOf viso-graphic:has_non-spatial_graphic_attribute .
+      rdfs:subPropertyOf viso-data:has_ordinal_value , viso-graphic:has_non-spatial_graphic_attribute .
 
 viso-graphic:color_hsl_hue
       rdf:type viso-graphic:GraphicAttributeContinuous , owl:DatatypeProperty ;
@@ -1692,7 +1695,7 @@ viso-graphic:color_hsl_lightness
                 owl:unionOf (viso-graphic:Brightness viso-graphic:Color viso-graphic:Graphic_Object)
               ] ;
       rdfs:range xsd:float ;
-      rdfs:subPropertyOf viso-graphic:has_non-spatial_graphic_attribute ;
+      rdfs:subPropertyOf viso-data:has_quantitative_value , viso-graphic:has_non-spatial_graphic_attribute ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -1703,7 +1706,7 @@ viso-graphic:color_hsl_saturation
                 owl:unionOf (viso-graphic:Saturation viso-graphic:Color viso-graphic:Graphic_Object)
               ] ;
       rdfs:range xsd:float ;
-      rdfs:subPropertyOf viso-graphic:has_non-spatial_graphic_attribute ;
+      rdfs:subPropertyOf viso-data:has_quantitative_value , viso-graphic:has_non-spatial_graphic_attribute ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -1712,7 +1715,7 @@ viso-graphic:color_named
       rdfs:domain viso-graphic:Graphic_Object ;
       rdfs:label "Color named"^^xsd:string ;
       rdfs:range viso-graphic:Color ;
-      rdfs:subPropertyOf viso-graphic:has_non-spatial_graphic_attribute .
+      rdfs:subPropertyOf viso-data:has_nominal_value , viso-graphic:has_non-spatial_graphic_attribute .
 
 viso-graphic:color_path
       rdf:type viso-graphic:GraphicAttributeDiscrete ;
@@ -1755,7 +1758,7 @@ viso-graphic:color_saturation_named
       rdfs:domain viso-graphic:Graphic_Object ;
       rdfs:label "Color saturation named"^^xsd:string ;
       rdfs:range viso-graphic:Saturation ;
-      rdfs:subPropertyOf viso-graphic:has_non-spatial_graphic_attribute .
+      rdfs:subPropertyOf viso-data:has_ordinal_value , viso-graphic:has_non-spatial_graphic_attribute .
 
 viso-graphic:consists_of
       rdf:type owl:ObjectProperty ;
@@ -1917,7 +1920,7 @@ viso-graphic:height
       rdfs:domain viso-graphic:Graphic_Object ;
       rdfs:label "height"^^xsd:string ;
       rdfs:range xsd:float ;
-      rdfs:subPropertyOf viso-graphic:has_spatial_graphic_attribute .
+      rdfs:subPropertyOf viso-data:has_quantitative_value , viso-graphic:has_spatial_graphic_attribute .
 
 viso-graphic:is_ordered
       rdf:type owl:DatatypeProperty , owl:FunctionalProperty ;
@@ -1990,7 +1993,7 @@ viso-graphic:length
       rdfs:domain viso-graphic:Graphic_Object ;
       rdfs:label "length"^^xsd:string ;
       rdfs:range xsd:float ;
-      rdfs:subPropertyOf viso-graphic:has_spatial_graphic_attribute ;
+      rdfs:subPropertyOf viso-data:has_quantitative_value , viso-graphic:has_spatial_graphic_attribute ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -2114,14 +2117,14 @@ viso-graphic:shape_named
       rdfs:domain viso-graphic:Graphic_Object ;
       rdfs:label "Shape named"^^xsd:string ;
       rdfs:range viso-graphic:Shape ;
-      rdfs:subPropertyOf viso-graphic:has_spatial_graphic_attribute .
+      rdfs:subPropertyOf viso-data:has_nominal_value , viso-graphic:has_spatial_graphic_attribute .
 
 viso-graphic:size_named
       rdf:type viso-graphic:GraphicAttributeDiscrete ;
       rdfs:domain viso-graphic:Graphic_Object ;
       rdfs:label "Size named"^^xsd:string ;
       rdfs:range viso-graphic:Size ;
-      rdfs:subPropertyOf viso-graphic:has_spatial_graphic_attribute .
+      rdfs:subPropertyOf viso-data:has_ordinal_value , viso-graphic:has_spatial_graphic_attribute .
 
 viso-graphic:spannend_by
       rdf:type owl:ObjectProperty .
@@ -2206,14 +2209,14 @@ viso-graphic:text_value
       rdfs:domain viso-graphic:Graphic_Object ;
       rdfs:label "Text value"^^xsd:string ;
       rdfs:range xsd:string ;
-      rdfs:subPropertyOf viso-graphic:has_spatial_graphic_attribute ;
+      rdfs:subPropertyOf viso-data:has_nominal_value , viso-graphic:has_spatial_graphic_attribute ;
       skos:editorialNote "subproperty relation to shape named could make sense, but was deleted for now (when a text value is given, the shape of the graphic object will be (roughly) the shape of the text value)"^^xsd:string .
 
 viso-graphic:texture_shape_named
       rdf:type viso-graphic:GraphicAttributeDiscrete ;
       rdfs:domain viso-graphic:Graphic_Object ;
       rdfs:label "Texture shape named"^^xsd:string ;
-      rdfs:subPropertyOf viso-graphic:has_non-spatial_graphic_attribute .
+      rdfs:subPropertyOf viso-data:has_nominal_value , viso-graphic:has_non-spatial_graphic_attribute .
 
 viso-graphic:updates
       rdf:type owl:ObjectProperty ;
@@ -2232,14 +2235,14 @@ viso-graphic:volume
       rdfs:domain viso-graphic:Graphic_Object ;
       rdfs:label "volume"^^xsd:string ;
       rdfs:range xsd:float ;
-      rdfs:subPropertyOf viso-graphic:has_spatial_graphic_attribute .
+      rdfs:subPropertyOf viso-data:has_quantitative_value , viso-graphic:has_spatial_graphic_attribute .
 
 viso-graphic:width
       rdf:type viso-graphic:GraphicAttributeContinuous , owl:DatatypeProperty ;
       rdfs:domain viso-graphic:Graphic_Object ;
       rdfs:label "width"^^xsd:string ;
       rdfs:range xsd:float ;
-      rdfs:subPropertyOf viso-graphic:has_spatial_graphic_attribute ;
+      rdfs:subPropertyOf viso-data:has_quantitative_value , viso-graphic:has_spatial_graphic_attribute ;
       swstatus:term_status
               "stable"^^xsd:string .
 

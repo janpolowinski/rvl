@@ -61,12 +61,12 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 	static final int SOM_QUANTITATIVE = 3;
 	
 	// TODO: reuse these properties!!
-	final Property HAS_NOMINAL_SOM = new Property(model, new URIImpl(
-			"http://purl.org/viso/data/hasNominalSoM"), false);
-	final Property HAS_ORDINAL_SOM = new Property(model, new URIImpl(
-			"http://purl.org/viso/data/hasOrdinalSoM"), false);
-	final Property HAS_QUANTITATIVE_SOM = new Property(model, new URIImpl(
-			"http://purl.org/viso/data/hasQuantitativeSoM"), false);
+	final Property HAS_NOMINAL_VALUE = new Property(model, new URIImpl(
+			"http://purl.org/viso/data/has_nominal_value"), false);
+	final Property HAS_ORDINAL_VALUE = new Property(model, new URIImpl(
+			"http://purl.org/viso/data/has_ordinal_value"), false);
+	final Property HAS_QUANTITATIVE_VALUE = new Property(model, new URIImpl(
+			"http://purl.org/viso/data/has_quantitative_value"), false);
 
 	private int addressedSourceValueSituation = NOT_CALCULATED;
 	private int addressedTargetValueSituation = NOT_CALCULATED;
@@ -369,9 +369,34 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 		return false;
 	}
 
+	/**
+	 * Determine the Scale of Measurement (SoM) of the target values handled by
+	 * this {@link ValueMapping}. At the moment only the globally set SoM is
+	 * considered, which is stated for the target graphic relation.
+	 * 
+	 * @return the scale of measurement ID as integer
+	 */
 	private int determineScaleOfMeasurementOfTargetValues() {
+		
+		// is there a global SoM setting for the source property?
+		// such as: ex:size rdfs:subPropertyOf viso-data:hasQuantitativeSoM
+		Property targetGraphicRelation;
+		
+		try {
+			
+			targetGraphicRelation = ((org.purl.rvl.java.rvl.PropertyMapping)getPropertyMapping().castTo(org.purl.rvl.java.rvl.PropertyMapping.class)).getTargetGraphicRelation();
+			
+			return getExplicitlyStatedScaleOfMeasurement(targetGraphicRelation);
+		
+		} catch (InsufficientMappingSpecificationExecption e) {
+			// TODO Auto-generated catch block
+			LOGGER.warning(e.getMessage() + " --> Could not determine scale of measurement for target graphic relation.");
+		}
+
+		// TODO: Add other ways of calculating SoM.
 
 		return SOM_UNKNOWN;
+
 	}
 
 	/**
@@ -379,7 +404,7 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 	 * this {@link ValueMapping}. At the moment only the globally set SoM is
 	 * considered, which is stated for the source property.
 	 * 
-	 * @return
+	 * @return the scale of measurement ID as integer
 	 */
 	private int determineScaleOfMeasurementOfSourceValues() {
 		
@@ -391,17 +416,7 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 			
 			sp = ((org.purl.rvl.java.rvl.PropertyMapping)getPropertyMapping().castTo(org.purl.rvl.java.rvl.PropertyMapping.class)).getSourceProperty();
 			
-			ClosableIterator<Property> spSubPropIterator = sp.getAllSubPropertyOf();
-	
-			while (spSubPropIterator.hasNext()) {
-				Property spSubProp = (Property) spSubPropIterator.next();
-				if (spSubProp.equals(HAS_NOMINAL_SOM))
-					return SOM_NOMINAL;
-				else if (spSubProp.equals(HAS_ORDINAL_SOM))
-					return SOM_ORDINAL;
-				else if (spSubProp.equals(HAS_QUANTITATIVE_SOM))
-					return SOM_QUANTITATIVE;
-			}
+			return getExplicitlyStatedScaleOfMeasurement(sp);
 		
 		} catch (InsufficientMappingSpecificationExecption e) {
 			// TODO Auto-generated catch block
@@ -412,6 +427,28 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 
 		return SOM_UNKNOWN;
 
+	}
+
+	/**
+	 * Get the Scale of Measurement which is (eventually) stated explicitly for the property
+	 * @param property
+	 * @return
+	 */
+	private int getExplicitlyStatedScaleOfMeasurement(Property property) {
+		
+		ClosableIterator<Property> subPropIt = property.getAllSubPropertyOf();
+
+		while (subPropIt.hasNext()) {
+			Property spSubProp = (Property) subPropIt.next();
+			if (spSubProp.equals(HAS_NOMINAL_VALUE))
+				return SOM_NOMINAL;
+			else if (spSubProp.equals(HAS_ORDINAL_VALUE))
+				return SOM_ORDINAL;
+			else if (spSubProp.equals(HAS_QUANTITATIVE_VALUE))
+				return SOM_QUANTITATIVE;
+		}
+		
+		return SOM_UNKNOWN;
 	}
 
 	private PropertyMapping getPropertyMapping() {

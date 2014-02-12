@@ -184,6 +184,13 @@ static final String NL =  System.getProperty("line.separator");
 		else 
 			throw new InsufficientMappingSpecificationExecption();
 	}
+
+	public Property getTargetGraphicRelation() throws InsufficientMappingSpecificationExecption {
+		if (hasTargetgraphicrelation_abstract_())
+			return (Property)this.getAllTargetgraphicrelation_abstract__as().firstValue().castTo(Property.class);
+		else 
+			throw new InsufficientMappingSpecificationExecption();
+	}
 	
 
 }
