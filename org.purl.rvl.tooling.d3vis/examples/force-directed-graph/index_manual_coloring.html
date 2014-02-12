@@ -36,7 +36,8 @@ text.nodeLabelShadow {
 
 </style>
 <body>
-<script src="http://d3js.org/d3.v3.min.js"></script>
+<!--script src="http://d3js.org/d3.v3.min.js"></script-->
+<script src="d3.js"></script>
 <script>
 
 var width = 800,
@@ -147,7 +148,8 @@ d3.json("data.json", function(error, graph) {
 		.attr("class", "nodeLabel")
 	    .attr("dx", function(d){return 10})
 		.attr("dy", function(d){return 0})
-	    .text(function(d){return d.label + " (shape: " + d.shape_d3_name + ")"})
+	    .text(function(d){return d.label })
+		//.text(function(d){return d.label + " (shape: " + d.shape_d3_name + ")"})
 		;
 		
 		
