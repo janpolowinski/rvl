@@ -58,7 +58,14 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	 */
 	@Override
 	protected void interpretMappingsInternal() {
-		interpretSimpleP2GArvlMappings();
+		
+		if (null==model) {
+			LOGGER.severe("Cannot interprete mappings, since model is null.");
+			return;
+		}
+		
+		//interpretSimpleP2GArvlMappings();
+		interpretNormalP2GArvlMappings();
 		interpretP2GO2ORMappings();
 		interpretResourceLabelAsGOLabelForAllCreatedResources();
 	}
@@ -369,17 +376,109 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		//connector.setColorhslsaturation(new Float(100));
 		//connector.setColorhsllightness(new Float(50));
 	}
+	
+	
+	
+	
+	/**
+	 * Interprets the simple P2GA mappings, i.e. those without need for calculating value mappings. 
+	 * Creates GO for all affected resources if they don't exist already.
+	 */
+	protected void interpretNormalP2GArvlMappings() {
+
+		Set<PropertyToGraphicAttributeMapping> setOfP2GAMappings = getAllP2GAMappingsWithNoExplicitMappings();
+		
+		// for each normal P2GA mapping
+		for (Iterator<PropertyToGraphicAttributeMapping> iterator = setOfP2GAMappings
+				.iterator(); iterator.hasNext();) {
+			
+			PropertyToGraphicAttributeMapping p2gam = (PropertyToGraphicAttributeMapping) iterator.next();
+			
+			if (p2gam.isDisabled()) {
+				LOGGER.info("Ignored disabled normal P2GAM mapping " + p2gam.asURI() );
+				continue;
+			}
+
+			LOGGER.info("Interpret P2GAM mapping " + p2gam.asURI() );
+			
+			// get the mapping table SV->TV
+			Map<Node, Node> svUriTVuriMap = p2gam.getCalculatedValues();	
+			
+			PropertyMapping pm = (PropertyMapping) p2gam.castTo(PropertyMapping.class);
+			try {
+				Set<org.ontoware.rdf2go.model.node.Resource> subjectSet;
+				subjectSet = pm.getAffectedResources();
+				Property sp = pm.getSourceProperty();
+				GraphicAttribute tga = p2gam.getTargetAttribute();
+				
+				// for each affected resource
+				for (Iterator<org.ontoware.rdf2go.model.node.Resource> iterator2 = subjectSet.iterator(); iterator2.hasNext();) {
+					org.ontoware.rdf2go.model.node.Resource resource = iterator2.next().asResource(); // strange: unlike in the toString() method of PM, we cannot simply cast to resource here, only to URI!
+					//LOGGER.info("affects: " + resource +  NL);
+					
+					// create a GO for each affected resource
+				    GraphicObject go = createOrGetGraphicObject(resource);
+			    	Node sv = null;
+				    
+
+				    // get a statement set here instead
+				    //Set<Statement> statementSet = RVLUtils.findStatementsOnInstanceOrClassLevel(model, p2gam); // TODO here subject is not constrained!! won't work
+				    Set<Statement> theStatementWithOurObject = RVLUtils.findRelationsOnInstanceOrClassLevel(model, p2gam, resource, null); // TODO here subject is not constrained!! won't work
+				    
+				    for (Iterator<Statement> stmtSetIt = theStatementWithOurObject.iterator(); stmtSetIt
+							.hasNext();) {
+						Statement statement = (Statement) stmtSetIt.next();
+						sv = statement.getObject(); // useless! will set sv many times
+					}
+				    
+				    /*
+					while (resSpStmtIt.hasNext()) {
+						Statement statement = (Statement) resSpStmtIt.next();
+						sv = statement.getObject();
+						//LOGGER.info(sv);
+					}*/
+								
+					// get the target value for the sv
+			    	Node tv = svUriTVuriMap.get(sv);
+			    	
+			    	if(tv!=null) {
+				    	// if we are mapping to named colors
+					    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/color_named")) {
+					    	Color color = Color.getInstance(model, tv.asURI());
+					    	go.setColornamed(color);
+					    	//LOGGER.info("set color to " + color + " for sv " + sv);
+					    }
+					    
+				    	// if we are mapping to lightness
+					    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/color_hsl_lightness")) {
+					    	go.setColorhsllightness(tv);
+					    	LOGGER.finest("set color hsl lightness to " + tv.toString() + " for sv " + sv);
+					    }
+					    
+				    	// if we are mapping to named shapes
+					    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/shape_named")) {
+					    	Shape shape = ShapeX.getInstance(model, tv.asURI());
+					    	go.setShapenamed(shape);
+					    	//LOGGER.finest("set shape to " + shape + " for sv " + sv + NL);
+					    }
+			    	}
+				}
+			} catch (InsufficientMappingSpecificationExecption e) {
+				LOGGER.warning("No resources will be affected by mapping " + pm.asURI() + " (" + e.getMessage() + ")" );
+			} 
+			
+		}
+	}
+	
+	
+	
+	
 
 	/**
 	 * Interprets the simple P2GA mappings, i.e. those without need for calculating value mappings. 
 	 * Creates GO for all affected resources if they don't exist already.
 	 */
 	protected void interpretSimpleP2GArvlMappings() {
-		
-		if (null==model) {
-			LOGGER.severe("Cannot interprete mappings, since model is null.");
-			return;
-		}
 		
 		Set<PropertyToGraphicAttributeMapping> setOfSimpleP2GAMappings = getAllP2GAMappingsWithExplicitMappings();
 		

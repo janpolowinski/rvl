@@ -15,7 +15,7 @@ public class UseCaseRVLExampleData extends TestOGVICProcess {
 		process.setUriStart("http://purl.org/rvl/example-data");
 		process.setJsonFileNameRel("../org.purl.rvl.tooling.d3vis/examples/force-directed-graph/data.json");
 
-		process.registerMappingFile(ExampleMapping.RVL_EXAMPLE_MINI);
+		process.registerMappingFile(ExampleMapping.RVL_EXAMPLE);
 		process.registerDataFile(ExampleData.RVL_EXAMPLE);
 		
 		process.setRvlInterpreter(new SimpleRVLInterpreter());

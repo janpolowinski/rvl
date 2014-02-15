@@ -323,10 +323,6 @@ viso-graphic:Dark
       viso-graphic:color_hsl_lightness
               "0"^^xsd:float .
 
-viso-graphic:DarkRed
-      rdf:type viso-graphic:Color ;
-      rdfs:label "Dark red"^^xsd:string .
-
 viso-graphic:Decoration_Object
       rdf:type owl:Class ;
       rdfs:label "Decoration Object" ;
@@ -670,7 +666,10 @@ viso-graphic:Length
       rdfs:subClassOf viso-graphic:Spatial_Attribute .
 
 viso-graphic:LightYellow
-      rdf:type viso-graphic:Color .
+      rdf:type viso-graphic:Color ;
+      rdfs:label "Light yellow"^^xsd:string ;
+      viso-graphic:color_rgb
+              "#FFFF99"^^xsd:string .
 
 viso-graphic:Line_Locator
       rdf:type owl:Class ;
@@ -1097,6 +1096,14 @@ viso-graphic:Red
               "50"^^xsd:float ;
       viso-graphic:color_rgb
               "#FF0000"^^xsd:string .
+              
+viso-graphic:Orange
+      rdf:type viso-graphic:Color ;
+      rdfs:label "Orange"^^xsd:string ;
+      viso-graphic:color_hsl_lightness
+              "50"^^xsd:float ;
+      viso-graphic:color_rgb
+              "#FF9900"^^xsd:string .
 
 viso-graphic:Reference_Object
       rdf:type owl:Class ;
@@ -1648,6 +1655,19 @@ viso-graphic:Yellow
       rdf:type viso-graphic:Color ;
       viso-graphic:color_rgb
               "#FFFF00"^^xsd:string .
+              
+viso-graphic:DarkRed
+      rdf:type viso-graphic:Color ;
+      rdfs:label "Dark red"^^xsd:string ;
+      viso-graphic:color_rgb
+              "#FF2222"^^xsd:string .
+              
+ viso-graphic:Purple
+      rdf:type viso-graphic:Color ;
+      rdfs:label "Dark red"^^xsd:string ;
+      viso-graphic:color_rgb
+              "#FF00FF"^^xsd:string .
+              
 
 viso-graphic:adjacent_to_somehow
       rdf:type viso-graphic:GraphicObjectToObjectRelation ;

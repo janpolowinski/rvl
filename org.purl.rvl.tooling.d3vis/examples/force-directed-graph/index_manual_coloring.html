@@ -4,6 +4,10 @@
 
 /* siehe auch http://jsfiddle.net/Y9Qq3/2/ http://jsfiddle.net/Y9Qq3/2/ */
 
+body {
+	background-color: #eee;
+}
+
 .node {
   stroke: #fff;
   stroke-width: 1.5px;
@@ -129,8 +133,9 @@ d3.json("data.json", function(error, graph) {
 	      //.enter().
 		  elemEnter.append("svg:circle")
 	      //.attr("class", "node")
-	      .attr("r", cRadius)
-	      .style("fill", function(d) { return d.color_rgb_hex; })
+	      .attr("r", function(d) { return d.width; })
+	      //.style("fill", function(d) { return d.color_rgb_hex; })
+		  .style("fill", function(d) { return "hsl(360,0%," + d.color_hsl_lightness + "%)"; })
 		  ;
 		  
 		  	

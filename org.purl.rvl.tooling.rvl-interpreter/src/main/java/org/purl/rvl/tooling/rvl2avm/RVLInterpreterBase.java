@@ -133,6 +133,40 @@ public abstract class RVLInterpreterBase {
 		return mappingSet;
 	}
 	
+	
+	/**
+	 * Get all the mappings that require calculation, because they have not only explicit 1-1-value-mappings
+	 */
+	protected Set<PropertyToGraphicAttributeMapping> getAllP2GAMappingsWithNoExplicitMappings(){
+		
+		Set<PropertyToGraphicAttributeMapping> mappingSet = new HashSet<PropertyToGraphicAttributeMapping>();
+
+		String queryString = "" +
+				"SELECT DISTINCT ?p2gam " +
+				"WHERE { " +
+				"    ?p2gam a <" + PropertyToGraphicAttributeMapping.RDFS_CLASS + "> . " +
+				"    ?p2gam <" + PropertyToGraphicAttributeMapping.VALUEMAPPING + "> ?vm . " +
+//				"	{ " +
+//				"	SELECT ?vm  (COUNT(?sv) AS ?svCount) " +
+//				"       WHERE " +
+//				"       { " +
+//				"	 		  ?vm <" + PropertyToGraphicAttributeMapping.SOURCEVALUE + "> ?sv  " +
+//				"       } " +
+//				"        GROUP BY ?vm " +
+//				"	} " +
+//				"    FILTER (!(?svCount = 1 )) " +
+				"} " ;
+		
+		
+		QueryResultTable results = model.sparqlSelect(queryString);
+		for(QueryRow row : results) {
+			Property_to_Graphic_AttributeMapping p2gam = Property_to_Graphic_AttributeMapping.getInstance(model, (URI)row.getValue("p2gam"));
+			mappingSet.add((PropertyToGraphicAttributeMapping)p2gam.castTo(PropertyToGraphicAttributeMapping.class));
+		}
+		
+		return mappingSet;
+	}
+	
 	protected Set<PropertyToGO2ORMapping> getAllMappingsToLinking() {
 		
 		Set<PropertyToGO2ORMapping> mappingSet = new HashSet<PropertyToGO2ORMapping>();

@@ -9,6 +9,7 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
+import org.purl.rvl.java.exception.IncompleteColorValuesException;
 import org.purl.rvl.java.gen.rvl.Thing1;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.tooling.process.OGVICProcess;
@@ -51,7 +52,7 @@ public class GraphicObject extends
 
 	public GraphicObject(Model model, boolean write) {
 		super(model, write);
-		this.setColornamed(Color.getDefaultColor(model));
+		this.setColornamed(Color.getDefaultColor(OGVICProcess.getInstance().getModelVISO()));
 	}
 
 	
@@ -154,6 +155,38 @@ public class GraphicObject extends
 			return colorInVISO;
 		}
 		else return null;
+	}
+
+	public float getColorHSLLightness() {
+		
+		if(this.hasColorhsllightness()) {
+			return this.getAllColorhsllightness_as().firstValue();
+		}
+		else {
+			LOGGER.finest("Couldn't get HSL lightness value. Default will be used.");
+			return 50;
+		}
+	}
+
+	public String getColorRGBHexCombinedWithHSLValues() {
+		
+		Color colorToBeChanged;
+		
+		if (hasColornamed()) {
+			colorToBeChanged = getColorNamed();
+		} else {
+			colorToBeChanged = Color.getDefaultColor(OGVICProcess.getInstance().getModelVISO());
+			
+		}
+		colorToBeChanged.setHSLLightness(getColorHSLLightness());
+		try {
+			return colorToBeChanged.toHexString();
+		} catch (IncompleteColorValuesException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return getColorHex();
 	}
 
 

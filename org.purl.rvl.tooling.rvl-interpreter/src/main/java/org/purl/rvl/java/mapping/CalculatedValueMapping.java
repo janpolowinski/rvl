@@ -1,15 +1,17 @@
 package org.purl.rvl.java.mapping;
 
+import org.ontoware.rdf2go.model.node.Node;
+
 /**
  * @author Jan Polowinski
  *
  */
 public class CalculatedValueMapping {
 	
-	private String sourceValue;
-	private String targetValue;
+	private Node sourceValue;
+	private Node targetValue;
 	
-	public CalculatedValueMapping(String sourceValue, String targetValue) {
+	public CalculatedValueMapping(Node sourceValue, Node targetValue) {
 		super();
 		this.sourceValue = sourceValue;
 		this.targetValue = targetValue;
@@ -18,25 +20,25 @@ public class CalculatedValueMapping {
 	/**
 	 * @return the sourceValue
 	 */
-	public String getSourceValue() {
+	public Node getSourceValue() {
 		return sourceValue;
 	}
 	/**
 	 * @param sourceValue the sourceValue to set
 	 */
-	public void setSourceValue(String sourceValue) {
+	public void setSourceValue(Node sourceValue) {
 		this.sourceValue = sourceValue;
 	}
 	/**
 	 * @return the targetValue
 	 */
-	public String getTargetValue() {
+	public Node getTargetValue() {
 		return targetValue;
 	}
 	/**
 	 * @param targetValue the targetValue to set
 	 */
-	public void setTargetValue(String targetValue) {
+	public void setTargetValue(Node targetValue) {
 		this.targetValue = targetValue;
 	}
 	

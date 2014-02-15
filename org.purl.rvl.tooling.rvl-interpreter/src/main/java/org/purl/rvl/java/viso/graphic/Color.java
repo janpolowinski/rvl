@@ -1,5 +1,7 @@
 package org.purl.rvl.java.viso.graphic;
 
+import java.awt.MultipleGradientPaint.ColorSpaceType;
+import java.awt.color.ColorSpace;
 import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
@@ -7,7 +9,9 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
+import org.openrdf.model.impl.URIImpl;
 import org.purl.rvl.java.exception.IncompleteColorValuesException;
+import org.purl.rvl.tooling.process.OGVICProcess;
 
 public class Color extends org.purl.rvl.java.gen.viso.graphic.Color {
 
@@ -165,9 +169,34 @@ public class Color extends org.purl.rvl.java.gen.viso.graphic.Color {
 
 	public static Color getDefaultColor(Model model) {
 		if (null==defaultColor) {
-			defaultColor =  new org.purl.rvl.java.viso.graphic.Color(model, "http://purl.org/viso/graphic/Grey", true);
+			//defaultColor =  new org.purl.rvl.java.viso.graphic.Color(model, "http://purl.org/viso/graphic/Red", true);
+			defaultColor = (org.purl.rvl.java.viso.graphic.Color)Color.getInstance(model, new org.ontoware.rdf2go.model.node.impl.URIImpl("http://purl.org/viso/graphic/Red")).castTo(org.purl.rvl.java.viso.graphic.Color.class);
 		}
 		return defaultColor;
 	}
 
+	public void setHSLLightness(float lightnessInPercent) {
+		
+		try {
+			
+			java.awt.Color awtColor = getColor_as_JavaAWT();
+			
+			float[] hsbFloats = java.awt.Color.RGBtoHSB(awtColor.getRed(), awtColor.getGreen(), awtColor.getBlue(), null);
+			
+			hsbFloats[2] = lightnessInPercent/100;
+			
+			LOGGER.finest(hsbFloats.toString());
+			
+			int colorAsInteger = java.awt.Color.HSBtoRGB(hsbFloats[0],hsbFloats[1],hsbFloats[2]);
+			
+			LOGGER.info(Integer.toHexString(colorAsInteger));
+			 
+			setColorRGB("#"+Integer.toHexString(colorAsInteger));
+			
+		} catch (IncompleteColorValuesException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 }

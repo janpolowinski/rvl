@@ -62,4 +62,12 @@ public String toString(){
 	
 }
 
+public Node getLowerBound() {
+	return getLowerBoundIncl();
+}
+
+public Node getUpperBound() {
+	return getUpperBoundIncl();
+}
+
 }

@@ -1,5 +1,6 @@
 package org.purl.rvl.java.rvl;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -17,6 +18,7 @@ import org.purl.rvl.java.exception.InsufficientMappingSpecificationExecption;
 import org.purl.rvl.java.gen.rvl.GraphicAttribute;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Valuemapping;
+import org.purl.rvl.java.mapping.CalculatedValueMapping;
 
 
 public class PropertyToGraphicAttributeMapping extends
@@ -26,6 +28,7 @@ public class PropertyToGraphicAttributeMapping extends
 	static final String NL =  System.getProperty("line.separator");
 	
 	Map<Node, Node> explicitlyMappedValues;
+	Map<Node, Node> calculatedMappedValues;
 
 	public PropertyToGraphicAttributeMapping(Model model, boolean write) {
 		super(model, write);
@@ -113,6 +116,32 @@ public class PropertyToGraphicAttributeMapping extends
 		}
 		
 		*/
+	}
+
+	public Map<Node, Node> getCalculatedValues() {
+		
+		if (null == explicitlyMappedValues) {
+			
+			// TODO: evtl. check already here if VM exist at all with hasValueMapping() for blank nodes the toSPARQL() issued an exception
+
+			explicitlyMappedValues = new HashMap<Node, Node>();
+			
+			// TODO: we ignore other value mapping than the first at the moment! sometimes multiple are allowed!
+			
+			Collection<CalculatedValueMapping> cvms = getFirstValueMapping().getCalculatedValueMappings();
+			
+			for (Iterator<CalculatedValueMapping> iterator = cvms.iterator(); iterator.hasNext();) {
+				CalculatedValueMapping calculatedValueMapping = (CalculatedValueMapping) iterator.next();
+				explicitlyMappedValues.put(calculatedValueMapping.getSourceValue(),calculatedValueMapping.getTargetValue());
+			}
+
+		}
+
+		return explicitlyMappedValues;
+	}
+
+	private ValueMapping getFirstValueMapping() {
+		return (ValueMapping)this.getAllValuemapping_as().firstValue().castTo(ValueMapping.class);
 	}
 
 	public String toString(){
