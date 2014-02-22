@@ -110,8 +110,9 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			node.put("color_rgb_hex", startNodeColorRGBHex);
 			node.put("color_hsl_lightness", startNode.getColorHSLLightness());
 			node.put("color_rgb_hex_combined", startNode.getColorRGBHexCombinedWithHSLValues());
-			node.put("width", startNode.getColorHSLLightness()+5);
-			node.put("heigth", startNode.getColorHSLLightness()+5);
+			node.put("width", 15);
+			//node.put("width", startNode.getColorHSLLightness()+5);
+			//node.put("heigth", startNode.getColorHSLLightness()+5);
 			node.put("shape_d3_name", startNodeShapeD3Name);
 			
 			listOfNodes.add(node);

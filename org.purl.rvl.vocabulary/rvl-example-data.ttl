@@ -26,6 +26,11 @@
       rdf:type :Author ;
       rdfs:label "Bob"^^xsd:string ;
       :workingField :Biography .
+      
+:Jan
+      rdf:type :Person ;
+      rdfs:label "Jan"^^xsd:string ;
+      :workingField :InfoVis .
 
 :Amazing_Grace
       rdf:type :Book ;
@@ -45,6 +50,11 @@
 :Author
       rdf:type owl:Class ;
       rdfs:label "Author"^^xsd:string ;
+      rdfs:subClassOf :Person .
+      
+:Person
+      rdf:type owl:Class ;
+      rdfs:label "Person"^^xsd:string ;
       rdfs:subClassOf :DomainResource .
 
 :Behold_a_Pale_Horse

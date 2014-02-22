@@ -135,7 +135,8 @@ d3.json("data.json", function(error, graph) {
 	      //.attr("class", "node")
 	      .attr("r", function(d) { return d.width; })
 	      //.style("fill", function(d) { return d.color_rgb_hex; })
-		  .style("fill", function(d) { return "hsl(360,0%," + d.color_hsl_lightness + "%)"; })
+		  //.style("fill", function(d) { return "hsl(120,100%,50%)"; })
+		  .style("fill", function(d) { return d.color_rgb_hex_combined; })
 		  ;
 		  
 		  	
@@ -154,6 +155,7 @@ d3.json("data.json", function(error, graph) {
 	    .attr("dx", function(d){return 10})
 		.attr("dy", function(d){return 0})
 	    .text(function(d){return d.label })
+	    //.text(function(d){return d.label + " lightness: " +  d.color_hsl_lightness + " rgb combined: " + d.color_rgb_hex_combined + " rgb pure: " + d.color_rgb_hex  })
 		//.text(function(d){return d.label + " (shape: " + d.shape_d3_name + ")"})
 		;
 		

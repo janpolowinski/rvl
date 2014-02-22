@@ -14,7 +14,9 @@ import org.purl.rvl.java.gen.rvl.Thing1;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.AVMUtils;
+import org.purl.rvl.tooling.util.ColorUtils;
 
+import javax.swing.SwingUtilities;
 import javax.xml.bind.annotation.*;
 
 @XmlAccessorType(XmlAccessType.NONE)
@@ -159,34 +161,93 @@ public class GraphicObject extends
 
 	public float getColorHSLLightness() {
 		
+		float defaultLightnessValue = 50;
+		
 		if(this.hasColorhsllightness()) {
-			return this.getAllColorhsllightness_as().firstValue();
+			Float lightness = this.getAllColorhsllightness_as().firstValue();
+			LOGGER.finest(" Found HSL lightness value of " + lightness);
+			return lightness;
 		}
 		else {
-			LOGGER.finest("Couldn't get HSL lightness value. Default will be used.");
-			return 50;
+			LOGGER.finest("Couldn't get HSL lightness value. Default ("+ defaultLightnessValue +") will be used.");
+			return defaultLightnessValue;
 		}
 	}
 
 	public String getColorRGBHexCombinedWithHSLValues() {
 		
-		Color colorToBeChanged;
+		Color baseColor;
+		String colorHexString = "";
+		java.awt.Color awtColor = null;
+		float lightnessInPercent;
 		
+		LOGGER.finest("");
+		LOGGER.finest("start getting combined color ");
+		
+		
+		// get the base color from a named color (if there is one) or the default color otherwise
 		if (hasColornamed()) {
-			colorToBeChanged = getColorNamed();
+			baseColor = getColorNamed();
 		} else {
-			colorToBeChanged = Color.getDefaultColor(OGVICProcess.getInstance().getModelVISO());
-			
+			baseColor = Color.getDefaultColor(OGVICProcess.getInstance().getModelVISO());
 		}
-		colorToBeChanged.setHSLLightness(getColorHSLLightness());
+		// TODO check for RGB-hex and R,G,B values directly added to the GO
+	
 		try {
-			return colorToBeChanged.toHexString();
+			
+			awtColor = baseColor.getColor_as_JavaAWT();
+			
 		} catch (IncompleteColorValuesException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.finest("Problem getting awt color for color " + baseColor.asURI() + ": " + e.getMessage());
 		}
 		
-		return getColorHex();
+		if (null!=awtColor && hasColorhsllightness()){
+			
+			lightnessInPercent = getColorHSLLightness();
+			
+			LOGGER.finest("Applying a lightness value of " + lightnessInPercent);
+			
+			float[] hslFloats = new float[3];
+					
+			ColorUtils.rgbToHsl(awtColor.getRGB(), hslFloats) ;
+			
+			hslFloats[2] = lightnessInPercent/100;
+			
+			LOGGER.finest("HSL values: H:" + hslFloats[0] + " S:" + hslFloats[1] + " L:" + hslFloats[2] + "");
+			
+			int colorAsInteger = ColorUtils.hslToRgb(hslFloats);
+			
+			colorHexString = Integer.toHexString(colorAsInteger & 0xffffff);
+			
+			LOGGER.info("combined color hex after int to hex: " + colorHexString);
+			
+			if (colorHexString.length() < 6) {
+				colorHexString = "000000".substring(0, 6 - colorHexString.length()) + colorHexString;
+			  }
+			colorHexString = "#" + colorHexString;
+			
+			LOGGER.info("combined color hex final: " + colorHexString);
+			
+			
+		} else {
+			
+			try {
+				
+				colorHexString =  baseColor.toHexString();
+				LOGGER.finest("named color hex: " + colorHexString);
+				
+			} catch (IncompleteColorValuesException e) {
+				
+				LOGGER.finest("Problem getting hex value for color " + baseColor.asURI() + ": " + e.getMessage());
+			}
+		}
+
+
+		
+		LOGGER.finest("end getting combined color ");
+		LOGGER.finest("");
+		
+		return colorHexString;
 	}
 
 

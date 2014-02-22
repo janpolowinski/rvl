@@ -64,7 +64,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			return;
 		}
 		
-		//interpretSimpleP2GArvlMappings();
+		interpretSimpleP2GArvlMappings();
 		interpretNormalP2GArvlMappings();
 		interpretP2GO2ORMappings();
 		interpretResourceLabelAsGOLabelForAllCreatedResources();
@@ -401,8 +401,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 
 			LOGGER.info("Interpret P2GAM mapping " + p2gam.asURI() );
 			
-			// get the mapping table SV->TV
-			Map<Node, Node> svUriTVuriMap = p2gam.getCalculatedValues();	
+
 			
 			PropertyMapping pm = (PropertyMapping) p2gam.castTo(PropertyMapping.class);
 			try {
@@ -416,52 +415,68 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					org.ontoware.rdf2go.model.node.Resource resource = iterator2.next().asResource(); // strange: unlike in the toString() method of PM, we cannot simply cast to resource here, only to URI!
 					//LOGGER.info("affects: " + resource +  NL);
 					
-					// create a GO for each affected resource
-				    GraphicObject go = createOrGetGraphicObject(resource);
-			    	Node sv = null;
+
 				    
 
 				    // get a statement set here instead
 				    //Set<Statement> statementSet = RVLUtils.findStatementsOnInstanceOrClassLevel(model, p2gam); // TODO here subject is not constrained!! won't work
 				    Set<Statement> theStatementWithOurObject = RVLUtils.findRelationsOnInstanceOrClassLevel(model, p2gam, resource, null); // TODO here subject is not constrained!! won't work
 				    
+				    
+					// get the mapping table SV->TV // TODO: this should only be done once!!!!s
+					Map<Node, Node> svUriTVuriMap = p2gam.getCalculatedValues(theStatementWithOurObject);	
+				    
+					
+					// create a GO for each affected resource // TODO: problem subjectFilter is ignored, since GO will be created already now!! 
+				    GraphicObject go = createOrGetGraphicObject(resource);
+
+				    
+				    // for all statements check whether there is a tv for the sv
 				    for (Iterator<Statement> stmtSetIt = theStatementWithOurObject.iterator(); stmtSetIt
 							.hasNext();) {
-						Statement statement = (Statement) stmtSetIt.next();
-						sv = statement.getObject(); // useless! will set sv many times
-					}
+				    	
+				    	Statement statement = (Statement) stmtSetIt.next();
+				    	Node sv = statement.getObject(); // useless! will set sv many times
+
+						LOGGER.finest("trying to find and apply value mapping for sv " + sv.toString());
+						
+						// get the target value for the sv
+				    	Node tv = svUriTVuriMap.get(sv);
 				    
-				    /*
-					while (resSpStmtIt.hasNext()) {
-						Statement statement = (Statement) resSpStmtIt.next();
-						sv = statement.getObject();
-						//LOGGER.info(sv);
-					}*/
-								
-					// get the target value for the sv
-			    	Node tv = svUriTVuriMap.get(sv);
-			    	
-			    	if(tv!=null) {
-				    	// if we are mapping to named colors
-					    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/color_named")) {
-					    	Color color = Color.getInstance(model, tv.asURI());
-					    	go.setColornamed(color);
-					    	//LOGGER.info("set color to " + color + " for sv " + sv);
-					    }
-					    
-				    	// if we are mapping to lightness
-					    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/color_hsl_lightness")) {
-					    	go.setColorhsllightness(tv);
-					    	LOGGER.finest("set color hsl lightness to " + tv.toString() + " for sv " + sv);
-					    }
-					    
-				    	// if we are mapping to named shapes
-					    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/shape_named")) {
-					    	Shape shape = ShapeX.getInstance(model, tv.asURI());
-					    	go.setShapenamed(shape);
-					    	//LOGGER.finest("set shape to " + shape + " for sv " + sv + NL);
-					    }
-			    	}
+					    /*
+						while (resSpStmtIt.hasNext()) {
+							Statement statement = (Statement) resSpStmtIt.next();
+							sv = statement.getObject();
+							//LOGGER.info(sv);
+						}*/
+									
+
+				    	
+				    	if(tv!=null) {
+				    		
+							LOGGER.finest("found tv " + tv + " for sv " + sv);
+				    		
+					    	// if we are mapping to named colors
+						    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/color_named")) {
+						    	Color color = Color.getInstance(model, tv.asURI());
+						    	go.setColornamed(color);
+						    	//LOGGER.info("set color to " + color + " for sv " + sv);
+						    }
+						    
+					    	// if we are mapping to lightness
+						    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/color_hsl_lightness")) {
+						    	go.setColorhsllightness(tv);
+						    	LOGGER.finest("set color hsl lightness to " + tv.toString() + " for sv " + sv);
+						    }
+						    
+					    	// if we are mapping to named shapes
+						    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/shape_named")) {
+						    	Shape shape = ShapeX.getInstance(model, tv.asURI());
+						    	go.setShapenamed(shape);
+						    	//LOGGER.finest("set shape to " + shape + " for sv " + sv + NL);
+						    }
+				    	}	
+					}
 				}
 			} catch (InsufficientMappingSpecificationExecption e) {
 				LOGGER.warning("No resources will be affected by mapping " + pm.asURI() + " (" + e.getMessage() + ")" );

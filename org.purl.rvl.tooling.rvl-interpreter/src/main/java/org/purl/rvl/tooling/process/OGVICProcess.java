@@ -29,7 +29,7 @@ public class OGVICProcess {
 	
 	private static OGVICProcess instance = null;
 	
-	public static int MAX_GRAPHIC_RELATIONS_PER_MAPPING = 100;
+	public static int MAX_GRAPHIC_RELATIONS_PER_MAPPING = 1000;
 	
 	public static boolean REGENERATE_AVM = true;
 	public static boolean WRITE_AVM = false;
@@ -140,6 +140,8 @@ public class OGVICProcess {
 		}
 		else if (WRITE_JSON) {
 			readAVMFromFile(modelBuilder);
+			modelBuilder.initVISOModel(ontologyFileRegistry);
+			modelVISO = modelBuilder.getVISOModel();
 		}
 		
 		if (WRITE_JSON) {

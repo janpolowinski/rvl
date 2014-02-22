@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.HashSet;
 import java.util.logging.Logger;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -16,7 +15,9 @@ import org.apache.commons.collections.map.CaseInsensitiveMap;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
+import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.BlankNode;
+import org.ontoware.rdf2go.model.node.DatatypeLiteral;
 import org.ontoware.rdf2go.model.node.Literal;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
@@ -27,9 +28,8 @@ import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.ontoware.rdfreactor.schema.rdfs.Container;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.java.exception.InsufficientMappingSpecificationExecption;
-import org.purl.rvl.java.exception.UnexpressivMappingSpecificationException;
+import org.purl.rvl.java.exception.UnexpressiveMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.Interval;
-import org.purl.rvl.java.gen.rvl.PropertyMapping;
 import org.purl.rvl.java.gen.rvl.Valuemapping;
 import org.purl.rvl.java.gen.rvl.VisualValueList;
 import org.purl.rvl.java.mapping.CalculatedValueMapping;
@@ -105,6 +105,8 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 
 	// cache calculated mappings
 	private Set<CalculatedValueMapping> cvms;
+
+	private Set<Statement> statementSet;  // the set of statements that the property mapping currently affects
 	
 	
 	
@@ -138,9 +140,9 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 	}
 
 	
-	public Collection<CalculatedValueMapping> getCalculatedValueMappings() {
+	public Collection<CalculatedValueMapping> getCalculatedValueMappings(Set<Statement> statementSet) {
 		
-		calculateValueMappings();
+		calculateValueMappings(statementSet);
 		return cvms;
 	}
 
@@ -734,7 +736,7 @@ public String toString() {
 		s += "        calculated value mappings: "
 				+ calculateValueMappingsForCase(calculateMappingSituation()) 
 				+ NL;
-	} catch (UnexpressivMappingSpecificationException e) {
+	} catch (UnexpressiveMappingSpecificationException e) {
 		s += "        " + e.getMessage() ;
 	}
 	
@@ -771,22 +773,41 @@ public boolean isDiscretize(){
 	
 	if (hasDiscretize()) {
 		return this.getAllDiscretize_as().firstValue();
-	} else return false;
+	} else 
+		return false;
+}
 
+public boolean hasDiscreteStepCount() {
+	return hasDiscretestepcount();
+}
+
+/**
+ * @return the addressedTargetValueSituation
+ */
+public int getDiscreteStepCount() {
+	
+	if (this.hasDiscreteStepCount()) {
+		return getAllDiscretestepcount_as().firstValue();
+	} else {
+		return -1;
+	}
 }
 
 /**
  * Calculate concrete, explicit CalculatedValueMappings which represents
  * pairs of a (domain data) value and a graphic attribute value. The
  * calculated values are stored.
+ * @param theStatementWithOurObject 
  * 
  * @return
  */
-private void calculateValueMappings() {
+private void calculateValueMappings(Set<Statement> statementSet) {
+	
+	this.statementSet = statementSet;
 
 	try {
 		cvms = calculateValueMappingsForCase(calculateMappingSituation());
-	} catch (UnexpressivMappingSpecificationException e) {
+	} catch (UnexpressiveMappingSpecificationException e) {
 		LOGGER.warning("Value mappings couldn't be calculated: " + e.getMessage());
 	}
 
@@ -800,9 +821,9 @@ private void calculateValueMappings() {
  * @return 
  * 
  * @return
- * @throws UnexpressivMappingSpecificationException 
+ * @throws UnexpressiveMappingSpecificationException 
  */
-private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) throws UnexpressivMappingSpecificationException {
+private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) throws UnexpressiveMappingSpecificationException {
 
 	cvms = new HashSet<CalculatedValueMapping>();
 	
@@ -887,7 +908,7 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 
 			} else { // numberOfSv > numberOfTv
 				
-				throw new UnexpressivMappingSpecificationException();
+				throw new UnexpressiveMappingSpecificationException();
 
 			}
 			
@@ -940,6 +961,318 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 					" will try to get values from the resource ... TOBEIMPLEMENTED");
 		}
 
+	} else if (CC == caseID || CC_D == caseID) {
+		
+		Set<Statement> statementSet = this.statementSet;
+		
+		int discreteStepCount = -1;
+		float discreteStepSize = -1; 
+		float discreteStepSize2 = -1; 
+		float discreteStepSizeSv = -1; 
+		float discreteStepSizeTv = -1; 
+		
+		float svLowerBoundValue;
+		float svUpperBoundValue;
+		float tvLowerBoundValue;
+		float tvUpperBoundValue;
+
+		Node svLowerBound = sourceValuesContinuousInterval.getLowerBound();
+		Node svUpperBound = sourceValuesContinuousInterval.getUpperBound();
+		Node tvLowerBound = targetValuesContinuousInterval.getLowerBound();
+		Node tvUpperBound = targetValuesContinuousInterval.getUpperBound();
+		
+		try {
+			svLowerBoundValue = Float.parseFloat(svLowerBound.asLiteral().toString());
+			LOGGER.finest("sv lower bound: " + svLowerBoundValue );
+			svUpperBoundValue = Float.parseFloat(svUpperBound.asLiteral().toString());
+			LOGGER.finest("sv upper bound: " + svUpperBoundValue );
+			tvLowerBoundValue = Float.parseFloat(tvLowerBound.asLiteral().toString());
+			LOGGER.finest("tv lower bound: " + tvLowerBoundValue );
+			tvUpperBoundValue = Float.parseFloat(tvUpperBound.asLiteral().toString());
+			LOGGER.finest("tv upper bound: " + tvUpperBoundValue );
+			
+			for (Iterator<Statement> iterator = statementSet.iterator(); iterator.hasNext();) {
+				
+				Statement statement = (Statement) iterator.next();
+				
+				DatatypeLiteral sv = statement.getObject().asDatatypeLiteral();
+				float svValue = Float.parseFloat(sv.getValue());
+				float tvValue;
+				
+				LOGGER.finest("Calculating continuous tv for continuous sv-value " + svValue);
+				
+				Literal tvLiteral = null;
+				
+				// TODO evaluate out o range settings - crop / cut settings
+				
+				if (svValue <= svLowerBoundValue) {
+					
+					tvValue = tvLowerBoundValue;
+					
+				} else if (svValue >= svUpperBoundValue) {
+					
+					tvValue = tvUpperBoundValue;
+					
+				} else { // normal case within ranges
+				
+					if (isDiscretize() && hasDiscreteStepCount()) {
+						
+						float svRange = svUpperBoundValue-svLowerBoundValue;
+						float tvRange = tvUpperBoundValue-tvLowerBoundValue;
+						
+						discreteStepCount = getDiscreteStepCount();
+						
+						if (discreteStepCount >= 2) {
+							
+							LOGGER.finest("discrete step count: " + discreteStepCount );
+							
+							discreteStepSizeSv = svRange/(discreteStepCount);
+							LOGGER.finest("discrete step size sv: " + discreteStepSizeSv );
+							
+							discreteStepSizeTv = tvRange/(discreteStepCount-1);
+							LOGGER.finest("discrete step size tv: " + discreteStepSizeTv );
+							
+							// the follwoing does not work for sv equal svLowerBoundValue (case caught above)
+							tvValue = tvLowerBoundValue + ((int) ((svValue - svLowerBoundValue) / discreteStepSizeSv)) * discreteStepSizeTv; // TODO this does apparently not work for step count  = {0,1} -> div/0 -> catch earlier
+							
+							
+							/* OLD. delete soon:
+							
+							discreteStepCount = getDiscreteStepCount();
+							LOGGER.finest("discrete step count: " + discreteStepCount );
+							
+							discreteStepSize = tvRange/(discreteStepCount);
+							LOGGER.finest("discrete step size: " + discreteStepSize );
+							
+							discreteStepSize2 = tvRange/(discreteStepCount-1);
+							LOGGER.finest("discrete step size2: " + discreteStepSize2 );
+		
+							tvValue = tvLowerBoundValue + ((int) (svValue / discreteStepSize)) * discreteStepSize2; // TODO this does apparently not work for step count  = {0,1} -> div/0 -> catch earlier
+							
+							*/
+							
+							LOGGER.finest("tvValue: " + tvValue );
+						}
+						else {
+							throw new UnexpressiveMappingSpecificationException("No value mappings could be calculated! Discretization steps must be greater or equal 2");
+						}
+						
+					} else {
+						
+							float svRange = svUpperBoundValue-svLowerBoundValue;
+							float tvRange = tvUpperBoundValue-tvLowerBoundValue;
+							float stretchFactor =  tvRange/svRange;
+							tvValue = svValue * stretchFactor;
+					}
+				}
+				
+				tvLiteral = new DatatypeLiteralImpl(tvValue + "", new URIImpl("http://www.w3.org/2001/XMLSchema#float"));
+				
+				if (null != tvLiteral) {
+					cvms.add(new CalculatedValueMapping(sv, tvLiteral));
+				}
+				
+			}
+			
+		} catch (UnexpressiveMappingSpecificationException e) {
+			LOGGER.warning(e.getMessage());
+		} catch (Exception e) {
+			LOGGER.finest("sv/tv lower/upper bound  or sv itself is not a literal or stepcount is < 2," +
+					" will try to get values from the resource ... TOBEIMPLEMENTED");
+		}
+		
+		
+//      org.purl.rvl.java.rvl.PropertyMapping pm = getPropertyMapping();
+//		try {
+//			Set<Resource> affectedResources = pm.getAffectedResources();	
+//		} catch (InsufficientMappingSpecificationExecption e) {
+//			LOGGER.warning("Affected resources could not be calculated. Reason: " +  e.getMessage());
+//		}
+		
+	} else if (CO == caseID ) { // || CU == caseID) {
+		
+		Set<Statement> statementSet = this.statementSet;
+		
+		int discreteStepCount = -1; 
+		float discreteStepSizeSv = -1; 
+		
+		float svLowerBoundValue;
+		float svUpperBoundValue;
+
+		Node svLowerBound = sourceValuesContinuousInterval.getLowerBound();
+		Node svUpperBound = sourceValuesContinuousInterval.getUpperBound();
+		
+		int numberOfTv ;
+		
+		// get the number of target values
+		if (null != targetValuesList) {
+			numberOfTv = targetValuesList.size();
+		} 
+		else {
+			numberOfTv = targetValuesUnorderedSet.size();
+		}		
+		
+		try {
+			svLowerBoundValue = Float.parseFloat(svLowerBound.asLiteral().toString());
+			LOGGER.finest("sv lower bound: " + svLowerBoundValue );
+			svUpperBoundValue = Float.parseFloat(svUpperBound.asLiteral().toString());
+			LOGGER.finest("sv upper bound: " + svUpperBoundValue );
+			
+			for (Iterator<Statement> iterator = statementSet.iterator(); iterator.hasNext();) {
+				
+				Statement statement = (Statement) iterator.next();
+				
+				DatatypeLiteral sv = statement.getObject().asDatatypeLiteral();
+				float svValue = Float.parseFloat(sv.getValue());
+				
+				LOGGER.finest("Selecting discrete tv for continuous sv-value " + svValue);
+				
+				Node tv = null;
+				
+				// TODO evaluate out o range settings - crop / cut settings
+				
+				if (svValue <= svLowerBoundValue) {
+					
+					tv = targetValuesList.get(0);
+					
+				} else if (svValue >= svUpperBoundValue) {
+					
+					tv = targetValuesList.get(targetValuesList.size()-1);
+					
+				} else { 
+				
+					if (hasDiscreteStepCount()) {
+						
+						discreteStepCount = getDiscreteStepCount(); // TODO
+						
+					} else {
+						
+						discreteStepCount = numberOfTv;
+						
+						float svRange = svUpperBoundValue-svLowerBoundValue;
+						
+						if (discreteStepCount >= 2) {
+							
+							LOGGER.finest("discrete step count: " + discreteStepCount );
+							
+							discreteStepSizeSv = svRange/(discreteStepCount);
+							LOGGER.finest("discrete step size sv: " + discreteStepSizeSv );
+							
+							int tvListPosition = ((int) ((svValue - svLowerBoundValue) / discreteStepSizeSv)); // this does not work for sv equal svLowerBoundValue (case caught above)
+							tv = targetValuesList.get(tvListPosition);				
+							LOGGER.finest("tv: " + tv );
+							
+						}
+						else {
+							throw new UnexpressiveMappingSpecificationException("No value mappings could be calculated! Discretization steps must be greater or equal 2");
+						}
+		
+					}
+				}
+				
+				if (null != tv) {
+					cvms.add(new CalculatedValueMapping(sv, tv));
+				}
+				
+			}
+			
+		} catch (UnexpressiveMappingSpecificationException e) {
+			LOGGER.warning(e.getMessage());
+		} catch (Exception e) {
+			LOGGER.finest("sv lower/upper bound  or sv itself is not a literal");
+		}
+		
+		
+		
+	} else if (CU == caseID) {
+		
+		Set<Statement> statementSet = this.statementSet;
+		
+		int discreteStepCount = -1; 
+		float discreteStepSizeSv = -1; 
+		
+		float svLowerBoundValue;
+		float svUpperBoundValue;
+
+		Node svLowerBound = sourceValuesContinuousInterval.getLowerBound();
+		Node svUpperBound = sourceValuesContinuousInterval.getUpperBound();
+		
+		int numberOfTv ;
+		
+		// get the number of target values
+		if (null != targetValuesList) {
+			numberOfTv = targetValuesList.size();
+		} 
+		else {
+			numberOfTv = targetValuesUnorderedSet.size();
+		}		
+		
+		try {
+			svLowerBoundValue = Float.parseFloat(svLowerBound.asLiteral().toString());
+			LOGGER.finest("sv lower bound: " + svLowerBoundValue );
+			svUpperBoundValue = Float.parseFloat(svUpperBound.asLiteral().toString());
+			LOGGER.finest("sv upper bound: " + svUpperBoundValue );
+			
+			for (Iterator<Statement> iterator = statementSet.iterator(); iterator.hasNext();) {
+				
+				Statement statement = (Statement) iterator.next();
+				
+				DatatypeLiteral sv = statement.getObject().asDatatypeLiteral();
+				float svValue = Float.parseFloat(sv.getValue());
+				
+				LOGGER.finest("Selecting discrete, unordered tv for continuous sv-value " + svValue);
+				
+				List<Node> targetValuesUnorderedSetList = new ArrayList<Node>(targetValuesUnorderedSet);
+				
+				Node tv = null;
+				
+				// TODO evaluate out o range settings - crop / cut settings
+			
+				if (svValue <= svLowerBoundValue || svValue >= svUpperBoundValue) {
+					
+					// no value mappings calculated for out of range values 
+					
+				} else { 
+		
+					discreteStepCount = numberOfTv;
+					
+					float svRange = svUpperBoundValue-svLowerBoundValue;
+					
+					if (discreteStepCount >= 2) {
+						
+						LOGGER.finest("discrete step count: " + discreteStepCount );
+						
+						discreteStepSizeSv = svRange/(discreteStepCount);
+						LOGGER.finest("discrete step size sv: " + discreteStepSizeSv );
+						
+						int svStep = ((int) ((svValue - svLowerBoundValue) / discreteStepSizeSv)); // this does not work for sv equal svLowerBoundValue (case caught above)
+						tv = (Node)targetValuesUnorderedSetList.get(svStep);				
+						LOGGER.finest("tv: " + tv );
+						
+					}
+					else if (discreteStepCount == 1) {
+						tv = targetValuesUnorderedSetList.get(0);		
+					} else { // (0 target values)
+						throw new UnexpressiveMappingSpecificationException("No value mappings could be calculated! Discretization steps must be greater or equal 2");
+					}
+						
+		
+				}
+				
+				if (null != tv) {
+					cvms.add(new CalculatedValueMapping(sv, tv));
+				}
+				
+			}
+			
+		} catch (UnexpressiveMappingSpecificationException e) {
+			LOGGER.warning(e.getMessage());
+		} catch (Exception e) {
+			LOGGER.finest("sv lower/upper bound  or sv itself is not a literal");
+		}
+		
+		
+		
 	}
 
 	LOGGER.finest("Calculated value mappings: " + cvms);

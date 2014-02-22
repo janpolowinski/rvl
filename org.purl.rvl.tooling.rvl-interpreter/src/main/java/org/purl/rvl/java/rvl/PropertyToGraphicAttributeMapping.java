@@ -11,6 +11,7 @@ import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.QueryResultTable;
 import org.ontoware.rdf2go.model.QueryRow;
+import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
@@ -118,9 +119,9 @@ public class PropertyToGraphicAttributeMapping extends
 		*/
 	}
 
-	public Map<Node, Node> getCalculatedValues() {
+	public Map<Node, Node> getCalculatedValues(Set<Statement> theStatementWithOurObject) {
 		
-		if (null == explicitlyMappedValues) {
+		//if (null == explicitlyMappedValues) {
 			
 			// TODO: evtl. check already here if VM exist at all with hasValueMapping() for blank nodes the toSPARQL() issued an exception
 
@@ -128,14 +129,14 @@ public class PropertyToGraphicAttributeMapping extends
 			
 			// TODO: we ignore other value mapping than the first at the moment! sometimes multiple are allowed!
 			
-			Collection<CalculatedValueMapping> cvms = getFirstValueMapping().getCalculatedValueMappings();
+			Collection<CalculatedValueMapping> cvms = getFirstValueMapping().getCalculatedValueMappings(theStatementWithOurObject);
 			
 			for (Iterator<CalculatedValueMapping> iterator = cvms.iterator(); iterator.hasNext();) {
 				CalculatedValueMapping calculatedValueMapping = (CalculatedValueMapping) iterator.next();
 				explicitlyMappedValues.put(calculatedValueMapping.getSourceValue(),calculatedValueMapping.getTargetValue());
 			}
 
-		}
+		//}
 
 		return explicitlyMappedValues;
 	}

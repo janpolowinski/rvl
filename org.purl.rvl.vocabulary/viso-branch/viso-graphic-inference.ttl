@@ -518,7 +518,13 @@ viso-graphic:Grey
       viso-graphic:color_hsl_lightness
               "50"^^xsd:float ;
       viso-graphic:color_rgb
-              "#CCCCCC"^^xsd:string .
+              "#DDDDDD"^^xsd:string .
+              
+viso-graphic:Gray
+      rdf:type viso-graphic:Color ;
+      rdfs:label "Gray"^^xsd:string ;
+      viso-graphic:color_rgb
+              "#DDDDDD"^^xsd:string .
 
 viso-graphic:Grid
       rdf:type owl:Class ;

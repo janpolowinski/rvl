@@ -16,9 +16,12 @@ import org.ontoware.rdf2go.model.QueryResultTable;
 import org.ontoware.rdf2go.model.QueryRow;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.impl.StatementImpl;
+import org.ontoware.rdf2go.model.node.DatatypeLiteral;
+import org.ontoware.rdf2go.model.node.Literal;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
+import org.ontoware.rdf2go.model.node.impl.DatatypeLiteralImpl;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.ontoware.rdfreactor.runtime.ReactorResult;
 import org.ontoware.rdfreactor.schema.bootstrap.Property;
@@ -26,7 +29,9 @@ import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Class;
 import org.ontoware.rdfreactor.schema.rdfs.Resource;
 import org.openrdf.repository.sparql.query.SPARQLQuery;
+import org.purl.rvl.java.gen.rvl.SPARQLselector;
 import org.purl.rvl.java.rvl.Mapping;
+import org.purl.rvl.java.rvl.PropertyMapping;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping;
 import org.purl.rvl.tooling.process.OGVICProcess;
 
@@ -227,7 +232,14 @@ public class RVLUtils {
 				try {
 					Statement stmt = new StatementImpl(null, row.getValue("s").asURI(), row.getValue("p").asURI(), row.getValue("o"));
 					LOGGER.finer("build Statement: " + stmt.toString());
-					stmtSet.add(stmt);
+					
+						if(row.getValue("s").asURI().toString().startsWith(OGVICProcess.getInstance().getUriStart())) {
+							stmtSet.add(stmt);
+							LOGGER.finer("added Statement: " + stmt.toString());
+						} else {
+							LOGGER.finer("skipped Statement: " + stmt.toString());
+						}
+						
 				} catch (Exception e) {
 					LOGGER.warning("Problem building Statement for : " + row + "(" + e.getMessage() + ")" );
 				}
@@ -261,6 +273,19 @@ public class RVLUtils {
 		
 			URI spURI = p2gam.getAllSourceproperty_as().firstValue().asURI();
 			
+			org.ontoware.rdf2go.model.node.Resource selectorClass = null;
+			
+			if(p2gam.hasSubjectfilter()) {
+				
+				DatatypeLiteral selector = ((PropertyMapping)p2gam.castTo(PropertyMapping.class)).getSubjectFilterSPARQL();
+				String selectorString = selector.getValue();
+				 selectorClass = new URIImpl(selectorString).asResource();
+				
+				LOGGER.info("Applying subject filter. Only resources with the type " + selectorClass + " will be affected by the mapping (and thus shown, which is not the default behavior --> TODO!)");
+				// TODO: at the moment the selector will be interpreted as a constraint on the type of resources (a class name is expected)
+				
+			}
+			
 			if(p2gam.hasInheritedby()) {
 				
 				try{
@@ -293,7 +318,21 @@ public class RVLUtils {
 				
 				statementSet = new HashSet<Statement>();
 				while (it.hasNext()) {
-					statementSet.add(it.next());
+					
+					Statement statement = it.next();
+					
+					// check starts with constraint (workaround) and subjectFilter
+					if (
+						statement.getSubject().toString().startsWith(OGVICProcess.getInstance().getUriStart())
+						&& (null==selectorClass || RVLUtils.hasType(model, statement.getSubject(), selectorClass ))
+						) {
+						statementSet.add(statement);
+						LOGGER.finest("added Statement (matching subfilter and starturi): " + statement.toString());
+					} else {
+						LOGGER.finest("skipped Statement (not matching subfilter or starturi): " + statement.toString());
+					}
+					
+					
 				}
 
 			}
@@ -302,6 +341,14 @@ public class RVLUtils {
 	}
 
 	
+	public static boolean hasType(
+			Model model, org.ontoware.rdf2go.model.node.Resource resource,
+			org.ontoware.rdf2go.model.node.Resource type) {
+
+			return model.contains(resource, new URIImpl("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), type);
+		
+	}
+
 	public static List<Node> rdfs2JavaList(org.ontoware.rdfreactor.schema.rdfs.List rdfsList) {
 		
 		List<Node> javaList = rdfs2InvertedJavaList(rdfsList);

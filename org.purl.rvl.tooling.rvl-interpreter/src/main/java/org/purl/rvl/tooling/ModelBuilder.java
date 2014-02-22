@@ -84,23 +84,29 @@ public class ModelBuilder {
 		modelAVM = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		modelAVM.open();	
 		
-		for (Iterator<File> iterator = ontologyFileRegistry.getFiles().iterator(); iterator.hasNext();) {
-			File file = (File) iterator.next();
-			LOGGER.finer("Found registered ontology file: " + file.getAbsolutePath().toString());
-			readFromAnySyntax(model,file);
-			readFromAnySyntax(modelVISO,file);
+		if (null != ontologyFileRegistry) {
+			for (Iterator<File> iterator = ontologyFileRegistry.getFiles().iterator(); iterator.hasNext();) {
+				File file = (File) iterator.next();
+				LOGGER.finer("Found registered ontology file: " + file.getAbsolutePath().toString());
+				readFromAnySyntax(model,file);
+				readFromAnySyntax(modelVISO,file);
+			}
 		}
 		
-		for (Iterator<File> iterator = dataFileRegistry.getFiles().iterator(); iterator.hasNext();) {
-			File file = (File) iterator.next();
-			LOGGER.finer("Found registered data file: " + file.getAbsolutePath().toString());
-			readFromAnySyntax(model,file);
+		if (null != dataFileRegistry) {
+			for (Iterator<File> iterator = dataFileRegistry.getFiles().iterator(); iterator.hasNext();) {
+				File file = (File) iterator.next();
+				LOGGER.finer("Found registered data file: " + file.getAbsolutePath().toString());
+				readFromAnySyntax(model,file);
+			}
 		}
 		
-		for (Iterator<File> iterator = mappingFileRegistry.getFiles().iterator(); iterator.hasNext();) {
-			File file = (File) iterator.next();
-			LOGGER.finer("Found registered mapping file: " + file.getAbsolutePath().toString());
-			readFromAnySyntax(model,file);
+		if (null != mappingFileRegistry) {
+			for (Iterator<File> iterator = mappingFileRegistry.getFiles().iterator(); iterator.hasNext();) {
+				File file = (File) iterator.next();
+				LOGGER.finer("Found registered mapping file: " + file.getAbsolutePath().toString());
+				readFromAnySyntax(model,file);
+			}
 		}
 		
 	}
@@ -154,5 +160,9 @@ public class ModelBuilder {
 			e.printStackTrace();
 		}
 
+	}
+
+	public void initVISOModel(FileRegistry ontologyFileRegistry) {
+		initRDF2GoModels(ontologyFileRegistry, null, null);
 	}
 }

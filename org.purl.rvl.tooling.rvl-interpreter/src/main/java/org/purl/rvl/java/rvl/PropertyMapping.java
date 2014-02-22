@@ -12,13 +12,18 @@ import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.BlankNode;
+import org.ontoware.rdf2go.model.node.DatatypeLiteral;
+import org.ontoware.rdf2go.model.node.Literal;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
+import org.ontoware.rdf2go.model.node.impl.DatatypeLiteralImpl;
+import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.java.exception.InsufficientMappingSpecificationExecption;
+import org.purl.rvl.java.gen.rvl.SPARQLselector;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.RVLUtils;
 
@@ -106,7 +111,20 @@ static final String NL =  System.getProperty("line.separator");
 				LOGGER.warning("Mapping has missing sourceproperty");
 				throw new InsufficientMappingSpecificationExecption();
 			}
-		}					
+		}				
+		
+		org.ontoware.rdf2go.model.node.Resource selectorClass = null;
+		
+		if(this.hasSubjectfilter()) {
+			
+			DatatypeLiteral selector = getSubjectFilterSPARQL();
+			String selectorString = selector.getValue();
+			 selectorClass = new URIImpl(selectorString).asResource();
+			
+			LOGGER.info("Applying subject filter. Only resources with the type " + selectorClass + " will be affected by the mapping (and thus shown, which is not the default behavior --> TODO!)");
+			// TODO: at the moment the selector will be interpreted as a constraint on the type of resources (a class name is expected)
+			
+		}
 
 		
 		// build a statement set by find methode or SPARQL
@@ -154,12 +172,29 @@ static final String NL =  System.getProperty("line.separator");
 			int ignoredResources = 0;
 			
 			try{
+				
+				/* delete ...
 
 				if (subject.asURI().toString().startsWith(uriStartString)) {
 					subjectSet.add(subject);
 				}
 				else
 					LOGGER.finest("ignored affected resource " + subject + " not starting with " + uriStartString);
+				
+				*/
+				
+				// check starts with constraint (workaround) and subjectFilter
+				if (
+					subject.toString().startsWith(uriStartString)
+					&& (null==selectorClass || RVLUtils.hasType(model, subject, selectorClass ))
+					) {
+					subjectSet.add(subject);
+					LOGGER.finest("found affected resource (matching subfilter and starturi): " + subject.toString());
+				} else {
+					LOGGER.finest("ignored un-affected resource (not matching subfilter or starturi ("+uriStartString+")): " + subject.toString());
+				}
+				
+				
 			}
 			catch (ClassCastException e) {
 				ignoredResources++;
@@ -192,5 +227,11 @@ static final String NL =  System.getProperty("line.separator");
 			throw new InsufficientMappingSpecificationExecption();
 	}
 	
+	
+	public DatatypeLiteral getSubjectFilterSPARQL(){
+		if (hasSubjectfilter()) { // TODO also FSL possible ; we get the selector as a datatypeliteral, since getting the sparqlselector caused casting problems
+			return getAllSubjectfilter_asNode_().firstValue().asDatatypeLiteral();
+		} else return null;
+	}
 
 }
