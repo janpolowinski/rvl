@@ -219,14 +219,21 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			label += " ... to mapping: " + subMapping ; // wrong return type and wrong methode name, but seems to work
 			label += " ... on role: " + smr.getAllOnrole_as().firstValue() ;
 			label += RVLUtils.mappingToStringAsSpecificAsPossible((org.purl.rvl.java.rvl.Mapping)subMapping.castTo(org.purl.rvl.java.rvl.Mapping.class)) + NL ;
-			
-			//connector.setColornamed(new org.purl.rvl.java.viso.graphic.Color(model, "http://purl.org/viso/graphic/Yellow", true));
 
 			PropertyToGraphicAttributeMapping p2gam = (PropertyToGraphicAttributeMapping)subMapping.castTo(PropertyToGraphicAttributeMapping.class);
 			
+			GraphicAttribute tga = null;
+			
+			try {
+				tga = p2gam.getTargetAttribute();
+			} catch (InsufficientMappingSpecificationExecption e) {
+				LOGGER.warning("Submapping could not be applied. Reason: " + e.getMessage());
+				return;
+			}
+			
 			// get the subproperties as subjects of the new mapping --> do this in the calculation of value mappings instead
 	
-			if(p2gam.hasValuemapping()) {
+			if (null != tga && p2gam.hasValuemapping()) {
 			
 				Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
 				
@@ -248,45 +255,11 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				
 				URI predicate = mainStatement.getPredicate();
 				Node colorNode = svUriTVuriMap.get(predicate);
-				Color color = Color.getInstance(model, colorNode.asResource());
-				LOGGER.fine("submapping: selected color for predicate (" + predicate + "): " + color.toString());
-				connector.setColornamed(color);
+				
+				applyGraphicValueToGO(tga, colorNode, predicate, connector);
 				
 			}
 			
-			/*
-	    	Node sv = null;
-		    
-		    // get the (first) source value of the resource for the mapped property
-		    ClosableIterator<Statement> resSpStmtIt = model.findStatements(resource, sp.asURI(), Variable.ANY);
-			while (resSpStmtIt.hasNext()) {
-				Statement statement = (Statement) resSpStmtIt.next();
-				sv = statement.getObject();
-				//LOGGER.info(sv);
-			}
-			
-			
-						
-			// get the target value for the sv
-	    	Node tv = svUriTVuriMap.get(sv);
-	    	
-	    	if(tv!=null) {
-		    	// if we are mapping to named colors
-			    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/color_named")) {
-			    	Color color = Color.getInstance(model, tv.asURI());
-			    	go.setColornamed(color);
-			    	//LOGGER.info("set color to " + color + " for sv " + sv);
-			    }
-			    
-		    	// if we are mapping to named shapes
-			    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/shape_named")) {
-			    	Shape shape = ShapeX.getInstance(model, tv.asURI());
-			    	go.setShapenamed(shape);
-			    	//LOGGER.info("set shape to " + shape + " for sv " + sv + NL);
-			    }
-	    	}
-	    	
-	    	*/
 		}
 		if(smr.hasOntriplepart()) {
 			label += " ... on triple part: " + smr.getAllOntriplepart_as().firstValue() ;
@@ -294,7 +267,6 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 
 		connector.setLabel("Connector with an applied submapping: " + label);
 		
-		//
 		//connector.setColorhslhue(new Float(155));
 		//connector.setColorhslsaturation(new Float(100));
 		//connector.setColorhsllightness(new Float(50));
@@ -333,7 +305,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	
 	
 	/**
-	 * Interprets the simple P2GA mapping
+	 * Interprets a normal P2GA mapping
 	 * Creates GO for all affected resources if they don't exist already.
 	 * @param p2gam 
 	 */
@@ -370,35 +342,46 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					// get the target value for the sv
 			    	Node tv = svUriTVuriMap.get(sv);
 			    
-			    	if(tv!=null) {
-			    		
-						LOGGER.finest("found tv " + tv + " for sv " + sv);
-			    		
-				    	// if we are mapping to named colors
-					    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/color_named")) {
-					    	Color color = Color.getInstance(model, tv.asURI());
-					    	go.setColornamed(color);
-					    	//LOGGER.info("set color to " + color + " for sv " + sv);
-					    }
-					    
-				    	// if we are mapping to lightness
-					    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/color_hsl_lightness")) {
-					    	go.setColorhsllightness(tv);
-					    	LOGGER.finest("set color hsl lightness to " + tv.toString() + " for sv " + sv);
-					    }
-					    
-				    	// if we are mapping to named shapes
-					    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/shape_named")) {
-					    	Shape shape = ShapeX.getInstance(model, tv.asURI());
-					    	go.setShapenamed(shape);
-					    	//LOGGER.finest("set shape to " + shape + " for sv " + sv + NL);
-					    }
-			    	}	
+			    	applyGraphicValueToGO(tga, tv, sv, go);	
+			    	
 				}
 		} catch (InsufficientMappingSpecificationExecption e) {
 			LOGGER.warning("No resources will be affected by mapping " + pm.asURI() + " (" + e.getMessage() + ")" );
 		} 
 			
+	}
+
+	private void applyGraphicValueToGO(GraphicAttribute tga,
+			Node tv, Node sv, GraphicObject go) {
+		
+		if (null != tga && null != tv && null != sv && null != go ) {
+			
+			LOGGER.finest("Setting tv " + tv + " for sv " + sv);
+			
+			// if we are mapping to named colors
+		    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/color_named")) {
+		    	Color color = Color.getInstance(model, tv.asURI());
+		    	go.setColornamed(color);
+		    	LOGGER.finer("Set color named to " + color + " for sv " + sv);
+		    }
+		    
+			// if we are mapping to lightness
+		    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/color_hsl_lightness")) {
+		    	go.setColorhsllightness(tv);
+		    	LOGGER.finer("Set color hsl lightness to " + tv.toString() + " for sv " + sv);
+		    }
+		    
+			// if we are mapping to named shapes
+		    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/shape_named")) {
+		    	Shape shape = ShapeX.getInstance(model, tv.asURI());
+		    	go.setShapenamed(shape);
+		    	LOGGER.finer("Set shape to " + shape + " for sv " + sv + NL);
+		    }
+		}
+		
+		else {
+			LOGGER.warning("Could not set target value, since of the required parameters was null.");
+		}
 	}
 	
 	
@@ -441,28 +424,13 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					
 					// create a GO for each subject
 				    GraphicObject go = createOrGetGraphicObject(statement.getSubject());
-			    	Node sv = null;
-			    	
-					sv = statement.getObject(); 
+				    
+			    	Node sv = statement.getObject(); 
 							
 					// get the target value for the sv
 			    	Node tv = svUriTVuriMap.get(sv);
 			    	
-			    	if(tv!=null) {
-				    	// if we are mapping to named colors
-					    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/color_named")) {
-					    	Color color = Color.getInstance(model, tv.asURI());
-					    	go.setColornamed(color);
-					    	//LOGGER.info("set color to " + color + " for sv " + sv);
-					    }
-					    
-				    	// if we are mapping to named shapes
-					    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/shape_named")) {
-					    	Shape shape = ShapeX.getInstance(model, tv.asURI());
-					    	go.setShapenamed(shape);
-					    	LOGGER.finest("set shape to " + shape + " for sv " + sv + NL);
-					    }
-			    	}
+			    	applyGraphicValueToGO(tga, tv, sv, go);
 		    	
 			    }
 			
