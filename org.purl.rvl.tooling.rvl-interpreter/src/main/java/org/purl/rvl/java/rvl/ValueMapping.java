@@ -71,6 +71,7 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 	static final int UC = 8;
 	static final int UO = 9;
 	static final int UU = 10;
+	static final int SS = 11;
 
 	
 	
@@ -222,6 +223,10 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 		return SOM_UNKNOWN;
 	}
 
+	private List<Node> getSourceValues() {
+		return this.getAllSourcevalue_asNode_().asList();
+	}
+
 	private Set<Node> getSourceValueSet() {
 		
 		HashSet<Node> set = null;
@@ -261,6 +266,10 @@ private Interval getSourceValueInterval() {
 		
 	}
 	return interval;
+}
+
+private List<Node> getTargetValues() {
+	return this.getAllTargetvalue_asNode_().asList();
 }
 
 private Set<Node> getTargetValueSet() {
@@ -362,7 +371,7 @@ private int determineAdressedTargetValues() {
 	int addressedValueSituation = ValueMapping.UNKNOWN;
 
 	// are values defined via rvl:targetValue?
-	List<Node> singleTargetValueList = this.getAllTargetvalue_asNode_().asList();
+	List<Node> singleTargetValueList = getTargetValues();
 	long numberOfSingleTargetValues = singleTargetValueList.size();
 	
 	if (numberOfSingleTargetValues >= 1) {
@@ -453,7 +462,7 @@ private int determineAdressedSourceValues() {
 	int addressedValueSituation = ValueMapping.UNKNOWN;
 
 	// are values defined via rvl:sourceValue?
-	List<Node> singleSourceValueList = this.getAllSourcevalue_asNode_().asList();
+	List<Node> singleSourceValueList = getSourceValues();
 	long numberOfSingleSourceValues = singleSourceValueList.size();
 	
 	if (numberOfSingleSourceValues >= 1) {
@@ -546,6 +555,27 @@ private int determineAdressedSourceValues() {
 	return addressedValueSituation;
 }
 
+/**
+ * Checks whether this value mapping only defines a 1-to-1 manual mapping of
+ * values. Currently triggers determining the source and target value situation.
+ * 
+ * @return
+ */
+public Boolean isManualValueMapping() {
+	
+	if (addressedSourceValueSituation == NOT_CALCULATED || addressedTargetValueSituation == NOT_CALCULATED) {
+		determineAdressedSourceValues();
+		determineAdressedTargetValues();
+	}
+	
+	if (addressedSourceValueSituation == SINGLE_VALUE && 
+		addressedTargetValueSituation == SINGLE_VALUE)
+		return true;
+	else
+		return false;
+}
+
+
 public int calculateMappingSituation(){
 	
 	int svSituation = determineAdressedSourceValues();
@@ -571,6 +601,8 @@ public int calculateMappingSituation(){
 		return UO;
 	} else if(svSituation == UNORDERED_SET && tvSituation == UNORDERED_SET) {
 		return UU;
+	} else if(svSituation == SINGLE_VALUE && tvSituation == SINGLE_VALUE) {
+		return SS;
 	} else {
 		return UNKNOWN; 
 	}
@@ -612,7 +644,11 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 	
 	LOGGER.info("Calculating value mappings for mapping case " + getMappingCaseName(caseID));
 	
-	if (OO == caseID){
+	if (SS == caseID){
+		
+		LOGGER.info("1-1 Value mappings should currently  be handled separately as simple PGAM and will not be considered here.");
+		
+	} else if (OO == caseID){
 		
 		Iterator<Node> svIt = sourceValuesOrderedSet.iterator();
 		Iterator<Node> tvIt = targetValuesList.iterator();
@@ -1044,29 +1080,6 @@ private boolean invertOrderOfTargetValues() {
 	return invert;
 }
 
-/**
- * Checks whether this value mapping only defines a 1-to-1 manual mapping of
- * values
- * 
- * @return
- */
-public Boolean isManualValueMapping() {
-	if (singleSourceValueDefined() && singleTargetValueDefined())
-		return true;
-	else
-		return false;
-}
-
-private boolean singleTargetValueDefined() {
-	// TODO Auto-generated method stub
-	return false;
-}
-
-private boolean singleSourceValueDefined() {
-	// TODO Auto-generated method stub
-	return false;
-}
-
 public boolean isDisabled() {
 	if (this.hasDisabled()) {
 		return this.getAllDisabled_as().firstValue();
@@ -1189,6 +1202,7 @@ private String getMappingCaseName(int caseID) {
 	case UC: return "UC";
 	case UO: return "UO";
 	case UU: return "UU";
+	case SS: return "SS (single values mapped)";
 		default:
 			return "unknown";
 	}
