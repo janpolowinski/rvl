@@ -140,234 +140,6 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 	}
 
 	
-	public Collection<CalculatedValueMapping> getCalculatedValueMappings(Set<Statement> statementSet) {
-		
-		calculateValueMappings(statementSet);
-		return cvms;
-	}
-
-	/**
-	 * determines the target values to be used in in this value mapping (as a
-	 * basis for calculating the VM)
-	 */
-	private int determineAdressedTargetValues() {
-		
-		LOGGER.info("Determining Target Value (Situation) for " + this.getPropertyMapping().asURI());
-
-		int addressedValueSituation = ValueMapping.UNKNOWN;
-
-		// are values defined via rvl:targetValue?
-		List<Node> singleTargetValueList = this.getAllTargetvalue_asNode_().asList();
-		long numberOfSingleTargetValues = singleTargetValueList.size();
-		
-		if (numberOfSingleTargetValues >= 1) {
-
-			// is exactly 1 rvl:targetValue defined?
-			if (numberOfSingleTargetValues == 1) {
-				addressedValueSituation = ValueMapping.SINGLE_VALUE;
-				targetValuesSingleValue = singleTargetValueList.get(0);
-
-			}
-			// if multiple rvl:targetValue are defined ...
-			else {
-				addressedValueSituation = ValueMapping.UNORDERED_SET;
-				// store all values set via targetValue as our new unordered set
-				// TODO: problem at the moment strings (literals) and resources
-				// are allowed, therefore node is used here.
-				targetValuesUnorderedSet = new HashSet<Node>(singleTargetValueList);
-				// do we need to merge them with an additionally defined set?
-				
-				// merge with rvl:targetValueSet if this was also defined ...
-				if (this.hasTargetvalueset()) {
-					targetValuesUnorderedSet.addAll(getTargetValueSet());
-				}
-				
-				// TODO exclude target values
-			}
-		}
-		
-		// if no values are defined via rvl:targetValue
-		else {
-			if (this.hasTargetvalueset() && !this.hasTargetvalueorderedset()) { // also ordered sets are sets!
-				
-				addressedValueSituation = ValueMapping.UNORDERED_SET;
-				targetValuesUnorderedSet = getTargetValueSet();
-				
-				// TODO: exclude target values
-				
-			} 
-			
-			// if no values are defined via rvl:targetValueSet
-			else {
-
-				//if (this.hasTargetvalueorderedset()) {
-				if (this.hasTargetvalues_abstract_()) {
-					
-					// TODO handle cycles etc. here and above : if ((this.hasTargetvaluelist()) || (this.hasTargetvalueorderedset()) || (this.hasTargetvaluecycle())) 
-					
-					addressedValueSituation = ValueMapping.ORDERED_SET;
-					
-					// TODO: exclude target values
-					
-					targetValuesList = getTargetValueList();
-				}
-			
-				// if no values are defined via rvl:targetValueOrderedSet
-				else {
-					
-					if (this.hasTargetvalueinterval()) {
-						
-						if (getExplicitScaleOfMeasurementOfTargetGR() == SOM_ORDINAL) {
-							
-							addressedValueSituation = ValueMapping.ORDERED_SET;
-							
-							targetValuesList = calculateOrderedSetFromRange();
-							
-							// TODO: exclude target values
-							
-						} else {
-							
-							addressedValueSituation = ValueMapping.CONTINUOUS_RANGE;
-							
-							targetValuesContinuousInterval = new IntervalX(getTargetValueInterval());
-							
-						}
-						
-					}
-				}
-			}
-		}
-
-		return addressedValueSituation;
-	}
-
-	
-
-
-	private int determineAdressedSourceValues() {
-		
-		LOGGER.info("Determining Source Value (Situation) for " + this.getPropertyMapping().asURI());
-
-		int addressedValueSituation = ValueMapping.UNKNOWN;
-
-		// are values defined via rvl:sourceValue?
-		List<Node> singleSourceValueList = this.getAllSourcevalue_asNode_().asList();
-		long numberOfSingleSourceValues = singleSourceValueList.size();
-		
-		if (numberOfSingleSourceValues >= 1) {
-
-			// is exactly 1 rvl:sourceValue defined?
-			if (numberOfSingleSourceValues == 1) {
-				addressedValueSituation = ValueMapping.SINGLE_VALUE;
-				sourceValuesSingleValue = singleSourceValueList.get(0);
-
-			}
-			// if multiple rvl:sourceValue are defined ...
-			else {
-				addressedValueSituation = ValueMapping.UNORDERED_SET;
-				// store all values set via sourceValue as our new unordered set
-				// TODO: problem at the moment strings (literals) and resources
-				// are allowed, therefore node is used here.
-				sourceValuesUnorderedSet = new HashSet<Node>(singleSourceValueList);
-				// do we need to merge them with an additionally defined set?
-				
-				// merge with rvl:sourceValueSet if this was also defined ...
-				if (this.hasSourcevalueset()) {
-					sourceValuesUnorderedSet.addAll(getSourceValueSet());
-				}
-				
-				// TODO exclude source values
-			}
-		}
-		
-		// if no values are defined via rvl:sourceValue
-		else {
-			if (this.hasSourcevalueset() && !this.hasSourcevalueorderedset()) { // also ordered sets are sets!
-				
-				addressedValueSituation = ValueMapping.UNORDERED_SET;
-				sourceValuesUnorderedSet = getSourceValueSet();
-				
-				// TODO: exclude source values
-				
-			} 
-			
-			// if no values are defined via rvl:sourceValueSet
-			else {
-				
-				if (this.hasSourcefilter()) {
-					
-					getExplicitScaleOfMeasurementOfSourceProperty();
-					
-					// TODO handle filters
-					
-				} 
-				
-				// if no values are defined via rvl:sourceFilter
-				else {
-
-					if (this.hasSourcevalueorderedset()) {
-						
-						addressedValueSituation = ValueMapping.ORDERED_SET;
-						
-						// TODO: exclude source values
-						
-						sourceValuesOrderedSet = getSourceValueOrderedSet();
-					}
-				
-					// if no values are defined via rvl:sourceValueOrderedSet
-					else {
-						
-						if (this.hasSourceinterval()) {
-							
-							if (getExplicitScaleOfMeasurementOfSourceProperty() == SOM_ORDINAL) {
-								
-								addressedValueSituation = ValueMapping.ORDERED_SET;
-								
-								sourceValuesOrderedSet = calculateOrderedSetFromRange();
-								
-								// TODO: exclude source values
-								
-							} else {
-								
-								addressedValueSituation = ValueMapping.CONTINUOUS_RANGE;
-								
-								sourceValuesContinuousInterval = new IntervalX(getSourceValueInterval());
-								
-							}
-							
-						}
-					}
-				}
-			}
-		}
-
-		return addressedValueSituation;
-	}
-	
-
-	/**
-	 * Checks whether this value mapping only defines a 1-to-1 manual mapping of
-	 * values
-	 * 
-	 * @return
-	 */
-	public Boolean isManualValueMapping() {
-		if (singleSourceValueDefined() && singleTargetValueDefined())
-			return true;
-		else
-			return false;
-	}
-
-	private boolean singleTargetValueDefined() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	private boolean singleSourceValueDefined() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	/**
 	 * Determine the Scale of Measurement (SoM) of the target graphic relation handled by
 	 * this {@link ValueMapping}. Here only the globally set SoM is
@@ -450,73 +222,6 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 		return SOM_UNKNOWN;
 	}
 
-	private PropertyMapping getPropertyMapping() {
-		Resource res = this.getAllValuemapping_Inverse().next();
-		return new PropertyMapping(model, res, false);
-	}
-
-	
-	private String getMappingCaseName(int caseID) {
-		
-		switch (caseID) {
-		
-		case CC: return "CC";
-		case CC_D: return "CCd";
-		case CO: return "CO";
-		case CU: return "CU";
-		case OC: return "OC";
-		case OO: return "OO";
-		case OU: return "OU";
-		case UC: return "UC";
-		case UO: return "UO";
-		case UU: return "UU";
-			default:
-				return "unknown";
-		}
-	}
-	
-	
-	private String getSomName(int somID) {
-		
-		switch (somID) {
-		
-			case SOM_NOMINAL:
-				return "nominal";
-			case SOM_ORDINAL:
-				return "ordinal";
-			case SOM_QUANTITATIVE:
-				return "quantitative";
-			default:
-				return "unknown";
-		}
-	}
-
-	private String getNameForValueSituation(int situationID) {
-
-		switch (situationID) {
-		
-			case UNKNOWN:
-				return "unknown";
-			case CONTINUOUS_RANGE:
-				return "cont. range";
-			case ORDERED_SET:
-				return "ordered set or list";
-			case UNORDERED_SET:
-				return "set";
-			case SINGLE_VALUE:
-				return "single value";
-			default:
-				return "unknown";
-		}
-	}
-
-	public boolean isDisabled() {
-		if (this.hasDisabled()) {
-			return this.getAllDisabled_as().firstValue();
-		} else
-			return false;
-	}
-	
 	private Set<Node> getSourceValueSet() {
 		
 		HashSet<Node> set = null;
@@ -532,6 +237,32 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 		return set;
 	}
 	
+private List<Node> getSourceValueOrderedSet() {
+		
+		List<Node> orderedSet = null;
+		
+		if (this.hasSourcevalueorderedset()) {
+			
+			orderedSet = RVLUtils.rdfs2JavaList(this.getAllSourcevalueorderedset_as().firstValue());
+			
+			LOGGER.fine("Ordered set of source values: " + orderedSet);
+			
+		}
+		return orderedSet; 
+	}
+
+private Interval getSourceValueInterval() {
+	
+	Interval interval = null;
+	
+	if (this.hasSourceinterval()) {
+		
+		interval = getAllSourceinterval_as().firstValue();
+		
+	}
+	return interval;
+}
+
 private Set<Node> getTargetValueSet() {
 	
 	HashSet<Node> set = null;
@@ -554,20 +285,6 @@ private Set<Node> getTargetValueSet() {
 	return set;
 }
 	
-private List<Node> getSourceValueOrderedSet() {
-		
-		List<Node> orderedSet = null;
-		
-		if (this.hasSourcevalueorderedset()) {
-			
-			orderedSet = RVLUtils.rdfs2JavaList(this.getAllSourcevalueorderedset_as().firstValue());
-			
-			LOGGER.fine("Ordered set of source values: " + orderedSet);
-			
-		}
-		return orderedSet; 
-	}
-
 private List<Node> getTargetValueList() {
 	
 	List<Node> list = null;
@@ -596,35 +313,6 @@ private List<Node> getTargetValueList() {
 }
 
 
-private boolean invertOrderOfTargetValues() {
-
-	boolean invert = false;
-	
-	if (this.hasInvertorderoftargetvalues()) {
-		
-		invert = getAllInvertorderoftargetvalues_as().firstValue();
-		
-	}
-	return invert;
-}
-
-private List<Node> calculateOrderedSetFromRange() {
-	LOGGER.warning("ordered set cannot yet be derived from an  ordinal range.");
-	return null;
-}
-
-private Interval getSourceValueInterval() {
-	
-	Interval interval = null;
-	
-	if (this.hasSourceinterval()) {
-		
-		interval = getAllSourceinterval_as().firstValue();
-		
-	}
-	return interval;
-}
-
 private Interval getTargetValueInterval() {
 	
 	Interval interval = null;
@@ -637,125 +325,10 @@ private Interval getTargetValueInterval() {
 	return interval;
 }
 
-private String printAddressedSourceValues(int addressedSourceValueSituation) {
-	
-	String s = "";
-	
-	try {
-
-		switch (addressedSourceValueSituation) {
-		
-			case SINGLE_VALUE:
-				s += "Single source value: " ;
-				s += sourceValuesSingleValue.toString();
-				break;
-
-			case UNORDERED_SET:
-				s += "Source value unordered set: ";
-				s += sourceValuesUnorderedSet.toString();
-				break;
-
-			case ORDERED_SET:
-				s += "Source value ordered set: ";
-				s += sourceValuesOrderedSet.toString();
-				break;
-
-			case CONTINUOUS_RANGE:
-				s += "Continuous range of source values: ";
-				s += sourceValuesContinuousInterval.toString();
-				break;
-		}
-	
-	} catch (NullPointerException e) {
-		
-		String warning = "Could not describe the addressed source values for the " +
-				"situation " + getNameForValueSituation(addressedSourceValueSituation);
-		LOGGER.warning(warning);
-		s += warning;
-	}
-
-	return s;
+private List<Node> calculateOrderedSetFromRange() {
+	LOGGER.warning("ordered set cannot yet be derived from an  ordinal range.");
+	return null;
 }
-
-
-private String printAddressedTargetValues(int addressedTargetValueSituation) {
-String s = "";
-	
-	try {
-
-		switch (addressedTargetValueSituation) {
-		
-			case SINGLE_VALUE:
-				s += "Single target value: " ;
-				s += targetValuesSingleValue.toString();
-				break;
-
-			case UNORDERED_SET:
-				s += "Target value unordered set: ";
-				s += targetValuesUnorderedSet.toString();
-				break;
-
-			case ORDERED_SET:
-				s += "Target value list: ";
-				s += targetValuesList.toString();
-				break;
-
-			case CONTINUOUS_RANGE:
-				s += "Continuous range of target values: ";
-				s += targetValuesContinuousInterval.toString();
-				break;
-		}
-	
-	} catch (NullPointerException e) {
-		
-		String warning = "Could not describe the addressed target values for the " +
-				"situation " + getNameForValueSituation(addressedTargetValueSituation);
-		LOGGER.warning(warning);
-		s += warning;
-	}
-
-	return s;
-}
-
-@Override
-public String toString() {
-	
-	String s = "";
-	
-	// s += getCalculatedValueMappings() + NL;
-	
-	//s += "        used in PM: "
-	//		+ getPropertyMapping().getAllLabel_as().firstValue() + NL;
-	s += "        SoM of SP: "
-			+ getSomName(getExplicitScaleOfMeasurementOfSourceProperty()) + NL;
-	s += "        SoM of TV: "
-			+ getSomName(getExplicitScaleOfMeasurementOfTargetGR()) + NL;
-	s += "        addressed SV situation: "
-			+ getNameForValueSituation(getAddressedSourceValueSituation())
-			+ " (" + printAddressedSourceValues(getAddressedSourceValueSituation()) + ")" 
-			+ NL;
-	s += "        addressed TV situation: "
-			+ getNameForValueSituation(getAddressedTargetValueSituation())
-			+ " (" + printAddressedTargetValues(getAddressedTargetValueSituation()) + ")" 
-			+ NL;
-	s += "        mappings case: "
-			+ getMappingCaseName(calculateMappingSituation()) 
-			+ NL;
-	try {
-		s += "        calculated value mappings: "
-				+ calculateValueMappingsForCase(calculateMappingSituation()) 
-				+ NL;
-	} catch (UnexpressiveMappingSpecificationException e) {
-		s += "        " + e.getMessage() ;
-	}
-	
-	
-	
-	
-	return s + NL;
-}
-
-
 
 /**
  * @return the addressedSourceValueSituation
@@ -778,27 +351,228 @@ public int getAddressedTargetValueSituation() {
 	return addressedTargetValueSituation;
 }
 
-public boolean isDiscretize(){
-	
-	if (hasDiscretize()) {
-		return this.getAllDiscretize_as().firstValue();
-	} else 
-		return false;
-}
-
-public boolean hasDiscreteStepCount() {
-	return hasDiscretestepcount();
-}
-
 /**
- * @return the addressedTargetValueSituation
+ * determines the target values to be used in in this value mapping (as a
+ * basis for calculating the VM)
  */
-public int getDiscreteStepCount() {
+private int determineAdressedTargetValues() {
 	
-	if (this.hasDiscreteStepCount()) {
-		return getAllDiscretestepcount_as().firstValue();
+	LOGGER.info("Determining Target Value (Situation) for " + this.getPropertyMapping().asURI());
+
+	int addressedValueSituation = ValueMapping.UNKNOWN;
+
+	// are values defined via rvl:targetValue?
+	List<Node> singleTargetValueList = this.getAllTargetvalue_asNode_().asList();
+	long numberOfSingleTargetValues = singleTargetValueList.size();
+	
+	if (numberOfSingleTargetValues >= 1) {
+
+		// is exactly 1 rvl:targetValue defined?
+		if (numberOfSingleTargetValues == 1) {
+			addressedValueSituation = ValueMapping.SINGLE_VALUE;
+			targetValuesSingleValue = singleTargetValueList.get(0);
+
+		}
+		// if multiple rvl:targetValue are defined ...
+		else {
+			addressedValueSituation = ValueMapping.UNORDERED_SET;
+			// store all values set via targetValue as our new unordered set
+			// TODO: problem at the moment strings (literals) and resources
+			// are allowed, therefore node is used here.
+			targetValuesUnorderedSet = new HashSet<Node>(singleTargetValueList);
+			// do we need to merge them with an additionally defined set?
+			
+			// merge with rvl:targetValueSet if this was also defined ...
+			if (this.hasTargetvalueset()) {
+				targetValuesUnorderedSet.addAll(getTargetValueSet());
+			}
+			
+			// TODO exclude target values
+		}
+	}
+	
+	// if no values are defined via rvl:targetValue
+	else {
+		if (this.hasTargetvalueset() && !this.hasTargetvalueorderedset()) { // also ordered sets are sets!
+			
+			addressedValueSituation = ValueMapping.UNORDERED_SET;
+			targetValuesUnorderedSet = getTargetValueSet();
+			
+			// TODO: exclude target values
+			
+		} 
+		
+		// if no values are defined via rvl:targetValueSet
+		else {
+
+			//if (this.hasTargetvalueorderedset()) {
+			if (this.hasTargetvalues_abstract_()) {
+				
+				// TODO handle cycles etc. here and above : if ((this.hasTargetvaluelist()) || (this.hasTargetvalueorderedset()) || (this.hasTargetvaluecycle())) 
+				
+				addressedValueSituation = ValueMapping.ORDERED_SET;
+				
+				// TODO: exclude target values
+				
+				targetValuesList = getTargetValueList();
+			}
+		
+			// if no values are defined via rvl:targetValueOrderedSet
+			else {
+				
+				if (this.hasTargetvalueinterval()) {
+					
+					if (getExplicitScaleOfMeasurementOfTargetGR() == SOM_ORDINAL) {
+						
+						addressedValueSituation = ValueMapping.ORDERED_SET;
+						
+						targetValuesList = calculateOrderedSetFromRange();
+						
+						// TODO: exclude target values
+						
+					} else {
+						
+						addressedValueSituation = ValueMapping.CONTINUOUS_RANGE;
+						
+						targetValuesContinuousInterval = new IntervalX(getTargetValueInterval());
+						
+					}
+					
+				}
+			}
+		}
+	}
+
+	return addressedValueSituation;
+}
+
+private int determineAdressedSourceValues() {
+	
+	LOGGER.info("Determining Source Value (Situation) for " + this.getPropertyMapping().asURI());
+
+	int addressedValueSituation = ValueMapping.UNKNOWN;
+
+	// are values defined via rvl:sourceValue?
+	List<Node> singleSourceValueList = this.getAllSourcevalue_asNode_().asList();
+	long numberOfSingleSourceValues = singleSourceValueList.size();
+	
+	if (numberOfSingleSourceValues >= 1) {
+
+		// is exactly 1 rvl:sourceValue defined?
+		if (numberOfSingleSourceValues == 1) {
+			addressedValueSituation = ValueMapping.SINGLE_VALUE;
+			sourceValuesSingleValue = singleSourceValueList.get(0);
+
+		}
+		// if multiple rvl:sourceValue are defined ...
+		else {
+			addressedValueSituation = ValueMapping.UNORDERED_SET;
+			// store all values set via sourceValue as our new unordered set
+			// TODO: problem at the moment strings (literals) and resources
+			// are allowed, therefore node is used here.
+			sourceValuesUnorderedSet = new HashSet<Node>(singleSourceValueList);
+			// do we need to merge them with an additionally defined set?
+			
+			// merge with rvl:sourceValueSet if this was also defined ...
+			if (this.hasSourcevalueset()) {
+				sourceValuesUnorderedSet.addAll(getSourceValueSet());
+			}
+			
+			// TODO exclude source values
+		}
+	}
+	
+	// if no values are defined via rvl:sourceValue
+	else {
+		if (this.hasSourcevalueset() && !this.hasSourcevalueorderedset()) { // also ordered sets are sets!
+			
+			addressedValueSituation = ValueMapping.UNORDERED_SET;
+			sourceValuesUnorderedSet = getSourceValueSet();
+			
+			// TODO: exclude source values
+			
+		} 
+		
+		// if no values are defined via rvl:sourceValueSet
+		else {
+			
+			if (this.hasSourcefilter()) {
+				
+				getExplicitScaleOfMeasurementOfSourceProperty();
+				
+				// TODO handle filters
+				
+			} 
+			
+			// if no values are defined via rvl:sourceFilter
+			else {
+
+				if (this.hasSourcevalueorderedset()) {
+					
+					addressedValueSituation = ValueMapping.ORDERED_SET;
+					
+					// TODO: exclude source values
+					
+					sourceValuesOrderedSet = getSourceValueOrderedSet();
+				}
+			
+				// if no values are defined via rvl:sourceValueOrderedSet
+				else {
+					
+					if (this.hasSourceinterval()) {
+						
+						if (getExplicitScaleOfMeasurementOfSourceProperty() == SOM_ORDINAL) {
+							
+							addressedValueSituation = ValueMapping.ORDERED_SET;
+							
+							sourceValuesOrderedSet = calculateOrderedSetFromRange();
+							
+							// TODO: exclude source values
+							
+						} else {
+							
+							addressedValueSituation = ValueMapping.CONTINUOUS_RANGE;
+							
+							sourceValuesContinuousInterval = new IntervalX(getSourceValueInterval());
+							
+						}
+						
+					}
+				}
+			}
+		}
+	}
+
+	return addressedValueSituation;
+}
+
+public int calculateMappingSituation(){
+	
+	int svSituation = determineAdressedSourceValues();
+	int tvSituation = determineAdressedTargetValues();
+	
+	if(svSituation == CONTINUOUS_RANGE && tvSituation == CONTINUOUS_RANGE && isDiscretize()) {
+		return CC_D;
+	} else if(svSituation == CONTINUOUS_RANGE && tvSituation == CONTINUOUS_RANGE) {
+		return CC;
+	} else if(svSituation == CONTINUOUS_RANGE && tvSituation == ORDERED_SET) {
+		return CO;
+	} else if(svSituation == CONTINUOUS_RANGE && tvSituation == UNORDERED_SET) {
+		return CU;
+	} else if(svSituation == ORDERED_SET && tvSituation == CONTINUOUS_RANGE) {
+		return OC;
+	} else if(svSituation == ORDERED_SET && tvSituation == ORDERED_SET) {
+		return OO;
+	} else if(svSituation == ORDERED_SET && tvSituation == UNORDERED_SET) {
+		return OU;
+	} else if(svSituation == UNORDERED_SET && tvSituation == CONTINUOUS_RANGE) {
+		return UC;
+	} else if(svSituation == UNORDERED_SET && tvSituation == ORDERED_SET) {
+		return UO;
+	} else if(svSituation == UNORDERED_SET && tvSituation == UNORDERED_SET) {
+		return UU;
 	} else {
-		return -1;
+		return UNKNOWN; 
 	}
 }
 
@@ -845,7 +619,7 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 				
 		if (sourceValuesOrderedSet.size() <= targetValuesList.size() ) {
 			
-			// ignore stretching for the moment
+			// TODO ignored stretching for the moment
 			while (svIt.hasNext() && tvIt.hasNext()) {
 				Node sv = svIt.next();
 				Node tv = tvIt.next();
@@ -907,7 +681,7 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 
 			} else if (numberOfSv <= numberOfTv) {
 				
-				// ignore shuffling to random for the moment
+				// TODO ignored shuffling to random for the moment
 				while (svIt.hasNext() && tvIt.hasNext()) {
 					Node sv = svIt.next();
 					Node tv = tvIt.next();
@@ -974,9 +748,7 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 		
 		Set<Statement> statementSet = this.statementSet;
 		
-		int discreteStepCount = -1;
-		float discreteStepSize = -1; 
-		float discreteStepSize2 = -1; 
+		int discreteStepCount = -1; 
 		float discreteStepSizeSv = -1; 
 		float discreteStepSizeTv = -1; 
 		
@@ -1012,7 +784,7 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 				
 				Literal tvLiteral = null;
 				
-				// TODO evaluate out o range settings - crop / cut settings
+				// TODO evaluate out of range settings - crop / cut settings
 				
 				if (svValue <= svLowerBoundValue) {
 					
@@ -1044,22 +816,6 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 							// the follwoing does not work for sv equal svLowerBoundValue (case caught above)
 							tvValue = tvLowerBoundValue + ((int) ((svValue - svLowerBoundValue) / discreteStepSizeSv)) * discreteStepSizeTv; // TODO this does apparently not work for step count  = {0,1} -> div/0 -> catch earlier
 							
-							
-							/* OLD. delete soon:
-							
-							discreteStepCount = getDiscreteStepCount();
-							LOGGER.finest("discrete step count: " + discreteStepCount );
-							
-							discreteStepSize = tvRange/(discreteStepCount);
-							LOGGER.finest("discrete step size: " + discreteStepSize );
-							
-							discreteStepSize2 = tvRange/(discreteStepCount-1);
-							LOGGER.finest("discrete step size2: " + discreteStepSize2 );
-		
-							tvValue = tvLowerBoundValue + ((int) (svValue / discreteStepSize)) * discreteStepSize2; // TODO this does apparently not work for step count  = {0,1} -> div/0 -> catch earlier
-							
-							*/
-							
 							LOGGER.finest("tvValue: " + tvValue );
 						}
 						else {
@@ -1090,13 +846,6 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 					" will try to get values from the resource ... TOBEIMPLEMENTED");
 		}
 		
-		
-//      org.purl.rvl.java.rvl.PropertyMapping pm = getPropertyMapping();
-//		try {
-//			Set<Resource> affectedResources = pm.getAffectedResources();	
-//		} catch (InsufficientMappingSpecificationExecption e) {
-//			LOGGER.warning("Affected resources could not be calculated. Reason: " +  e.getMessage());
-//		}
 		
 	} else if (CO == caseID ) { // || CU == caseID) {
 		
@@ -1138,7 +887,7 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 				
 				Node tv = null;
 				
-				// TODO evaluate out o range settings - crop / cut settings
+				// TODO evaluate out of range settings - crop / cut settings
 				
 				if (svValue <= svLowerBoundValue) {
 					
@@ -1289,34 +1038,251 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 
 }
 
-public int calculateMappingSituation(){
+public Collection<CalculatedValueMapping> getCalculatedValueMappings(Set<Statement> statementSet) {
 	
-	int svSituation = determineAdressedSourceValues();
-	int tvSituation = determineAdressedTargetValues();
+	calculateValueMappings(statementSet);
+	return cvms;
+}
+
+private boolean invertOrderOfTargetValues() {
+
+	boolean invert = false;
 	
-	if(svSituation == CONTINUOUS_RANGE && tvSituation == CONTINUOUS_RANGE && isDiscretize()) {
-		return CC_D;
-	} else if(svSituation == CONTINUOUS_RANGE && tvSituation == CONTINUOUS_RANGE) {
-		return CC;
-	} else if(svSituation == CONTINUOUS_RANGE && tvSituation == ORDERED_SET) {
-		return CO;
-	} else if(svSituation == CONTINUOUS_RANGE && tvSituation == UNORDERED_SET) {
-		return CU;
-	} else if(svSituation == ORDERED_SET && tvSituation == CONTINUOUS_RANGE) {
-		return OC;
-	} else if(svSituation == ORDERED_SET && tvSituation == ORDERED_SET) {
-		return OO;
-	} else if(svSituation == ORDERED_SET && tvSituation == UNORDERED_SET) {
-		return OU;
-	} else if(svSituation == UNORDERED_SET && tvSituation == CONTINUOUS_RANGE) {
-		return UC;
-	} else if(svSituation == UNORDERED_SET && tvSituation == ORDERED_SET) {
-		return UO;
-	} else if(svSituation == UNORDERED_SET && tvSituation == UNORDERED_SET) {
-		return UU;
-	} else {
-		return UNKNOWN; 
+	if (this.hasInvertorderoftargetvalues()) {
+		
+		invert = getAllInvertorderoftargetvalues_as().firstValue();
+		
 	}
+	return invert;
+}
+
+/**
+ * Checks whether this value mapping only defines a 1-to-1 manual mapping of
+ * values
+ * 
+ * @return
+ */
+public Boolean isManualValueMapping() {
+	if (singleSourceValueDefined() && singleTargetValueDefined())
+		return true;
+	else
+		return false;
+}
+
+private boolean singleTargetValueDefined() {
+	// TODO Auto-generated method stub
+	return false;
+}
+
+private boolean singleSourceValueDefined() {
+	// TODO Auto-generated method stub
+	return false;
+}
+
+public boolean isDisabled() {
+	if (this.hasDisabled()) {
+		return this.getAllDisabled_as().firstValue();
+	} else
+		return false;
+}
+
+public boolean isDiscretize(){
+	
+	if (hasDiscretize()) {
+		return this.getAllDiscretize_as().firstValue();
+	} else 
+		return false;
+}
+
+public boolean hasDiscreteStepCount() {
+	return hasDiscretestepcount();
+}
+
+/**
+ * @return the addressedTargetValueSituation
+ */
+public int getDiscreteStepCount() {
+	
+	if (this.hasDiscreteStepCount()) {
+		return getAllDiscretestepcount_as().firstValue();
+	} else {
+		return -1;
+	}
+}
+
+private PropertyMapping getPropertyMapping() {
+	Resource res = this.getAllValuemapping_Inverse().next();
+	return new PropertyMapping(model, res, false);
+}
+
+@Override
+public String toString() {
+	
+	String s = "";
+	
+	// s += getCalculatedValueMappings() + NL;
+	
+	//s += "        used in PM: "
+	//		+ getPropertyMapping().getAllLabel_as().firstValue() + NL;
+	s += "        SoM of SP: "
+			+ getSomName(getExplicitScaleOfMeasurementOfSourceProperty()) + NL;
+	s += "        SoM of TV: "
+			+ getSomName(getExplicitScaleOfMeasurementOfTargetGR()) + NL;
+	s += "        addressed SV situation: "
+			+ getNameForValueSituation(getAddressedSourceValueSituation())
+			+ " (" + printAddressedSourceValues(getAddressedSourceValueSituation()) + ")" 
+			+ NL;
+	s += "        addressed TV situation: "
+			+ getNameForValueSituation(getAddressedTargetValueSituation())
+			+ " (" + printAddressedTargetValues(getAddressedTargetValueSituation()) + ")" 
+			+ NL;
+	s += "        mappings case: "
+			+ getMappingCaseName(calculateMappingSituation()) 
+			+ NL;
+	try {
+		s += "        calculated value mappings: "
+				+ calculateValueMappingsForCase(calculateMappingSituation()) 
+				+ NL;
+	} catch (UnexpressiveMappingSpecificationException e) {
+		s += "        " + e.getMessage() ;
+	}
+	
+	
+	
+	
+	return s + NL;
+}
+
+private String getSomName(int somID) {
+	
+	switch (somID) {
+	
+		case SOM_NOMINAL:
+			return "nominal";
+		case SOM_ORDINAL:
+			return "ordinal";
+		case SOM_QUANTITATIVE:
+			return "quantitative";
+		default:
+			return "unknown";
+	}
+}
+
+private String getNameForValueSituation(int situationID) {
+
+	switch (situationID) {
+	
+		case UNKNOWN:
+			return "unknown";
+		case CONTINUOUS_RANGE:
+			return "cont. range";
+		case ORDERED_SET:
+			return "ordered set or list";
+		case UNORDERED_SET:
+			return "set";
+		case SINGLE_VALUE:
+			return "single value";
+		default:
+			return "unknown";
+	}
+}
+
+private String getMappingCaseName(int caseID) {
+	
+	switch (caseID) {
+	
+	case CC: return "CC";
+	case CC_D: return "CCd";
+	case CO: return "CO";
+	case CU: return "CU";
+	case OC: return "OC";
+	case OO: return "OO";
+	case OU: return "OU";
+	case UC: return "UC";
+	case UO: return "UO";
+	case UU: return "UU";
+		default:
+			return "unknown";
+	}
+}
+
+private String printAddressedSourceValues(int addressedSourceValueSituation) {
+	
+	String s = "";
+	
+	try {
+
+		switch (addressedSourceValueSituation) {
+		
+			case SINGLE_VALUE:
+				s += "Single source value: " ;
+				s += sourceValuesSingleValue.toString();
+				break;
+
+			case UNORDERED_SET:
+				s += "Source value unordered set: ";
+				s += sourceValuesUnorderedSet.toString();
+				break;
+
+			case ORDERED_SET:
+				s += "Source value ordered set: ";
+				s += sourceValuesOrderedSet.toString();
+				break;
+
+			case CONTINUOUS_RANGE:
+				s += "Continuous range of source values: ";
+				s += sourceValuesContinuousInterval.toString();
+				break;
+		}
+	
+	} catch (NullPointerException e) {
+		
+		String warning = "Could not describe the addressed source values for the " +
+				"situation " + getNameForValueSituation(addressedSourceValueSituation);
+		LOGGER.warning(warning);
+		s += warning;
+	}
+
+	return s;
+}
+
+private String printAddressedTargetValues(int addressedTargetValueSituation) {
+String s = "";
+	
+	try {
+
+		switch (addressedTargetValueSituation) {
+		
+			case SINGLE_VALUE:
+				s += "Single target value: " ;
+				s += targetValuesSingleValue.toString();
+				break;
+
+			case UNORDERED_SET:
+				s += "Target value unordered set: ";
+				s += targetValuesUnorderedSet.toString();
+				break;
+
+			case ORDERED_SET:
+				s += "Target value list: ";
+				s += targetValuesList.toString();
+				break;
+
+			case CONTINUOUS_RANGE:
+				s += "Continuous range of target values: ";
+				s += targetValuesContinuousInterval.toString();
+				break;
+		}
+	
+	} catch (NullPointerException e) {
+		
+		String warning = "Could not describe the addressed target values for the " +
+				"situation " + getNameForValueSituation(addressedTargetValueSituation);
+		LOGGER.warning(warning);
+		s += warning;
+	}
+
+	return s;
 }
 
 }

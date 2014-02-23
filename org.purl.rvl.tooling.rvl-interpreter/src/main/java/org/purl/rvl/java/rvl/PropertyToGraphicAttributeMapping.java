@@ -16,6 +16,7 @@ import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
+import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.java.exception.InsufficientMappingSpecificationExecption;
 import org.purl.rvl.java.gen.rvl.GraphicAttribute;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
@@ -220,6 +221,10 @@ public class PropertyToGraphicAttributeMapping extends
 			return this.getAllTargetattribute_as().firstValue();
 		} else 
 			throw new InsufficientMappingSpecificationExecption();
+	}
+
+	public Property getSourceProperty() throws InsufficientMappingSpecificationExecption {
+		return ((PropertyMapping) this.castTo(PropertyMapping.class)).getSourceProperty();
 	}
 
 }

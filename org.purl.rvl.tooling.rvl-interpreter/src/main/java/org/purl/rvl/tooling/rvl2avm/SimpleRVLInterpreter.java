@@ -111,8 +111,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			
 			invertSourceProperty = p2go2orm.isInvertSourceProperty();
 			
-			PropertyMapping pm = (PropertyMapping) p2go2orm.castTo(PropertyMapping.class);
-			LOGGER.fine("Interpreting the mapping: " + NL + pm.toString());
+			LOGGER.fine("Interpreting the mapping: " + NL + p2go2orm.toString());
 			LOGGER.fine("The 'inverse' of the source property (" + sp.asURI() + ") will be used, according to mapping settings.");
 		}
 		catch (InsufficientMappingSpecificationExecption e) {
@@ -274,8 +273,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		//connector.setColorhslsaturation(new Float(100));
 		//connector.setColorhsllightness(new Float(50));
 	}
-	
-	
+
 	
 	/**
 	 * Interprets the normal P2GA mappings, i.e. those with need for calculating value mappings. 
@@ -302,12 +300,9 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		}
 
 		LOGGER.fine("The size of the Resource-to-GraphicObject map is " + resourceGraphicObjectMap.size()+".");
-
 		
 	}
-	
-	
-	
+
 	
 	/**
 	 * Interprets a normal P2GA mapping
@@ -318,43 +313,42 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 
 		LOGGER.info("Interpret P2GAM mapping " + p2gam.asURI() );
 
-		PropertyMapping pm = (PropertyMapping) p2gam.castTo(PropertyMapping.class);
-		
 		try {
-			Property sp = pm.getSourceProperty();
+			
 			GraphicAttribute tga = p2gam.getTargetAttribute();
 
-			    // get a statement set 
-			    Set<Statement> stmtSet = RVLUtils.findRelationsOnInstanceOrClassLevel(model, p2gam, null, null); 
+		    // get a statement set 
+		    Set<Statement> stmtSet = RVLUtils.findRelationsOnInstanceOrClassLevel(model, p2gam, null, null); 
 
-				// get the mapping table SV->TV
-				Map<Node, Node> svUriTVuriMap = p2gam.getCalculatedValues(stmtSet);	
-			    
-			    
-			    // for all statements check whether there is a tv for the sv
-			    for (Iterator<Statement> stmtSetIt = stmtSet.iterator(); stmtSetIt
-						.hasNext();) {
-			    	
-			    	Statement statement = (Statement) stmtSetIt.next();
-			    	
-					// create a GO for each subject of the statement
-				    GraphicObject go = createOrGetGraphicObject(statement.getSubject());
+			// get the mapping table SV->TV
+			Map<Node, Node> svUriTVuriMap = p2gam.getCalculatedValues(stmtSet);	
+		    
+		    
+		    // for all statements check whether there is a tv for the sv
+		    for (Iterator<Statement> stmtSetIt = stmtSet.iterator(); stmtSetIt
+					.hasNext();) {
+		    	
+		    	Statement statement = (Statement) stmtSetIt.next();
+		    	
+				// create a GO for each subject of the statement
+			    GraphicObject go = createOrGetGraphicObject(statement.getSubject());
 
-			    	Node sv = statement.getObject();
+		    	Node sv = statement.getObject();
 
-					LOGGER.finest("trying to find and apply value mapping for sv " + sv.toString());
-					
-					// get the target value for the sv
-			    	Node tv = svUriTVuriMap.get(sv);
-			    	
-			    	// if we found a tv for the sv
-			    	if (null != tv) {
-				    	applyGraphicValueToGO(tga, tv, sv, go);	
-			    	}
-			    	
-				}
+				LOGGER.finest("trying to find and apply value mapping for sv " + sv.toString());
+				
+				// get the target value for the sv
+		    	Node tv = svUriTVuriMap.get(sv);
+		    	
+		    	// if we found a tv for the sv
+		    	if (null != tv) {
+			    	applyGraphicValueToGO(tga, tv, sv, go);	
+		    	}
+		    	
+			}
+		    
 		} catch (InsufficientMappingSpecificationExecption e) {
-			LOGGER.warning("No resources will be affected by mapping " + pm.asURI() + " (" + e.getMessage() + ")" );
+			LOGGER.warning("No resources will be affected by mapping " + p2gam.asURI() + " (" + e.getMessage() + ")" );
 		} 
 			
 	}
@@ -420,10 +414,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			// get the mapping table SV->TV
 			Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
 			
-			PropertyMapping pm = (PropertyMapping) p2gam.castTo(PropertyMapping.class);
-			
 			try {
-				Property sp = pm.getSourceProperty();
 				GraphicAttribute tga = p2gam.getTargetAttribute();
 	
 			    Set<Statement> theStatementWithOurObject = RVLUtils.findRelationsOnInstanceOrClassLevel(model, p2gam, null, null); 
@@ -447,7 +438,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			    }
 			
 			} catch (InsufficientMappingSpecificationExecption e) {
-				LOGGER.warning("No resources will be affected by mapping " + pm.asURI() + " (" + e.getMessage() + ")" );
+				LOGGER.warning("No resources will be affected by mapping " + p2gam.asURI() + " (" + e.getMessage() + ")" );
 			} 
 			
 		}

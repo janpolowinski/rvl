@@ -5,6 +5,8 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
+import org.ontoware.rdfreactor.schema.rdfs.Property;
+import org.purl.rvl.java.exception.InsufficientMappingSpecificationExecption;
 import org.purl.rvl.java.gen.rvl.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
 import org.purl.rvl.java.gen.rvl.Sub_mappingrelation;
@@ -89,6 +91,10 @@ public class PropertyToGO2ORMapping extends
 		if (this.hasInvertsourceproperty()) {
 			return this.getAllInvertsourceproperty_as().firstValue();
 		} else return false;
+	}
+	
+	public Property getSourceProperty() throws InsufficientMappingSpecificationExecption {
+		return ((PropertyMapping) this.castTo(PropertyMapping.class)).getSourceProperty();
 	}
 
 }
