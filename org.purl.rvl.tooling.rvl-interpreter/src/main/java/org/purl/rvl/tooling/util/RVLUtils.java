@@ -373,7 +373,7 @@ public class RVLUtils {
 			javaList.add(headRdfsList);
 		}
 		
-		LOGGER.finest("Java list of nodes: " + javaList);
+//		LOGGER.finest("Java list of nodes: " + javaList);
 		return javaList;
 		
 	}

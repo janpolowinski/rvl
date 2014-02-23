@@ -526,6 +526,8 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 			List<Node> sourceValueSetJavaList = RVLUtils.rdfs2JavaList(this.getAllSourcevalueset_as().firstValue());
 			
 			set = new HashSet<Node>(sourceValueSetJavaList);
+			
+			LOGGER.fine("Unordered set of source values: " + set);
 		}
 		return set;
 	}
@@ -545,6 +547,9 @@ private Set<Node> getTargetValueSet() {
 					);
 		
 		set = new HashSet<Node>(list);
+		
+		LOGGER.fine("Unordered set of target values: " + set);
+		
 	}
 	return set;
 }
@@ -556,6 +561,8 @@ private List<Node> getSourceValueOrderedSet() {
 		if (this.hasSourcevalueorderedset()) {
 			
 			orderedSet = RVLUtils.rdfs2JavaList(this.getAllSourcevalueorderedset_as().firstValue());
+			
+			LOGGER.fine("Ordered set of source values: " + orderedSet);
 			
 		}
 		return orderedSet; 
@@ -582,6 +589,8 @@ private List<Node> getTargetValueList() {
 	if (invertOrderOfTargetValues()) {
 		Collections.reverse(list);
 	}
+	
+	LOGGER.fine("List of target values: " + list);
 	
 	return list; 
 }

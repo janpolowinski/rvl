@@ -341,8 +341,11 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					
 					// get the target value for the sv
 			    	Node tv = svUriTVuriMap.get(sv);
-			    
-			    	applyGraphicValueToGO(tga, tv, sv, go);	
+			    	
+			    	// if we found a tv for the sv
+			    	if (null != tv) {
+				    	applyGraphicValueToGO(tga, tv, sv, go);	
+			    	}
 			    	
 				}
 		} catch (InsufficientMappingSpecificationExecption e) {
@@ -380,7 +383,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		}
 		
 		else {
-			LOGGER.warning("Could not set target value, since of the required parameters was null.");
+			LOGGER.warning("Could not set target value, since one of the required parameters was null.");
 		}
 	}
 	

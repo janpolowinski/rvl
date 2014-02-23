@@ -181,8 +181,7 @@ public class GraphicObject extends
 		java.awt.Color awtColor = null;
 		float lightnessInPercent;
 		
-		LOGGER.finest("");
-		LOGGER.finest("start getting combined color ");
+		//LOGGER.finest("start getting combined color ");
 		
 		
 		// get the base color from a named color (if there is one) or the default color otherwise
@@ -205,7 +204,7 @@ public class GraphicObject extends
 			
 			lightnessInPercent = getColorHSLLightness();
 			
-			LOGGER.finest("Applying a lightness value of " + lightnessInPercent);
+			//LOGGER.finest("Applying a lightness value of " + lightnessInPercent);
 			
 			float[] hslFloats = new float[3];
 					
@@ -213,20 +212,20 @@ public class GraphicObject extends
 			
 			hslFloats[2] = lightnessInPercent/100;
 			
-			LOGGER.finest("HSL values: H:" + hslFloats[0] + " S:" + hslFloats[1] + " L:" + hslFloats[2] + "");
+			//LOGGER.finest("HSL values: H:" + hslFloats[0] + " S:" + hslFloats[1] + " L:" + hslFloats[2] + "");
 			
 			int colorAsInteger = ColorUtils.hslToRgb(hslFloats);
 			
 			colorHexString = Integer.toHexString(colorAsInteger & 0xffffff);
 			
-			LOGGER.info("combined color hex after int to hex: " + colorHexString);
+			//LOGGER.finest("combined color hex after int to hex: " + colorHexString);
 			
 			if (colorHexString.length() < 6) {
 				colorHexString = "000000".substring(0, 6 - colorHexString.length()) + colorHexString;
 			  }
 			colorHexString = "#" + colorHexString;
 			
-			LOGGER.info("combined color hex final: " + colorHexString);
+			LOGGER.finest("combined color hex final: " + colorHexString);
 			
 			
 		} else {
@@ -244,8 +243,7 @@ public class GraphicObject extends
 
 
 		
-		LOGGER.finest("end getting combined color ");
-		LOGGER.finest("");
+		//LOGGER.finest("end getting combined color ");
 		
 		return colorHexString;
 	}
