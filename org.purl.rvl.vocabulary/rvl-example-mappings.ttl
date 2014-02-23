@@ -40,7 +40,7 @@ rexm:PMWithExplicitValueMappingsAsBlankNodes
 # explicit value mappings - 
 # VARIANT: PM with explicit value mappings as blank nodes (to color named)
 rexm:PMWithExplicitValueMappingsAsBlankNodesToColorNamed
-      rvl:disabled "true"^^xsd:boolean ;
+      rvl:disabled "false"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rdfs:label "VARIANT: PM with explicit VM as blank nodes (to color named)"^^xsd:string ;
       rvl:sourceProperty rexd:workingField ;
@@ -52,7 +52,7 @@ rexm:PMWithExplicitValueMappingsAsBlankNodesToColorNamed
       ],[
         a rvl:ValueMapping ;
 		rvl:sourceValue rexd:Biography;
-        rvl:targetValue vg:Green;
+        rvl:targetValue vg:Blue;
       ]
       .      
       
@@ -186,7 +186,7 @@ rexm:PMwithValueMappingOfRange2ListA
 # A3 - quantitative 2 nominal (range 2 set) - 
 # (the set is defined adhoc by using targetValue multiple times)
 rexm:PMwithValueMappingOfRange2Set
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rdfs:label "A3 - quantitative 2 nominal (range 2 set) - PM with a VM that defines a mapping between a value range and a set of (unordered) target values"^^xsd:string ;
       rvl:sourceProperty rexd:hasCost ;

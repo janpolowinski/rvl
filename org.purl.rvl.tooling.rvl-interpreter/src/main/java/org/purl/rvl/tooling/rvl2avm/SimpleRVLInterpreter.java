@@ -72,8 +72,6 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 
 	/**
 	 * Interprets the P2GO2OR mappings. (ONLY LINKING AT THE MOMENT -> GENERALIZE)
-	 * Creates new GO for all affected resources if they don't exist already.
-	 * TODO: merge/reuse GOs
 	 */
 	protected void interpretP2GO2ORMappings() {
 		
@@ -201,81 +199,6 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		
 	}
 
-//	protected void oldInterpretMappingToLinkingForAffectedResources(PropertyToGO2ORMapping p2go2orm) {
-//		
-//		PropertyMapping pm = (PropertyMapping) p2go2orm.castTo(PropertyMapping.class);
-//		
-//		try {
-//			// get the subjects affected by the mapping // TODO: here we could also work with statements using the source property directly?!
-//			Set<org.ontoware.rdf2go.model.node.Resource> subjectSet = pm.getAffectedResources();
-//			Property sp = pm.getAllSourceproperty_as().firstValue();
-//			
-//			// for each affected resource // TODO do we need the effected resources here at all, or can we directly work on statements?
-//			for (Iterator<org.ontoware.rdf2go.model.node.Resource> iterator2 = subjectSet.iterator(); iterator2.hasNext();) {
-//				
-//				org.ontoware.rdf2go.model.node.Resource subjectResource = iterator2.next().asResource(); // strange: unlike in the toString() method of PM, we cannot simply cast to resource here, only to URI!
-//		    	
-//				// temp ignore blank nodes
-//				boolean nodeIsBlankNode = true;
-//				try {
-//					subjectResource.asURI();
-//					nodeIsBlankNode = false;
-//				} catch (ClassCastException e) {
-//					LOGGER.finer("ignoring blank node when creating linking relations: " + subjectResource);
-//				}
-//				if (!nodeIsBlankNode) {
-//				
-//			    	// problem: while iterating a statement iterator no instances may be created 
-//			    	// --> concurrend modification exception
-//			    	// solution: first create a set of statements, then iterate
-//			    	Set<Statement> resSpStmtSet = new HashSet<Statement>();
-//			    	//ClosableIterator<Statement> resSpStmtIt = model.findStatements(subjectResource, sp.asURI(), Variable.ANY); // will ignore statements using a subproperty of sp
-//			    	Iterator<Statement> resSpStmtIt = RVLUtils.oldFindStatementsPreferingThoseUsingASubProperty(model, subjectResource, sp.asURI(),Variable.ANY).iterator(); // should include statements using a subproperty of sp
-//					while (resSpStmtIt.hasNext()) {
-//						Statement statement = (Statement) resSpStmtIt.next();
-//						resSpStmtSet.add(statement);
-//					}
-//					
-//					for (Iterator<Statement> resSpStmtSetIt = resSpStmtSet.iterator(); resSpStmtSetIt
-//							.hasNext();) {
-//						Statement statement = (Statement) resSpStmtSetIt.next();
-//						LOGGER.fine("Statement to be mapped : " + statement);
-//	
-//						// For each statement, create a startNode GO representing the subject (if not exists)
-//					    GraphicObject startNode = createOrGetGraphicObject(subjectResource);
-//				    	LOGGER.finest("Assigned startNode for: " + subjectResource.toString());
-//						
-//						// For each statement, create an endNode GO representing the object (if not exists)
-//				    	Node object = statement.getObject();
-//						
-//						GraphicObject endNode = createOrGetGraphicObject((org.ontoware.rdf2go.model.node.Resource)object);
-//				    	LOGGER.finest("Assigned endNode for: " + object.toString());
-//				    	
-//				    	// create the linking relation
-//				    	DirectedLinking dlRel = new DirectedLinking(model, true);
-//				    	
-//						// create a connector and add default color
-//						GraphicObject connector = new GraphicObject(model, true);
-//	
-//						// check for sub-mappings and modify the connector accordingly (-> generalize!)
-//						checkForSubmappingsAndApplyToConnector(p2go2orm,statement,connector);
-//						
-//						// configure the relation
-//						dlRel.setStartnode(startNode);
-//						dlRel.setEndnode(endNode);
-//						dlRel.setLinkingconnector(connector);
-//						startNode.setLinkedto(dlRel);
-//						endNode.setLinkedfrom(dlRel);	
-//					}
-//				}
-//			}
-//
-//		} catch (InsufficientMappingSpecificationExecption e) {
-//			LOGGER.warning(e.getMessage());
-//			LOGGER.warning("--> No resources will be affected by mapping " + pm );
-//			//e.printStackTrace();
-//		}
-//	}
 
 	/**
 	 * Sets the color of the connector according to evtl. existent submappings
@@ -379,13 +302,12 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	
 	
 	
-	
 	/**
-	 * Interprets the simple P2GA mappings, i.e. those without need for calculating value mappings. 
+	 * Interprets the normal P2GA mappings, i.e. those with need for calculating value mappings. 
 	 * Creates GO for all affected resources if they don't exist already.
 	 */
 	protected void interpretNormalP2GArvlMappings() {
-
+		
 		Set<PropertyToGraphicAttributeMapping> setOfP2GAMappings = getAllP2GAMappingsWithNoExplicitMappings();
 		
 		// for each normal P2GA mapping
@@ -398,94 +320,86 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				LOGGER.info("Ignored disabled normal P2GAM mapping " + p2gam.asURI() );
 				continue;
 			}
-
-			LOGGER.info("Interpret P2GAM mapping " + p2gam.asURI() );
 			
-
-			
-			PropertyMapping pm = (PropertyMapping) p2gam.castTo(PropertyMapping.class);
-			try {
-				Set<org.ontoware.rdf2go.model.node.Resource> subjectSet;
-				subjectSet = pm.getAffectedResources();
-				Property sp = pm.getSourceProperty();
-				GraphicAttribute tga = p2gam.getTargetAttribute();
-				
-				// for each affected resource
-				for (Iterator<org.ontoware.rdf2go.model.node.Resource> iterator2 = subjectSet.iterator(); iterator2.hasNext();) {
-					org.ontoware.rdf2go.model.node.Resource resource = iterator2.next().asResource(); // strange: unlike in the toString() method of PM, we cannot simply cast to resource here, only to URI!
-					//LOGGER.info("affects: " + resource +  NL);
-					
-
-				    
-
-				    // get a statement set here instead
-				    //Set<Statement> statementSet = RVLUtils.findStatementsOnInstanceOrClassLevel(model, p2gam); // TODO here subject is not constrained!! won't work
-				    Set<Statement> theStatementWithOurObject = RVLUtils.findRelationsOnInstanceOrClassLevel(model, p2gam, resource, null); // TODO here subject is not constrained!! won't work
-				    
-				    
-					// get the mapping table SV->TV // TODO: this should only be done once!!!!s
-					Map<Node, Node> svUriTVuriMap = p2gam.getCalculatedValues(theStatementWithOurObject);	
-				    
-					
-					// create a GO for each affected resource // TODO: problem subjectFilter is ignored, since GO will be created already now!! 
-				    GraphicObject go = createOrGetGraphicObject(resource);
-
-				    
-				    // for all statements check whether there is a tv for the sv
-				    for (Iterator<Statement> stmtSetIt = theStatementWithOurObject.iterator(); stmtSetIt
-							.hasNext();) {
-				    	
-				    	Statement statement = (Statement) stmtSetIt.next();
-				    	Node sv = statement.getObject(); // useless! will set sv many times
-
-						LOGGER.finest("trying to find and apply value mapping for sv " + sv.toString());
-						
-						// get the target value for the sv
-				    	Node tv = svUriTVuriMap.get(sv);
-				    
-					    /*
-						while (resSpStmtIt.hasNext()) {
-							Statement statement = (Statement) resSpStmtIt.next();
-							sv = statement.getObject();
-							//LOGGER.info(sv);
-						}*/
-									
-
-				    	
-				    	if(tv!=null) {
-				    		
-							LOGGER.finest("found tv " + tv + " for sv " + sv);
-				    		
-					    	// if we are mapping to named colors
-						    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/color_named")) {
-						    	Color color = Color.getInstance(model, tv.asURI());
-						    	go.setColornamed(color);
-						    	//LOGGER.info("set color to " + color + " for sv " + sv);
-						    }
-						    
-					    	// if we are mapping to lightness
-						    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/color_hsl_lightness")) {
-						    	go.setColorhsllightness(tv);
-						    	LOGGER.finest("set color hsl lightness to " + tv.toString() + " for sv " + sv);
-						    }
-						    
-					    	// if we are mapping to named shapes
-						    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/shape_named")) {
-						    	Shape shape = ShapeX.getInstance(model, tv.asURI());
-						    	go.setShapenamed(shape);
-						    	//LOGGER.finest("set shape to " + shape + " for sv " + sv + NL);
-						    }
-				    	}	
-					}
-				}
-			} catch (InsufficientMappingSpecificationExecption e) {
-				LOGGER.warning("No resources will be affected by mapping " + pm.asURI() + " (" + e.getMessage() + ")" );
-			} 
-			
+			interpretNormalP2GArvlMapping(p2gam);
 		}
+
+		LOGGER.fine("The size of the Resource-to-GraphicObject map is " + resourceGraphicObjectMap.size()+".");
+
+		
 	}
 	
 	
+	
+	
+	/**
+	 * Interprets the simple P2GA mapping
+	 * Creates GO for all affected resources if they don't exist already.
+	 * @param p2gam 
+	 */
+	protected void interpretNormalP2GArvlMapping(PropertyToGraphicAttributeMapping p2gam) {
+
+		LOGGER.info("Interpret P2GAM mapping " + p2gam.asURI() );
+
+		PropertyMapping pm = (PropertyMapping) p2gam.castTo(PropertyMapping.class);
+		
+		try {
+			Property sp = pm.getSourceProperty();
+			GraphicAttribute tga = p2gam.getTargetAttribute();
+
+			    // get a statement set 
+			    Set<Statement> stmtSet = RVLUtils.findRelationsOnInstanceOrClassLevel(model, p2gam, null, null); 
+
+				// get the mapping table SV->TV
+				Map<Node, Node> svUriTVuriMap = p2gam.getCalculatedValues(stmtSet);	
+			    
+			    
+			    // for all statements check whether there is a tv for the sv
+			    for (Iterator<Statement> stmtSetIt = stmtSet.iterator(); stmtSetIt
+						.hasNext();) {
+			    	
+			    	Statement statement = (Statement) stmtSetIt.next();
+			    	
+					// create a GO for each subject of the statement
+				    GraphicObject go = createOrGetGraphicObject(statement.getSubject());
+
+			    	Node sv = statement.getObject();
+
+					LOGGER.finest("trying to find and apply value mapping for sv " + sv.toString());
+					
+					// get the target value for the sv
+			    	Node tv = svUriTVuriMap.get(sv);
+			    
+			    	if(tv!=null) {
+			    		
+						LOGGER.finest("found tv " + tv + " for sv " + sv);
+			    		
+				    	// if we are mapping to named colors
+					    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/color_named")) {
+					    	Color color = Color.getInstance(model, tv.asURI());
+					    	go.setColornamed(color);
+					    	//LOGGER.info("set color to " + color + " for sv " + sv);
+					    }
+					    
+				    	// if we are mapping to lightness
+					    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/color_hsl_lightness")) {
+					    	go.setColorhsllightness(tv);
+					    	LOGGER.finest("set color hsl lightness to " + tv.toString() + " for sv " + sv);
+					    }
+					    
+				    	// if we are mapping to named shapes
+					    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/shape_named")) {
+					    	Shape shape = ShapeX.getInstance(model, tv.asURI());
+					    	go.setShapenamed(shape);
+					    	//LOGGER.finest("set shape to " + shape + " for sv " + sv + NL);
+					    }
+			    	}	
+				}
+		} catch (InsufficientMappingSpecificationExecption e) {
+			LOGGER.warning("No resources will be affected by mapping " + pm.asURI() + " (" + e.getMessage() + ")" );
+		} 
+			
+	}
 	
 	
 
@@ -514,39 +428,23 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
 			
 			PropertyMapping pm = (PropertyMapping) p2gam.castTo(PropertyMapping.class);
+			
 			try {
-				Set<org.ontoware.rdf2go.model.node.Resource> subjectSet;
-				subjectSet = pm.getAffectedResources();
 				Property sp = pm.getSourceProperty();
 				GraphicAttribute tga = p2gam.getTargetAttribute();
-				
-				// for each affected resource
-				for (Iterator<org.ontoware.rdf2go.model.node.Resource> iterator2 = subjectSet.iterator(); iterator2.hasNext();) {
-					org.ontoware.rdf2go.model.node.Resource resource = iterator2.next().asResource(); // strange: unlike in the toString() method of PM, we cannot simply cast to resource here, only to URI!
-					//LOGGER.info("affects: " + resource +  NL);
-					
-					// create a GO for each affected resource
-				    GraphicObject go = createOrGetGraphicObject(resource);
-			    	Node sv = null;
-				    
+	
+			    Set<Statement> theStatementWithOurObject = RVLUtils.findRelationsOnInstanceOrClassLevel(model, p2gam, null, null); 
 
-				    // get a statement set here instead
-				    //Set<Statement> statementSet = RVLUtils.findStatementsOnInstanceOrClassLevel(model, p2gam); // TODO here subject is not constrained!! won't work
-				    Set<Statement> theStatementWithOurObject = RVLUtils.findRelationsOnInstanceOrClassLevel(model, p2gam, resource, null); // TODO here subject is not constrained!! won't work
-				    
-				    for (Iterator<Statement> stmtSetIt = theStatementWithOurObject.iterator(); stmtSetIt
-							.hasNext();) {
-						Statement statement = (Statement) stmtSetIt.next();
-						sv = statement.getObject(); // useless! will set sv many times
-					}
-				    
-				    /*
-					while (resSpStmtIt.hasNext()) {
-						Statement statement = (Statement) resSpStmtIt.next();
-						sv = statement.getObject();
-						//LOGGER.info(sv);
-					}*/
-								
+			    for (Iterator<Statement> stmtSetIt = theStatementWithOurObject.iterator(); stmtSetIt
+						.hasNext();) {
+					Statement statement = (Statement) stmtSetIt.next();
+					
+					// create a GO for each subject
+				    GraphicObject go = createOrGetGraphicObject(statement.getSubject());
+			    	Node sv = null;
+			    	
+					sv = statement.getObject(); 
+							
 					// get the target value for the sv
 			    	Node tv = svUriTVuriMap.get(sv);
 			    	
@@ -565,16 +463,15 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					    	LOGGER.finest("set shape to " + shape + " for sv " + sv + NL);
 					    }
 			    	}
-				}
+		    	
+			    }
+			
 			} catch (InsufficientMappingSpecificationExecption e) {
 				LOGGER.warning("No resources will be affected by mapping " + pm.asURI() + " (" + e.getMessage() + ")" );
 			} 
 			
 		}
 	}
-	
-	
-	
 	
 
 }
