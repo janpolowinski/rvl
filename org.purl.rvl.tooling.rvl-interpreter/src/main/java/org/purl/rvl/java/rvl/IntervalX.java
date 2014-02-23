@@ -70,4 +70,12 @@ public Node getUpperBound() {
 	return getUpperBoundIncl();
 }
 
+public float getLowerBoundAsFloat() {
+	return Float.parseFloat(getLowerBound().asLiteral().toString());
+}
+
+public float getUpperBoundAsFloat() {
+	return Float.parseFloat(getUpperBound().asLiteral().toString());
+}
+
 }

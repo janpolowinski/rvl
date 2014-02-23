@@ -621,6 +621,7 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 			
 			// TODO ignored stretching for the moment
 			while (svIt.hasNext() && tvIt.hasNext()) {
+				
 				Node sv = svIt.next();
 				Node tv = tvIt.next();
 				
@@ -675,6 +676,7 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 				Node tv = tvIt.next();
 				
 				while (svIt.hasNext()) {
+					
 					Node sv = svIt.next();
 					cvms.add(new CalculatedValueMapping(sv.asURI(), tv.asURI()));
 				}
@@ -683,6 +685,7 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 				
 				// TODO ignored shuffling to random for the moment
 				while (svIt.hasNext() && tvIt.hasNext()) {
+					
 					Node sv = svIt.next();
 					Node tv = tvIt.next();
 					
@@ -698,7 +701,6 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 	} else if (OC == caseID || UC == caseID) {
 		
 		Iterator<Node> svIt;
-		Iterator<Node> tvIt;
 		int numberOfSv ;
 		int numberOfTv ;
 		float lowerBoundValue;
@@ -718,21 +720,22 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 		// TODO check for discrete step count here
 		discreteStepCount = numberOfTv = numberOfSv;
 		LOGGER.finest("discrete step count: " + discreteStepCount );
-		
-		Node lowerBound = targetValuesContinuousInterval.getLowerBound();
-		Node upperBound = targetValuesContinuousInterval.getUpperBound();
-		
+
 		try {
-			lowerBoundValue = Float.parseFloat(lowerBound.asLiteral().toString());
+			
+			lowerBoundValue = targetValuesContinuousInterval.getLowerBoundAsFloat();
 			LOGGER.finest("lower bound: " + lowerBoundValue );
-			upperBoundValue = Float.parseFloat(upperBound.asLiteral().toString());
+			
+			upperBoundValue = targetValuesContinuousInterval.getUpperBoundAsFloat();
 			LOGGER.finest("upper bound: " + upperBoundValue );
 			
 			discreteStepSize = (upperBoundValue - lowerBoundValue)/(discreteStepCount-1);
 			LOGGER.finest("discrete step size: " + discreteStepSize );
 			
 			int step = 0;
+			
 			while (svIt.hasNext()) {
+				
 				Node sv = svIt.next();
 				Literal tvLiteral = new DatatypeLiteralImpl((lowerBoundValue + step*discreteStepSize) + "", new URIImpl("http://www.w3.org/2001/XMLSchema#float"));
 				cvms.add(new CalculatedValueMapping(sv.asURI(), tvLiteral));
@@ -757,19 +760,14 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 		float tvLowerBoundValue;
 		float tvUpperBoundValue;
 
-		Node svLowerBound = sourceValuesContinuousInterval.getLowerBound();
-		Node svUpperBound = sourceValuesContinuousInterval.getUpperBound();
-		Node tvLowerBound = targetValuesContinuousInterval.getLowerBound();
-		Node tvUpperBound = targetValuesContinuousInterval.getUpperBound();
-		
 		try {
-			svLowerBoundValue = Float.parseFloat(svLowerBound.asLiteral().toString());
+			svLowerBoundValue = sourceValuesContinuousInterval.getLowerBoundAsFloat();
 			LOGGER.finest("sv lower bound: " + svLowerBoundValue );
-			svUpperBoundValue = Float.parseFloat(svUpperBound.asLiteral().toString());
+			svUpperBoundValue = sourceValuesContinuousInterval.getUpperBoundAsFloat();
 			LOGGER.finest("sv upper bound: " + svUpperBoundValue );
-			tvLowerBoundValue = Float.parseFloat(tvLowerBound.asLiteral().toString());
+			tvLowerBoundValue = targetValuesContinuousInterval.getLowerBoundAsFloat();
 			LOGGER.finest("tv lower bound: " + tvLowerBoundValue );
-			tvUpperBoundValue = Float.parseFloat(tvUpperBound.asLiteral().toString());
+			tvUpperBoundValue = targetValuesContinuousInterval.getUpperBoundAsFloat();
 			LOGGER.finest("tv upper bound: " + tvUpperBoundValue );
 			
 			for (Iterator<Statement> iterator = statementSet.iterator(); iterator.hasNext();) {
@@ -823,7 +821,6 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 						}
 						
 					} else {
-						
 							float svRange = svUpperBoundValue-svLowerBoundValue;
 							float tvRange = tvUpperBoundValue-tvLowerBoundValue;
 							float stretchFactor =  tvRange/svRange;
@@ -856,9 +853,6 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 		
 		float svLowerBoundValue;
 		float svUpperBoundValue;
-
-		Node svLowerBound = sourceValuesContinuousInterval.getLowerBound();
-		Node svUpperBound = sourceValuesContinuousInterval.getUpperBound();
 		
 		int numberOfTv ;
 		
@@ -871,9 +865,9 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 		}		
 		
 		try {
-			svLowerBoundValue = Float.parseFloat(svLowerBound.asLiteral().toString());
+			svLowerBoundValue = sourceValuesContinuousInterval.getLowerBoundAsFloat();
 			LOGGER.finest("sv lower bound: " + svLowerBoundValue );
-			svUpperBoundValue = Float.parseFloat(svUpperBound.asLiteral().toString());
+			svUpperBoundValue = sourceValuesContinuousInterval.getUpperBoundAsFloat();
 			LOGGER.finest("sv upper bound: " + svUpperBoundValue );
 			
 			for (Iterator<Statement> iterator = statementSet.iterator(); iterator.hasNext();) {
@@ -952,9 +946,6 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 		float svLowerBoundValue;
 		float svUpperBoundValue;
 
-		Node svLowerBound = sourceValuesContinuousInterval.getLowerBound();
-		Node svUpperBound = sourceValuesContinuousInterval.getUpperBound();
-		
 		int numberOfTv ;
 		
 		// get the number of target values
@@ -966,9 +957,9 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 		}		
 		
 		try {
-			svLowerBoundValue = Float.parseFloat(svLowerBound.asLiteral().toString());
+			svLowerBoundValue = sourceValuesContinuousInterval.getLowerBoundAsFloat();
 			LOGGER.finest("sv lower bound: " + svLowerBoundValue );
-			svUpperBoundValue = Float.parseFloat(svUpperBound.asLiteral().toString());
+			svUpperBoundValue = sourceValuesContinuousInterval.getUpperBoundAsFloat();
 			LOGGER.finest("sv upper bound: " + svUpperBoundValue );
 			
 			for (Iterator<Statement> iterator = statementSet.iterator(); iterator.hasNext();) {
@@ -1013,8 +1004,7 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 					} else { // (0 target values)
 						throw new UnexpressiveMappingSpecificationException("No value mappings could be calculated! Discretization steps must be greater or equal 2");
 					}
-						
-		
+	
 				}
 				
 				if (null != tv) {
@@ -1028,9 +1018,7 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 		} catch (Exception e) {
 			LOGGER.finest("sv lower/upper bound  or sv itself is not a literal");
 		}
-		
-		
-		
+	
 	}
 
 	LOGGER.finest("Calculated value mappings: " + cvms);
