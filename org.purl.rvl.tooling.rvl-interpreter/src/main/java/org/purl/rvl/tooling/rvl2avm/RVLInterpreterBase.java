@@ -188,7 +188,7 @@ public abstract class RVLInterpreterBase {
 		for(QueryRow row : results) {
 			Property_to_Graphic_Object_to_Object_RelationMapping mapping = Property_to_Graphic_Object_to_Object_RelationMapping.getInstance(model, (URI)row.getValue("mapping"));
 			mappingSet.add((PropertyToGO2ORMapping)mapping.castTo(PropertyToGO2ORMapping.class));
-			LOGGER.info("Found mapping to linking: " + row.getValue("mapping").toString());
+			//LOGGER.info("Found mapping to linking: " + row.getValue("mapping").toString());
 		}
 		
 		return mappingSet;

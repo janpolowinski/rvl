@@ -78,7 +78,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		// get all P2GO2OR mappings to linking and create n-ary linking relations
 		Set<PropertyToGO2ORMapping> setOfMappingsToLinking = getAllMappingsToLinking();
 		
-		LOGGER.info("Will evaluate " +setOfMappingsToLinking.size()+ " PGOTOR mappings.");
+		LOGGER.info(NL + "Found " +setOfMappingsToLinking.size()+ " PGOTOR mappings.");
 		
 		// for each mapping
 		for (Iterator<PropertyToGO2ORMapping> iterator = setOfMappingsToLinking
@@ -256,7 +256,10 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				URI predicate = mainStatement.getPredicate();
 				Node colorNode = svUriTVuriMap.get(predicate);
 				
-				applyGraphicValueToGO(tga, colorNode, predicate, connector);
+				// if we found a tv for the sv
+		    	if (null != colorNode && null != predicate) {
+		    		applyGraphicValueToGO(tga, colorNode, predicate, connector);
+		    	}
 				
 			}
 			
@@ -281,6 +284,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	protected void interpretNormalP2GArvlMappings() {
 		
 		Set<PropertyToGraphicAttributeMapping> setOfP2GAMappings = getAllP2GAMappingsWithNoExplicitMappings();
+		
+		LOGGER.info(NL + "Found " +setOfP2GAMappings.size()+ " normal P2GA mappings.");
 		
 		// for each normal P2GA mapping
 		for (Iterator<PropertyToGraphicAttributeMapping> iterator = setOfP2GAMappings
@@ -397,6 +402,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		
 		Set<PropertyToGraphicAttributeMapping> setOfSimpleP2GAMappings = getAllP2GAMappingsWithExplicitMappings();
 		
+		LOGGER.info(NL + "Found " +setOfSimpleP2GAMappings.size()+ " simple P2GA mappings.");
+		
 		// for each simple mapping
 		for (Iterator<PropertyToGraphicAttributeMapping> iterator = setOfSimpleP2GAMappings
 				.iterator(); iterator.hasNext();) {
@@ -433,8 +440,10 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					// get the target value for the sv
 			    	Node tv = svUriTVuriMap.get(sv);
 			    	
-			    	applyGraphicValueToGO(tga, tv, sv, go);
-		    	
+			    	// if we found a tv for the sv
+			    	if (null != tv) {
+			    		applyGraphicValueToGO(tga, tv, sv, go);
+			    	}
 			    }
 			
 			} catch (InsufficientMappingSpecificationExecption e) {

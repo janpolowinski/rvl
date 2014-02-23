@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
@@ -24,6 +25,9 @@ import org.purl.rvl.java.mapping.CalculatedValueMapping;
 
 public class PropertyToGraphicAttributeMapping extends
 		Property_to_Graphic_AttributeMapping implements MappingIF {
+	
+	
+	private final static Logger LOGGER = Logger.getLogger(PropertyToGraphicAttributeMapping.class .getName()); 
 	
 	private static final long serialVersionUID = 5391124674649010787L;
 	static final String NL =  System.getProperty("line.separator");
@@ -74,6 +78,8 @@ public class PropertyToGraphicAttributeMapping extends
 			for(QueryRow row : explMapResults) {
 				explicitlyMappedValues.put(row.getValue("sv"),row.getValue("tv"));
 			}
+			
+			LOGGER.fine("Created map of explicit sv and tv :" +  explicitlyMappedValues);
 		}
 
 		return explicitlyMappedValues;

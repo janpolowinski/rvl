@@ -434,7 +434,7 @@ rexm:PMwithAnonSubmappingOnConnectorNotYetSupported
 # sub-mapping - 
 # CHANGE IN LISTINGS: rdf:predicate, not rvl:predicate ; vg:targetAttribute vs vg:targetGraphicAttribute
 rexm:PMwithAnonymousSubmappingToNamedMappingOnConnector
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
       rdfs:label "PM with an anonymous sub-mapping to an existing, named mapping"^^xsd:string ;
       rvl:sourceProperty rexd:cites ;
@@ -451,7 +451,7 @@ rexm:PMwithAnonymousSubmappingToNamedMappingOnConnector
 # PM from ID to color (used as a submapping above)
 rexm:PMfromID2ColorNamed
       rdf:type rvl:PropertyMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true"^^xsd:boolean ;
       rdfs:label "PM from ID to color (used as a submapping)"^^xsd:string ;
  	  rvl:sourceProperty rvl:ID ;
  	  rvl:targetAttribute vg:color_named ;
