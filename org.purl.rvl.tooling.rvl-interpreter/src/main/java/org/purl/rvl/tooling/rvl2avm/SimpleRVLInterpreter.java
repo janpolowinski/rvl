@@ -281,7 +281,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	 */
 	protected void interpretNormalP2GArvlMappings() {
 		
-		Set<PropertyToGraphicAttributeMapping> setOfP2GAMappings = getAllP2GAMappingsWithNoExplicitMappings();
+		Set<PropertyToGraphicAttributeMapping> setOfP2GAMappings = getAllP2GAMappingsWithSomeValueMappings();
 		
 		LOGGER.info(NL + "Found " +setOfP2GAMappings.size()+ " normal P2GA mappings.");
 		

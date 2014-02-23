@@ -137,7 +137,7 @@ public abstract class RVLInterpreterBase {
 	/**
 	 * Get all the mappings that require calculation, because they have not only explicit 1-1-value-mappings
 	 */
-	protected Set<PropertyToGraphicAttributeMapping> getAllP2GAMappingsWithNoExplicitMappings(){
+	protected Set<PropertyToGraphicAttributeMapping> getAllP2GAMappingsWithSomeValueMappings(){
 		
 		Set<PropertyToGraphicAttributeMapping> mappingSet = new HashSet<PropertyToGraphicAttributeMapping>();
 
