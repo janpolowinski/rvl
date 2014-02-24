@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
+import org.ontoware.rdf2go.model.ModelIO;
 import org.ontoware.rdf2go.model.Syntax;
 import org.purl.rvl.java.viso.graphic.GraphicObject;
 import org.purl.rvl.java.viso.graphic.GraphicSpace;
@@ -44,9 +45,17 @@ public class OGVICProcess {
 	protected static final String TMP_RVL_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempRvl.ttl";
 	public static final String TMP_AVM_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempAVM.ttl";
 	
+	
+	ModelBuilder modelBuilder;
+	
+	protected Model modelAVM;
+	
+	/*
 	protected static Model model;
 	protected static Model modelVISO;
-	protected static Model modelAVM;
+	protected static Model modelData;
+	protected static Model modelMappings;
+	*/
 	
 	protected static FakeRVLInterpreter avmBuilder;
 	protected D3GeneratorBase d3Generator;
@@ -110,7 +119,7 @@ public class OGVICProcess {
 	
 	public void runOGVICProcess(){
 		
-		ModelBuilder modelBuilder = new ModelBuilder();
+		modelBuilder = new ModelBuilder();
 		
 		if (REGENERATE_AVM) {
 			
@@ -122,8 +131,11 @@ public class OGVICProcess {
 				e.printStackTrace();
 				return;
 			} 
+			/*
 			model = modelBuilder.getModel();
 			modelVISO = modelBuilder.getVISOModel();
+			*/
+			
 			modelAVM = modelBuilder.getAVMModel();
 			
 			// create and set an interpreter, if not already set
@@ -132,7 +144,7 @@ public class OGVICProcess {
 				//rvlInterpreter = new FakeRVLInterpreter();
 				rvlInterpreter = new SimpleRVLInterpreter();
 			}
-			rvlInterpreter.init(model,modelAVM);
+			rvlInterpreter.init(getModel(),getModelAVM());
 			
 			// interprete RVL mappings
 			interpreteRVL2AVM();	
@@ -141,7 +153,7 @@ public class OGVICProcess {
 		else if (WRITE_JSON) {
 			readAVMFromFile(modelBuilder);
 			modelBuilder.initVISOModel(ontologyFileRegistry);
-			modelVISO = modelBuilder.getVISOModel();
+			//modelVISO = modelBuilder.getVISOModel();
 		}
 		
 		if (WRITE_JSON) {
@@ -151,7 +163,7 @@ public class OGVICProcess {
 				LOGGER.warning("JSON generator was not set, using default one.");
 				setD3Generator(new D3GeneratorSimpleJSON());
 			}
-			d3Generator.init(modelAVM);
+			d3Generator.init(getModelAVM());
 	
 			
 			// transform AVM 2 JSON
@@ -210,14 +222,14 @@ public class OGVICProcess {
 	 * Saves the whole Model to a tmp file 
 	 * TODO: does not currently filter out non-avm triples!
 	 */
-	public static void writeAVMToFile() {
+	public void writeAVMToFile() {
 	
 		try {
 			
 			String fileName = OGVICProcess.TMP_AVM_MODEL_FILE_NAME;
 			FileWriter writer = new FileWriter(fileName);
 			
-			modelAVM.writeTo(writer, Syntax.Turtle);
+			getModelAVM().writeTo(writer, Syntax.Turtle);
 			writer.flush();
 			writer.close();
 			
@@ -227,6 +239,7 @@ public class OGVICProcess {
 			e.printStackTrace();
 		}
 	}
+
 
 	public void setD3Generator(D3GeneratorBase d3Generator) {
 		this.d3Generator = d3Generator;
@@ -296,7 +309,23 @@ public class OGVICProcess {
 	}
 
 	public Model getModelVISO() {
-		return modelVISO;
+		return modelBuilder.getVISOModel();
+	}
+	
+	public Model getModelData() {
+		return modelBuilder.getDataModel();
+	}
+	
+	public Model getModelMappings() {
+		return modelBuilder.getMappingsModel();
+	}
+	
+	public Model getModel() {
+		return modelBuilder.getModel();
+	}
+	
+	public Model getModelAVM() {
+		return this.modelAVM;
 	}
 
 }

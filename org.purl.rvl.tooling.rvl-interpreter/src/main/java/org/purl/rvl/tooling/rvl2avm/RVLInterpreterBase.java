@@ -36,6 +36,7 @@ import org.purl.rvl.java.rvl.PropertyToGO2ORMapping;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping;
 import org.purl.rvl.java.viso.graphic.GraphicObject;
 import org.purl.rvl.java.viso.graphic.ShapeX;
+import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.RVLUtils;
 
@@ -45,6 +46,8 @@ public abstract class RVLInterpreterBase {
 	protected Model modelAVM;
 	protected Map<org.ontoware.rdf2go.model.node.Resource,GraphicObject> resourceGraphicObjectMap; 
 	protected Random random;
+	
+	protected OGVICProcess ogvicProcess = OGVICProcess.getInstance();
 
 	
 	private final static Logger LOGGER = Logger.getLogger(RVLInterpreterBase.class .getName()); 

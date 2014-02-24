@@ -23,6 +23,8 @@ public class ModelBuilder {
 	
 	private Model model;
 	private Model modelVISO;
+	private Model modelData;
+	private Model modelMappings;
 	private Model modelAVM;
 	
 	private final static Logger LOGGER = Logger.getLogger(ModelBuilder.class.getName()); 
@@ -35,6 +37,14 @@ public class ModelBuilder {
 	
 	public Model getVISOModel(){
 		return modelVISO;
+		}
+	
+	public Model getDataModel(){
+		return modelData;
+		}
+	
+	public Model getMappingsModel(){
+		return modelMappings;
 		}
 	
 	public Model getAVMModel(){
@@ -54,6 +64,7 @@ public class ModelBuilder {
 		//model = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		model = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		model.open();
+		
 		modelVISO = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		modelVISO.open();
 
@@ -77,8 +88,18 @@ public class ModelBuilder {
 		// create the RDF2GO Models
 		model = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		model.open();
+		
+		// extra model for VISO
 		modelVISO = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		modelVISO.open();
+		
+		// extra model for data
+		modelData = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		modelData.open();
+		
+		// extra model for mappings
+		modelMappings = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		modelMappings.open();
 		
 		// empty model to hold the AVM
 		modelAVM = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
@@ -98,6 +119,7 @@ public class ModelBuilder {
 				File file = (File) iterator.next();
 				LOGGER.finer("Found registered data file: " + file.getAbsolutePath().toString());
 				readFromAnySyntax(model,file);
+				//readFromAnySyntax(modelData,file);
 			}
 		}
 		
@@ -106,6 +128,7 @@ public class ModelBuilder {
 				File file = (File) iterator.next();
 				LOGGER.finer("Found registered mapping file: " + file.getAbsolutePath().toString());
 				readFromAnySyntax(model,file);
+				//readFromAnySyntax(modelMappings,file);
 			}
 		}
 		
@@ -165,4 +188,5 @@ public class ModelBuilder {
 	public void initVISOModel(FileRegistry ontologyFileRegistry) {
 		initRDF2GoModels(ontologyFileRegistry, null, null);
 	}
+
 }
