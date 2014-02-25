@@ -23,6 +23,7 @@ import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.ontoware.rdfreactor.schema.rdfs.Resource;
 import org.purl.rvl.java.exception.InsufficientMappingSpecificationExecption;
 import org.purl.rvl.java.gen.rvl.GraphicAttribute;
+import org.purl.rvl.java.gen.rvl.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.rvl.Mapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
@@ -170,6 +171,7 @@ public abstract class RVLInterpreterBase {
 		return mappingSet;
 	}
 	
+	/*
 	protected Set<PropertyToGO2ORMapping> getAllMappingsToLinking() {
 		
 		Set<PropertyToGO2ORMapping> mappingSet = new HashSet<PropertyToGO2ORMapping>();
@@ -195,6 +197,49 @@ public abstract class RVLInterpreterBase {
 		}
 		
 		return mappingSet;
+	}
+	
+	*/
+	
+	protected Set<PropertyToGO2ORMapping> getAllP2GOTORMappingsTo(URI gotor) {
+		
+		Set<PropertyToGO2ORMapping> mappingSet = new HashSet<PropertyToGO2ORMapping>();
+		
+		// constraining target GOTOR is optional
+		String gotorString;
+		if (null == gotor) {
+			gotorString = " ?tgotor ";
+		} else {
+			gotorString = gotor.toSPARQL();
+		}
+
+		String queryString = "" +
+				"SELECT DISTINCT ?mapping " +
+				"WHERE { " +
+				"    ?mapping a <" + PropertyToGO2ORMapping.RDFS_CLASS + "> . " +
+				"    ?mapping " + PropertyToGO2ORMapping.TARGETOBJECT_TO_OBJECTRELATION.toSPARQL() + " " + gotorString + " . " +
+				"} " ;
+		
+		LOGGER.finer("SPARQL: query all mappings to " + gotorString + ":" + NL + 
+				     queryString);
+		
+		QueryResultTable results = model.sparqlSelect(queryString);
+		//for(QueryRow row : results) {LOGGER.info(row); }
+		//for(String var : results.getVariables()) { LOGGER.info(var); }
+		
+		for(QueryRow row : results) {
+			Property_to_Graphic_Object_to_Object_RelationMapping mapping = Property_to_Graphic_Object_to_Object_RelationMapping.getInstance(model, (URI)row.getValue("mapping"));
+			mappingSet.add((PropertyToGO2ORMapping)mapping.castTo(PropertyToGO2ORMapping.class));
+			//LOGGER.info("Found mapping to linking: " + row.getValue("mapping").toString());
+		}
+		
+		return mappingSet;
+	}
+	
+	
+	protected Set<PropertyToGO2ORMapping> getAllP2GOTORMappings() {
+		
+		return getAllP2GOTORMappingsTo(null);
 	}
 	
 	/**

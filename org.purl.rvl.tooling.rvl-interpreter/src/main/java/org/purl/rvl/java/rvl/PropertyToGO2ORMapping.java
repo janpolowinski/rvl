@@ -97,4 +97,16 @@ public class PropertyToGO2ORMapping extends
 		return ((PropertyMapping) this.castTo(PropertyMapping.class)).getSourceProperty();
 	}
 
+	public GraphicObjectToObjectRelation getTargetGraphicRelation() throws InsufficientMappingSpecificationExecption {
+		if (this.hasTargetobject_to_objectrelation()) {
+			return this.getAllTargetobject_to_objectrelation_as().firstValue();
+		} else throw new InsufficientMappingSpecificationExecption("Missing target graphic relation.");
+	}
+
+	public Property getInheritedBy() {
+		if (this.hasInvertsourceproperty()) {
+			return (Property)getAllInheritedby_as().firstValue().castTo(Property.class);
+		} else return null;
+	}
+
 }

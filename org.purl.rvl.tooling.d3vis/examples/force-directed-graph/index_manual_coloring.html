@@ -9,8 +9,16 @@ body {
 }
 
 .node {
-  stroke: #fff;
+  /*stroke: #fff;*/
   stroke-width: 1.5px;
+}
+
+.circle {
+  stroke: #fff;
+}
+
+.rectangle {
+  stroke: #000;
 }
 
 .link {
@@ -20,8 +28,16 @@ body {
     stroke-width: 4px;
 }
 
+marker#linkUndirected {
+    fill: #0000ff;
+}
+
+marker#linkDirected {
+    fill: #00ff00;
+}
+
 marker#link {
-    fill: #999;
+    fill: #ccc;
 }
 
 text.nodeLabel {
@@ -104,8 +120,8 @@ d3.json("data.json", function(error, graph) {
 		 var path = svg.selectAll(".link")
         .data(graph.links)
         .enter().append("svg:path")
-		.attr("class", "link")
-        //.attr("class", function (d) { return "link " + d.type; })  
+		//.attr("class", "link")
+        .attr("class", function (d) { return "link link" + d.type; })  
 		.style("stroke", function(d) { return d.color_rgb_hex; })
 		.attr("marker-end", function (d) {
         	//return "url(#" + d.type + ")";
@@ -132,7 +148,7 @@ d3.json("data.json", function(error, graph) {
 	    //  .data(graph.nodes)
 	      //.enter().
 		  elemEnter.append("svg:circle")
-	      //.attr("class", "node")
+	      .attr("class", function(d) { return "node " + d.shape_d3_name; })
 	      .attr("r", function(d) { return d.width; })
 	      //.style("fill", function(d) { return d.color_rgb_hex; })
 		  //.style("fill", function(d) { return "hsl(120,100%,50%)"; })

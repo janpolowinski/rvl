@@ -19,8 +19,11 @@ import org.json.simple.JSONObject;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.Syntax;
+import org.ontoware.rdf2go.model.node.Node;
 import org.purl.rvl.java.exception.IncompleteColorValuesException;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
+import org.purl.rvl.java.gen.viso.graphic.Thing1;
+import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
 import org.purl.rvl.java.viso.graphic.Color;
 import org.purl.rvl.java.viso.graphic.GraphicObject;
 import org.purl.rvl.tooling.process.OGVICProcess;
@@ -148,8 +151,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 		*/
 		
 		
-		// generate JSON link entries directly by iterating all DirectedLinking instances, not via startNodes 
-		
+		// directed linking: generate JSON link entries directly by iterating all DirectedLinking instances, not via startNodes 
 		try {
 			ClosableIterator<? extends DirectedLinking> dlRelIt =
 					DirectedLinking.getAllInstances_as(modelAVM).asClosableIterator();
@@ -160,6 +162,8 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				GraphicObject connector = (GraphicObject) dlRel.getAllLinkingconnector_as().firstValue().castTo(GraphicObject.class);
 				// get index of the endNode in the above generated Map
 				Map link = new LinkedHashMap();
+				link.put("type", "Directed");
+				//link.put("type", dlRel.getRDFSClassURI().toString());
 				link.put("source", goMap.get(startNode));
 				link.put("target", goMap.get(endNode));
 				link.put("value", "1");
@@ -172,6 +176,46 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			LOGGER.warning("No JSON links could be generated. " + e.getMessage());
 			e.printStackTrace();
 		}		
+		
+		// undirected linking
+		try {
+			ClosableIterator<? extends UndirectedLinking> relIt =
+					UndirectedLinking.getAllInstances_as(modelAVM).asClosableIterator();
+			while (relIt.hasNext()) {
+				UndirectedLinking rel = (UndirectedLinking) relIt.next().castTo(UndirectedLinking.class); // TODO wieso liess sich GO zu DLRel casten???
+				
+				List<Thing1> nodes = rel.getAllLinkingnode_as().asList();
+				
+				GraphicObject node1 = null;
+				GraphicObject node2 = null;
+				
+				if(nodes.size() == 2) {
+				
+					node1 = (GraphicObject) nodes.get(0).castTo(GraphicObject.class);
+					node2 = (GraphicObject) nodes.get(1).castTo(GraphicObject.class);
+					
+				} else {
+					LOGGER.warning("Undirected Linkings with a number of nodes unequal 2 are not supported");
+					continue;
+				}
+				
+				GraphicObject connector = (GraphicObject) rel.getAllLinkingconnector_as().firstValue().castTo(GraphicObject.class);
+				// get index of the endNode in the above generated Map
+				Map link = new LinkedHashMap();
+				//link.put("type", rel.getRDFSClassURI().toString());
+				link.put("type", "Undirected");
+				link.put("source", goMap.get(node1));
+				link.put("target", goMap.get(node2));
+				link.put("value", "1");
+				link.put("label", connector.getLabel());
+				link.put("color_rgb_hex", connector.getColorHex());
+				listOfLinks.add(link);
+				LOGGER.finer("Generated JSON link for " + rel + " (" + node1.getLabel() + " --> " + node2.getLabel() +")" );
+				}
+		} catch (Exception e) {
+			LOGGER.warning("No JSON links could be generated. " + e.getMessage());
+			e.printStackTrace();
+		}	
 		
 		d3data.put("links", listOfLinks);
 		

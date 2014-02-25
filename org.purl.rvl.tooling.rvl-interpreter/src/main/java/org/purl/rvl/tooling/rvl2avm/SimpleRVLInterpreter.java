@@ -18,12 +18,12 @@ import org.ontoware.rdf2go.model.QueryResultTable;
 import org.ontoware.rdf2go.model.QueryRow;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.Node;
+import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
-import org.ontoware.rdfreactor.schema.rdfs.Resource;
 import org.purl.rvl.java.exception.InsufficientMappingSpecificationExecption;
 import org.purl.rvl.java.gen.rvl.GraphicAttribute;
 import org.purl.rvl.java.gen.rvl.Mapping;
@@ -31,9 +31,11 @@ import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
 import org.purl.rvl.java.gen.rvl.Sub_mappingrelation;
 import org.purl.rvl.java.gen.viso.graphic.Color;
+import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.Shape;
 import org.purl.rvl.java.gen.viso.graphic.Thing1;
+import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
 import org.purl.rvl.java.rvl.PropertyMapping;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMapping;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping;
@@ -71,27 +73,50 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	}
 
 	/**
-	 * Interprets the P2GO2OR mappings. (ONLY LINKING AT THE MOMENT -> GENERALIZE)
+	 * Interprets the P2GO2OR mappings.
+	 * TODO: Implement other GR than linking
 	 */
 	protected void interpretP2GO2ORMappings() {
 		
 		// get all P2GO2OR mappings to linking and create n-ary linking relations
-		Set<PropertyToGO2ORMapping> setOfMappingsToLinking = getAllMappingsToLinking();
+		//Set<PropertyToGO2ORMapping> setOfMappingsToLinking = getAllP2GOTORMappingsTo(DirectedLinking.RDFS_CLASS); // 
 		
-		LOGGER.info(NL + "Found " +setOfMappingsToLinking.size()+ " PGOTOR mappings.");
+		Set<PropertyToGO2ORMapping> mappings = getAllP2GOTORMappings();
+		
+		LOGGER.info(NL + "Found " + mappings.size() + " PGOTOR mappings (enabled and disabled mappings).");
 		
 		// for each mapping
-		for (Iterator<PropertyToGO2ORMapping> iterator = setOfMappingsToLinking
+		for (Iterator<PropertyToGO2ORMapping> iterator = mappings
 				.iterator(); iterator.hasNext();) {
 			
 			PropertyToGO2ORMapping p2go2orm = (PropertyToGO2ORMapping) iterator.next();
 			
+			// skip disabled
 			if (p2go2orm.isDisabled()) {
 				LOGGER.info("Ignored disabled P2GO2OR mapping " + p2go2orm.asURI());
 				continue;
 			}
 			
-			interpretMappingToLinking(p2go2orm);
+			try {
+				
+				if (p2go2orm.getTargetGraphicRelation().equals(DirectedLinking.RDFS_CLASS) || p2go2orm.getTargetGraphicRelation().equals(UndirectedLinking.RDFS_CLASS)) {
+					interpretMappingToLinking(p2go2orm);
+				}
+//				else if (p2go2orm.getTargetGraphicRelation().equals(UndirectedLinking.RDFS_CLASS)) {
+//					LOGGER.info("Ignored Mapping to Undirected Linking. Undirected Linking not yet implemented");
+//				}
+				else if (p2go2orm.getTargetGraphicRelation().equals(Containment.RDFS_CLASS)) {
+					//interpretMappingToLinking(p2go2orm);
+					LOGGER.info("Ignored Mapping to Containment. Containment not yet implemented");
+				}
+				else  {
+					LOGGER.info("Ignord mapping to " + p2go2orm.getTargetGraphicRelation() + ". Graphic relation not yet implemented");
+				}
+				
+			} catch (InsufficientMappingSpecificationExecption e) {
+				LOGGER.severe("Could not interpret P2GOTOR mapping " +  p2go2orm.asURI() + ". " + e.getMessage());
+			}
+
 		}
 		
 		LOGGER.fine("The size of the Resource-to-GraphicObject map is " + resourceGraphicObjectMap.size()+".");
@@ -106,12 +131,12 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 
 		// check some settings and skip if mapping incomplete
 		try {
-			sp = p2go2orm.getAllSourceproperty_as().firstValue();
+			sp = p2go2orm.getSourceProperty();
 			if (null==sp) throw new InsufficientMappingSpecificationExecption();
 			
 			invertSourceProperty = p2go2orm.isInvertSourceProperty();
 			
-			LOGGER.fine("Interpreting the mapping: " + NL + p2go2orm.toString());
+			LOGGER.fine("Interpreting the mapping to Linking: " + NL + p2go2orm.toString());
 			LOGGER.fine("The 'inverse' of the source property (" + sp.asURI() + ") will be used, according to mapping settings.");
 		}
 		catch (InsufficientMappingSpecificationExecption e) {
@@ -123,12 +148,13 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		// consider inherited relations, including those between classes (someValueFrom ...)
 		if(p2go2orm.hasInheritedby()) {
 			try{
-				Property inheritedBy = (Property)p2go2orm.getAllInheritedby_as().firstValue().castTo(Property.class);
+				Property inheritedBy = p2go2orm.getInheritedBy();
 				stmtSetIterator = RVLUtils.findRelationsOnClassLevel(model, sp.asURI(), inheritedBy).iterator();
 
 			}
 			catch (Exception e) {
-				LOGGER.warning("Problem evaluating inheritedBy setting - not a Property?");
+				LOGGER.severe("Problem evaluating inheritedBy setting - not a Property?");
+				return;
 			}
 		}
 		else {
@@ -138,14 +164,14 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		
 		
 		int processedGraphicRelations = 0;	
+		
 		while (stmtSetIterator.hasNext() && processedGraphicRelations < OGVICProcess.MAX_GRAPHIC_RELATIONS_PER_MAPPING) {
 			
 			Statement statement = (Statement) stmtSetIterator.next();
 						
 			try {
-			
-				org.ontoware.rdf2go.model.node.Resource subject = statement.getSubject();
-				org.ontoware.rdf2go.model.node.Resource object = statement.getObject().asResource();
+				Resource subject = statement.getSubject();
+				Resource object = statement.getObject().asResource();
 				
 				LOGGER.finest("Subject label " + AVMUtils.getLocalName(modelAVM,subject));
 				LOGGER.finest("Object label " + AVMUtils.getLocalName(modelAVM,object));
@@ -159,11 +185,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				// For each statement, create an endNode GO representing the object (if not exists)
 		    	//Node object = statement.getObject();
 				
-				GraphicObject objectNode = createOrGetGraphicObject((org.ontoware.rdf2go.model.node.Resource)object);
+				GraphicObject objectNode = createOrGetGraphicObject(object);
 		    	LOGGER.finest("Created GO for object: " + object.toString());
-		    	
-		    	// create the linking relation
-		    	DirectedLinking dlRel = new DirectedLinking(modelAVM, true);
 		    	
 				// create a connector and add default color
 				GraphicObject connector = new GraphicObject(modelAVM, true);
@@ -172,21 +195,42 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				if(p2go2orm.hasSub_mapping()){
 					applySubmappingToConnector(p2go2orm,statement,connector);
 				}
-
 				
-				// configure the relation
-				if(invertSourceProperty) {
-					dlRel.setEndnode(subjectNode);
-					dlRel.setStartnode(objectNode);
-					subjectNode.setLinkedfrom(dlRel);
-					objectNode.setLinkedto(dlRel);
-				} else {
-					dlRel.setStartnode(subjectNode);
-					dlRel.setEndnode(objectNode);
-					subjectNode.setLinkedto(dlRel);
-					objectNode.setLinkedfrom(dlRel);
+				// directed linking
+				if (p2go2orm.getTargetGraphicRelation().equals(DirectedLinking.RDFS_CLASS)) {
+					
+			    	// create the directed linking relation
+			    	DirectedLinking dlRel = new DirectedLinking(modelAVM, true);
+			    	
+					// configure the relation
+					if(invertSourceProperty) {
+						dlRel.setEndnode(subjectNode);
+						dlRel.setStartnode(objectNode);
+						subjectNode.setLinkedfrom(dlRel);
+						objectNode.setLinkedto(dlRel);
+					} else {
+						dlRel.setStartnode(subjectNode);
+						dlRel.setEndnode(objectNode);
+						subjectNode.setLinkedto(dlRel);
+						objectNode.setLinkedfrom(dlRel);
+					}
+					
+					dlRel.setLinkingconnector(connector);
+					
+				} else { // undirected linking
+					
+					// create the undirected linking relation
+			    	UndirectedLinking udlRel = new UndirectedLinking(modelAVM, true);
+			    	
+					// configure the relation
+					udlRel.addLinkingnode(subjectNode);
+					udlRel.addLinkingnode(objectNode);
+					subjectNode.setLinkedwith(udlRel);
+					objectNode.setLinkedwith(udlRel);
+					
+					udlRel.setLinkingconnector(connector);
+
 				}
-				dlRel.setLinkingconnector(connector);
 				
 			}
 			catch (Exception e) {

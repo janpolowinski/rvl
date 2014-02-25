@@ -9,11 +9,18 @@ package org.purl.rvl.java.exception;
  */
 public class InsufficientMappingSpecificationExecption extends Exception {
 
+	static String GENERAL_MESSAGE = "Mapping insuffiently specified. Missing source or target property?";
+
+	
 	/**
 	 * @param message
 	 */
 	public InsufficientMappingSpecificationExecption() {
-		super("Mapping insuffiently specified. Missing source or target property?");
+		super(GENERAL_MESSAGE);
+	}
+
+	public InsufficientMappingSpecificationExecption(String string) {
+		super(GENERAL_MESSAGE + " " + string);
 	}
 
 	/**
