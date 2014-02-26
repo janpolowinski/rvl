@@ -253,7 +253,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	protected void applySubmappingToConnector(PropertyToGO2ORMapping p2go2orm, Statement mainStatement, GraphicObject connector) {
 		
 		String label = "";
-		Sub_mappingrelation smr = p2go2orm.getAllSub_mapping_as().firstValue();
+		Sub_mappingrelation smr = p2go2orm.getAllSub_mapping_as().firstValue(); // TODO only first submapping handled here
 
 		if(smr.hasSub_mapping() && smr.hasOnrole()){
 			
