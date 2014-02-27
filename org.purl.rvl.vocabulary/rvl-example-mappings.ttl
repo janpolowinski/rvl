@@ -52,7 +52,7 @@ rexm:PMWithExplicitValueMappingsAsBlankNodesToColorNamed
       ],[
         a rvl:ValueMapping ;
 		rvl:sourceValue rexd:Biography;
-        rvl:targetValue vg:Blue;
+        rvl:targetValue vg:Green;
       ]
       .      
       
@@ -401,10 +401,11 @@ rexm:PMtoContainment
     
 rexm:PMtoUndirectedLinking
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true"^^xsd:boolean ;
       rdfs:label "PM to Undirected Linking"^^xsd:string ;
       rvl:sourceProperty rexd:cites ;
       rvl:targetObjToObjRelation vg:Linking_Undirected_Relation ; 
+     # rvl:subMapping rexm:NamedSubMappingRelation 
     .
       
 
@@ -422,6 +423,7 @@ rexm:PMwithNamedSubmappingToNamedMappingOnConnector
 rexm:NamedSubMappingRelation
     rdf:type rvl:SubMappingRelation ;  
 	rvl:subMapping-onRole vg:linking_connector;
+	#rvl:subMapping-onRole vg:linkingDirected_startNode; 
     rvl:subMapping-onTriplePart rdf:predicate;
     rvl:subMapping-mapping rexm:PMfromID2ColorNamed .
       

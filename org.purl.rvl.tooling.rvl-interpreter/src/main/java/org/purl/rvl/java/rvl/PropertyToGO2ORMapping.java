@@ -2,6 +2,7 @@ package org.purl.rvl.java.rvl;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
@@ -10,16 +11,21 @@ import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
-import org.purl.rvl.java.exception.InsufficientMappingSpecificationExecption;
+import org.purl.rvl.java.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
 import org.purl.rvl.java.gen.rvl.Sub_mappingrelation;
+import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.RVLUtils;
 
 public class PropertyToGO2ORMapping extends
 		Property_to_Graphic_Object_to_Object_RelationMapping implements MappingIF {
 	
 	static final String NL =  System.getProperty("line.separator");
+	
+	private final static Logger LOGGER = Logger.getLogger(PropertyToGO2ORMapping.class.getName());
+
+	private Set<SubMappingRelationX> subMappings; 
 	
 	public PropertyToGO2ORMapping(Model model, URI classURI,
 			Resource instanceIdentifier, boolean write) {
@@ -97,14 +103,14 @@ public class PropertyToGO2ORMapping extends
 		} else return false;
 	}
 	
-	public Property getSourceProperty() throws InsufficientMappingSpecificationExecption {
+	public Property getSourceProperty() throws InsufficientMappingSpecificationException {
 		return ((PropertyMapping) this.castTo(PropertyMapping.class)).getSourceProperty();
 	}
 
-	public GraphicObjectToObjectRelation getTargetGraphicRelation() throws InsufficientMappingSpecificationExecption {
+	public GraphicObjectToObjectRelation getTargetGraphicRelation() throws InsufficientMappingSpecificationException {
 		if (this.hasTargetobject_to_objectrelation()) {
 			return this.getAllTargetobject_to_objectrelation_as().firstValue();
-		} else throw new InsufficientMappingSpecificationExecption("Missing target graphic relation.");
+		} else throw new InsufficientMappingSpecificationException("Missing target graphic relation.");
 	}
 
 	public Property getInheritedBy() {
@@ -114,6 +120,11 @@ public class PropertyToGO2ORMapping extends
 	}
 
 	public Set<SubMappingRelationX> getSubMappings() {
+		
+		if (null != subMappings) {
+			return subMappings;
+		}
+		
 		Set<SubMappingRelationX> subMappingRelationsX = new HashSet<SubMappingRelationX>();
 		if (this.hasSub_mapping()) {
 			ClosableIterator<Sub_mappingrelation> subMappingRelations =  getAllSub_mapping_as().asClosableIterator();
@@ -122,10 +133,23 @@ public class PropertyToGO2ORMapping extends
 				Sub_mappingrelation rel = (Sub_mappingrelation) subMappingRelations
 						.next();
 				
-				subMappingRelationsX.add(new SubMappingRelationX(rel));
+				SubMappingRelationX relX = new SubMappingRelationX(rel);
+				
+				if (!relX.hasSubMapping() || !relX.hasOnRole()) {
+					LOGGER.warning("Ignored incomplete submapping " + relX.toStringSummary() + ", since no submapping was found or onRole is not specified.");
+					continue;
+				}
+				
+				subMappingRelationsX.add(relX);
 			}
-			return subMappingRelationsX;
-		} else return null;
+			
+			subMappings = subMappingRelationsX;
+			
+			return subMappings;
+			
+		} else  {
+			return null;
+		}	
 	}
 
 }

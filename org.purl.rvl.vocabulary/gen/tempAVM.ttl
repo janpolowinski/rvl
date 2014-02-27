@@ -37,7 +37,7 @@ rdfs:Class  a            rdfs:Class , rdfs:Resource ;
 rdf:Statement  a         rdfs:Class , rdfs:Resource ;
         rdfs:subClassOf  rdfs:Resource , rdf:Statement .
 
-rdf:XMLLiteral  a  rdfs:Datatype , rdfs:Class , rdfs:Resource .
+rdf:XMLLiteral  a  rdfs:Datatype , rdfs:Resource , rdfs:Class .
 
 rdfs:comment  a     rdf:Property , rdfs:Resource ;
         rdfs:range  rdfs:Literal .
@@ -71,289 +71,198 @@ rdfs:subClassOf  a   rdf:Property , rdfs:Resource ;
         rdfs:domain  rdfs:Class ;
         rdfs:range   rdfs:Class .
 
-<http://purl.org/rvl/example-avm/GO_557773376>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "The Bhagavad Gita" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <urn:rnd:10b16e08:14472782b18:-7f3a> ;
-        <http://purl.org/viso/graphic/linked_with>
-                <urn:rnd:10b16e08:14472782b18:-7f48> .
-
-<urn:rnd:10b16e08:14472782b18:-7f44>
-        a       <http://purl.org/viso/graphic/Linking_Undirected_Relation> ;
+<urn:rnd:-163d3df1:14473955957:-7f44>
+        a       <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_1009614194> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_1691947920> ;
         <http://purl.org/viso/graphic/linking_connector>
-                <urn:rnd:10b16e08:14472782b18:-7f45> ;
-        <http://purl.org/viso/graphic/linking_node>
-                <http://purl.org/rvl/example-avm/GO_506242408> , <http://purl.org/rvl/example-avm/GO_1317089974> .
+                <urn:rnd:-163d3df1:14473955957:-7f45> .
 
-<urn:rnd:10b16e08:14472782b18:-7f3d>
-        a       <http://purl.org/viso/graphic/Graphic_Object> ;
-        <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Grey> .
-
-<http://purl.org/rvl/example-avm/GO_-1716895531>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Bob" ;
-        <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Blue> .
-
-<urn:rnd:10b16e08:14472782b18:-7f51>
-        a       <http://purl.org/viso/graphic/Graphic_Object> ;
-        <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Grey> .
-
-<http://purl.org/rvl/example-avm/GO_481326607>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Luisa" .
-
-<urn:rnd:10b16e08:14472782b18:-7f4a>
-        a       <http://purl.org/viso/graphic/Linking_Undirected_Relation> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <urn:rnd:10b16e08:14472782b18:-7f4b> ;
-        <http://purl.org/viso/graphic/linking_node>
-                <http://purl.org/rvl/example-avm/GO_506242408> , <http://purl.org/rvl/example-avm/GO_1333717875> .
-
-<http://purl.org/rvl/example-avm/GO_-667814329>
+<http://purl.org/rvl/example-avm/GO_-328775192>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
         rdfs:label  "Bob" .
 
-<urn:rnd:10b16e08:14472782b18:-7f36>
-        a       <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_506242408> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1317089974> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <urn:rnd:10b16e08:14472782b18:-7f37> .
-
-<urn:rnd:10b16e08:14472782b18:-7f49>
-        a       <http://purl.org/viso/graphic/Graphic_Object> ;
-        <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Grey> .
-
-<http://purl.org/rvl/example-avm/GO_1317089974>
+<urn:rnd:-163d3df1:14473955957:-7f4d>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Proof of Heaven" ;
-        <http://purl.org/viso/graphic/linked_to>
-                <urn:rnd:10b16e08:14472782b18:-7f36> ;
-        <http://purl.org/viso/graphic/linked_with>
-                <urn:rnd:10b16e08:14472782b18:-7f44> .
-
-<urn:rnd:10b16e08:14472782b18:-7f43>
-        a       <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "http://purl.org/viso/graphic/linking_connector with an applied submapping:  ... to mapping: ################################################\n     Label: PM from ID to color (used as a submapping)\n ... on role: http://purl.org/viso/graphic/linking_connector################################################\n     Label: PM from ID to color (used as a submapping)\n     source property: http://purl.org/rvl/ID\n     Target graphic attribute: Color named\n     (value mappings not yet calculated ... showing only explicit ones:)\n       http://purl.org/rvl/example-data/cites --> http://purl.org/viso/graphic/Green\n       http://purl.org/rvl/example-data/citesVeryCritical --> http://purl.org/viso/graphic/Red\n       http://purl.org/rvl/example-data/citesCritical --> http://purl.org/viso/graphic/Yellow\n ... on triple part: http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate" ;
         <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Grey> .
+                <http://purl.org/viso/graphic/Green> .
 
-<http://purl.org/rvl/example-avm/GO_993909337>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Lina" ;
-        <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Blue> .
-
-<urn:rnd:10b16e08:14472782b18:-7f3c>
-        a       <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_506242408> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1333717875> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <urn:rnd:10b16e08:14472782b18:-7f3d> .
-
-<urn:rnd:10b16e08:14472782b18:-7f4f>
-        a       <http://purl.org/viso/graphic/Graphic_Object> ;
-        <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Grey> .
-
-<urn:rnd:10b16e08:14472782b18:-7f50>
-        a       <http://purl.org/viso/graphic/Linking_Undirected_Relation> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <urn:rnd:10b16e08:14472782b18:-7f51> ;
-        <http://purl.org/viso/graphic/linking_node>
-                <http://purl.org/rvl/example-avm/GO_1538811953> , <http://purl.org/rvl/example-avm/GO_1333717875> .
-
-<urn:rnd:10b16e08:14472782b18:-7f48>
-        a       <http://purl.org/viso/graphic/Linking_Undirected_Relation> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <urn:rnd:10b16e08:14472782b18:-7f49> ;
-        <http://purl.org/viso/graphic/linking_node>
-                <http://purl.org/rvl/example-avm/GO_557773376> , <http://purl.org/rvl/example-avm/GO_64185763> .
-
-<urn:rnd:10b16e08:14472782b18:-7f42>
-        a       <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1538811953> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1333717875> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <urn:rnd:10b16e08:14472782b18:-7f43> .
-
-<urn:rnd:10b16e08:14472782b18:-7f3b>
-        a       <http://purl.org/viso/graphic/Graphic_Object> ;
-        <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Grey> .
-
-<urn:rnd:10b16e08:14472782b18:-7f4e>
-        a       <http://purl.org/viso/graphic/Linking_Undirected_Relation> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <urn:rnd:10b16e08:14472782b18:-7f4f> ;
-        <http://purl.org/viso/graphic/linking_node>
-                <http://purl.org/rvl/example-avm/GO_1333717875> , <http://purl.org/rvl/example-avm/GO_1317089974> .
-
-<urn:rnd:10b16e08:14472782b18:-7f47>
-        a       <http://purl.org/viso/graphic/Graphic_Object> ;
-        <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Grey> .
-
-<http://purl.org/rvl/example-avm/GO_748252118>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Franzi" .
-
-<urn:rnd:10b16e08:14472782b18:-7f41>
-        a       <http://purl.org/viso/graphic/Graphic_Object> ;
-        <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Grey> .
-
-<urn:rnd:10b16e08:14472782b18:-7f3a>
-        a       <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_557773376> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_64185763> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <urn:rnd:10b16e08:14472782b18:-7f3b> .
-
-<http://purl.org/rvl/example-avm/GO_1538811953>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Atlas of Remote Islands" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <urn:rnd:10b16e08:14472782b18:-7f38> ;
-        <http://purl.org/viso/graphic/linked_with>
-                <urn:rnd:10b16e08:14472782b18:-7f46> .
-
-<http://purl.org/rvl/example-avm/GO_896981037>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Works of Swami Vivekananda" ;
-        <http://purl.org/viso/graphic/linked_to>
-                <urn:rnd:10b16e08:14472782b18:-7f3e> ;
-        <http://purl.org/viso/graphic/linked_with>
-                <urn:rnd:10b16e08:14472782b18:-7f4c> .
-
-<urn:rnd:10b16e08:14472782b18:-7f4d>
-        a       <http://purl.org/viso/graphic/Graphic_Object> ;
-        <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Grey> .
-
-<urn:rnd:10b16e08:14472782b18:-7f39>
-        a       <http://purl.org/viso/graphic/Graphic_Object> ;
-        <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Grey> .
-
-<urn:rnd:10b16e08:14472782b18:-7f46>
-        a       <http://purl.org/viso/graphic/Linking_Undirected_Relation> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <urn:rnd:10b16e08:14472782b18:-7f47> ;
-        <http://purl.org/viso/graphic/linking_node>
-                <http://purl.org/rvl/example-avm/GO_1538811953> , <http://purl.org/rvl/example-avm/GO_1317089974> .
-
-<http://purl.org/rvl/example-avm/GO_1333717875>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Amazing Grace" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <urn:rnd:10b16e08:14472782b18:-7f40> ;
-        <http://purl.org/viso/graphic/linked_to>
-                <urn:rnd:10b16e08:14472782b18:-7f3c> ;
-        <http://purl.org/viso/graphic/linked_with>
-                <urn:rnd:10b16e08:14472782b18:-7f4a> .
-
-<urn:rnd:10b16e08:14472782b18:-7f3f>
-        a       <http://purl.org/viso/graphic/Graphic_Object> ;
-        <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Grey> .
-
-<http://purl.org/rvl/example-avm/GO_877715892>
+<http://purl.org/rvl/example-avm/GO_-1826384179>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
         rdfs:label  "John" ;
         <http://purl.org/viso/graphic/color_named>
                 <http://purl.org/viso/graphic/Red> .
 
-<http://purl.org/rvl/example-avm/GO_1851326482>
+<http://purl.org/rvl/example-avm/GO_1691947920>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "Proof of Heaven" ;
+        <http://purl.org/viso/graphic/linked_to>
+                <urn:rnd:-163d3df1:14473955957:-7f44> .
+
+<http://purl.org/rvl/example-avm/GO_1730413262>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
         rdfs:label  "Christof" ;
         <http://purl.org/viso/graphic/color_named>
                 <http://purl.org/viso/graphic/Red> .
 
-<urn:rnd:10b16e08:14472782b18:-7f40>
+<urn:rnd:-163d3df1:14473955957:-7f49>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "http://purl.org/viso/graphic/linking_connector with an applied submapping:  ... to mapping: ################################################\n     Label: PM from ID to color (used as a submapping)\n ... on role: http://purl.org/viso/graphic/linking_connector################################################\n     Label: PM from ID to color (used as a submapping)\n     source property: http://purl.org/rvl/ID\n     Target graphic attribute: Color named\n     (value mappings not yet calculated ... showing only explicit ones:)\n       http://purl.org/rvl/example-data/cites --> http://purl.org/viso/graphic/Green\n       http://purl.org/rvl/example-data/citesVeryCritical --> http://purl.org/viso/graphic/Red\n       http://purl.org/rvl/example-data/citesCritical --> http://purl.org/viso/graphic/Yellow\n ... on triple part: http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate" ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Green> .
+
+<http://purl.org/rvl/example-avm/GO_242425918>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "Franzi" .
+
+<urn:rnd:-163d3df1:14473955957:-7f4c>
         a       <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
         <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1333717875> ;
+                <http://purl.org/rvl/example-avm/GO_1802231012> ;
         <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1317089974> ;
+                <http://purl.org/rvl/example-avm/GO_1132040878> ;
         <http://purl.org/viso/graphic/linking_connector>
-                <urn:rnd:10b16e08:14472782b18:-7f41> .
+                <urn:rnd:-163d3df1:14473955957:-7f4d> .
 
-<urn:rnd:10b16e08:14472782b18:-7f4c>
-        a       <http://purl.org/viso/graphic/Linking_Undirected_Relation> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <urn:rnd:10b16e08:14472782b18:-7f4d> ;
-        <http://purl.org/viso/graphic/linking_node>
-                <http://purl.org/rvl/example-avm/GO_557773376> , <http://purl.org/rvl/example-avm/GO_896981037> .
-
-<urn:rnd:10b16e08:14472782b18:-7f38>
+<urn:rnd:-163d3df1:14473955957:-7f48>
         a       <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
         <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1538811953> ;
+                <http://purl.org/rvl/example-avm/GO_1802231012> ;
         <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1317089974> ;
+                <http://purl.org/rvl/example-avm/GO_-1968525099> ;
         <http://purl.org/viso/graphic/linking_connector>
-                <urn:rnd:10b16e08:14472782b18:-7f39> .
+                <urn:rnd:-163d3df1:14473955957:-7f49> .
 
-<http://purl.org/rvl/example-avm/GO_64185763>
+<http://purl.org/rvl/example-avm/GO_1802231012>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "The Bhagavad Gita" ;
+        <http://purl.org/viso/graphic/linked_from>
+                <urn:rnd:-163d3df1:14473955957:-7f48> .
+
+<urn:rnd:-163d3df1:14473955957:-7f51>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "http://purl.org/viso/graphic/linking_connector with an applied submapping:  ... to mapping: ################################################\n     Label: PM from ID to color (used as a submapping)\n ... on role: http://purl.org/viso/graphic/linking_connector################################################\n     Label: PM from ID to color (used as a submapping)\n     source property: http://purl.org/rvl/ID\n     Target graphic attribute: Color named\n     (value mappings not yet calculated ... showing only explicit ones:)\n       http://purl.org/rvl/example-data/cites --> http://purl.org/viso/graphic/Green\n       http://purl.org/rvl/example-data/citesVeryCritical --> http://purl.org/viso/graphic/Red\n       http://purl.org/rvl/example-data/citesCritical --> http://purl.org/viso/graphic/Yellow\n ... on triple part: http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate" ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Red> .
+
+<urn:rnd:-163d3df1:14473955957:-7f4b>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "http://purl.org/viso/graphic/linking_connector with an applied submapping:  ... to mapping: ################################################\n     Label: PM from ID to color (used as a submapping)\n ... on role: http://purl.org/viso/graphic/linking_connector################################################\n     Label: PM from ID to color (used as a submapping)\n     source property: http://purl.org/rvl/ID\n     Target graphic attribute: Color named\n     (value mappings not yet calculated ... showing only explicit ones:)\n       http://purl.org/rvl/example-data/cites --> http://purl.org/viso/graphic/Green\n       http://purl.org/rvl/example-data/citesVeryCritical --> http://purl.org/viso/graphic/Red\n       http://purl.org/rvl/example-data/citesCritical --> http://purl.org/viso/graphic/Yellow\n ... on triple part: http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate" ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Yellow> .
+
+<http://purl.org/rvl/example-avm/GO_-1214850830>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "Atlas of Remote Islands" ;
+        <http://purl.org/viso/graphic/linked_from>
+                <urn:rnd:-163d3df1:14473955957:-7f46> .
+
+<urn:rnd:-163d3df1:14473955957:-7f47>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "http://purl.org/viso/graphic/linking_connector with an applied submapping:  ... to mapping: ################################################\n     Label: PM from ID to color (used as a submapping)\n ... on role: http://purl.org/viso/graphic/linking_connector################################################\n     Label: PM from ID to color (used as a submapping)\n     source property: http://purl.org/rvl/ID\n     Target graphic attribute: Color named\n     (value mappings not yet calculated ... showing only explicit ones:)\n       http://purl.org/rvl/example-data/cites --> http://purl.org/viso/graphic/Green\n       http://purl.org/rvl/example-data/citesVeryCritical --> http://purl.org/viso/graphic/Red\n       http://purl.org/rvl/example-data/citesCritical --> http://purl.org/viso/graphic/Yellow\n ... on triple part: http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate" ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Green> .
+
+<http://purl.org/rvl/example-avm/GO_-1968525099>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
         rdfs:label  "The Book of Chakras" ;
         <http://purl.org/viso/graphic/linked_to>
-                <urn:rnd:10b16e08:14472782b18:-7f3a> ;
-        <http://purl.org/viso/graphic/linked_with>
-                <urn:rnd:10b16e08:14472782b18:-7f48> .
+                <urn:rnd:-163d3df1:14473955957:-7f48> .
 
-<urn:rnd:10b16e08:14472782b18:-7f45>
-        a       <http://purl.org/viso/graphic/Graphic_Object> ;
-        <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Grey> .
-
-<urn:rnd:10b16e08:14472782b18:-7f3e>
+<urn:rnd:-163d3df1:14473955957:-7f4a>
         a       <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
         <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_557773376> ;
+                <http://purl.org/rvl/example-avm/GO_1009614194> ;
         <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_896981037> ;
+                <http://purl.org/rvl/example-avm/GO_1170922502> ;
         <http://purl.org/viso/graphic/linking_connector>
-                <urn:rnd:10b16e08:14472782b18:-7f3f> .
+                <urn:rnd:-163d3df1:14473955957:-7f4b> .
 
-<http://purl.org/rvl/example-avm/GO_1212255508>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Susane" .
+<urn:rnd:-163d3df1:14473955957:-7f50>
+        a       <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_-1214850830> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_1170922502> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <urn:rnd:-163d3df1:14473955957:-7f51> .
 
-<http://purl.org/rvl/example-avm/GO_-1955035121>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Jan" .
-
-<http://purl.org/rvl/example-avm/GO_506242408>
+<http://purl.org/rvl/example-avm/GO_1009614194>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
         rdfs:label  "Holy Bible" ;
         <http://purl.org/viso/graphic/linked_from>
-                <urn:rnd:10b16e08:14472782b18:-7f36> ;
-        <http://purl.org/viso/graphic/linked_with>
-                <urn:rnd:10b16e08:14472782b18:-7f44> .
+                <urn:rnd:-163d3df1:14473955957:-7f44> .
 
-<urn:rnd:10b16e08:14472782b18:-7f4b>
-        a       <http://purl.org/viso/graphic/Graphic_Object> ;
-        <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Grey> .
+<http://purl.org/rvl/example-avm/GO_1170922502>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "Amazing Grace" ;
+        <http://purl.org/viso/graphic/linked_from>
+                <urn:rnd:-163d3df1:14473955957:-7f4e> ;
+        <http://purl.org/viso/graphic/linked_to>
+                <urn:rnd:-163d3df1:14473955957:-7f4a> .
 
-<urn:rnd:10b16e08:14472782b18:-7f37>
-        a       <http://purl.org/viso/graphic/Graphic_Object> ;
+<http://purl.org/rvl/example-avm/GO_-1670456498>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "Bob" ;
         <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Grey> .
+                <http://purl.org/viso/graphic/Blue> .
+
+<http://purl.org/rvl/example-avm/GO_-1008385912>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "Luisa" .
+
+<http://purl.org/rvl/example-avm/GO_1898693340>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "Lina" ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
+
+<urn:rnd:-163d3df1:14473955957:-7f46>
+        a       <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_-1214850830> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_1691947920> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <urn:rnd:-163d3df1:14473955957:-7f47> .
+
+<urn:rnd:-163d3df1:14473955957:-7f4f>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "http://purl.org/viso/graphic/linking_connector with an applied submapping:  ... to mapping: ################################################\n     Label: PM from ID to color (used as a submapping)\n ... on role: http://purl.org/viso/graphic/linking_connector################################################\n     Label: PM from ID to color (used as a submapping)\n     source property: http://purl.org/rvl/ID\n     Target graphic attribute: Color named\n     (value mappings not yet calculated ... showing only explicit ones:)\n       http://purl.org/rvl/example-data/cites --> http://purl.org/viso/graphic/Green\n       http://purl.org/rvl/example-data/citesVeryCritical --> http://purl.org/viso/graphic/Red\n       http://purl.org/rvl/example-data/citesCritical --> http://purl.org/viso/graphic/Yellow\n ... on triple part: http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate" ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Green> .
+
+<http://purl.org/rvl/example-avm/GO_843586662>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "Susane" .
+
+<urn:rnd:-163d3df1:14473955957:-7f45>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "http://purl.org/viso/graphic/linking_connector with an applied submapping:  ... to mapping: ################################################\n     Label: PM from ID to color (used as a submapping)\n ... on role: http://purl.org/viso/graphic/linking_connector################################################\n     Label: PM from ID to color (used as a submapping)\n     source property: http://purl.org/rvl/ID\n     Target graphic attribute: Color named\n     (value mappings not yet calculated ... showing only explicit ones:)\n       http://purl.org/rvl/example-data/cites --> http://purl.org/viso/graphic/Green\n       http://purl.org/rvl/example-data/citesVeryCritical --> http://purl.org/viso/graphic/Red\n       http://purl.org/rvl/example-data/citesCritical --> http://purl.org/viso/graphic/Yellow\n ... on triple part: http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate" ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Green> .
+
+<http://purl.org/rvl/example-avm/GO_-2000839606>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "Jan" .
+
+<http://purl.org/rvl/example-avm/GO_1132040878>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "Works of Swami Vivekananda" ;
+        <http://purl.org/viso/graphic/linked_to>
+                <urn:rnd:-163d3df1:14473955957:-7f4c> .
+
+<urn:rnd:-163d3df1:14473955957:-7f4e>
+        a       <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_1170922502> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_1691947920> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <urn:rnd:-163d3df1:14473955957:-7f4f> .
 
 rdfs:Container  a        rdfs:Class , rdfs:Resource ;
         rdfs:subClassOf  rdfs:Container .
@@ -372,7 +281,7 @@ rdf:Seq  a               rdfs:Class , rdfs:Resource ;
         rdfs:subClassOf  rdf:Seq , rdfs:Container .
 
 rdfs:Datatype  a         rdfs:Class , rdfs:Resource ;
-        rdfs:subClassOf  rdfs:Datatype , rdfs:Class , rdfs:Resource .
+        rdfs:subClassOf  rdfs:Datatype , rdfs:Resource , rdfs:Class .
 
 rdfs:isDefinedBy  a         rdf:Property , rdfs:Resource ;
         rdfs:subPropertyOf  rdfs:isDefinedBy , rdfs:seeAlso .
@@ -380,11 +289,8 @@ rdfs:isDefinedBy  a         rdf:Property , rdfs:Resource ;
 rdfs:seeAlso  a             rdf:Property , rdfs:Resource ;
         rdfs:subPropertyOf  rdfs:seeAlso .
 
-<http://purl.org/viso/graphic/Graphic_Object>
-        a       rdfs:Class , rdfs:Resource .
-
 <http://purl.org/viso/graphic/Linking_Directed_Relation>
         a       rdfs:Class , rdfs:Resource .
 
-<http://purl.org/viso/graphic/Linking_Undirected_Relation>
+<http://purl.org/viso/graphic/Graphic_Object>
         a       rdfs:Class , rdfs:Resource .

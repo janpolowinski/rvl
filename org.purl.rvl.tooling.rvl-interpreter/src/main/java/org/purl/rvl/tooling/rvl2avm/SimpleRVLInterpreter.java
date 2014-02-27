@@ -10,9 +10,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import junit.framework.Assert;
 
-import org.ontoware.aifbcommons.collection.ClosableIterable;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.QueryResultTable;
@@ -25,7 +23,7 @@ import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
-import org.purl.rvl.java.exception.InsufficientMappingSpecificationExecption;
+import org.purl.rvl.java.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.GraphicAttribute;
 import org.purl.rvl.java.gen.rvl.GraphicRelation;
 import org.purl.rvl.java.gen.rvl.Mapping;
@@ -116,7 +114,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					LOGGER.info("Ignord mapping to " + p2go2orm.getTargetGraphicRelation() + ". Graphic relation not yet implemented");
 				}
 				
-			} catch (InsufficientMappingSpecificationExecption e) {
+			} catch (InsufficientMappingSpecificationException e) {
 				LOGGER.severe("Could not interpret P2GOTOR mapping " +  p2go2orm.asURI() + ". " + e.getMessage());
 			}
 
@@ -126,47 +124,17 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	}
 
 	
-	protected void interpretMappingToLinking(PropertyToGO2ORMapping p2go2orm) {
+	@SuppressWarnings("unused")
+	protected void interpretMappingToLinking(PropertyToGO2ORMapping p2go2orm) throws InsufficientMappingSpecificationException {
 
-		Property sp = null;
-		boolean invertSourceProperty = false;
-		Iterator<Statement> stmtSetIterator = null;
-
-		// check some settings and skip if mapping incomplete
-		try {
-			sp = p2go2orm.getSourceProperty();
-			if (null==sp) throw new InsufficientMappingSpecificationExecption();
-			
-			invertSourceProperty = p2go2orm.isInvertSourceProperty();
-			
-			LOGGER.fine("Interpreting the mapping to Linking: " + NL + p2go2orm.toString());
-			LOGGER.fine("The 'inverse' of the source property (" + sp.asURI() + ") will be used, according to mapping settings.");
-		}
-		catch (InsufficientMappingSpecificationExecption e) {
-			LOGGER.warning(e.getMessage());
-			return;
-		}
-
-		
-		// consider inherited relations, including those between classes (someValueFrom ...)
-		if(p2go2orm.hasInheritedby()) {
-			try{
-				Property inheritedBy = p2go2orm.getInheritedBy();
-				stmtSetIterator = RVLUtils.findRelationsOnClassLevel(model, sp.asURI(), inheritedBy).iterator();
-
-			}
-			catch (Exception e) {
-				LOGGER.severe("Problem evaluating inheritedBy setting - not a Property?");
-				return;
-			}
-		}
-		else {
-			 // should include statements using a subproperty of sp
-			 stmtSetIterator = RVLUtils.findStatementsPreferingThoseUsingASubProperty(model, sp.asURI()).iterator(); 
-		}
-		
+		Iterator<Statement> stmtSetIterator = RVLUtils.findRelationsOnInstanceOrClassLevel(model, (PropertyMapping) p2go2orm.castTo(PropertyMapping.class), true, null, null).iterator();
 		
 		int processedGraphicRelations = 0;	
+		
+		if(null==stmtSetIterator) {
+			LOGGER.severe("Statement iterator was null, no linking relations could be interpreted for " + p2go2orm.asURI());
+			return;
+		}
 		
 		while (stmtSetIterator.hasNext() && processedGraphicRelations < OGVICProcess.MAX_GRAPHIC_RELATIONS_PER_MAPPING) {
 			
@@ -194,6 +162,10 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				// create a connector and add default color
 				GraphicObject connector = new GraphicObject(modelAVM, true);
 				
+				// generic graphic relation needed for submappings 
+				// (could also be some super class of directed linking, undirected linking, containment ,...)
+				Resource rel = null;
+				
 				// directed linking
 				if (p2go2orm.getTargetGraphicRelation().equals(DirectedLinking.RDFS_CLASS)) {
 					
@@ -201,7 +173,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			    	DirectedLinking dlRel = new DirectedLinking(modelAVM, true);
 			    	
 					// configure the relation
-					if(invertSourceProperty) {
+					if(p2go2orm.isInvertSourceProperty()) {
 						dlRel.setEndnode(subjectNode);
 						dlRel.setStartnode(objectNode);
 						subjectNode.setLinkedfrom(dlRel);
@@ -214,12 +186,9 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					}
 					
 					dlRel.setLinkingconnector(connector);
+					rel=dlRel;
 					
-					// submappings
-					if(p2go2orm.hasSub_mapping()){
-						applySubmappings(p2go2orm,statement,dlRel); // DirectedLinking etc need to be subclasses of (n-ary) GraphicRelation
-					}
-					
+
 				} else { // undirected linking
 					
 					// create the undirected linking relation
@@ -232,15 +201,18 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					objectNode.setLinkedwith(udlRel);
 					
 					udlRel.setLinkingconnector(connector);
-					
-					// submappings
-					if(p2go2orm.hasSub_mapping()){
-						//applySubmappings(p2go2orm,statement,udlRel);
-					}
-
+					rel=udlRel;
 				}
 				
-				
+				// submappings
+				if(p2go2orm.hasSub_mapping()){
+					
+					if(null != rel) {
+						applySubmappings(p2go2orm,statement,rel); // DirectedLinking etc need to be subclasses of (n-ary) GraphicRelation
+					} else {
+						LOGGER.warning("Submapping existed, but could not be applied, since no parent graphic relation was provided.");
+					}
+				}
 				
 			}
 			catch (Exception e) {
@@ -260,7 +232,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	 * @param mainStatement
 	 * @param dlRel
 	 */
-	protected void applySubmappings(PropertyToGO2ORMapping p2go2orm, Statement mainStatement, DirectedLinking dlRel) {
+	protected void applySubmappings(PropertyToGO2ORMapping p2go2orm, Statement mainStatement, Resource dlRel) {
 		
 		// TODO derive GO by onRole settings and the mainStatement? or just check if correct?
 
@@ -272,20 +244,13 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			SubMappingRelationX smr = (SubMappingRelationX) iterator
 					.next();
 			
-			if (!smr.hasSubMapping() || !smr.hasOnRole()) {
-				LOGGER.warning("Submapping could not be applied, since no submapping was found or onRole is not specified.");
-				continue;
-			}
-			
 			LOGGER.info("Applying submapping to GO with the role " + smr.getOnRole());
 			
-			URI role = smr.getOnRole().asURI();
+			URI roleURI = smr.getOnRole().asURI();
 			
 			// modelAVM.findStatements(dlRel,role,Variable.ANY); does not work somehow -> Jena mapping problems
-			
-			//List<Statement> list = RVLUtils.getRolesAndGOsFor(modelAVM, dlRel, role);
-			
-			GraphicObject goToApplySubmapping = RVLUtils.getGOForRole(modelAVM, dlRel, role); 
+
+			GraphicObject goToApplySubmapping = RVLUtils.getGOForRole(modelAVM, dlRel, roleURI); 
 			// TODO this is a simplification: multiple GOs may be affected, not only one
 				
 			Mapping subMapping = smr.getSubMapping();
@@ -294,11 +259,10 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					(PropertyToGraphicAttributeMapping) subMapping.castTo(PropertyToGraphicAttributeMapping.class);
 			
 			try {
-				
 				applyMappingToGraphicObject(mainStatement, goToApplySubmapping, p2gam);
-				dlRel.setLabel("Connector with an applied submapping: " + smr.toStringSummary());
+				goToApplySubmapping.setLabel(roleURI + " with an applied submapping: " + smr.toStringSummary());
 				
-			} catch (InsufficientMappingSpecificationExecption e) {
+			} catch (InsufficientMappingSpecificationException e) {
 				
 				LOGGER.warning("Submapping could not be applied. Reason: " + e.getMessage());
 			}
@@ -309,34 +273,18 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 
 	private void applyMappingToGraphicObject(
 			Statement mainStatement, GraphicObject goToApplySubmapping,
-			PropertyToGraphicAttributeMapping p2gam) throws InsufficientMappingSpecificationExecption {
+			PropertyToGraphicAttributeMapping p2gam) throws InsufficientMappingSpecificationException {
 		
-		GraphicAttribute tga = null;
-		
-		try {
-			tga = p2gam.getTargetAttribute();
-		} catch (InsufficientMappingSpecificationExecption e) {
-			throw new InsufficientMappingSpecificationExecption(e.getMessage());
-		}
-		
+		GraphicAttribute tga = p2gam.getTargetAttribute();
+
 		// get the subproperties as subjects of the new mapping --> do this in the calculation of value mappings instead
 
 		if (null != tga && p2gam.hasValuemapping()) {
 		
 			Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
 			
-			if (!svUriTVuriMap.isEmpty()){
-				
-				LOGGER.finest("map of sv and tv for submapping:");
-				
-				for (Entry<Node, Node> entry : svUriTVuriMap.entrySet()) {
-					Node sv = entry.getKey();
-					Node tv = entry.getValue();
-					//label += "source and target values: "+sv+" --> "+tv+"" + NL;
-					LOGGER.finest(sv+" --> "+tv);
-				}
-				
-			}
+			LOGGER.info(p2gam.explicitlyMappedValuesToString());
+			
 			///Node triplePartValue = ...
 			
 			//Node property = (Node) model.getProperty(new URIImpl("http://purl.org/rvl/example-data/cites"));
@@ -353,85 +301,6 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	}
 	
 	
-//	/**
-//	 * Sets the color of the connector according to evtl. existent submappings
-//	 * 
-//	 * @param p2go2orm
-//	 * @param mainStatement
-//	 * @param connector
-//	 */
-//	protected void applySubmappingToConnector(PropertyToGO2ORMapping p2go2orm, Statement mainStatement, GraphicObject connector) {
-//
-//		Set<SubMappingRelationX> subMappingRelations = p2go2orm.getSubMappings();
-//		
-//		for (Iterator<SubMappingRelationX> iterator = subMappingRelations.iterator(); iterator
-//				.hasNext();) {
-//			
-//			
-//			
-//			SubMappingRelationX smr = (SubMappingRelationX) iterator
-//					.next();
-//			
-//			if (!smr.hasSubMapping() || !smr.hasOnRole()) {
-//				LOGGER.warning("Submapping could not be applied, since no submapping was found or onRole is not specified.");
-//				continue;
-//			}
-//				
-//			Mapping subMapping = smr.getSubMapping();
-//			
-//			
-//
-//			PropertyToGraphicAttributeMapping p2gam = 
-//					(PropertyToGraphicAttributeMapping) subMapping.castTo(PropertyToGraphicAttributeMapping.class);
-//			
-//			GraphicAttribute tga = null;
-//			
-//			try {
-//				tga = p2gam.getTargetAttribute();
-//			} catch (InsufficientMappingSpecificationExecption e) {
-//				LOGGER.warning("Submapping could not be applied. Reason: " + e.getMessage());
-//				return;
-//			}
-//			
-//			// get the subproperties as subjects of the new mapping --> do this in the calculation of value mappings instead
-//	
-//			if (null != tga && p2gam.hasValuemapping()) {
-//			
-//				Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
-//				
-//				if(!svUriTVuriMap.isEmpty()){
-//					
-//					LOGGER.finest("map of sv and tv for submapping:");
-//					
-//					for (Entry<Node, Node> entry : svUriTVuriMap.entrySet()) {
-//						Node sv = entry.getKey();
-//						Node tv = entry.getValue();
-//						//label += "source and target values: "+sv+" --> "+tv+"" + NL;
-//						LOGGER.finest(sv+" --> "+tv);
-//					}
-//					
-//				}
-//				///Node triplePartValue = ...
-//				
-//				//Node property = (Node) model.getProperty(new URIImpl("http://purl.org/rvl/example-data/cites"));
-//				
-//				URI predicate = mainStatement.getPredicate();
-//				Node colorNode = svUriTVuriMap.get(predicate);
-//				
-//				// if we found a tv for the sv
-//		    	if (null != colorNode && null != predicate) {
-//		    		applyGraphicValueToGO(tga, colorNode, predicate, connector);
-//		    	}
-//				
-//			}
-//
-//
-//			
-//			connector.setLabel("Connector with an applied submapping: " + smr.toStringSummary());
-//			
-//		}
-//		
-//	}
 
 	
 	/**
@@ -477,7 +346,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			GraphicAttribute tga = p2gam.getTargetAttribute();
 
 		    // get a statement set 
-		    Set<Statement> stmtSet = RVLUtils.findRelationsOnInstanceOrClassLevel(model, p2gam, null, null); 
+		    Set<Statement> stmtSet = RVLUtils.findRelationsOnInstanceOrClassLevel(model, (PropertyMapping) p2gam.castTo(PropertyMapping.class), false, null, null); 
 
 			// get the mapping table SV->TV
 			Map<Node, Node> svUriTVuriMap = p2gam.getCalculatedValues(stmtSet);	
@@ -506,7 +375,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		    	
 			}
 		    
-		} catch (InsufficientMappingSpecificationExecption e) {
+		} catch (InsufficientMappingSpecificationException e) {
 			LOGGER.warning("No resources will be affected by mapping " + p2gam.asURI() + " (" + e.getMessage() + ")" );
 		} 
 			
@@ -576,7 +445,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			try {
 				GraphicAttribute tga = p2gam.getTargetAttribute();
 	
-			    Set<Statement> theStatementWithOurObject = RVLUtils.findRelationsOnInstanceOrClassLevel(model, p2gam, null, null); 
+			    Set<Statement> theStatementWithOurObject = RVLUtils.findRelationsOnInstanceOrClassLevel(model, (PropertyMapping) p2gam.castTo(PropertyMapping.class), false, null, null); 
 
 			    for (Iterator<Statement> stmtSetIt = theStatementWithOurObject.iterator(); stmtSetIt
 						.hasNext();) {
@@ -596,7 +465,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			    	}
 			    }
 			
-			} catch (InsufficientMappingSpecificationExecption e) {
+			} catch (InsufficientMappingSpecificationException e) {
 				LOGGER.warning("No resources will be affected by mapping " + p2gam.asURI() + " (" + e.getMessage() + ")" );
 			} 
 			

@@ -25,14 +25,16 @@ import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.model.node.impl.DatatypeLiteralImpl;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.ontoware.rdfreactor.runtime.ReactorResult;
-import org.ontoware.rdfreactor.schema.bootstrap.Property;
+import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Class;
 import org.ontoware.rdfreactor.schema.rdfs.Resource;
 import org.openrdf.repository.sparql.query.SPARQLQuery;
+import org.purl.rvl.java.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.SPARQLselector;
 import org.purl.rvl.java.rvl.Mapping;
 import org.purl.rvl.java.rvl.PropertyMapping;
+import org.purl.rvl.java.rvl.PropertyToGO2ORMapping;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping;
 import org.purl.rvl.java.viso.graphic.GraphicObject;
 import org.purl.rvl.tooling.process.OGVICProcess;
@@ -256,30 +258,111 @@ public class RVLUtils {
 		return stmtSet;
 	}
 	
-	public static Set<Statement> findStatementsOnInstanceOrClassLevel(
+	public static Set<Statement> findRelationsOnInstanceOrClassLevel(
 			Model model,
-			PropertyToGraphicAttributeMapping p2gam) {
+			PropertyMapping pm) throws InsufficientMappingSpecificationException {
 		
-		return findRelationsOnInstanceOrClassLevel(model, p2gam, null, null);
+		return findRelationsOnInstanceOrClassLevel(model, pm, false, null, null);
 		
 	}
 
+	// this was p2gam specific nor replaced by generic method  for pm, delete soon
+//	public static Set<Statement> findRelationsOnInstanceOrClassLevel(
+//			Model model,
+//			PropertyToGraphicAttributeMapping p2gam,
+//			org.ontoware.rdf2go.model.node.Resource subject,
+//			org.ontoware.rdf2go.model.node.Node object) throws InsufficientMappingSpecificationException {
+//		
+//			Set<Statement> statementSet = null;
+//		
+//			URI spURI = p2gam.getSourceProperty().asURI();
+//			
+//			org.ontoware.rdf2go.model.node.Resource selectorClass = null;
+//			
+//			if(p2gam.hasSubjectfilter()) {
+//				
+//				DatatypeLiteral selector = ((PropertyMapping)p2gam.castTo(PropertyMapping.class)).getSubjectFilterSPARQL();
+//				String selectorString = selector.getValue();
+//				 selectorClass = new URIImpl(selectorString).asResource();
+//				
+//				LOGGER.info("Applying subject filter. Only resources with the type " + selectorClass + " will be affected by the mapping (and thus shown, which is not the default behavior --> TODO!)");
+//				// TODO: at the moment the selector will be interpreted as a constraint on the type of resources (a class name is expected)
+//				
+//			}
+//			
+//			if(p2gam.hasInheritedby()) {
+//				
+//				try{
+//					
+//					org.ontoware.rdfreactor.schema.rdfs.Property inheritedBy = 
+//							(org.ontoware.rdfreactor.schema.rdfs.Property)p2gam.getAllInheritedby_as().firstValue().castTo(org.ontoware.rdfreactor.schema.rdfs.Property.class);
+//					
+//					// temp only support some and all values from ...
+//					if (!(inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
+//							|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())	)) {
+//						LOGGER.warning("inheritedBy is set to a value, currently not supported.");
+//					} else {
+//						statementSet =  findRelationsOnClassLevel(model, spURI, inheritedBy, subject, object);
+//					}
+//					
+//				}
+//				catch (Exception e) {
+//					LOGGER.warning("Problem evaluating inheritedBy setting - not a rdf:Property?");
+//				}
+//			} 
+//			
+//			else {
+//				
+//				ClosableIterator<Statement> it = model.findStatements(
+//						null==subject ? Variable.ANY : subject
+//						,
+//						spURI
+//						,
+//						null==object ? 	Variable.ANY : object
+//						);
+//				
+//				statementSet = new HashSet<Statement>();
+//				while (it.hasNext()) {
+//					
+//					Statement statement = it.next();
+//					
+//					// check starts with constraint (workaround) and subjectFilter
+//					if (
+//						statement.getSubject().toString().startsWith(OGVICProcess.getInstance().getUriStart())
+//						&& (null==selectorClass || RVLUtils.hasType(model, statement.getSubject(), selectorClass ))
+//						) {
+//						statementSet.add(statement);
+//						LOGGER.finest("added Statement (matching subfilter and starturi): " + statement.toString());
+//					} else {
+//						LOGGER.finest("skipped Statement (not matching subfilter or starturi): " + statement.toString());
+//					}
+//					
+//					
+//				}
+//
+//			}
+//			
+//			return statementSet;
+//	}
+	
+	
 	
 	public static Set<Statement> findRelationsOnInstanceOrClassLevel(
 			Model model,
-			PropertyToGraphicAttributeMapping p2gam,
+			PropertyMapping pm,
+			boolean onlyMostSpecific, 
 			org.ontoware.rdf2go.model.node.Resource subject,
-			org.ontoware.rdf2go.model.node.Node object) {
+			org.ontoware.rdf2go.model.node.Node object) throws InsufficientMappingSpecificationException {
 		
 			Set<Statement> statementSet = null;
 		
-			URI spURI = p2gam.getAllSourceproperty_as().firstValue().asURI();
+			URI spURI = pm.getSourceProperty().asURI();
 			
 			org.ontoware.rdf2go.model.node.Resource selectorClass = null;
 			
-			if(p2gam.hasSubjectfilter()) {
+			if(pm.hasSubjectfilter()) {
 				
-				DatatypeLiteral selector = ((PropertyMapping)p2gam.castTo(PropertyMapping.class)).getSubjectFilterSPARQL();
+				DatatypeLiteral selector = pm.getSubjectFilterSPARQL();
 				String selectorString = selector.getValue();
 				 selectorClass = new URIImpl(selectorString).asResource();
 				
@@ -288,11 +371,11 @@ public class RVLUtils {
 				
 			}
 			
-			if(p2gam.hasInheritedby()) {
+			// consider inherited relations, including those between classes (someValueFrom ...)
+			if(pm.hasInheritedby()) {
 				
 				try{
-					
-					org.ontoware.rdfreactor.schema.rdfs.Property inheritedBy = (org.ontoware.rdfreactor.schema.rdfs.Property)p2gam.getAllInheritedby_as().firstValue().castTo(org.ontoware.rdfreactor.schema.rdfs.Property.class);
+					Property inheritedBy = pm.getInheritedBy();
 					
 					// temp only support some and all values from ...
 					if (!(inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
@@ -304,9 +387,14 @@ public class RVLUtils {
 					
 				}
 				catch (Exception e) {
-					LOGGER.warning("Problem evaluating inheritedBy setting - not a rdf:Property?");
+					LOGGER.warning("Problem evaluating inheritedBy setting or getting relations on class level");
 				}
 			} 
+			
+			else if (onlyMostSpecific) {
+				 // get only the most specific statements and exclude those using a super-property instead
+				statementSet = RVLUtils.findStatementsPreferingThoseUsingASubProperty(model, spURI); 
+			}
 			
 			else {
 				
@@ -343,6 +431,8 @@ public class RVLUtils {
 	}
 
 	
+
+
 	public static boolean hasType(
 			Model model, org.ontoware.rdf2go.model.node.Resource resource,
 			org.ontoware.rdf2go.model.node.Resource type) {

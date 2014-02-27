@@ -22,7 +22,7 @@ import org.ontoware.rdf2go.model.node.impl.DatatypeLiteralImpl;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
-import org.purl.rvl.java.exception.InsufficientMappingSpecificationExecption;
+import org.purl.rvl.java.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.SPARQLselector;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.RVLUtils;
@@ -77,7 +77,7 @@ static final String NL =  System.getProperty("line.separator");
 				Resource resource = (Resource) iterator.next();
 				//s += "     affects: " + resource +  NL;
 			}
-		} catch (InsufficientMappingSpecificationExecption e) {
+		} catch (InsufficientMappingSpecificationException e) {
 			LOGGER.warning(e.getMessage());
 			//e.printStackTrace();
 		}
@@ -97,7 +97,7 @@ static final String NL =  System.getProperty("line.separator");
 	 * defined in this mapping.
 	 * @return
 	 */
-	public Set<Resource> getAffectedResources() throws InsufficientMappingSpecificationExecption {
+	public Set<Resource> getAffectedResources() throws InsufficientMappingSpecificationException {
 		
 		Set<Statement> statementSet = new HashSet<Statement>();
 		Set<Resource> subjectSet = new HashSet<Resource>();
@@ -109,7 +109,7 @@ static final String NL =  System.getProperty("line.separator");
 		finally {
 			if(sp==null) {
 				LOGGER.warning("Mapping has missing sourceproperty");
-				throw new InsufficientMappingSpecificationExecption();
+				throw new InsufficientMappingSpecificationException();
 			}
 		}				
 		
@@ -213,24 +213,30 @@ static final String NL =  System.getProperty("line.separator");
 		} else return false;
 	}
 
-	public Property getSourceProperty() throws InsufficientMappingSpecificationExecption {
+	public Property getSourceProperty() throws InsufficientMappingSpecificationException {
 		if (hasSourceproperty())
 			return this.getAllSourceproperty_as().firstValue();
 		else 
-			throw new InsufficientMappingSpecificationExecption();
+			throw new InsufficientMappingSpecificationException();
 	}
 
-	public Property getTargetGraphicRelation() throws InsufficientMappingSpecificationExecption {
+	public Property getTargetGraphicRelation() throws InsufficientMappingSpecificationException {
 		if (hasTargetgraphicrelation_abstract_())
 			return (Property)this.getAllTargetgraphicrelation_abstract__as().firstValue().castTo(Property.class);
 		else 
-			throw new InsufficientMappingSpecificationExecption();
+			throw new InsufficientMappingSpecificationException();
 	}
 	
 	
 	public DatatypeLiteral getSubjectFilterSPARQL(){
 		if (hasSubjectfilter()) { // TODO also FSL possible ; we get the selector as a datatypeliteral, since getting the sparqlselector caused casting problems
 			return getAllSubjectfilter_asNode_().firstValue().asDatatypeLiteral();
+		} else return null;
+	}
+
+	public Property getInheritedBy() {
+		if (this.hasInvertsourceproperty()) {
+			return (Property)getAllInheritedby_as().firstValue().castTo(Property.class);
 		} else return null;
 	}
 

@@ -27,7 +27,7 @@ import org.ontoware.rdf2go.model.node.impl.LiteralImpl;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.ontoware.rdfreactor.schema.rdfs.Container;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
-import org.purl.rvl.java.exception.InsufficientMappingSpecificationExecption;
+import org.purl.rvl.java.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.exception.UnexpressiveMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.Interval;
 import org.purl.rvl.java.gen.rvl.Valuemapping;
@@ -160,7 +160,7 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 			
 			return getExplicitlyStatedScaleOfMeasurement(targetGraphicRelation);
 		
-		} catch (InsufficientMappingSpecificationExecption e) {
+		} catch (InsufficientMappingSpecificationException e) {
 			// TODO Auto-generated catch block
 			LOGGER.warning(e.getMessage() + " --> Could not determine scale of measurement for target graphic relation.");
 		}
@@ -190,7 +190,7 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 			
 			return getExplicitlyStatedScaleOfMeasurement(sp);
 		
-		} catch (InsufficientMappingSpecificationExecption e) {
+		} catch (InsufficientMappingSpecificationException e) {
 			// TODO Auto-generated catch block
 			LOGGER.warning(e.getMessage() + " --> Could not determine scale of measurement.");
 		}

@@ -17,7 +17,7 @@ import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
-import org.purl.rvl.java.exception.InsufficientMappingSpecificationExecption;
+import org.purl.rvl.java.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.GraphicAttribute;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Valuemapping;
@@ -167,17 +167,8 @@ public class PropertyToGraphicAttributeMapping extends
 		
 		if(this.hasValuemapping()) {
 
-			Map<Node, Node> svUriTVuriMap = this.getExplicitlyMappedValues();	
-			
-			if(!svUriTVuriMap.isEmpty()){
-				s += "     (value mappings not yet calculated ... showing only explicit ones:)" + NL;
-				
-				for (Entry<Node, Node> entry : svUriTVuriMap.entrySet()) {
-					Node sv = entry.getKey();
-					Node tv = entry.getValue();
-					s += "       " + sv + " --> " + tv + NL;
-				}
-				
+			if(!getExplicitlyMappedValues().isEmpty()){
+				s += explicitlyMappedValuesToString();
 			}
 			else {
 				s += "     (value mappings not yet calculated ...)" + NL;
@@ -216,15 +207,39 @@ public class PropertyToGraphicAttributeMapping extends
 		} else return false;
 	}
 
-	public GraphicAttribute getTargetAttribute() throws InsufficientMappingSpecificationExecption {
+	public GraphicAttribute getTargetAttribute() throws InsufficientMappingSpecificationException {
 		if (hasTargetattribute()) {
 			return this.getAllTargetattribute_as().firstValue();
 		} else 
-			throw new InsufficientMappingSpecificationExecption();
+			throw new InsufficientMappingSpecificationException();
 	}
 
-	public Property getSourceProperty() throws InsufficientMappingSpecificationExecption {
+	public Property getSourceProperty() throws InsufficientMappingSpecificationException {
 		return ((PropertyMapping) this.castTo(PropertyMapping.class)).getSourceProperty();
 	}
+
+	public String explicitlyMappedValuesToString() {
+		
+		String s = "";
+		
+		Map<Node, Node> svUriTVuriMap = this.getExplicitlyMappedValues();	
+		
+		if(!svUriTVuriMap.isEmpty()){
+
+			s += "Map of explicit source and target values: " + NL;
+			
+			for (Entry<Node, Node> entry : svUriTVuriMap.entrySet()) {
+				Node sv = entry.getKey();
+				Node tv = entry.getValue();
+				s += sv + " --> " + tv + NL;
+			}
+			
+		} else {
+			s += "No explicitly mapped source values: " + NL;
+		}
+
+		return s;
+	}
+
 
 }
