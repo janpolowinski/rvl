@@ -59,28 +59,35 @@ public class PropertyToGraphicAttributeMapping extends
 	 */
 	public Map<Node, Node> getExplicitlyMappedValues(){
 		
-		if (null == explicitlyMappedValues) {
-			
-			// TODO: evtl. check already here if VM exist at all with hasValueMapping() for blank nodes the toSPARQL() issued an exception
+		// try to get calculated values
+		try {
+			explicitlyMappedValues = getCalculatedValues(null);
+		} catch (Exception e) {
+			LOGGER.fine("Could not calculate values, will try to return explicit values."); // TODO check this ...
+		}
+		
+		// when this fails, try to get explicit ones // TODO should be explicit first! rework this ...
+		if ((null == explicitlyMappedValues || explicitlyMappedValues.isEmpty()) && hasValuemapping()) {
+						
+			// TODO evtl. check for blank nodes since the toSPARQL() issued an exception in some cases
 
 			explicitlyMappedValues = new HashMap<Node, Node>();
 			
-			// get all subjects and the sv/tv table via SPARQL
-					String querySubjectsAndSVtoTVMapForGivenProperty = "" +
-							"SELECT DISTINCT ?sv ?tv " +
-							"WHERE { " +
-						    	toSPARQL() + " <" + VALUEMAPPING + "> ?vm ." + 
-						    "	?vm <" + ValueMapping.SOURCEVALUE + "> ?sv . " +
-						    "	?vm <" + ValueMapping.TARGETVALUE + "> ?tv . " + 
-							"} ";
-			//System.out.println(querySubjectsAndSVtoTVMapForGivenProperty);
+			// get all subjects and the sv/tv table via SPARQL // TODO here we take all value mappigns with a source and target value, but these may include those with more than one sv/tv value set!
+			String querySubjectsAndSVtoTVMapForGivenProperty = "" +
+					"SELECT DISTINCT ?sv ?tv " +
+					"WHERE { " +
+				    	toSPARQL() + " <" + VALUEMAPPING + "> ?vm ." + 
+				    "	?vm <" + ValueMapping.SOURCEVALUE + "> ?sv . " +
+				    "	?vm <" + ValueMapping.TARGETVALUE + "> ?tv . " + 
+					"} ";
 			
 			QueryResultTable explMapResults = model.sparqlSelect(querySubjectsAndSVtoTVMapForGivenProperty);
 			for(QueryRow row : explMapResults) {
 				explicitlyMappedValues.put(row.getValue("sv"),row.getValue("tv"));
 			}
 			
-			LOGGER.fine("Created map of explicit sv and tv :" +  explicitlyMappedValues);
+			LOGGER.fine("Created value map: " + explicitlyMappedValuesToString());
 		}
 
 		return explicitlyMappedValues;
@@ -128,9 +135,7 @@ public class PropertyToGraphicAttributeMapping extends
 
 	public Map<Node, Node> getCalculatedValues(Set<Statement> theStatementWithOurObject) {
 		
-		//if (null == explicitlyMappedValues) {
-			
-			// TODO: evtl. check already here if VM exist at all with hasValueMapping() for blank nodes the toSPARQL() issued an exception
+		if (null == explicitlyMappedValues && hasValuemapping()) {
 
 			explicitlyMappedValues = new HashMap<Node, Node>();
 			
@@ -143,7 +148,7 @@ public class PropertyToGraphicAttributeMapping extends
 				explicitlyMappedValues.put(calculatedValueMapping.getSourceValue(),calculatedValueMapping.getTargetValue());
 			}
 
-		//}
+		}
 
 		return explicitlyMappedValues;
 	}
@@ -220,15 +225,17 @@ public class PropertyToGraphicAttributeMapping extends
 
 	public String explicitlyMappedValuesToString() {
 		
+		if (null == this.explicitlyMappedValues) {
+			explicitlyMappedValues = this.getExplicitlyMappedValues();	
+		}
+		
 		String s = "";
-		
-		Map<Node, Node> svUriTVuriMap = this.getExplicitlyMappedValues();	
-		
-		if(!svUriTVuriMap.isEmpty()){
+
+		if(!explicitlyMappedValues.isEmpty()){
 
 			s += "Map of explicit source and target values: " + NL;
 			
-			for (Entry<Node, Node> entry : svUriTVuriMap.entrySet()) {
+			for (Entry<Node, Node> entry : explicitlyMappedValues.entrySet()) {
 				Node sv = entry.getKey();
 				Node tv = entry.getValue();
 				s += sv + " --> " + tv + NL;

@@ -783,7 +783,7 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 					" will try to get values from the resource ... TOBEIMPLEMENTED");
 		}
 
-	} else if (CC == caseID || CC_D == caseID) {
+	} else if ((CC == caseID || CC_D == caseID ) && null != this.statementSet) {
 		
 		Set<Statement> statementSet = this.statementSet;
 		
@@ -880,7 +880,7 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 		}
 		
 		
-	} else if (CO == caseID ) { // || CU == caseID) {
+	} else if (CO == caseID  && null != this.statementSet) { // || CU == caseID) {
 		
 		Set<Statement> statementSet = this.statementSet;
 		
@@ -972,7 +972,7 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 		
 		
 		
-	} else if (CU == caseID) {
+	} else if (CU == caseID && null != this.statementSet) {
 		
 		Set<Statement> statementSet = this.statementSet;
 		
@@ -1058,6 +1058,11 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 	}
 
 	LOGGER.finest("Calculated value mappings: " + cvms);
+	
+	if (null == this.statementSet) {
+		LOGGER.severe("Statament set was not available for calculation (probably null passed as a parameter). Mappings from continuous values may have been skipped.");
+	}
+		
 	return cvms;
 
 }

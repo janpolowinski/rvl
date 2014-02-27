@@ -40,7 +40,7 @@ rexm:PMWithExplicitValueMappingsAsBlankNodes
 # explicit value mappings - 
 # VARIANT: PM with explicit value mappings as blank nodes (to color named)
 rexm:PMWithExplicitValueMappingsAsBlankNodesToColorNamed
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rdfs:label "VARIANT: PM with explicit VM as blank nodes (to color named)"^^xsd:string ;
       rvl:sourceProperty rexd:workingField ;
@@ -425,7 +425,10 @@ rexm:NamedSubMappingRelation
 	rvl:subMapping-onRole vg:linking_connector;
 	#rvl:subMapping-onRole vg:linkingDirected_startNode; 
     rvl:subMapping-onTriplePart rdf:predicate;
-    rvl:subMapping-mapping rexm:PMfromID2ColorNamed .
+    #rvl:subMapping-mapping rexm:PMfromID2ColorNamedAutomaticUnordered .
+    #rvl:subMapping-mapping rexm:PMfromID2ColorNamed .
+    #rvl:subMapping-mapping rexm:PMfromID2ColorNamedAutomaticOrdered .
+    rvl:subMapping-mapping rexm:PMfromID2ColorNamedAutomaticContinuous .
       
       
       
@@ -487,7 +490,68 @@ rexm:PMfromID2ColorNamed
 		rvl:sourceValue rexd:citesVeryCritical;
         rvl:targetValue vg:Red;
       ]
-      .              
+      .     
+      
+rexm:PMfromID2ColorNamedAutomaticUnordered
+      rdf:type rvl:PropertyMapping ;
+      rvl:disabled "true"^^xsd:boolean ;
+      rdfs:label "Automatic PM from ID to color unordered (used as a submapping above)"^^xsd:string ;
+ 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:targetAttribute vg:color_named ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:cites;
+		rvl:sourceValue rexd:citesCritical;
+		rvl:sourceValue rexd:citesVeryCritical;
+        rvl:targetValue vg:Green;
+        rvl:targetValue vg:Red;
+        rvl:targetValue vg:Blue;
+      ]
+      .           
+      
+rexm:PMfromID2ColorNamedAutomaticOrdered
+      rdf:type rvl:PropertyMapping ;
+      rvl:disabled "true"^^xsd:boolean ;
+      rdfs:label "Automatic PM from ID to color ordered (used as a submapping above)"^^xsd:string ;
+ 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:targetAttribute vg:color_named ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:invertOrderOfTargetValues "false"^^xsd:boolean;
+		rvl:sourceValueOrderedSet (
+			rexd:cites rexd:citesCritical rexd:citesVeryCritical
+		);
+		rvl:targetValueList (
+			vg:Red
+			vg:Orange
+			vg:Yellow
+		);
+		# rvl:targetValues [a vg:GraphicValueList ; ... ]
+      ].   
+      
+      
+rexm:PMfromID2ColorNamedAutomaticContinuous
+      rdf:type rvl:PropertyMapping ;
+      rvl:disabled "true"^^xsd:boolean ;
+      rdfs:label "Automatic PM from ID to color continuous (used as a submapping above)"^^xsd:string ;
+ 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:targetAttribute vg:color_hsl_lightness ;
+	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueOrderedSet (
+			rexd:cites rexd:citesCritical rexd:citesVeryCritical
+		);
+		rvl:discretize "true"^^xsd:boolean ;
+		rvl:targetValueInterval [
+        	a rvl:Interval;
+        	rvl:upperBoundIncl "100";
+        	rvl:lowerBoundIncl "0";
+        ];
+ 	  ].  
+      
+      
+
+
       
       
 

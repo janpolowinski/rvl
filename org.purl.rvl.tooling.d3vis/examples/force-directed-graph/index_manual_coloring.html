@@ -122,7 +122,8 @@ d3.json("data.json", function(error, graph) {
         .enter().append("svg:path")
 		//.attr("class", "link")
         .attr("class", function (d) { return "link link" + d.type; })  
-		.style("stroke", function(d) { return d.color_rgb_hex; })
+		//.style("stroke", function(d) { return d.color_rgb_hex; })
+		.style("stroke", function(d) { return d.color_rgb_hex_combined; })
 		.attr("marker-end", function (d) {
         	//return "url(#" + d.type + ")";
 			return "url(#" + "link" + ")";
