@@ -26,6 +26,7 @@ import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.java.exception.InsufficientMappingSpecificationExecption;
 import org.purl.rvl.java.gen.rvl.GraphicAttribute;
+import org.purl.rvl.java.gen.rvl.GraphicRelation;
 import org.purl.rvl.java.gen.rvl.Mapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
@@ -39,6 +40,7 @@ import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
 import org.purl.rvl.java.rvl.PropertyMapping;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMapping;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping;
+import org.purl.rvl.java.rvl.SubMappingRelationX;
 import org.purl.rvl.java.viso.graphic.GraphicObject;
 import org.purl.rvl.java.viso.graphic.ShapeX;
 import org.purl.rvl.tooling.process.OGVICProcess;
@@ -190,11 +192,6 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		    	
 				// create a connector and add default color
 				GraphicObject connector = new GraphicObject(modelAVM, true);
-
-				// check for sub-mappings and modify the connector accordingly (-> generalize!)
-				if(p2go2orm.hasSub_mapping()){
-					applySubmappingToConnector(p2go2orm,statement,connector);
-				}
 				
 				// directed linking
 				if (p2go2orm.getTargetGraphicRelation().equals(DirectedLinking.RDFS_CLASS)) {
@@ -217,6 +214,11 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					
 					dlRel.setLinkingconnector(connector);
 					
+					// submappings
+					if(p2go2orm.hasSub_mapping()){
+						applySubmappings(p2go2orm,statement,dlRel); // DirectedLinking etc need to be subclasses of (n-ary) GraphicRelation
+					}
+					
 				} else { // undirected linking
 					
 					// create the undirected linking relation
@@ -229,8 +231,15 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					objectNode.setLinkedwith(udlRel);
 					
 					udlRel.setLinkingconnector(connector);
+					
+					// submappings
+					if(p2go2orm.hasSub_mapping()){
+						//applySubmappings(p2go2orm,statement,udlRel);
+					}
 
 				}
+				
+				
 				
 			}
 			catch (Exception e) {
@@ -248,75 +257,177 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	 * 
 	 * @param p2go2orm
 	 * @param mainStatement
-	 * @param connector
+	 * @param dlRel
 	 */
-	protected void applySubmappingToConnector(PropertyToGO2ORMapping p2go2orm, Statement mainStatement, GraphicObject connector) {
+	protected void applySubmappings(PropertyToGO2ORMapping p2go2orm, Statement mainStatement, DirectedLinking dlRel) {
 		
-		String label = "";
-		Sub_mappingrelation smr = p2go2orm.getAllSub_mapping_as().firstValue(); // TODO only first submapping handled here
+		// TODO derive GO by onRole settings and the mainStatement? or just check if correct?
 
-		if(smr.hasSub_mapping() && smr.hasOnrole()){
-			
-			Mapping subMapping = smr.getAllSub_mapping_as().firstValue();
-			
-			label += " ... to mapping: " + subMapping ; // wrong return type and wrong methode name, but seems to work
-			label += " ... on role: " + smr.getAllOnrole_as().firstValue() ;
-			label += RVLUtils.mappingToStringAsSpecificAsPossible((org.purl.rvl.java.rvl.Mapping)subMapping.castTo(org.purl.rvl.java.rvl.Mapping.class)) + NL ;
+		Set<SubMappingRelationX> subMappingRelations = p2go2orm.getSubMappings();
+		
+		for (Iterator<SubMappingRelationX> iterator = subMappingRelations.iterator(); iterator
+				.hasNext();) {
 
-			PropertyToGraphicAttributeMapping p2gam = (PropertyToGraphicAttributeMapping)subMapping.castTo(PropertyToGraphicAttributeMapping.class);
+			SubMappingRelationX smr = (SubMappingRelationX) iterator
+					.next();
 			
-			GraphicAttribute tga = null;
+			if (!smr.hasSubMapping() || !smr.hasOnRole()) {
+				LOGGER.warning("Submapping could not be applied, since no submapping was found or onRole is not specified.");
+				continue;
+			}
+			
+			LOGGER.info("Applying submapping to GO with the role " + smr.getOnRole());
+			
+			URI role = smr.getOnRole().asURI();
+			
+			model.findStatements(dlRel,role,Variable.ANY); // TODO check this!!
+			
+			GraphicObject goToApplySubmapping = new GraphicObject(model, "", false); //TODO
+				
+			Mapping subMapping = smr.getSubMapping();
+
+			PropertyToGraphicAttributeMapping p2gam = 
+					(PropertyToGraphicAttributeMapping) subMapping.castTo(PropertyToGraphicAttributeMapping.class);
 			
 			try {
-				tga = p2gam.getTargetAttribute();
+				
+				applyMappingToGraphicObject(mainStatement, goToApplySubmapping, p2gam);
+				dlRel.setLabel("Connector with an applied submapping: " + smr.toStringSummary());
+				
 			} catch (InsufficientMappingSpecificationExecption e) {
+				
 				LOGGER.warning("Submapping could not be applied. Reason: " + e.getMessage());
-				return;
-			}
-			
-			// get the subproperties as subjects of the new mapping --> do this in the calculation of value mappings instead
-	
-			if (null != tga && p2gam.hasValuemapping()) {
-			
-				Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
-				
-				if(!svUriTVuriMap.isEmpty()){
-					
-					LOGGER.finest("map of sv and tv for submapping:");
-					
-					for (Entry<Node, Node> entry : svUriTVuriMap.entrySet()) {
-						Node sv = entry.getKey();
-						Node tv = entry.getValue();
-						label += "source and target values: "+sv+" --> "+tv+"" + NL;
-						LOGGER.finest(sv+" --> "+tv);
-					}
-					
-				}
-				///Node triplePartValue = ...
-				
-				//Node property = (Node) model.getProperty(new URIImpl("http://purl.org/rvl/example-data/cites"));
-				
-				URI predicate = mainStatement.getPredicate();
-				Node colorNode = svUriTVuriMap.get(predicate);
-				
-				// if we found a tv for the sv
-		    	if (null != colorNode && null != predicate) {
-		    		applyGraphicValueToGO(tga, colorNode, predicate, connector);
-		    	}
-				
 			}
 			
 		}
-		if(smr.hasOntriplepart()) {
-			label += " ... on triple part: " + smr.getAllOntriplepart_as().firstValue() ;
-		}
-
-		connector.setLabel("Connector with an applied submapping: " + label);
 		
-		//connector.setColorhslhue(new Float(155));
-		//connector.setColorhslsaturation(new Float(100));
-		//connector.setColorhsllightness(new Float(50));
 	}
+
+	private void applyMappingToGraphicObject(
+			Statement mainStatement, GraphicObject goToApplySubmapping,
+			PropertyToGraphicAttributeMapping p2gam) throws InsufficientMappingSpecificationExecption {
+		
+		GraphicAttribute tga = null;
+		
+		try {
+			tga = p2gam.getTargetAttribute();
+		} catch (InsufficientMappingSpecificationExecption e) {
+			throw new InsufficientMappingSpecificationExecption(e.getMessage());
+		}
+		
+		// get the subproperties as subjects of the new mapping --> do this in the calculation of value mappings instead
+
+		if (null != tga && p2gam.hasValuemapping()) {
+		
+			Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
+			
+			if (!svUriTVuriMap.isEmpty()){
+				
+				LOGGER.finest("map of sv and tv for submapping:");
+				
+				for (Entry<Node, Node> entry : svUriTVuriMap.entrySet()) {
+					Node sv = entry.getKey();
+					Node tv = entry.getValue();
+					//label += "source and target values: "+sv+" --> "+tv+"" + NL;
+					LOGGER.finest(sv+" --> "+tv);
+				}
+				
+			}
+			///Node triplePartValue = ...
+			
+			//Node property = (Node) model.getProperty(new URIImpl("http://purl.org/rvl/example-data/cites"));
+			
+			URI predicate = mainStatement.getPredicate();
+			Node colorNode = svUriTVuriMap.get(predicate);
+			
+			// if we found a tv for the sv
+			if (null != colorNode && null != predicate) {
+				applyGraphicValueToGO(tga, colorNode, predicate, goToApplySubmapping);
+			}
+			
+		}
+	}
+	
+	
+//	/**
+//	 * Sets the color of the connector according to evtl. existent submappings
+//	 * 
+//	 * @param p2go2orm
+//	 * @param mainStatement
+//	 * @param connector
+//	 */
+//	protected void applySubmappingToConnector(PropertyToGO2ORMapping p2go2orm, Statement mainStatement, GraphicObject connector) {
+//
+//		Set<SubMappingRelationX> subMappingRelations = p2go2orm.getSubMappings();
+//		
+//		for (Iterator<SubMappingRelationX> iterator = subMappingRelations.iterator(); iterator
+//				.hasNext();) {
+//			
+//			
+//			
+//			SubMappingRelationX smr = (SubMappingRelationX) iterator
+//					.next();
+//			
+//			if (!smr.hasSubMapping() || !smr.hasOnRole()) {
+//				LOGGER.warning("Submapping could not be applied, since no submapping was found or onRole is not specified.");
+//				continue;
+//			}
+//				
+//			Mapping subMapping = smr.getSubMapping();
+//			
+//			
+//
+//			PropertyToGraphicAttributeMapping p2gam = 
+//					(PropertyToGraphicAttributeMapping) subMapping.castTo(PropertyToGraphicAttributeMapping.class);
+//			
+//			GraphicAttribute tga = null;
+//			
+//			try {
+//				tga = p2gam.getTargetAttribute();
+//			} catch (InsufficientMappingSpecificationExecption e) {
+//				LOGGER.warning("Submapping could not be applied. Reason: " + e.getMessage());
+//				return;
+//			}
+//			
+//			// get the subproperties as subjects of the new mapping --> do this in the calculation of value mappings instead
+//	
+//			if (null != tga && p2gam.hasValuemapping()) {
+//			
+//				Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
+//				
+//				if(!svUriTVuriMap.isEmpty()){
+//					
+//					LOGGER.finest("map of sv and tv for submapping:");
+//					
+//					for (Entry<Node, Node> entry : svUriTVuriMap.entrySet()) {
+//						Node sv = entry.getKey();
+//						Node tv = entry.getValue();
+//						//label += "source and target values: "+sv+" --> "+tv+"" + NL;
+//						LOGGER.finest(sv+" --> "+tv);
+//					}
+//					
+//				}
+//				///Node triplePartValue = ...
+//				
+//				//Node property = (Node) model.getProperty(new URIImpl("http://purl.org/rvl/example-data/cites"));
+//				
+//				URI predicate = mainStatement.getPredicate();
+//				Node colorNode = svUriTVuriMap.get(predicate);
+//				
+//				// if we found a tv for the sv
+//		    	if (null != colorNode && null != predicate) {
+//		    		applyGraphicValueToGO(tga, colorNode, predicate, connector);
+//		    	}
+//				
+//			}
+//
+//
+//			
+//			connector.setLabel("Connector with an applied submapping: " + smr.toStringSummary());
+//			
+//		}
+//		
+//	}
 
 	
 	/**

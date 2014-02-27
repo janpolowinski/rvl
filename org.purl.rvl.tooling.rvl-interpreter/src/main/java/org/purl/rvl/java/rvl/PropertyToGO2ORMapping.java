@@ -1,5 +1,9 @@
 package org.purl.rvl.java.rvl;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.BlankNode;
@@ -106,6 +110,21 @@ public class PropertyToGO2ORMapping extends
 	public Property getInheritedBy() {
 		if (this.hasInvertsourceproperty()) {
 			return (Property)getAllInheritedby_as().firstValue().castTo(Property.class);
+		} else return null;
+	}
+
+	public Set<SubMappingRelationX> getSubMappings() {
+		Set<SubMappingRelationX> subMappingRelationsX = new HashSet<SubMappingRelationX>();
+		if (this.hasSub_mapping()) {
+			ClosableIterator<Sub_mappingrelation> subMappingRelations =  getAllSub_mapping_as().asClosableIterator();
+			while (subMappingRelations.hasNext()) {
+				
+				Sub_mappingrelation rel = (Sub_mappingrelation) subMappingRelations
+						.next();
+				
+				subMappingRelationsX.add(new SubMappingRelationX(rel));
+			}
+			return subMappingRelationsX;
 		} else return null;
 	}
 
