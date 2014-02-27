@@ -3,6 +3,7 @@ package org.purl.rvl.tooling.rvl2avm;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -280,9 +281,12 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			
 			URI role = smr.getOnRole().asURI();
 			
-			model.findStatements(dlRel,role,Variable.ANY); // TODO check this!!
+			// modelAVM.findStatements(dlRel,role,Variable.ANY); does not work somehow -> Jena mapping problems
 			
-			GraphicObject goToApplySubmapping = new GraphicObject(model, "", false); //TODO
+			//List<Statement> list = RVLUtils.getRolesAndGOsFor(modelAVM, dlRel, role);
+			
+			GraphicObject goToApplySubmapping = RVLUtils.getGOForRole(modelAVM, dlRel, role); 
+			// TODO this is a simplification: multiple GOs may be affected, not only one
 				
 			Mapping subMapping = smr.getSubMapping();
 

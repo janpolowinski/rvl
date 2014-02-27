@@ -1,5 +1,6 @@
 package org.purl.rvl.tooling.util;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -33,6 +34,7 @@ import org.purl.rvl.java.gen.rvl.SPARQLselector;
 import org.purl.rvl.java.rvl.Mapping;
 import org.purl.rvl.java.rvl.PropertyMapping;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping;
+import org.purl.rvl.java.viso.graphic.GraphicObject;
 import org.purl.rvl.tooling.process.OGVICProcess;
 
 public class RVLUtils {
@@ -378,6 +380,56 @@ public class RVLUtils {
 		
 	}
 
+	
+	public static List<Statement> getRolesAndGOsFor(
+			Model modelAVM, Node rel, URI roleURI) {
+		
+			List<Statement> stmtList = new ArrayList<Statement>();
+		
+		try {
+	
+			String query = "" + 
+					" SELECT DISTINCT ?s ?p ?o " + 
+					" WHERE { " +
+					" ?s ?p ?o . " + 
+					" " + rel.toSPARQL() + " " + roleURI.toSPARQL() + " ?o " +
+					" } ";
+			
 
+			QueryResultTable explMapResults = modelAVM.sparqlSelect(query);
+			
+			for (QueryRow row : explMapResults) {
+				LOGGER.finest("fetched SPARQL result row: " + row);
+				try {
+					Statement stmt = new StatementImpl(null, row.getValue("s").asURI(), row.getValue("p").asURI(), row.getValue("o"));
+					LOGGER.finest("build Statement: " + stmt.toString());
+					stmtList.add(stmt);
+				} catch (ClassCastException e){
+					LOGGER.finer("Skipped statement (blank node casting to URI?): " + e.getMessage());
+				}
+			}
+		
+		} catch (UnsupportedOperationException e){
+			System.out.println("test");
+			LOGGER.warning("Problem with query to get statements: " + e.getMessage());
+		} 
+		
+		return stmtList;
+	}
+	
+	public static GraphicObject getGOForRole(
+			Model modelAVM, Node rel, URI roleURI) {
+		
+			List<Statement> stmtList = getRolesAndGOsFor(modelAVM,rel,roleURI);
+			
+			Node goNode = stmtList.get(0).getObject();
+			
+			org.purl.rvl.java.gen.viso.graphic.GraphicObject goGen = GraphicObject.getInstance(modelAVM, goNode.asResource());
+			
+			GraphicObject go = (GraphicObject) goGen.castTo(GraphicObject.class);
+			
+			return go;
+
+	}
 
 }
