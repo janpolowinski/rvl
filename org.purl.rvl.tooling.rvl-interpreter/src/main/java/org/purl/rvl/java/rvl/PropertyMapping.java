@@ -235,7 +235,7 @@ static final String NL =  System.getProperty("line.separator");
 	}
 
 	public Property getInheritedBy() {
-		if (this.hasInvertsourceproperty()) {
+		if (this.hasInheritedby()) {
 			return (Property)getAllInheritedby_as().firstValue().castTo(Property.class);
 		} else return null;
 	}
