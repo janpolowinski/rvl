@@ -9,6 +9,8 @@ org.purl.rvl.tooling.rvl-interpreter/.classpath
 
 org.purl.rvl.tooling.codegen.rdfreactor/.classpath
 
+org.purl.rvl.tooling.codegen.rdfreactor/src/main/java/org/purl/rvl/interpreter/gen/*.*
+
 org.purl.rvl.tooling.rvl-interpreter/avm.ttl
 
 *.prefs
