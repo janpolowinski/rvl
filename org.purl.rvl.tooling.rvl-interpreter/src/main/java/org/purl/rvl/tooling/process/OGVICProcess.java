@@ -30,17 +30,17 @@ public class OGVICProcess {
 	
 	private static OGVICProcess instance = null;
 	
-	public static int MAX_GRAPHIC_RELATIONS_PER_MAPPING = 1000;
+	public static int MAX_GRAPHIC_RELATIONS_PER_MAPPING = 100;
 	
 	public static boolean REGENERATE_AVM = true;
-	public static boolean WRITE_AVM = true;
+	public static boolean WRITE_AVM = false;
 	public static boolean WRITE_JSON = true;
 	
 	public static final String RVL_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl.owl";
 	public static final String VISO_LOCAL_REL = "../org.purl.rvl.vocabulary/viso-branch/viso-graphic-inference.ttl";
 	
-	//public static final String USE_CASE_FOLDER = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies";
-	public static final String USE_CASE_FOLDER = "/Users/Jan/Documents/EclipseWorkspace/SemVisRecherche/CaseStudies";
+	public static final String USE_CASE_FOLDER = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies";
+	//public static final String USE_CASE_FOLDER = "/Users/Jan/Documents/EclipseWorkspace/SemVisRecherche/CaseStudies";
 	public static final String GEN_MODEL_FILE_FOLDER = "../org.purl.rvl.vocabulary/gen";
 	protected static final String TMP_RVL_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempRvl.ttl";
 	public static final String TMP_AVM_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempAVM.ttl";

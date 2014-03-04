@@ -354,7 +354,7 @@ public class RVLUtils {
 			org.ontoware.rdf2go.model.node.Resource subject,
 			org.ontoware.rdf2go.model.node.Node object) throws InsufficientMappingSpecificationException {
 		
-			Set<Statement> statementSet = null;
+			Set<Statement> statementSet = new HashSet<Statement>();
 		
 			URI spURI = pm.getSourceProperty().asURI();
 			
@@ -371,29 +371,10 @@ public class RVLUtils {
 				
 			}
 			
-			// consider inherited relations, including those between classes (someValueFrom ...)
-			if(pm.hasInheritedby()) {
-				
-				try{
-					Property inheritedBy = pm.getInheritedBy();
-					
-					// temp only support some and all values from ...
-					if (!(inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
-							|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())	)) {
-						LOGGER.warning("inheritedBy is set to a value, currently not supported.");
-					} else {
-						statementSet =  findRelationsOnClassLevel(model, spURI, inheritedBy, subject, object);
-					}
-					
-				}
-				catch (Exception e) {
-					LOGGER.warning("Problem evaluating inheritedBy setting or getting relations on class level");
-				}
-			} 
 			
-			else if (onlyMostSpecific) {
+			if (onlyMostSpecific) {
 				 // get only the most specific statements and exclude those using a super-property instead
-				statementSet = RVLUtils.findStatementsPreferingThoseUsingASubProperty(model, spURI); 
+				statementSet.addAll(RVLUtils.findStatementsPreferingThoseUsingASubProperty(model, spURI)); 
 			}
 			
 			else {
@@ -406,7 +387,6 @@ public class RVLUtils {
 						null==object ? 	Variable.ANY : object
 						);
 				
-				statementSet = new HashSet<Statement>();
 				while (it.hasNext()) {
 					
 					Statement statement = it.next();
@@ -426,6 +406,27 @@ public class RVLUtils {
 				}
 
 			}
+			
+			// consider inherited relations, including those between classes (someValueFrom ...)
+			if(pm.hasInheritedby()) {
+				
+				try{
+					Property inheritedBy = pm.getInheritedBy();
+					
+					// temp only support some and all values from ...
+					if (!(inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
+							|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())	)) {
+						LOGGER.warning("inheritedBy is set to a value, currently not supported.");
+					} else {
+						statementSet.addAll(findRelationsOnClassLevel(model, spURI, inheritedBy, subject, object));
+					}
+					
+				}
+				catch (Exception e) {
+					LOGGER.warning("Problem evaluating inheritedBy setting or getting relations on class level");
+				}
+			} 
+
 			
 			return statementSet;
 	}

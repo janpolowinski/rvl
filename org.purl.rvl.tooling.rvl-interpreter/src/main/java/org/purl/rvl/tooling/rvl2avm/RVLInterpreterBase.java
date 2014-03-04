@@ -164,8 +164,15 @@ public abstract class RVLInterpreterBase {
 		
 		QueryResultTable results = model.sparqlSelect(queryString);
 		for(QueryRow row : results) {
-			Property_to_Graphic_AttributeMapping p2gam = Property_to_Graphic_AttributeMapping.getInstance(model, (URI)row.getValue("p2gam"));
+			try {
+			//Property_to_Graphic_AttributeMapping p2gam = Property_to_Graphic_AttributeMapping.getInstance(model, (URI)row.getValue("p2gam"));
+			Property_to_Graphic_AttributeMapping p2gam = Property_to_Graphic_AttributeMapping.getInstance(model, row.getValue("p2gam").asResource());
 			mappingSet.add((PropertyToGraphicAttributeMapping)p2gam.castTo(PropertyToGraphicAttributeMapping.class));
+			}
+			catch (Exception e) {
+				LOGGER.warning("P2GAM could not be added to the mapping set.");
+				continue;
+			}
 		}
 		
 		return mappingSet;

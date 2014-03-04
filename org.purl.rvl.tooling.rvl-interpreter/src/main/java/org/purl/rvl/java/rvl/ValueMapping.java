@@ -366,7 +366,7 @@ public int getAddressedTargetValueSituation() {
  */
 private int determineAdressedTargetValues() {
 	
-	LOGGER.info("Determining Target Value (Situation) for " + this.getPropertyMapping().asURI());
+	LOGGER.info("Determining Target Value (Situation) for " + this.getPropertyMapping().toStringSummary());
 
 	int addressedValueSituation = ValueMapping.UNKNOWN;
 
@@ -457,7 +457,7 @@ private int determineAdressedTargetValues() {
 
 private int determineAdressedSourceValues() {
 	
-	LOGGER.info("Determining Source Value (Situation) for " + this.getPropertyMapping().asURI());
+	LOGGER.info("Determining Source Value (Situation) for " + this.getPropertyMapping().toStringSummary());
 
 	int addressedValueSituation = ValueMapping.UNKNOWN;
 

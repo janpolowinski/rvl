@@ -230,12 +230,15 @@ public class AVMUtils {
 
 	public static String getLocalName(Model model, Node node){
 		
-		String localName = "local name could not be fetched";
+		String localName = "(local name could not be fetched)";
 		
 		try {	 
 			localName =  RDFTool.getGoodLabel(node, model);
 		}
 		catch (RuntimeException e) {
+			LOGGER.warning("Local name could not be fetched.");
+		} 
+		catch (Exception e) {
 			LOGGER.warning("Local name could not be fetched.");
 		}
 

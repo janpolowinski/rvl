@@ -26,7 +26,7 @@ import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.java.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.GraphicAttribute;
 import org.purl.rvl.java.gen.rvl.GraphicRelation;
-import org.purl.rvl.java.gen.rvl.Mapping;
+
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
 import org.purl.rvl.java.gen.rvl.Sub_mappingrelation;
@@ -36,6 +36,7 @@ import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.Shape;
 import org.purl.rvl.java.gen.viso.graphic.Thing1;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
+import org.purl.rvl.java.rvl.Mapping;
 import org.purl.rvl.java.rvl.PropertyMapping;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMapping;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping;
@@ -68,7 +69,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		}
 		
 		interpretSimpleP2GArvlMappings();
-		interpretNormalP2GArvlMappings();
+		interpretNormalP2GArvlMappings(); 
 		interpretP2GO2ORMappings();
 		interpretResourceLabelAsGOLabelForAllCreatedResources();
 	}
@@ -254,6 +255,11 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			// TODO this is a simplification: multiple GOs may be affected, not only one
 				
 			Mapping subMapping = smr.getSubMapping();
+			
+			if (subMapping.isDisabled()) {
+				LOGGER.info("The referenced submapping was disabled. Will ignore it");
+				continue;
+			}
 
 			PropertyToGraphicAttributeMapping p2gam = 
 					(PropertyToGraphicAttributeMapping) subMapping.castTo(PropertyToGraphicAttributeMapping.class);
@@ -297,6 +303,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				applyGraphicValueToGO(tga, colorNode, predicate, goToApplySubmapping);
 			}
 			
+		} else {
+			LOGGER.warning("P2GAM with no value mappings at all are not yet supported (defaults needs to be implemented).");
 		}
 	}
 	
@@ -320,7 +328,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			PropertyToGraphicAttributeMapping p2gam = (PropertyToGraphicAttributeMapping) iterator.next();
 			
 			if (p2gam.isDisabled()) {
-				LOGGER.info("Ignored disabled normal P2GAM mapping " + p2gam.asURI() );
+				LOGGER.info("Ignored disabled normal P2GAM mapping " + p2gam.toStringSummary() );
 				continue;
 			}
 			
@@ -339,7 +347,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	 */
 	protected void interpretNormalP2GArvlMapping(PropertyToGraphicAttributeMapping p2gam) {
 
-		LOGGER.info("Interpret P2GAM mapping " + p2gam.asURI() );
+		LOGGER.info("Interpret P2GAM mapping " + p2gam.toStringSummary() );
 
 		try {
 			

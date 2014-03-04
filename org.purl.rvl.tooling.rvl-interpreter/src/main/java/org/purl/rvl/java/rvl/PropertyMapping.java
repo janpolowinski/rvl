@@ -25,6 +25,7 @@ import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.java.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.SPARQLselector;
 import org.purl.rvl.tooling.process.OGVICProcess;
+import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.RVLUtils;
 
 public class PropertyMapping extends
@@ -238,6 +239,10 @@ static final String NL =  System.getProperty("line.separator");
 		if (this.hasInheritedby()) {
 			return (Property)getAllInheritedby_as().firstValue().castTo(Property.class);
 		} else return null;
+	}
+
+	public String toStringSummary() {
+		return AVMUtils.getLocalName(model, this);
 	}
 
 }

@@ -22,6 +22,7 @@ import org.purl.rvl.java.gen.rvl.GraphicAttribute;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Valuemapping;
 import org.purl.rvl.java.mapping.CalculatedValueMapping;
+import org.purl.rvl.tooling.util.AVMUtils;
 
 
 public class PropertyToGraphicAttributeMapping extends
@@ -69,9 +70,16 @@ public class PropertyToGraphicAttributeMapping extends
 		// when this fails, try to get explicit ones // TODO should be explicit first! rework this ...
 		if ((null == explicitlyMappedValues || explicitlyMappedValues.isEmpty()) && hasValuemapping()) {
 						
-			// TODO evtl. check for blank nodes since the toSPARQL() issued an exception in some cases
-
 			explicitlyMappedValues = new HashMap<Node, Node>();
+			
+			// TODO mappings that are blank nodes issue a class cast exception when toSPARQLed below!
+			try {
+				this.toSPARQL();
+			}
+			catch (UnsupportedOperationException e) {
+				LOGGER.severe("Problem creating the SPARQL representation of a mapping that was a blank node.");
+				return explicitlyMappedValues;
+			}
 			
 			// get all subjects and the sv/tv table via SPARQL // TODO here we take all value mappigns with a source and target value, but these may include those with more than one sv/tv value set!
 			String querySubjectsAndSVtoTVMapForGivenProperty = "" +
@@ -248,5 +256,8 @@ public class PropertyToGraphicAttributeMapping extends
 		return s;
 	}
 
+	public String toStringSummary() {
+		return AVMUtils.getLocalName(model, this);
+	}
 
 }
