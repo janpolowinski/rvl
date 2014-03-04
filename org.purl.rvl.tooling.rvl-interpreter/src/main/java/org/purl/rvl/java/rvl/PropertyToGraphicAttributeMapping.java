@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.apache.velocity.runtime.resource.ResourceCache;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.QueryResultTable;
@@ -22,6 +23,7 @@ import org.purl.rvl.java.gen.rvl.GraphicAttribute;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Valuemapping;
 import org.purl.rvl.java.mapping.CalculatedValueMapping;
+import org.purl.rvl.tooling.process.ResourcesCache;
 import org.purl.rvl.tooling.util.AVMUtils;
 
 
@@ -59,6 +61,13 @@ public class PropertyToGraphicAttributeMapping extends
 	 * @return
 	 */
 	public Map<Node, Node> getExplicitlyMappedValues(){
+		
+		if (null != explicitlyMappedValues) {
+			LOGGER.fine("Found cached value mappings: " + explicitlyMappedValues);
+			return explicitlyMappedValues;
+		} else {
+			LOGGER.fine("Newly calculating value mappings ...");
+		}
 		
 		// try to get calculated values
 		try {
@@ -165,7 +174,7 @@ public class PropertyToGraphicAttributeMapping extends
 		return (ValueMapping)this.getAllValuemapping_as().firstValue().castTo(ValueMapping.class);
 	}
 
-	public String toString(){
+	public String toStringDetailed(){
 		
 		String s = "";
 		
@@ -257,7 +266,11 @@ public class PropertyToGraphicAttributeMapping extends
 	}
 
 	public String toStringSummary() {
-		return AVMUtils.getLocalName(model, this);
+		return AVMUtils.getGoodLabel(this, model);
 	}
 
+	
+	public PropertyToGraphicAttributeMapping tryReplaceWithCashedInstanceForSameURI(PropertyToGraphicAttributeMapping mapping) {
+		return (PropertyToGraphicAttributeMapping) ResourcesCache.getInstance().tryReplaceOrCache(mapping);
+	}
 }

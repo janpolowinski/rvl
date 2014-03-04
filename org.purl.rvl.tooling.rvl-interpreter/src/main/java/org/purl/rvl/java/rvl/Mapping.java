@@ -44,7 +44,7 @@ public class Mapping extends org.purl.rvl.java.gen.rvl.Mapping implements Mappin
 	 */
 	private static final long serialVersionUID = -1457148355972827796L;
 
-	public String toString() {
+	public String toStringDetailed() {
 		String s = "################################################" + NL;
 		String label = this.getAllLabel_as().firstValue();
 		Boolean includeInLegend = this.getAllIncludeinlegend_as().firstValue();

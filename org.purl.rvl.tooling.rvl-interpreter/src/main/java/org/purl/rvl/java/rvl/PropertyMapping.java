@@ -63,7 +63,7 @@ static final String NL =  System.getProperty("line.separator");
 		// TODO Auto-generated constructor stub
 	}
 	
-	public String toString() {
+	public String toStringDetailed() {
 		String s ="";
 		
 		// try to get the string description from the (manual) Mapping class, which is not in the super-class hierarchy
@@ -242,7 +242,12 @@ static final String NL =  System.getProperty("line.separator");
 	}
 
 	public String toStringSummary() {
-		return AVMUtils.getLocalName(model, this);
+		return AVMUtils.getGoodLabel(this, model);
 	}
+
+//	public PropertyMapping tryReplaceWithCashedInstanceForSameURI(MappingIF mapping) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 }

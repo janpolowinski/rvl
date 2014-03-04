@@ -197,54 +197,51 @@ public class AVMUtils {
 	
 	public static String getOrGenerateDefaultLabelString(Model model, org.ontoware.rdf2go.model.node.Resource resource){
 		
-		String genLabel = "";
-		
-		
-			genLabel =  getLocalName(model, resource);
-		
-			/* USE built-in function of RDF2GO instead:
-			
-			// TODO performance: Thing OK? What is domain of rdfs:label? rdfreactor. Resource does not work
-			org.ontoware.rdfreactor.schema.rdfs.Resource representedResource = Thing1.getInstance(model, resource);
-			
-			try {
-				genLabel = representedResource.getAllLabel_as().firstValue().toString();
-				} catch (Exception e) {
-					// this may cause another exception (URI for blank nodes)
-					LOGGER.finest("No label found for " + representedResource.asURI());
-			}
-			
-			if(genLabel.equals("")) {
-				try {
-					LOGGER.finest("Will try to generate label from the resources URI (" + representedResource.asURI() +")");
-					genLabel = getLocalName(model, representedResource);
-				} catch (Exception e) {
-					LOGGER.warning("Could not generate label from the resources URI (blank node?)" + e.getStackTrace());
-				}
-			}		
-			*/
+		String genLabel = getGoodLabel(resource,model);
 
-		LOGGER.finest("Using label " + genLabel);	
 		return genLabel;
 	}
 
-	public static String getLocalName(Model model, Node node){
+	public static String getLocalName(Node node, Model model){
 		
-		String localName = "(local name could not be fetched)";
+		String localName = "local-name-could-not-be-fetched";
 		
 		try {	 
-			localName =  RDFTool.getGoodLabel(node, model);
+			localName =  RDFTool.getShortName(node.asURI().toString());
 		}
-		catch (RuntimeException e) {
-			LOGGER.warning("Local name could not be fetched.");
-		} 
 		catch (Exception e) {
-			LOGGER.warning("Local name could not be fetched.");
+			LOGGER.finest("Local name could not be fetched. Blank node?");
+			localName = node.toString();
 		}
 
 		return localName;
+	}
+	
+	public static String getGoodLabel(Node node, Model model){
 		
 		
+		String label = "no-good-label-could-be-calculated";
+		
+		try {	 
+			// somehow causes runtime exception with jena when not casted to resource as below
+			label =  RDFTool.getGoodLabel(node.asResource(), model);
+		}
+		catch (Exception e) {
+			
+			LOGGER.finest("No good label could be calculated.");
+			
+			try {
+
+				label = getLocalName(node, model);
+				
+			} catch (Exception e1) {
+				
+				LOGGER.finest("Local name could not be calculated.");
+				label = node.toString();
+			}
+		}
+
+		return label;
 	}
 
 

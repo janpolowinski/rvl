@@ -55,7 +55,7 @@ public class PropertyToGO2ORMapping extends
 		// TODO Auto-generated constructor stub
 	}
 	
-	public String toString(){
+	public String toStringDetailed(){
 		
 		String s = "";
 		
@@ -136,7 +136,7 @@ public class PropertyToGO2ORMapping extends
 				SubMappingRelationX relX = new SubMappingRelationX(rel);
 				
 				if (!relX.hasSubMapping() || !relX.hasOnRole()) {
-					LOGGER.warning("Ignored incomplete submapping " + relX.toStringSummary() + ", since no submapping was found or onRole is not specified.");
+					LOGGER.warning("Ignored incomplete submapping " + relX.toString() + ", since no submapping was found or onRole is not specified.");
 					continue;
 				}
 				

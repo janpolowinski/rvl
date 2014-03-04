@@ -49,7 +49,7 @@ public Node getUpperBoundIncl() {
 	} else return null;
 }
 
-public String toString(){
+public String toStringDetailed(){
 	
 	String s = "";
 	

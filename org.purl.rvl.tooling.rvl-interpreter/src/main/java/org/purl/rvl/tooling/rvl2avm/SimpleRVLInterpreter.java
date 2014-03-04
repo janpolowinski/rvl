@@ -99,6 +99,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				continue;
 			}
 			
+			LOGGER.info("Interpret P2GOTOR mapping " + p2go2orm.asURI() );
+			
 			try {
 				
 				if (p2go2orm.getTargetGraphicRelation().equals(DirectedLinking.RDFS_CLASS) || p2go2orm.getTargetGraphicRelation().equals(UndirectedLinking.RDFS_CLASS)) {
@@ -145,8 +147,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				Resource subject = statement.getSubject();
 				Resource object = statement.getObject().asResource();
 				
-				LOGGER.finest("Subject label " + AVMUtils.getLocalName(modelAVM,subject));
-				LOGGER.finest("Object label " + AVMUtils.getLocalName(modelAVM,object));
+				LOGGER.finest("Subject label " + AVMUtils.getGoodLabel(subject,modelAVM));
+				LOGGER.finest("Object label " + AVMUtils.getGoodLabel(object,modelAVM));
 	
 				LOGGER.fine("Statement to be mapped : " + statement);
 
@@ -245,7 +247,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			SubMappingRelationX smr = (SubMappingRelationX) iterator
 					.next();
 			
-			LOGGER.info("Applying submapping to GO with the role " + smr.getOnRole());
+			LOGGER.finer("Applying submapping to GO with the role " + smr.getOnRole());
 			
 			URI roleURI = smr.getOnRole().asURI();
 			
@@ -264,9 +266,15 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			PropertyToGraphicAttributeMapping p2gam = 
 					(PropertyToGraphicAttributeMapping) subMapping.castTo(PropertyToGraphicAttributeMapping.class);
 			
+			// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
+			p2gam = p2gam.tryReplaceWithCashedInstanceForSameURI(p2gam);
+			
+			//System.out.println(p2gam);
+			
 			try {
 				applyMappingToGraphicObject(mainStatement, goToApplySubmapping, p2gam);
-				goToApplySubmapping.setLabel(roleURI + " with an applied submapping: " + smr.toStringSummary());
+				// this does not use the cashed mappings somehow:
+				//goToApplySubmapping.setLabel(roleURI + " with an applied submapping: " + smr.toStringSummary());
 				
 			} catch (InsufficientMappingSpecificationException e) {
 				
@@ -289,7 +297,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		
 			Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
 			
-			LOGGER.info(p2gam.explicitlyMappedValuesToString());
+			LOGGER.finer(p2gam.explicitlyMappedValuesToString());
 			
 			///Node triplePartValue = ...
 			
@@ -326,6 +334,9 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				.iterator(); iterator.hasNext();) {
 			
 			PropertyToGraphicAttributeMapping p2gam = (PropertyToGraphicAttributeMapping) iterator.next();
+			
+			// caching
+			p2gam = p2gam.tryReplaceWithCashedInstanceForSameURI(p2gam);
 			
 			if (p2gam.isDisabled()) {
 				LOGGER.info("Ignored disabled normal P2GAM mapping " + p2gam.toStringSummary() );
@@ -439,6 +450,9 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				.iterator(); iterator.hasNext();) {
 			
 			PropertyToGraphicAttributeMapping p2gam = (PropertyToGraphicAttributeMapping) iterator.next();
+			
+			// caching
+			p2gam = p2gam.tryReplaceWithCashedInstanceForSameURI(p2gam);
 			
 			if (p2gam.isDisabled()) {
 				LOGGER.info("Ignored disabled simple P2GAM mapping " + p2gam.asURI() );

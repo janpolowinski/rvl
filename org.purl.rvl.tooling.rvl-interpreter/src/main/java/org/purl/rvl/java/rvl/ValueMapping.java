@@ -1121,8 +1121,7 @@ private PropertyMapping getPropertyMapping() {
 	return new PropertyMapping(model, res, false);
 }
 
-@Override
-public String toString() {
+public String toStringDetailed() {
 	
 	String s = "";
 	

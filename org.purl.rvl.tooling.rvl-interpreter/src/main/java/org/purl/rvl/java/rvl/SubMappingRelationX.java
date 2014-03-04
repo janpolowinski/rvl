@@ -54,15 +54,15 @@ public class SubMappingRelationX {
 	}
 
 	
-	public String toStringSummary(){
+	public String toStringDetailed(){
 		
 		String label = "";
 
 		if (hasSubMapping() && hasOnRole()) {
 			
-			label += " ... to mapping: " + getSubMapping() ; // wrong return type and wrong methode name, but seems to work
+			//label += " ... to mapping: " + getSubMapping() ; // wrong return type and wrong methode name, but seems to work
 			label += " ... on role: " + getOnRole() ;
-			label += RVLUtils.mappingToStringAsSpecificAsPossible((org.purl.rvl.java.rvl.Mapping)getSubMapping().castTo(org.purl.rvl.java.rvl.Mapping.class)) ;
+			label += "... to mapping: " + RVLUtils.mappingToStringAsSpecificAsPossible((org.purl.rvl.java.rvl.Mapping)getSubMapping().castTo(org.purl.rvl.java.rvl.Mapping.class)) ;
 
 		}
 		if(hasOnTriplePart()) {

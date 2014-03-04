@@ -96,7 +96,7 @@ public class GraphicObject extends
 	@XmlElement(name="label")
 	public String getLabel() {
 		
-		return  AVMUtils.getLocalName(model, this.asURI()); // sending a GraphicObject instead of a URI, causes class cast problems
+		return  AVMUtils.getGoodLabel(this.asURI(),model); // sending a GraphicObject instead of a URI, causes class cast problems
 				//this.getAllLabel_as().firstValue().toString();
 		
 	}
