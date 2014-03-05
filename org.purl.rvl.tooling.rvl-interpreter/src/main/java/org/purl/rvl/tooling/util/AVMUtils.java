@@ -16,6 +16,7 @@ import org.ontoware.rdfreactor.schema.rdfs.Resource;
 import org.openrdf.sail.rdbms.managers.UriManager;
 import org.purl.rvl.java.exception.IncompleteColorValuesException;
 import org.purl.rvl.java.gen.rvl.Thing1;
+import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
 import org.purl.rvl.java.viso.graphic.Color;
@@ -146,9 +147,11 @@ public class AVMUtils {
 				"SELECT DISTINCT ?go " + 
 				"WHERE { " +
 				"	?go a " + GraphicObject.RDFS_CLASS.toSPARQL() + " ." +
-				"	?someRelation " + DirectedLinking.STARTNODE .toSPARQL() + " ?go ." + 
+	//			"	?someRelation " + DirectedLinking.STARTNODE .toSPARQL() + " ?go ." +  // TODO use unions
+				"	?someRelation " + Containment.CONTAINMENTCONTAINER .toSPARQL() + " ?go ." + 
 						// (some relation points to the go as a startNode)
-				"	FILTER NOT EXISTS { ?someOtherRelation " + DirectedLinking.ENDNODE .toSPARQL() + " ?go . }" + 
+				"	FILTER NOT EXISTS { ?someOtherRelation " + Containment.CONTAINMENTCONTAINEE .toSPARQL() + " ?go . }" + 
+	//			"	FILTER NOT EXISTS { ?someOtherRelation " + DirectedLinking.ENDNODE .toSPARQL() + " ?go . }" + 
 						// (no relation points to the go as an endNode)
 				"} ";
 		LOGGER.finest("query for root nodes: " + query);
@@ -194,7 +197,35 @@ public class AVMUtils {
 		return dlFromHere;
 	}
 	
-	
+	// cloned from linking, much redundant, similar code
+	public static Set<Containment> getContainmentRelationsFrom(Model model,
+			GraphicObject parentGO) {
+		
+		Set<Containment> relFromHere = new HashSet<Containment>();
+
+		String query = "" + 
+				"SELECT DISTINCT ?rel " + 
+				"WHERE { " +
+				"	?rel a " + Containment.RDFS_CLASS.toSPARQL() + " ." +
+				"	?rel " + Containment.CONTAINMENTCONTAINER .toSPARQL() + parentGO.toSPARQL() + " ." + 
+						// (some relation points to the go as a container)
+				"} ";
+		
+		String parentGOLabel = ""; // TODO label and exception handling here ...
+		try{parentGOLabel = parentGO.getLabel() ; } catch (Exception e) {}
+		LOGGER.finer("Query for containment relations with container " + parentGOLabel + " " + parentGO.asURI());
+		LOGGER.finest("Query: " + query);
+
+		QueryResultTable results = model.sparqlSelect(query);
+		for (QueryRow row : results) {
+			relFromHere.add(Containment.getInstance(model, row
+					.getValue("rel").asURI()));
+		}
+		
+		return relFromHere;
+
+	}
+
 	public static String getOrGenerateDefaultLabelString(Model model, org.ontoware.rdf2go.model.node.Resource resource){
 		
 		String genLabel = getGoodLabel(resource,model);

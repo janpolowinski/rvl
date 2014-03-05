@@ -412,7 +412,7 @@ rexm:PMtoUndirectedLinking
 # sub-mapping - supported (also caching)
 rexm:PMwithNamedSubmappingToNamedMappingOnConnector
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true"^^xsd:boolean ;
       rdfs:label "PM with a sub-mapping to an existing, named mapping"^^xsd:string ;
       rvl:sourceProperty rexd:cites ;
       rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 

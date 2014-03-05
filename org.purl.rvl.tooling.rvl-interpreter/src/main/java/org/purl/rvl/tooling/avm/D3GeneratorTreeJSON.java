@@ -19,6 +19,7 @@ import org.json.simple.JSONObject;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.Syntax;
+import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.viso.graphic.GraphicObject;
 import org.purl.rvl.tooling.util.AVMUtils;
@@ -84,7 +85,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		// generate empty JSON root object, containing all actual root nodes
 		JSONObject d3data = new JSONObject();
 
-		Set<GraphicObject> rootNodeSet = AVMUtils.getRootNodesGraphicObject(modelAVM);
+		Set<GraphicObject> rootNodeSet = AVMUtils.getRootNodesGraphicObject(modelAVM); // TODO SEVERE: only linking considered here!!!
 		if (null!=rootNodeSet && !rootNodeSet.isEmpty()) {
 			
 			List listOfRootNodes = new LinkedList();
@@ -95,8 +96,20 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 				
 				Map actualRootNodeObject = new LinkedHashMap();
 				actualRootNodeObject.put("label", actualRootNode.getLabel());
-				actualRootNodeObject.put("children", generateChildrenListFor(actualRootNode));
 				
+				List childrenListLinking = generateChildrenListFor4Linking(actualRootNode);
+				if (!childrenListLinking.isEmpty()) {
+					actualRootNodeObject.put("type", "DirectedLinking");
+					actualRootNodeObject.put("children", childrenListLinking);
+				}
+				
+				List childrenListContainment = generateChildrenListFor4Containment(actualRootNode);
+				if (!childrenListContainment.isEmpty()) {
+					actualRootNodeObject.put("type", "Containment");
+					actualRootNodeObject.put("children", childrenListContainment);
+				}
+				
+							
 				listOfRootNodes.add(actualRootNodeObject);
 
 			}
@@ -110,9 +123,10 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 	}
 	
 	
-	private List generateChildrenListFor(GraphicObject parentGO) {
+	private List generateChildrenListFor4Linking(GraphicObject parentGO) {
 		
 		List listOfChildren = new LinkedList();
+		
 		Set<DirectedLinking> directedLinkingsFromHere = AVMUtils.getDirectedLinkingRelationsFrom(modelAVM, parentGO);
 		
 		if(!directedLinkingsFromHere.isEmpty() && currentDepth<=MAX_DEPTH) {
@@ -130,6 +144,30 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 				*/
 				
 				listOfChildren.add(generateObjectFor(directedLinking));
+			}
+			
+			currentDepth --;
+		}
+		
+		return  listOfChildren;
+	}
+	
+	// cloned from linking, much redundant, similar code	
+	private List generateChildrenListFor4Containment(GraphicObject parentGO) {
+		
+		List listOfChildren = new LinkedList();
+		
+		Set<Containment> containmentsFromHere = AVMUtils.getContainmentRelationsFrom(modelAVM, parentGO);
+		
+		if(!containmentsFromHere.isEmpty() && currentDepth<=MAX_DEPTH) {
+			
+			currentDepth ++;
+			
+			for (Iterator<Containment> iterator = containmentsFromHere.iterator(); iterator
+					.hasNext();) {
+				Containment containment = (Containment) iterator.next();
+						
+				listOfChildren.add(generateObjectFor(containment));
 			}
 			
 			currentDepth --;
@@ -160,7 +198,35 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		child.put("connector_color_rgb_hex", connectorColorRGBHex);
 		
 		// break possible circles
-		List childrenList = generateChildrenListFor(endNode);
+		List childrenList = generateChildrenListFor4Linking(endNode);
+		if (!childrenList.isEmpty()) {
+			child.put("children", childrenList);
+		}
+		
+		return child;
+	}
+	
+	
+// cloned from linking, much redundant, similar code
+private Map generateObjectFor(Containment rel) {
+		
+		GraphicObject containee = (GraphicObject) rel.getAllContainmentcontainee_as().firstValue().castTo(GraphicObject.class);
+		
+		//color
+		String endNodeColorRGBHex = containee.getColorHex();
+		// shape
+		String endNodeShapeD3Name = containee.getShape();
+
+
+		Map child = new LinkedHashMap();
+		child.put("label",D3Utils.shortenLabel(containee.getLabel()));
+		child.put("full_label",containee.getLabel());
+		child.put("color_rgb_hex", endNodeColorRGBHex);
+		child.put("shape_d3_name", endNodeShapeD3Name);
+		child.put("connector_color_rgb_hex", "#ccc");
+		
+		// break possible circles
+		List childrenList = generateChildrenListFor4Containment(containee);
 		if (!childrenList.isEmpty()) {
 			child.put("children", childrenList);
 		}

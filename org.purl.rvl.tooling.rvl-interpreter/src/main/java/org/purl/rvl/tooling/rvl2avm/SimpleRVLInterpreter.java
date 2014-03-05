@@ -227,7 +227,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		
 	}
 	
-	// cloned from linking
+	// cloned from linking, much duplicated code
+	@SuppressWarnings("unused")
 	protected void interpretMappingToContainment(PropertyToGO2ORMapping p2go2orm) throws InsufficientMappingSpecificationException {
 
 		Iterator<Statement> stmtSetIterator = RVLUtils.findRelationsOnInstanceOrClassLevel(model, (PropertyMapping) p2go2orm.castTo(PropertyMapping.class), true, null, null).iterator();
@@ -246,72 +247,48 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			try {
 				Resource subject = statement.getSubject();
 				Resource object = statement.getObject().asResource();
+				//Node object = statement.getObject();
 				
 				LOGGER.finest("Subject label " + AVMUtils.getGoodLabel(subject,modelAVM));
 				LOGGER.finest("Object label " + AVMUtils.getGoodLabel(object,modelAVM));
-	
 				LOGGER.fine("Statement to be mapped : " + statement);
 
-				// For each statement, create a startNode GO representing the subject (if not exists)
-			    GraphicObject subjectNode = createOrGetGraphicObject(subject);
-		    	LOGGER.finest("Created GO for subject: " + subject.toString());
-				
-				// For each statement, create an endNode GO representing the object (if not exists)
-		    	//Node object = statement.getObject();
-				
-				GraphicObject objectNode = createOrGetGraphicObject(object);
-		    	LOGGER.finest("Created GO for object: " + object.toString());
-		    	
-				// create a connector and add default color
-				GraphicObject connector = new GraphicObject(modelAVM, true);
-				
-				// generic graphic relation needed for submappings 
-				// (could also be some super class of directed linking, undirected linking, containment ,...)
-				Resource rel = null;
-				
-				// directed linking
-				if (p2go2orm.getTargetGraphicRelation().equals(DirectedLinking.RDFS_CLASS)) {
-					
-			    	// create the directed linking relation
-			    	DirectedLinking dlRel = new DirectedLinking(modelAVM, true);
-			    	
-					// configure the relation
-					if(p2go2orm.isInvertSourceProperty()) {
-						dlRel.setEndnode(subjectNode);
-						dlRel.setStartnode(objectNode);
-						subjectNode.setLinkedfrom(dlRel);
-						objectNode.setLinkedto(dlRel);
-					} else {
-						dlRel.setStartnode(subjectNode);
-						dlRel.setEndnode(objectNode);
-						subjectNode.setLinkedto(dlRel);
-						objectNode.setLinkedfrom(dlRel);
-					}
-					
-					dlRel.setLinkingconnector(connector);
-					rel=dlRel;
-					
+				// For each statement, create a container GO representing the subject (if not exists)
+			    GraphicObject subjectContainer = createOrGetGraphicObject(subject);
 
-				} else { // undirected linking
-					
-					// create the undirected linking relation
-			    	UndirectedLinking udlRel = new UndirectedLinking(modelAVM, true);
-			    	
-					// configure the relation
-					udlRel.addLinkingnode(subjectNode);
-					udlRel.addLinkingnode(objectNode);
-					subjectNode.setLinkedwith(udlRel);
-					objectNode.setLinkedwith(udlRel);
-					
-					udlRel.setLinkingconnector(connector);
-					rel=udlRel;
+				// For each statement, create a containee GO representing the object (if not exists)
+				GraphicObject objectContainee = createOrGetGraphicObject(object);
+				
+		    	LOGGER.finest("Created GO for subject: " + subject.toString());
+		    	LOGGER.finest("Created GO for object: " + object.toString());
+
+				// generic graphic relation needed for submappings 
+				// (could also be some super class of containment ,...)
+				Resource rel = null;
+									
+		    	// create the containment relation
+		    	Containment dlRel = new Containment(modelAVM, true);
+		    	
+				// configure the relation
+				if(!p2go2orm.isInvertSourceProperty()) {
+					dlRel.setContainmentcontainer(subjectContainer);
+					dlRel.setContainmentcontainee(objectContainee);
+					subjectContainer.setContains(dlRel);
+					objectContainee.setContainedby(dlRel);
+				} else {
+					dlRel.setContainmentcontainee(subjectContainer);
+					dlRel.setContainmentcontainer(objectContainee);
+					subjectContainer.setContainedby(dlRel);
+					objectContainee.setContains(dlRel);
 				}
 				
+				rel=dlRel;
+					
 				// submappings
 				if(p2go2orm.hasSub_mapping()){
 					
 					if(null != rel) {
-						applySubmappings(p2go2orm,statement,rel); // DirectedLinking etc need to be subclasses of (n-ary) GraphicRelation
+						applySubmappings(p2go2orm,statement,rel); // Containment etc need to be subclasses of (n-ary) GraphicRelation
 					} else {
 						LOGGER.warning("Submapping existed, but could not be applied, since no parent graphic relation was provided.");
 					}

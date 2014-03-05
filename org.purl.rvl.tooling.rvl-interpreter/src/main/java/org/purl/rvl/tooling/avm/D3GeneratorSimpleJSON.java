@@ -21,6 +21,7 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.Syntax;
 import org.ontoware.rdf2go.model.node.Node;
 import org.purl.rvl.java.exception.IncompleteColorValuesException;
+import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.Thing1;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
@@ -213,6 +214,37 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				link.put("color_rgb_hex", connector.getColorHex());
 				listOfLinks.add(link);
 				LOGGER.finer("Generated JSON link for " + rel + " (" + node1.getLabel() + " --> " + node2.getLabel() +")" );
+				}
+		} catch (Exception e) {
+			LOGGER.warning("No JSON links could be generated. " + e.getMessage());
+			e.printStackTrace();
+		}	
+		
+		
+		// containment
+		try {
+			
+			ClosableIterator<? extends Containment> relIt =
+					Containment.getAllInstances_as(modelAVM).asClosableIterator();
+			
+			while (relIt.hasNext()) {
+				
+				Containment rel = (Containment) relIt.next().castTo(Containment.class); 
+				
+				GraphicObject container = (GraphicObject) rel.getAllContainmentcontainer_as().firstValue().castTo(GraphicObject.class);
+				GraphicObject containee = (GraphicObject) rel.getAllContainmentcontainee_as().firstValue().castTo(GraphicObject.class);
+
+				// get index of the endNode in the above generated Map
+				Map link = new LinkedHashMap();
+				//link.put("type", rel.getRDFSClassURI().toString());
+				link.put("type", "Containment");
+				link.put("source", goMap.get(container));
+				link.put("target", goMap.get(containee));
+				link.put("value", "1");
+				link.put("label", "contains");
+				link.put("color_rgb_hex", "#ccc");
+				listOfLinks.add(link);
+				LOGGER.finer("Generated JSON link for " + rel + " (" + container.getLabel() + " contains " + containee.getLabel() +")" );
 				}
 		} catch (Exception e) {
 			LOGGER.warning("No JSON links could be generated. " + e.getMessage());
