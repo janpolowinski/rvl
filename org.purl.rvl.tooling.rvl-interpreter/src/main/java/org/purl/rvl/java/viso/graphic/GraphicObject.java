@@ -58,8 +58,8 @@ public class GraphicObject extends
 	}
 
 	
-	@Override
-	public String toString() {
+
+	public String toStringDetailed() {
 		String s = "########################################" + NL;
 		s += super.toString() + NL;
 		s += "Label: " + this.getAllLabel_as().firstValue() + NL;
@@ -93,7 +93,7 @@ public class GraphicObject extends
 		return s;
 	}
 	
-	@XmlElement(name="label")
+	//@XmlElement(name="label")
 	public String getLabel() {
 		
 		return  AVMUtils.getGoodLabel(this.asURI(),model); // sending a GraphicObject instead of a URI, causes class cast problems
@@ -101,12 +101,13 @@ public class GraphicObject extends
 		
 	}
 	
-	@XmlElement(name="color_rgb_hex")
+	//@XmlElement(name="color_rgb_hex")
 	public String getColorHex() {
 		String colorHex = "";
 
 		if(this.hasColornamed()) {
 			Color colorNamed = getColorNamed();
+			
 			try {
 				colorHex = colorNamed.toHexString();
 			} catch (Exception e) {
@@ -120,7 +121,7 @@ public class GraphicObject extends
 		return colorHex;
 	}
 	
-	@XmlElement(name="shape_d3_name")
+	//@XmlElement(name="shape_d3_name")
 	public String getShape() {
 		String shapeD3Name = "";
 		
@@ -149,11 +150,17 @@ public class GraphicObject extends
 
 	public Color getColorNamed() {
 		if (hasColornamed()) {
+			
 			// TODO: problem: when AVM does not include VISO, a GO cannot calculate its color values. merge models? or enrich for ease case?
 			Color colorInCurrentModel = (Color)this.getAllColornamed_as().firstValue().castTo(Color.class);
+			
 			// "enrich" the color object by data from the VISO model
 			Model modelVISO = OGVICProcess.getInstance().getModelVISO();
 			Color colorInVISO = (Color)Color.getInstance(modelVISO, colorInCurrentModel.asURI()).castTo(Color.class);
+			
+			// get cached named color
+			colorInVISO = colorInVISO.tryReplaceWithCashedInstanceForSameURI(colorInVISO);
+
 			return colorInVISO;
 		}
 		else return null;

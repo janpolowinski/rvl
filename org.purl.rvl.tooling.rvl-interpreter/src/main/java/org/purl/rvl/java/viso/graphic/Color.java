@@ -12,6 +12,7 @@ import org.ontoware.rdf2go.model.node.URI;
 import org.openrdf.model.impl.URIImpl;
 import org.purl.rvl.java.exception.IncompleteColorValuesException;
 import org.purl.rvl.tooling.process.OGVICProcess;
+import org.purl.rvl.tooling.process.ResourcesCache;
 
 public class Color extends org.purl.rvl.java.gen.viso.graphic.Color {
 
@@ -23,6 +24,8 @@ public class Color extends org.purl.rvl.java.gen.viso.graphic.Color {
 	int r = -1;
 	int g = -1;
 	int b = -1;
+
+	private java.awt.Color colorAWT;
 
 	/**
 	 * @param model
@@ -94,11 +97,16 @@ public class Color extends org.purl.rvl.java.gen.viso.graphic.Color {
 	
 	public java.awt.Color getColor_as_JavaAWT() throws IncompleteColorValuesException {
 		
+		if (null != this.colorAWT) {
+			return colorAWT;
+		}
+		
 		String rgb = getAllColorRGB_as().firstValue();
 		
 		if(null!=rgb){ 
 			try {
-				return java.awt.Color.decode(rgb);
+				colorAWT = java.awt.Color.decode(rgb);
+				return colorAWT;
 			} catch (NumberFormatException e) {
 				LOGGER.warning("Problem decoding the RGB value of " + super.toString() + ": " + e.getMessage());
 				//throw new IncompleteColorValuesException();
@@ -144,8 +152,7 @@ public class Color extends org.purl.rvl.java.gen.viso.graphic.Color {
 		return "#cccccc";
 	}
 	
-	@Override
-	public String toString() {
+	public String toStringDetailed() {
 		String s = "";
 		if (hasLabels()) 
 			s += "color " + getAllLabel_as().firstValue() + NL; 
@@ -173,5 +180,9 @@ public class Color extends org.purl.rvl.java.gen.viso.graphic.Color {
 			defaultColor = (org.purl.rvl.java.viso.graphic.Color)Color.getInstance(model, new org.ontoware.rdf2go.model.node.impl.URIImpl("http://purl.org/viso/graphic/Grey")).castTo(org.purl.rvl.java.viso.graphic.Color.class);
 		}
 		return defaultColor;
+	}
+
+	public Color tryReplaceWithCashedInstanceForSameURI(Color colorNamed) {
+		return (Color) ResourcesCache.getInstance().tryReplaceOrCache(colorNamed);
 	}
 }

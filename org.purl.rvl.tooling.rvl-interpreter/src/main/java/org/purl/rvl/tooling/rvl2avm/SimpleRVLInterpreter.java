@@ -110,8 +110,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 //					LOGGER.info("Ignored Mapping to Undirected Linking. Undirected Linking not yet implemented");
 //				}
 				else if (p2go2orm.getTargetGraphicRelation().equals(Containment.RDFS_CLASS)) {
-					//interpretMappingToLinking(p2go2orm);
-					LOGGER.info("Ignored Mapping to Containment. Containment not yet implemented");
+					interpretMappingToContainment(p2go2orm);
+					//LOGGER.info("Ignored Mapping to Containment. Containment not yet implemented");
 				}
 				else  {
 					LOGGER.info("Ignord mapping to " + p2go2orm.getTargetGraphicRelation() + ". Graphic relation not yet implemented");
@@ -226,6 +226,107 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		}
 		
 	}
+	
+	// cloned from linking
+	protected void interpretMappingToContainment(PropertyToGO2ORMapping p2go2orm) throws InsufficientMappingSpecificationException {
+
+		Iterator<Statement> stmtSetIterator = RVLUtils.findRelationsOnInstanceOrClassLevel(model, (PropertyMapping) p2go2orm.castTo(PropertyMapping.class), true, null, null).iterator();
+		
+		int processedGraphicRelations = 0;	
+		
+		if(null==stmtSetIterator) {
+			LOGGER.severe("Statement iterator was null, no containment relations could be interpreted for " + p2go2orm.asURI());
+			return;
+		}
+		
+		while (stmtSetIterator.hasNext() && processedGraphicRelations < OGVICProcess.MAX_GRAPHIC_RELATIONS_PER_MAPPING) {
+			
+			Statement statement = (Statement) stmtSetIterator.next();
+						
+			try {
+				Resource subject = statement.getSubject();
+				Resource object = statement.getObject().asResource();
+				
+				LOGGER.finest("Subject label " + AVMUtils.getGoodLabel(subject,modelAVM));
+				LOGGER.finest("Object label " + AVMUtils.getGoodLabel(object,modelAVM));
+	
+				LOGGER.fine("Statement to be mapped : " + statement);
+
+				// For each statement, create a startNode GO representing the subject (if not exists)
+			    GraphicObject subjectNode = createOrGetGraphicObject(subject);
+		    	LOGGER.finest("Created GO for subject: " + subject.toString());
+				
+				// For each statement, create an endNode GO representing the object (if not exists)
+		    	//Node object = statement.getObject();
+				
+				GraphicObject objectNode = createOrGetGraphicObject(object);
+		    	LOGGER.finest("Created GO for object: " + object.toString());
+		    	
+				// create a connector and add default color
+				GraphicObject connector = new GraphicObject(modelAVM, true);
+				
+				// generic graphic relation needed for submappings 
+				// (could also be some super class of directed linking, undirected linking, containment ,...)
+				Resource rel = null;
+				
+				// directed linking
+				if (p2go2orm.getTargetGraphicRelation().equals(DirectedLinking.RDFS_CLASS)) {
+					
+			    	// create the directed linking relation
+			    	DirectedLinking dlRel = new DirectedLinking(modelAVM, true);
+			    	
+					// configure the relation
+					if(p2go2orm.isInvertSourceProperty()) {
+						dlRel.setEndnode(subjectNode);
+						dlRel.setStartnode(objectNode);
+						subjectNode.setLinkedfrom(dlRel);
+						objectNode.setLinkedto(dlRel);
+					} else {
+						dlRel.setStartnode(subjectNode);
+						dlRel.setEndnode(objectNode);
+						subjectNode.setLinkedto(dlRel);
+						objectNode.setLinkedfrom(dlRel);
+					}
+					
+					dlRel.setLinkingconnector(connector);
+					rel=dlRel;
+					
+
+				} else { // undirected linking
+					
+					// create the undirected linking relation
+			    	UndirectedLinking udlRel = new UndirectedLinking(modelAVM, true);
+			    	
+					// configure the relation
+					udlRel.addLinkingnode(subjectNode);
+					udlRel.addLinkingnode(objectNode);
+					subjectNode.setLinkedwith(udlRel);
+					objectNode.setLinkedwith(udlRel);
+					
+					udlRel.setLinkingconnector(connector);
+					rel=udlRel;
+				}
+				
+				// submappings
+				if(p2go2orm.hasSub_mapping()){
+					
+					if(null != rel) {
+						applySubmappings(p2go2orm,statement,rel); // DirectedLinking etc need to be subclasses of (n-ary) GraphicRelation
+					} else {
+						LOGGER.warning("Submapping existed, but could not be applied, since no parent graphic relation was provided.");
+					}
+				}
+				
+			}
+			catch (Exception e) {
+				LOGGER.warning("Problem creating GOs: " + e.getMessage());
+			}
+			
+			processedGraphicRelations++;	
+		}
+		
+	}
+
 
 
 	/**
