@@ -146,12 +146,14 @@ public class AVMUtils {
 		String query = "" + 
 				"SELECT DISTINCT ?go " + 
 				"WHERE { " +
-				"	?go a " + GraphicObject.RDFS_CLASS.toSPARQL() + " ." +
-	//			"	?someRelation " + DirectedLinking.STARTNODE .toSPARQL() + " ?go ." +  // TODO use unions
-				"	?someRelation " + Containment.CONTAINMENTCONTAINER .toSPARQL() + " ?go ." + 
-						// (some relation points to the go as a startNode)
-				"	FILTER NOT EXISTS { ?someOtherRelation " + Containment.CONTAINMENTCONTAINEE .toSPARQL() + " ?go . }" + 
-	//			"	FILTER NOT EXISTS { ?someOtherRelation " + DirectedLinking.ENDNODE .toSPARQL() + " ?go . }" + 
+				"	?go a " + GraphicObject.RDFS_CLASS.toSPARQL()  +
+				" { " + 
+				"	?someRelation " + DirectedLinking.STARTNODE .toSPARQL() + " ?go " + 
+				" } UNION { " +
+				"	?someRelation " + Containment.CONTAINMENTCONTAINER .toSPARQL() + " ?go " + 
+				" }" + 
+				"	FILTER NOT EXISTS { ?someOtherRelation " + Containment.CONTAINMENTCONTAINEE .toSPARQL() + " ?go }" + 
+				"	FILTER NOT EXISTS { ?someOtherRelation " + DirectedLinking.ENDNODE .toSPARQL() + " ?go }" + 
 						// (no relation points to the go as an endNode)
 				"} ";
 		LOGGER.finest("query for root nodes: " + query);

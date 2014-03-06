@@ -49,6 +49,8 @@ public class Mapping extends org.purl.rvl.java.gen.rvl.Mapping implements Mappin
 		String label = this.getAllLabel_as().firstValue();
 		Boolean includeInLegend = this.getAllIncludeinlegend_as().firstValue();
 		
+			s += "     ID: " + this.toString() + NL;
+		
 		// label
 		if (null != label) {
 			s += "     Label: " + label + NL;

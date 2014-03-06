@@ -8,6 +8,7 @@ public class ExampleMapping {
 	public static final String RO = OGVICProcess.USE_CASE_FOLDER + "/Requirements/stRO/MappingExample/ro-rvl-mapping-example.ttl";
 	public static final String RO_SOCIAL_NETWORK = OGVICProcess.USE_CASE_FOLDER + "/Requirements/stRO/MappingExample/ro-rvl-mapping-example-social-network.ttl";
 	public static final String PO = OGVICProcess.USE_CASE_FOLDER + "/Bio/PO/MappingExample/po-rvl-mapping-example.ttl";
+	public static final String RVL_EXAMPLE_OLD = "../org.purl.rvl.vocabulary/rvl-example-mappings-old.ttl";
 	public static final String RVL_EXAMPLE = "../org.purl.rvl.vocabulary/rvl-example-mappings.ttl";
 	public static final String ZFO = OGVICProcess.USE_CASE_FOLDER + "/Bio/Zebrafish/MappingExample/zfa-rvl-mapping-example.n3";
 	public static final String ZFO_X = OGVICProcess.USE_CASE_FOLDER + "/Bio/Zebrafish/MappingExample/ZFO-X.n3";

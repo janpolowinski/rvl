@@ -68,7 +68,7 @@ static final String NL =  System.getProperty("line.separator");
 		
 		// try to get the string description from the (manual) Mapping class, which is not in the super-class hierarchy
 		Mapping m = (Mapping) this.castTo(Mapping.class);
-		s += m.toString();
+		s += m.toStringDetailed();
 
 		// affected resources:
 		Set<Resource> subjectSet;

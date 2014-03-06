@@ -21,23 +21,23 @@ rdf:Property  a          rdfs:Class , rdfs:Resource ;
 rdfs:label  a       rdf:Property , rdfs:Resource ;
         rdfs:range  rdfs:Literal .
 
-rdf:subject  a              rdf:Property , rdfs:Resource ;
-        rdfs:domain         rdf:Statement ;
-        rdfs:subPropertyOf  rdf:subject .
-
-rdfs:Resource  a         rdfs:Class , rdfs:Resource ;
-        rdfs:subClassOf  rdfs:Resource .
-
-rdf:type  a         rdf:Property , rdfs:Resource ;
-        rdfs:range  rdfs:Class .
+rdf:Statement  a         rdfs:Class , rdfs:Resource ;
+        rdfs:subClassOf  rdfs:Resource , rdf:Statement .
 
 rdfs:Class  a            rdfs:Class , rdfs:Resource ;
         rdfs:subClassOf  rdfs:Resource , rdfs:Class .
 
-rdf:Statement  a         rdfs:Class , rdfs:Resource ;
-        rdfs:subClassOf  rdfs:Resource , rdf:Statement .
+rdf:type  a         rdf:Property , rdfs:Resource ;
+        rdfs:range  rdfs:Class .
 
-rdf:XMLLiteral  a  rdfs:Datatype , rdfs:Resource , rdfs:Class .
+rdfs:Resource  a         rdfs:Class , rdfs:Resource ;
+        rdfs:subClassOf  rdfs:Resource .
+
+rdf:subject  a              rdf:Property , rdfs:Resource ;
+        rdfs:domain         rdf:Statement ;
+        rdfs:subPropertyOf  rdf:subject .
+
+rdf:XMLLiteral  a  rdfs:Datatype , rdfs:Class , rdfs:Resource .
 
 rdfs:comment  a     rdf:Property , rdfs:Resource ;
         rdfs:range  rdfs:Literal .
@@ -71,226 +71,205 @@ rdfs:subClassOf  a   rdf:Property , rdfs:Resource ;
         rdfs:domain  rdfs:Class ;
         rdfs:range   rdfs:Class .
 
-<urn:rnd:7b431fab:144928757bf:-7f3e>
-        a       <http://purl.org/viso/graphic/Containment_Relation> ;
+<http://purl.org/rvl/example-avm/GR_1061155536>
+        a           <http://purl.org/viso/graphic/Containment_Relation> ;
+        rdfs:label  "Containment_Relation" ;
         <http://purl.org/viso/graphic/containment_containee>
-                <http://purl.org/rvl/example-avm/GO_939952025> ;
+                <http://purl.org/rvl/example-avm/GO_-686524988> ;
         <http://purl.org/viso/graphic/containment_container>
-                <http://purl.org/rvl/example-avm/GO_1322296889> .
+                <http://purl.org/rvl/example-avm/GO_-1609101997> .
 
-<urn:rnd:7b431fab:144928757bf:-7f34>
-        a       <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+<http://purl.org/rvl/example-avm/GR_-82071127>
+        a           <http://purl.org/viso/graphic/Containment_Relation> ;
+        rdfs:label  "Containment_Relation" ;
+        <http://purl.org/viso/graphic/containment_containee>
+                <http://purl.org/rvl/example-avm/GO_-1468674214> ;
+        <http://purl.org/viso/graphic/containment_container>
+                <http://purl.org/rvl/example-avm/GO_174065484> .
+
+<http://purl.org/rvl/example-avm/GR_833513344>
+        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        rdfs:label  "Linking_Directed_Relation" ;
         <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_407849698> ;
+                <http://purl.org/rvl/example-avm/GO_-1498615715> ;
         <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1180705804> ;
+                <http://purl.org/rvl/example-avm/GO_-784781992> ;
         <http://purl.org/viso/graphic/linking_connector>
-                <urn:rnd:7b431fab:144928757bf:-7f35> .
+                <http://purl.org/rvl/example-avm/GO_Connector_-51279255> .
 
-<urn:rnd:7b431fab:144928757bf:-7f2e>
-        a       <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-1670264466> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1322296889> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <urn:rnd:7b431fab:144928757bf:-7f2f> .
-
-<urn:rnd:7b431fab:144928757bf:-7f3d>
-        a       <http://purl.org/viso/graphic/Containment_Relation> ;
+<http://purl.org/rvl/example-avm/GR_871009522>
+        a           <http://purl.org/viso/graphic/Containment_Relation> ;
+        rdfs:label  "Containment_Relation" ;
         <http://purl.org/viso/graphic/containment_containee>
-                <http://purl.org/rvl/example-avm/GO_407849698> ;
+                <http://purl.org/rvl/example-avm/GO_-1609101997> ;
         <http://purl.org/viso/graphic/containment_container>
-                <http://purl.org/rvl/example-avm/GO_1214818964> .
+                <http://purl.org/rvl/example-avm/GO_-1459838262> .
 
-<urn:rnd:7b431fab:144928757bf:-7f33>
-        a       <http://purl.org/viso/graphic/Graphic_Object> ;
-        <http://purl.org/viso/graphic/color_hsl_lightness>
-                "0.0"^^xsd:float ;
-        <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Grey> .
-
-<urn:rnd:7b431fab:144928757bf:-7f39>
-        a       <http://purl.org/viso/graphic/Graphic_Object> ;
-        <http://purl.org/viso/graphic/color_hsl_lightness>
-                "0.0"^^xsd:float ;
-        <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Grey> .
-
-<urn:rnd:7b431fab:144928757bf:-7f42>
-        a       <http://purl.org/viso/graphic/Containment_Relation> ;
-        <http://purl.org/viso/graphic/containment_containee>
-                <http://purl.org/rvl/example-avm/GO_939952025> ;
-        <http://purl.org/viso/graphic/containment_container>
-                <http://purl.org/rvl/example-avm/GO_1068758261> .
-
-<urn:rnd:7b431fab:144928757bf:-7f3c>
-        a       <http://purl.org/viso/graphic/Containment_Relation> ;
-        <http://purl.org/viso/graphic/containment_containee>
-                <http://purl.org/rvl/example-avm/GO_-1670264466> ;
-        <http://purl.org/viso/graphic/containment_container>
-                <http://purl.org/rvl/example-avm/GO_1322296889> .
-
-<urn:rnd:7b431fab:144928757bf:-7f32>
-        a       <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_939952025> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1322296889> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <urn:rnd:7b431fab:144928757bf:-7f33> .
-
-<urn:rnd:7b431fab:144928757bf:-7f38>
-        a       <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1068758261> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1322296889> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <urn:rnd:7b431fab:144928757bf:-7f39> .
-
-<urn:rnd:7b431fab:144928757bf:-7f41>
-        a       <http://purl.org/viso/graphic/Containment_Relation> ;
-        <http://purl.org/viso/graphic/containment_containee>
-                <http://purl.org/rvl/example-avm/GO_1068758261> ;
-        <http://purl.org/viso/graphic/containment_container>
-                <http://purl.org/rvl/example-avm/GO_1322296889> .
-
-<urn:rnd:7b431fab:144928757bf:-7f3b>
-        a       <http://purl.org/viso/graphic/Graphic_Object> ;
-        <http://purl.org/viso/graphic/color_hsl_lightness>
-                "100.0"^^xsd:float ;
-        <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Grey> .
-
-<urn:rnd:7b431fab:144928757bf:-7f31>
-        a       <http://purl.org/viso/graphic/Graphic_Object> ;
-        <http://purl.org/viso/graphic/color_hsl_lightness>
-                "0.0"^^xsd:float ;
-        <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Grey> .
-
-<urn:rnd:7b431fab:144928757bf:-7f37>
-        a       <http://purl.org/viso/graphic/Graphic_Object> ;
-        <http://purl.org/viso/graphic/color_hsl_lightness>
-                "50.0"^^xsd:float ;
-        <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Grey> .
-
-<http://purl.org/rvl/example-avm/GO_1068758261>
+<http://purl.org/rvl/example-avm/GO_-686524988>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Amazing Grace" ;
+        rdfs:label  "Turkey" ;
         <http://purl.org/viso/graphic/contained_by>
-                <urn:rnd:7b431fab:144928757bf:-7f41> ;
-        <http://purl.org/viso/graphic/contains>
-                <urn:rnd:7b431fab:144928757bf:-7f40> ;
-        <http://purl.org/viso/graphic/linked_from>
-                <urn:rnd:7b431fab:144928757bf:-7f38> ;
-        <http://purl.org/viso/graphic/linked_to>
-                <urn:rnd:7b431fab:144928757bf:-7f36> .
+                <http://purl.org/rvl/example-avm/GR_-293759401> , <http://purl.org/rvl/example-avm/GR_1061155536> .
 
-<urn:rnd:7b431fab:144928757bf:-7f40>
-        a       <http://purl.org/viso/graphic/Containment_Relation> ;
-        <http://purl.org/viso/graphic/containment_containee>
-                <http://purl.org/rvl/example-avm/GO_-1670264466> ;
-        <http://purl.org/viso/graphic/containment_container>
-                <http://purl.org/rvl/example-avm/GO_1068758261> .
-
-<urn:rnd:7b431fab:144928757bf:-7f3a>
-        a       <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_939952025> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1068758261> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <urn:rnd:7b431fab:144928757bf:-7f3b> .
-
-<urn:rnd:7b431fab:144928757bf:-7f30>
-        a       <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_407849698> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1214818964> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <urn:rnd:7b431fab:144928757bf:-7f31> .
-
-<urn:rnd:7b431fab:144928757bf:-7f36>
-        a       <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-1670264466> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1068758261> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <urn:rnd:7b431fab:144928757bf:-7f37> .
-
-<http://purl.org/rvl/example-avm/GO_1180705804>
+<http://purl.org/rvl/example-avm/GO_-1609101997>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Works of Swami Vivekananda" ;
-        <http://purl.org/viso/graphic/contains>
-                <urn:rnd:7b431fab:144928757bf:-7f3f> ;
-        <http://purl.org/viso/graphic/linked_to>
-                <urn:rnd:7b431fab:144928757bf:-7f34> .
-
-<http://purl.org/rvl/example-avm/GO_407849698>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "The Bhagavad Gita" ;
+        rdfs:label  "Asia" ;
         <http://purl.org/viso/graphic/contained_by>
-                <urn:rnd:7b431fab:144928757bf:-7f3d> ;
-        <http://purl.org/viso/graphic/linked_from>
-                <urn:rnd:7b431fab:144928757bf:-7f30> .
+                <http://purl.org/rvl/example-avm/GR_871009522> ;
+        <http://purl.org/viso/graphic/contains>
+                <http://purl.org/rvl/example-avm/GR_1061155536> , <http://purl.org/rvl/example-avm/GR_-376073076> .
 
-<urn:rnd:7b431fab:144928757bf:-7f3f>
-        a       <http://purl.org/viso/graphic/Containment_Relation> ;
-        <http://purl.org/viso/graphic/containment_containee>
-                <http://purl.org/rvl/example-avm/GO_407849698> ;
-        <http://purl.org/viso/graphic/containment_container>
-                <http://purl.org/rvl/example-avm/GO_1180705804> .
-
-<urn:rnd:7b431fab:144928757bf:-7f35>
-        a       <http://purl.org/viso/graphic/Graphic_Object> ;
-        <http://purl.org/viso/graphic/color_hsl_lightness>
-                "0.0"^^xsd:float ;
+<http://purl.org/rvl/example-avm/GO_Connector_310366969>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "Connector_representing_exportsTo" ;
         <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Grey> .
+                <http://purl.org/viso/graphic/Red> .
 
-<http://purl.org/rvl/example-avm/GO_939952025>
+<http://purl.org/rvl/example-avm/GR_1621842519>
+        a           <http://purl.org/viso/graphic/Containment_Relation> ;
+        rdfs:label  "Containment_Relation" ;
+        <http://purl.org/viso/graphic/containment_containee>
+                <http://purl.org/rvl/example-avm/GO_-1498615715> ;
+        <http://purl.org/viso/graphic/containment_container>
+                <http://purl.org/rvl/example-avm/GO_-1459838262> .
+
+<http://purl.org/rvl/example-avm/GR_-376073076>
+        a           <http://purl.org/viso/graphic/Containment_Relation> ;
+        rdfs:label  "Containment_Relation" ;
+        <http://purl.org/viso/graphic/containment_containee>
+                <http://purl.org/rvl/example-avm/GO_-784781992> ;
+        <http://purl.org/viso/graphic/containment_container>
+                <http://purl.org/rvl/example-avm/GO_-1609101997> .
+
+<http://purl.org/rvl/example-avm/GO_-1468674214>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Atlas of Remote Islands" ;
+        rdfs:label  "Dresden" ;
         <http://purl.org/viso/graphic/contained_by>
-                <urn:rnd:7b431fab:144928757bf:-7f3e> ;
-        <http://purl.org/viso/graphic/linked_from>
-                <urn:rnd:7b431fab:144928757bf:-7f32> .
+                <http://purl.org/rvl/example-avm/GR_-82071127> .
 
-<http://purl.org/rvl/example-avm/GO_-1670264466>
+<http://purl.org/rvl/example-avm/GR_1544097668>
+        a           <http://purl.org/viso/graphic/Containment_Relation> ;
+        rdfs:label  "Containment_Relation" ;
+        <http://purl.org/viso/graphic/containment_containee>
+                <http://purl.org/rvl/example-avm/GO_1886529266> ;
+        <http://purl.org/viso/graphic/containment_container>
+                <http://purl.org/rvl/example-avm/GO_9545116> .
+
+<http://purl.org/rvl/example-avm/GR_-531242751>
+        a           <http://purl.org/viso/graphic/Containment_Relation> ;
+        rdfs:label  "Containment_Relation" ;
+        <http://purl.org/viso/graphic/containment_containee>
+                <http://purl.org/rvl/example-avm/GO_-274229647> ;
+        <http://purl.org/viso/graphic/containment_container>
+                <http://purl.org/rvl/example-avm/GO_-1459838262> .
+
+<http://purl.org/rvl/example-avm/GO_-784781992>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Holy Bible" ;
+        rdfs:label  "China" ;
         <http://purl.org/viso/graphic/contained_by>
-                <urn:rnd:7b431fab:144928757bf:-7f3c> ;
+                <http://purl.org/rvl/example-avm/GR_-376073076> ;
         <http://purl.org/viso/graphic/linked_from>
-                <urn:rnd:7b431fab:144928757bf:-7f2e> .
-
-<http://purl.org/rvl/example-avm/GO_1322296889>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Proof of Heaven" ;
-        <http://purl.org/viso/graphic/contains>
-                <urn:rnd:7b431fab:144928757bf:-7f3c> ;
+                <http://purl.org/rvl/example-avm/GR_-336434561> ;
         <http://purl.org/viso/graphic/linked_to>
-                <urn:rnd:7b431fab:144928757bf:-7f2e> .
+                <http://purl.org/rvl/example-avm/GR_833513344> .
 
-<http://purl.org/rvl/example-avm/GO_1214818964>
+<http://purl.org/rvl/example-avm/GR_-704519449>
+        a           <http://purl.org/viso/graphic/Containment_Relation> ;
+        rdfs:label  "Containment_Relation" ;
+        <http://purl.org/viso/graphic/containment_containee>
+                <http://purl.org/rvl/example-avm/GO_9545116> ;
+        <http://purl.org/viso/graphic/containment_container>
+                <http://purl.org/rvl/example-avm/GO_-1459838262> .
+
+<http://purl.org/rvl/example-avm/GO_-1459838262>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "The Book of Chakras" ;
+        rdfs:label  "World" ;
         <http://purl.org/viso/graphic/contains>
-                <urn:rnd:7b431fab:144928757bf:-7f3d> ;
-        <http://purl.org/viso/graphic/linked_to>
-                <urn:rnd:7b431fab:144928757bf:-7f30> .
+                <http://purl.org/rvl/example-avm/GR_871009522> , <http://purl.org/rvl/example-avm/GR_-531242751> , <http://purl.org/rvl/example-avm/GR_-704519449> , <http://purl.org/rvl/example-avm/GR_1621842519> .
 
-<urn:rnd:7b431fab:144928757bf:-7f2f>
-        a       <http://purl.org/viso/graphic/Graphic_Object> ;
-        <http://purl.org/viso/graphic/color_hsl_lightness>
-                "0.0"^^xsd:float ;
+<http://purl.org/rvl/example-avm/GO_-274229647>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "Australia" ;
+        <http://purl.org/viso/graphic/contained_by>
+                <http://purl.org/rvl/example-avm/GR_-531242751> .
+
+<http://purl.org/rvl/example-avm/GO_9545116>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "Europe" ;
+        <http://purl.org/viso/graphic/contained_by>
+                <http://purl.org/rvl/example-avm/GR_-704519449> ;
+        <http://purl.org/viso/graphic/contains>
+                <http://purl.org/rvl/example-avm/GR_-293759401> , <http://purl.org/rvl/example-avm/GR_1544097668> , <http://purl.org/rvl/example-avm/GR_-1991034417> .
+
+<http://purl.org/rvl/example-avm/GO_Connector_-51279255>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "Connector_representing_exportsTo" ;
         <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Grey> .
+                <http://purl.org/viso/graphic/Red> .
+
+<http://purl.org/rvl/example-avm/GO_1886529266>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "Spain" ;
+        <http://purl.org/viso/graphic/contained_by>
+                <http://purl.org/rvl/example-avm/GR_1544097668> .
+
+<http://purl.org/rvl/example-avm/GR_-336434561>
+        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        rdfs:label  "Linking_Directed_Relation" ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_-784781992> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_174065484> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <http://purl.org/rvl/example-avm/GO_Connector_310366969> .
+
+<http://purl.org/rvl/example-avm/GO_174065484>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "Germany" ;
+        <http://purl.org/viso/graphic/contained_by>
+                <http://purl.org/rvl/example-avm/GR_-1991034417> ;
+        <http://purl.org/viso/graphic/contains>
+                <http://purl.org/rvl/example-avm/GR_-82071127> , <http://purl.org/rvl/example-avm/GR_1885245503> ;
+        <http://purl.org/viso/graphic/linked_to>
+                <http://purl.org/rvl/example-avm/GR_-336434561> .
+
+<http://purl.org/rvl/example-avm/GO_-1498615715>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "America" ;
+        <http://purl.org/viso/graphic/contained_by>
+                <http://purl.org/rvl/example-avm/GR_1621842519> ;
+        <http://purl.org/viso/graphic/linked_from>
+                <http://purl.org/rvl/example-avm/GR_833513344> .
+
+<http://purl.org/rvl/example-avm/GO_1185833433>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "Gelsenkirchen" ;
+        <http://purl.org/viso/graphic/contained_by>
+                <http://purl.org/rvl/example-avm/GR_1885245503> .
+
+<http://purl.org/rvl/example-avm/GR_1885245503>
+        a           <http://purl.org/viso/graphic/Containment_Relation> ;
+        rdfs:label  "Containment_Relation" ;
+        <http://purl.org/viso/graphic/containment_containee>
+                <http://purl.org/rvl/example-avm/GO_1185833433> ;
+        <http://purl.org/viso/graphic/containment_container>
+                <http://purl.org/rvl/example-avm/GO_174065484> .
+
+<http://purl.org/rvl/example-avm/GR_-293759401>
+        a           <http://purl.org/viso/graphic/Containment_Relation> ;
+        rdfs:label  "Containment_Relation" ;
+        <http://purl.org/viso/graphic/containment_containee>
+                <http://purl.org/rvl/example-avm/GO_-686524988> ;
+        <http://purl.org/viso/graphic/containment_container>
+                <http://purl.org/rvl/example-avm/GO_9545116> .
+
+<http://purl.org/rvl/example-avm/GR_-1991034417>
+        a           <http://purl.org/viso/graphic/Containment_Relation> ;
+        rdfs:label  "Containment_Relation" ;
+        <http://purl.org/viso/graphic/containment_containee>
+                <http://purl.org/rvl/example-avm/GO_174065484> ;
+        <http://purl.org/viso/graphic/containment_container>
+                <http://purl.org/rvl/example-avm/GO_9545116> .
 
 rdfs:Container  a        rdfs:Class , rdfs:Resource ;
         rdfs:subClassOf  rdfs:Container .
@@ -317,11 +296,11 @@ rdfs:isDefinedBy  a         rdf:Property , rdfs:Resource ;
 rdfs:seeAlso  a             rdf:Property , rdfs:Resource ;
         rdfs:subPropertyOf  rdfs:seeAlso .
 
+<http://purl.org/viso/graphic/Containment_Relation>
+        a       rdfs:Class , rdfs:Resource .
+
 <http://purl.org/viso/graphic/Graphic_Object>
         a       rdfs:Class , rdfs:Resource .
 
 <http://purl.org/viso/graphic/Linking_Directed_Relation>
-        a       rdfs:Class , rdfs:Resource .
-
-<http://purl.org/viso/graphic/Containment_Relation>
         a       rdfs:Class , rdfs:Resource .

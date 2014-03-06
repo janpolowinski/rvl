@@ -395,10 +395,8 @@ rexm:PMtoContainment
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
       rvl:disabled "false"^^xsd:boolean ;
       rdfs:label "PM to (n-ary) Containment"^^xsd:string ;
-      rvl:sourceProperty rexd:partOf ;
-      rvl:invertSourceProperty
-              "true"^^xsd:boolean ;
-     rvl:targetObjToObjRelation vg:Containment_Relation ; 
+      rvl:sourceProperty rexd:cites ;
+      rvl:targetObjToObjRelation vg:Containment_Relation ; 
     .
     
 rexm:PMtoUndirectedLinking
@@ -416,7 +414,7 @@ rexm:PMwithNamedSubmappingToNamedMappingOnConnector
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
       rvl:disabled "false"^^xsd:boolean ;
       rdfs:label "PM with a sub-mapping to an existing, named mapping"^^xsd:string ;
-      rvl:sourceProperty rexd:exportsTo ;
+      rvl:sourceProperty rexd:cites ;
       rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
       rvl:subMapping rexm:NamedSubMappingRelation 
       .
@@ -428,8 +426,8 @@ rexm:NamedSubMappingRelation
     rvl:subMapping-onTriplePart rdf:predicate;
     #rvl:subMapping-mapping rexm:PMfromID2ColorNamedAutomaticUnordered .
     #rvl:subMapping-mapping rexm:PMfromID2ColorNamed .
-    rvl:subMapping-mapping rexm:PMfromID2ColorNamedAutomaticOrdered .
-    #rvl:subMapping-mapping rexm:PMfromID2ColorNamedAutomaticContinuous .
+    #rvl:subMapping-mapping rexm:PMfromID2ColorNamedAutomaticOrdered .
+    rvl:subMapping-mapping rexm:PMfromID2ColorNamedAutomaticContinuous .
       
       
 # sub-mapping - supported
@@ -533,8 +531,7 @@ rexm:PMfromID2ColorNamedAutomaticOrdered
         a rvl:ValueMapping ;
         rvl:invertOrderOfTargetValues "false"^^xsd:boolean;
 		rvl:sourceValueOrderedSet (
-			# rexd:cites rexd:citesCritical rexd:citesVeryCritical
-			rexd:exportsTo rexd:partOf
+			rexd:cites rexd:citesCritical rexd:citesVeryCritical
 		);
 		rvl:targetValueList (
 			vg:Red
@@ -563,8 +560,6 @@ rexm:PMfromID2ColorNamedAutomaticContinuous
         	rvl:lowerBoundIncl "0";
         ];
  	  ].  
-      
-      
       
       
 

@@ -61,7 +61,7 @@ public class PropertyToGO2ORMapping extends
 		
 		// try to get the string description from the (manual) PropertyMapping class, which is not in the super-class hierarchy
 		PropertyMapping pm = (PropertyMapping) this.castTo(PropertyMapping.class);
-		s += pm.toString();
+		s += pm.toStringDetailed();
 		
 		// targetAttribute is specific to P2GAM
 		GraphicObjectToObjectRelation tgo2or = this.getAllTargetobject_to_objectrelation_as().firstValue();

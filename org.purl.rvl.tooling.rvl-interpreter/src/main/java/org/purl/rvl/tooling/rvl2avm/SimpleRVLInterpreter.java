@@ -100,6 +100,9 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			}
 			
 			LOGGER.info("Interpret P2GOTOR mapping " + p2go2orm.asURI() );
+			try {
+				LOGGER.info(p2go2orm.toStringDetailed() );
+			} catch (Exception e) {}
 			
 			try {
 				
@@ -163,7 +166,10 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		    	LOGGER.finest("Created GO for object: " + object.toString());
 		    	
 				// create a connector and add default color
-				GraphicObject connector = new GraphicObject(modelAVM, true);
+				//GraphicObject connector = new GraphicObject(modelAVM, true);
+				GraphicObject connector = new GraphicObject(modelAVM,"http://purl.org/rvl/example-avm/GO_Connector_" + random.nextInt(), true);
+				//connector.setLabel(statement.getPredicate()); 
+		    	connector.setLabel("Connector representing " + AVMUtils.getGoodLabel(statement.getPredicate(), modelAVM)); // statement contains evtl. used subproperty
 				
 				// generic graphic relation needed for submappings 
 				// (could also be some super class of directed linking, undirected linking, containment ,...)
@@ -173,19 +179,21 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				if (p2go2orm.getTargetGraphicRelation().equals(DirectedLinking.RDFS_CLASS)) {
 					
 			    	// create the directed linking relation
-			    	DirectedLinking dlRel = new DirectedLinking(modelAVM, true);
+			    	//DirectedLinking dlRel = new DirectedLinking(modelAVM, true);
+			    	DirectedLinking dlRel = new DirectedLinking(modelAVM,"http://purl.org/rvl/example-avm/GR_" + random.nextInt(), true);
+			    	dlRel.setLabel(AVMUtils.getGoodLabel(p2go2orm.getTargetGraphicRelation(), modelAVM));
 			    	
 					// configure the relation
 					if(p2go2orm.isInvertSourceProperty()) {
 						dlRel.setEndnode(subjectNode);
 						dlRel.setStartnode(objectNode);
-						subjectNode.setLinkedfrom(dlRel);
-						objectNode.setLinkedto(dlRel);
+						subjectNode.addLinkedfrom(dlRel);
+						objectNode.addLinkedto(dlRel);
 					} else {
 						dlRel.setStartnode(subjectNode);
 						dlRel.setEndnode(objectNode);
-						subjectNode.setLinkedto(dlRel);
-						objectNode.setLinkedfrom(dlRel);
+						subjectNode.addLinkedto(dlRel);
+						objectNode.addLinkedfrom(dlRel);
 					}
 					
 					dlRel.setLinkingconnector(connector);
@@ -195,13 +203,15 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				} else { // undirected linking
 					
 					// create the undirected linking relation
-			    	UndirectedLinking udlRel = new UndirectedLinking(modelAVM, true);
+			    	//UndirectedLinking udlRel = new UndirectedLinking(modelAVM, true);
+					UndirectedLinking udlRel = new UndirectedLinking(modelAVM,"http://purl.org/rvl/example-avm/GR_" + random.nextInt(), true);
+			    	udlRel.setLabel(AVMUtils.getGoodLabel(p2go2orm.getTargetGraphicRelation(), modelAVM));
 			    	
 					// configure the relation
 					udlRel.addLinkingnode(subjectNode);
 					udlRel.addLinkingnode(objectNode);
-					subjectNode.setLinkedwith(udlRel);
-					objectNode.setLinkedwith(udlRel);
+					subjectNode.addLinkedwith(udlRel);
+					objectNode.addLinkedwith(udlRel);
 					
 					udlRel.setLinkingconnector(connector);
 					rel=udlRel;
@@ -267,22 +277,24 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				Resource rel = null;
 									
 		    	// create the containment relation
-		    	Containment dlRel = new Containment(modelAVM, true);
+		    	//Containment dlRel = new Containment(modelAVM, true);
+		    	Containment containmentRel = new Containment(modelAVM,"http://purl.org/rvl/example-avm/GR_" + random.nextInt(), true);
+		    	containmentRel.setLabel(AVMUtils.getGoodLabel(p2go2orm.getTargetGraphicRelation(), modelAVM));
 		    	
 				// configure the relation
 				if(!p2go2orm.isInvertSourceProperty()) {
-					dlRel.setContainmentcontainer(subjectContainer);
-					dlRel.setContainmentcontainee(objectContainee);
-					subjectContainer.setContains(dlRel);
-					objectContainee.setContainedby(dlRel);
+					containmentRel.setContainmentcontainer(subjectContainer);
+					containmentRel.setContainmentcontainee(objectContainee);
+					subjectContainer.addContains(containmentRel);
+					objectContainee.addContainedby(containmentRel);
 				} else {
-					dlRel.setContainmentcontainee(subjectContainer);
-					dlRel.setContainmentcontainer(objectContainee);
-					subjectContainer.setContainedby(dlRel);
-					objectContainee.setContains(dlRel);
+					containmentRel.setContainmentcontainee(subjectContainer);
+					containmentRel.setContainmentcontainer(objectContainee);
+					subjectContainer.addContainedby(containmentRel);
+					objectContainee.addContains(containmentRel);
 				}
 				
-				rel=dlRel;
+				rel=containmentRel;
 					
 				// submappings
 				if(p2go2orm.hasSub_mapping()){

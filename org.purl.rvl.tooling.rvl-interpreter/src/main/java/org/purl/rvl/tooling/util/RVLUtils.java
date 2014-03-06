@@ -100,18 +100,18 @@ public class RVLUtils {
 			org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping p2gam = 
 					(org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping) mapping.castTo(
 							org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping.class);
-			s += p2gam;
+			s += p2gam.toStringDetailed();
 		}
 		// print as P2GO2ORM (submappings ... )
 		else if(mapping.isInstanceof(org.purl.rvl.java.rvl.PropertyToGO2ORMapping.RDFS_CLASS)) {
 			org.purl.rvl.java.rvl.PropertyToGO2ORMapping p2go2orm = 
 					(org.purl.rvl.java.rvl.PropertyToGO2ORMapping) mapping.castTo(
 							org.purl.rvl.java.rvl.PropertyToGO2ORMapping.class);
-			s += p2go2orm;
+			s += p2go2orm.toStringDetailed();
 		}
 		// print as general mapping
 		else {
-			s += mapping;
+			s += mapping.toStringDetailed();
 		}
 		
 		return s;

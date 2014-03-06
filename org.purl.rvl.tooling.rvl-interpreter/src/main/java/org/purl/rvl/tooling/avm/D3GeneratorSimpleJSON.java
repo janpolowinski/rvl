@@ -170,7 +170,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				link.put("value", "1");
 				link.put("label", connector.getLabel());
 				link.put("color_hsl_lightness", connector.getColorHSLLightness());
-				link.put("color_rgb_hex", connector.getColorHex());
+				//link.put("color_rgb_hex", connector.getColorHex());
 				link.put("color_rgb_hex_combined", connector.getColorRGBHexCombinedWithHSLValues());
 				listOfLinks.add(link);
 				LOGGER.finer("Generated JSON link for " + dlRel + " (" + startNode.getLabel() + " --> " + endNode.getLabel() +")" );
@@ -211,7 +211,8 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				link.put("target", goMap.get(node2));
 				link.put("value", "1");
 				link.put("label", connector.getLabel());
-				link.put("color_rgb_hex", connector.getColorHex());
+				//link.put("color_rgb_hex", connector.getColorHex());
+				link.put("color_rgb_hex_combined", connector.getColorRGBHexCombinedWithHSLValues());
 				listOfLinks.add(link);
 				LOGGER.finer("Generated JSON link for " + rel + " (" + node1.getLabel() + " --> " + node2.getLabel() +")" );
 				}
@@ -243,6 +244,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				link.put("value", "1");
 				link.put("label", "contains");
 				link.put("color_rgb_hex", "#ccc");
+				//link.put("color_rgb_hex_combined", "#ccc");
 				listOfLinks.add(link);
 				LOGGER.finer("Generated JSON link for " + rel + " (" + container.getLabel() + " contains " + containee.getLabel() +")" );
 				}

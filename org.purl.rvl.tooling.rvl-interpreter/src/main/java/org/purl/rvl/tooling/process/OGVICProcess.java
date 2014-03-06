@@ -33,7 +33,7 @@ public class OGVICProcess {
 	public static int MAX_GRAPHIC_RELATIONS_PER_MAPPING = 100;
 	
 	public static boolean REGENERATE_AVM = true;
-	public static boolean WRITE_AVM = false;
+	public static boolean WRITE_AVM = true;
 	public static boolean WRITE_JSON = true;
 	
 	public static final String RVL_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl.owl";
@@ -47,6 +47,7 @@ public class OGVICProcess {
 	
 	
 	ModelBuilder modelBuilder;
+	private boolean writeAVM = WRITE_AVM;
 	
 	protected Model modelAVM;
 	
@@ -174,7 +175,7 @@ public class OGVICProcess {
 		}
 			
 		// write the AVM to a file (this is done in the end, since it takes much time)
-		if (REGENERATE_AVM && WRITE_AVM) {
+		if (REGENERATE_AVM && writeAVM) {
 			writeAVMToFile();
 		}
 		
@@ -326,6 +327,13 @@ public class OGVICProcess {
 	
 	public Model getModelAVM() {
 		return this.modelAVM;
+	}
+
+	/**
+	 * @param writeAVM the writeAVM to set
+	 */
+	public void setWriteAVM(boolean writeAVM) {
+		this.writeAVM = writeAVM;
 	}
 
 }
