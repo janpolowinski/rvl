@@ -616,15 +616,21 @@ public int calculateMappingSituation(){
  * 
  * @return
  */
-private void calculateValueMappings(Set<Statement> statementSet) {
+private Set<CalculatedValueMapping> calculateValueMappings(Set<Statement> statementSet) {
 	
 	this.statementSet = statementSet;
 
 	try {
+		
 		cvms = calculateValueMappingsForCase(calculateMappingSituation());
+		
 	} catch (UnexpressiveMappingSpecificationException e) {
+		
 		LOGGER.warning("Value mappings couldn't be calculated: " + e.getMessage());
+		
 	}
+	
+	return cvms;
 
 }
 
@@ -647,6 +653,7 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 	if (SS == caseID){
 		
 		LOGGER.info("1-1 Value mappings should currently  be handled separately as simple PGAM and will not be considered here.");
+		return cvms;
 		
 	} else if (OO == caseID){
 		
@@ -1069,7 +1076,9 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 
 public Collection<CalculatedValueMapping> getCalculatedValueMappings(Set<Statement> statementSet) {
 	
-	calculateValueMappings(statementSet);
+	if (null == cvms) {
+		cvms = calculateValueMappings(statementSet);
+	}
 	return cvms;
 }
 

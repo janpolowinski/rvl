@@ -25,7 +25,9 @@
       
 :Spain
       a :Place ;
-      :partOf :Europe .
+      :partOf :Europe ;
+      :population "40"^^xsd:int
+      .
       
 :Europe
       a :Place ;
@@ -38,7 +40,9 @@
 :China
       a :Place ;
       :partOf :Asia ;
-      :exportsTo :America .      
+      :exportsTo :America ;
+      :population "3000"^^xsd:int
+      .      
       
 :America
       a :Place ;
@@ -46,7 +50,9 @@
       
 :Australia
       a :Place ;
-      :partOf :World .   
+      :partOf :World ;
+      :population "100"^^xsd:int
+      .   
       
 :Turkey
       a :Place ;
@@ -72,6 +78,12 @@
       a rdf:Property , owl:ObjectProperty ;
       rdfs:range :Place ;
       rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value .
+      
+      
+:population
+      a rdf:Property , owl:DataTypeProperty ;
+      rdfs:range xsd:int ;
+      rdfs:subPropertyOf :domainProperty , viso-data:has_quantitative_value .
       
 
 

@@ -442,7 +442,9 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 
 	
 	/**
-	 * Interprets a normal P2GA mapping
+	 * Interprets a normal P2GA mapping with an implicit value mapping and triggers calculating its values. 
+	 * ONLY ONE VALUE MAPPING is currently handled! Therefore, explicit value mappings, which are usually more than one are handled by 
+	 * interpretSimpleP2GAMappings.
 	 * Creates GO for all affected resources if they don't exist already.
 	 * @param p2gam 
 	 */
@@ -526,7 +528,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	
 
 	/**
-	 * Interprets the simple P2GA mappings, i.e. those without need for calculating value mappings. 
+	 * Interprets only the simple P2GA mappings, i.e. those without need for calculating value mappings. 
+	 * Unlike interpretNormalP2GAMappings, multiple VMs are considered.
 	 * Creates GO for all affected resources if they don't exist already.
 	 */
 	protected void interpretSimpleP2GArvlMappings() {
@@ -545,11 +548,11 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			p2gam = p2gam.tryReplaceWithCashedInstanceForSameURI(p2gam);
 			
 			if (p2gam.isDisabled()) {
-				LOGGER.info("Ignored disabled simple P2GAM mapping " + p2gam.asURI() );
+				LOGGER.info("Ignored disabled simple P2GAM mapping " + p2gam );
 				continue;
 			}
 
-			LOGGER.info("Interpret simple P2GAM mapping " + p2gam.asURI() );
+			LOGGER.info("Interpret simple P2GAM mapping " + p2gam );
 			
 			// get the mapping table SV->TV
 			Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
@@ -578,7 +581,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			    }
 			
 			} catch (InsufficientMappingSpecificationException e) {
-				LOGGER.warning("No resources will be affected by mapping " + p2gam.asURI() + " (" + e.getMessage() + ")" );
+				LOGGER.warning("No resources will be affected by mapping " + p2gam + " (" + e.getMessage() + ")" );
 			} 
 			
 		}

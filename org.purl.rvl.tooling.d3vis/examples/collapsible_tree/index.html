@@ -93,7 +93,8 @@ function update(source) {
 
   var circle = nodeEnter.append("svg:circle")
       .attr("r", 1e-6)
-      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+      //.style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+	  .style("fill", function(d) { return d.color_rgb_hex_combined });
 
   var label = nodeEnter.append("svg:text")
       .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
@@ -112,7 +113,8 @@ function update(source) {
 
   nodeUpdate.select("circle")
       .attr("r", 4.5)
-      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+      //.style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+	  .style("fill", function(d) { return d.color_rgb_hex_combined });
 
   nodeUpdate.select("text")
       .style("fill-opacity", 1);
@@ -136,7 +138,7 @@ function update(source) {
   // Enter any new links at the parent's previous position.
   link.enter().insert("svg:path", "g")
       .attr("class", "link")
-	  .style("stroke", function(d) { return d.target.connector_color_rgb_hex }) // works -> get the link color from the endNode (target)
+	  .style("stroke", function(d) { return d.target.connector_color_rgb_hex_combined }) // works -> get the link color from the endNode (target)
       .attr("d", function(d) {
         var o = {x: source.x0, y: source.y0};
         return diagonal({source: o, target: o});

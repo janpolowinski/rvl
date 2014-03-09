@@ -56,6 +56,7 @@ rexm:PMWithExplicitValueMappingsAsBlankNodesToColorNamed
       ]
       .      
       
+   
 # explicit value mappings - 
 # PM with explicit value mappings as extra nodes (non-blank)
 rexm:PMWithExplicitValueMappings
@@ -393,7 +394,7 @@ rexm:PMwithValueMappingOfSet2SetTypeVariant
 
 rexm:PMtoContainment
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true"^^xsd:boolean ;
       rdfs:label "PM to (n-ary) Containment"^^xsd:string ;
       rvl:sourceProperty rexd:cites ;
       rvl:targetObjToObjRelation vg:Containment_Relation ; 
@@ -412,7 +413,7 @@ rexm:PMtoUndirectedLinking
 # sub-mapping - supported (also caching)
 rexm:PMwithNamedSubmappingToNamedMappingOnConnector
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true"^^xsd:boolean ;
       rdfs:label "PM with a sub-mapping to an existing, named mapping"^^xsd:string ;
       rvl:sourceProperty rexd:cites ;
       rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
@@ -445,12 +446,12 @@ rexm:PMwithAnonymousSubmappingToNamedMappingOnConnector
       ]
       .  
       
-# submapping to anonymous - ATTENTION: not yet fully supported whwn the submapping is an explicit 1-1 mapping AND no caching supported
+# submapping to anonymous - ATTENTION: only supported when the submapping is not an explicit 1-1 mapping. Additionally no caching supported
 # CHANGE IN LISTINGS: rdf:predicate, not rvl:predicate ; vg:targetAttribute vs vg:targetGraphicAttribute
 rexm:PMwithAnonSubmappingOnConnectorNotYetSupported
       rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rdfs:label "ATTENTION: not yet supported!! PM with an anonymous, blank node sub-mapping that maps the color of the connector created by the first mapping"^^xsd:string ;
+      rdfs:label "PM with an anonymous, blank node sub-mapping that maps the color of the connector created by the first mapping"^^xsd:string ;
       rvl:sourceProperty rexd:cites ;
       rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
       rvl:subMapping [
@@ -461,6 +462,7 @@ rexm:PMwithAnonSubmappingOnConnectorNotYetSupported
 			a rvl:PropertyMapping ;
  			rvl:sourceProperty rvl:ID ;
  			rvl:targetAttribute vg:color_named ;
+ 			rvl:disabled "true"^^xsd:boolean ;
  			
  			# some value mapping needs to be set, since we do not yet support defaults here!
  			 rvl:valueMapping [
@@ -479,13 +481,49 @@ rexm:PMwithAnonSubmappingOnConnectorNotYetSupported
       ]
       .
       
-  
+# submapping to anonymous 2 - ATTENTION: not yet fully supported when the submapping is an explicit 1-1 mapping (like here). 
+# Additionally no caching is supported. Breaks without error message!
+# CHANGE IN LISTINGS: rdf:predicate, not rvl:predicate ; vg:targetAttribute vs vg:targetGraphicAttribute
+rexm:PMwithAnonSubmappingOnConnectorNotYetSupportedSimple
+      rvl:disabled "false"^^xsd:boolean ;
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rdfs:label "ATTENTION: not yet supported!! PM with an anonymous, blank node sub-mapping that maps the color of the connector created by the first mapping"^^xsd:string ;
+      rvl:sourceProperty rexd:cites ;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
+      rvl:subMapping [
+        a rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linking_connector;
+        rvl:subMapping-onTriplePart rdf:predicate;
+        rvl:subMapping-mapping [
+			a rvl:PropertyMapping ;
+ 			rvl:sourceProperty rvl:ID ;
+ 			rvl:targetAttribute vg:color_named ;
+ 			rvl:disabled "false"^^xsd:boolean ;
+ 			
+ 			 rvl:valueMapping [
+       		 	a rvl:ValueMapping ;
+				rvl:sourceValue rexd:cites;
+       			 rvl:targetValue vg:Blue;
+      		],[
+        		a rvl:ValueMapping ;
+				rvl:sourceValue rexd:citesCritical;
+        		rvl:targetValue vg:Orange;
+      		],[
+        		a rvl:ValueMapping ;
+				rvl:sourceValue rexd:citesVeryCritical;
+        		rvl:targetValue vg:Red;
+      		]
+       			
+   			];
+      ]
+      .      
+
 
               
 # PM from ID to color (used as a submapping above)
 rexm:PMfromID2ColorNamed
       rdf:type rvl:PropertyMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true"^^xsd:boolean ;
       rdfs:label "PM from ID to color (used as a submapping)"^^xsd:string ;
  	  rvl:sourceProperty rvl:ID ;
  	  rvl:targetAttribute vg:color_named ;
@@ -506,7 +544,7 @@ rexm:PMfromID2ColorNamed
       
 rexm:PMfromID2ColorNamedAutomaticUnordered
       rdf:type rvl:PropertyMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true"^^xsd:boolean ;
       rdfs:label "Automatic PM from ID to color unordered (used as a submapping above)"^^xsd:string ;
  	  rvl:sourceProperty rvl:ID ;
  	  rvl:targetAttribute vg:color_named ;
@@ -523,7 +561,7 @@ rexm:PMfromID2ColorNamedAutomaticUnordered
       
 rexm:PMfromID2ColorNamedAutomaticOrdered
       rdf:type rvl:PropertyMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true"^^xsd:boolean ;
       rdfs:label "Automatic PM from ID to color ordered (used as a submapping above)"^^xsd:string ;
  	  rvl:sourceProperty rvl:ID ;
  	  rvl:targetAttribute vg:color_named ;
@@ -544,7 +582,7 @@ rexm:PMfromID2ColorNamedAutomaticOrdered
       
 rexm:PMfromID2ColorNamedAutomaticContinuous
       rdf:type rvl:PropertyMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true"^^xsd:boolean ;
       rdfs:label "Automatic PM from ID to color continuous (used as a submapping above)"^^xsd:string ;
  	  rvl:sourceProperty rvl:ID ;
  	  rvl:targetAttribute vg:color_hsl_lightness ;

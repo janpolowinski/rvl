@@ -37,7 +37,7 @@ rdf:subject  a              rdf:Property , rdfs:Resource ;
         rdfs:domain         rdf:Statement ;
         rdfs:subPropertyOf  rdf:subject .
 
-rdf:XMLLiteral  a  rdfs:Datatype , rdfs:Class , rdfs:Resource .
+rdf:XMLLiteral  a  rdfs:Datatype , rdfs:Resource , rdfs:Class .
 
 rdfs:comment  a     rdf:Property , rdfs:Resource ;
         rdfs:range  rdfs:Literal .
@@ -71,205 +71,41 @@ rdfs:subClassOf  a   rdf:Property , rdfs:Resource ;
         rdfs:domain  rdfs:Class ;
         rdfs:range   rdfs:Class .
 
-<http://purl.org/rvl/example-avm/GR_1061155536>
-        a           <http://purl.org/viso/graphic/Containment_Relation> ;
-        rdfs:label  "Containment_Relation" ;
-        <http://purl.org/viso/graphic/containment_containee>
-                <http://purl.org/rvl/example-avm/GO_-686524988> ;
-        <http://purl.org/viso/graphic/containment_container>
-                <http://purl.org/rvl/example-avm/GO_-1609101997> .
-
-<http://purl.org/rvl/example-avm/GR_-82071127>
-        a           <http://purl.org/viso/graphic/Containment_Relation> ;
-        rdfs:label  "Containment_Relation" ;
-        <http://purl.org/viso/graphic/containment_containee>
-                <http://purl.org/rvl/example-avm/GO_-1468674214> ;
-        <http://purl.org/viso/graphic/containment_container>
-                <http://purl.org/rvl/example-avm/GO_174065484> .
-
-<http://purl.org/rvl/example-avm/GR_833513344>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-1498615715> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-784781992> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-51279255> .
-
-<http://purl.org/rvl/example-avm/GR_871009522>
-        a           <http://purl.org/viso/graphic/Containment_Relation> ;
-        rdfs:label  "Containment_Relation" ;
-        <http://purl.org/viso/graphic/containment_containee>
-                <http://purl.org/rvl/example-avm/GO_-1609101997> ;
-        <http://purl.org/viso/graphic/containment_container>
-                <http://purl.org/rvl/example-avm/GO_-1459838262> .
-
-<http://purl.org/rvl/example-avm/GO_-686524988>
+<http://purl.org/rvl/example-avm/GO_-1818142932>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Turkey" ;
-        <http://purl.org/viso/graphic/contained_by>
-                <http://purl.org/rvl/example-avm/GR_-293759401> , <http://purl.org/rvl/example-avm/GR_1061155536> .
+        rdfs:label  "Christof" .
 
-<http://purl.org/rvl/example-avm/GO_-1609101997>
+<http://purl.org/rvl/example-avm/GO_-342725808>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Asia" ;
-        <http://purl.org/viso/graphic/contained_by>
-                <http://purl.org/rvl/example-avm/GR_871009522> ;
-        <http://purl.org/viso/graphic/contains>
-                <http://purl.org/rvl/example-avm/GR_1061155536> , <http://purl.org/rvl/example-avm/GR_-376073076> .
+        rdfs:label  "Susane" .
 
-<http://purl.org/rvl/example-avm/GO_Connector_310366969>
+<http://purl.org/rvl/example-avm/GO_-1926914130>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector_representing_exportsTo" ;
-        <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Red> .
+        rdfs:label  "Franzi" .
 
-<http://purl.org/rvl/example-avm/GR_1621842519>
-        a           <http://purl.org/viso/graphic/Containment_Relation> ;
-        rdfs:label  "Containment_Relation" ;
-        <http://purl.org/viso/graphic/containment_containee>
-                <http://purl.org/rvl/example-avm/GO_-1498615715> ;
-        <http://purl.org/viso/graphic/containment_container>
-                <http://purl.org/rvl/example-avm/GO_-1459838262> .
-
-<http://purl.org/rvl/example-avm/GR_-376073076>
-        a           <http://purl.org/viso/graphic/Containment_Relation> ;
-        rdfs:label  "Containment_Relation" ;
-        <http://purl.org/viso/graphic/containment_containee>
-                <http://purl.org/rvl/example-avm/GO_-784781992> ;
-        <http://purl.org/viso/graphic/containment_container>
-                <http://purl.org/rvl/example-avm/GO_-1609101997> .
-
-<http://purl.org/rvl/example-avm/GO_-1468674214>
+<http://purl.org/rvl/example-avm/GO_682748194>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Dresden" ;
-        <http://purl.org/viso/graphic/contained_by>
-                <http://purl.org/rvl/example-avm/GR_-82071127> .
+        rdfs:label  "Lina" .
 
-<http://purl.org/rvl/example-avm/GR_1544097668>
-        a           <http://purl.org/viso/graphic/Containment_Relation> ;
-        rdfs:label  "Containment_Relation" ;
-        <http://purl.org/viso/graphic/containment_containee>
-                <http://purl.org/rvl/example-avm/GO_1886529266> ;
-        <http://purl.org/viso/graphic/containment_container>
-                <http://purl.org/rvl/example-avm/GO_9545116> .
-
-<http://purl.org/rvl/example-avm/GR_-531242751>
-        a           <http://purl.org/viso/graphic/Containment_Relation> ;
-        rdfs:label  "Containment_Relation" ;
-        <http://purl.org/viso/graphic/containment_containee>
-                <http://purl.org/rvl/example-avm/GO_-274229647> ;
-        <http://purl.org/viso/graphic/containment_container>
-                <http://purl.org/rvl/example-avm/GO_-1459838262> .
-
-<http://purl.org/rvl/example-avm/GO_-784781992>
+<http://purl.org/rvl/example-avm/GO_1935516425>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "China" ;
-        <http://purl.org/viso/graphic/contained_by>
-                <http://purl.org/rvl/example-avm/GR_-376073076> ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-336434561> ;
-        <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_833513344> .
+        rdfs:label  "Luisa" .
 
-<http://purl.org/rvl/example-avm/GR_-704519449>
-        a           <http://purl.org/viso/graphic/Containment_Relation> ;
-        rdfs:label  "Containment_Relation" ;
-        <http://purl.org/viso/graphic/containment_containee>
-                <http://purl.org/rvl/example-avm/GO_9545116> ;
-        <http://purl.org/viso/graphic/containment_container>
-                <http://purl.org/rvl/example-avm/GO_-1459838262> .
-
-<http://purl.org/rvl/example-avm/GO_-1459838262>
+<http://purl.org/rvl/example-avm/GO_1294036121>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "World" ;
-        <http://purl.org/viso/graphic/contains>
-                <http://purl.org/rvl/example-avm/GR_871009522> , <http://purl.org/rvl/example-avm/GR_-531242751> , <http://purl.org/rvl/example-avm/GR_-704519449> , <http://purl.org/rvl/example-avm/GR_1621842519> .
+        rdfs:label  "Jan" .
 
-<http://purl.org/rvl/example-avm/GO_-274229647>
+<http://purl.org/rvl/example-avm/GO_-1530538029>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Australia" ;
-        <http://purl.org/viso/graphic/contained_by>
-                <http://purl.org/rvl/example-avm/GR_-531242751> .
+        rdfs:label  "Bob" .
 
-<http://purl.org/rvl/example-avm/GO_9545116>
+<http://purl.org/rvl/example-avm/GO_850883619>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Europe" ;
-        <http://purl.org/viso/graphic/contained_by>
-                <http://purl.org/rvl/example-avm/GR_-704519449> ;
-        <http://purl.org/viso/graphic/contains>
-                <http://purl.org/rvl/example-avm/GR_-293759401> , <http://purl.org/rvl/example-avm/GR_1544097668> , <http://purl.org/rvl/example-avm/GR_-1991034417> .
+        rdfs:label  "John" .
 
-<http://purl.org/rvl/example-avm/GO_Connector_-51279255>
+<http://purl.org/rvl/example-avm/GO_-428307225>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector_representing_exportsTo" ;
-        <http://purl.org/viso/graphic/color_named>
-                <http://purl.org/viso/graphic/Red> .
-
-<http://purl.org/rvl/example-avm/GO_1886529266>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Spain" ;
-        <http://purl.org/viso/graphic/contained_by>
-                <http://purl.org/rvl/example-avm/GR_1544097668> .
-
-<http://purl.org/rvl/example-avm/GR_-336434561>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-784781992> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_174065484> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_310366969> .
-
-<http://purl.org/rvl/example-avm/GO_174065484>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Germany" ;
-        <http://purl.org/viso/graphic/contained_by>
-                <http://purl.org/rvl/example-avm/GR_-1991034417> ;
-        <http://purl.org/viso/graphic/contains>
-                <http://purl.org/rvl/example-avm/GR_-82071127> , <http://purl.org/rvl/example-avm/GR_1885245503> ;
-        <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_-336434561> .
-
-<http://purl.org/rvl/example-avm/GO_-1498615715>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "America" ;
-        <http://purl.org/viso/graphic/contained_by>
-                <http://purl.org/rvl/example-avm/GR_1621842519> ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_833513344> .
-
-<http://purl.org/rvl/example-avm/GO_1185833433>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Gelsenkirchen" ;
-        <http://purl.org/viso/graphic/contained_by>
-                <http://purl.org/rvl/example-avm/GR_1885245503> .
-
-<http://purl.org/rvl/example-avm/GR_1885245503>
-        a           <http://purl.org/viso/graphic/Containment_Relation> ;
-        rdfs:label  "Containment_Relation" ;
-        <http://purl.org/viso/graphic/containment_containee>
-                <http://purl.org/rvl/example-avm/GO_1185833433> ;
-        <http://purl.org/viso/graphic/containment_container>
-                <http://purl.org/rvl/example-avm/GO_174065484> .
-
-<http://purl.org/rvl/example-avm/GR_-293759401>
-        a           <http://purl.org/viso/graphic/Containment_Relation> ;
-        rdfs:label  "Containment_Relation" ;
-        <http://purl.org/viso/graphic/containment_containee>
-                <http://purl.org/rvl/example-avm/GO_-686524988> ;
-        <http://purl.org/viso/graphic/containment_container>
-                <http://purl.org/rvl/example-avm/GO_9545116> .
-
-<http://purl.org/rvl/example-avm/GR_-1991034417>
-        a           <http://purl.org/viso/graphic/Containment_Relation> ;
-        rdfs:label  "Containment_Relation" ;
-        <http://purl.org/viso/graphic/containment_containee>
-                <http://purl.org/rvl/example-avm/GO_174065484> ;
-        <http://purl.org/viso/graphic/containment_container>
-                <http://purl.org/rvl/example-avm/GO_9545116> .
+        rdfs:label  "Bob" .
 
 rdfs:Container  a        rdfs:Class , rdfs:Resource ;
         rdfs:subClassOf  rdfs:Container .
@@ -279,7 +115,7 @@ rdf:Alt  a               rdfs:Class , rdfs:Resource ;
 
 rdfs:ContainerMembershipProperty
         a                rdfs:Class , rdfs:Resource ;
-        rdfs:subClassOf  rdfs:ContainerMembershipProperty , rdfs:Resource , rdf:Property .
+        rdfs:subClassOf  rdfs:ContainerMembershipProperty , rdf:Property , rdfs:Resource .
 
 rdf:Bag  a               rdfs:Class , rdfs:Resource ;
         rdfs:subClassOf  rdf:Bag , rdfs:Container .
@@ -296,11 +132,5 @@ rdfs:isDefinedBy  a         rdf:Property , rdfs:Resource ;
 rdfs:seeAlso  a             rdf:Property , rdfs:Resource ;
         rdfs:subPropertyOf  rdfs:seeAlso .
 
-<http://purl.org/viso/graphic/Containment_Relation>
-        a       rdfs:Class , rdfs:Resource .
-
 <http://purl.org/viso/graphic/Graphic_Object>
-        a       rdfs:Class , rdfs:Resource .
-
-<http://purl.org/viso/graphic/Linking_Directed_Relation>
         a       rdfs:Class , rdfs:Resource .

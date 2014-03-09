@@ -102,10 +102,10 @@ rexm:PMwithValueMappingOfRanges
 # A1b - quantitative 2 ordinal (discretized, 5 steps) - 
 # CHANGE IN LISTINGS: color_hsl_lightness (add color_)
 rexm:PMwithValueMappingOfRangesDiscretized
-      rvl:disabled "true"^^xsd:boolean ;
+      rvl:disabled "false"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rdfs:label "A1b - quantitative 2 ordinal (discretized, 5 steps) - PM with a VM that defines a mapping between a ranges of source values and a discretized range of target values"^^xsd:string ;
-      rvl:sourceProperty rexd:hasCost ;
+      rvl:sourceProperty rexd:population ;
       rvl:targetAttribute vg:color_hsl_lightness ; 
       rvl:valueMapping [
         a rvl:ValueMapping ;
@@ -113,7 +113,7 @@ rexm:PMwithValueMappingOfRangesDiscretized
         rvl:discreteStepCount "10"^^xsd:int ;
 		rvl:sourceValueInterval [
 			a rvl:Interval;
-			rvl:upperBoundIncl "50";
+			rvl:upperBoundIncl "4000";
 			rvl:lowerBoundIncl "0";
 		];
         rvl:targetValueInterval [
@@ -138,18 +138,18 @@ rexm:PMwithoutValueMappingOfRangesInverted
       
 # A2 - quantitative 2 ordinal (range 2 list) - 
 rexm:PMwithValueMappingOfRange2List
-      rvl:disabled "true"^^xsd:boolean ;
+      rvl:disabled "false"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rdfs:label "A2 - quantitative 2 ordinal (range 2 list) - PM with a VM that defines a mapping between a value range and a list of target values"^^xsd:string ;
-      rvl:sourceProperty rexd:hasCost ;
+      rvl:sourceProperty rexd:population ;
       rvl:targetAttribute vg:color_named ; 
       rvl:valueMapping [
         a rvl:ValueMapping ;
         rvl:invertOrderOfTargetValues "true"^^xsd:boolean;
 		rvl:sourceValueInterval [
 			a rvl:Interval;
-			rvl:upperBoundIncl "50";
-			rvl:lowerBoundIncl "10";
+			rvl:upperBoundIncl "4000";
+			rvl:lowerBoundIncl "0";
 		];
 		rvl:targetValueList (
 			vg:Red
@@ -226,8 +226,8 @@ rexm:PMwithValueMappingOfList2RangeDiscretized
 		rvl:discretize "true"^^xsd:boolean ;
 		rvl:targetValueInterval [
         	a rvl:Interval;
-        	rvl:upperBoundIncl "100";
-        	rvl:lowerBoundIncl "50";
+        	rvl:upperBoundIncl "4000";
+        	rvl:lowerBoundIncl "0";
         ];
       ]
       .
@@ -393,7 +393,7 @@ rexm:PMwithValueMappingOfSet2SetTypeVariant
 
 rexm:PMtoContainment
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true"^^xsd:boolean ;
       rdfs:label "PM to (n-ary) Containment"^^xsd:string ;
       rvl:sourceProperty rexd:partOf ;
       rvl:invertSourceProperty
@@ -417,6 +417,16 @@ rexm:PMwithNamedSubmappingToNamedMappingOnConnector
       rvl:disabled "false"^^xsd:boolean ;
       rdfs:label "PM with a sub-mapping to an existing, named mapping"^^xsd:string ;
       rvl:sourceProperty rexd:exportsTo ;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
+      rvl:subMapping rexm:NamedSubMappingRelation 
+      .
+      
+rexm:PMwithNamedSubmappingToNamedMappingOnConnector2
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
+      rvl:sourceProperty rexd:partOf ;
+      rvl:invertSourceProperty
+              "true"^^xsd:boolean ;
       rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
       rvl:subMapping rexm:NamedSubMappingRelation 
       .
@@ -554,13 +564,14 @@ rexm:PMfromID2ColorNamedAutomaticContinuous
 	  rvl:valueMapping [
         a rvl:ValueMapping ;
 		rvl:sourceValueOrderedSet (
-			rexd:cites rexd:citesCritical rexd:citesVeryCritical
+			#rexd:cites rexd:citesCritical rexd:citesVeryCritical
+			rexd:exportsTo rexd:partOf
 		);
 		rvl:discretize "true"^^xsd:boolean ;
 		rvl:targetValueInterval [
         	a rvl:Interval;
-        	rvl:upperBoundIncl "100";
-        	rvl:lowerBoundIncl "0";
+        	rvl:upperBoundIncl "90";
+        	rvl:lowerBoundIncl "30";
         ];
  	  ].  
       

@@ -19,10 +19,10 @@ public class UseCaseRVLExampleData extends TestOGVICProcess {
 		//process.setJsonFileNameRel("../org.purl.rvl.tooling.d3vis/examples/circle-packing-zoomable/data.json");
 		//process.setJsonFileNameRel("../org.purl.rvl.tooling.d3vis/examples/collapsible_tree/data.json");
 
-		process.registerMappingFile(ExampleMapping.RVL_EXAMPLE);
-		process.registerDataFile(ExampleData.RVL_EXAMPLE);
-		//process.registerMappingFile(ExampleMapping.RVL_EXAMPLE_OLD);
-		//process.registerDataFile(ExampleData.RVL_EXAMPLE_OLD);
+		//process.registerMappingFile(ExampleMapping.RVL_EXAMPLE);
+		//process.registerDataFile(ExampleData.RVL_EXAMPLE);
+		process.registerMappingFile(ExampleMapping.RVL_EXAMPLE_OLD);
+		process.registerDataFile(ExampleData.RVL_EXAMPLE_OLD);
 		
 		process.setRvlInterpreter(new SimpleRVLInterpreter());
 		
