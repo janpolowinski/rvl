@@ -70,8 +70,24 @@ public class ShapeX extends Shape {
 	}
 	
 	public String toD3Name() {
-		if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Square")) return "rect";
-		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Rhomb")) return "rhomb";
+		
+		/*
+		 * 
+    circle - a circle.
+    cross - a Greek cross or plus sign.
+    diamond - a rhombus.
+    square - an axis-aligned square.
+    triangle-down - a downward-pointing equilateral triangle.
+    triangle-up - an upward-pointing equilateral triangle.
+
+
+		 * */
+		if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Cross")) return "cross";
+		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Circle")) return "circle";
+		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/EquiliteralTriangleDown")) return "triangle-down";
+		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/EquiliteralTriangle")) return "triangle-up";
+		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Square")) return "square";
+		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Rhomb")) return "diamond";
 		else return "circle";
 	}
 

@@ -85,15 +85,25 @@ public abstract class RVLInterpreterBase {
 	 * @return the GraphicObject representing the resource
 	 */
 	protected GraphicObject createOrGetGraphicObject(org.ontoware.rdf2go.model.node.Resource resource) {
+		
 		if (resourceGraphicObjectMap.containsKey(resource)) {
+			
 			LOGGER.finest("Found existing GO for " + resource);
 			return resourceGraphicObjectMap.get(resource);
 		} 
 		else {
+			
 			GraphicObject go = new GraphicObject(modelAVM,"http://purl.org/rvl/example-avm/GO_" + random.nextInt(), true);
+			
+			// add to cache
+			go = go.tryReplaceWithCashedInstanceForSameURI(go);
+			
 			go.setRepresents(resource);
+			
 			resourceGraphicObjectMap.put(resource, go);
+			
 			LOGGER.finer("Newly created GO for " + resource);
+			
 			return go;
 		}
 	}
@@ -140,6 +150,8 @@ public abstract class RVLInterpreterBase {
 	
 	/**
 	 * Get all the mappings that require calculation, because they have not only explicit 1-1-value-mappings
+	 * TODO: this curently gets all mappings, including the 1-1, therefore it should actually only be called when it is clear that
+	 *  the 1-1 case does not apply. 
 	 */
 	protected Set<PropertyToGraphicAttributeMapping> getAllP2GAMappingsWithSomeValueMappings(){
 		

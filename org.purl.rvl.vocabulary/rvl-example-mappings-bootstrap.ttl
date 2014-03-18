@@ -39,7 +39,7 @@ rexm:SubPropertyOfToLinkingDirected
 
 :AnyPropertyToLinkingByConnectorMapping
       a rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true"^^xsd:boolean ;
       rdfs:label "(Any) property to linking by connector mapping"^^xsd:string ;
       rvl:sourceProperty owl:topObjectProperty ;
       #rvl:invertSourceProperty "true"^^xsd:boolean;
@@ -88,10 +88,26 @@ vg:linking_connector rdfs:subPropertyOf owl:topObjectProperty .
         rvl:subMapping-onRole vg:linking_connector;
         rvl:subMapping-onTriplePart rdf:predicate;
         rvl:subMapping-mapping :PMfromID2ColorNamed;
-      ]
+      ], [
+        a rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linkingDirected_endNode;
+        rvl:subMapping-onTriplePart rdf:predicate;
+        rvl:subMapping-mapping :PMfromID2ShapeNamed;
+      ] ;#, [
+        #a rvl:SubMappingRelation ;
+       # rvl:subMapping-onRole vg:linkingDirected_endNode;
+       # rvl:subMapping-onTriplePart rdf:predicate;
+       # rvl:subMapping-mapping :PMfromID2ColorNamedOnObject;
+     # ]
+    # rvl:subMapping [
+     #   a rvl:SubMappingRelation ;
+     #   rvl:subMapping-onRole vg:linkingDirected_endNode;
+     #   rvl:subMapping-onTriplePart rdf:object;
+     #   rvl:subMapping-mapping :DistinguishAVMObjectClassesByColor2;
+     # ];
       .
               
-      
+      # TODO: last two submappings somehow leads to empty json file!
       
       
 # order a bit misused here, better use single vms
@@ -135,4 +151,138 @@ vg:linking_connector rdfs:subPropertyOf owl:topObjectProperty .
       . 
       
       
+# order a bit misused here, better use single vms
+:PMfromID2ShapeNamed
+      rdf:type rvl:PropertyMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
+      rdfs:label "PM from ID to shape (used as a submapping above)"^^xsd:string ;
+ 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:targetAttribute vg:shape_named ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:sourceValueOrderedSet (
+        
+			vg:contains 
+			vg:contained_by
+			vg:containment_container
+			vg:containment_containee
+			
+			vg:linked_to
+			vg:linked_from
+			vg:linkingDirected_startNode
+			vg:linkingDirected_endNode
+			vg:linking_connector
+			
+		);
+		rvl:targetValueList (
+		
+			common-shapes:Rhomb
+			common-shapes:Rhomb
+			common-shapes:Circle
+			common-shapes:Circle
+			
+			common-shapes:Rhomb
+			common-shapes:Rhomb
+			common-shapes:Circle
+			common-shapes:Circle
+			common-shapes:Cross
+			
+		);
+      ]
+      . 
+      
+      
+ # order a bit misused here, better use single vms
+:PMfromID2ColorNamedOnObject
+      rdf:type rvl:PropertyMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
+      rdfs:label "PM from ID to color"^^xsd:string ;
+ 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:targetAttribute vg:color_named ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:sourceValueOrderedSet (
+        
+			vg:contains 
+			vg:contained_by
+			vg:containment_container
+			vg:containment_containee
+			
+			vg:linked_to
+			vg:linked_from
+			vg:linkingDirected_startNode
+			vg:linkingDirected_endNode
+			vg:linking_connector
+			
+		);
+		rvl:targetValueList (
+		
+			vg:Green
+			vg:Green
+			vg:Green
+			vg:Green
+			
+			vg:Green
+			vg:Green
+			vg:Green
+			vg:Green
+			vg:Red
+		);
+      ]
+      . 
+      
+      
+:DistinguishAVMObjectClassesByShape
+      rvl:disabled "true"^^xsd:boolean ;
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "AVM object type to shape named"^^xsd:string ;
+      rvl:sourceProperty rdf:type ;
+      rvl:subjectFilter "http://purl.org/viso/graphic/Graphic_Object"^^rvl:sparqlSelector;
+      rvl:targetAttribute vg:shape_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue <http://purl.org/viso/graphic/Linking_Directed_Relation>;
+        rvl:targetValue common-shapes:Rhomb;
+      ],[
+        a rvl:ValueMapping ;
+		rvl:sourceValue <http://purl.org/viso/graphic/Graphic_Object>;
+        rvl:targetValue common-shapes:Circle;
+      ]
+      .
+      
+# only necessary, because subjectFilter not properly implemented
+:DistinguishAVMObjectClassesByShape2
+      rvl:disabled "true"^^xsd:boolean ;
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "AVM object type to shape named"^^xsd:string ;
+      rvl:sourceProperty rdf:type ;
+      rvl:subjectFilter "http://purl.org/viso/graphic/Linking_Directed_Relation"^^rvl:sparqlSelector;
+      rvl:targetAttribute vg:shape_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue <http://purl.org/viso/graphic/Linking_Directed_Relation>;
+        rvl:targetValue common-shapes:Rhomb;
+      ],[
+        a rvl:ValueMapping ;
+		rvl:sourceValue <http://purl.org/viso/graphic/Graphic_Object>;
+        rvl:targetValue common-shapes:Circle;
+      ]
+      .
+      
+:DistinguishAVMObjectClassesByColor2
+      rvl:disabled "false"^^xsd:boolean ;
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "AVM object type to color named"^^xsd:string ;
+      rvl:sourceProperty rdf:type ;
+      rvl:subjectFilter "http://purl.org/viso/graphic/Linking_Directed_Relation"^^rvl:sparqlSelector;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue <http://purl.org/viso/graphic/Linking_Directed_Relation>;
+        rvl:targetValue vg:Green;
+      ]
+      .
+      
+      
+ 
               

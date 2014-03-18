@@ -1,62 +1,20 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<style>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+	<link type="text/css" rel="stylesheet" href="../../css/main.css"/>
+	<script type="text/javascript" src="../../js/d3.min.js"></script>
+	<style type="text/css">
+		
+	
+	</style>
+</head>
+<body><div id="body"></div>
 
-/* siehe auch http://jsfiddle.net/Y9Qq3/2/ http://jsfiddle.net/Y9Qq3/2/ */
-
-body {
-	background-color: #eee;
-}
-
-.node {
-  /*stroke: #fff;*/
-  stroke-width: 1.5px;
-  stroke: #fff;
-}
-
-.circle {
-  
-}
-
-
-.link {
-	fill: none;
-    stroke: #999;
-    stroke-opacity: .6;
-    stroke-width: 4px;
-}
-
-marker#linkUndirected {
-    fill: #0000ff;
-}
-
-marker#linkDirected {
-    fill: #00ff00;
-}
-
-marker#link {
-    fill: #ccc;
-}
-
-text.nodeLabel {
-  fill: black;
-  /*stroke: white;
-  //stroke-width: 1px;*/
-  font-family: Arial;
-}
-
-text.nodeLabelShadow {
-    stroke: white;
-    stroke-width: 4px;
-    stroke-opacity: .8;
-	font-family: Arial;
-}
-
-</style>
-<body>
-<!--script src="http://d3js.org/d3.v3.min.js"></script-->
-<script src="d3.js"></script>
-<script>
+<script type="text/javascript">
+/* after an example from http://jsfiddle.net/Y9Qq3/2/ http://jsfiddle.net/Y9Qq3/2/ */
+	
 
 var width = 800,
     height = 800,
@@ -127,7 +85,6 @@ d3.json("data.json", function(error, graph) {
 		 var path = svg.selectAll(".link")
         .data(graph.links)
         .enter().append("svg:path")
-		//.attr("class", "link")
         .attr("class", function (d) { return "link link" + d.type; })  
 		//.style("stroke", function(d) { return d.color_rgb_hex; })
 		.style("stroke", function(d) { return d.color_rgb_hex_combined; })
@@ -145,32 +102,92 @@ d3.json("data.json", function(error, graph) {
     	var elemEnter = svg.selectAll(".node")
 	      .data(graph.nodes).enter()
 	    .append("g")
-		//.attr("class", "node")
+		.attr("class", "node")
 	    //.attr("transform", function(d){return "translate("+d.x+",80)"})
 		//.attr("transform", function(d){return "translate(+20,80)"})
 		.call(force.drag)
+		
 		.on("mouseover", function(d) { 
-        	d3.select(this).select("circle").style("stroke-width", 6); 
-        	d3.select(this).select("circle").style("stroke", "orange");
-        })
+
+			//d3.select(this).select("path").style("stroke-width", 6); 
+			//d3.select(this).select("path").style("stroke", "yellow"); 
+			//d3.select(this).select("text").style("font", "20px sans-serif");
+			d3.select(this).attr("class", "node highlighted");
+		
+            // Figure out the neighboring node id's with brute strength because the graph is small
+            var nodeNeighbors = graph.links.filter(function(link) {
+                // Filter the list of links to only those links that have our target 
+                // node as a source or target
+                return link.source.index === d.index || link.target.index === d.index;})
+            .map(function(link) {
+                // Map the list of links to a simple array of the neighboring indices - this is
+                // technically not required but makes the code below simpler because we can use         
+                // indexOf instead of iterating and searching ourselves.
+                return link.source.index === d.index ? link.target.index : link.source.index; });
+            
+            // select neighboring nodes and apply styles
+            svg.selectAll(".node").filter(function(node) {
+                // I filter the selection of all circles to only those that hold a node with an
+                // index in my listg of neighbors
+                return nodeNeighbors.indexOf(node.index) > -1;
+            })
+            //.style("stroke", "yellow");
+			.attr("class", "node highlighted");
+			
+			// select in and out links and apply styles
+            svg.selectAll(".link").filter(function(link) {
+				return (link.source.index === d.index || link.target.index === d.index);
+            })
+            //.style("stroke-width", "8px");
+			.attr("class", "link highlighted");
+			
+			
+			// highlighting of identical resources (same URI)
+			var nodesWithSameURI = graph.nodes.filter(function(node) {
+                // Filter the list of links to only those links that have our target 
+                // node as a source or target
+                return node.uri === d.uri;})
+           .map(function(node) {
+                // Map the list of nodes to a simple array of the same-URI-nodes-indices
+                return node.index })
+				;
+				
+            svg.selectAll(".node").filter(function(node) {
+                // I filter the selection of all circles to only those that hold a node with an
+                // index in my listg of neighbors
+                return nodesWithSameURI.indexOf(node.index) > -1;
+            })
+			.attr("class", "node highlighted identical");
+			//.style("stroke", "red");
+			
+			// extend label to full label
+			d3.select(this).selectAll("text").text(function(d){return d.full_label});			
+       
+		})
 		.on("mouseout",  function(d) { 
-        	d3.select(this).select("circle").style("stroke-width", 1.5); 
-        	d3.select(this).select("circle").style("stroke", "gray"); 
-			/*d3.select(
-			function(d){
-				return this;
-			}
-			).select("circle").style("stroke", "red"); */
-        })
+		
+			// TODO replacing all classes may cause problems! actually we only want to replace "node highlighted" by "node"
+			d3.select(this).select(".node").attr("class", "node");
+			d3.selectAll(".node").attr("class", "node");
+			//d3.selectAll(".link").style("stroke-width", "4px");
+			d3.selectAll(".link").attr("class", "link");
+            //d3.selectAll("path").style("stroke", "gray");
+			//d3.select(this).selectAll("path").style("stroke-width", 1.5); 
+			//d3.select(this).select("text").style("font", "12px sans-serif");
+			
+			d3.select(this).selectAll("text").text(function(d){return d.label});
+
+			})
+		
 		;
 	
 	var symbol = elemEnter.append("path")
     //.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
     //.attr("d", d3.svg.symbol());
-	  .attr("class", function(d) { return "node " + d.shape_d3_name; })
+	  .attr("class", function(d) { return "node" })
 	 .attr("d", symbolFunction)
 	 .style("fill", function(d) { return d.color_rgb_hex_combined; })
-			  ;	
+	 ;	
 	
 	/*
 	  var circle = 
@@ -186,6 +203,7 @@ d3.json("data.json", function(error, graph) {
 		  ;
 		  */
 		  	
+			
 		  
 	// A copy of the label as shadow for better readability
 	elemEnter.append("text")
@@ -193,7 +211,6 @@ d3.json("data.json", function(error, graph) {
 	    .attr("dx", function(d){return 10})
 		.attr("dy", function(d){return 0})
 	    .text(function(d){return d.label})
-		//.attr("fill", "black")
 		;
 
 		elemEnter.append("text")
@@ -249,3 +266,16 @@ d3.json("data.json", function(error, graph) {
 });
 
 </script>
+
+<svg id="svg-effects">
+    <filter id="blur-effect-1">
+        <feGaussianBlur stdDeviation="0.9" />
+    </filter>
+
+    <filter id="blur-effect-2">
+        <feGaussianBlur stdDeviation="2" />
+    </filter>
+</svg> 
+
+</body>
+</html>

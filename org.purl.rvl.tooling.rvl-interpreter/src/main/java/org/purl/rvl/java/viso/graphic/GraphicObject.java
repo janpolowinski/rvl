@@ -13,6 +13,7 @@ import org.purl.rvl.java.exception.IncompleteColorValuesException;
 import org.purl.rvl.java.gen.rvl.Thing1;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.tooling.process.OGVICProcess;
+import org.purl.rvl.tooling.process.ResourcesCache;
 import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.ColorUtils;
 
@@ -144,7 +145,7 @@ public class GraphicObject extends
 		this.representedResource = resource;
 	}
 	
-	private Resource getRepresentedResource() {
+	public Resource getRepresentedResource() {
 		return representedResource;
 	}
 
@@ -253,6 +254,11 @@ public class GraphicObject extends
 		//LOGGER.finest("end getting combined color ");
 		
 		return colorHexString;
+	}
+
+	public GraphicObject tryReplaceWithCashedInstanceForSameURI(
+			GraphicObject go) {
+		return (GraphicObject ) ResourcesCache.getInstance().tryReplaceOrCache(go);
 	}
 
 

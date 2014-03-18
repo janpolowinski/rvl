@@ -101,7 +101,11 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 		
 		// generate JSON node entries
 		for (int i = 0; i < goArray.length; i++) {
+			
 			GraphicObject startNode = goArray[i];
+			
+			// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
+			startNode = startNode.tryReplaceWithCashedInstanceForSameURI(startNode);
 			
 			//color
 			String startNodeColorRGBHex = startNode.getColorHex();
@@ -109,6 +113,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			String startNodeShapeD3Name = startNode.getShape();
 			
 			Map node = new LinkedHashMap();
+			node.put("uri", startNode.getRepresentedResource().toString());
 			node.put("label", D3Utils.shortenLabel(startNode.getLabel()));
 			node.put("full_label", startNode.getLabel());
 			node.put("color_rgb_hex", startNodeColorRGBHex);

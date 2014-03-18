@@ -21,7 +21,7 @@
 # explicit value mappings - 
 # PM with explicit value mappings as blank nodes
 rexm:PMWithExplicitValueMappingsAsBlankNodes
-      rvl:disabled "true"^^xsd:boolean ;
+      rvl:disabled "false"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rdfs:label "PM with explicit VM as blank nodes"^^xsd:string ;
       rvl:sourceProperty rexd:workingField ;
@@ -40,7 +40,7 @@ rexm:PMWithExplicitValueMappingsAsBlankNodes
 # explicit value mappings - 
 # VARIANT: PM with explicit value mappings as blank nodes (to color named)
 rexm:PMWithExplicitValueMappingsAsBlankNodesToColorNamed
-      rvl:disabled "true"^^xsd:boolean ;
+      rvl:disabled "false"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rdfs:label "VARIANT: PM with explicit VM as blank nodes (to color named)"^^xsd:string ;
       rvl:sourceProperty rexd:workingField ;
@@ -446,7 +446,8 @@ rexm:PMwithAnonymousSubmappingToNamedMappingOnConnector
       ]
       .  
       
-# submapping to anonymous - ATTENTION: only supported when the submapping is not an explicit 1-1 mapping. Additionally no caching supported
+# submapping to anonymous
+# Caching not supported
 # CHANGE IN LISTINGS: rdf:predicate, not rvl:predicate ; vg:targetAttribute vs vg:targetGraphicAttribute
 rexm:PMwithAnonSubmappingOnConnectorNotYetSupported
       rvl:disabled "true"^^xsd:boolean ;
@@ -481,8 +482,8 @@ rexm:PMwithAnonSubmappingOnConnectorNotYetSupported
       ]
       .
       
-# submapping to anonymous 2 - ATTENTION: not yet fully supported when the submapping is an explicit 1-1 mapping (like here). 
-# Additionally no caching is supported. Breaks without error message!
+# submapping to anonymous mapping with explicit 1-1-value-mappings
+# Caching is supported.
 # CHANGE IN LISTINGS: rdf:predicate, not rvl:predicate ; vg:targetAttribute vs vg:targetGraphicAttribute
 rexm:PMwithAnonSubmappingOnConnectorNotYetSupportedSimple
       rvl:disabled "false"^^xsd:boolean ;
@@ -503,7 +504,7 @@ rexm:PMwithAnonSubmappingOnConnectorNotYetSupportedSimple
  			 rvl:valueMapping [
        		 	a rvl:ValueMapping ;
 				rvl:sourceValue rexd:cites;
-       			 rvl:targetValue vg:Blue;
+       			 rvl:targetValue vg:Yellow;
       		],[
         		a rvl:ValueMapping ;
 				rvl:sourceValue rexd:citesCritical;

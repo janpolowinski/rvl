@@ -94,8 +94,12 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 				
 				GraphicObject actualRootNode = (GraphicObject) iterator.next();
 				
+				// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
+				actualRootNode = actualRootNode.tryReplaceWithCashedInstanceForSameURI(actualRootNode);
+				
 				Map actualRootNodeObject = new LinkedHashMap();
 				actualRootNodeObject.put("label", actualRootNode.getLabel());
+				actualRootNodeObject.put("uri", actualRootNode.getRepresentedResource().toString());
 				
 				List childrenListLinking = generateChildrenListFor4Linking(actualRootNode);
 				if (!childrenListLinking.isEmpty()) {
@@ -182,6 +186,9 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		GraphicObject endNode = (GraphicObject) directedLinking.getAllEndnode_as().firstValue().castTo(GraphicObject.class);
 		GraphicObject connector = (GraphicObject) directedLinking.getAllLinkingconnector_as().firstValue().castTo(GraphicObject.class);
 		
+		// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
+		endNode = endNode.tryReplaceWithCashedInstanceForSameURI(endNode);
+		
 		
 		//color
 		String endNodeColorRGBHex = endNode.getColorHex();
@@ -191,6 +198,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		String connectorColorRGBHex = connector.getColorHex();
 
 		Map child = new LinkedHashMap();
+		child.put("uri", endNode.getRepresentedResource().toString());
 		child.put("label",D3Utils.shortenLabel(endNode.getLabel()));
 		child.put("full_label",endNode.getLabel());
 		child.put("color_rgb_hex", endNodeColorRGBHex);
@@ -214,6 +222,10 @@ private Map generateObjectFor(Containment rel) {
 		
 		GraphicObject containee = (GraphicObject) rel.getAllContainmentcontainee_as().firstValue().castTo(GraphicObject.class);
 		
+		// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
+		containee = containee.tryReplaceWithCashedInstanceForSameURI(containee);
+		
+		
 		//color
 		String endNodeColorRGBHex = containee.getColorHex();
 		// shape
@@ -221,6 +233,7 @@ private Map generateObjectFor(Containment rel) {
 
 
 		Map child = new LinkedHashMap();
+		child.put("uri", containee.getRepresentedResource().toString());
 		child.put("label",D3Utils.shortenLabel(containee.getLabel()));
 		child.put("full_label",containee.getLabel());
 		child.put("color_rgb_hex", endNodeColorRGBHex);

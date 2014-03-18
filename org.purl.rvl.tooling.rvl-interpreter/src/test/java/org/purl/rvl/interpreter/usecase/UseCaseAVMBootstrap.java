@@ -14,7 +14,7 @@ public class UseCaseAVMBootstrap extends TestOGVICProcess {
 	public void testOGVICProcess() {
 
 		process.setWriteAVM(false);
-		//process.setUriStart("http://purl.org/rvl/example-avm/");
+		process.setUriStart("http://purl.org/viso/graphic/");
 		process.setUriStart("");
 		process.setJsonFileNameRel("../org.purl.rvl.tooling.d3vis/examples/force-directed-graph/data.json");
 		//process.setJsonFileNameRel("../org.purl.rvl.tooling.d3vis/examples/circle-packing-zoomable/data.json");

@@ -1,0 +1,90 @@
+body {
+	background-color: #ffe;
+}
+
+/* nodes */
+
+.node circle, .node path {
+  fill: #fff;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+  cursor: pointer;
+}
+
+
+.node.highlighted path, .node.highlighted circle {
+	stroke: yellow;
+	stroke-width: 15px;
+	/*filter:url(#blur-effect-2);*/ /* problems in firefox, when not in one html page? */
+	stroke-opacity:.6;
+}
+
+
+.node.highlighted.identical path, .node.highlighted.identical circle {
+	stroke: orange;
+}
+
+
+
+
+/* node labels */
+
+.node text { /* strange: "text" alone does not work */
+  font-size: 12px;
+  font-family: Arial;
+   fill: black;
+}
+
+.node text.nodeLabel {
+
+}
+
+.node text.nodeLabelShadow {
+    stroke: white;
+    stroke-width: 4px;
+    stroke-opacity: .8;
+}
+
+.node.highlighted text.nodeLabelShadow {
+	stroke: yellow;
+	/*filter:url(#blur-effect-2);*/ /* problems in firefox, when not in one html page? */
+	stroke-opacity:.4;
+}
+
+.node.highlighted.identical text.nodeLabelShadow {
+	stroke: orange;
+	stroke-opacity:.4;
+}
+
+
+
+
+/* links and arrows */
+
+path.link {
+	fill: none;
+    stroke: #ccc;
+    stroke-opacity: .6;
+    stroke-width: 10px;
+}
+
+path.link.tree {
+  /* stroke-width: 1.5px; */
+}
+
+path.link.highlighted {
+    stroke-width: 20px;
+    stroke: yellow ! important;
+}
+
+marker#linkUndirected {
+    fill: #0000ff;
+}
+
+marker#linkDirected {
+    fill: #00ff00;
+}
+
+marker#link {
+    fill: #ccc;
+}
