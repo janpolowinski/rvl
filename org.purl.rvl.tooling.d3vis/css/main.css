@@ -1,5 +1,5 @@
 body {
-	background-color: #ffe;
+	background-color: #334;
 }
 
 /* nodes */
@@ -12,20 +12,48 @@ body {
 }
 
 
-.node.highlighted path, .node.highlighted circle {
+.node.highlighted path,
+.node.highlighted circle {
 	stroke: yellow;
-	stroke-width: 15px;
+	stroke-width: 10px;
 	/*filter:url(#blur-effect-2);*/ /* problems in firefox, when not in one html page? */
-	stroke-opacity:.6;
+	stroke-opacity:1;
+}
+
+.node.highlighted.identical path,
+.node.highlighted.identical circle {
+	stroke: yellow;
+}
+
+/*
+.node:hover, .node.highlighted {
+	stroke: yellow;
+	stroke-width: 10px;
+	stroke-opacity:1;
 }
 
 
-.node.highlighted.identical path, .node.highlighted.identical circle {
-	stroke: orange;
+.node.highlighted.identical {
+	stroke: yellow;
+}
+*/
+
+.node--root {
+  fill: black;
+  /*stroke: black;*/
 }
 
+.node--leaf {
+  fill: white;
+}
 
+/* general labels */
 
+.label {
+  font-family: Arial;
+  text-anchor: middle;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+}
 
 /* node labels */
 
@@ -35,9 +63,10 @@ body {
    fill: black;
 }
 
+/*
 .node text.nodeLabel {
 
-}
+}*/
 
 .node text.nodeLabelShadow {
     stroke: white;
@@ -65,7 +94,7 @@ path.link {
 	fill: none;
     stroke: #ccc;
     stroke-opacity: .6;
-    stroke-width: 10px;
+    stroke-width: 7px;
 }
 
 path.link.tree {
@@ -73,7 +102,7 @@ path.link.tree {
 }
 
 path.link.highlighted {
-    stroke-width: 20px;
+    /*stroke-width: 10px;*/
     stroke: yellow ! important;
 }
 

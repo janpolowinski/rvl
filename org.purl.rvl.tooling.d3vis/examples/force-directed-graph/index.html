@@ -1,69 +1,285 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<style>
-
-.node {
-  stroke: #fff;
-  stroke-width: 1.5px;
-}
-
-.link {
-  stroke: #999;
-  stroke-opacity: .6;
-}
-
-</style>
-<body>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script>
-
-var width = 960,
-    height = 500;
-
-var color = d3.scale.category20();
-
-var force = d3.layout.force()
-    .charge(-120)
-    .linkDistance(30)
-    .size([width, height]);
-
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height);
-
-d3.json("data.json", function(error, graph) {
-  force
-      .nodes(graph.nodes)
-      .links(graph.links)
-      .start();
-
-  var link = svg.selectAll(".link")
-      .data(graph.links)
-    .enter().append("line")
-      .attr("class", "link")
-      .style("stroke-width", function(d) { return Math.sqrt(d.value); });
-
-  var node = svg.selectAll(".node")
-      .data(graph.nodes)
-    .enter().append("circle")
-      .attr("class", "node")
-      .attr("r", 5)
-      .style("fill", function(d) { return color(d.color_rgb_hex); })
-      .call(force.drag)
-	  ;
-
-  node.append("title")
-      .text(function(d) { return d.label; });
-
-  force.on("tick", function() {
-    link.attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
-
-    node.attr("cx", function(d) { return d.x; })
-        .attr("cy", function(d) { return d.y; });
-  });
-});
-
-</script>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+        <link type="text/css" rel="stylesheet" href="../../css/main.css"/>
+        <script type="text/javascript" src="../../js/d3.min.js">
+        </script>
+        <style type="text/css">
+        </style>
+    </head>
+    <body>
+        <div id="body">
+        </div>
+        <script type="text/javascript">
+            /* after an example from http://jsfiddle.net/Y9Qq3/2/ http://jsfiddle.net/Y9Qq3/2/ */
+            
+            var drawLinks = true; // choose whether only nodes should be drawn and layouted
+            	
+            
+            var width = 800,
+                height = 800,
+            	markerWidth = 3,
+                markerHeight = 3,
+                cRadius = 12,
+                refX = cRadius + (markerWidth * 2),
+                refY = -Math.sqrt(cRadius)
+                drSub = cRadius + refY
+            ;
+            
+            					 
+            
+            	
+            
+            //var color = d3.scale.category20();
+            
+            var force = d3.layout.force()
+                .charge(-900)
+                .linkDistance(100)
+                .size([width, height])
+            	;
+            
+            var svg = d3.select("body").append("svg")
+                .attr("width", width)
+                .attr("height", height);
+            	
+            	
+            	
+            // Define Markers to be used in arrow paths
+            svg.append("svg:defs").selectAll("marker")
+               	//.data(["suit", "licensing", "resolved"])
+            	.data(["link"])
+                .enter().append("svg:marker")
+                .attr("id", String)
+                .attr("viewBox", "0 -5 10 10")
+                .attr("refX", refX)
+                .attr("refY", refY)
+                .attr("markerWidth", markerWidth)
+                .attr("markerHeight", markerHeight)
+                .attr("orient", "auto")
+                .append("svg:path")
+                .attr("d", "M0,-5L10,0L0,5");
+            
+            d3.json("../../gen/json/graph-data.json", function(error, graph) {
+            	
+            	 var symbolFunction = d3.svg.symbol()
+             						.size(1500)
+             						.type(function (d) {return d.shape_d3_name})
+            						;
+            	
+            	  var forceVar = force
+            	      .nodes(graph.nodes);
+            	  if(drawLinks) forceVar.links(graph.links)
+            	  forceVar.start();
+            		  
+            		  
+            	 /* links / edges */
+            		 
+            		  /*
+            	  var link = svg.selectAll(".link")
+            	      .data(graph.links)
+            	    .enter().append("line")
+            	      .attr("class", "link")
+            	      //.style("stroke-width", function(d) { return Math.sqrt(d.value); })
+            		  .style("stroke", function(d) { return d.color_rgb_hex; })
+            		  .style("stroke-width", function(d) { return 10 })
+            		  ;
+            		  */
+            		  
+            		 var path = svg.selectAll(".link")
+                    .data(graph.links)
+                    .enter().append("svg:path")
+                    .attr("class", function (d) { return "link link" + d.type; })  
+            		//.style("stroke", function(d) { return d.color_rgb_hex; })
+            		.style("stroke", function(d) { return d.color_rgb_hex_combined; })
+            		.attr("marker-end", function (d) {
+                    	//return "url(#" + d.type + ")";
+            			return "url(#" + "link" + ")";
+                	})
+            		;
+            		
+            		path.append("svg:title")
+            	      .text(function(d) { return d.label; });
+            	
+            	  /* nodes */ 
+            	
+                	var elemEnter = svg.selectAll(".node")
+            	      .data(graph.nodes).enter()
+            	    .append("g")
+            		.attr("class", "node")
+            	    //.attr("transform", function(d){return "translate("+d.x+",80)"})
+            		//.attr("transform", function(d){return "translate(+20,80)"})
+            		.call(force.drag)
+            		
+            		.on("mouseover", function(d) { 
+            
+            			//d3.select(this).select("path").style("stroke-width", 6); 
+            			//d3.select(this).select("path").style("stroke", "yellow"); 
+            			//d3.select(this).select("text").style("font", "20px sans-serif");
+            			d3.select(this).attr("class", "node highlighted");
+            		
+                        // Figure out the neighboring node id's with brute strength because the graph is small
+                        var nodeNeighbors = graph.links.filter(function(link) {
+                            // Filter the list of links to only those links that have our target 
+                            // node as a source or target
+                            return link.source.index === d.index || link.target.index === d.index;})
+                        .map(function(link) {
+                            // Map the list of links to a simple array of the neighboring indices - this is
+                            // technically not required but makes the code below simpler because we can use         
+                            // indexOf instead of iterating and searching ourselves.
+                            return link.source.index === d.index ? link.target.index : link.source.index; });
+                        
+                        // select neighboring nodes and apply styles
+                        svg.selectAll(".node").filter(function(node) {
+                            // I filter the selection of all circles to only those that hold a node with an
+                            // index in my listg of neighbors
+                            return nodeNeighbors.indexOf(node.index) > -1;
+                        })
+                        //.style("stroke", "yellow");
+            			.attr("class", "node highlighted");
+            			
+            			// select in and out links and apply styles
+                        svg.selectAll(".link").filter(function(link) {
+            				return (link.source.index === d.index || link.target.index === d.index);
+                        })
+                        //.style("stroke-width", "8px");
+            			.attr("class", "link highlighted");
+            			
+            			
+            			// highlighting of identical resources (same URI)
+            			var nodesWithSameURI = graph.nodes.filter(function(node) {
+                            // Filter the list of links to only those links that have our target 
+                            // node as a source or target
+                            return node.uri === d.uri;})
+                       .map(function(node) {
+                            // Map the list of nodes to a simple array of the same-URI-nodes-indices
+                            return node.index })
+            				;
+            				
+                        svg.selectAll(".node").filter(function(node) {
+                            // I filter the selection of all circles to only those that hold a node with an
+                            // index in my listg of neighbors
+                            return nodesWithSameURI.indexOf(node.index) > -1;
+                        })
+            			.attr("class", "node highlighted identical");
+            			//.style("stroke", "red");
+            			
+            			// extend label to full label
+            			d3.select(this).selectAll("text").text(function(d){return d.full_label});			
+                   
+            		})
+            		.on("mouseout",  function(d) { 
+            		
+            			// TODO replacing all classes may cause problems! actually we only want to replace "node highlighted" by "node"
+            			d3.select(this).select(".node").attr("class", "node");
+            			d3.selectAll(".node").attr("class", "node");
+            			//d3.selectAll(".link").style("stroke-width", "4px");
+            			d3.selectAll(".link").attr("class", "link");
+                        //d3.selectAll("path").style("stroke", "gray");
+            			//d3.select(this).selectAll("path").style("stroke-width", 1.5); 
+            			//d3.select(this).select("text").style("font", "12px sans-serif");
+            			
+            			d3.select(this).selectAll("text").text(function(d){return d.label});
+            
+            			})
+            		
+            		;
+            	
+            	/* node shape -> symbol */
+            	
+            	var symbol = elemEnter.append("path")
+                //.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+                //.attr("d", d3.svg.symbol());
+            	  .attr("class", function(d) { return "node" })
+            	 .attr("d", symbolFunction)
+            	 .style("fill", function(d) { return d.color_rgb_hex_combined; })
+            	 ;	
+            	
+            	/*
+            	  var circle = 
+            	  //svg.selectAll(".node")
+            	    //  .data(graph.nodes)
+            	      //.enter().
+            		  elemEnter.append("svg:circle")
+            	      .attr("class", function(d) { return "node " + d.shape_d3_name; })
+            	      .attr("r", function(d) { return d.width; })
+            	      //.style("fill", function(d) { return d.color_rgb_hex; })
+            		  //.style("fill", function(d) { return "hsl(120,100%,50%)"; })
+            		  .style("fill", function(d) { return d.color_rgb_hex_combined; })
+            		  ;
+            		  */
+            		  	
+            			
+            	/* node labeling and tooltips */
+            		  
+            	// A copy of the label as shadow for better readability
+            	elemEnter.append("text")
+            		.attr("class", "nodeLabelShadow")
+            	    .attr("dx", function(d){return 10})
+            		.attr("dy", function(d){return 0})
+            	    .text(function(d){return d.label})
+            		;
+            
+            	elemEnter.append("text")
+            		.attr("class", "nodeLabel")
+            	    .attr("dx", function(d){return 10})
+            		.attr("dy", function(d){return 0})
+            	    .text(function(d){return d.label })
+            	    //.text(function(d){return d.label + " lightness: " +  d.color_hsl_lightness + " rgb combined: " + d.color_rgb_hex_combined + " rgb pure: " + d.color_rgb_hex  })
+            		//.text(function(d){return d.label + " (shape: " + d.shape_d3_name + ")"})
+            		;
+            	
+               elemEnter.append("svg:title")
+            	      .text(function(d) { return d.full_label; });
+            	
+            	/*
+            	  force.on("tick", function() {
+            	    link.attr("x1", function(d) { return d.source.x; })
+            	        .attr("y1", function(d) { return d.source.y; })
+            	        .attr("x2", function(d) { return d.target.x; })
+            	        .attr("y2", function(d) { return d.target.y; });
+            	
+            	  //  circle.attr("cx", function(d) { return d.x; })
+            	    //    .attr("cy", function(d) { return d.y; });
+            			
+            		elemEnter.attr("transform", function(d){return "translate("+d.x+","+d.y+")" });
+            	  });
+            	  
+            	  */
+            	  
+            	  
+            	  // Use elliptical arc path segments to doubly-encode directionality.
+                //function tick() {
+            	force.on("tick", function() {
+                    path.attr("d", function (d) {
+                        var dx = d.target.x - d.source.x,
+                            dy = (d.target.y - d.source.y),
+                            dr = Math.sqrt(dx * dx + dy * dy);
+                        return "M" + d.source.x + "," + d.source.y + "A" + (dr - drSub) + "," + (dr - drSub) + " 0 0,1 " + d.target.x + "," + d.target.y;
+                    });
+            
+                    elemEnter.attr("transform", function (d) {
+                        return "translate(" + d.x + "," + d.y + ")";
+                    });
+            
+                   /* text.attr("transform", function (d) {
+                        return "translate(" + d.x + "," + d.y + ")";
+                    });*/
+                });
+            	  
+            
+            });
+            
+        </script>
+        <!-- somehow MUST NOT be before the script! -->
+        <svg id="svg-effects">
+            <filter id="blur-effect-1">
+                <feGaussianBlur stdDeviation="0.9" />
+            </filter>
+            <filter id="blur-effect-2">
+                <feGaussianBlur stdDeviation="2" />
+            </filter>
+        </svg>
+    </body>
+</html>

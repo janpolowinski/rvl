@@ -14,8 +14,9 @@ public class UseCaseAA extends TestOGVICProcess {
 	public void testOGVICProcess() {
 		
 		process.setUriStart("http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#");
-		//process.setJsonFileNameRel("../org.purl.rvl.tooling.d3vis/examples/collapsible_tree/data.json");
-		process.setJsonFileNameRel("../org.purl.rvl.tooling.d3vis/examples/force-directed-graph/data.json");
+		
+		process.setJsonFileNameRel("../org.purl.rvl.tooling.d3vis/gen/json/graph-data.json");
+		//process.setJsonFileNameRel("../org.purl.rvl.tooling.d3vis/gen/json/tree-data.json");
 		
 		process.registerMappingFile(ExampleMapping.AA);
 		process.registerDataFile(ExampleData.AA);

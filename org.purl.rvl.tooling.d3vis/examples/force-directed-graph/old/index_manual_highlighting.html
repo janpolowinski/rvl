@@ -1,20 +1,83 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-	<link type="text/css" rel="stylesheet" href="../../css/main.css"/>
-	<script type="text/javascript" src="../../js/d3.min.js"></script>
-	<style type="text/css">
-		
-	
-	</style>
-</head>
-<body><div id="body"></div>
+<meta charset="utf-8">
+<style>
 
-<script type="text/javascript">
-/* after an example from http://jsfiddle.net/Y9Qq3/2/ http://jsfiddle.net/Y9Qq3/2/ */
+/* siehe auch http://jsfiddle.net/Y9Qq3/2/ http://jsfiddle.net/Y9Qq3/2/ */
+
+body {
+	background-color: #eee;
+}
+
+.node {
+}
+
+.node path {
+  /*stroke: #fff;*/
+  stroke-width: 1.5px;
+  stroke: #fff;
+}
+
+.circle {
+  
+}
+
+.node.highlighted path {
+	stroke: yellow;
+	stroke-width: 4px;
+	/*filter:url(#blur-effect-2);*/
+}
+
+
+.node.highlighted text.nodeLabelShadow {
+	stroke: yellow;
+	filter:url(#blur-effect-2);
+}
+
+
+path.link {
+	fill: none;
+    stroke: #999;
+    stroke-opacity: .6;
+    stroke-width: 4px;
+}
+
+path.link.highlighted {
+    stroke-width: 10px;
+    stroke: yellow ! important;
+}
+
+marker#linkUndirected {
+    fill: #0000ff;
+}
+
+marker#linkDirected {
+    fill: #00ff00;
+}
+
+marker#link {
+    fill: #ccc;
+}
+
+.node text.nodeLabel {
+  fill: black;
+  /*stroke: white;
+  //stroke-width: 1px;*/
+  font-family: Arial;
+}
+
+text.nodeLabelShadow {
+    stroke: white;
+    stroke-width: 4px;
+    stroke-opacity: .8;
+	font-family: Arial;
+}
+
+</style>
+<body>
 	
+<!--script src="http://d3js.org/d3.v3.min.js"></script-->
+<script src="../../../js/d3.js"></script>
+<script>
 
 var width = 800,
     height = 800,
@@ -141,26 +204,6 @@ d3.json("data.json", function(error, graph) {
             //.style("stroke-width", "8px");
 			.attr("class", "link highlighted");
 			
-			
-			// highlighting of identical resources (same URI)
-			var nodesWithSameURI = graph.nodes.filter(function(node) {
-                // Filter the list of links to only those links that have our target 
-                // node as a source or target
-                return node.uri === d.uri;})
-           .map(function(node) {
-                // Map the list of nodes to a simple array of the same-URI-nodes-indices
-                return node.index })
-				;
-				
-            svg.selectAll(".node").filter(function(node) {
-                // I filter the selection of all circles to only those that hold a node with an
-                // index in my listg of neighbors
-                return nodesWithSameURI.indexOf(node.index) > -1;
-            })
-			.attr("class", "node highlighted identical");
-			//.style("stroke", "red");
-			
-			// extend label to full label
 			d3.select(this).selectAll("text").text(function(d){return d.full_label});			
        
 		})
@@ -211,6 +254,7 @@ d3.json("data.json", function(error, graph) {
 	    .attr("dx", function(d){return 10})
 		.attr("dy", function(d){return 0})
 	    .text(function(d){return d.label})
+		//.attr("fill", "black")
 		;
 
 		elemEnter.append("text")
@@ -278,4 +322,3 @@ d3.json("data.json", function(error, graph) {
 </svg> 
 
 </body>
-</html>

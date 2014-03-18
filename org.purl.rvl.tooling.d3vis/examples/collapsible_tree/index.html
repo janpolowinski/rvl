@@ -1,36 +1,20 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
+  	<meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <link type="text/css" rel="stylesheet" href="d3_collapsibleTree.css"/>
-	<script src="d3.js"></script>
-    <script type="text/javascript" src="d3.layout.js"></script>
+	<link type="text/css" rel="stylesheet" href="../../css/main.css"/>
+	<script type="text/javascript" src="../../js/d3.min.js"></script>
+    <script type="text/javascript" src="../../js/d3.layout.js"></script>
     <style type="text/css">
 
 
-.node circle {
-  cursor: pointer;
-  fill: #fff;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
-
-.node text {
-  font-size: 11px;
-}
-
-path.link {
-  fill: none;
-  stroke: #ccc;
-  stroke-width: 1.5px;
-}
-
     </style>
-  </head>
-  <body>
-    <div id="body">
-    </div>
-    <script type="text/javascript">
+</head>
+<body><div id="body"></div>
+	
+<script type="text/javascript">
 
 var m = [20, 120, 20, 120],
     w = 1280 - m[1] - m[3],
@@ -50,7 +34,11 @@ var vis = d3.select("#body").append("svg:svg")
   .append("svg:g")
     .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
-d3.json("data.json", function(json) {
+d3.json("../../gen/json/tree-data.json", function(json) {
+	
+
+
+	
   root = json;
   root.x0 = h / 2;
   root.y0 = 0;
@@ -63,7 +51,7 @@ d3.json("data.json", function(json) {
   }
 
   // Initialize the display to show a few nodes.
-  root.children.forEach(toggleAll);
+  //root.children.forEach(toggleAll);
   //toggle(root.children[1]);
   //toggle(root.children[1].children[2]);
   //toggle(root.children[9]);
@@ -73,6 +61,13 @@ d3.json("data.json", function(json) {
 });
 
 function update(source) {
+	
+	 var symbolFunction = d3.svg.symbol()
+ 						.size(300)
+ 						.type(function (d) {return d.shape_d3_name})
+						;
+						
+						
   var duration = d3.event && d3.event.altKey ? 5000 : 500;
 
   // Compute the new tree layout.
@@ -89,19 +84,66 @@ function update(source) {
   var nodeEnter = node.enter().append("svg:g")
       .attr("class", "node")
       .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
-      .on("click", function(d) { toggle(d); update(d); });
-
-  var circle = nodeEnter.append("svg:circle")
+      .on("click", function(d) { toggle(d); update(d); })
+	  
+	  .on("mouseover", function(d) {
+	  		
+			// highlight this node
+			d3.select(this).attr("class", "node highlighted");
+			
+			// highlight identical nodes	
+			vis.selectAll(".node").filter(function(node) {
+			    return node.uri === d.uri;
+            })
+			.attr("class", "node highlighted identical");
+			
+			// extend label to full label
+			//d3.select(this).selectAll("text").text(function(d){return d.full_label});		
+				
+	  })
+	  .on("mouseout", function(d) {
+			d3.select(this).attr("class", "node");
+			d3.selectAll(".node").attr("class", "node");
+	  })
+	  
+	  ;
+	  
+	  /* // replaced by path from symbol factory below
+      var circle = nodeEnter.append("svg:circle")
       .attr("r", 1e-6)
       //.style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
-	  .style("fill", function(d) { return d.color_rgb_hex_combined });
+	  .style("fill", function(d) { return d.color_rgb_hex_combined });  */
+	 
+	 	var symbol = nodeEnter.append("path")
+    //.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+    //.attr("d", d3.svg.symbol());
+	  .attr("class", function(d) { return "node" })
+	 .attr("d", symbolFunction)
+	 .style("fill", function(d) { return d.color_rgb_hex_combined; })
+	 ;	
 
+
+	// A copy of the label as shadow for better readability
+	nodeEnter.append("svg:text")
+		.attr("class", "nodeLabelShadow")
+ 		.attr("x", function(d) { return d.children || d._children ? -10 : 10; })
+     	.attr("dy", ".35em")
+		.attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+	    .text(function(d){return d.label})
+		.style("visibility", "hidden")
+		//.style("fill-opacity", 1e-6)
+		;
+		
+		
   var label = nodeEnter.append("svg:text")
+  	 .attr("class","nodeLabel")
       .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
       .attr("dy", ".35em")
       .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
       .text(function(d) { return d.label; })
-      .style("fill-opacity", 1e-6);
+	  .style("visibility", "hidden")
+	  ;
+
 	  
    nodeEnter.append("svg:title")
 	      .text(function(d) { return d.full_label; });
@@ -111,13 +153,11 @@ function update(source) {
       .duration(duration)
       .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
 
-  nodeUpdate.select("circle")
-      .attr("r", 4.5)
-      //.style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
-	  .style("fill", function(d) { return d.color_rgb_hex_combined });
-
-  nodeUpdate.select("text")
-      .style("fill-opacity", 1);
+  nodeUpdate.select("path")
+      .style("visibility", "visible");
+	  
+  nodeUpdate.selectAll("text")
+      .style("visibility", "visible");
 
   // Transition exiting nodes to the parent's new position.
   var nodeExit = node.exit().transition()
@@ -125,11 +165,11 @@ function update(source) {
       .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
       .remove();
 
-  nodeExit.select("circle")
-      .attr("r", 1e-6);
+  nodeExit.select("path")
+      .style("visibility", "hidden");
 
-  nodeExit.select("text")
-      .style("fill-opacity", 1e-6);
+  nodeExit.selectAll("text")
+      .style("visibility", "hidden");
 
   // Update the links…
   var link = vis.selectAll("path.link")
@@ -179,6 +219,17 @@ function toggle(d) {
   }
 }
 
-    </script>
-  </body>
+</script>
+	
+<svg id="svg-effects">
+    <filter id="blur-effect-1">
+        <feGaussianBlur stdDeviation="0.9" />
+    </filter>
+
+    <filter id="blur-effect-2">
+        <feGaussianBlur stdDeviation="2" />
+    </filter>
+</svg> 
+
+</body>
 </html>

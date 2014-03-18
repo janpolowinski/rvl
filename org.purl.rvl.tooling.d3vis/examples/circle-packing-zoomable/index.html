@@ -1,41 +1,45 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<style>
-
-.node {
-  cursor: pointer;
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+	<link type="text/css" rel="stylesheet" href="../../css/main.css"/>
+	<script type="text/javascript" src="../../js/d3.min.js"></script>
+	<style type="text/css">
+	
+	
+	.node {
+	  cursor: pointer;
+	}
+	
+	.label,
+	.node--root,
+	.node--leaf {
+	  pointer-events: none;
+	}	
+	
+	
+	/* following is in conflict with main: */
+	
+.node:hover, .node.highlighted {
+	stroke: yellow;
+	stroke-width: 10px;
+	stroke-opacity:1;
 }
 
-.node:hover {
-  stroke: #000;
-  stroke-width: 1.5px;
+
+.node.highlighted.identical {
+	stroke: yellow;
 }
 
-.node--root {
-  stroke: #777;
-  stroke-width: 2px;
-}
+	
 
-.node--leaf {
-  fill: white;
-}
+	
+	</style>
+</head>
+<body><div id="body"></div>
 
-.label {
-  font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
-  text-anchor: middle;
-  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
-}
-
-.label,
-.node--root,
-.node--leaf {
-  pointer-events: none;
-}
-
-</style>
-<body>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script>
+<script type="text/javascript">
 
 var margin = 10,
     outerDiameter = 960,
@@ -49,7 +53,7 @@ var y = d3.scale.linear()
 
 var color = d3.scale.linear()
     .domain([-1, 5])
-    .range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
+    .range(["hsl(152,0%,80%)", "hsl(228,0%,40%)"])
     .interpolate(d3.interpolateHcl);
 
 var pack = d3.layout.pack()
@@ -63,10 +67,17 @@ var svg = d3.select("body").append("svg")
     .attr("height", outerDiameter)
   .append("g")
     .attr("transform", "translate(" + margin + "," + margin + ")");
+	
 
-d3.json("data.json", function(error, root) {
-  var focus = root,
+d3.json("../../gen/json/tree-data.json", function(error, root) {
+	
+     var focus = root,
       nodes = pack.nodes(root);
+	  
+  	 var symbolFunction = d3.svg.symbol()
+						.size(2000)
+						.type(function (d) {return d.shape_d3_name})
+					;
 
   svg.append("g").selectAll("circle")
       .data(nodes)
@@ -74,22 +85,74 @@ d3.json("data.json", function(error, root) {
       .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
       .attr("r", function(d) { return d.r; })
-      .style("fill", function(d) { return d.children ? color(d.depth) : null; })
-      .on("click", function(d) { return zoom(focus == d ? root : d); });
+      .style("fill", function(d) { return d.children ? color(d.depth) : "white"; })
+      .on("click", function(d) { return zoom(focus == d ? root : d); })
+	  
+	  .on("mouseover", function(d) {
+	  		
+			// highlight this node
+			//d3.select(this).attr("class", "node highlighted");
+			
+			// highlight identical nodes	
+			svg.selectAll(".node").filter(function(node) {
+			    return node.uri === d.uri;
+            })
+			.attr("class", "node highlighted identical");
+			
+			/*
+			svg.selectAll(".node--leaf").filter(function(node) {
+			    return node.uri === d.uri;
+            })
+			.attr("class", "node node--leaf");*/
+			
+			// extend label to full label
+			//d3.select(this).selectAll("text").text(function(d){return d.full_label});		
+				
+	  })
+	  .on("mouseout", function(d) {
+			//d3.select(this).attr("class", "node");
+			svg.selectAll(".node").attr("class", "node");
+			
+			/*
+			svg.selectAll(".node--leaf").attr("class", "node node--leaf");*/
+			
+	  })
+	  ;
+	  
+	  
+	  
+  svg.append("g").selectAll("path")
+	.data(nodes)
+	.enter().append("path")
+    //.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+    //.attr("d", d3.svg.symbol());
+	  .attr("class", "symbol")
+	 .attr("d", symbolFunction)
+	 .style("fill", function(d) { return d.color_rgb_hex_combined; })
+	 .style("visibility", function(d) {
+	 	 /*alert(d.shape_d3_name);*/ 
+		 return (d.shape_d3_name ==  "circle" || d.shape_d3_name ==  undefined) ? "hidden" : "visible"; 
+		 })
+	 ;	
+	 
+	 
 
+	 
   svg.append("g").selectAll("text")
       .data(nodes)
     .enter().append("text")
-      .attr("class", "label")
+      .attr("class", "label nodeLabel")
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
       .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
       .style("display", function(d) { return d.parent === root ? null : "none"; })
       .text(function(d) { return d.label; });
+	  
 
   d3.select(window)
       .on("click", function() { zoom(root); });
 
   function zoom(d, i) {
+  	
     var focus0 = focus;
     focus = d;
 
@@ -98,7 +161,7 @@ d3.json("data.json", function(error, root) {
     y.domain([d.y - d.r, d.y + d.r]);
     d3.event.stopPropagation();
 
-    var transition = d3.selectAll("text,circle").transition()
+    var transition = d3.selectAll("path,text,circle").transition()
         .duration(d3.event.altKey ? 7500 : 750)
         .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
 
@@ -111,8 +174,12 @@ d3.json("data.json", function(error, root) {
         .each("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
         .each("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
   }
+  
+  
 });
 
 d3.select(self.frameElement).style("height", outerDiameter + "px");
 
 </script>
+</body>
+</html>
