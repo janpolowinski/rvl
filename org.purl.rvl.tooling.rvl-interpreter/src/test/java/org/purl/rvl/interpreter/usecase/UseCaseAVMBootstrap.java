@@ -16,14 +16,16 @@ public class UseCaseAVMBootstrap extends TestOGVICProcess {
 		process.setWriteAVM(false);
 		process.setUriStart("http://purl.org/viso/graphic/");
 		process.setUriStart("");
-		process.setJsonFileNameRel("../org.purl.rvl.tooling.d3vis/gen/json/graph-data.json");
+		
+		//process.setJsonFileNameRel("../org.purl.rvl.tooling.d3vis/gen/json/graph-data.json");
+		process.setJsonFileNameRel("../org.purl.rvl.tooling.d3vis/gen/json/tree-data.json");
 
 		process.registerMappingFile(ExampleMapping.RVL_EXAMPLE_BOOTSTRAP);
 		process.registerDataFile(ExampleData.AVM);
 		
 		process.setRvlInterpreter(new SimpleRVLInterpreter());
-		process.setD3Generator(new D3GeneratorSimpleJSON());
-		//process.setD3Generator(new D3GeneratorTreeJSON());
+		//process.setD3Generator(new D3GeneratorSimpleJSON());
+		process.setD3Generator(new D3GeneratorTreeJSON());
 		
 		process.runOGVICProcess();
 	}

@@ -36,7 +36,7 @@
             
             var force = d3.layout.force()
                 .charge(-900)
-                .linkDistance(100)
+                .linkDistance(200)
                 .size([width, height])
             	;
             
@@ -61,11 +61,13 @@
                 .append("svg:path")
                 .attr("d", "M0,-5L10,0L0,5");
             
-            d3.json("../../gen/json/graph-data.json", function(error, graph) {
+            //d3.json("../../gen/json/graph-data.json", function(error, graph) {
+			d3.json("graph-data.json", function(error, graph) {
             	
             	 var symbolFunction = d3.svg.symbol()
              						.size(1500)
              						.type(function (d) {return d.shape_d3_name})
+									//.type("cross")
             						;
             	
             	  var forceVar = force
@@ -74,9 +76,73 @@
             	  forceVar.start();
             		  
             		  
-            	 /* links / edges */
-            		 
-            		  /*
+            	 /* links / edges with label and tooltip */
+            
+            		var connectorGroup = svg.selectAll(".connectorGroup")
+                    .data(graph.links)
+                    .enter().append("svg:g")
+                    .attr("class", function (d) { return "connectorGroup link" + d.type; })  
+            		;
+            		
+            		// var path = svg.selectAll(".link")
+                    //.data(graph.links)
+                    var path = connectorGroup.append("svg:path")
+                    .attr("class", function (d) { return "link link" + d.type; })  
+            		//.style("stroke", function(d) { return d.color_rgb_hex; })
+            		.style("stroke", function(d) { return d.color_rgb_hex_combined; })
+            		.attr("marker-end", function (d) {
+                    	//return "url(#" + d.type + ")";
+            			return "url(#" + "link" + ")";
+                	})
+					.attr("marker-mid", function (d) {
+            			return "url(#" + "markerSquare" + ")";
+                	})
+					.attr("id", function(d){
+                    	return d.source.index + "_" + d.target.index;
+                	})
+            		;
+					
+					/* alternative: label aligned at the connector path */
+
+					 var path_label = svg.append("svg:g").selectAll(
+				    ".path_label").data(force.links()).enter()
+				    .append("svg:text").attr("class",
+				        "path_label").append(
+				        "svg:textPath").attr(
+				        "startOffset", "50%").attr(
+				        "text-anchor", "middle").attr(
+				        "xlink:href", function (d) {
+				            return "#" + d.source.index +
+				                "_" + d.target.index;
+				        }).style("fill", "#fff").style(
+				        "font-family", "Arial").text(
+				        function (d) {
+				            return d.type;
+				        });
+            		
+            		var connectorLabelGroup = connectorGroup.append("svg:g")
+            		.attr("class", "label")
+            		;
+					
+
+            
+            		var connectorLabelSymbol = connectorLabelGroup.append("path")
+            		 .attr("class", function(d) { return "connectorLabelGroup" })
+        			 .attr("d", symbolFunction)
+        			 .style("fill", function(d) { return d.color_rgb_hex_combined; })
+        			 ;	
+					 
+					var connectorLabelText = connectorLabelGroup.append("text")
+            		.attr("class", "label")
+            	    //.attr("dx", function(d){return 100})
+            		//.attr("dy", function(d){return 100})
+            	    .text(function(d){return d.label + " (" + d.type + ")" })
+            		;
+            		
+            		//path.append("svg:title")
+            	    //  .text(function(d) { return d.label; });
+            		  
+            		              		  /*
             	  var link = svg.selectAll(".link")
             	      .data(graph.links)
             	    .enter().append("line")
@@ -86,21 +152,6 @@
             		  .style("stroke-width", function(d) { return 10 })
             		  ;
             		  */
-            		  
-            		 var path = svg.selectAll(".link")
-                    .data(graph.links)
-                    .enter().append("svg:path")
-                    .attr("class", function (d) { return "link link" + d.type; })  
-            		//.style("stroke", function(d) { return d.color_rgb_hex; })
-            		.style("stroke", function(d) { return d.color_rgb_hex_combined; })
-            		.attr("marker-end", function (d) {
-                    	//return "url(#" + d.type + ")";
-            			return "url(#" + "link" + ")";
-                	})
-            		;
-            		
-            		path.append("svg:title")
-            	      .text(function(d) { return d.label; });
             	
             	  /* nodes */ 
             	
@@ -252,13 +303,39 @@
             	  // Use elliptical arc path segments to doubly-encode directionality.
                 //function tick() {
             	force.on("tick", function() {
+            		
+            		/* position the connector paths */
                     path.attr("d", function (d) {
                         var dx = d.target.x - d.source.x,
                             dy = (d.target.y - d.source.y),
                             dr = Math.sqrt(dx * dx + dy * dy);
-                        return "M" + d.source.x + "," + d.source.y + "A" + (dr - drSub) + "," + (dr - drSub) + " 0 0,1 " + d.target.x + "," + d.target.y;
+                        //return "M" + d.source.x + "," + d.source.y + "A" + (dr - drSub) + "," + (dr - drSub) + " 0 0,1 " + d.target.x + "," + d.target.y;
+						return "M" + d.source.x + "," + d.source.y + "L" + (d.source.x + 100)  + "," + (d.source.y + 100) + " L" + d.target.x + "," + d.target.y;
                     });
             
+            
+            		/* position the connector labels */
+            		/*var ICONSIZE = 200;
+					
+					//connectorGroup.selectAll(".label")
+            		connectorLabel
+					.attr("transform", function (d) {
+            			var x = d.source.x + (d.target.x - d.source.x - ICONSIZE) / 2;
+            		    var y = d.source.y + (d.target.y - d.source.y - ICONSIZE) / 2;
+                         return "translate(" + x + "," + y + ")";
+                    });
+					*/
+					
+					ICONSIZE = 0; // TODO does not actually work. hack!
+					//symbol2
+					connectorLabelGroup
+					.attr("transform", function (d) {
+            			var x = d.source.x + (d.target.x - d.source.x - ICONSIZE) / 2;
+            		    var y = d.source.y + (d.target.y - d.source.y - ICONSIZE) / 2;
+                         return "translate(" + x + "," + y + ")";
+                    });
+            
+            		/* position the nodes */
                     elemEnter.attr("transform", function (d) {
                         return "translate(" + d.x + "," + d.y + ")";
                     });
@@ -270,8 +347,13 @@
             	  
             
             });
-            
+                                                            
+                                                        
+                                            
+                                
+                    
         </script>
+		
         <!-- somehow MUST NOT be before the script! -->
         <svg id="svg-effects">
             <filter id="blur-effect-1">
@@ -280,6 +362,17 @@
             <filter id="blur-effect-2">
                 <feGaussianBlur stdDeviation="2" />
             </filter>
+			<defs>
+  <marker id="markerSquare" markerWidth="7" markerHeight="7" refx="4" refy="4"
+          orient="auto">
+      <rect x="1" y="1" width="5" height="5" style="stroke: none; fill:#000000;"/>
+  </marker>
+
+  <marker id="markerArrow" markerWidth="13" markerHeight="13" refx="2" refy="7"
+          orient="auto">
+      <path d="M2,2 L2,13 L8,7 L2,2" style="fill: #000000;" />
+  </marker>
+</defs>
         </svg>
     </body>
 </html>

@@ -51,6 +51,7 @@ body {
 
 .label {
   font-family: Arial;
+  font-size: 12px;
   text-anchor: middle;
   text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
 }
@@ -81,12 +82,28 @@ body {
 }
 
 .node.highlighted.identical text.nodeLabelShadow {
-	stroke: orange;
+	stroke: yellow;
 	stroke-opacity:.4;
 }
 
+.connectorGroup .label {
+  fill: #555;
+  font-size: 10px;
+  text-anchor: middle;
+  text-shadow: 0 1px 0 #ccc, 1px 0 0 #ccc, -1px 0 0 #ccc, 0 -1px 0 #ccc;
+  visibility: hidden;
+}
 
+.connectorGroup:hover .label {
+  fill: black;
+  font-size: 12px;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+  visibility: visible;
+}
 
+.connectorGroup:hover .link {
+  stroke: yellow ! important;
+}
 
 /* links and arrows */
 
