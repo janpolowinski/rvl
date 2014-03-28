@@ -1,0 +1,33 @@
+{
+    "nodes": [{
+        "uri": "http:\/\/purl.org\/rvl\/example-data\/Spain",
+        "label": "Spain",
+        "full_label": "Spain",
+        "color_rgb_hex": "#ffff00",
+        "color_hsl_lightness": 0.0,
+        "color_rgb_hex_combined": "#000000",
+        "width": 15,
+        "shape_d3_name": "circle"
+    }, {
+        "uri": "http:\/\/purl.org\/rvl\/example-data\/Gelsenkirchen",
+        "label": "Gelsenkirchen",
+        "full_label": "Gelsenkirchen",
+        "color_rgb_hex": "#cccccc",
+        "color_hsl_lightness": 50.0,
+        "color_rgb_hex_combined": "#dddddd",
+        "width": 15,
+        "shape_d3_name": "circle"
+    }
+    ],
+
+    "links": [{
+        "type": "Directed",
+        "source": 0,
+        "target": 1,
+        "value": "1",
+        "label": "partOf     (act...",
+        "full_label": "partOf     (actually the label of the connector representing this) ",
+        "color_hsl_lightness": 50.0,
+        "color_rgb_hex_combined": "#ff9900"
+    }]
+}

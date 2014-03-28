@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+     
+        <script type="text/javascript" src="d3.min.js">
+        </script>
+        <style type="text/css">
+ 
+
+
+div.labelContainer {
+    display:-webkit-box;
+   /*border:3px solid blue;*/
+    padding:0px;
+    position:absolute;
+	/*top:200px;
+	left:200px;*/
+	margin:0;
+}
+
+.label {
+    border-color:red;
+	margin:-10px; /* will be set bei JS */
+}
+
+
+.topLeft {
+	-webkit-box-align:start;
+    -webkit-box-pack:start;
+}
+.topRight {
+	 -webkit-box-align:start;
+    -webkit-box-pack:end;
+}
+.topCenter {
+	 -webkit-box-align:start;
+    -webkit-box-pack:center;
+}
+.bottomLeft {
+	 -webkit-box-align:end;
+    -webkit-box-pack:start;
+}
+.bottomRight {
+ 	-webkit-box-align:end;
+    -webkit-box-pack:end;
+}
+.bottomCenter {
+	-webkit-box-align:end;
+    -webkit-box-pack:center;
+}
+.centerLeft {
+	-webkit-box-align:center;
+    -webkit-box-pack:start;
+}
+.centerCenter {
+	-webkit-box-align:center;
+    -webkit-box-pack:center;
+}
+.centerRight {
+	-webkit-box-align:center;
+    -webkit-box-pack:end;
+}
+
+
+
+
+#labelContainerSpace {
+	position:absolute;
+	top:50px;
+	left:50px;
+	z-index: 2;
+    border:3px solid green;
+	width: 800px;
+	height:800px;
+}
+
+#svgSpace {
+	position:absolute;
+	top:50px;
+	left:50px;
+	z-index: 1;
+	border:3px solid red;
+	width: 800px;
+	height:800px;
+}
+
+.svgLabelIcon {
+	top:0px;
+	left:0px;
+}
+
+
+       </style>
+    </head>
+    <body>
+    	
+		
+	
+		<div id="labelContainerSpace">
+        </div>
+		
+        
+
+	
+<!--<div class="labelContainer topLeft">
+    <p class="label">topLeft</p>
+</div> 
+<div class="labelContainer topRight">
+    <p class="label">topRight</p>
+</div> 
+<div class="labelContainer centerCenter">
+    <p class="label">centerCenter</p>
+</div>
+<div class="labelContainer centerRight">
+    <p class="label">centerCenter</p>
+</div>  
+<div class="labelContainer bottomCenter">
+    <p class="label">centerCenter</p>
+</div>  -->
+
+<script type="text/javascript">
+	
+	var nodePosition= 100;
+	var nodeShapeSize = 200;
+	var labelShapeSize = nodeShapeSize/2;
+	
+	var svg = d3.select("body").append("svg")
+                .attr("id", "svgSpace");
+				
+				svg.append("svg:circle").attr("r", nodeShapeSize/2).attr("cx",nodePosition+nodeShapeSize/2).attr("cy",nodePosition+nodeShapeSize/2).style("fill","green");
+   				
+	/*
+	var labelContainerTR = d3.select("#labelContainerSpace")
+		.append("div")
+		.attr("class","labelContainer topRight")
+		.style("top",nodePosition +"px")
+		.style("left",nodePosition +"px")
+		.style("height",nodeShapeSize +"px")
+		.style("width",nodeShapeSize +"px");
+		
+	labelContainerTR.append("p")
+		.attr("class","label")
+		.html("test");
+		*/
+		
+				
+	var labelContainerCR = d3.select("#labelContainerSpace")
+		.append("div")
+		.attr("class","labelContainer centerRight")
+		.style("top",nodePosition +"px")
+		.style("left",nodePosition +"px")
+		.style("height",nodeShapeSize +"px")
+		.style("width",nodeShapeSize +"px");
+	
+		labelContainerCR.append("svg")
+			.attr("class", "svgLabelIcon")
+			.attr("width",labelShapeSize +"px")
+			.attr("height",labelShapeSize +"px")
+			.style("margin",-labelShapeSize/2.75 + "px")
+			.append("svg:circle").attr("r", labelShapeSize/2).attr("cx",labelShapeSize/2).attr("cy",labelShapeSize/2).style("fill","red");
+
+	
+
+	</script>
+	
+	
+</body>
+	
+	
+	
+
+
+
+
+</html>

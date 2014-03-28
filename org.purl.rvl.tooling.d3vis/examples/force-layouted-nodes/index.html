@@ -34,7 +34,7 @@ var width = 800,
 
 //var color = d3.scale.category20();
 
-var force = d3.layout.force()
+var force = self.force = d3.layout.force()
     .charge(-900)
     .linkDistance(100)
     .size([width, height])
@@ -70,8 +70,10 @@ d3.json("../../gen/json/graph-data.json", function(error, graph) {
 	
 	  var forceVar = force
 	      .nodes(graph.nodes);
-	  if(drawLinks) forceVar.links(graph.links)
-	  forceVar.start();
+	  if (drawLinks) {
+	  	forceVar.links(graph.links)
+	  }
+	  	forceVar.start();
 		  
 		  /*
 	  var link = svg.selectAll(".link")
@@ -98,16 +100,41 @@ d3.json("../../gen/json/graph-data.json", function(error, graph) {
 		
 		path.append("svg:title")
 	      .text(function(d) { return d.label; });
+		  
+		  
+		  var node_drag = d3.behavior.drag()
+        .on("dragstart", dragstart)
+        .on("drag", dragmove)
+        .on("dragend", dragend);
+		
+		function dragstart(d, i) {
+        forceVar.stop() // stops the force auto positioning before you start dragging
+    }
+
+    function dragmove(d, i) {
+        d.px += d3.event.dx;
+        d.py += d3.event.dy;
+        d.x += d3.event.dx;
+        d.y += d3.event.dy; 
+        tick(); // this is the key to make it work together with updating both px,py,x,y on d !
+    }
+
+    function dragend(d, i) {
+        d.fixed = true; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
+        tick();
+        forceVar.resume();
+    }
+
 	
 
 	    /*Create and place the "blocks" containing the circle and the text */  
-    	var elemEnter = svg.selectAll(".node")
+    	var nodeEnter = svg.selectAll(".node")
 	      .data(graph.nodes).enter()
 	    .append("g")
 		.attr("class", "node")
 	    //.attr("transform", function(d){return "translate("+d.x+",80)"})
 		//.attr("transform", function(d){return "translate(+20,80)"})
-		.call(force.drag)
+		.call(node_drag)
 		
 		.on("mouseover", function(d) { 
 
@@ -163,7 +190,9 @@ d3.json("../../gen/json/graph-data.json", function(error, graph) {
 			//.style("stroke", "red");
 			
 			// extend label to full label
-			d3.select(this).selectAll("text").text(function(d){return d.full_label});			
+			d3.select(this).selectAll("text").text(function(d){return d.full_label});	
+			
+			//d.fixed = false;		
        
 		})
 		.on("mouseout",  function(d) { 
@@ -180,10 +209,13 @@ d3.json("../../gen/json/graph-data.json", function(error, graph) {
 			d3.select(this).selectAll("text").text(function(d){return d.label});
 
 			})
+		.on("dblclick",  function(d) { 
 		
+			d.fixed = false;	
+			})
 		;
 	
-	var symbol = elemEnter.append("path")
+	var symbol = nodeEnter.append("path")
     //.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
     //.attr("d", d3.svg.symbol());
 	  .attr("class", function(d) { return "node" })
@@ -196,7 +228,7 @@ d3.json("../../gen/json/graph-data.json", function(error, graph) {
 	  //svg.selectAll(".node")
 	    //  .data(graph.nodes)
 	      //.enter().
-		  elemEnter.append("svg:circle")
+		  nodeEnter.append("svg:circle")
 	      .attr("class", function(d) { return "node " + d.shape_d3_name; })
 	      .attr("r", function(d) { return d.width; })
 	      //.style("fill", function(d) { return d.color_rgb_hex; })
@@ -206,16 +238,15 @@ d3.json("../../gen/json/graph-data.json", function(error, graph) {
 		  */
 		  	
 			
-		  
 	// A copy of the label as shadow for better readability
-	elemEnter.append("text")
+	nodeEnter.append("text")
 		.attr("class", "nodeLabelShadow")
 	    .attr("dx", function(d){return 10})
 		.attr("dy", function(d){return 0})
 	    .text(function(d){return d.label})
 		;
-
-		elemEnter.append("text")
+	
+	nodeEnter.append("text")
 		.attr("class", "nodeLabel")
 	    .attr("dx", function(d){return 10})
 		.attr("dy", function(d){return 0})
@@ -223,10 +254,10 @@ d3.json("../../gen/json/graph-data.json", function(error, graph) {
 	    //.text(function(d){return d.label + " lightness: " +  d.color_hsl_lightness + " rgb combined: " + d.color_rgb_hex_combined + " rgb pure: " + d.color_rgb_hex  })
 		//.text(function(d){return d.label + " (shape: " + d.shape_d3_name + ")"})
 		;
-		
+	
 		
 	
-   elemEnter.append("svg:title")
+   nodeEnter.append("svg:title")
 	      .text(function(d) { return d.full_label; });
 	
 	/*
@@ -239,7 +270,7 @@ d3.json("../../gen/json/graph-data.json", function(error, graph) {
 	  //  circle.attr("cx", function(d) { return d.x; })
 	    //    .attr("cy", function(d) { return d.y; });
 			
-		elemEnter.attr("transform", function(d){return "translate("+d.x+","+d.y+")" });
+		nodeEnter.attr("transform", function(d){return "translate("+d.x+","+d.y+")" });
 	  });
 	  
 	  */
@@ -247,7 +278,7 @@ d3.json("../../gen/json/graph-data.json", function(error, graph) {
 	  
 	  // Use elliptical arc path segments to doubly-encode directionality.
     //function tick() {
-	force.on("tick", function() {
+	tick = function() {
         path.attr("d", function (d) {
             var dx = d.target.x - d.source.x,
                 dy = (d.target.y - d.source.y),
@@ -255,14 +286,16 @@ d3.json("../../gen/json/graph-data.json", function(error, graph) {
             return "M" + d.source.x + "," + d.source.y + "A" + (dr - drSub) + "," + (dr - drSub) + " 0 0,1 " + d.target.x + "," + d.target.y;
         });
 
-        elemEnter.attr("transform", function (d) {
+        nodeEnter.attr("transform", function (d) {
             return "translate(" + d.x + "," + d.y + ")";
         });
 
        /* text.attr("transform", function (d) {
             return "translate(" + d.x + "," + d.y + ")";
         });*/
-    });
+    };
+	
+	force.on("tick", tick);
 	  
 
 });

@@ -418,7 +418,7 @@ rexm:PMwithNamedSubmappingToNamedMappingOnConnector
       rdfs:label "PM with a sub-mapping to an existing, named mapping"^^xsd:string ;
       rvl:sourceProperty rexd:exportsTo ;
       rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
-      rvl:subMapping rexm:NamedSubMappingRelation 
+      rvl:subMapping rexm:NamedSubMappingRelation , rexm:NamedSubMappingRelation2
       .
       
 rexm:PMwithNamedSubmappingToNamedMappingOnConnector2
@@ -428,7 +428,7 @@ rexm:PMwithNamedSubmappingToNamedMappingOnConnector2
       rvl:invertSourceProperty
               "true"^^xsd:boolean ;
       rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
-      rvl:subMapping rexm:NamedSubMappingRelation 
+      rvl:subMapping rexm:NamedSubMappingRelation , rexm:NamedSubMappingRelation2
       .
       
 rexm:NamedSubMappingRelation
@@ -440,7 +440,13 @@ rexm:NamedSubMappingRelation
     #rvl:subMapping-mapping rexm:PMfromID2ColorNamed .
     rvl:subMapping-mapping rexm:PMfromID2ColorNamedAutomaticOrdered .
     #rvl:subMapping-mapping rexm:PMfromID2ColorNamedAutomaticContinuous .
-      
+    
+rexm:NamedSubMappingRelation2
+    rdf:type rvl:SubMappingRelation ;  
+	rvl:subMapping-onRole vg:linking_connector;
+    rvl:subMapping-onTriplePart rdf:predicate;
+    rvl:subMapping-mapping rexm:ShapeMappingToBeUsedAsSubmapping .
+
       
 # sub-mapping - supported
 rexm:PMwithAnonymousSubmappingToNamedMappingOnConnector
@@ -575,6 +581,24 @@ rexm:PMfromID2ColorNamedAutomaticContinuous
         ];
  	  ].  
       
+      
+      
+rexm:ShapeMappingToBeUsedAsSubmapping
+      rvl:disabled "false"^^xsd:boolean ;
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "ShapeMappingToBeUsedAsSubmapping"^^xsd:string ;
+      rvl:sourceProperty rvl:ID ;
+      rvl:targetAttribute vg:shape_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:partOf;
+        rvl:targetValue common-shapes:Rhomb;
+      ],[
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:exportsTo ;
+        rvl:targetValue common-shapes:Square;
+      ]
+      .
       
       
       

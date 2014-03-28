@@ -18,14 +18,16 @@
             var drawLinks = true; // choose whether only nodes should be drawn and layouted
             	
             
-            var width = 800,
-                height = 800,
+            var width = 1400,
+                height = 1200,
             	markerWidth = 3,
                 markerHeight = 3,
                 cRadius = 12,
                 refX = cRadius + (markerWidth * 2),
-                refY = -Math.sqrt(cRadius)
-                drSub = cRadius + refY
+                refY = -Math.sqrt(cRadius),
+                drSub = cRadius + refY,
+				manualArcLabelPositionCorrection = 27,
+				ICONSIZE = 0; // TODO does not actually work. hack!
             ;
             
             					 
@@ -34,15 +36,19 @@
             
             //var color = d3.scale.category20();
             
-            var force = d3.layout.force()
+            var force = self.force = d3.layout.force()
                 .charge(-900)
                 .linkDistance(200)
                 .size([width, height])
             	;
+				
+			var mInfo = d3.select("body").append("div");
             
             var svg = d3.select("body").append("svg")
                 .attr("width", width)
                 .attr("height", height);
+				
+				
             	
             	
             	
@@ -61,8 +67,8 @@
                 .append("svg:path")
                 .attr("d", "M0,-5L10,0L0,5");
             
-            //d3.json("../../gen/json/graph-data.json", function(error, graph) {
-			d3.json("graph-data.json", function(error, graph) {
+            d3.json("../../gen/json/graph-data.json", function(error, graph) {
+			//d3.json("graph-data-1.json", function(error, graph) {
             	
             	 var symbolFunction = d3.svg.symbol()
              						.size(1500)
@@ -117,7 +123,7 @@
 				        }).style("fill", "#fff").style(
 				        "font-family", "Arial").text(
 				        function (d) {
-				            return d.type;
+				            return d.label;
 				        });
             		
             		var connectorLabelGroup = connectorGroup.append("svg:g")
@@ -141,6 +147,34 @@
             		
             		//path.append("svg:title")
             	    //  .text(function(d) { return d.label; });
+					
+					
+					
+					/* manual node psoitioning */
+					
+					  var node_drag = d3.behavior.drag()
+				        .on("dragstart", dragstart)
+				        .on("drag", dragmove)
+				        .on("dragend", dragend);
+						
+						function dragstart(d, i) {
+				        forceVar.stop() // stops the force auto positioning before you start dragging
+				    }
+				
+				    function dragmove(d, i) {
+				        d.px += d3.event.dx;
+				        d.py += d3.event.dy;
+				        d.x += d3.event.dx;
+				        d.y += d3.event.dy; 
+				        tick(); // this is the key to make it work together with updating both px,py,x,y on d !
+				    }
+				
+				    function dragend(d, i) {
+				        d.fixed = true; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
+				        tick();
+				        forceVar.resume();
+				    }
+
             		  
             		              		  /*
             	  var link = svg.selectAll(".link")
@@ -161,7 +195,7 @@
             		.attr("class", "node")
             	    //.attr("transform", function(d){return "translate("+d.x+",80)"})
             		//.attr("transform", function(d){return "translate(+20,80)"})
-            		.call(force.drag)
+            		.call(node_drag)
             		
             		.on("mouseover", function(d) { 
             
@@ -234,6 +268,9 @@
             			d3.select(this).selectAll("text").text(function(d){return d.label});
             
             			})
+					.on("dblclick",  function(d) { 
+						d.fixed = false;	
+					})
             		
             		;
             	
@@ -302,15 +339,24 @@
             	  
             	  // Use elliptical arc path segments to doubly-encode directionality.
                 //function tick() {
-            	force.on("tick", function() {
+            	tick = function() {
             		
             		/* position the connector paths */
                     path.attr("d", function (d) {
                         var dx = d.target.x - d.source.x,
                             dy = (d.target.y - d.source.y),
                             dr = Math.sqrt(dx * dx + dy * dy);
-                        //return "M" + d.source.x + "," + d.source.y + "A" + (dr - drSub) + "," + (dr - drSub) + " 0 0,1 " + d.target.x + "," + d.target.y;
-						return "M" + d.source.x + "," + d.source.y + "L" + (d.source.x + 100)  + "," + (d.source.y + 100) + " L" + d.target.x + "," + d.target.y;
+                        return "M" + d.source.x + "," + d.source.y + "A" + (dr - drSub) + "," + (dr - drSub) + " 0 0,1 " + d.target.x + "," + d.target.y; // an arc
+						//return "M" + d.source.x + "," + d.source.y + " L" + d.target.x + "," + d.target.y; // a line
+						/*
+						var pathString = 
+							"M" + d.source.x + "," + d.source.y +
+						   " L" + (dr - drSub) + "," + (dr - drSub) +  
+						   " L" + d.target.x + "," + d.target.y; 
+						   // a line with extra node
+						
+						return pathString; 
+						*/	
                     });
             
             
@@ -326,13 +372,69 @@
                     });
 					*/
 					
-					ICONSIZE = 0; // TODO does not actually work. hack!
 					//symbol2
 					connectorLabelGroup
 					.attr("transform", function (d) {
-            			var x = d.source.x + (d.target.x - d.source.x - ICONSIZE) / 2;
-            		    var y = d.source.y + (d.target.y - d.source.y - ICONSIZE) / 2;
-                         return "translate(" + x + "," + y + ")";
+						
+						
+						// switch direction if not in positive x-direction
+						var sx,sy,tx,ty;
+						if (d.source.x <= d.target.x ) {
+							sx = d.source.x;
+							sy = d.source.y;
+							tx = d.target.x;
+							ty = d.target.y;
+						} else {
+							sx = d.target.x;
+							sy = d.target.y;
+							tx = d.source.x;
+							ty = d.source.y;
+						}
+						
+						var dx = tx - sx,
+                            dy = (ty - sy),
+                            dr = Math.sqrt(dx * dx + dy * dy);
+						
+            			var xmid = sx + (dx - ICONSIZE) / 2;
+            		    var ymid = sy + (dy - ICONSIZE) / 2;
+						
+						var c = manualArcLabelPositionCorrection;
+						
+						var m = -(dx/dy);
+						
+						var b = Math.sqrt((c*c)/(m*m+1));
+						var a = Math.sqrt((c*c)-b*b); 
+						
+						// hack: strech for larger node distances
+						b = b*0.005*dr;
+						a = a*0.005*dr;
+						
+						//mInfo.html("m = " + m + "<br> b = " + b + "<br>a = " + a);
+						
+						// adapt position differently depending on 4 quadrants
+						var x,y;
+						if (d.source.x <= d.target.x) {
+							if (m > 0) {
+								x = xmid - b;
+								y = ymid - a;
+							}
+							else if (m <= 0) {
+								x = xmid + b;
+								y = ymid - a;
+							}
+						}
+						else {
+							if (m < 0) {
+								x = xmid - b;
+								y = ymid + a;
+							}
+							else if (m >= 0) {
+								x = xmid + b;
+								y = ymid + a;
+							}
+						} 
+
+                      return "translate(" + x + "," + y + ")";
                     });
             
             		/* position the nodes */
@@ -343,7 +445,9 @@
                    /* text.attr("transform", function (d) {
                         return "translate(" + d.x + "," + d.y + ")";
                     });*/
-                });
+                };
+				
+				force.on("tick", tick);
             	  
             
             });

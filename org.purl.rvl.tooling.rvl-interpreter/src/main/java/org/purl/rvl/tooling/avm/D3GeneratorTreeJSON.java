@@ -248,6 +248,11 @@ private Map generateObjectFor(Containment rel) {
 		
 		return child;
 	}
+
+@Override
+public String getGenJSONFileName() {
+	return "tree-data.json";
+}
 	
 
 	

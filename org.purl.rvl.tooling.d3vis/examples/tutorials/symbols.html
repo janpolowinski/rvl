@@ -1,8 +1,13 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<style>
-
-.bar {
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+        <script type="text/javascript" src="../../js/d3.min.js">
+        </script>
+        <style type="text/css">
+        	
+        	.bar {
   fill: steelblue;
 }
 
@@ -20,50 +25,45 @@
 .x.axis path {
   display: none;
 }
+        
+        </style>
+    </head>
+    <body>
 
-</style>
 
-<body></body>
 
-<script src="d3.min.js"></script>
-<script>
+<script type="text/javascript">
 
 //The data for our line
  var lineData = [ { "x": 1,   "y": 5, "shape" : "circle"},  { "x": 20,  "y": 20, "shape" : "circle"},
                   { "x": 40,  "y": 10, "shape" : "diamond"}, { "x": 60,  "y": 40, "shape" : "circle"},
                   { "x": 80,  "y": 5, "shape" : "cross"},  { "x": 100, "y": 60, "shape" : "triangle-up"}];
  
- //This is the accessor function we talked about above
- var lineFunction = d3.svg.line()
-                          .x(function(d) { return d.x; })
-                          .y(function(d) { return d.y; })
-                         .interpolate("linear");
-			
-			 
- var symbolFunction = d3.svg.symbol()
- 						.size(200)
- 						.type(function (d) {return d.shape})
-						;					 
-
-//The SVG Container
-var svgContainer = d3.select("body").append("svg")
-                                    .attr("width", 200)
-                                    .attr("height", 200);
-
-//The line SVG Path we draw
-var lineGraph = svgContainer.append("path")
-                            .attr("d", lineFunction(lineData))
-							.attr("stroke", "blue")
-                            .attr("stroke-width", 2)
-                            .attr("fill", "none");
-
-
-svgContainer.selectAll("path")
-    .data(lineData)
-  .enter().append("path")
-    .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
-    //.attr("d", d3.svg.symbol());
-	 .attr("d", symbolFunction);	 
+ 
 	  
 
 </script>
+
+        <!-- somehow MUST NOT be before the script! -->
+        <svg id="svg-effects">
+            <filter id="blur-effect-1">
+                <feGaussianBlur stdDeviation="0.9" />
+            </filter>
+            <filter id="blur-effect-2">
+                <feGaussianBlur stdDeviation="2" />
+            </filter>
+			<defs>
+  <marker id="markerSquare" markerWidth="7" markerHeight="7" refx="4" refy="4"
+          orient="auto">
+      <rect x="1" y="1" width="5" height="5" style="stroke: none; fill:#000000;"/>
+  </marker>
+
+  <marker id="markerArrow" markerWidth="13" markerHeight="13" refx="2" refy="7"
+          orient="auto">
+      <path d="M2,2 L2,13 L8,7 L2,2" style="fill: #000000;" />
+  </marker>
+</defs>
+        </svg>
+		
+		</body>
+		</html>

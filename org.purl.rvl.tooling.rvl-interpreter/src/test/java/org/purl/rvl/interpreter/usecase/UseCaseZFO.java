@@ -15,9 +15,6 @@ public class UseCaseZFO extends TestOGVICProcess {
 		
 		process.setUriStart("http://purl.org/obo/owl/ZFA");
 		
-		process.setJsonFileNameRel("../org.purl.rvl.tooling.d3vis/gen/json/tree-data.json");
-		//process.setJsonFileNameRel("../org.purl.rvl.tooling.d3vis/gen/json/graph-data.json");
-		
 		//process.registerMappingFile(ExampleMapping.ZFO_X);
 		process.registerMappingFile(ExampleMapping.ZFO_Y);
 		//process.registerDataFile(ExampleData.ZFO_SUBSET);

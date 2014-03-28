@@ -173,10 +173,12 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				link.put("source", goMap.get(startNode));
 				link.put("target", goMap.get(endNode));
 				link.put("value", "1");
-				link.put("label", connector.getLabel());
+				link.put("label", D3Utils.shortenLabel(connector.getLabel()));
+				link.put("full_label", connector.getLabel());
 				link.put("color_hsl_lightness", connector.getColorHSLLightness());
 				//link.put("color_rgb_hex", connector.getColorHex());
 				link.put("color_rgb_hex_combined", connector.getColorRGBHexCombinedWithHSLValues());
+				link.put("shape_d3_name", connector.getShape()); // TODO simplification. should use extra label GO
 				listOfLinks.add(link);
 				LOGGER.finer("Generated JSON link for " + dlRel + " (" + startNode.getLabel() + " --> " + endNode.getLabel() +")" );
 				}
@@ -261,6 +263,11 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 		d3data.put("links", listOfLinks);
 		
 		return d3data.toJSONString();
+	}
+
+	@Override
+	public String getGenJSONFileName() {
+		return "graph-data.json";
 	}
 	
 }

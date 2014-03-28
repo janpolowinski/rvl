@@ -169,7 +169,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				//GraphicObject connector = new GraphicObject(modelAVM, true);
 				GraphicObject connector = new GraphicObject(modelAVM,"http://purl.org/rvl/example-avm/GO_Connector_" + random.nextInt(), true);
 				//connector.setLabel(statement.getPredicate()); 
-		    	connector.setLabel("Connector representing " + AVMUtils.getGoodLabel(statement.getPredicate(), modelAVM)); // statement contains evtl. used subproperty
+		    	connector.setLabel(AVMUtils.getGoodLabel(statement.getPredicate(), modelAVM) + "     (actually the label of the connector representing this) "); // statement contains evtl. used subproperty
 				
 				// generic graphic relation needed for submappings 
 				// (could also be some super class of directed linking, undirected linking, containment ,...)

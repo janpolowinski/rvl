@@ -63,4 +63,6 @@ public abstract class D3GeneratorBase {
 	
 	public abstract String generateJSONforD3();
 	
+	public abstract String getGenJSONFileName();
+	
 }

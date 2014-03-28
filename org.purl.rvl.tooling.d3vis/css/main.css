@@ -53,7 +53,7 @@ body {
   font-family: Arial;
   font-size: 12px;
   text-anchor: middle;
-  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff; /* not yet supported in firefox it seems */
 }
 
 /* node labels */
@@ -91,7 +91,17 @@ body {
   font-size: 10px;
   text-anchor: middle;
   text-shadow: 0 1px 0 #ccc, 1px 0 0 #ccc, -1px 0 0 #ccc, 0 -1px 0 #ccc;
+  /*visibility: hidden;*/
+}
+
+.connectorGroup .label text {
   visibility: hidden;
+}
+
+/**/
+.connectorGroup .label path {
+  fill-opacity: .6;
+  transform: scale(0.5);
 }
 
 .connectorGroup:hover .label {

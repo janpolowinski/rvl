@@ -13,9 +13,6 @@ public class UseCaseRO extends TestOGVICProcess {
 		
 		process.setUriStart("http://purl.org/ro/semvis-example/");
 
-		process.setJsonFileNameRel("../org.purl.rvl.tooling.d3vis/gen/json/tree-data.json");
-		//process.setJsonFileNameRel("../org.purl.rvl.tooling.d3vis/gen/json/graph-data.json");
-	
 		process.registerMappingFile(ExampleMapping.RO);
 		process.registerDataFile(ExampleData.RO_SEMVIS);
 		
