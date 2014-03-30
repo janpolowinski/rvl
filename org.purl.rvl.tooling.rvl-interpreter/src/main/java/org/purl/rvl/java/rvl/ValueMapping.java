@@ -107,7 +107,7 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 	// cache calculated mappings
 	private Set<CalculatedValueMapping> cvms;
 
-	private Set<Statement> statementSet;  // the set of statements that the property mapping currently affects
+	private Set<Statement> affectedStatements;  // the set of statements that the property mapping currently affects
 	
 	
 	
@@ -612,13 +612,13 @@ public int calculateMappingSituation(){
  * Calculate concrete, explicit CalculatedValueMappings which represents
  * pairs of a (domain data) value and a graphic attribute value. The
  * calculated values are stored.
- * @param theStatementWithOurObject 
+ * @param affectedStatements - the set of statements that the property mapping currently affects 
  * 
  * @return
  */
-private Set<CalculatedValueMapping> calculateValueMappings(Set<Statement> statementSet) {
+private Set<CalculatedValueMapping> calculateValueMappings(Set<Statement> affectedStatements) {
 	
-	this.statementSet = statementSet;
+	this.affectedStatements = affectedStatements;
 
 	try {
 		
@@ -790,9 +790,9 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 					" will try to get values from the resource ... TOBEIMPLEMENTED");
 		}
 
-	} else if ((CC == caseID || CC_D == caseID ) && null != this.statementSet) {
+	} else if ((CC == caseID || CC_D == caseID ) && null != this.affectedStatements) {
 		
-		Set<Statement> statementSet = this.statementSet;
+		Set<Statement> statementSet = this.affectedStatements;
 		
 		int discreteStepCount = -1; 
 		float discreteStepSizeSv = -1; 
@@ -887,9 +887,9 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 		}
 		
 		
-	} else if (CO == caseID  && null != this.statementSet) { // || CU == caseID) {
+	} else if (CO == caseID  && null != this.affectedStatements) { // || CU == caseID) {
 		
-		Set<Statement> statementSet = this.statementSet;
+		Set<Statement> statementSet = this.affectedStatements;
 		
 		int discreteStepCount = -1; 
 		float discreteStepSizeSv = -1; 
@@ -979,9 +979,9 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 		
 		
 		
-	} else if (CU == caseID && null != this.statementSet) {
+	} else if (CU == caseID && null != this.affectedStatements) {
 		
-		Set<Statement> statementSet = this.statementSet;
+		Set<Statement> statementSet = this.affectedStatements;
 		
 		int discreteStepCount = -1; 
 		float discreteStepSizeSv = -1; 
@@ -1066,18 +1066,18 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 
 	LOGGER.finest("Calculated value mappings: " + cvms);
 	
-	if (null == this.statementSet) {
-		LOGGER.severe("Statament set was not available for calculation (probably null passed as a parameter). Mappings from continuous values may have been skipped.");
+	if (null == this.affectedStatements) {
+		LOGGER.severe("Statement set was not available for calculation (probably null passed as a parameter). Mappings from continuous values may have been skipped.");
 	}
 		
 	return cvms;
 
 }
 
-public Collection<CalculatedValueMapping> getCalculatedValueMappings(Set<Statement> statementSet) {
+public Collection<CalculatedValueMapping> getCalculatedValueMappings(Set<Statement> affectedStatements) {
 	
 	if (null == cvms) {
-		cvms = calculateValueMappings(statementSet);
+		cvms = calculateValueMappings(affectedStatements);
 	}
 	return cvms;
 }

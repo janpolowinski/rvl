@@ -140,10 +140,13 @@ public class PropertyToGraphicAttributeMapping extends
 		
 		// when this fails, try to get calculated values
 		if (null == explicitlyMappedValues || explicitlyMappedValues.isEmpty()) {
+			
+			LOGGER.fine("Could not find explicitly stated 1-1 value mappings, will try to calculate value mappings ... "); // TODO check this ...
+			
 			try {
-				explicitlyMappedValues = getCalculatedValues(null);
+				explicitlyMappedValues = getCalculatedValues(null); // TODO null OK???
 			} catch (Exception e) {
-				LOGGER.fine("Could not calculate values, will try to return explicit values."); // TODO check this ...
+				LOGGER.fine("Could neither find explicit nor calculate value mappings (will return empty set)"); 
 			}
 		}
 
@@ -191,20 +194,20 @@ public class PropertyToGraphicAttributeMapping extends
 	}
 
 	/**
-	 * Gets a set of explicit value mappings (resource node, graphic value node pairs) from implicit value mappings.
+	 * Gets a set of explicit value mappings (resource-node-graphic-value-node-pairs) from implicit value mappings.
 	 * TODO: CURRENTLY ONLY ONE VALUE MAPPING IS EVALUATED!
-	 * @param theStatementWithOurObject
+	 * @param the set of statements that the property mapping currently affects
 	 * @return
 	 */
-	public Map<Node, Node> getCalculatedValues(Set<Statement> theStatementWithOurObject) {
+	public Map<Node, Node> getCalculatedValues(Set<Statement> affectedStatements) {
 		
-		if (null == explicitlyMappedValues && hasValuemapping()) {
+		if ((null == explicitlyMappedValues || explicitlyMappedValues.isEmpty()) && hasValuemapping()) {
 
 			explicitlyMappedValues = new HashMap<Node, Node>();
 			
 			// TODO: we ignore other value mapping than the first at the moment! sometimes multiple are allowed!
 			
-			Collection<CalculatedValueMapping> cvms = getFirstValueMapping().getCalculatedValueMappings(theStatementWithOurObject);
+			Collection<CalculatedValueMapping> cvms = getFirstValueMapping().getCalculatedValueMappings(affectedStatements);
 			
 			for (Iterator<CalculatedValueMapping> iterator = cvms.iterator(); iterator.hasNext();) {
 				CalculatedValueMapping calculatedValueMapping = (CalculatedValueMapping) iterator.next();

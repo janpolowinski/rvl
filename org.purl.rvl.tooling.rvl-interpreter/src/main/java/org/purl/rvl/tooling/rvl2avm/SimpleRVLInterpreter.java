@@ -394,12 +394,12 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			
 			//Node property = (Node) model.getProperty(new URIImpl("http://purl.org/rvl/example-data/cites"));
 			
-			URI predicate = mainStatement.getPredicate();
-			Node colorNode = svUriTVuriMap.get(predicate);
+			URI sv = mainStatement.getPredicate();
+			Node tv = svUriTVuriMap.get(sv);
 			
 			// if we found a tv for the sv
-			if (null != colorNode && null != predicate) {
-				applyGraphicValueToGO(tga, colorNode, predicate, goToApplySubmapping);
+			if (null != tv && null != sv) {
+				applyGraphicValueToGO(tga, tv, sv, goToApplySubmapping);
 			}
 			
 		} else {
@@ -492,7 +492,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		} 
 			
 	}
-
+	
+	// may be moved to GraphicObject class
 	private void applyGraphicValueToGO(GraphicAttribute tga,
 			Node tv, Node sv, GraphicObject go) {
 		
