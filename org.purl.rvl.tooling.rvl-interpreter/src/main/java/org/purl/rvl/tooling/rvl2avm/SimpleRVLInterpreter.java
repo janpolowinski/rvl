@@ -349,8 +349,9 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			Mapping subMapping = smr.getSubMapping();
 			
 			if (subMapping.isDisabled()) {
-				LOGGER.info("The referenced submapping was disabled. Will ignore it");
-				continue;
+				//LOGGER.info("The referenced submapping was disabled. Will ignore it");
+				LOGGER.info("The referenced submapping was disabled but will still be used. TODO: implement 3 status ENABLED (default), DISABLED, USE-ONLY-AS-SUBMAPPING");
+				//continue;
 			}
 
 			PropertyToGraphicAttributeMapping p2gam = 

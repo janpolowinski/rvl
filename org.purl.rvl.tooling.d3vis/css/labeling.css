@@ -1,0 +1,50 @@
+div.labelContainerContainer {
+	/*border:1px dotted green;*/
+	position:absolute;
+	padding:0px;
+	margin:0px;
+}
+
+div.labelContainer {
+   /*border:1px dotted blue;*/
+    padding:0px;
+    position:absolute;
+	margin:0px;
+}
+
+.label {
+    border-color:red;
+	margin:-10px; /* will be set by JS */
+}
+
+#labelContainerSpace {
+	position:absolute;
+	z-index: 2;
+    /*border:1px dotted green;*/
+}
+
+#svgSpace {
+	position:absolute;
+	z-index: 1;
+	/*border:3px solid red;*/
+}
+
+.svgLabelIcon {
+	top:0px;
+	left:0px;
+}
+
+.svgLabelIcon path {
+	/*filter:url(#blur-effect-2);*/ /* problems in firefox, when not in one html page? */
+}
+
+.htmlTextLabel {
+	color:white;
+	/*background-color: green;*/
+	font-family: Arial;
+  	font-size: 12px;
+	text-align: center;
+	width:5px; /* 0 or 5 allow for correct positiong of text */
+}
+
+

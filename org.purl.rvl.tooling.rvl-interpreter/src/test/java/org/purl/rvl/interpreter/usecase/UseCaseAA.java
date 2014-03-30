@@ -19,8 +19,8 @@ public class UseCaseAA extends TestOGVICProcess {
 		process.registerDataFile(ExampleData.AA);
 		
 		process.setRvlInterpreter(new SimpleRVLInterpreter());
-		process.setD3Generator(new D3GeneratorTreeJSON());
-		//process.setD3Generator(new D3GeneratorSimpleJSON());
+		//process.setD3Generator(new D3GeneratorTreeJSON());
+		process.setD3Generator(new D3GeneratorSimpleJSON());
 
 		process.runOGVICProcess();
 	}

@@ -123,7 +123,8 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			//node.put("width", startNode.getColorHSLLightness()+5);
 			//node.put("heigth", startNode.getColorHSLLightness()+5);
 			node.put("shape_d3_name", startNodeShapeD3Name);
-			
+			node.put("label_shape_d3_name", startNodeShapeD3Name); /* temp, should be label.shape_d3_name*/
+			node.put("label_position", "centerCenter"); /* temp, should be label.shape_d3_name*/
 			listOfNodes.add(node);
 		}
 		d3data.put("nodes", listOfNodes);
@@ -169,6 +170,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				// get index of the endNode in the above generated Map
 				Map link = new LinkedHashMap();
 				link.put("type", "Directed");
+				link.put("arrow_type", "arrow");
 				//link.put("type", dlRel.getRDFSClassURI().toString());
 				link.put("source", goMap.get(startNode));
 				link.put("target", goMap.get(endNode));

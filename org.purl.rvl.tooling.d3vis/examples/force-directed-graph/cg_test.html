@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+     
+        <script type="text/javascript" src="../../js/d3.min.js">
+        </script>
+        <style type="text/css">
+        </style>
+    </head>
+    <body>
+        <div id="body">
+        </div>
+        <script type="text/javascript">
+            /* after an example from http://jsfiddle.net/Y9Qq3/2/ http://jsfiddle.net/Y9Qq3/2/ */
+            
+			
+			
+            var drawLinks = true; // choose whether only nodes should be drawn and layouted
+            	
+            
+            var width = 800,
+                height = 500,
+            	markerWidth = 0,
+                markerHeight = 0,
+                cRadius = 0,
+                refX = cRadius + (markerWidth * 2),
+                refY = -Math.sqrt(cRadius),
+                drSub = cRadius + refY,
+				
+				// positive in x
+
+
+
+				
+				
+				
+			
+
+				ICONSIZE = 0
+            ;
+            
+            					 
+			var svg = d3.select("body").append("svg")
+                .attr("width", width)
+                .attr("height", height);
+				
+				svg.append("svg:circle").attr("r", 10).attr("cx",sx).attr("cy",sy).style("fill","green");
+   				svg.append("svg:circle").attr("r", 10).attr("cx",tx).attr("cy",ty).style("fill","red");
+				
+				svg.append("svg:path")
+                   	.style("stroke", "red")
+       				.style("fill", "none")
+					.attr("d", function (d) {
+                        var dx = tx - sx,
+                            dy = (ty - sy),
+                            dr = Math.sqrt(dx * dx + dy * dy);
+                        return "M" + sx + "," + sy + "A" + (dr - drSub) + "," + (dr - drSub) + " 0 0,1 " + tx + "," + ty; // an arc
+						//return "M" + d.source.x + "," + d.source.y + " L" + d.target.x + "," + d.target.y; // a line
+                    });
+   
+   
+   				var connectorLabelGroup = svg.append("svg:g");
+				
+				connectorLabelGroup
+					 .append("svg:circle")
+					 .attr("r", 3).attr("cx",0).attr("cy",0)
+					 ;
+					 
+			    connectorLabelGroup 
+			 		.attr("transform", function (d) {
+						
+						// switch direction if not in positive x-direction
+						if (sx > tx ) {
+							var oldSx = sx;
+							var oldSy = sy;
+							sx = tx;
+							sy = ty;
+							tx = oldSx;
+							ty = oldSy;
+						}
+						
+						var dx = tx - sx,
+                            dy = (ty - sy),
+                            dr = Math.sqrt(dx * dx + dy * dy);
+						
+            			var xmid = sx + (dx - ICONSIZE) / 2;
+            		    var ymid = sy + (dy - ICONSIZE) / 2;
+						
+						var c = 58;
+						
+						var m = -(dx/dy);
+						
+						var b = Math.sqrt((c*c)/(m*m+1));
+						var a = Math.sqrt((c*c)-b*b); 
+						
+						var x,y;
+						if (m>0) {
+							x = xmid - b;
+							y = ymid - a;
+						}
+						else if (m<=0) {
+							x = xmid + b;
+							y = ymid - a;
+						}
+						
+						d3.select("body").append("div").html("m = " + m);
+						
+                        return "translate(" + x + "," + y + ")";
+                    });    
+                      
+					  
+					  
+                                
+                    
+        </script>
+		
+        <!-- somehow MUST NOT be before the script! -->
+        <svg id="svg-effects">
+            <filter id="blur-effect-1">
+                <feGaussianBlur stdDeviation="0.9" />
+            </filter>
+            <filter id="blur-effect-2">
+                <feGaussianBlur stdDeviation="2" />
+            </filter>
+			<defs>
+  <marker id="markerSquare" markerWidth="7" markerHeight="7" refx="4" refy="4"
+          orient="auto">
+      <rect x="1" y="1" width="5" height="5" style="stroke: none; fill:#000000;"/>
+  </marker>
+
+  <marker id="markerArrow" markerWidth="13" markerHeight="13" refx="2" refy="7"
+          orient="auto">
+      <path d="M2,2 L2,13 L8,7 L2,2" style="fill: #000000;" />
+  </marker>
+</defs>
+        </svg>
+    </body>
+</html>

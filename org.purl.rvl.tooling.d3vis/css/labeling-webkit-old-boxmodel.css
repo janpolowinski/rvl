@@ -1,0 +1,40 @@
+div.labelContainer {
+    display:-webkit-box;
+}
+
+.topLeft {
+	-webkit-box-align:start;
+    -webkit-box-pack:start;
+}
+.topRight {
+	 -webkit-box-align:start;
+    -webkit-box-pack:end;
+}
+.topCenter {
+	 -webkit-box-align:start;
+    -webkit-box-pack:center;
+}
+.bottomLeft {
+	 -webkit-box-align:end;
+    -webkit-box-pack:start;
+}
+.bottomRight {
+ 	-webkit-box-align:end;
+    -webkit-box-pack:end;
+}
+.bottomCenter {
+	-webkit-box-align:end;
+    -webkit-box-pack:center;
+}
+.centerLeft {
+	-webkit-box-align:center;
+    -webkit-box-pack:start;
+}
+.centerCenter {
+	-webkit-box-align:center;
+    -webkit-box-pack:center;
+}
+.centerRight {
+	-webkit-box-align:center;
+    -webkit-box-pack:end;
+}

@@ -144,3 +144,29 @@ marker#linkDirected {
 marker#link {
     fill: #ccc;
 }
+
+marker#arrow {
+    fill: #ccc;
+}
+
+
+marker#uml_generalization_arrow {
+	fill: #334;
+    stroke: #ccc;
+    stroke-opacity: 1;
+    stroke-width: 1.5px;
+	vector-effect: non-scaling-stroke;
+	overflow: visible;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: miter;
+	/*markerUnits: userSpaceOnUse;*/
+	
+}
+
+.haarlinie {
+	stroke:red;
+	vector-effect: non-scaling-stroke;
+	/*shape-rendering: crispEdges; */ /*optimizeSpeed*/
+	stroke-width: 1.5px;
+}

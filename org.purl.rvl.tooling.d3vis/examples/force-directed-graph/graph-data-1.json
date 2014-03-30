@@ -22,6 +22,7 @@
 
     "links": [{
         "type": "Directed",
+		"arrow_type": "arrow",
         "source": 0,
         "target": 1,
         "value": "1",
@@ -29,5 +30,17 @@
         "full_label": "partOf     (actually the label of the connector representing this) ",
         "color_hsl_lightness": 50.0,
         "color_rgb_hex_combined": "#ff9900"
-    }]
+    },
+	{
+        "type": "Directed",
+		"arrow_type": "uml_generalization_arrow",
+        "source": 1,
+        "target": 0,
+        "value": "1",
+        "label": "partOf     (act...",
+        "full_label": "partOf     (actually the label of the connector representing this) ",
+        "color_hsl_lightness": 50.0,
+        "color_rgb_hex_combined": "#ff9900"
+    }
+	]
 }

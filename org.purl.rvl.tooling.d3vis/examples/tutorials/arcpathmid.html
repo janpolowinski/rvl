@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+        <script type="text/javascript" src="../../js/d3.min.js">
+        </script>
+        <style type="text/css">
+            
+            .bar {
+                fill: steelblue;
+            }
+            
+            path {
+                fill: none;
+                stroke: black;
+            }
+            
+            .axis text {
+                font: 10px sans-serif;
+            }
+            
+            .axis path, .axis line {
+                fill: none;
+                stroke: #000;
+                shape-rendering: crispEdges;
+            }
+            
+            .x.axis path {
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <script type="text/javascript">
+            
+            var width = 800, height = 800, markerWidth = 3, markerHeight = 3, cRadius = 12, refX = cRadius + (markerWidth * 2), refY = -Math.sqrt(cRadius)
+            drSub = cRadius + refY;
+            
+            //The data for our line
+            var lineData = [{
+                "x": 1,
+                "y": 5,
+                "shape": "circle"
+            }, {
+                "x": 20,
+                "y": 20,
+                "shape": "circle"
+            }, {
+                "x": 40,
+                "y": 10,
+                "shape": "diamond"
+            }, {
+                "x": 60,
+                "y": 40,
+                "shape": "circle"
+            }, {
+                "x": 80,
+                "y": 5,
+                "shape": "cross"
+            }, {
+                "x": 100,
+                "y": 60,
+                "shape": "triangle-up"
+            }];
+            
+            //This is the accessor function we talked about above
+            var lineFunction = d3.svg.line().x(function(d){
+                return d.x * 10;
+            }).y(function(d){
+                return d.y * 10;
+            }).interpolate("cardinal");
+            
+            
+            var symbolFunction = d3.svg.symbol().size(200).type(function(d){
+                return d.shape
+            });
+            
+            //The SVG Container
+            var svgContainer = d3.select("body").append("svg").attr("width", 1000).attr("height", 1000);
+            
+            //The line SVG Path we draw
+            var lineGraph = svgContainer.append("path").attr("d", lineFunction(lineData)).attr("stroke", "green").attr("stroke-width", 2).attr("fill", "none").attr("marker-mid", function(d){
+                return "url(#" + "markerSquare" + ")";
+            });
+            
+            /*
+             svgContainer.selectAll("path")
+             .data(lineData)
+             .enter().append("path")
+             .attr("transform", function(d) { return "translate(" + d.x*10 + "," + d.y*10 + ")"; })
+             //.attr("d", d3.svg.symbol());
+             .attr("d", symbolFunction);
+             
+             */
+            var newData = [{
+                "source": {
+                    "x": 1,
+                    "y": 1
+                },
+                "target": {
+                    "x": 100,
+                    "y": 100
+                }
+            }];
+            
+            var myArc = svgContainer.selectAll(".myArc").data(newData).enter().append("path").attr("class", "myArc").attr("marker-mid", function(d){
+                return "url(#" + "markerArrow" + ")";
+            }).attr("d", function(d){
+                var dx = d.target.x - d.source.x, dy = (d.target.y - d.source.y), dr = Math.sqrt(dx * dx + dy * dy);
+                return "M" + d.source.x + "," + d.source.y + "A" + (dr - drSub) + "," + (dr - drSub) + " 0 0,1 " + d.target.x + "," + d.target.y;
+            });
+            
+            
+            /* http://stackoverflow.com/questions/5736398/how-to-calculate-the-svg-path-for-an-arc-of-a-circle */
+            function polarToCartesian(centerX, centerY, radius, angleInDegrees){
+                var angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
+                
+                return {
+                    x: centerX + (radius * Math.cos(angleInRadians)),
+                    y: centerY + (radius * Math.sin(angleInRadians))
+                };
+            }
+            
+            function describeArc(x, y, radius, startAngle, endAngle){
+            
+                var start = polarToCartesian(x, y, radius, endAngle);
+                var end = polarToCartesian(x, y, radius, startAngle);
+                
+                var arcSweep = endAngle - startAngle <= 180 ? "0" : "1";
+                
+                var d = ["M", start.x, start.y, "A", radius, radius, 0, arcSweep, 0, end.x, end.y].join(" ");
+                
+                return d;
+            }
+            
+            var myArc2 = svgContainer.selectAll(".myArc2").data(newData).enter().append("path").attr("class", "myArc2").attr("marker-mid", function(d){
+                return "url(#" + "markerArrow" + ")";
+            }).attr("d", function(d){
+                return describeArc(700, 700, 50, 0, 359);
+            });
+            
+        </script>
+        <!-- somehow MUST NOT be before the script! -->
+        <svg id="svg-effects">
+            <filter id="blur-effect-1">
+                <feGaussianBlur stdDeviation="0.9" />
+            </filter>
+            <filter id="blur-effect-2">
+                <feGaussianBlur stdDeviation="2" />
+            </filter>
+            <defs>
+                <marker id="markerSquare" markerWidth="7" markerHeight="7" refx="4" refy="4" orient="auto">
+                    <rect x="1" y="1" width="5" height="5" style="stroke: none; fill:#000000;"/>
+                </marker>
+                <marker id="markerArrow" markerWidth="13" markerHeight="13" refx="2" refy="7" orient="auto">
+                    <path d="M2,2 L2,13 L8,7 L2,2" style="fill: #000000;"/>
+                </marker>
+            </defs>
+        </svg>
+    </body>
+</html>
