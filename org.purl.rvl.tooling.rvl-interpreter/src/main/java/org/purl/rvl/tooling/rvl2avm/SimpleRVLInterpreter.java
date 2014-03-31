@@ -21,8 +21,11 @@ import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
+import org.ontoware.rdf2go.util.RDFTool;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
+import org.purl.rvl.java.RDF;
+import org.purl.rvl.java.RVL;
 import org.purl.rvl.java.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.GraphicAttribute;
 import org.purl.rvl.java.gen.rvl.GraphicRelation;
@@ -340,6 +343,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			LOGGER.finer("Applying submapping to GO with the role " + smr.getOnRole());
 			
 			URI roleURI = smr.getOnRole().asURI();
+			URI triplePartURI = smr.getOnTriplePart().asURI();
 			
 			// modelAVM.findStatements(dlRel,role,Variable.ANY); does not work somehow -> Jena mapping problems
 
@@ -354,6 +358,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				//continue;
 			}
 
+			// TODO can also be another P2GO2OR-mapping
 			PropertyToGraphicAttributeMapping p2gam = 
 					(PropertyToGraphicAttributeMapping) subMapping.castTo(PropertyToGraphicAttributeMapping.class);
 			
@@ -363,7 +368,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			//System.out.println(p2gam);
 			
 			try {
-				applyMappingToGraphicObject(mainStatement, goToApplySubmapping, p2gam);
+				applyMappingToGraphicObject(mainStatement, triplePartURI, goToApplySubmapping, p2gam);
 				// this does not use the cashed mappings somehow:
 				//goToApplySubmapping.setLabel(roleURI + " with an applied submapping: " + smr.toStringSummary());
 				
@@ -377,10 +382,11 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	}
 
 	private void applyMappingToGraphicObject(
-			Statement mainStatement, GraphicObject goToApplySubmapping,
+			Statement mainStatement, URI triplePartURI, GraphicObject goToApplySubmapping,
 			PropertyToGraphicAttributeMapping p2gam) throws InsufficientMappingSpecificationException {
 		
 		GraphicAttribute tga = p2gam.getTargetAttribute();
+		Property sp = p2gam.getSourceProperty();
 
 		// get the subproperties as subjects of the new mapping --> do this in the calculation of value mappings instead
 
@@ -394,8 +400,71 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			
 			//Node property = (Node) model.getProperty(new URIImpl("http://purl.org/rvl/example-data/cites"));
 			
-			URI sv = mainStatement.getPredicate();
-			Node tv = svUriTVuriMap.get(sv);
+			
+			
+			Node sv = null, tv = null;
+			
+			if (triplePartURI.toString().equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#subject")){
+				if (sp.toString().equals(RVL.ID) || sp.toString().equals(RDF.ID) ) {
+					sv = mainStatement.getSubject();
+					tv = svUriTVuriMap.get(sv);
+				} else {
+					// maybe not the most specific is mapped ...
+					//sv = RDFTool.getSingleValue(model, mainStatement.getSubject().asResource(), sp.asURI());
+					
+					ClosableIterator<Statement> it = model.findStatements(mainStatement.getSubject().asResource(), sp.asURI(), Variable.ANY);
+					while (it.hasNext()) {
+						sv = it.next().getObject();
+						if (svUriTVuriMap.containsKey(sv)) { 
+							tv = svUriTVuriMap.get(sv);
+							break;
+						}
+					}
+					
+					
+				}
+					
+			} else if (triplePartURI.toString().equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#object")){
+				if (sp.toString().equals(RVL.ID) || sp.toString().equals(RDF.ID) ) {
+					sv = mainStatement.getObject(); // TODO ID actually only fine when URIs!
+					tv = svUriTVuriMap.get(sv);
+				} else {
+					try {
+						//sv = RDFTool.getSingleValue(model, mainStatement.getObject().asResource(), sp.asURI());
+						
+						ClosableIterator<Statement> it = model.findStatements(mainStatement.getObject().asResource(), sp.asURI(), Variable.ANY);
+						while (it.hasNext()) {
+							sv = it.next().getObject();
+							if (svUriTVuriMap.containsKey(sv)) { 
+								tv = svUriTVuriMap.get(sv);
+								break;
+							}
+						}
+						
+					} catch (Exception e) {
+						LOGGER.severe("Could not get value for source property " + sp + "for object " + mainStatement.getObject() );
+						return;
+					}
+				}
+			} else {
+				if (sp.toString().equals(RVL.ID) || sp.toString().equals(RDF.ID) ) {
+					sv = mainStatement.getPredicate();
+					tv = svUriTVuriMap.get(sv);
+				} else {
+					//sv = RDFTool.getSingleValue(model, mainStatement.getPredicate().asResource(), sp.asURI());
+					
+					ClosableIterator<Statement> it = model.findStatements(mainStatement.getPredicate().asResource(), sp.asURI(), Variable.ANY);
+					while (it.hasNext()) {
+						sv = it.next().getObject();
+						if (svUriTVuriMap.containsKey(sv)) { 
+							tv = svUriTVuriMap.get(sv);
+							break;
+						}
+					}
+				}
+				
+			}
+
 			
 			// if we found a tv for the sv
 			if (null != tv && null != sv) {
