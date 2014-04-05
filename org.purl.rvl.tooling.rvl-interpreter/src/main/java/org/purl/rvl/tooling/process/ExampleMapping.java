@@ -14,5 +14,7 @@ public class ExampleMapping {
 	public static final String ZFO_X = OGVICProcess.USE_CASE_FOLDER + "/Bio/Zebrafish/MappingExample/ZFO-X.n3";
 	public static final String ZFO_Y = OGVICProcess.USE_CASE_FOLDER + "/Bio/Zebrafish/MappingExample/ZFO-Y.n3";
 	public static final String AA = OGVICProcess.USE_CASE_FOLDER + "/Bio/AminoAcid/MappingExample/amino-acids-rvl-mapping-example.ttl";
+	
+	public static final String SLUB = OGVICProcess.USE_CASE_FOLDER + "/Publication/SLUB/slub-data-mapping-example.ttl";
 
 }

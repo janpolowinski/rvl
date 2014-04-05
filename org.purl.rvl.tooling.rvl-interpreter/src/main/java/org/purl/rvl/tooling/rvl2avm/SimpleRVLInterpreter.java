@@ -107,6 +107,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				LOGGER.info(p2go2orm.toStringDetailed() );
 			} catch (Exception e) {}
 			
+			
 			try {
 				
 				if (p2go2orm.getTargetGraphicRelation().equals(DirectedLinking.RDFS_CLASS) || p2go2orm.getTargetGraphicRelation().equals(UndirectedLinking.RDFS_CLASS)) {
@@ -120,7 +121,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					//LOGGER.info("Ignored Mapping to Containment. Containment not yet implemented");
 				}
 				else  {
-					LOGGER.info("Ignord mapping to " + p2go2orm.getTargetGraphicRelation() + ". Graphic relation not yet implemented");
+					LOGGER.info("Ignored mapping to " + p2go2orm.getTargetGraphicRelation() + ". Graphic relation not yet implemented");
 				}
 				
 			} catch (InsufficientMappingSpecificationException e) {
@@ -136,7 +137,13 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	@SuppressWarnings("unused")
 	protected void interpretMappingToLinking(PropertyToGO2ORMapping p2go2orm) throws InsufficientMappingSpecificationException {
 
-		Iterator<Statement> stmtSetIterator = RVLUtils.findRelationsOnInstanceOrClassLevel(model, (PropertyMapping) p2go2orm.castTo(PropertyMapping.class), true, null, null).iterator();
+		Iterator<Statement> stmtSetIterator = RVLUtils.findRelationsOnInstanceOrClassLevel(
+				model,
+				(PropertyMapping) p2go2orm.castTo(PropertyMapping.class),
+				true,
+				null,
+				null
+				).iterator();
 		
 		int processedGraphicRelations = 0;	
 		
