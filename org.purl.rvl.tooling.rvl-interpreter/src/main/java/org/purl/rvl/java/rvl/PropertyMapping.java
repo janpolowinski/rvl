@@ -144,7 +144,7 @@ static final String NL =  System.getProperty("line.separator");
 					return subjectSet;
 				}
 				
-				statementSet = RVLUtils.findRelationsOnClassLevel(model, sp.asURI(), inheritedBy); // TODO may also throw exceptions which are wrongly catch below!
+				statementSet = RVLUtils.findRelationsOnClassLevel(model, OGVICProcess.GRAPH_DATA ,sp.asURI(), inheritedBy); // TODO may also throw exceptions which are wrongly catch below!
 
 			}
 			catch (Exception e) {

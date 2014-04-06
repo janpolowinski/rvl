@@ -17,6 +17,7 @@ public class UseCasePO extends TestOGVICProcess {
 
 		process.registerMappingFile(ExampleMapping.PO);
 		process.registerDataFile(ExampleData.PO);
+		process.registerDataFile(ExampleData.PO_EXTRA_DATA);
 		
 		process.setRvlInterpreter(new SimpleRVLInterpreter());
 		process.setD3Generator(new D3GeneratorTreeJSON());

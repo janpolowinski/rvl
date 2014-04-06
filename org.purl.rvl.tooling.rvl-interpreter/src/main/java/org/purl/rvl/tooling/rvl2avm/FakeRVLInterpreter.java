@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
+import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.purl.rvl.java.gen.viso.graphic.Color;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
@@ -154,9 +155,9 @@ public class FakeRVLInterpreter extends RVLInterpreterBase {
 	 * @see org.purl.rvl.tooling.rvl2avm.RVLInterpreterBase#init(org.ontoware.rdf2go.model.Model)
 	 */
 	@Override
-	public void init(Model model, Model modelAVM) {
+	public void init(Model model, Model modelAVM, ModelSet modelSet) {
 		// TODO Auto-generated method stub
-		super.init(model,modelAVM);
+		super.init(model,modelAVM, modelSet);
 		this.modelVISO = OGVICProcess.getInstance().getModelVISO();
 	}
 

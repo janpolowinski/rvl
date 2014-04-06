@@ -138,7 +138,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	protected void interpretMappingToLinking(PropertyToGO2ORMapping p2go2orm) throws InsufficientMappingSpecificationException {
 
 		Iterator<Statement> stmtSetIterator = RVLUtils.findRelationsOnInstanceOrClassLevel(
-				model,
+				modelSet,
+				OGVICProcess.GRAPH_DATA,
 				(PropertyMapping) p2go2orm.castTo(PropertyMapping.class),
 				true,
 				null,
@@ -251,7 +252,14 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	@SuppressWarnings("unused")
 	protected void interpretMappingToContainment(PropertyToGO2ORMapping p2go2orm) throws InsufficientMappingSpecificationException {
 
-		Iterator<Statement> stmtSetIterator = RVLUtils.findRelationsOnInstanceOrClassLevel(model, (PropertyMapping) p2go2orm.castTo(PropertyMapping.class), true, null, null).iterator();
+		Iterator<Statement> stmtSetIterator = RVLUtils.findRelationsOnInstanceOrClassLevel(
+				model,
+				OGVICProcess.GRAPH_DATA,
+				(PropertyMapping) p2go2orm.castTo(PropertyMapping.class),
+				true,
+				null,
+				null
+				).iterator();
 		
 		int processedGraphicRelations = 0;	
 		
@@ -534,7 +542,14 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			GraphicAttribute tga = p2gam.getTargetAttribute();
 
 		    // get a statement set 
-		    Set<Statement> stmtSet = RVLUtils.findRelationsOnInstanceOrClassLevel(model, (PropertyMapping) p2gam.castTo(PropertyMapping.class), false, null, null); 
+		    Set<Statement> stmtSet = RVLUtils.findRelationsOnInstanceOrClassLevel(
+		    		model,
+		    		OGVICProcess.GRAPH_DATA,
+		    		(PropertyMapping) p2gam.castTo(PropertyMapping.class),
+		    		false,
+		    		null,
+		    		null
+		    		); 
 
 			// get the mapping table SV->TV
 			Map<Node, Node> svUriTVuriMap = p2gam.getCalculatedValues(stmtSet);	
@@ -638,7 +653,14 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			try {
 				GraphicAttribute tga = p2gam.getTargetAttribute();
 	
-			    Set<Statement> theStatementWithOurObject = RVLUtils.findRelationsOnInstanceOrClassLevel(model, (PropertyMapping) p2gam.castTo(PropertyMapping.class), false, null, null); 
+			    Set<Statement> theStatementWithOurObject = RVLUtils.findRelationsOnInstanceOrClassLevel(
+			    		modelSet,
+			    		OGVICProcess.GRAPH_DATA,
+			    		(PropertyMapping) p2gam.castTo(PropertyMapping.class),
+			    		false,
+			    		null,
+			    		null
+			    		); 
 
 			    for (Iterator<Statement> stmtSetIt = theStatementWithOurObject.iterator(); stmtSetIt
 						.hasNext();) {

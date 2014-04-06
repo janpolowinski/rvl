@@ -40,9 +40,6 @@ import org.purl.rvl.tooling.util.CustomRecordFormatter;
 
 public class ModelRepoTest {
 	
-	private static final URIImpl GRAPH_RVL = new URIImpl("http://purl.org/rvl/");
-	private static final URIImpl GRAPH_MAPPING = new URIImpl("http://purl.org/rvl/example/mapping/");
-	private static final URIImpl GRAPH_DATA = new URIImpl("http://purl.org/rvl/example/data/");
 	private static final URIImpl GRAPH_MAPPING_ENRICHED_WITH_RVL = new URIImpl("http://purl.org/rvl/example/mapping/enriched/");
 	
 
@@ -168,9 +165,9 @@ public class ModelRepoTest {
 		
 		
 		
-		modelSet.addModel(dataModel, GRAPH_DATA);
-		modelSet.addModel(mappingModel, GRAPH_MAPPING);
-		modelSet.addModel(rvlModel, GRAPH_RVL);
+		modelSet.addModel(dataModel, OGVICProcess.GRAPH_DATA);
+		modelSet.addModel(mappingModel, OGVICProcess.GRAPH_MAPPING);
+		modelSet.addModel(rvlModel, OGVICProcess.GRAPH_RVL);
 		modelSet.addModel(enrichedMappings, GRAPH_MAPPING_ENRICHED_WITH_RVL);
 		
 		

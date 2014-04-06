@@ -21,6 +21,7 @@ import org.ontoware.rdf2go.model.impl.StatementImpl;
 import org.ontoware.rdf2go.model.node.DatatypeLiteral;
 import org.ontoware.rdf2go.model.node.Literal;
 import org.ontoware.rdf2go.model.node.Node;
+import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.model.node.impl.DatatypeLiteralImpl;
@@ -119,15 +120,25 @@ public class RVLUtils {
 	  }
 	
 	public static Set<Statement> findStatementsPreferingThoseUsingASubProperty(
-			Sparqlable modelOrModelSet, URI spURI) {
+			Sparqlable modelOrModelSet,
+			URI fromGraph,
+			URI spURI
+			) {
 		
 			Set<Statement> stmtSet = new HashSet<Statement>();
+			
+			String fromGraphString = " ";
+			if (null!=fromGraph) {
+				fromGraphString = "FROM NAMED " + fromGraph.toSPARQL(); // note: without GRAPH phrase below, only FROM works, not FROM NAMED
+			}
 		
 		try {
 	
 			String query = "" + 
-					" SELECT DISTINCT ?s ?p ?o " + 
+					" SELECT DISTINCT ?src ?s ?p ?o " + 
+					" " + fromGraphString + 
 					" WHERE { " +
+					" GRAPH ?src { " +
 					" ?s ?p ?o . " + 
 					" ?p " + Property.SUBPROPERTYOF.toSPARQL() + "* " + spURI.toSPARQL() + " " +
 					" FILTER NOT EXISTS { " + 
@@ -137,7 +148,8 @@ public class RVLUtils {
 					" } " +
 					" FILTER(?s != ?o) " + // TODO: this stops reflexive arcs completely! make optional
 					" FILTER isIRI(?s) " + // TODO: this stops blank nodes as subjects ...
-					" FILTER isIRI(?o) " + // .. or opbjects! make optional!
+					" FILTER isIRI(?o) " +  // .. or objects! make optional!
+					" } " + 
 					" } " + 
 					" LIMIT " + OGVICProcess.MAX_GRAPHIC_RELATIONS_PER_MAPPING + " ";
 			LOGGER.fine("Query statements with property (respectively most specific subproperty of) :" + spURI);
@@ -160,14 +172,27 @@ public class RVLUtils {
 			for (QueryRow row : explMapResults) {
 				LOGGER.finest("fetched SPARQL result row: " + row);
 				try {
-					Statement stmt = new StatementImpl(null, row.getValue("s").asURI(), row.getValue("p").asURI(), row.getValue("o"));
-					LOGGER.finest("build Statement: " + stmt.toString());
-					if(row.getValue("s").asURI().toString().startsWith(OGVICProcess.getInstance().getUriStart())) {
-						stmtSet.add(stmt);
-						LOGGER.finer("added Statement: " + stmt.toString());
-					} else {
-						LOGGER.finer("skipped Statement: " + stmt.toString());
+					
+					URI context = null; 
+					if (null!=fromGraph){
+						context = row.getValue("src").asURI();
 					}
+						
+					Statement stmt = new StatementImpl(
+							context,
+							row.getValue("s").asURI(),
+							row.getValue("p").asURI(),
+							row.getValue("o")
+							);
+					
+					LOGGER.finest("build Statement: " + stmt.toString());
+					
+					//if(row.getValue("s").asURI().toString().startsWith(OGVICProcess.getInstance().getUriStart())) {
+						stmtSet.add(stmt);
+						//LOGGER.finer("added Statement: " + stmt.toString());
+					//} else {
+						//LOGGER.finer("skipped Statement: " + stmt.toString());
+					//}
 				} catch (ClassCastException e){
 					LOGGER.finer("Skipped statement for linking (blank node casting to URI?): " + e.getMessage());
 				}
@@ -182,15 +207,17 @@ public class RVLUtils {
 	
 	public static Set<Statement> findRelationsOnClassLevel(
 			Model model,
+			URI fromGraph,
 			URI spURI, 
 			org.ontoware.rdfreactor.schema.rdfs.Property inheritedBy
 			) {
-		return findRelationsOnClassLevel(model, spURI, inheritedBy, null, null);
+		return findRelationsOnClassLevel(model, fromGraph, spURI, inheritedBy, null, null);
 	}
 
 
 	public static Set<Statement> findRelationsOnClassLevel(
-			Model model,
+			Sparqlable modelOrModelSet,
+			URI fromGraph,
 			URI spURI, 
 			org.ontoware.rdfreactor.schema.rdfs.Property inheritedBy,
 			org.ontoware.rdf2go.model.node.Resource subject,
@@ -213,9 +240,16 @@ public class RVLUtils {
 
 		try{
 			
+			String fromGraphString = " ";
+			if (null!=fromGraph) {
+				fromGraphString = "FROM NAMED " + fromGraph.toSPARQL(); // note: without GRAPH phrase below, only FROM works, not FROM NAMED
+			}
+			
 			String query = "" + 
-					" SELECT DISTINCT ?s ?p ?o " + 
+					" SELECT DISTINCT ?src ?s ?p ?o " + 
+					" " + fromGraphString + 
 					" WHERE { " +
+					" GRAPH ?src { " +
 					" ?s " + Class.SUBCLASSOF.toSPARQL() + " ?restrictionClass . " +
 					" ?restrictionClass a " + Restriction.RDFS_CLASS.toSPARQL() + " . " +  
 					" ?p " + Property.SUBPROPERTYOF.toSPARQL() + "* " + spURI.toSPARQL() + " . " +
@@ -225,15 +259,23 @@ public class RVLUtils {
 					// constrain object and subject of the "statements" if set
 					if (null!=subject) {query += " FILTER (?s = " +  subject.toSPARQL() + ") "; }
 					if (null!=object) {query += " FILTER (?o = " + object.toSPARQL() + ") "; }
-					query += " } ";
+					query += 
+					" } " +
+					" } ";
 			LOGGER.finer("Query for getting relations on class level for (subproperties of*) " + spURI);
 			LOGGER.finest("Query: " + query);
 
-			results = model.sparqlSelect(query);
+			results = modelOrModelSet.sparqlSelect(query);
 			
 			for (QueryRow row : results) {
 				LOGGER.finest("fetched SPARQL result row: " + row);
 				try {
+					
+					URI context = null; 
+					if (null!=fromGraph){
+						context = row.getValue("src").asURI();
+					}
+					
 					Statement stmt = new StatementImpl(null, row.getValue("s").asURI(), row.getValue("p").asURI(), row.getValue("o"));
 					LOGGER.finer("build Statement: " + stmt.toString());
 					
@@ -260,9 +302,11 @@ public class RVLUtils {
 	
 	public static Set<Statement> findRelationsOnInstanceOrClassLevel(
 			Model model,
-			PropertyMapping pm) throws InsufficientMappingSpecificationException {
+			URI fromGraph,
+			PropertyMapping pm
+			) throws InsufficientMappingSpecificationException {
 		
-		return findRelationsOnInstanceOrClassLevel(model, pm, false, null, null);
+		return findRelationsOnInstanceOrClassLevel(model, fromGraph, pm, false, null, null);
 		
 	}
 
@@ -348,7 +392,8 @@ public class RVLUtils {
 	
 	
 	public static Set<Statement> findRelationsOnInstanceOrClassLevel(
-			Model model,
+			Sparqlable modelOrModelSet,
+			URI fromGraph,
 			PropertyMapping pm,
 			boolean onlyMostSpecific, 
 			org.ontoware.rdf2go.model.node.Resource subject,
@@ -374,9 +419,10 @@ public class RVLUtils {
 			
 			if (onlyMostSpecific) {
 				 // get only the most specific statements and exclude those using a super-property instead
-				statementSet.addAll(RVLUtils.findStatementsPreferingThoseUsingASubProperty(model, spURI)); 
+				statementSet.addAll(RVLUtils.findStatementsPreferingThoseUsingASubProperty(modelOrModelSet, fromGraph, spURI)); 
 			}
 			
+			/*
 			else {
 				
 				ClosableIterator<Statement> it = model.findStatements(
@@ -405,7 +451,7 @@ public class RVLUtils {
 					
 				}
 
-			}
+			}*/
 			
 			// consider inherited relations, including those between classes (someValueFrom ...)
 			if(pm.hasInheritedby()) {
@@ -418,7 +464,14 @@ public class RVLUtils {
 							|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())	)) {
 						LOGGER.warning("inheritedBy is set to a value, currently not supported.");
 					} else {
-						statementSet.addAll(findRelationsOnClassLevel(model, spURI, inheritedBy, subject, object));
+						statementSet.addAll(findRelationsOnClassLevel(
+								modelOrModelSet,
+								fromGraph,
+								spURI,
+								inheritedBy,
+								subject,
+								object)
+								);
 					}
 					
 				}

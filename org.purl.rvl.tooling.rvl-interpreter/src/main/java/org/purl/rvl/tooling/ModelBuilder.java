@@ -12,6 +12,7 @@ import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
+import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Syntax;
 import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
@@ -26,6 +27,8 @@ public class ModelBuilder {
 	private Model modelData;
 	private Model modelMappings;
 	private Model modelAVM;
+	
+	private ModelSet modelSet;
 	
 	private final static Logger LOGGER = Logger.getLogger(ModelBuilder.class.getName()); 
 	static final String NL =  System.getProperty("line.separator");
@@ -56,7 +59,7 @@ public class ModelBuilder {
 	public void initTestModels() throws ModelRuntimeException {
 		// explicitly specify to use a specific ontology api here:
 		// RDF2Go.register( new org.ontoware.rdf2go.impl.jena.ModelFactoryImpl());
-		// RDF2Go.register( new org.openrdf.rdf2go.RepositoryModelFactory() );
+		// RDF2Go.register( new org.openrdf.rdf2go.RepositoryModelFactory() ); // seems to have no effect here (too late?)
 		// if not specified, RDF2Go.getModelFactory() looks into your classpath
 		// for ModelFactoryImpls to register.
 	
@@ -119,7 +122,7 @@ public class ModelBuilder {
 				File file = (File) iterator.next();
 				LOGGER.finer("Found registered data file: " + file.getAbsolutePath().toString());
 				readFromAnySyntax(model,file);
-				//readFromAnySyntax(modelData,file);
+				readFromAnySyntax(modelData,file);
 			}
 		}
 		
@@ -128,9 +131,20 @@ public class ModelBuilder {
 				File file = (File) iterator.next();
 				LOGGER.finer("Found registered mapping file: " + file.getAbsolutePath().toString());
 				readFromAnySyntax(model,file);
-				//readFromAnySyntax(modelMappings,file);
+				readFromAnySyntax(modelMappings,file);
 			}
 		}
+		
+		
+		// combine models to a model set with different named graphs
+		
+		modelSet = RDF2Go.getModelFactory().createModelSet();
+		modelSet.open();
+		modelSet.addModel(modelData, OGVICProcess.GRAPH_DATA);
+		modelSet.addModel(modelMappings, OGVICProcess.GRAPH_MAPPING);
+		//modelSet.addModel(modelRVL, OGVICProcess.GRAPH_RVL);
+		//modelSet.addModel(enrichedMappings, GRAPH_MAPPING_ENRICHED_WITH_RVL);
+
 		
 	}
 	
@@ -187,6 +201,20 @@ public class ModelBuilder {
 
 	public void initVISOModel(FileRegistry ontologyFileRegistry) {
 		initRDF2GoModels(ontologyFileRegistry, null, null);
+	}
+
+	/**
+	 * @return the modelSet
+	 */
+	public ModelSet getModelSet() {
+		return modelSet;
+	}
+
+	/**
+	 * @param modelSet the modelSet to set
+	 */
+	public void setModelSet(ModelSet modelSet) {
+		this.modelSet = modelSet;
 	}
 
 }

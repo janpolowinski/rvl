@@ -1,28 +1,24 @@
 package org.purl.rvl.tooling.process;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Set;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import org.ontoware.rdf2go.exception.ModelRuntimeException;
+import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.model.Model;
-import org.ontoware.rdf2go.model.ModelIO;
+import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Syntax;
-import org.purl.rvl.java.viso.graphic.GraphicObject;
-import org.purl.rvl.java.viso.graphic.GraphicSpace;
+import org.ontoware.rdf2go.model.node.URI;
+import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.purl.rvl.tooling.ModelBuilder;
 import org.purl.rvl.tooling.avm.D3GeneratorBase;
 import org.purl.rvl.tooling.avm.D3GeneratorSimpleJSON;
-import org.purl.rvl.tooling.avm.D3GeneratorTreeJSON;
 import org.purl.rvl.tooling.rvl2avm.FakeRVLInterpreter;
 import org.purl.rvl.tooling.rvl2avm.RVLInterpreterBase;
 import org.purl.rvl.tooling.rvl2avm.SimpleRVLInterpreter;
-import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.CustomRecordFormatter;
 
 
@@ -30,15 +26,17 @@ public class OGVICProcess {
 	
 	private static OGVICProcess instance = null;
 	
-	public static int MAX_GRAPHIC_RELATIONS_PER_MAPPING = 1000000;
-	
+	// SETTINGS
+	public static int MAX_GRAPHIC_RELATIONS_PER_MAPPING = 100;
 	public static boolean REGENERATE_AVM = true;
 	public static boolean WRITE_AVM = false;
 	public static boolean WRITE_JSON = true;
 	
+	// LOCAL RDF FILES
 	public static final String RVL_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl.owl";
 	public static final String VISO_LOCAL_REL = "../org.purl.rvl.vocabulary/viso-branch/viso-graphic-inference.ttl";
 	
+	// LOCAL FILES AND FOLDER SETTINGS
 	public static final String USE_CASE_FOLDER = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies";
 	//public static final String USE_CASE_FOLDER = "/Users/Jan/Documents/EclipseWorkspace/SemVisRecherche/CaseStudies";
 	public static final String GEN_MODEL_FILE_FOLDER = "../org.purl.rvl.vocabulary/gen";
@@ -46,10 +44,12 @@ public class OGVICProcess {
 	protected static final String TMP_RVL_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempRvl.ttl";
 	public static final String TMP_AVM_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempAVM.ttl";
 	
-	
-	ModelBuilder modelBuilder;
-	private boolean writeAVM = WRITE_AVM;
-	
+	// GRAPH URIs
+	public static final URI GRAPH_RVL = new URIImpl("http://purl.org/rvl/");
+	public static final URI GRAPH_MAPPING = new URIImpl("http://purl.org/rvl/example/mapping/");
+	public static final URI GRAPH_DATA = new URIImpl("http://purl.org/rvl/example/data/");
+
+	// MODELS AND MODELSETS
 	protected Model modelAVM;
 	
 	/*
@@ -59,6 +59,9 @@ public class OGVICProcess {
 	protected static Model modelMappings;
 	*/
 	
+	// OTHER MEMBERS
+	ModelBuilder modelBuilder;
+	private boolean writeAVM = WRITE_AVM;
 	protected static FakeRVLInterpreter avmBuilder;
 	protected D3GeneratorBase d3Generator;
 	protected RVLInterpreterBase rvlInterpreter;
@@ -69,7 +72,7 @@ public class OGVICProcess {
 	private String jsonFileNameRel = "";
 
 
-
+	// LOGGING
 	private final static Logger LOGGER = Logger.getLogger(OGVICProcess.class.getName()); 
 	private final static Logger LOGGER_RVL_PACKAGE = Logger.getLogger("org.purl.rvl"); 
 	
@@ -121,6 +124,8 @@ public class OGVICProcess {
 	
 	public void runOGVICProcess(){
 		
+		 RDF2Go.register( new org.openrdf.rdf2go.RepositoryModelFactory() ); // must be called as early as this - too late in modelBuilder
+		
 		modelBuilder = new ModelBuilder();
 		
 		if (REGENERATE_AVM) {
@@ -146,7 +151,11 @@ public class OGVICProcess {
 				//rvlInterpreter = new FakeRVLInterpreter();
 				rvlInterpreter = new SimpleRVLInterpreter();
 			}
-			rvlInterpreter.init(getModel(),getModelAVM());
+			rvlInterpreter.init(
+					getModel(),
+					getModelAVM(),
+					getModelSet()
+					);
 			
 			// interprete RVL mappings
 			interpreteRVL2AVM();	
@@ -325,6 +334,10 @@ public class OGVICProcess {
 	
 	public Model getModel() {
 		return modelBuilder.getModel();
+	}
+	
+	public ModelSet getModelSet() {
+		return modelBuilder.getModelSet();
 	}
 	
 	public Model getModelAVM() {

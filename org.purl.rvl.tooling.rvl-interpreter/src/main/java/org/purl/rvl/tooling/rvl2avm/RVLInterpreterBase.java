@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import org.ontoware.aifbcommons.collection.ClosableIterable;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
+import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.QueryResultTable;
 import org.ontoware.rdf2go.model.QueryRow;
 import org.ontoware.rdf2go.model.Statement;
@@ -45,6 +46,7 @@ public abstract class RVLInterpreterBase {
 	
 	protected Model model;
 	protected Model modelAVM;
+	protected ModelSet modelSet;
 	protected Map<org.ontoware.rdf2go.model.node.Resource,GraphicObject> resourceGraphicObjectMap; 
 	protected Random random;
 	
@@ -59,9 +61,10 @@ public abstract class RVLInterpreterBase {
 	}
 	
 
-	public void init(Model model, Model modelAVM) {
+	public void init(Model model, Model modelAVM, ModelSet modelSet) {
 		this.model = model;
 		this.modelAVM = modelAVM;
+		this.modelSet = modelSet;
 		this.random = new Random();
 		this.resourceGraphicObjectMap = new HashMap<org.ontoware.rdf2go.model.node.Resource, GraphicObject>();
 	}

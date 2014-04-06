@@ -16,6 +16,7 @@ public class UseCaseSLUB extends TestOGVICProcess {
 		//process.setUriStart("http://data.slub-dresden.de/datamodels/22/records/");
 	
 		process.registerDataFile(ExampleData.SLUB_TEST);
+		process.registerDataFile(ExampleData.SLUB_EXTRA_DATA);
 		process.registerMappingFile(ExampleMapping.SLUB);
 		
 		process.setRvlInterpreter(new SimpleRVLInterpreter());

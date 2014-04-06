@@ -13,10 +13,11 @@ public class UseCaseROinstanceData extends TestOGVICProcess {
 	@Test
 	public void testOGVICProcess() {
 		
-		process.setUriStart("http://purl.org/ro/ont#");
+		//process.setUriStart("http://purl.org/ro/ont#");
 
 		process.registerMappingFile(ExampleMapping.RO_SOCIAL_NETWORK);
 		process.registerDataFile(ExampleData.RO_SOCIAL_NETWORK);
+		process.registerDataFile(ExampleData.RO_SOCIAL_NETWORK_EXTRA_DATA);
 		
 
 		process.setRvlInterpreter(new SimpleRVLInterpreter());
