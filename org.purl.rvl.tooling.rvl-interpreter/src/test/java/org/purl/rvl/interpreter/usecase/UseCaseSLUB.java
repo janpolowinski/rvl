@@ -13,6 +13,8 @@ public class UseCaseSLUB extends TestOGVICProcess {
 	@Test
 	public void testOGVICProcess() {
 		
+		process.setWriteAVM(true);
+		
 		//process.setUriStart("http://data.slub-dresden.de/datamodels/22/records/");
 	
 		process.registerDataFile(ExampleData.SLUB_TEST);

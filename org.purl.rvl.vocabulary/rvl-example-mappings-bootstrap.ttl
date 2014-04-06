@@ -57,24 +57,9 @@ rexm:SubPropertyOfToLinkingDirected
 ############################################################################################################
 # AVM bootstrap
 ############################################################################################################
-              
-# should actually not be required when using an OW2 reasoner?!      
-owl:topObjectProperty a owl:ObjectProperty , rdf:Property.
-
-vg:contains rdfs:subPropertyOf owl:topObjectProperty .
-#vg:contained_by rdfs:subPropertyOf owl:topObjectProperty .
-#vg:containment_container rdfs:subPropertyOf owl:topObjectProperty .
-vg:containment_containee rdfs:subPropertyOf owl:topObjectProperty .
-
-vg:linked_to rdfs:subPropertyOf owl:topObjectProperty .
-#vg:linked_from rdfs:subPropertyOf owl:topObjectProperty .
-#vg:linkingDirected_startNode rdfs:subPropertyOf owl:topObjectProperty .
-vg:linkingDirected_endNode rdfs:subPropertyOf owl:topObjectProperty .
-vg:linking_connector rdfs:subPropertyOf owl:topObjectProperty .
 
 
-
-:AnyPropertyToLinkingByConnectorMapping
+:AnyPropertyToLinkingByConnectorMapping2
       a rvl:PropertyToGraphicObjToObjRelationMapping ;
       rvl:disabled "false"^^xsd:boolean ;
       rdfs:label "(Any) property to linking by connector mapping"^^xsd:string ;
