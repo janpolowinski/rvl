@@ -15,7 +15,7 @@ public class UseCaseAVMBootstrap extends TestOGVICProcess {
 
 		process.setWriteAVM(false);
 		
-		process.registerMappingFile(ExampleMapping.RVL_EXAMPLE_BOOTSTRAP);
+		process.registerMappingFile(ExampleMapping.AVM_EXAMPLE_BOOTSTRAP);
 		process.registerDataFile(ExampleData.AVM);
 		process.registerDataFile(ExampleData.AVM_EXTRA_DATA);
 		

@@ -17,7 +17,8 @@ public class ExampleData {
 	public static final String SLUB = OGVICProcess.USE_CASE_FOLDER + "/Publication/SLUB/dmpf_bsp_abbrv.ttl";
 	public static final String SLUB_EXTRA_DATA = OGVICProcess.USE_CASE_FOLDER + "/Publication/SLUB/extra_data.ttl";
 	public static final String SLUB_TEST = OGVICProcess.USE_CASE_FOLDER + "/Publication/SLUB/dmpf_bsp_abbrv_test.ttl";
-	public static final String AVM_EXTRA_DATA = "../org.purl.rvl.vocabulary/rvl-example-bootstrap-extra-data.ttl";;
+	public static final String AVM_EXTRA_DATA = "../org.purl.rvl.vocabulary/avm-example-bootstrap-extra-data.ttl";
+	public static final String RVL_EXTRA_DATA = "../org.purl.rvl.vocabulary/rvl-example-bootstrap-extra-data.ttl";;
 	
 	
 

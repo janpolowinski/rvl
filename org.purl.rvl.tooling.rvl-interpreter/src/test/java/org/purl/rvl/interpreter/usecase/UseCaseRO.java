@@ -11,7 +11,7 @@ public class UseCaseRO extends TestOGVICProcess {
 	@Test
 	public void testOGVICProcess() {
 		
-		process.setUriStart("http://purl.org/ro/semvis-example/");
+		//process.setUriStart("http://purl.org/ro/semvis-example/");
 
 		process.registerMappingFile(ExampleMapping.RO);
 		process.registerDataFile(ExampleData.RO_SEMVIS);

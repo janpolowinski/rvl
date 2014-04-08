@@ -306,7 +306,7 @@ private List<Node> getTargetValueList() {
 		list = RVLUtils.rdfs2JavaList(
 				(org.ontoware.rdfreactor.schema.rdfs.List)
 				//this.getAllTargetvalueorderedset_as().firstValue().castTo(
-				this.getAllTargetvalues_abstract__as().firstValue().castTo(
+				this.getAllTargetvalues_abstract__as().firstValue().castTo( // TODO wont work in SESAME(?) either
 						org.ontoware.rdfreactor.schema.rdfs.List.class
 						)
 				);
@@ -415,7 +415,7 @@ private int determineAdressedTargetValues() {
 		else {
 
 			//if (this.hasTargetvalueorderedset()) {
-			if (this.hasTargetvalues_abstract_()) {
+			if (this.hasTargetvalues_abstract_()) { // this.hasTargetvalues_abstract_() alone does not work any more after introducing model set probably because now sesame is used
 				
 				// TODO handle cycles etc. here and above : if ((this.hasTargetvaluelist()) || (this.hasTargetvalueorderedset()) || (this.hasTargetvaluecycle())) 
 				
@@ -650,7 +650,12 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 	
 	LOGGER.info("Calculating value mappings for mapping case " + getMappingCaseName(caseID));
 	
-	if (SS == caseID){
+	if (UNKNOWN == caseID) {
+		
+		LOGGER.severe("Could not calculate value mappings, since mapping case was unknwon");
+		return cvms;
+		
+	} else if (SS == caseID){
 		
 		LOGGER.info("1-1 Value mappings should currently  be handled separately as simple PGAM and will not be considered here.");
 		return cvms;

@@ -167,7 +167,7 @@ public class ModelRepoTest {
 		
 		modelSet.addModel(dataModel, OGVICProcess.GRAPH_DATA);
 		modelSet.addModel(mappingModel, OGVICProcess.GRAPH_MAPPING);
-		modelSet.addModel(rvlModel, OGVICProcess.GRAPH_RVL);
+		modelSet.addModel(rvlModel, OGVICProcess.GRAPH_RVL_SCHEMA);
 		modelSet.addModel(enrichedMappings, GRAPH_MAPPING_ENRICHED_WITH_RVL);
 		
 		

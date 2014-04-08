@@ -16,5 +16,6 @@ public class ExampleMapping {
 	public static final String AA = OGVICProcess.USE_CASE_FOLDER + "/Bio/AminoAcid/MappingExample/amino-acids-rvl-mapping-example.ttl";
 	
 	public static final String SLUB = OGVICProcess.USE_CASE_FOLDER + "/Publication/SLUB/slub-data-mapping-example.ttl";
+	public static final String AVM_EXAMPLE_BOOTSTRAP = "../org.purl.rvl.vocabulary/avm-example-mappings-bootstrap.ttl";
 
 }

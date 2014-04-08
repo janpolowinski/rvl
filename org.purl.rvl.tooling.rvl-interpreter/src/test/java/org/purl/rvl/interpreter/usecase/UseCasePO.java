@@ -13,7 +13,7 @@ public class UseCasePO extends TestOGVICProcess {
 	@Test
 	public void testOGVICProcess() {
 		
-		process.setUriStart("http://purl.org/obo/owl/");
+		//process.setUriStart("http://purl.org/obo/owl/");
 
 		process.registerMappingFile(ExampleMapping.PO);
 		process.registerDataFile(ExampleData.PO);

@@ -16,7 +16,6 @@ import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.purl.rvl.tooling.ModelBuilder;
 import org.purl.rvl.tooling.avm.D3GeneratorBase;
 import org.purl.rvl.tooling.avm.D3GeneratorSimpleJSON;
-import org.purl.rvl.tooling.rvl2avm.FakeRVLInterpreter;
 import org.purl.rvl.tooling.rvl2avm.RVLInterpreterBase;
 import org.purl.rvl.tooling.rvl2avm.SimpleRVLInterpreter;
 import org.purl.rvl.tooling.util.CustomRecordFormatter;
@@ -45,9 +44,10 @@ public class OGVICProcess {
 	public static final String TMP_AVM_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempAVM.ttl";
 	
 	// GRAPH URIs
-	public static final URI GRAPH_RVL = new URIImpl("http://purl.org/rvl/");
 	public static final URI GRAPH_MAPPING = new URIImpl("http://purl.org/rvl/example/mapping/");
 	public static final URI GRAPH_DATA = new URIImpl("http://purl.org/rvl/example/data/");
+	public static final URI GRAPH_RVL_SCHEMA = new URIImpl("http://purl.org/rvl/");
+	public static final URI GRAPH_VISO = new URIImpl("http://purl.org/viso/");
 
 	// MODELS AND MODELSETS
 	protected Model modelAVM;
@@ -62,7 +62,7 @@ public class OGVICProcess {
 	// OTHER MEMBERS
 	ModelBuilder modelBuilder;
 	private boolean writeAVM = WRITE_AVM;
-	protected static FakeRVLInterpreter avmBuilder;
+	//protected static FakeRVLInterpreter avmBuilder;
 	protected D3GeneratorBase d3Generator;
 	protected RVLInterpreterBase rvlInterpreter;
 	private final  FileRegistry ontologyFileRegistry = new FileRegistry(); // RVL, VISO ,...
@@ -124,7 +124,12 @@ public class OGVICProcess {
 	
 	public void runOGVICProcess(){
 		
-		 RDF2Go.register( new org.openrdf.rdf2go.RepositoryModelFactory() ); // must be called as early as this - too late in modelBuilder
+		// explicitly specify to use a specific ontology api here:
+		 RDF2Go.register( new org.ontoware.rdf2go.impl.jena.ModelFactoryImpl());
+		 //RDF2Go.register( new org.openrdf.rdf2go.RepositoryModelFactory() ); // must be called as early as this - too late in modelBuilder // sesame backend causes problems when getting target value lists!! probably because of targetvalues_abstract property ...
+		// if not specified, RDF2Go.getModelFactory() looks into your classpath
+		// for ModelFactoryImpls to register.
+
 		
 		modelBuilder = new ModelBuilder();
 		
@@ -152,7 +157,7 @@ public class OGVICProcess {
 				rvlInterpreter = new SimpleRVLInterpreter();
 			}
 			rvlInterpreter.init(
-					getModel(),
+					//getModel(),
 					getModelAVM(),
 					getModelSet()
 					);
@@ -288,9 +293,9 @@ public class OGVICProcess {
 	/**
 	 * @return the uriStart
 	 */
-	public String getUriStart() {
-		return uriStart;
-	}
+//	public String getUriStart() {
+//		return uriStart;
+//	}
 
 	/**
 	 * @param uriStart the uriStart to set
@@ -332,9 +337,10 @@ public class OGVICProcess {
 		return modelBuilder.getMappingsModel();
 	}
 	
+	/*
 	public Model getModel() {
 		return modelBuilder.getModel();
-	}
+	}*/
 	
 	public ModelSet getModelSet() {
 		return modelBuilder.getModelSet();

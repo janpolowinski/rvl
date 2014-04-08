@@ -1,0 +1,99 @@
+# Saved by TopBraid on Sat May 25 19:43:31 CEST 2013
+# baseURI: http://purl.org/rvl/example-mappings/
+# imports: http://purl.org/rvl/
+
+@prefix :        <http://purl.org/rvl/example-mappings/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rexm:    <http://purl.org/rvl/example-mappings/> .
+@prefix rexd:    <http://purl.org/rvl/example-data/> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix vg:    <http://purl.org/viso/graphic/> .
+@prefix common-shapes:    <http://purl.org/viso/shape/commons/> .
+
+:     rdf:type owl:Ontology ;
+      owl:imports rvl: , rexd: ,common-shapes: .
+
+
+# sub-mapping - supported (also caching)
+rexm:PMwithNamedSubmappingToNamedMappingOnConnector
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
+      rdfs:label "PM with a sub-mapping to an existing, named mapping"^^xsd:string ;
+      rvl:sourceProperty rexd:exportsTo ;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
+      rvl:subMapping rexm:NamedSubMappingRelation , rexm:NamedSubMappingRelation2
+      .
+      
+rexm:PMwithNamedSubmappingToNamedMappingOnConnector2
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
+      rvl:sourceProperty rexd:partOf ;
+      rvl:invertSourceProperty
+              "true"^^xsd:boolean ;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
+      rvl:subMapping rexm:NamedSubMappingRelation , rexm:NamedSubMappingRelation2
+     .
+      
+rexm:NamedSubMappingRelation
+    rdf:type rvl:SubMappingRelation ;  
+	rvl:subMapping-onRole vg:linking_connector;
+    rvl:subMapping-onTriplePart rdf:predicate;
+    rvl:subMapping-mapping rexm:PMfromID2ColorNamedAutomaticOrdered .
+    
+rexm:NamedSubMappingRelation2
+    rdf:type rvl:SubMappingRelation ;
+	rvl:subMapping-onRole vg:linking_connector;
+    rvl:subMapping-onTriplePart rdf:predicate;
+    rvl:subMapping-mapping rexm:ShapeMappingToBeUsedAsSubmapping .
+
+
+       
+      
+rexm:PMfromID2ColorNamedAutomaticOrdered
+      rdf:type rvl:PropertyMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
+      rdfs:label "Automatic PM from ID to color ordered (used as a submapping above)"^^xsd:string ;
+ 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:targetAttribute vg:color_named ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:invertOrderOfTargetValues "false"^^xsd:boolean;
+		rvl:sourceValueOrderedSet (
+			# rexd:cites rexd:citesCritical rexd:citesVeryCritical
+			rexd:exportsTo rexd:partOf
+		);
+		rvl:targetValueList (
+			vg:Red
+			vg:Orange
+			vg:Yellow
+		);
+		# rvl:targetValues [a vg:GraphicValueList ; ... ]
+      ].   
+      
+
+      
+rexm:ShapeMappingToBeUsedAsSubmapping
+      rvl:disabled "false"^^xsd:boolean ;
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "ShapeMappingToBeUsedAsSubmapping"^^xsd:string ;
+      rvl:sourceProperty rvl:ID ;
+      rvl:targetAttribute vg:shape_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:partOf;
+        rvl:targetValue common-shapes:Rhomb;
+      ],[
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:exportsTo ;
+        rvl:targetValue common-shapes:Square;
+      ]
+      .
+      
+      
+      
+
+
+      

@@ -70,8 +70,8 @@ public class PropertyToGO2ORMapping extends
 		
 		if (pm.hasSub_mapping()) {
 			// list sub-mappings
-			Sub_mappingrelation smr = this.getAllSub_mapping_as().firstValue();
-			s += "     Submappig relation: " + smr + NL;
+			Sub_mappingrelation smr = this.getAllSub_mapping_as().firstValue(); // TODO only first submapping listed here
+			s += "     Submapping relation (only first shown): " + smr + NL;
 			//s += "          type: " + smr.getAllType_as().firstValue() + NL ;
 			if(smr.hasOnrole())
 				s += "          ... on role: " + smr.getAllOnrole_as().firstValue() + NL ;

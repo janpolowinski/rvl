@@ -31,7 +31,6 @@ public class TestOGVICProcess {
 	public void testOGVICProcess() {
 		
 		process.setUriStart("http://purl.org/rvl");
-		process.setJsonFileNameRel("../org.purl.rvl.tooling.d3vis/examples/force-directed-graph/data.json");
 		//public static final String REXD_URI = "http://purl.org/rvl/example-data";
 		//public static final String REXD_URI = "http://purl.org/rvl";
 		//public static final String REXD_URI = "http://purl.org/ro/semvis-example/";

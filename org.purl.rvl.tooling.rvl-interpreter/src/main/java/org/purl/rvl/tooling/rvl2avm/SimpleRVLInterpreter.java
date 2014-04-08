@@ -66,8 +66,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	@Override
 	protected void interpretMappingsInternal() {
 		
-		if (null==model) {
-			LOGGER.severe("Cannot interprete mappings, since model is null.");
+		if (null==modelSet) {
+			LOGGER.severe("Cannot interprete mappings, since model set is null.");
 			return;
 		}
 		
@@ -253,7 +253,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	protected void interpretMappingToContainment(PropertyToGO2ORMapping p2go2orm) throws InsufficientMappingSpecificationException {
 
 		Iterator<Statement> stmtSetIterator = RVLUtils.findRelationsOnInstanceOrClassLevel(
-				model,
+				modelSet,
 				OGVICProcess.GRAPH_DATA,
 				(PropertyMapping) p2go2orm.castTo(PropertyMapping.class),
 				true,
@@ -409,14 +409,16 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		
 			Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
 			
-			LOGGER.finer(p2gam.explicitlyMappedValuesToString());
+			if (null == svUriTVuriMap || svUriTVuriMap.isEmpty()) {
+				LOGGER.severe("Could not apply submappings since (explicit or calculated) value mappings were null");
+				return;
+			} else {
+				LOGGER.finer(p2gam.explicitlyMappedValuesToString());
+			}
 			
 			///Node triplePartValue = ...
-			
 			//Node property = (Node) model.getProperty(new URIImpl("http://purl.org/rvl/example-data/cites"));
-			
-			
-			
+	
 			Node sv = null, tv = null;
 			
 			if (triplePartURI.toString().equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#subject")){
@@ -427,7 +429,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					// maybe not the most specific is mapped ...
 					//sv = RDFTool.getSingleValue(model, mainStatement.getSubject().asResource(), sp.asURI());
 					
-					ClosableIterator<Statement> it = model.findStatements(mainStatement.getSubject().asResource(), sp.asURI(), Variable.ANY);
+					ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, mainStatement.getSubject().asResource(), sp.asURI(), Variable.ANY);
 					while (it.hasNext()) {
 						sv = it.next().getObject();
 						if (svUriTVuriMap.containsKey(sv)) { 
@@ -447,7 +449,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					try {
 						//sv = RDFTool.getSingleValue(model, mainStatement.getObject().asResource(), sp.asURI());
 						
-						ClosableIterator<Statement> it = model.findStatements(mainStatement.getObject().asResource(), sp.asURI(), Variable.ANY);
+						ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, mainStatement.getObject().asResource(), sp.asURI(), Variable.ANY);
 						while (it.hasNext()) {
 							sv = it.next().getObject();
 							if (svUriTVuriMap.containsKey(sv)) { 
@@ -468,7 +470,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				} else {
 					//sv = RDFTool.getSingleValue(model, mainStatement.getPredicate().asResource(), sp.asURI());
 					
-					ClosableIterator<Statement> it = model.findStatements(mainStatement.getPredicate().asResource(), sp.asURI(), Variable.ANY);
+					ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, mainStatement.getPredicate().asResource(), sp.asURI(), Variable.ANY);
 					while (it.hasNext()) {
 						sv = it.next().getObject();
 						if (svUriTVuriMap.containsKey(sv)) { 
@@ -484,7 +486,10 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			// if we found a tv for the sv
 			if (null != tv && null != sv) {
 				applyGraphicValueToGO(tga, tv, sv, goToApplySubmapping);
+			} else {
+				LOGGER.finest("Source or target value was null, couldn't apply graphic value " + tv + " to the sv " + sv);
 			}
+				
 			
 		} else {
 			LOGGER.warning("P2GAM with no value mappings at all are not yet supported (defaults needs to be implemented).");
@@ -543,7 +548,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 
 		    // get a statement set 
 		    Set<Statement> stmtSet = RVLUtils.findRelationsOnInstanceOrClassLevel(
-		    		model,
+		    		modelSet,
 		    		OGVICProcess.GRAPH_DATA,
 		    		(PropertyMapping) p2gam.castTo(PropertyMapping.class),
 		    		false,
@@ -594,7 +599,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			
 			// if we are mapping to named colors
 		    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/color_named")) {
-		    	Color color = Color.getInstance(model, tv.asURI());
+		    	Color color = Color.getInstance(modelVISO, tv.asURI());
 		    	go.setColornamed(color);
 		    	LOGGER.finer("Set color named to " + color + " for sv " + sv);
 		    }
@@ -607,7 +612,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		    
 			// if we are mapping to named shapes
 		    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/shape_named")) {
-		    	Shape shape = ShapeX.getInstance(model, tv.asURI());
+		    	Shape shape = ShapeX.getInstance(modelVISO, tv.asURI());
 		    	go.setShapenamed(shape);
 		    	LOGGER.finer("Set shape to " + shape + " for sv " + sv + NL);
 		    }

@@ -6,6 +6,7 @@ import org.purl.rvl.tooling.avm.D3GeneratorSimpleJSON;
 import org.purl.rvl.tooling.avm.D3GeneratorTreeJSON;
 import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
+import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.rvl2avm.SimpleRVLInterpreter;
 
 public class UseCaseRVLClasses extends TestOGVICProcess {
@@ -13,13 +14,15 @@ public class UseCaseRVLClasses extends TestOGVICProcess {
 	@Test
 	public void testOGVICProcess() {
 		
-		process.setUriStart("http://purl.org/rvl/");
+		//process.setUriStart("http://purl.org/rvl/");
 		
 		process.registerMappingFile(ExampleMapping.RVL_EXAMPLE_BOOTSTRAP);
+		process.registerDataFile(OGVICProcess.RVL_LOCAL_REL);
+		process.registerDataFile(ExampleData.RVL_EXTRA_DATA);
 		
 		process.setRvlInterpreter(new SimpleRVLInterpreter());
-		process.setD3Generator(new D3GeneratorTreeJSON());
-		//process.setD3Generator(new D3GeneratorSimpleJSON());
+		//process.setD3Generator(new D3GeneratorTreeJSON());
+		process.setD3Generator(new D3GeneratorSimpleJSON());
 		
 		process.runOGVICProcess();
 	}

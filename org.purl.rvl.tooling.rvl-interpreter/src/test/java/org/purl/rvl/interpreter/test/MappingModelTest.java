@@ -59,7 +59,7 @@ public class MappingModelTest {
 		ModelBuilder modelBuilder = new ModelBuilder();
 		modelBuilder.initTestModels();
 		
-		model = modelBuilder.getModel();
+		model = modelBuilder.getMappingsModel();
 	}
 
 	//@Test

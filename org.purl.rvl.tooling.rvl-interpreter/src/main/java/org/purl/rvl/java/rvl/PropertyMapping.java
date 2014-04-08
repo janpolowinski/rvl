@@ -70,18 +70,19 @@ static final String NL =  System.getProperty("line.separator");
 		Mapping m = (Mapping) this.castTo(Mapping.class);
 		s += m.toStringDetailed();
 
+		/*// letting the mapping print the affected resources is bad, since this depends on the used data model now, which may be unavailable in test scenarios
 		// affected resources:
 		Set<Resource> subjectSet;
 		try {
 			subjectSet = getAffectedResources();
 			for (Iterator<Resource> iterator = subjectSet.iterator(); iterator.hasNext();) {
 				Resource resource = (Resource) iterator.next();
-				//s += "     affects: " + resource +  NL;
+				s += "     affects: " + resource +  NL;
 			}
 		} catch (InsufficientMappingSpecificationException e) {
 			LOGGER.warning(e.getMessage());
 			//e.printStackTrace();
-		}
+		} */
 		
 		Property sp = this.getAllSourceproperty_as().firstValue();
 		//Property tgr = this.getAllTargetgraphicrelation_abstract__as().firstValue();
@@ -144,7 +145,7 @@ static final String NL =  System.getProperty("line.separator");
 					return subjectSet;
 				}
 				
-				statementSet = RVLUtils.findRelationsOnClassLevel(model, OGVICProcess.GRAPH_DATA ,sp.asURI(), inheritedBy); // TODO may also throw exceptions which are wrongly catch below!
+				statementSet = RVLUtils.findRelationsOnClassLevel(OGVICProcess.getInstance().getModelSet(), OGVICProcess.GRAPH_DATA ,sp.asURI(), inheritedBy); // TODO may also throw exceptions which are wrongly catch below!
 
 			}
 			catch (Exception e) {
@@ -152,7 +153,7 @@ static final String NL =  System.getProperty("line.separator");
 			}
 		}
 		else {
-			ClosableIterator<Statement> it = model.findStatements(Variable.ANY, sp.asURI(), Variable.ANY);
+			ClosableIterator<Statement> it = OGVICProcess.getInstance().getModelData().findStatements(Variable.ANY, sp.asURI(), Variable.ANY);
 			while (it.hasNext()) {
 				statementSet.add(it.next());
 			}
@@ -168,31 +169,22 @@ static final String NL =  System.getProperty("line.separator");
 			Resource subject = statement.getSubject();
 			
 			// TODO hack: ignore statements with subjects other than those starting with the data graph URI
-			String uriStartString = OGVICProcess.getInstance().getUriStart();
+			//String uriStartString = OGVICProcess.getInstance().getUriStart();
 			
 			int ignoredResources = 0;
 			
 			try{
-				
-				/* delete ...
 
-				if (subject.asURI().toString().startsWith(uriStartString)) {
-					subjectSet.add(subject);
-				}
-				else
-					LOGGER.finest("ignored affected resource " + subject + " not starting with " + uriStartString);
-				
-				*/
-				
 				// check starts with constraint (workaround) and subjectFilter
 				if (
-					subject.toString().startsWith(uriStartString)
-					&& (null==selectorClass || RVLUtils.hasType(model, subject, selectorClass ))
+					//subject.toString().startsWith(uriStartString)
+					//&& 
+					(null==selectorClass || RVLUtils.hasType(model, subject, selectorClass ))
 					) {
 					subjectSet.add(subject);
-					LOGGER.finest("found affected resource (matching subfilter and starturi): " + subject.toString());
+					LOGGER.finest("found affected resource (matching subfilter): " + subject.toString());
 				} else {
-					LOGGER.finest("ignored un-affected resource (not matching subfilter or starturi ("+uriStartString+")): " + subject.toString());
+					LOGGER.finest("ignored un-affected resource (not matching subfilter): " + subject.toString());
 				}
 				
 				

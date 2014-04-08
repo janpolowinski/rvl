@@ -22,10 +22,11 @@ import org.purl.rvl.tooling.process.OGVICProcess;
 
 public class ModelBuilder {
 	
-	private Model model;
+	//private Model model;
 	private Model modelVISO;
 	private Model modelData;
 	private Model modelMappings;
+	private Model modelRVLSchema;
 	private Model modelAVM;
 	
 	private ModelSet modelSet;
@@ -34,9 +35,9 @@ public class ModelBuilder {
 	static final String NL =  System.getProperty("line.separator");
 	
 
-	public Model getModel(){
+	/*public Model getModel(){
 		return model;
-		}
+		}*/
 	
 	public Model getVISOModel(){
 		return modelVISO;
@@ -57,29 +58,41 @@ public class ModelBuilder {
 
 
 	public void initTestModels() throws ModelRuntimeException {
-		// explicitly specify to use a specific ontology api here:
-		// RDF2Go.register( new org.ontoware.rdf2go.impl.jena.ModelFactoryImpl());
-		// RDF2Go.register( new org.openrdf.rdf2go.RepositoryModelFactory() ); // seems to have no effect here (too late?)
-		// if not specified, RDF2Go.getModelFactory() looks into your classpath
-		// for ModelFactoryImpls to register.
-	
+			
 		// create the RDF2GO Models
 		//model = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
-		model = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
-		model.open();
+		//model.open();
 		
+		// extra model for VISO
 		modelVISO = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		modelVISO.open();
 
+		// extra model for RVL (schema)
+		modelRVLSchema = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		modelRVLSchema.open();
+		
+		// extra model for mappings
+		modelMappings = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		modelMappings.open();
+		
+		// extra model for data
+		modelData = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		modelData.open();
+
+
+
 		try {
+			readFromAnySyntax(modelRVLSchema,OGVICProcess.RVL_LOCAL_REL);
 			readFromAnySyntax(modelVISO,OGVICProcess.VISO_LOCAL_REL);
-			readFromAnySyntax(model,OGVICProcess.VISO_LOCAL_REL);
-			readFromAnySyntax(model,OGVICProcess.RVL_LOCAL_REL);
-			readFromAnySyntax(model,ExampleData.RVL_EXAMPLE);
-			readFromAnySyntax(model,ExampleMapping.RVL_EXAMPLE);
+			readFromAnySyntax(modelMappings,ExampleMapping.RVL_EXAMPLE_MINI);
+			readFromAnySyntax(modelData,ExampleData.RVL_EXAMPLE); 
+			
+			modelMappings.addModel(modelRVLSchema); // TODO temp hack!
+			//modelMappings.addModel(modelVISO); // TODO temp hack!
+			//modelMappings.addModel(modelData); // TODO temp hack!
 			
 		} catch (Exception e) {
-			LOGGER.severe("Problem reading one of the RDF files into the model: " + e);
+			LOGGER.severe("Problem reading one of the RDF files into a model: " + e);
 		}
 	}
 	
@@ -89,39 +102,43 @@ public class ModelBuilder {
 	public void initRDF2GoModels(FileRegistry ontologyFileRegistry, FileRegistry dataFileRegistry, FileRegistry mappingFileRegistry )  {
 		
 		// create the RDF2GO Models
-		model = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
-		model.open();
+		//model = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		//model.open();
 		
 		// extra model for VISO
-		modelVISO = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		modelVISO = RDF2Go.getModelFactory().createModel(Reasoning.none); // no reasoning seems to be OK here
 		modelVISO.open();
 		
 		// extra model for data
-		modelData = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		modelData = RDF2Go.getModelFactory().createModel(Reasoning.none); // no reasoning seems to be OK here?? -> no colors of nodes are missing in ro-instance uss case
 		modelData.open();
 		
 		// extra model for mappings
 		modelMappings = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		modelMappings.open();
 		
+		// extra model for RVL (schema)
+		modelRVLSchema = RDF2Go.getModelFactory().createModel(Reasoning.none); // no reasoning seems to be OK here
+		modelRVLSchema.open();
+		
 		// empty model to hold the AVM
 		modelAVM = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		modelAVM.open();	
 		
-		if (null != ontologyFileRegistry) {
-			for (Iterator<File> iterator = ontologyFileRegistry.getFiles().iterator(); iterator.hasNext();) {
-				File file = (File) iterator.next();
-				LOGGER.finer("Found registered ontology file: " + file.getAbsolutePath().toString());
-				readFromAnySyntax(model,file);
-				readFromAnySyntax(modelVISO,file);
-			}
-		}
+//		if (null != ontologyFileRegistry) {
+//			for (Iterator<File> iterator = ontologyFileRegistry.getFiles().iterator(); iterator.hasNext();) {
+//				File file = (File) iterator.next();
+//				LOGGER.finer("Found registered ontology file: " + file.getAbsolutePath().toString());
+//				readFromAnySyntax(model,file);
+//				readFromAnySyntax(modelVISO,file);
+//			}
+//		}
 		
 		if (null != dataFileRegistry) {
 			for (Iterator<File> iterator = dataFileRegistry.getFiles().iterator(); iterator.hasNext();) {
 				File file = (File) iterator.next();
 				LOGGER.finer("Found registered data file: " + file.getAbsolutePath().toString());
-				readFromAnySyntax(model,file);
+				//readFromAnySyntax(model,file);
 				readFromAnySyntax(modelData,file);
 			}
 		}
@@ -130,11 +147,23 @@ public class ModelBuilder {
 			for (Iterator<File> iterator = mappingFileRegistry.getFiles().iterator(); iterator.hasNext();) {
 				File file = (File) iterator.next();
 				LOGGER.finer("Found registered mapping file: " + file.getAbsolutePath().toString());
-				readFromAnySyntax(model,file);
+				//readFromAnySyntax(model,file);
 				readFromAnySyntax(modelMappings,file);
 			}
 		}
 		
+		// read schemas to extra models //  TODO clean up ontology section above (will be redundant)
+		
+		readFromAnySyntax(modelRVLSchema,OGVICProcess.RVL_LOCAL_REL);
+		readFromAnySyntax(modelVISO,OGVICProcess.VISO_LOCAL_REL);
+		
+		modelMappings.addModel(modelRVLSchema); // TODO temp hack! // necessary!
+		//modelMappings.addModel(modelVISO); // TODO temp hack!
+		//modelMappings.addModel(modelData); // TODO temp hack!
+		
+		//modelData.addModel(modelRVLSchema); // TODO temp hack!
+		//modelData.addModel(modelVISO); // TODO temp hack!
+		//modelData.addModel(modelMappings); // TODO temp hack!
 		
 		// combine models to a model set with different named graphs
 		
@@ -142,6 +171,8 @@ public class ModelBuilder {
 		modelSet.open();
 		modelSet.addModel(modelData, OGVICProcess.GRAPH_DATA);
 		modelSet.addModel(modelMappings, OGVICProcess.GRAPH_MAPPING);
+		modelSet.addModel(modelRVLSchema, OGVICProcess.GRAPH_RVL_SCHEMA);
+		modelSet.addModel(modelVISO, OGVICProcess.GRAPH_VISO);
 		//modelSet.addModel(modelRVL, OGVICProcess.GRAPH_RVL);
 		//modelSet.addModel(enrichedMappings, GRAPH_MAPPING_ENRICHED_WITH_RVL);
 

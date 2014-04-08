@@ -44,9 +44,12 @@ import org.purl.rvl.tooling.util.RVLUtils;
 
 public abstract class RVLInterpreterBase {
 	
-	protected Model model;
+	//protected Model model;
 	protected Model modelAVM;
 	protected ModelSet modelSet;
+	protected Model modelData;
+	protected Model modelMappings;
+	protected Model modelVISO;
 	protected Map<org.ontoware.rdf2go.model.node.Resource,GraphicObject> resourceGraphicObjectMap; 
 	protected Random random;
 	
@@ -61,10 +64,15 @@ public abstract class RVLInterpreterBase {
 	}
 	
 
-	public void init(Model model, Model modelAVM, ModelSet modelSet) {
-		this.model = model;
+	public void init(
+			//Model model,
+			Model modelAVM, ModelSet modelSet) {
+		//this.model = model;
 		this.modelAVM = modelAVM;
 		this.modelSet = modelSet;
+		this.modelData = modelSet.getModel(OGVICProcess.GRAPH_DATA);
+		this.modelMappings = modelSet.getModel(OGVICProcess.GRAPH_MAPPING);
+		this.modelVISO = modelSet.getModel(OGVICProcess.GRAPH_VISO);
 		this.random = new Random();
 		this.resourceGraphicObjectMap = new HashMap<org.ontoware.rdf2go.model.node.Resource, GraphicObject>();
 	}
@@ -137,12 +145,12 @@ public abstract class RVLInterpreterBase {
 		//LOGGER.info("All mappings with explicit value mappings (VMs with only 1 source value)");
 		//LOGGER.info(queryString);
 		
-		QueryResultTable results = model.sparqlSelect(queryString);
+		QueryResultTable results = modelMappings.sparqlSelect(queryString);
 //		for(QueryRow row : results) {LOGGER.info(row); }
 //		for(String var : results.getVariables()) { LOGGER.info(var); }
 		
 		for(QueryRow row : results) {
-			Property_to_Graphic_AttributeMapping p2gam = Property_to_Graphic_AttributeMapping.getInstance(model, row.getValue("p2gam").asResource());
+			Property_to_Graphic_AttributeMapping p2gam = Property_to_Graphic_AttributeMapping.getInstance(modelMappings, row.getValue("p2gam").asResource());
 			mappingSet.add((PropertyToGraphicAttributeMapping)p2gam.castTo(PropertyToGraphicAttributeMapping.class));
 			//LOGGER.info(row.getValue("p2gam"));
 		}
@@ -177,11 +185,11 @@ public abstract class RVLInterpreterBase {
 				"} " ;
 		
 		
-		QueryResultTable results = model.sparqlSelect(queryString);
+		QueryResultTable results = modelMappings.sparqlSelect(queryString);
 		for(QueryRow row : results) {
 			try {
 			//Property_to_Graphic_AttributeMapping p2gam = Property_to_Graphic_AttributeMapping.getInstance(model, (URI)row.getValue("p2gam"));
-			Property_to_Graphic_AttributeMapping p2gam = Property_to_Graphic_AttributeMapping.getInstance(model, row.getValue("p2gam").asResource());
+			Property_to_Graphic_AttributeMapping p2gam = Property_to_Graphic_AttributeMapping.getInstance(modelMappings, row.getValue("p2gam").asResource());
 			mappingSet.add((PropertyToGraphicAttributeMapping)p2gam.castTo(PropertyToGraphicAttributeMapping.class));
 			}
 			catch (Exception e) {
@@ -245,12 +253,12 @@ public abstract class RVLInterpreterBase {
 		LOGGER.finer("SPARQL: query all mappings to " + gotorString + ":" + NL + 
 				     queryString);
 		
-		QueryResultTable results = model.sparqlSelect(queryString);
+		QueryResultTable results = modelMappings.sparqlSelect(queryString);
 		//for(QueryRow row : results) {LOGGER.info(row); }
 		//for(String var : results.getVariables()) { LOGGER.info(var); }
 		
 		for(QueryRow row : results) {
-			Property_to_Graphic_Object_to_Object_RelationMapping mapping = Property_to_Graphic_Object_to_Object_RelationMapping.getInstance(model, (URI)row.getValue("mapping"));
+			Property_to_Graphic_Object_to_Object_RelationMapping mapping = Property_to_Graphic_Object_to_Object_RelationMapping.getInstance(modelMappings, (URI)row.getValue("mapping"));
 			mappingSet.add((PropertyToGO2ORMapping)mapping.castTo(PropertyToGO2ORMapping.class));
 			//LOGGER.info("Found mapping to linking: " + row.getValue("mapping").toString());
 		}
@@ -292,7 +300,7 @@ public abstract class RVLInterpreterBase {
 		//LOGGER.finest("Problems getting represented resource, no label generated for GO " + this.asURI());
 
 		try {
-			go.setLabel(AVMUtils.getOrGenerateDefaultLabelString(model, resource));
+			go.setLabel(AVMUtils.getOrGenerateDefaultLabelString(modelData, resource));
 		} catch (Exception e) {
 			LOGGER.finest("No label could be assigned for resource " + resource + " to GO " + go.asURI().toString() + e.getMessage());
 			e.printStackTrace();

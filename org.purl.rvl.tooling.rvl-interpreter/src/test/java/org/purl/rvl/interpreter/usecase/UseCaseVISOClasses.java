@@ -13,7 +13,7 @@ public class UseCaseVISOClasses extends TestOGVICProcess {
 	@Test
 	public void testOGVICProcess() {
 		
-		process.setUriStart("http://purl.org/viso/graphic/");
+		//process.setUriStart("http://purl.org/viso/graphic/");
 	
 		process.registerMappingFile(ExampleMapping.RVL_EXAMPLE_BOOTSTRAP);
 		

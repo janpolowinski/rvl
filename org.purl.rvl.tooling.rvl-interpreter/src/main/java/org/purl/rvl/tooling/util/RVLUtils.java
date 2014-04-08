@@ -12,6 +12,7 @@ import org.apache.commons.collections.ListUtils;
 import org.ontoware.aifbcommons.collection.ClosableIterable;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
+import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.ModelValueFactory;
 import org.ontoware.rdf2go.model.QueryResultTable;
 import org.ontoware.rdf2go.model.QueryRow;
@@ -30,7 +31,9 @@ import org.ontoware.rdfreactor.runtime.ReactorResult;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Class;
+import org.openrdf.model.vocabulary.RDFS;
 import org.openrdf.repository.sparql.query.SPARQLQuery;
+import org.purl.rvl.java.RVL;
 import org.purl.rvl.java.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.SPARQLselector;
 import org.purl.rvl.java.rvl.Mapping;
@@ -63,7 +66,8 @@ public class RVLUtils {
 			mapping = (Mapping) mappingIterator.next().castTo(Mapping.class);
 			if(!mapping.isDisabled()) {
 				//mappingToStringAsSpecificAsPossible(mapping);
-				System.out.println(mappingToStringAsSpecificAsPossible(mapping));
+				System.out.println(mappingToStringAsSpecificAsPossible(mapping)); // TODO causes exception
+				//System.out.println(mapping.toString());
 			}
 		}
 	}
@@ -206,12 +210,12 @@ public class RVLUtils {
 	}
 	
 	public static Set<Statement> findRelationsOnClassLevel(
-			Model model,
+			Sparqlable modelOrModelSet,
 			URI fromGraph,
 			URI spURI, 
 			org.ontoware.rdfreactor.schema.rdfs.Property inheritedBy
 			) {
-		return findRelationsOnClassLevel(model, fromGraph, spURI, inheritedBy, null, null);
+		return findRelationsOnClassLevel(modelOrModelSet, fromGraph, spURI, inheritedBy, null, null);
 	}
 
 
@@ -228,47 +232,89 @@ public class RVLUtils {
 		Set<Statement> stmtSet = new HashSet<Statement>();
 		String subjectString = "?s";
 		String objectString = "?o";
+		String query;
 		
 		// temp only support some and all values from ...
-		if (!(inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
-				|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())	)) {
+		if (!(
+				inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
+				|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())
+				|| inheritedBy.toString().equals(RVL.TBOX_DOMAIN_RANGE)	
+				
+			)) {
 			LOGGER.warning("inherited by is set to a value, currently not supported.");
 			return stmtSet;
 		}
+		
+		// named graphs
+		
+		String fromGraphString = " ";
+		if (null!=fromGraph) {
+			fromGraphString = "FROM NAMED " + fromGraph.toSPARQL(); // note: without GRAPH phrase below, only FROM works, not FROM NAMED
+		}
 
-
-
-		try{
+		if (inheritedBy.toString().equals(RVL.TBOX_DOMAIN_RANGE)) {
 			
-			String fromGraphString = " ";
-			if (null!=fromGraph) {
-				fromGraphString = "FROM NAMED " + fromGraph.toSPARQL(); // note: without GRAPH phrase below, only FROM works, not FROM NAMED
-			}
+			// inheritedBy -> domain-range
 			
-			String query = "" + 
+			//LOGGER.finest("domain range to be implemented");
+			//return stmtSet;
+			
+			// test s,o-constraints
+			/*subject = new org.ontoware.rdfreactor.schema.rdfs.Resource(
+					OGVICProcess.getInstance().getModelData(),
+					RVL.NS + "ValueMapping", false	);*/
+			
+			query = "" + 
 					" SELECT DISTINCT ?src ?s ?p ?o " + 
 					" " + fromGraphString + 
 					" WHERE { " +
 					" GRAPH ?src { " +
-					" ?s " + Class.SUBCLASSOF.toSPARQL() + " ?restrictionClass . " +
-					" ?restrictionClass a " + Restriction.RDFS_CLASS.toSPARQL() + " . " +  
 					" ?p " + Property.SUBPROPERTYOF.toSPARQL() + "* " + spURI.toSPARQL() + " . " +
-					" ?restrictionClass " + Restriction.ONPROPERTY.toSPARQL() + " ?p . " + 
-					" ?restrictionClass " + inheritedBy.toSPARQL() +  " ?o  " +  
-					" FILTER isIRI(?s) " ; // TODO: this stops blank nodes as subjects ... ;
+					" ?p " + org.ontoware.rdf2go.vocabulary.RDFS.domain.toSPARQL() +  " ?s  . " +  
+					" ?p " + org.ontoware.rdf2go.vocabulary.RDFS.range.toSPARQL() +  " ?o  " +  
+					" FILTER isIRI(?s) " + // TODO: this stops blank nodes as subjects ... ;
+					" FILTER isIRI(?o) "; // TODO: this stops blank nodes as objects ... ;
 					// constrain object and subject of the "statements" if set
 					if (null!=subject) {query += " FILTER (?s = " +  subject.toSPARQL() + ") "; }
 					if (null!=object) {query += " FILTER (?o = " + object.toSPARQL() + ") "; }
 					query += 
 					" } " +
 					" } ";
+
+		} else {
+			
+			// inheritedBy -> other supported values
+			
+			query = "" + 
+				" SELECT DISTINCT ?src ?s ?p ?o " + 
+				" " + fromGraphString + 
+				" WHERE { " +
+				" GRAPH ?src { " +
+				" ?s " + Class.SUBCLASSOF.toSPARQL() + " ?restrictionClass . " +
+				" ?restrictionClass a " + Restriction.RDFS_CLASS.toSPARQL() + " . " +  
+				" ?p " + Property.SUBPROPERTYOF.toSPARQL() + "* " + spURI.toSPARQL() + " . " +
+				" ?restrictionClass " + Restriction.ONPROPERTY.toSPARQL() + " ?p . " + 
+				" ?restrictionClass " + inheritedBy.toSPARQL() +  " ?o  " +  
+				" FILTER isIRI(?s) " + // TODO: this stops blank nodes as subjects ... ;
+				" FILTER isIRI(?o) " ; // TODO: this stops blank nodes as subjects ... ;
+				// constrain object and subject of the "statements" if set
+				if (null!=subject) {query += " FILTER (?s = " +  subject.toSPARQL() + ") "; }
+				if (null!=object) {query += " FILTER (?o = " + object.toSPARQL() + ") "; }
+				query += 
+				" } " +
+				" } ";
+		}
+
+
+		try {			
+						
 			LOGGER.finer("Query for getting relations on class level for (subproperties of*) " + spURI);
 			LOGGER.finest("Query: " + query);
 
 			results = modelOrModelSet.sparqlSelect(query);
 			
 			for (QueryRow row : results) {
-				LOGGER.finest("fetched SPARQL result row: " + row);
+				//LOGGER.finest("fetched SPARQL result row: " + row);
 				try {
 					
 					URI context = null; 
@@ -276,15 +322,15 @@ public class RVLUtils {
 						context = row.getValue("src").asURI();
 					}
 					
-					Statement stmt = new StatementImpl(null, row.getValue("s").asURI(), row.getValue("p").asURI(), row.getValue("o"));
+					Statement stmt = new StatementImpl(context, row.getValue("s").asURI(), row.getValue("p").asURI(), row.getValue("o"));
 					LOGGER.finer("build Statement: " + stmt.toString());
 					
-						if(row.getValue("s").asURI().toString().startsWith(OGVICProcess.getInstance().getUriStart())) {
+						//if(row.getValue("s").asURI().toString().startsWith(OGVICProcess.getInstance().getUriStart())) {
 							stmtSet.add(stmt);
-							LOGGER.finer("added Statement: " + stmt.toString());
-						} else {
-							LOGGER.finer("skipped Statement: " + stmt.toString());
-						}
+							//LOGGER.finer("added Statement: " + stmt.toString());
+						//} else {
+						//	LOGGER.finer("skipped Statement: " + stmt.toString());
+						//}
 						
 				} catch (Exception e) {
 					LOGGER.warning("Problem building Statement for : " + row + "(" + e.getMessage() + ")" );
@@ -310,7 +356,7 @@ public class RVLUtils {
 		
 	}
 
-	// this was p2gam specific nor replaced by generic method  for pm, delete soon
+	// this was p2gam specific, now replaced by generic method  for pm, delete soon
 //	public static Set<Statement> findRelationsOnInstanceOrClassLevel(
 //			Model model,
 //			PropertyToGraphicAttributeMapping p2gam,
@@ -416,16 +462,24 @@ public class RVLUtils {
 				
 			}
 			
-			
 			if (onlyMostSpecific) {
 				 // get only the most specific statements and exclude those using a super-property instead
 				statementSet.addAll(RVLUtils.findStatementsPreferingThoseUsingASubProperty(modelOrModelSet, fromGraph, spURI)); 
 			}
 			
-			/*
 			else {
 				
-				ClosableIterator<Statement> it = model.findStatements(
+				Model dataModel;
+				try{
+				ModelSet modelSet = (ModelSet)modelOrModelSet;
+				dataModel = modelSet.getModel(OGVICProcess.GRAPH_DATA);
+				} catch (Exception e) {
+					LOGGER.severe("Could not get data model from modelOrModelSet, will use modelOrModelSet as if is was the data graph (model)");
+					dataModel = (Model)modelOrModelSet;
+				}
+				
+				
+				ClosableIterator<Statement> it = dataModel.findStatements(
 						null==subject ? Variable.ANY : subject
 						,
 						spURI
@@ -439,19 +493,20 @@ public class RVLUtils {
 					
 					// check starts with constraint (workaround) and subjectFilter
 					if (
-						statement.getSubject().toString().startsWith(OGVICProcess.getInstance().getUriStart())
-						&& (null==selectorClass || RVLUtils.hasType(model, statement.getSubject(), selectorClass ))
+						//statement.getSubject().toString().startsWith(OGVICProcess.getInstance().getUriStart())
+						//&& 
+						(null==selectorClass || RVLUtils.hasType(dataModel, statement.getSubject(), selectorClass ))
 						) {
 						statementSet.add(statement);
-						LOGGER.finest("added Statement (matching subfilter and starturi): " + statement.toString());
+						LOGGER.finest("added Statement (matching subfilter): " + statement.toString());
 					} else {
-						LOGGER.finest("skipped Statement (not matching subfilter or starturi): " + statement.toString());
+						LOGGER.finest("skipped Statement (not matching subfilter): " + statement.toString());
 					}
 					
 					
 				}
 
-			}*/
+			}
 			
 			// consider inherited relations, including those between classes (someValueFrom ...)
 			if(pm.hasInheritedby()) {
@@ -459,9 +514,11 @@ public class RVLUtils {
 				try{
 					Property inheritedBy = pm.getInheritedBy();
 					
-					// temp only support some and all values from ...
+					// temp only support some and all values from ... // TODO these checks are also done in findRelationsOnClassLevel
 					if (!(inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
-							|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())	)) {
+							|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())	
+							|| inheritedBy.toString().equals(RVL.TBOX_DOMAIN_RANGE)	
+							)) {
 						LOGGER.warning("inheritedBy is set to a value, currently not supported.");
 					} else {
 						statementSet.addAll(findRelationsOnClassLevel(
@@ -479,7 +536,6 @@ public class RVLUtils {
 					LOGGER.warning("Problem evaluating inheritedBy setting or getting relations on class level");
 				}
 			} 
-
 			
 			return statementSet;
 	}
@@ -543,7 +599,7 @@ public class RVLUtils {
 			QueryResultTable explMapResults = modelAVM.sparqlSelect(query);
 			
 			for (QueryRow row : explMapResults) {
-				LOGGER.finest("fetched SPARQL result row: " + row);
+				//LOGGER.finest("fetched SPARQL result row: " + row);
 				try {
 					Statement stmt = new StatementImpl(null, row.getValue("s").asURI(), row.getValue("p").asURI(), row.getValue("o"));
 					LOGGER.finest("build Statement: " + stmt.toString());
