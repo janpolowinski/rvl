@@ -23,6 +23,9 @@ import org.ontoware.rdf2go.model.node.Node;
 import org.purl.rvl.java.exception.IncompleteColorValuesException;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
+import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
+import org.purl.rvl.java.gen.viso.graphic.Labeling;
+import org.purl.rvl.java.gen.viso.graphic.Superimposition;
 import org.purl.rvl.java.gen.viso.graphic.Thing1;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
 import org.purl.rvl.java.viso.graphic.Color;
@@ -119,12 +122,36 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			node.put("color_rgb_hex", startNodeColorRGBHex);
 			node.put("color_hsl_lightness", startNode.getColorHSLLightness());
 			node.put("color_rgb_hex_combined", startNode.getColorRGBHexCombinedWithHSLValues());
-			node.put("width", 15);
+			//node.put("width", 15);
 			//node.put("width", startNode.getColorHSLLightness()+5);
 			//node.put("heigth", startNode.getColorHSLLightness()+5);
 			node.put("shape_d3_name", startNodeShapeD3Name);
 			node.put("label_shape_d3_name", startNodeShapeD3Name); /* temp, should be label.shape_d3_name*/
-			node.put("label_position", "centerCenter"); /* temp, should be label.shape_d3_name*/
+			
+			// temp label positioning using the attachedBy information
+			if (startNode.hasLabeledwith()){
+				
+				Labeling nAryLabeling = startNode.getAllLabeledwith_as().firstValue(); // TODO only one label handled!
+				
+				GraphicObjectToObjectRelation attachementRelation = nAryLabeling.getAllLabelingattachedBy_as().firstValue();
+				
+				if (attachementRelation.asURI().equals(Containment.RDFS_CLASS)) {
+					node.put("label_position", "centerCenter"); /* temp, should be label.shape_d3_name*/	
+					node.put("width", 30);
+				} else if (attachementRelation.asURI().equals(Superimposition.RDFS_CLASS)) {
+					node.put("label_position", "centerRight"); /* temp, should be label.shape_d3_name*/	
+					node.put("width", 30);
+				}
+					
+				// ... other positions ...
+				
+			} else {
+				
+				// default label positioning
+				node.put("label_position", "topLeft"); /* temp, should be label.shape_d3_name*/	
+				node.put("width", 15);
+			}
+			
 			listOfNodes.add(node);
 		}
 		d3data.put("nodes", listOfNodes);

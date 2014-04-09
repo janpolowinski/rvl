@@ -14,7 +14,7 @@ div.labelContainer {
 
 .label {
     border-color:red;
-	margin:-10px; /* will be set by JS */
+	/*margin:-10px;*/ /* will be set by JS */
 }
 
 #labelContainerSpace {
@@ -30,8 +30,23 @@ div.labelContainer {
 }
 
 .svgLabelIcon {
+	/*background-color: green;*/
 	top:0px;
 	left:0px;
+	overflow: visible; /* ignored by webkit, see this bug : https://bugs.webkit.org/show_bug.cgi?id=96163 ; leads to some cropping of the symbols */
+}
+
+.svgLabelText{
+	/*background-color: yellow;*/
+	top:0px;
+	left:0px;
+	overflow: visible; /* ignored by webkit, see this bug : https://bugs.webkit.org/show_bug.cgi?id=96163 ; leads to some cropping of the symbols */
+}
+
+.svgLabelText text.nodeLabelShadow {
+    stroke: white;
+    stroke-width: 4px;
+    stroke-opacity: .8;
 }
 
 .svgLabelIcon path {
@@ -44,7 +59,9 @@ div.labelContainer {
 	font-family: Arial;
   	font-size: 12px;
 	text-align: center;
-	width:5px; /* 0 or 5 allow for correct positiong of text */
+	width:100%; /* change to 0px or 5px allow for correct positiong of text */
+	height:100%;
+	word-wrap:break-word;
 }
 
 

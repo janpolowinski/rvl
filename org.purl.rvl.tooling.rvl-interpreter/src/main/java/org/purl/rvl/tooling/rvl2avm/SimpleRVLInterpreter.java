@@ -36,6 +36,8 @@ import org.purl.rvl.java.gen.rvl.Sub_mappingrelation;
 import org.purl.rvl.java.gen.viso.graphic.Color;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
+import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
+import org.purl.rvl.java.gen.viso.graphic.Labeling;
 import org.purl.rvl.java.gen.viso.graphic.Shape;
 import org.purl.rvl.java.gen.viso.graphic.Thing1;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
@@ -615,6 +617,15 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		    	Shape shape = ShapeX.getInstance(modelVISO, tv.asURI());
 		    	go.setShapenamed(shape);
 		    	LOGGER.finer("Set shape to " + shape + " for sv " + sv + NL);
+		    }
+		    
+			// if we are mapping to labeling_attachedBy
+		    if(tga.asURI().equals(Labeling.LABELINGATTACHEDBY)) {
+		    	GraphicObjectToObjectRelation attachementRelation = GraphicObjectToObjectRelation.getInstance(modelVISO, tv.asURI());
+		    	Labeling nAryLabeling = new Labeling(modelAVM, true);
+		    	nAryLabeling.setLabelingattachedBy(attachementRelation);
+		    	go.setLabeledwith(nAryLabeling);
+		    	LOGGER.finer("Set labeling attachment to " + attachementRelation + " for sv " + sv + NL);
 		    }
 		}
 		

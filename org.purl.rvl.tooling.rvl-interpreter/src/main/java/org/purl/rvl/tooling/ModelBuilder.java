@@ -110,7 +110,7 @@ public class ModelBuilder {
 		modelVISO.open();
 		
 		// extra model for data
-		modelData = RDF2Go.getModelFactory().createModel(Reasoning.none); // no reasoning seems to be OK here?? -> no colors of nodes are missing in ro-instance uss case
+		modelData = RDF2Go.getModelFactory().createModel(Reasoning.rdfs); // no reasoning seems to be OK here?? -> no colors of nodes are missing in ro-instance uss case
 		modelData.open();
 		
 		// extra model for mappings
