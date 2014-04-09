@@ -1,9 +1,5 @@
 package org.purl.rvl.interpreter.test;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Properties;
@@ -13,7 +9,6 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import org.apache.commons.io.FilenameUtils;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
@@ -25,7 +20,6 @@ import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.QueryResultTable;
 import org.ontoware.rdf2go.model.QueryRow;
 import org.ontoware.rdf2go.model.Statement;
-import org.ontoware.rdf2go.model.Syntax;
 import org.ontoware.rdf2go.model.impl.StatementImpl;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
@@ -37,6 +31,7 @@ import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.CustomRecordFormatter;
+import org.purl.rvl.tooling.util.ModelUtils;
 
 public class ModelRepoTest {
 	
@@ -87,12 +82,12 @@ public class ModelRepoTest {
 		// data
 		Model dataModel = RDF2Go.getModelFactory().createModel(Reasoning.none);
 		dataModel.open();
-		readFromAnySyntax(dataModel, ExampleData.SLUB_TEST);
+		ModelUtils.readFromAnySyntax(dataModel, ExampleData.SLUB_TEST);
 		
 		// mapping
 		Model mappingModel = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		mappingModel.open();
-		readFromAnySyntax(mappingModel, ExampleMapping.SLUB );
+		ModelUtils.readFromAnySyntax(mappingModel, ExampleMapping.SLUB );
 		LOGGER.finest("mapping model size: " + mappingModel.size());
 
 		/*
@@ -117,7 +112,7 @@ public class ModelRepoTest {
 		// rvl
 		Model rvlModel = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		rvlModel.open();
-		readFromAnySyntax(rvlModel, OGVICProcess.RVL_LOCAL_REL );
+		ModelUtils.readFromAnySyntax(rvlModel, OGVICProcess.RVL_LOCAL_REL );
 		LOGGER.finest("rvl model size: " + rvlModel.size());
 		
 		Model inferredRVLModel = RDF2Go.getModelFactory().createModel(Reasoning.none);
@@ -258,72 +253,6 @@ public class ModelRepoTest {
 		
 	}
 	
-	private static void listModelStatements(String context, Model model){
-		
-		System.out.println("Listing statements in model with context " + context);
-		
-		ClosableIterator<Statement> iterator = model.iterator();
-		
-		while (iterator.hasNext()) {
-			Statement statement = (Statement) iterator.next();
-			
-			System.out.println(statement);
-			
-		}
-		
-	}
-	
-	private static void printModelSet(ModelSet modelSet){
-		
-		System.out.println("Listing statements in ModelSet");
-		
-		ClosableIterator<Statement> iterator = modelSet.iterator();
-		
-		while (iterator.hasNext()) {
-			Statement statement = (Statement) iterator.next();
-			
-			
-			System.out.println(statement.getContext() + ": " + statement);
-			
-		}
-		
-	}
-	
-	
-	private static void readFromAnySyntax(Model model, String fileName) {
-		
-		File file = new File(fileName);
-		readFromAnySyntax(model, file);
-
-	}
-	
-	
-	
-	private static void readFromAnySyntax(Model model, File file) {
-
-		try {
-			
-			String extension = FilenameUtils.getExtension(file.getName());
-			
-			if (extension.equals("ttl") || extension.equals("n3")) {
-				model.readFrom(new FileReader(file),
-						Syntax.Turtle);
-			} else {
-				model.readFrom(new FileReader(file),
-						Syntax.RdfXml);
-			}
-		
-			LOGGER.info("Reading file into (some) model: " + file.getPath());
-			
-		} catch (FileNotFoundException e) {
-			LOGGER.info("File could not be read into the model, since it wasn't found: " +  file.getPath());
-		} catch (IOException e) {
-			LOGGER.info("File could not be read into the model: " +  file.getPath());
-			e.printStackTrace();
-		}
-
-	}
-
 	private static Set<Statement> findStatementsPreferingThoseUsingASubProperty(
 			ModelSet modelSet,
 			URI spURI,
