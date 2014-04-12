@@ -13,7 +13,7 @@ public class UseCaseZFO extends TestOGVICProcess {
 	@Test
 	public void testOGVICProcess() {
 		
-		process.setUriStart("http://purl.org/obo/owl/ZFA");
+		//process.setUriStart("http://purl.org/obo/owl/ZFA");
 		
 		//process.registerMappingFile(ExampleMapping.ZFO_X);
 		process.registerMappingFile(ExampleMapping.ZFO_Y);

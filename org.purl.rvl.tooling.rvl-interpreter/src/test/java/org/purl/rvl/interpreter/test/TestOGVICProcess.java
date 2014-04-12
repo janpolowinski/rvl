@@ -22,15 +22,11 @@ public class TestOGVICProcess {
 		process.registerOntologyFile(OGVICProcess.VISO_LOCAL_REL);
 		process.registerOntologyFile(OGVICProcess.RVL_LOCAL_REL);
 
-		// set default place to store JSON
-		process.setJsonFileNameRel("../org.purl.rvl.tooling.d3vis/examples/force-directed-graph/data.json");
-
 	}
 
 	@Test
 	public void testOGVICProcess() {
 		
-		process.setUriStart("http://purl.org/rvl");
 		//public static final String REXD_URI = "http://purl.org/rvl/example-data";
 		//public static final String REXD_URI = "http://purl.org/rvl";
 		//public static final String REXD_URI = "http://purl.org/ro/semvis-example/";

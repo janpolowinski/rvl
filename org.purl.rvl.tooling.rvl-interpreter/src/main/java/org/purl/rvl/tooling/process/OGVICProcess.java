@@ -53,25 +53,18 @@ public class OGVICProcess {
 	// MODELS AND MODELSETS
 	protected Model modelAVM;
 	
-	/*
-	protected static Model model;
-	protected static Model modelVISO;
-	protected static Model modelData;
-	protected static Model modelMappings;
-	*/
-	
 	// OTHER MEMBERS
 	ModelBuilder modelBuilder;
-	private boolean writeAVM = WRITE_AVM;
+
 	//protected static FakeRVLInterpreter avmBuilder;
 	protected D3GeneratorBase d3Generator;
 	protected RVLInterpreterBase rvlInterpreter;
+	
 	private final  FileRegistry ontologyFileRegistry = new FileRegistry(); // RVL, VISO ,...
 	private final  FileRegistry dataFileRegistry = new FileRegistry(); // DATA
 	private final  FileRegistry mappingFileRegistry = new FileRegistry(); // Mapping files (each interpreted as a mapping set)
-	private String uriStart = "";
-	private String jsonFileNameRel = "";
 	
+	private boolean writeAVM = WRITE_AVM;
 	private Reasoning reasoningDataModel = Reasoning.rdfs;
 
 
@@ -123,9 +116,19 @@ public class OGVICProcess {
 	 * @throws IOException 
 	 */
 	private OGVICProcess() {
+		
+		init();
+		
 	}
 	
-	public void runOGVICProcess(){
+	public static OGVICProcess getInstance() {
+		if (instance == null) {
+	        instance = new OGVICProcess();
+	    }
+	    return instance;
+	}
+
+	private void init() {
 		
 		// explicitly specify to use a specific ontology api here:
 		 RDF2Go.register( new org.ontoware.rdf2go.impl.jena.ModelFactoryImpl());
@@ -136,20 +139,21 @@ public class OGVICProcess {
 		
 		modelBuilder = new ModelBuilder();
 		
+
+	}
+	
+	public void loadProject(VisProject project) {
+		
 		if (REGENERATE_AVM) {
 			
 			// build the RDF models needed for the process
 			try {
-				modelBuilder.initRDF2GoModels(ontologyFileRegistry, dataFileRegistry, mappingFileRegistry);
+				modelBuilder.initRDF2GoModels(project.getDataFileRegistry(), project.getMappingFileRegistry());
 			} catch (Exception e) {
 				LOGGER.severe("Problem building the model");
 				e.printStackTrace();
 				return;
 			} 
-			/*
-			model = modelBuilder.getModel();
-			modelVISO = modelBuilder.getVISOModel();
-			*/
 			
 			modelAVM = modelBuilder.getAVMModel();
 			
@@ -165,76 +169,25 @@ public class OGVICProcess {
 					getModelSet()
 					);
 			
-			// interprete RVL mappings
-			interpreteRVL2AVM();	
-			
 		}
-		else if (WRITE_JSON) {
+		else {
 			readAVMFromFile(modelBuilder);
 			modelBuilder.initVISOModel(ontologyFileRegistry);
 			//modelVISO = modelBuilder.getVISOModel();
 		}
 		
-		if (WRITE_JSON) {
-		
-			// create and set a generator, if not already set
-			if (null==d3Generator) {
-				LOGGER.warning("JSON generator was not set, using default one.");
-				setD3Generator(new D3GeneratorSimpleJSON());
-			}
-			d3Generator.init(getModelAVM());
-	
-			
-			// transform AVM 2 JSON
-			String json = transformAVM2JSON();
-			LOGGER.info("JSON data is: " + NL +  json);
-			d3Generator.writeJSONToFile(json);
-			
+		// create and set a generator, if not already set
+		if (null==d3Generator) {
+			LOGGER.warning("JSON generator was not set, using default one.");
+			setD3Generator(new D3GeneratorSimpleJSON());
 		}
-			
-		// write the AVM to a file (this is done in the end, since it takes much time)
-		if (REGENERATE_AVM && writeAVM) {
-			writeAVMToFile();
-		}
-		
-
-
-		
-	    // close the model
-	    // model.close();
-	    // -NO!!! since there is more than one Thread, close would be performed before the data is added to the model, resulting in a NullPointerException of the RDF2GO model
+		d3Generator.init(getModelAVM());
 	}
 
 	private void readAVMFromFile(ModelBuilder modelBuilder) {
 		LOGGER.info("AVM regeneration OFF! Will not interpret any new mappings, but load AVM from " + TMP_AVM_MODEL_FILE_NAME);	
 		modelBuilder.initFromTmpAVMFile();
 		modelAVM = modelBuilder.getAVMModel();
-	}
-
-	private void interpreteRVL2AVM() {
-		rvlInterpreter.interpretMappings();
-	}
-
-	private String transformAVM2JSON() {
-		String json = "";
-		json = d3Generator.generateJSONforD3();
-		return json;
-	}
-
-	/**
-	 * Write a model to file in Turtle serialisation
-	 * @param fileName
-	 */
-	private static void writeModelToFile(Model modelToWrite, String fileName) {
-		
-		try {
-			
-			FileWriter writer = new FileWriter(fileName);
-			modelToWrite.writeTo(writer, Syntax.Turtle);
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**
@@ -259,13 +212,21 @@ public class OGVICProcess {
 		}
 	}
 
-
-	public void setD3Generator(D3GeneratorBase d3Generator) {
-		this.d3Generator = d3Generator;
-		this.setJsonFileNameRel(GEN_MODEL_FILE_FOLDER_D3_JSON + "/" + d3Generator.getGenJSONFileName());
+	public void runOGVICProcess(){
+		interpreteRVL2AVM();	
+		transformAVMToD3();
 	}
 
-	
+	private void interpreteRVL2AVM() {
+		rvlInterpreter.interpretMappings();
+	}
+
+	private void transformAVMToD3() {
+		String json = d3Generator.generateJSONforD3();
+		LOGGER.info("JSON data is: " + NL +  json);
+		d3Generator.writeJSONToFile(json);
+	}
+
 	/**
 	 * @return the rvlInterpreter
 	 */
@@ -280,6 +241,11 @@ public class OGVICProcess {
 		this.rvlInterpreter = rvlInterpreter;
 	}
 
+	public void setD3Generator(D3GeneratorBase d3Generator) {
+		this.d3Generator = d3Generator;
+		//this.setJsonFileNameRel(GEN_MODEL_FILE_FOLDER_D3_JSON + "/" + d3Generator.getGenJSONFileName());
+	}
+
 	public void registerMappingFile(String fileName){
 		this.mappingFileRegistry.addFile(fileName);
 	}
@@ -290,42 +256,6 @@ public class OGVICProcess {
 	
 	public void registerDataFile(String fileName){
 		this.dataFileRegistry.addFile(fileName);
-	}
-
-
-	/**
-	 * @return the uriStart
-	 */
-//	public String getUriStart() {
-//		return uriStart;
-//	}
-
-	/**
-	 * @param uriStart the uriStart to set
-	 */
-	public void setUriStart(String uriStart) {
-		this.uriStart = uriStart;
-	}
-
-	/**
-	 * @return the jsonFileNameRel
-	 */
-	public String getJsonFileNameRel() {
-		return jsonFileNameRel;
-	}
-
-	/**
-	 * @param jsonFileNameRel the jsonFileNameRel to set
-	 */
-	public void setJsonFileNameRel(String jsonFileNameRel) {
-		this.jsonFileNameRel = jsonFileNameRel;
-	}
-
-	public static OGVICProcess getInstance() {
-		if (instance == null) {
-            instance = new OGVICProcess();
-        }
-        return instance;
 	}
 
 	public Model getModelVISO() {
@@ -370,6 +300,10 @@ public class OGVICProcess {
 	
 	public Reasoning getReasoningDataModel() {
 		return this.reasoningDataModel;
+	}
+
+	public String getJsonFileNameRel() {
+		return GEN_MODEL_FILE_FOLDER_D3_JSON + "/" + d3Generator.getGenJSONFileName();
 	}
 
 }

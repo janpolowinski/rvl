@@ -100,7 +100,7 @@ public class ModelBuilder {
 
 	
 	
-	public void initRDF2GoModels(FileRegistry ontologyFileRegistry, FileRegistry dataFileRegistry, FileRegistry mappingFileRegistry )  {
+	public void initRDF2GoModels(FileRegistry dataFileRegistry, FileRegistry mappingFileRegistry )  {
 		
 		// create the RDF2GO Models
 		//model = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
@@ -208,7 +208,7 @@ public class ModelBuilder {
 	
 
 	public void initVISOModel(FileRegistry ontologyFileRegistry) {
-		initRDF2GoModels(ontologyFileRegistry, null, null);
+		initRDF2GoModels(null, null);
 	}
 
 	/**
