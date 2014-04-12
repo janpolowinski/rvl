@@ -8,6 +8,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.RDF2Go;
+import org.ontoware.rdf2go.Reasoning;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Syntax;
@@ -70,6 +71,8 @@ public class OGVICProcess {
 	private final  FileRegistry mappingFileRegistry = new FileRegistry(); // Mapping files (each interpreted as a mapping set)
 	private String uriStart = "";
 	private String jsonFileNameRel = "";
+	
+	private Reasoning reasoningDataModel = Reasoning.rdfs;
 
 
 	// LOGGING
@@ -355,6 +358,18 @@ public class OGVICProcess {
 	 */
 	public void setWriteAVM(boolean writeAVM) {
 		this.writeAVM = writeAVM;
+	}
+
+	/**
+	 * Turns reasoning on the data model on/off.
+	 * @param reasoningDataModel
+	 */
+	public void setReasoningDataModel(Reasoning reasoningDataModel) {
+		this.reasoningDataModel = reasoningDataModel;
+	}
+	
+	public Reasoning getReasoningDataModel() {
+		return this.reasoningDataModel;
 	}
 
 }

@@ -18,6 +18,7 @@ import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
 import org.purl.rvl.tooling.process.FileRegistry;
 import org.purl.rvl.tooling.process.OGVICProcess;
+import org.purl.rvl.tooling.util.ModelUtils;
 
 
 public class ModelBuilder {
@@ -76,16 +77,16 @@ public class ModelBuilder {
 		modelMappings.open();
 		
 		// extra model for data
-		modelData = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		modelData = RDF2Go.getModelFactory().createModel(OGVICProcess.getInstance().getReasoningDataModel());
 		modelData.open();
 
 
 
 		try {
-			readFromAnySyntax(modelRVLSchema,OGVICProcess.RVL_LOCAL_REL);
-			readFromAnySyntax(modelVISO,OGVICProcess.VISO_LOCAL_REL);
-			readFromAnySyntax(modelMappings,ExampleMapping.RVL_EXAMPLE_MINI);
-			readFromAnySyntax(modelData,ExampleData.RVL_EXAMPLE); 
+			ModelUtils.readFromAnySyntax(modelRVLSchema,OGVICProcess.RVL_LOCAL_REL);
+			ModelUtils.readFromAnySyntax(modelVISO,OGVICProcess.VISO_LOCAL_REL);
+			ModelUtils.readFromAnySyntax(modelMappings,ExampleMapping.RVL_EXAMPLE_MINI);
+			ModelUtils.readFromAnySyntax(modelData,ExampleData.RVL_EXAMPLE); 
 			
 			modelMappings.addModel(modelRVLSchema); // TODO temp hack!
 			//modelMappings.addModel(modelVISO); // TODO temp hack!
@@ -110,7 +111,7 @@ public class ModelBuilder {
 		modelVISO.open();
 		
 		// extra model for data
-		modelData = RDF2Go.getModelFactory().createModel(Reasoning.rdfs); // no reasoning seems to be OK here?? -> no colors of nodes are missing in ro-instance uss case
+		modelData = RDF2Go.getModelFactory().createModel(OGVICProcess.getInstance().getReasoningDataModel()); // no reasoning seems to be OK here?? -> no colors of nodes are missing in ro-instance uss case
 		modelData.open();
 		
 		// extra model for mappings
@@ -139,7 +140,7 @@ public class ModelBuilder {
 				File file = (File) iterator.next();
 				LOGGER.finer("Found registered data file: " + file.getAbsolutePath().toString());
 				//readFromAnySyntax(model,file);
-				readFromAnySyntax(modelData,file);
+				ModelUtils.readFromAnySyntax(modelData,file);
 			}
 		}
 		
@@ -148,14 +149,14 @@ public class ModelBuilder {
 				File file = (File) iterator.next();
 				LOGGER.finer("Found registered mapping file: " + file.getAbsolutePath().toString());
 				//readFromAnySyntax(model,file);
-				readFromAnySyntax(modelMappings,file);
+				ModelUtils.readFromAnySyntax(modelMappings,file);
 			}
 		}
 		
 		// read schemas to extra models //  TODO clean up ontology section above (will be redundant)
 		
-		readFromAnySyntax(modelRVLSchema,OGVICProcess.RVL_LOCAL_REL);
-		readFromAnySyntax(modelVISO,OGVICProcess.VISO_LOCAL_REL);
+		ModelUtils.readFromAnySyntax(modelRVLSchema,OGVICProcess.RVL_LOCAL_REL);
+		ModelUtils.readFromAnySyntax(modelVISO,OGVICProcess.VISO_LOCAL_REL);
 		
 		modelMappings.addModel(modelRVLSchema); // TODO temp hack! // necessary!
 		//modelMappings.addModel(modelVISO); // TODO temp hack!
@@ -175,6 +176,14 @@ public class ModelBuilder {
 		modelSet.addModel(modelVISO, OGVICProcess.GRAPH_VISO);
 		//modelSet.addModel(modelRVL, OGVICProcess.GRAPH_RVL);
 		//modelSet.addModel(enrichedMappings, GRAPH_MAPPING_ENRICHED_WITH_RVL);
+		
+		
+		// cache inferred files for speeding up future starts
+		
+		// since multiple files may be used to infer the models, 
+		// a new file name per use case / project is needed
+		
+		
 
 		
 	}
@@ -189,46 +198,14 @@ public class ModelBuilder {
 		modelAVM.open();
 
 		try {
-			readFromAnySyntax(modelAVM,OGVICProcess.TMP_AVM_MODEL_FILE_NAME);
+			ModelUtils.readFromAnySyntax(modelAVM,OGVICProcess.TMP_AVM_MODEL_FILE_NAME);
 		} catch (Exception e) {
 			LOGGER.severe("Problem reading the tmp AVM model from file: " + e);
 		}
 	}
 
 	
-	private static void readFromAnySyntax(Model model, String fileName) {
-		
-		File file = new File(fileName);
-		readFromAnySyntax(model, file);
-
-	}
 	
-	
-	
-	private static void readFromAnySyntax(Model model, File file) {
-
-		try {
-			
-			String extension = FilenameUtils.getExtension(file.getName());
-			
-			if (extension.equals("ttl") || extension.equals("n3")) {
-				model.readFrom(new FileReader(file),
-						Syntax.Turtle);
-			} else {
-				model.readFrom(new FileReader(file),
-						Syntax.RdfXml);
-			}
-		
-			LOGGER.info("Reading file into (some) model: " + file.getPath());
-			
-		} catch (FileNotFoundException e) {
-			LOGGER.info("File could not be read into the model, since it wasn't found: " +  file.getPath());
-		} catch (IOException e) {
-			LOGGER.info("File could not be read into the model: " +  file.getPath());
-			e.printStackTrace();
-		}
-
-	}
 
 	public void initVISOModel(FileRegistry ontologyFileRegistry) {
 		initRDF2GoModels(ontologyFileRegistry, null, null);
@@ -246,6 +223,10 @@ public class ModelBuilder {
 	 */
 	public void setModelSet(ModelSet modelSet) {
 		this.modelSet = modelSet;
+	}
+	
+	public void saveInferredModelsForProject(){
+		
 	}
 
 }

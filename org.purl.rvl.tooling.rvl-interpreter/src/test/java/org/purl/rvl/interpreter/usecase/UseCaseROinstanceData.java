@@ -1,6 +1,7 @@
 package org.purl.rvl.interpreter.usecase;
 
 import org.junit.Test;
+import org.ontoware.rdf2go.Reasoning;
 import org.purl.rvl.interpreter.test.TestOGVICProcess;
 import org.purl.rvl.tooling.avm.D3GeneratorSimpleJSON;
 import org.purl.rvl.tooling.avm.D3GeneratorTreeJSON;
@@ -20,6 +21,7 @@ public class UseCaseROinstanceData extends TestOGVICProcess {
 		process.registerMappingFile(ExampleMapping.RO_SOCIAL_NETWORK);
 		process.registerDataFile(ExampleData.RO_SOCIAL_NETWORK);
 		process.registerDataFile(ExampleData.RO_SOCIAL_NETWORK_EXTRA_DATA);
+		process.setReasoningDataModel(Reasoning.rdfs);
 		
 
 		process.setRvlInterpreter(new SimpleRVLInterpreter());

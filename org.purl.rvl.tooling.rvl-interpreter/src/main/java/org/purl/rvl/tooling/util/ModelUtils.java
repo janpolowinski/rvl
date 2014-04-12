@@ -6,6 +6,7 @@ package org.purl.rvl.tooling.util;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Logger;
 
@@ -31,7 +32,7 @@ public class ModelUtils {
 	
 	}
 
-	private static void readFromAnySyntax(Model model, File file) {
+	public static void readFromAnySyntax(Model model, File file) {
 	
 		try {
 			
@@ -84,6 +85,22 @@ public class ModelUtils {
 			
 		}
 		
+	}
+
+	/**
+	 * Write a model to file in Turtle serialisation
+	 * @param fileName
+	 */
+	private static void writeModelToTurtleFile(Model modelToWrite, String fileName) {
+		
+		try {
+			
+			FileWriter writer = new FileWriter(fileName);
+			modelToWrite.writeTo(writer, Syntax.Turtle);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
