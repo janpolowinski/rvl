@@ -49,6 +49,7 @@ public class OGVICProcess {
 	public static final URI GRAPH_DATA = new URIImpl("http://purl.org/rvl/example/data/");
 	public static final URI GRAPH_RVL_SCHEMA = new URIImpl("http://purl.org/rvl/");
 	public static final URI GRAPH_VISO = new URIImpl("http://purl.org/viso/");
+	public static final URI GRAPH_AVM = new URIImpl("http://purl.org/rvl/avm/");
 
 	// MODELS AND MODELSETS
 	protected Model modelAVM;
@@ -73,6 +74,8 @@ public class OGVICProcess {
 	private final static Logger LOGGER_RVL_PACKAGE = Logger.getLogger("org.purl.rvl"); 
 	
 	static final String NL =  System.getProperty("line.separator");
+
+
 	
 	
     static {
@@ -116,9 +119,7 @@ public class OGVICProcess {
 	 * @throws IOException 
 	 */
 	private OGVICProcess() {
-		
 		init();
-		
 	}
 	
 	public static OGVICProcess getInstance() {
@@ -136,58 +137,81 @@ public class OGVICProcess {
 		// if not specified, RDF2Go.getModelFactory() looks into your classpath
 		// for ModelFactoryImpls to register.
 
-		
 		modelBuilder = new ModelBuilder();
 		
-
+		initInternalModels();
+	}
+	
+	// init AVM, RVL and VISO models
+	private void initInternalModels(){
+		
+		//if (REGENERATE_AVM) {
+		//	this.modelAVM = modelBuilder.initAVMModel();
+		//}
+		//else {
+		//	this.modelAVM = readAVMFromFile(modelBuilder);
+		//}
+		
+		this.modelAVM = modelBuilder.initAVMModel();
+		modelBuilder.initVISOModel();
+		modelBuilder.initRVLModel();
+		
 	}
 	
 	public void loadProject(VisProject project) {
 		
-		if (REGENERATE_AVM) {
-			
-			// build the RDF models needed for the process
-			try {
-				modelBuilder.initRDF2GoModels(project.getDataFileRegistry(), project.getMappingFileRegistry());
-			} catch (Exception e) {
-				LOGGER.severe("Problem building the model");
-				e.printStackTrace();
-				return;
-			} 
-			
-			modelAVM = modelBuilder.getAVMModel();
-			
-			// create and set an interpreter, if not already set
-			if (null==rvlInterpreter) {
-				LOGGER.warning("RVL interpreter was not set, using default one.");
-				//rvlInterpreter = new FakeRVLInterpreter();
-				rvlInterpreter = new SimpleRVLInterpreter();
+		LOGGER.finest("Clearing internal models (AVM, data, mappings)");
+		
+		modelBuilder.clearMappingAndDataModels();
+		modelBuilder.clearAVMModel();
+		
+		/*
+		if (null !=  getModelAVM() && 
+			null != getModelData() && 
+			null != getModelMappings() &&
+			getModelAVM().isEmpty() && 
+			getModelData().isEmpty() && 
+			getModelMappings().isEmpty()
+		) {
+			LOGGER.finest("Internal models are empty now.");
+			Model model = getModelSet().getModel(OGVICProcess.GRAPH_DATA);
+			if (model.isEmpty()) {
+				LOGGER.finest("data model in model set is empty");
 			}
-			rvlInterpreter.init(
-					//getModel(),
-					getModelAVM(),
-					getModelSet()
-					);
-			
+		}*/
+
+		// build the RDF models needed for the process
+		try {
+			modelBuilder.initDataModel(project.getDataFileRegistry());
+			modelBuilder.initMappingsModel(project.getMappingFileRegistry());
+		} catch (Exception e) {
+			LOGGER.severe("Problem building the data or mapping models.");
+			e.printStackTrace();
+			return;
 		}
-		else {
-			readAVMFromFile(modelBuilder);
-			modelBuilder.initVISOModel(ontologyFileRegistry);
-			//modelVISO = modelBuilder.getVISOModel();
+
+		// create and set an interpreter, if not already set
+		if (null == rvlInterpreter) {
+			LOGGER.warning("RVL interpreter was not set, using default one.");
+			// rvlInterpreter = new FakeRVLInterpreter();
+			rvlInterpreter = new SimpleRVLInterpreter();
 		}
 		
+		rvlInterpreter.init(getModelAVM(), getModelSet());
+
 		// create and set a generator, if not already set
-		if (null==d3Generator) {
+		if (null == d3Generator) {
 			LOGGER.warning("JSON generator was not set, using default one.");
 			setD3Generator(new D3GeneratorSimpleJSON());
 		}
+
 		d3Generator.init(getModelAVM());
 	}
 
-	private void readAVMFromFile(ModelBuilder modelBuilder) {
+	private Model readAVMFromFile(ModelBuilder modelBuilder) {
 		LOGGER.info("AVM regeneration OFF! Will not interpret any new mappings, but load AVM from " + TMP_AVM_MODEL_FILE_NAME);	
-		modelBuilder.initFromTmpAVMFile();
-		modelAVM = modelBuilder.getAVMModel();
+		modelAVM = modelBuilder.initAVMModelFromFile(OGVICProcess.TMP_AVM_MODEL_FILE_NAME);
+		return modelAVM;
 	}
 
 	/**
@@ -243,7 +267,6 @@ public class OGVICProcess {
 
 	public void setD3Generator(D3GeneratorBase d3Generator) {
 		this.d3Generator = d3Generator;
-		//this.setJsonFileNameRel(GEN_MODEL_FILE_FOLDER_D3_JSON + "/" + d3Generator.getGenJSONFileName());
 	}
 
 	public void registerMappingFile(String fileName){

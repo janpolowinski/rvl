@@ -20,6 +20,8 @@ import org.purl.rvl.tooling.process.FileRegistry;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.ModelUtils;
 
+import com.hp.hpl.jena.rdf.model.impl.ModelListenerAdapter;
+
 
 public class ModelBuilder {
 	
@@ -36,26 +38,23 @@ public class ModelBuilder {
 	static final String NL =  System.getProperty("line.separator");
 	
 
+	/**
+	 * 
+	 */
+	public ModelBuilder() {
+		super();
+		initModelSet();
+	}
+
 	/*public Model getModel(){
 		return model;
 		}*/
 	
-	public Model getVISOModel(){
-		return modelVISO;
-		}
-	
-	public Model getDataModel(){
-		return modelData;
-		}
-	
-	public Model getMappingsModel(){
-		return modelMappings;
-		}
-	
-	public Model getAVMModel(){
-		return modelAVM;
-		}
-	
+	public void initModelSet(){
+		
+		modelSet = RDF2Go.getModelFactory().createModelSet();
+		modelSet.open();
+	}
 
 
 	public void initTestModels() throws ModelRuntimeException {
@@ -97,52 +96,32 @@ public class ModelBuilder {
 		}
 	}
 	
-
 	
-	
-	public void initRDF2GoModels(FileRegistry dataFileRegistry, FileRegistry mappingFileRegistry )  {
-		
-		// create the RDF2GO Models
-		//model = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
-		//model.open();
-		
+	public void initVISOModel() {
 		// extra model for VISO
 		modelVISO = RDF2Go.getModelFactory().createModel(Reasoning.none); // no reasoning seems to be OK here
 		modelVISO.open();
+		ModelUtils.readFromAnySyntax(modelVISO,OGVICProcess.VISO_LOCAL_REL);
+	
+		modelSet.addModel(modelVISO, OGVICProcess.GRAPH_VISO);
+	}
+
+	public void initRVLModel() {
+		// extra model for RVL (schema)
+		modelRVLSchema = RDF2Go.getModelFactory().createModel(Reasoning.none); // no reasoning seems to be OK here
+		modelRVLSchema.open();
+		ModelUtils.readFromAnySyntax(modelRVLSchema,OGVICProcess.RVL_LOCAL_REL);
 		
-		// extra model for data
-		modelData = RDF2Go.getModelFactory().createModel(OGVICProcess.getInstance().getReasoningDataModel()); // no reasoning seems to be OK here?? -> no colors of nodes are missing in ro-instance uss case
-		modelData.open();
+		modelSet.addModel(modelRVLSchema, OGVICProcess.GRAPH_RVL_SCHEMA);
+	}
+
+	public void initMappingsModel(FileRegistry mappingFileRegistry )  {
+		
+		modelSet.removeModel(OGVICProcess.GRAPH_MAPPING);
 		
 		// extra model for mappings
 		modelMappings = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		modelMappings.open();
-		
-		// extra model for RVL (schema)
-		modelRVLSchema = RDF2Go.getModelFactory().createModel(Reasoning.none); // no reasoning seems to be OK here
-		modelRVLSchema.open();
-		
-		// empty model to hold the AVM
-		modelAVM = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
-		modelAVM.open();	
-		
-//		if (null != ontologyFileRegistry) {
-//			for (Iterator<File> iterator = ontologyFileRegistry.getFiles().iterator(); iterator.hasNext();) {
-//				File file = (File) iterator.next();
-//				LOGGER.finer("Found registered ontology file: " + file.getAbsolutePath().toString());
-//				readFromAnySyntax(model,file);
-//				readFromAnySyntax(modelVISO,file);
-//			}
-//		}
-		
-		if (null != dataFileRegistry) {
-			for (Iterator<File> iterator = dataFileRegistry.getFiles().iterator(); iterator.hasNext();) {
-				File file = (File) iterator.next();
-				LOGGER.finer("Found registered data file: " + file.getAbsolutePath().toString());
-				//readFromAnySyntax(model,file);
-				ModelUtils.readFromAnySyntax(modelData,file);
-			}
-		}
 		
 		if (null != mappingFileRegistry) {
 			for (Iterator<File> iterator = mappingFileRegistry.getFiles().iterator(); iterator.hasNext();) {
@@ -152,13 +131,12 @@ public class ModelBuilder {
 				ModelUtils.readFromAnySyntax(modelMappings,file);
 			}
 		}
-		
-		// read schemas to extra models //  TODO clean up ontology section above (will be redundant)
-		
-		ModelUtils.readFromAnySyntax(modelRVLSchema,OGVICProcess.RVL_LOCAL_REL);
-		ModelUtils.readFromAnySyntax(modelVISO,OGVICProcess.VISO_LOCAL_REL);
-		
+
 		modelMappings.addModel(modelRVLSchema); // TODO temp hack! // necessary!
+		
+		modelSet.addModel(modelMappings, OGVICProcess.GRAPH_MAPPING);
+
+		
 		//modelMappings.addModel(modelVISO); // TODO temp hack!
 		//modelMappings.addModel(modelData); // TODO temp hack!
 		
@@ -166,49 +144,79 @@ public class ModelBuilder {
 		//modelData.addModel(modelVISO); // TODO temp hack!
 		//modelData.addModel(modelMappings); // TODO temp hack!
 		
-		// combine models to a model set with different named graphs
+		// combine models to a model set with different named graph		
+	}
+
+	
+	
+	public void initDataModel(FileRegistry dataFileRegistry)  {
 		
-		modelSet = RDF2Go.getModelFactory().createModelSet();
-		modelSet.open();
+		modelSet.removeModel(OGVICProcess.GRAPH_DATA);
+		
+		// extra model for data
+		modelData = RDF2Go.getModelFactory().createModel(OGVICProcess.getInstance().getReasoningDataModel()); // no reasoning seems to be OK here?? -> no colors of nodes are missing in ro-instance uss case
+		modelData.open();
+
+		if (null != dataFileRegistry) {
+			for (Iterator<File> iterator = dataFileRegistry.getFiles().iterator(); iterator.hasNext();) {
+				File file = (File) iterator.next();
+				LOGGER.finer("Found registered data file: " + file.getAbsolutePath().toString());
+				//readFromAnySyntax(model,file);
+				ModelUtils.readFromAnySyntax(modelData,file);
+			}
+		}
+
 		modelSet.addModel(modelData, OGVICProcess.GRAPH_DATA);
-		modelSet.addModel(modelMappings, OGVICProcess.GRAPH_MAPPING);
-		modelSet.addModel(modelRVLSchema, OGVICProcess.GRAPH_RVL_SCHEMA);
-		modelSet.addModel(modelVISO, OGVICProcess.GRAPH_VISO);
-		//modelSet.addModel(modelRVL, OGVICProcess.GRAPH_RVL);
-		//modelSet.addModel(enrichedMappings, GRAPH_MAPPING_ENRICHED_WITH_RVL);
-		
-		
+				
 		// cache inferred files for speeding up future starts
 		
 		// since multiple files may be used to infer the models, 
 		// a new file name per use case / project is needed
-		
-		
-
-		
 	}
 	
+	public void clearMappingAndDataModels() {
+		if (null!= modelMappings)
+			modelMappings.removeAll();
+		if (null!= modelData)
+			modelData.removeAll();
+	}
+
+	public Model initAVMModel() {
+		
+		modelSet.removeModel(OGVICProcess.GRAPH_AVM);
+		
+		// empty model to hold the AVM
+		modelAVM = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		modelAVM.open();	
+		
+		modelSet.addModel(modelAVM, OGVICProcess.GRAPH_AVM);
+		
+		return modelAVM;
+	}
+
 	/**
 	 * Only reads the AVM from the tmp file into the model
+	 * @return 
 	 * 
 	 * @throws ModelRuntimeException
 	 */
-	public void initFromTmpAVMFile() throws ModelRuntimeException {
+	public Model initAVMModelFromFile(String fileName) throws ModelRuntimeException {
+		
 		modelAVM = RDF2Go.getModelFactory().createModel(Reasoning.none);
 		modelAVM.open();
-
+	
 		try {
-			ModelUtils.readFromAnySyntax(modelAVM,OGVICProcess.TMP_AVM_MODEL_FILE_NAME);
+			ModelUtils.readFromAnySyntax(modelAVM,fileName);
 		} catch (Exception e) {
 			LOGGER.severe("Problem reading the tmp AVM model from file: " + e);
 		}
+		
+		return modelAVM;
 	}
 
-	
-	
-
-	public void initVISOModel(FileRegistry ontologyFileRegistry) {
-		initRDF2GoModels(null, null);
+	public void clearAVMModel() {
+		if (null!= modelAVM)
+			modelAVM.removeAll();
 	}
 
 	/**
@@ -225,8 +233,26 @@ public class ModelBuilder {
 		this.modelSet = modelSet;
 	}
 	
-	public void saveInferredModelsForProject(){
-		
+	/*public Model getModel(){
+		return model;
+		}*/
+	
+	public Model getVISOModel(){
+		return modelVISO;
+		}
+
+	public Model getDataModel(){
+	return modelData;
 	}
+
+	public Model getMappingsModel(){
+	return modelMappings;
+	}
+
+	public Model getAVMModel(){
+	return modelAVM;
+	}
+
+
 
 }

@@ -171,5 +171,9 @@ public class VisProjectLibrary {
 	public VisProject getProject(String useCaseName) {
 		return library.get(useCaseName);
 	}
+	
+	public boolean contains(String projectName){
+		return library.containsKey(projectName);
+	}
 
 }
