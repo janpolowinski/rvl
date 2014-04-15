@@ -18,17 +18,17 @@ public class UseCaseROinstanceData extends TestOGVICProcess {
 		
 		//process.setUriStart("http://purl.org/ro/ont#");
 
-		process.registerMappingFile(ExampleMapping.RO_SOCIAL_NETWORK);
-		process.registerDataFile(ExampleData.RO_SOCIAL_NETWORK);
-		process.registerDataFile(ExampleData.RO_SOCIAL_NETWORK_EXTRA_DATA);
-		process.setReasoningDataModel(Reasoning.rdfs);
+		project.registerMappingFile(ExampleMapping.RO_SOCIAL_NETWORK);
+		project.registerDataFile(ExampleData.RO_SOCIAL_NETWORK);
+		project.registerDataFile(ExampleData.RO_SOCIAL_NETWORK_EXTRA_DATA);
+		project.setReasoningDataModel(Reasoning.rdfs);
 		
 
-		process.setRvlInterpreter(new SimpleRVLInterpreter());
-		process.setD3Generator(new D3GeneratorSimpleJSON());
+		//project.setRvlInterpreter(new SimpleRVLInterpreter());
+		project.setD3Generator(new D3GeneratorSimpleJSON());
 		//process.setD3Generator(new D3GeneratorTreeJSON());
 		
-		process.runOGVICProcess();
+		loadProjectAndRunProcess();
 		
 	}
 

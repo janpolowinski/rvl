@@ -299,4 +299,8 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 		return "graph-data.json";
 	}
 	
+	public String getDefaultD3GraphicFile(){
+		return "force-directed-graph/index.html";
+	}
+	
 }

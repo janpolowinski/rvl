@@ -8,11 +8,13 @@ import org.purl.rvl.tooling.avm.D3GeneratorSimpleJSON;
 import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
 import org.purl.rvl.tooling.process.OGVICProcess;
+import org.purl.rvl.tooling.process.VisProject;
 import org.purl.rvl.tooling.rvl2avm.SimpleRVLInterpreter;
 
 public class TestOGVICProcess {
 	
 	protected OGVICProcess process;
+	protected VisProject project = new VisProject("test");
 
 	@Before
 	public void setUp() throws Exception {
@@ -32,15 +34,21 @@ public class TestOGVICProcess {
 		//public static final String REXD_URI = "http://purl.org/ro/semvis-example/";
 		//public static final String REXD_URI = "http://purl.org/obo/owl/";
 
-		process.registerMappingFile(ExampleMapping.RVL_EXAMPLE_MINI);
-		process.registerDataFile(ExampleData.RVL_EXAMPLE);
+		project.registerMappingFile(ExampleMapping.RVL_EXAMPLE);
+		project.registerDataFile(ExampleData.RVL_EXAMPLE);
 		
-		process.setRvlInterpreter(new SimpleRVLInterpreter());
-		process.setD3Generator(new D3GeneratorSimpleJSON());
+		//project.setRvlInterpreter(new SimpleRVLInterpreter());
+		project.setD3Generator(new D3GeneratorSimpleJSON());
 		
-		process.runOGVICProcess();
+		loadProjectAndRunProcess();
 	}
 
+	
+	public void loadProjectAndRunProcess(){
+
+		process.loadProject(project);
+		process.runOGVICProcess();
+	}
 	/*
 	@Test
 	public void testWriteAVMToFile() {

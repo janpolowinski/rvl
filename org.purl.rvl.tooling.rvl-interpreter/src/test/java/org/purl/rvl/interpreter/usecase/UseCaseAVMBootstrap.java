@@ -15,15 +15,15 @@ public class UseCaseAVMBootstrap extends TestOGVICProcess {
 
 		process.setWriteAVM(false);
 		
-		process.registerMappingFile(ExampleMapping.AVM_EXAMPLE_BOOTSTRAP);
-		process.registerDataFile(ExampleData.AVM);
-		process.registerDataFile(ExampleData.AVM_EXTRA_DATA);
+		project.registerMappingFile(ExampleMapping.AVM_EXAMPLE_BOOTSTRAP);
+		project.registerDataFile(ExampleData.AVM);
+		project.registerDataFile(ExampleData.AVM_EXTRA_DATA);
 		
-		process.setRvlInterpreter(new SimpleRVLInterpreter());
-		process.setD3Generator(new D3GeneratorSimpleJSON());
-		//process.setD3Generator(new D3GeneratorTreeJSON());
+		//project.setRvlInterpreter(new SimpleRVLInterpreter());
+		project.setD3Generator(new D3GeneratorSimpleJSON());
+		//project.setD3Generator(new D3GeneratorTreeJSON());
 		
-		process.runOGVICProcess();
+		loadProjectAndRunProcess();
 	}
 
 

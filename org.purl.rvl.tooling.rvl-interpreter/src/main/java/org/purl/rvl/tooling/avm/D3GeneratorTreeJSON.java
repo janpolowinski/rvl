@@ -253,6 +253,10 @@ private Map generateObjectFor(Containment rel) {
 public String getGenJSONFileName() {
 	return "tree-data.json";
 }
+
+public String getDefaultD3GraphicFile(){
+	return "collapsible_tree/index.html";
+}
 	
 
 	

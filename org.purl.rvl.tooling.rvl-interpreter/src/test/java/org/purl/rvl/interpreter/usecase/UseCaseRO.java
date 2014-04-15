@@ -11,14 +11,12 @@ public class UseCaseRO extends TestOGVICProcess {
 	@Test
 	public void testOGVICProcess() {
 		
-		//process.setUriStart("http://purl.org/ro/semvis-example/");
-
-		process.registerMappingFile(ExampleMapping.RO);
-		process.registerDataFile(ExampleData.RO_SEMVIS);
+		project.registerMappingFile(ExampleMapping.RO);
+		project.registerDataFile(ExampleData.RO_SEMVIS);
 		
-		process.setD3Generator(new D3GeneratorTreeJSON());
+		project.setD3Generator(new D3GeneratorTreeJSON());
 		
-		process.runOGVICProcess();
+		loadProjectAndRunProcess();
 		
 	}
 

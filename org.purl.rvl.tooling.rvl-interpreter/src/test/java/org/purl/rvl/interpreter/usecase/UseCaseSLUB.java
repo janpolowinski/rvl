@@ -13,19 +13,15 @@ public class UseCaseSLUB extends TestOGVICProcess {
 	@Test
 	public void testOGVICProcess() {
 		
-		//process.setWriteAVM(true);
+		project.registerDataFile(ExampleData.SLUB_TEST);
+		project.registerDataFile(ExampleData.SLUB_EXTRA_DATA);
+		project.registerMappingFile(ExampleMapping.SLUB);
 		
-		//process.setUriStart("http://data.slub-dresden.de/datamodels/22/records/");
-	
-		process.registerDataFile(ExampleData.SLUB_TEST);
-		process.registerDataFile(ExampleData.SLUB_EXTRA_DATA);
-		process.registerMappingFile(ExampleMapping.SLUB);
+		//project.setRvlInterpreter(new SimpleRVLInterpreter());
+		//project.setD3Generator(new D3GeneratorTreeJSON());
+		project.setD3Generator(new D3GeneratorSimpleJSON());
 		
-		process.setRvlInterpreter(new SimpleRVLInterpreter());
-		//process.setD3Generator(new D3GeneratorTreeJSON());
-		process.setD3Generator(new D3GeneratorSimpleJSON());
-		
-		process.runOGVICProcess();
+		loadProjectAndRunProcess();
 	}
 
 

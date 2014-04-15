@@ -65,4 +65,5 @@ public abstract class D3GeneratorBase {
 	
 	public abstract String getGenJSONFileName();
 	
+	public abstract String getDefaultD3GraphicFile();
 }

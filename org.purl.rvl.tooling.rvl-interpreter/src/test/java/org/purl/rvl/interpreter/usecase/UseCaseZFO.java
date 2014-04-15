@@ -12,19 +12,17 @@ public class UseCaseZFO extends TestOGVICProcess {
 	
 	@Test
 	public void testOGVICProcess() {
+
+		//project.registerMappingFile(ExampleMapping.ZFO_X);
+		project.registerMappingFile(ExampleMapping.ZFO_Y);
+		//project.registerDataFile(ExampleData.ZFO_SUBSET);
+		project.registerDataFile(ExampleData.ZFO);
 		
-		//process.setUriStart("http://purl.org/obo/owl/ZFA");
+		//project.setRvlInterpreter(new SimpleRVLInterpreter());
+		project.setD3Generator(new D3GeneratorTreeJSON());
+		//project.setD3Generator(new D3GeneratorSimpleJSON());
 		
-		//process.registerMappingFile(ExampleMapping.ZFO_X);
-		process.registerMappingFile(ExampleMapping.ZFO_Y);
-		//process.registerDataFile(ExampleData.ZFO_SUBSET);
-		process.registerDataFile(ExampleData.ZFO);
-		
-		process.setRvlInterpreter(new SimpleRVLInterpreter());
-		process.setD3Generator(new D3GeneratorTreeJSON());
-		//process.setD3Generator(new D3GeneratorSimpleJSON());
-		
-		process.runOGVICProcess();
+		loadProjectAndRunProcess();
 	}
 
 

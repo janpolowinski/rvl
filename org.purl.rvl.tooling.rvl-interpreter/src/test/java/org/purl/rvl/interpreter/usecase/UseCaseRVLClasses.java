@@ -13,18 +13,16 @@ public class UseCaseRVLClasses extends TestOGVICProcess {
 	
 	@Test
 	public void testOGVICProcess() {
+
+		project.registerMappingFile(ExampleMapping.RVL_EXAMPLE_BOOTSTRAP);
+		project.registerDataFile(OGVICProcess.RVL_LOCAL_REL);
+		project.registerDataFile(ExampleData.RVL_EXTRA_DATA);
 		
-		//process.setUriStart("http://purl.org/rvl/");
+		//project.setRvlInterpreter(new SimpleRVLInterpreter());
+		//project.setD3Generator(new D3GeneratorTreeJSON());
+		project.setD3Generator(new D3GeneratorSimpleJSON());
 		
-		process.registerMappingFile(ExampleMapping.RVL_EXAMPLE_BOOTSTRAP);
-		process.registerDataFile(OGVICProcess.RVL_LOCAL_REL);
-		process.registerDataFile(ExampleData.RVL_EXTRA_DATA);
-		
-		process.setRvlInterpreter(new SimpleRVLInterpreter());
-		//process.setD3Generator(new D3GeneratorTreeJSON());
-		process.setD3Generator(new D3GeneratorSimpleJSON());
-		
-		process.runOGVICProcess();
+		loadProjectAndRunProcess();
 	}
 
 

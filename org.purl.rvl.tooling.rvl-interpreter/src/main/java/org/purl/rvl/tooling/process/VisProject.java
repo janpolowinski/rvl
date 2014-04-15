@@ -3,14 +3,17 @@ package org.purl.rvl.tooling.process;
 import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.Reasoning;
+import org.purl.rvl.tooling.avm.D3GeneratorBase;
+import org.purl.rvl.tooling.avm.D3GeneratorTreeJSON;
 
 public class VisProject {
 	
 	private final  FileRegistry dataFileRegistry = new FileRegistry(); // DATA
 	private final  FileRegistry mappingFileRegistry = new FileRegistry(); // Mapping files (each interpreted as a mapping set)
-
+	private D3GeneratorBase d3Generator;
 	private Reasoning reasoningDataModel = Reasoning.rdfs;
 	private String name;
+
 	
 	/**
 	 * @param reasoningDataModel
@@ -67,4 +70,16 @@ public class VisProject {
 	public FileRegistry getMappingFileRegistry() {
 		return mappingFileRegistry;
 	}
+
+
+	public D3GeneratorBase getD3Generator() {
+		return d3Generator;
+	}
+	
+	public void setD3Generator(D3GeneratorBase d3Generator) {
+		this.d3Generator = d3Generator;
+	}
+
+
+
 }

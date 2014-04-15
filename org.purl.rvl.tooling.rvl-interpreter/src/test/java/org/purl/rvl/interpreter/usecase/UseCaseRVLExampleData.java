@@ -13,20 +13,18 @@ public class UseCaseRVLExampleData extends TestOGVICProcess {
 	@Test
 	public void testOGVICProcess() {
 
-		//process.setUriStart("http://purl.org/rvl/example-data");
-
-		process.registerMappingFile(ExampleMapping.RVL_EXAMPLE);
-		//process.registerMappingFile(ExampleMapping.RVL_EXAMPLE_MINI);
-		process.registerDataFile(ExampleData.RVL_EXAMPLE);
-		//process.registerMappingFile(ExampleMapping.RVL_EXAMPLE_OLD);
-		//process.registerDataFile(ExampleData.RVL_EXAMPLE_OLD);
+		project.registerMappingFile(ExampleMapping.RVL_EXAMPLE);
+		//project.registerMappingFile(ExampleMapping.RVL_EXAMPLE_MINI);
+		project.registerDataFile(ExampleData.RVL_EXAMPLE);
+		//project.registerMappingFile(ExampleMapping.RVL_EXAMPLE_OLD);
+		//project.registerDataFile(ExampleData.RVL_EXAMPLE_OLD);
 		
-		process.setRvlInterpreter(new SimpleRVLInterpreter());
+		//project.setRvlInterpreter(new SimpleRVLInterpreter());
 		
-		process.setD3Generator(new D3GeneratorSimpleJSON());
-		//process.setD3Generator(new D3GeneratorTreeJSON());
+		project.setD3Generator(new D3GeneratorSimpleJSON());
+		//project.setD3Generator(new D3GeneratorTreeJSON());
 		
-		process.runOGVICProcess();
+		loadProjectAndRunProcess();
 	}
 
 

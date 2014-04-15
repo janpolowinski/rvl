@@ -1,5 +1,6 @@
 package org.purl.rvl.tooling.process;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.ConsoleHandler;
@@ -7,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+import org.apache.commons.io.FileUtils;
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
 import org.ontoware.rdf2go.model.Model;
@@ -43,6 +45,9 @@ public class OGVICProcess {
 	public static final String GEN_MODEL_FILE_FOLDER_D3_JSON = "../org.purl.rvl.tooling.d3vis/gen/json";
 	protected static final String TMP_RVL_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempRvl.ttl";
 	public static final String TMP_AVM_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempAVM.ttl";
+	public static final String D3_HTML_FOLDER_NAME = "../org.purl.rvl.tooling.d3vis/gen/html";
+	private static final String D3_EXAMPLE_GRAPHICS_FOLDER_NAME = "../org.purl.rvl.tooling.d3vis/examples";;
+	
 	
 	// GRAPH URIs
 	public static final URI GRAPH_MAPPING = new URIImpl("http://purl.org/rvl/example/mapping/");
@@ -74,6 +79,8 @@ public class OGVICProcess {
 	private final static Logger LOGGER_RVL_PACKAGE = Logger.getLogger("org.purl.rvl"); 
 	
 	static final String NL =  System.getProperty("line.separator");
+
+
 
 
 	
@@ -158,6 +165,11 @@ public class OGVICProcess {
 		
 	}
 	
+	public void initDataAndMappingsModel(VisProject project) {
+		modelBuilder.initDataModel(project.getDataFileRegistry());
+		modelBuilder.initMappingsModel(project.getMappingFileRegistry());
+	}
+	
 	public void loadProject(VisProject project) {
 		
 		LOGGER.finest("Clearing internal models (AVM, data, mappings)");
@@ -182,8 +194,7 @@ public class OGVICProcess {
 
 		// build the RDF models needed for the process
 		try {
-			modelBuilder.initDataModel(project.getDataFileRegistry());
-			modelBuilder.initMappingsModel(project.getMappingFileRegistry());
+			initDataAndMappingsModel(project);
 		} catch (Exception e) {
 			LOGGER.severe("Problem building the data or mapping models.");
 			e.printStackTrace();
@@ -197,15 +208,16 @@ public class OGVICProcess {
 			rvlInterpreter = new SimpleRVLInterpreter();
 		}
 		
-		rvlInterpreter.init(getModelAVM(), getModelSet());
+		// try to get generator from project
+		if (null != project.getD3Generator()){
+			setD3Generator(project.getD3Generator());
+		}
 
 		// create and set a generator, if not already set
 		if (null == d3Generator) {
 			LOGGER.warning("JSON generator was not set, using default one.");
 			setD3Generator(new D3GeneratorSimpleJSON());
 		}
-
-		d3Generator.init(getModelAVM());
 	}
 
 	private Model readAVMFromFile(ModelBuilder modelBuilder) {
@@ -239,18 +251,43 @@ public class OGVICProcess {
 	public void runOGVICProcess(){
 		interpreteRVL2AVM();	
 		transformAVMToD3();
+		populateD3HTMLFolder();
 	}
 
 	private void interpreteRVL2AVM() {
+		rvlInterpreter.init(getModelAVM(), getModelSet());
 		rvlInterpreter.interpretMappings();
 	}
 
 	private void transformAVMToD3() {
+		d3Generator.init(getModelAVM());
 		String json = d3Generator.generateJSONforD3();
 		LOGGER.info("JSON data is: " + NL +  json);
 		d3Generator.writeJSONToFile(json);
 	}
 
+	private void populateD3HTMLFolder() {
+
+		File originLocation = new File (D3_EXAMPLE_GRAPHICS_FOLDER_NAME + "/" + d3Generator.getDefaultD3GraphicFile());
+		File targetLocation = new File (D3_HTML_FOLDER_NAME + "/index.html");
+		
+		try {
+			
+			FileUtils.copyFile(originLocation, targetLocation);
+			
+			LOGGER.finest(
+					"D3 HTML file copied from " + 
+					originLocation.getPath() + 
+					" to " + 
+					targetLocation.getPath()
+					);
+			
+		} catch (IOException e) {
+			LOGGER.severe("Could not copy HTML file for D3.");
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * @return the rvlInterpreter
 	 */
@@ -328,5 +365,7 @@ public class OGVICProcess {
 	public String getJsonFileNameRel() {
 		return GEN_MODEL_FILE_FOLDER_D3_JSON + "/" + d3Generator.getGenJSONFileName();
 	}
+
+
 
 }

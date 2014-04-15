@@ -7,6 +7,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.ontoware.rdf2go.Reasoning;
+import org.purl.rvl.tooling.avm.D3GeneratorSimpleJSON;
+import org.purl.rvl.tooling.avm.D3GeneratorTreeJSON;
 
 public class VisProjectLibrary {
 	
@@ -29,7 +31,7 @@ public class VisProjectLibrary {
 		useCaseAA.registerMappingFile(ExampleMapping.AA);
 		useCaseAA.registerDataFile(ExampleData.AA);
 		//useCaseAA.setRvlInterpreter(new SimpleRVLInterpreter());
-		//process.setD3Generator(new D3GeneratorTreeJSON());
+		useCaseAA.setD3Generator(new D3GeneratorTreeJSON());
 		//useCaseAA.setD3Generator(new D3GeneratorSimpleJSON());
 		storeProject(useCaseAA);
 		
@@ -42,8 +44,8 @@ public class VisProjectLibrary {
 		avmBootstrap.registerDataFile(ExampleData.AVM);
 		avmBootstrap.registerDataFile(ExampleData.AVM_EXTRA_DATA);
 		//avmBootstrap.setRvlInterpreter(new SimpleRVLInterpreter());
-		//avmBootstrap.setD3Generator(new D3GeneratorSimpleJSON());
-		//process.setD3Generator(new D3GeneratorTreeJSON());
+		avmBootstrap.setD3Generator(new D3GeneratorSimpleJSON());
+		//avmBootstrap.setD3Generator(new D3GeneratorTreeJSON());
 		storeProject(avmBootstrap);
 		
 		//////////////////////////////////////////////////////////////////
@@ -55,7 +57,7 @@ public class VisProjectLibrary {
 		useCaseROInstanceData.registerDataFile(ExampleData.RO_SOCIAL_NETWORK_EXTRA_DATA);
 		useCaseROInstanceData.setReasoningDataModel(Reasoning.rdfs);
 		//useCaseROInstanceData.setRvlInterpreter(new SimpleRVLInterpreter());
-		//useCaseROInstanceData.setD3Generator(new D3GeneratorSimpleJSON());
+		useCaseROInstanceData.setD3Generator(new D3GeneratorSimpleJSON());
 		//useCaseROInstanceData.setD3Generator(new D3GeneratorTreeJSON());
 		storeProject(useCaseROInstanceData);
 
@@ -67,7 +69,7 @@ public class VisProjectLibrary {
 		useCasePO.registerDataFile(ExampleData.PO);
 		useCasePO.registerDataFile(ExampleData.PO_EXTRA_DATA);
 		//useCasePO.setRvlInterpreter(new SimpleRVLInterpreter());
-		//useCasePO.setD3Generator(new D3GeneratorTreeJSON());
+		useCasePO.setD3Generator(new D3GeneratorTreeJSON());
 		//useCasePO.setD3Generator(new D3GeneratorSimpleJSON());
 		storeProject(useCasePO);
 		
@@ -77,7 +79,7 @@ public class VisProjectLibrary {
 		VisProject useCaseRO = new VisProject("ro");
 		useCaseRO.registerMappingFile(ExampleMapping.RO);
 		useCaseRO.registerDataFile(ExampleData.RO_SEMVIS);
-		//useCaseRO.setD3Generator(new D3GeneratorTreeJSON());
+		useCaseRO.setD3Generator(new D3GeneratorTreeJSON());
 		storeProject(useCaseRO);
 		
 		//////////////////////////////////////////////////////////////////
@@ -88,7 +90,7 @@ public class VisProjectLibrary {
 		useCaseRVLClasses.registerDataFile(OGVICProcess.RVL_LOCAL_REL);
 		useCaseRVLClasses.registerDataFile(ExampleData.RVL_EXTRA_DATA);
 		//useCaseRVLClasses.setRvlInterpreter(new SimpleRVLInterpreter());
-		//useCaseRVLClasses.setD3Generator(new D3GeneratorTreeJSON());
+		useCaseRVLClasses.setD3Generator(new D3GeneratorTreeJSON());
 		//useCaseRVLClasses.setD3Generator(new D3GeneratorSimpleJSON());
 		storeProject(useCaseRVLClasses);
 		
@@ -102,7 +104,7 @@ public class VisProjectLibrary {
 		//useCaseRVLExampleData.registerMappingFile(ExampleMapping.RVL_EXAMPLE_OLD);
 		//useCaseRVLExampleData.registerDataFile(ExampleData.RVL_EXAMPLE_OLD);
 		//useCaseRVLExampleData.setRvlInterpreter(new SimpleRVLInterpreter());
-		//useCaseRVLExampleData.setD3Generator(new D3GeneratorSimpleJSON());
+		useCaseRVLExampleData.setD3Generator(new D3GeneratorSimpleJSON());
 		//useCaseRVLExampleData.setD3Generator(new D3GeneratorTreeJSON());
 		storeProject(useCaseRVLExampleData);
 		
@@ -115,7 +117,7 @@ public class VisProjectLibrary {
 		useCaseSLUB.registerMappingFile(ExampleMapping.SLUB);
 		//useCaseSLUB.setRvlInterpreter(new SimpleRVLInterpreter());
 		//useCaseSLUB.setD3Generator(new D3GeneratorTreeJSON());
-		//useCaseSLUB.setD3Generator(new D3GeneratorSimpleJSON());
+		useCaseSLUB.setD3Generator(new D3GeneratorSimpleJSON());
 		storeProject(useCaseSLUB);
 		
 		//////////////////////////////////////////////////////////////////
@@ -124,7 +126,7 @@ public class VisProjectLibrary {
 		VisProject useCaseVISOClasses = new VisProject("visoclasses");
 		useCaseVISOClasses.registerMappingFile(ExampleMapping.RVL_EXAMPLE_BOOTSTRAP);
 		//useCaseVISOClasses.setRvlInterpreter(new SimpleRVLInterpreter());
-		//useCaseVISOClasses.setD3Generator(new D3GeneratorTreeJSON());
+		useCaseVISOClasses.setD3Generator(new D3GeneratorTreeJSON());
 		//useCaseVISOClasses.setD3Generator(new D3GeneratorSimpleJSON());
 		storeProject(useCaseVISOClasses);
 		
@@ -137,7 +139,7 @@ public class VisProjectLibrary {
 		//useCaseZFO.registerDataFile(ExampleData.ZFO_SUBSET);
 		useCaseZFO.registerDataFile(ExampleData.ZFO);
 		//useCaseZFO.setRvlInterpreter(new SimpleRVLInterpreter());
-		//useCaseZFO.setD3Generator(new D3GeneratorTreeJSON());
+		useCaseZFO.setD3Generator(new D3GeneratorTreeJSON());
 		//useCaseZFO.setD3Generator(new D3GeneratorSimpleJSON());
 		storeProject(useCaseZFO);
 	}
