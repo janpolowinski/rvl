@@ -4,3 +4,5 @@
 .settings
 .tmp_*
 /examples/*/data.json
+/gen/html/*.*
+/gen/json/*.*
