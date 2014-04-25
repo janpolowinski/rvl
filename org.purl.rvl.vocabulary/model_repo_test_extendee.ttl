@@ -1,0 +1,25 @@
+# Saved by TopBraid on Sun Jan 19 18:28:31 CET 2014
+# baseURI: http://purl.org/rvl/example-data/
+
+@prefix :        <http://purl.org/rvl/example-mappings/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rexm:    <http://purl.org/rvl/example-mappings/> .
+@prefix rexd:    <http://purl.org/rvl/example-data/> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix vg:    <http://purl.org/viso/graphic/> .
+@prefix common-shapes:    <http://purl.org/viso/shape/commons/> .
+
+:     rdf:type owl:Ontology .
+
+
+
+:someMapping
+      rvl:disabled "true"^^xsd:boolean ;
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:sourceProperty rexd:cites ;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation  
+      .  
+

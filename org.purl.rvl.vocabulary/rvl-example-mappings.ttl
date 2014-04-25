@@ -426,7 +426,7 @@ rexm:PMwithNamedSubmappingToNamedMappingOnConnector2
       rvl:disabled "false"^^xsd:boolean ;
       rvl:sourceProperty rexd:partOf ;
       rvl:invertSourceProperty
-              "true"^^xsd:boolean ;
+              "false"^^xsd:boolean ;
       rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
       rvl:subMapping rexm:NamedSubMappingRelation , rexm:NamedSubMappingRelation2
       .
