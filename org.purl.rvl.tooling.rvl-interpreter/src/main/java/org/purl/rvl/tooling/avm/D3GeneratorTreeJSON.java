@@ -204,6 +204,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		child.put("color_rgb_hex", endNodeColorRGBHex);
 		child.put("color_rgb_hex_combined", endNode.getColorRGBHexCombinedWithHSLValues());
 		child.put("shape_d3_name", endNodeShapeD3Name);
+		child.put("connector_label", connector.getLabel());
 		child.put("connector_color_rgb_hex", connectorColorRGBHex);
 		child.put("connector_color_rgb_hex_combined", connector.getColorRGBHexCombinedWithHSLValues());
 		

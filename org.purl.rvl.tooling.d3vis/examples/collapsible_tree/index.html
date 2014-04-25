@@ -176,16 +176,21 @@ function update(source) {
       .data(tree.links(nodes), function(d) { return d.target.id; });
 
   // Enter any new links at the parent's previous position.
-  link.enter().insert("svg:path", "g")
+  var linkEnter = link.enter().insert("svg:path", "g")
       .attr("class", "link")
 	  .style("stroke", function(d) { return d.target.connector_color_rgb_hex_combined }) // works -> get the link color from the endNode (target)
       .attr("d", function(d) {
         var o = {x: source.x0, y: source.y0};
         return diagonal({source: o, target: o});
-      })
-    .transition()
+      });
+	  
+	linkEnter.transition()
       .duration(duration)
       .attr("d", diagonal);
+	  
+	linkEnter.append("svg:title")
+       .text(function(d) { return d.target.connector_label; });
+
 
   // Transition links to their new position.
   link.transition()
