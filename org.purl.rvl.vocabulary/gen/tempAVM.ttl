@@ -21,23 +21,23 @@ rdf:Property  a          rdfs:Class , rdfs:Resource ;
 rdfs:label  a       rdf:Property , rdfs:Resource ;
         rdfs:range  rdfs:Literal .
 
-rdf:Statement  a         rdfs:Class , rdfs:Resource ;
-        rdfs:subClassOf  rdfs:Resource , rdf:Statement .
-
-rdfs:Class  a            rdfs:Class , rdfs:Resource ;
-        rdfs:subClassOf  rdfs:Resource , rdfs:Class .
-
-rdf:type  a         rdf:Property , rdfs:Resource ;
-        rdfs:range  rdfs:Class .
-
-rdfs:Resource  a         rdfs:Class , rdfs:Resource ;
-        rdfs:subClassOf  rdfs:Resource .
-
 rdf:subject  a              rdf:Property , rdfs:Resource ;
         rdfs:domain         rdf:Statement ;
         rdfs:subPropertyOf  rdf:subject .
 
-rdf:XMLLiteral  a  rdfs:Datatype , rdfs:Resource , rdfs:Class .
+rdfs:Resource  a         rdfs:Class , rdfs:Resource ;
+        rdfs:subClassOf  rdfs:Resource .
+
+rdf:type  a         rdf:Property , rdfs:Resource ;
+        rdfs:range  rdfs:Class .
+
+rdfs:Class  a            rdfs:Class , rdfs:Resource ;
+        rdfs:subClassOf  rdfs:Resource , rdfs:Class .
+
+rdf:Statement  a         rdfs:Class , rdfs:Resource ;
+        rdfs:subClassOf  rdfs:Resource , rdf:Statement .
+
+rdf:XMLLiteral  a  rdfs:Datatype , rdfs:Class , rdfs:Resource .
 
 rdfs:comment  a     rdf:Property , rdfs:Resource ;
         rdfs:range  rdfs:Literal .
@@ -71,1571 +71,1136 @@ rdfs:subClassOf  a   rdf:Property , rdfs:Resource ;
         rdfs:domain  rdfs:Class ;
         rdfs:range   rdfs:Class .
 
-<http://purl.org/rvl/example-avm/GO_Connector_-1446811439>
+<http://purl.org/rvl/example-avm/GO_Connector_1300454744>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
 
-<http://purl.org/rvl/example-avm/GO_1814994885>
+<http://purl.org/rvl/example-avm/GO_1300038762>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "semVisApproach" ;
+        rdfs:label  "AdvertisementOnProfilePage" ;
+        <http://purl.org/viso/graphic/labeled_with>
+                <urn:rnd:517d07a3:1454c9f8644:-7f5d> ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_-2025365292> .
+                <http://purl.org/rvl/example-avm/GR_1767876433> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/Square> .
 
-<http://purl.org/rvl/example-avm/GO_-1270413963>
+<urn:rnd:517d07a3:1454c9f8644:-7f7f>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Containment_Relation> .
+
+<http://purl.org/rvl/example-avm/GO_-1812180355>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "No_Real_Visual_Encoding" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-1949968351> ;
+        rdfs:label  "CollectUserData" ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_-1991849154> , <http://purl.org/rvl/example-avm/GR_-433259567> , <http://purl.org/rvl/example-avm/GR_-2123170046> .
+                <http://purl.org/rvl/example-avm/GR_-389109664> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/Cross> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_-739661622>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
+<urn:rnd:517d07a3:1454c9f8644:-7f82>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Containment_Relation> .
 
-<http://purl.org/rvl/example-avm/GO_14079466>
+<urn:rnd:517d07a3:1454c9f8644:-7f5e>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f61>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<http://purl.org/rvl/example-avm/GR_-1179179706>
+        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        rdfs:label  "Linking_Directed_Relation" ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_-1018325627> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_1637226449> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <http://purl.org/rvl/example-avm/GO_Connector_1128293543> .
+
+<http://purl.org/rvl/example-avm/GO_Connector_-1880491110>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Explicit mapping definition" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_809216630> ;
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
+
+<http://purl.org/rvl/example-avm/GO_Connector_-674099582>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f6c>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Containment_Relation> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f69>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<http://purl.org/rvl/example-avm/GO_Connector_-675481902>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
+
+<http://purl.org/rvl/example-avm/GO_773551329>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "StoreInformation" ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_132711570> .
+                <http://purl.org/rvl/example-avm/GR_1626722794> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/Cross> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_-289415812>
+<http://purl.org/rvl/example-avm/GO_-907414454>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-479398380>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_1827741294>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Single_Visual_Paradigm" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_275571673> ;
+        rdfs:label  "ConnectPeople" ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_-540452241> , <http://purl.org/rvl/example-avm/GR_-1956767690> , <http://purl.org/rvl/example-avm/GR_1516189872> , <http://purl.org/rvl/example-avm/GR_-1906704123> .
+                <http://purl.org/rvl/example-avm/GR_-896827136> .
 
-<http://purl.org/rvl/example-avm/GR_275571673>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1827741294> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_87692774> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_581336875> .
-
-<http://purl.org/rvl/example-avm/GO_-2037473971>
+<http://purl.org/rvl/example-avm/GO_-14126347>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "DataFiltering" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-1240755693> .
-
-<http://purl.org/rvl/example-avm/GO_-1424884959>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Can visualisation benefit from the additional complexity of ontological data?" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_1516189872> , <http://purl.org/rvl/example-avm/GR_-1484056333> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_1039050975>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_2109004007>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "ControlOrBehaviourConfigurability" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_218703581> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_251687798>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_Connector_1129659382>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_751578155>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1383384424> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1704640417> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_251687798> .
-
-<http://purl.org/rvl/example-avm/GR_159324686>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1704640417> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_87692774> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_859941012> .
-
-<http://purl.org/rvl/example-avm/GO_1802759173>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "MultipleVS" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_492913790> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-1005276477>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_132711570>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-45852028> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_14079466> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-1317252856> .
-
-<http://purl.org/rvl/example-avm/GO_-1598001171>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "ShareabilityOfMappings" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_2012665582> ;
+        rdfs:label  "EarnMoney" ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_67015409> .
+                <http://purl.org/rvl/example-avm/GR_2008172285> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/Cross> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_84546337>
+<urn:rnd:517d07a3:1454c9f8644:-7f7a>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<http://purl.org/rvl/example-avm/GO_Connector_-1969316768>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
 
-<http://purl.org/rvl/example-avm/GR_-1360389172>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_342291035> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-1446725073> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-289415812> .
+<urn:rnd:517d07a3:1454c9f8644:-7f77>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Containment_Relation> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_-205879484>
+<urn:rnd:517d07a3:1454c9f8644:-7f56>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<http://purl.org/rvl/example-avm/GO_Connector_210220559>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
 
-<http://purl.org/rvl/example-avm/GR_897358432>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1771955115> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-937819> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_1166424541> .
-
-<http://purl.org/rvl/example-avm/GO_1491870535>
+<http://purl.org/rvl/example-avm/GO_-144555630>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "DomainExpertsCanUseTheSystem" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_536736327> , <http://purl.org/rvl/example-avm/GR_-2025365292> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-1290001585>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_Connector_1198409912>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_1032708171>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-1552343926> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1983453543> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_260175255> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_1135407830>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_218703581>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_2109004007> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1738355934> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_473199862> .
-
-<http://purl.org/rvl/example-avm/GR_492913790>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1802759173> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-937819> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_1558669643> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_260175255>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_-1240755693>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-2037473971> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1983453543> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_1959713612> .
-
-<http://purl.org/rvl/example-avm/GR_1892349077>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_869080799> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1983453543> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_1198409912> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-131357199>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_1294791546>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Experimenting_with_visualisation_settings_is_tedious_in_standard_pipeline_approaches" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_1351848551> .
-
-<http://purl.org/rvl/example-avm/GO_818532484>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "ShareabilitySupportedByTheLanguage" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-1613540425> , <http://purl.org/rvl/example-avm/GR_-1870750697> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_473199862>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_-427864299>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_2141324738> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-617865798> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-81835995> .
-
-<http://purl.org/rvl/example-avm/GO_-1945714709>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "How to formalise graphic vocabulary and knowledge" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_1841302661> .
-
-<http://purl.org/rvl/example-avm/GR_1212415737>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1571953893> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-1380588086> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-1852922807> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-1852922807>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_-931801862>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Exchange_of_Visualisation_Knowledge" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_544754857> ;
+        rdfs:label  "DataPrivacyProtection" ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_1841302661> , <http://purl.org/rvl/example-avm/GR_-917206236> .
+                <http://purl.org/rvl/example-avm/GR_-1736213743> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/Cross> .
 
-<http://purl.org/rvl/example-avm/GO_2141324738>
+<http://purl.org/rvl/example-avm/GR_-170884954>
+        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        rdfs:label  "Linking_Directed_Relation" ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_-1224315520> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_500452733> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <http://purl.org/rvl/example-avm/GO_Connector_1895252114> .
+
+<http://purl.org/rvl/example-avm/GO_Connector_1262967843>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Guidance4VisualMapping" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-427864299> ;
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f64>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<http://purl.org/rvl/example-avm/GR_973439946>
+        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        rdfs:label  "Linking_Directed_Relation" ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_1637226449> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_-814623742> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <http://purl.org/rvl/example-avm/GO_Connector_1058510047> .
+
+<http://purl.org/rvl/example-avm/GR_-1736213743>
+        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        rdfs:label  "Linking_Directed_Relation" ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_-1224315520> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_-144555630> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <http://purl.org/rvl/example-avm/GO_Connector_-622650241> .
+
+<http://purl.org/rvl/example-avm/GO_Connector_203718838>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f6f>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f72>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<http://purl.org/rvl/example-avm/GR_141488913>
+        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        rdfs:label  "Linking_Directed_Relation" ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_-1473883905> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_-814623742> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <http://purl.org/rvl/example-avm/GO_Connector_406137030> .
+
+<http://purl.org/rvl/example-avm/GO_1864840871>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "InconvenientDesignForSeeingUsers" ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_694761501> , <http://purl.org/rvl/example-avm/GR_-1889911658> .
+                <http://purl.org/rvl/example-avm/GR_396277312> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_1968168061>
+<http://purl.org/rvl/example-avm/GO_2009164979>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_-1727046542>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1330299059> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_8541406> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-2043149792> .
-
-<http://purl.org/rvl/example-avm/GO_362842073>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "No_Standard_for_Visualisation_Information" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_735368029> ;
+        rdfs:label  "UserHasPhotoAlbum" ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Green> ;
+        <http://purl.org/viso/graphic/labeled_with>
+                <urn:rnd:517d07a3:1454c9f8644:-7f82> ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_-491267545> , <http://purl.org/rvl/example-avm/GR_1061583674> , <http://purl.org/rvl/example-avm/GR_-788579518> , <http://purl.org/rvl/example-avm/GR_1012946821> .
+                <http://purl.org/rvl/example-avm/GR_1538335520> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/Square> .
 
-<http://purl.org/rvl/example-avm/GO_342291035>
+<http://purl.org/rvl/example-avm/GO_Connector_1128293543>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "What ontology constructs do we want to map and onto which visual means" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-1360389172> , <http://purl.org/rvl/example-avm/GR_-2123170046> , <http://purl.org/rvl/example-avm/GR_-1906704123> .
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
 
-<http://purl.org/rvl/example-avm/GR_1445211798>
+<http://purl.org/rvl/example-avm/GR_-1496639863>
         a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
         rdfs:label  "Linking_Directed_Relation" ;
         <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-1777931281> ;
+                <http://purl.org/rvl/example-avm/GO_-1224315520> ;
         <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-617865798> ;
+                <http://purl.org/rvl/example-avm/GO_1519537076> ;
         <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_1048531014> .
+                <http://purl.org/rvl/example-avm/GO_Connector_1677490475> .
 
-<http://purl.org/rvl/example-avm/GR_-1991849154>
+<http://purl.org/rvl/example-avm/GR_-1704020395>
         a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
         rdfs:label  "Linking_Directed_Relation" ;
         <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_472052052> ;
+                <http://purl.org/rvl/example-avm/GO_-1473883905> ;
         <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-1270413963> ;
+                <http://purl.org/rvl/example-avm/GO_-2074013531> ;
         <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_1503162139> .
+                <http://purl.org/rvl/example-avm/GO_Connector_-874561109> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_1894963606>
+<http://purl.org/rvl/example-avm/GO_Connector_1677490475>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_266900226>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
+<urn:rnd:517d07a3:1454c9f8644:-7f7d>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Containment_Relation> .
 
-<http://purl.org/rvl/example-avm/GO_1738355934>
+<urn:rnd:517d07a3:1454c9f8644:-7f80>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f5c>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f59>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<http://purl.org/rvl/example-avm/GO_Connector_-1816554810>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Interaction" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_1813108639> ;
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
+
+<http://purl.org/rvl/example-avm/GR_321581321>
+        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        rdfs:label  "Linking_Directed_Relation" ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_-1224315520> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_1654884389> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <http://purl.org/rvl/example-avm/GO_Connector_-1692623019> .
+
+<http://purl.org/rvl/example-avm/GO_-601107571>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "FastAccessToPlatform" ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_2128504123> , <http://purl.org/rvl/example-avm/GR_218703581> , <http://purl.org/rvl/example-avm/GR_-1728207388> .
+                <http://purl.org/rvl/example-avm/GR_-1832857757> , <http://purl.org/rvl/example-avm/GR_-1084732825> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/Cross> .
 
-<http://purl.org/rvl/example-avm/GR_1036368478>
+<http://purl.org/rvl/example-avm/GO_-1224315520>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "TomBeger" ;
+        <http://purl.org/viso/graphic/labeled_with>
+                <urn:rnd:517d07a3:1454c9f8644:-7f54> ;
+        <http://purl.org/viso/graphic/linked_from>
+                <http://purl.org/rvl/example-avm/GR_-146269179> , <http://purl.org/rvl/example-avm/GR_-1736213743> , <http://purl.org/rvl/example-avm/GR_-1448004934> , <http://purl.org/rvl/example-avm/GR_1994854058> , <http://purl.org/rvl/example-avm/GR_1626722794> , <http://purl.org/rvl/example-avm/GR_547360289> , <http://purl.org/rvl/example-avm/GR_321581321> , <http://purl.org/rvl/example-avm/GR_-526021932> , <http://purl.org/rvl/example-avm/GR_2008172285> , <http://purl.org/rvl/example-avm/GR_-1654851887> , <http://purl.org/rvl/example-avm/GR_-1832857757> , <http://purl.org/rvl/example-avm/GR_1767876433> , <http://purl.org/rvl/example-avm/GR_-1100922736> , <http://purl.org/rvl/example-avm/GR_-170884954> , <http://purl.org/rvl/example-avm/GR_-1496639863> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/EquiliteralTriangle> .
+
+<http://purl.org/rvl/example-avm/GO_Connector_-1673798823>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
+
+<http://purl.org/rvl/example-avm/GR_-1832857757>
         a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
         rdfs:label  "Linking_Directed_Relation" ;
         <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_476604883> ;
+                <http://purl.org/rvl/example-avm/GO_-1224315520> ;
         <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-1511563782> ;
+                <http://purl.org/rvl/example-avm/GO_-601107571> ;
         <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_305452651> .
+                <http://purl.org/rvl/example-avm/GO_Connector_-1833357875> .
 
-<http://purl.org/rvl/example-avm/GO_-1593194827>
+<http://purl.org/rvl/example-avm/GO_Connector_1215060062>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "OntologyAware" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-334031309> , <http://purl.org/rvl/example-avm/GR_1061583674> ;
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
+
+<http://purl.org/rvl/example-avm/GR_-526021932>
+        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        rdfs:label  "Linking_Directed_Relation" ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_-1224315520> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_1404533405> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <http://purl.org/rvl/example-avm/GO_Connector_-895503140> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f6a>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f67>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<http://purl.org/rvl/example-avm/GR_913331001>
+        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        rdfs:label  "Linking_Directed_Relation" ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_-1473883905> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_-330186296> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <http://purl.org/rvl/example-avm/GO_Connector_2090796837> .
+
+<http://purl.org/rvl/example-avm/GO_-814623742>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "UserCanHideData" ;
+        <http://purl.org/viso/graphic/labeled_with>
+                <urn:rnd:517d07a3:1454c9f8644:-7f5b> ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_1985809409> .
+                <http://purl.org/rvl/example-avm/GR_973439946> , <http://purl.org/rvl/example-avm/GR_141488913> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/Square> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_-686089653>
+<http://purl.org/rvl/example-avm/GO_-330186296>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_190225237>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "someCaseStudyObservation" ;
+        rdfs:label  "IntegratedInstantMessaging" ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Green> ;
+        <http://purl.org/viso/graphic/labeled_with>
+                <urn:rnd:517d07a3:1454c9f8644:-7f7f> ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_935975493> .
+                <http://purl.org/rvl/example-avm/GR_913331001> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/Square> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_1687319399>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_1841302661>
+<http://purl.org/rvl/example-avm/GR_1694050442>
         a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
         rdfs:label  "Linking_Directed_Relation" ;
         <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-1945714709> ;
+                <http://purl.org/rvl/example-avm/GO_-1473883905> ;
         <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-931801862> ;
+                <http://purl.org/rvl/example-avm/GO_-11556397> ;
         <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_663674069> .
+                <http://purl.org/rvl/example-avm/GO_Connector_1125921668> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_429953510>
+<http://purl.org/rvl/example-avm/GO_Connector_1297902444>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
 
-<http://purl.org/rvl/example-avm/GO_-405796521>
+<http://purl.org/rvl/example-avm/GO_Connector_-454586609>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "RealVisualEncodingsDefinable" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_1329960605> .
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_1558669643>
+<urn:rnd:517d07a3:1454c9f8644:-7f75>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f54>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<http://purl.org/rvl/example-avm/GO_-1384106596>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-1985457324>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_481678911>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-937819> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1704640417> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_347658128> .
-
-<http://purl.org/rvl/example-avm/GO_-555314515>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "How can we guide the visual mapping of ontological data" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-2105576681> , <http://purl.org/rvl/example-avm/GR_-917206236> .
-
-<http://purl.org/rvl/example-avm/GR_27899501>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1983453543> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_87692774> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-2120746366> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_1924598472>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_87692774>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "someRechercheResult" ;
+        rdfs:label  "UploadPhotos" ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_735368029> , <http://purl.org/rvl/example-avm/GR_-1949968351> , <http://purl.org/rvl/example-avm/GR_429803378> , <http://purl.org/rvl/example-avm/GR_275571673> , <http://purl.org/rvl/example-avm/GR_1351848551> , <http://purl.org/rvl/example-avm/GR_544754857> , <http://purl.org/rvl/example-avm/GR_-1594336568> , <http://purl.org/rvl/example-avm/GR_-343055891> , <http://purl.org/rvl/example-avm/GR_159324686> , <http://purl.org/rvl/example-avm/GR_1986257225> , <http://purl.org/rvl/example-avm/GR_27899501> .
+                <http://purl.org/rvl/example-avm/GR_-273161950> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/Rhomb> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_-666537989>
+<http://purl.org/rvl/example-avm/GO_1527051670>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_1191546289>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1841755667> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1177788122> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-616826647> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-1532386374>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_-491267545>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1476509564> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_362842073> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_1968168061> .
-
-<http://purl.org/rvl/example-avm/GR_1986257225>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_8541406> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_87692774> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_232340025> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-2080678266>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_1330299059>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "PlatformVariability" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-1727046542> ;
+        rdfs:label  "DevelopSocialNetworkingPlatform" ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_521377331> , <http://purl.org/rvl/example-avm/GR_529579001> , <http://purl.org/rvl/example-avm/GR_-1091120523> .
+                <http://purl.org/rvl/example-avm/GR_1994854058> , <http://purl.org/rvl/example-avm/GR_-180495507> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/Cross> .
 
-<http://purl.org/rvl/example-avm/GR_1813108639>
+<http://purl.org/rvl/example-avm/GR_1767876433>
         a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
         rdfs:label  "Linking_Directed_Relation" ;
         <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1738355934> ;
+                <http://purl.org/rvl/example-avm/GO_-1224315520> ;
         <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1983453543> ;
+                <http://purl.org/rvl/example-avm/GO_1300038762> ;
         <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-1298178218> .
+                <http://purl.org/rvl/example-avm/GO_Connector_359926246> .
 
-<http://purl.org/rvl/example-avm/GR_536736327>
+<http://purl.org/rvl/example-avm/GR_-146269179>
         a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
         rdfs:label  "Linking_Directed_Relation" ;
         <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1491870535> ;
+                <http://purl.org/rvl/example-avm/GO_-1224315520> ;
         <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-617865798> ;
+                <http://purl.org/rvl/example-avm/GO_-40974072> ;
         <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-1005276477> .
+                <http://purl.org/rvl/example-avm/GO_Connector_1558583106> .
 
-<http://purl.org/rvl/example-avm/GO_452489366>
+<http://purl.org/rvl/example-avm/GR_-586987299>
+        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        rdfs:label  "Linking_Directed_Relation" ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_-1018325627> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_-819016166> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <http://purl.org/rvl/example-avm/GO_Connector_-675481902> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f83>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f5f>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f62>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Containment_Relation> .
+
+<http://purl.org/rvl/example-avm/GR_-233983403>
+        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        rdfs:label  "Linking_Directed_Relation" ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_-1018325627> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_683342290> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <http://purl.org/rvl/example-avm/GO_Connector_1262967843> .
+
+<http://purl.org/rvl/example-avm/GO_Connector_1058510047>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "TBoxSupported" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-984467627> ;
+        rdfs:label  "isRefinementOf     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Red> .
+
+<http://purl.org/rvl/example-avm/GR_978927245>
+        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        rdfs:label  "Linking_Directed_Relation" ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_1822162014> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_-819016166> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <http://purl.org/rvl/example-avm/GO_Connector_286545609> .
+
+<http://purl.org/rvl/example-avm/GR_-896827136>
+        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        rdfs:label  "Linking_Directed_Relation" ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_-1018325627> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_-907414454> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <http://purl.org/rvl/example-avm/GO_Connector_1002608866> .
+
+<http://purl.org/rvl/example-avm/GR_-39831132>
+        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        rdfs:label  "Linking_Directed_Relation" ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_683342290> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_1637226449> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <http://purl.org/rvl/example-avm/GO_Connector_-913826364> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f6d>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f70>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Containment_Relation> .
+
+<http://purl.org/rvl/example-avm/GO_1913139646>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "WellArrangedLayout" ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Red> ;
+        <http://purl.org/viso/graphic/labeled_with>
+                <urn:rnd:517d07a3:1454c9f8644:-7f62> ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_506632048> .
+                <http://purl.org/rvl/example-avm/GR_547360289> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/Square> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_-212171518>
+<http://purl.org/rvl/example-avm/GO_Connector_1002608866>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_1503162139>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_529579001>
+<http://purl.org/rvl/example-avm/GR_547360289>
         a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
         rdfs:label  "Linking_Directed_Relation" ;
         <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_896734605> ;
+                <http://purl.org/rvl/example-avm/GO_-1224315520> ;
         <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1330299059> ;
+                <http://purl.org/rvl/example-avm/GO_1913139646> ;
         <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_1312546829> .
+                <http://purl.org/rvl/example-avm/GO_Connector_-1673798823> .
 
-<http://purl.org/rvl/example-avm/GR_1452736982>
+<http://purl.org/rvl/example-avm/GR_2008172285>
         a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
         rdfs:label  "Linking_Directed_Relation" ;
         <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-1815020968> ;
+                <http://purl.org/rvl/example-avm/GO_-1224315520> ;
         <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-1511563782> ;
+                <http://purl.org/rvl/example-avm/GO_-14126347> ;
         <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_1924598472> .
+                <http://purl.org/rvl/example-avm/GO_Connector_126357229> .
 
-<http://purl.org/rvl/example-avm/GR_1516189872>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-1424884959> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1827741294> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-1796971958> .
-
-<http://purl.org/rvl/example-avm/GO_896734605>
+<http://purl.org/rvl/example-avm/GO_1197612273>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Platform independent description of visual structures" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_529579001> .
-
-<http://purl.org/rvl/example-avm/GO_1704640417>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Composition_of_Mappings_insufficient" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_159324686> ;
+        rdfs:label  "CommercialSuccess" ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_751578155> , <http://purl.org/rvl/example-avm/GR_764352497> , <http://purl.org/rvl/example-avm/GR_192253414> , <http://purl.org/rvl/example-avm/GR_481678911> .
+                <http://purl.org/rvl/example-avm/GR_-1100922736> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/Cross> .
 
-<http://purl.org/rvl/example-avm/GR_-984467627>
+<http://purl.org/rvl/example-avm/GO_Connector_1895252114>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f7b>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Containment_Relation> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f78>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f5a>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Containment_Relation> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f57>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Containment_Relation> .
+
+<http://purl.org/rvl/example-avm/GR_-389109664>
         a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
         rdfs:label  "Linking_Directed_Relation" ;
         <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_452489366> ;
+                <http://purl.org/rvl/example-avm/GO_-1473883905> ;
         <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-1380588086> ;
+                <http://purl.org/rvl/example-avm/GO_-1812180355> ;
         <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-1078142394> .
+                <http://purl.org/rvl/example-avm/GO_Connector_-1030288997> .
 
-<http://purl.org/rvl/example-avm/GO_-45852028>
+<http://purl.org/rvl/example-avm/GO_Connector_126357229>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Declarative" ;
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f65>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<http://purl.org/rvl/example-avm/GO_-1473883905>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "KatjaSiegemund" ;
+        <http://purl.org/viso/graphic/labeled_with>
+                <urn:rnd:517d07a3:1454c9f8644:-7f55> ;
         <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_521377331> , <http://purl.org/rvl/example-avm/GR_132711570> .
+                <http://purl.org/rvl/example-avm/GR_396277312> , <http://purl.org/rvl/example-avm/GR_-389109664> , <http://purl.org/rvl/example-avm/GR_141488913> , <http://purl.org/rvl/example-avm/GR_913331001> , <http://purl.org/rvl/example-avm/GR_1694050442> , <http://purl.org/rvl/example-avm/GR_-1704020395> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/EquiliteralTriangle> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_667483855>
+<http://purl.org/rvl/example-avm/GO_Connector_-976994402>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
 
-<http://purl.org/rvl/example-avm/GO_322511815>
+<http://purl.org/rvl/example-avm/GO_Connector_406137030>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "DomainAgnostic" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-1839330665> .
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
 
-<http://purl.org/rvl/example-avm/GO_1771955115>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "VisualStructureIndependence" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_897358432> .
+<urn:rnd:517d07a3:1454c9f8644:-7f73>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
 
-<http://purl.org/rvl/example-avm/GO_1383384424>
+<http://purl.org/rvl/example-avm/GO_Connector_-1692623019>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "ComposabilityOfTheDefinedMapping" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_751578155> ;
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
+
+<http://purl.org/rvl/example-avm/GO_-40974072>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "HighNumberOfUsers" ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Red> ;
+        <http://purl.org/viso/graphic/labeled_with>
+                <urn:rnd:517d07a3:1454c9f8644:-7f6c> ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_815858104> , <http://purl.org/rvl/example-avm/GR_-1870750697> .
+                <http://purl.org/rvl/example-avm/GR_-146269179> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/Square> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_-822933024>
+<http://purl.org/rvl/example-avm/GO_Connector_-1808126427>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_-1625884056>
+<http://purl.org/rvl/example-avm/GO_-2050037105>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_694761501>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1841755667> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_2141324738> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-479398380> .
-
-<http://purl.org/rvl/example-avm/GR_830755781>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-1511563782> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-1380588086> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-2058776942> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-1164650581>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_486075687>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "OntologyConstructsReferenceable" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_1985809409> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_581336875>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_764352497>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-2111307749> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1704640417> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_726205319> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-2117631108>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_Connector_859941012>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_1329960605>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-405796521> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_472052052> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_1066630022> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-490885000>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_Connector_347658128>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_Connector_494002307>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_-1552343926>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "ConfigurationResultsInstantlyShown" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_1032708171> , <http://purl.org/rvl/example-avm/GR_2128504123> .
-
-<http://purl.org/rvl/example-avm/GO_-2111307749>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "How to define composable and shareable mappings from ontological data to visual means" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-1956767690> , <http://purl.org/rvl/example-avm/GR_1997213759> , <http://purl.org/rvl/example-avm/GR_872650216> , <http://purl.org/rvl/example-avm/GR_764352497> , <http://purl.org/rvl/example-avm/GR_1012946821> .
-
-<http://purl.org/rvl/example-avm/GO_476604883>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "ExtensibilityOfMappings" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_1036368478> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-2043149792>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_-540452241>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-394382952> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1827741294> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-822933024> .
-
-<http://purl.org/rvl/example-avm/GR_-1415213749>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-394382952> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_8541406> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_956960907> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_804057891>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_-433259567>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1179263804> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-1270413963> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_1687319399> .
-
-<http://purl.org/rvl/example-avm/GR_815858104>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_370302161> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1383384424> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-64783024> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-1074242451>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-183346339>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_Connector_785146314>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_1794586285>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1841755667> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-1777931281> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-205879484> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-209088521>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_1177788122>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "GUIforVisualEncodingConfiguration" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-920693853> ;
+        rdfs:label  "FillProfilePage" ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_1191546289> .
+                <http://purl.org/rvl/example-avm/GR_-2002080879> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/Rhomb> .
 
-<http://purl.org/rvl/example-avm/GR_-1076768031>
+<http://purl.org/rvl/example-avm/GR_-1654851887>
         a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
         rdfs:label  "Linking_Directed_Relation" ;
         <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-1511563782> ;
+                <http://purl.org/rvl/example-avm/GO_-1224315520> ;
         <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_8541406> ;
+                <http://purl.org/rvl/example-avm/GO_-1628817081> ;
         <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-2129089177> .
+                <http://purl.org/rvl/example-avm/GO_Connector_203718838> .
 
-<http://purl.org/rvl/example-avm/GR_1985809409>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_486075687> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-1593194827> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_1493670950> .
-
-<http://purl.org/rvl/example-avm/GO_-937819>
+<http://purl.org/rvl/example-avm/GO_1654884389>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Visual structure variability" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-504810596> , <http://purl.org/rvl/example-avm/GR_481678911> ;
+        rdfs:label  "AccessibleToBlindUsers" ;
+        <http://purl.org/viso/graphic/labeled_with>
+                <urn:rnd:517d07a3:1454c9f8644:-7f79> ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_897358432> , <http://purl.org/rvl/example-avm/GR_492913790> .
+                <http://purl.org/rvl/example-avm/GR_321581321> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/Square> .
 
-<http://purl.org/rvl/example-avm/GR_-1594336568>
+<http://purl.org/rvl/example-avm/GO_Connector_-207766006>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
+
+<http://purl.org/rvl/example-avm/GR_1538335520>
         a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
         rdfs:label  "Linking_Directed_Relation" ;
         <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-1380588086> ;
+                <http://purl.org/rvl/example-avm/GO_-1018325627> ;
         <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_87692774> ;
+                <http://purl.org/rvl/example-avm/GO_2009164979> ;
         <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-131357199> .
+                <http://purl.org/rvl/example-avm/GO_Connector_-1160809499> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_909420824>
+<urn:rnd:517d07a3:1454c9f8644:-7f7e>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f81>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f5d>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Containment_Relation> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f60>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<http://purl.org/rvl/example-avm/GO_683342290>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_-788579518>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-394382952> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_362842073> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_1129659382> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_232340025>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_1061583674>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-1593194827> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_362842073> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-2080678266> .
-
-<http://purl.org/rvl/example-avm/GR_-64520381>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_869080799> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-617865798> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-212171518> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_726205319>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_-617865798>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Domain_experts_can_not_easily_visualise_domain_ontologies" ;
+        rdfs:label  "ProvidingUserInformation" ;
         <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_429803378> ;
+                <http://purl.org/rvl/example-avm/GR_-39831132> ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_-920693853> , <http://purl.org/rvl/example-avm/GR_536736327> , <http://purl.org/rvl/example-avm/GR_-234123675> , <http://purl.org/rvl/example-avm/GR_-64520381> , <http://purl.org/rvl/example-avm/GR_-1839330665> , <http://purl.org/rvl/example-avm/GR_-427864299> , <http://purl.org/rvl/example-avm/GR_1445211798> .
+                <http://purl.org/rvl/example-avm/GR_-233983403> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/EquiliteralTriangleDown> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_956960907>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
+<urn:rnd:517d07a3:1454c9f8644:-7f6b>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_-484872947>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_2128504123>
+<http://purl.org/rvl/example-avm/GR_-162755706>
         a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
         rdfs:label  "Linking_Directed_Relation" ;
         <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-1552343926> ;
+                <http://purl.org/rvl/example-avm/GO_-1018325627> ;
         <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1738355934> ;
+                <http://purl.org/rvl/example-avm/GO_1822162014> ;
         <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-209088521> .
+                <http://purl.org/rvl/example-avm/GO_Connector_-1816554810> .
 
-<http://purl.org/rvl/example-avm/GO_-1135897061>
+<urn:rnd:517d07a3:1454c9f8644:-7f68>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Containment_Relation> .
+
+<http://purl.org/rvl/example-avm/GO_500452733>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Guidance4DataSelection" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-234123675> .
-
-<http://purl.org/rvl/example-avm/GR_1145239263>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1463129483> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-1511563782> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-1290001585> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_1959713612>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_Connector_1048531014>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_Connector_1066630022>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_-1839330665>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_322511815> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-617865798> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-548176963> .
-
-<http://purl.org/rvl/example-avm/GR_-234123675>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-1135897061> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-617865798> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_909420824> .
-
-<http://purl.org/rvl/example-avm/GR_67015409>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1463129483> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-1598001171> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_266900226> .
-
-<http://purl.org/rvl/example-avm/GR_1997213759>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-2111307749> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-1446725073> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-1635752165> .
-
-<http://purl.org/rvl/example-avm/GO_869080799>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Guidance4ViewTransformations" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-64520381> , <http://purl.org/rvl/example-avm/GR_1892349077> .
-
-<http://purl.org/rvl/example-avm/GR_-1091120523>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-127357490> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1330299059> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_532741510> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_663674069>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_-1949968351>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-1270413963> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_87692774> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_1600686625> .
-
-<http://purl.org/rvl/example-avm/GR_-334031309>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-1593194827> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-1380588086> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-2117631108> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-1298178218>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-2120746366>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_-1613540425>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_818532484> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-1511563782> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-490885000> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-64783024>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_521377331>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-45852028> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1330299059> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_1894963606> .
-
-<http://purl.org/rvl/example-avm/GO_1571953893>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "ConsiderComplexSemanticsOfOntologyForVisualMapping" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_1212415737> ;
+        rdfs:label  "UsingOracleDatabase" ;
+        <http://purl.org/viso/graphic/labeled_with>
+                <urn:rnd:517d07a3:1454c9f8644:-7f70> ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_-481842554> .
+                <http://purl.org/rvl/example-avm/GR_-170884954> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/Square> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_-1887849932>
+<http://purl.org/rvl/example-avm/GO_Connector_1125921668>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
 
-<http://purl.org/rvl/example-avm/GR_2012665582>
+<http://purl.org/rvl/example-avm/GO_Connector_2090796837>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
+
+<http://purl.org/rvl/example-avm/GR_1994854058>
         a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
         rdfs:label  "Linking_Directed_Relation" ;
         <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-1598001171> ;
+                <http://purl.org/rvl/example-avm/GO_-1224315520> ;
         <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_8541406> ;
+                <http://purl.org/rvl/example-avm/GO_1527051670> ;
         <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-1625884056> .
+                <http://purl.org/rvl/example-avm/GO_Connector_-454586609> .
 
-<http://purl.org/rvl/example-avm/GO_-1511563782>
+<http://purl.org/rvl/example-avm/GO_-2074013531>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "ReusabilityOfMappings" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_830755781> , <http://purl.org/rvl/example-avm/GR_-1076768031> ;
+        rdfs:label  "PlatformIsEasyToUseForEveryone" ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_1145239263> , <http://purl.org/rvl/example-avm/GR_1452736982> , <http://purl.org/rvl/example-avm/GR_1036368478> , <http://purl.org/rvl/example-avm/GR_-1613540425> .
+                <http://purl.org/rvl/example-avm/GR_-1448004934> , <http://purl.org/rvl/example-avm/GR_-1704020395> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/Cross> .
 
-<http://purl.org/rvl/example-avm/GR_809216630>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_14079466> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_8541406> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_1135407830> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-321849651>
+<http://purl.org/rvl/example-avm/GO_-1628817081>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_-1870750697>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_818532484> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1383384424> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-183346339> .
-
-<http://purl.org/rvl/example-avm/GO_-1380588086>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Ontology_Specifics_Not_Exploited" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-1594336568> , <http://purl.org/rvl/example-avm/GR_935975493> ;
+        rdfs:label  "ExchangeInformation" ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_-730654399> , <http://purl.org/rvl/example-avm/GR_-1484056333> , <http://purl.org/rvl/example-avm/GR_-334031309> , <http://purl.org/rvl/example-avm/GR_-2105576681> , <http://purl.org/rvl/example-avm/GR_1212415737> , <http://purl.org/rvl/example-avm/GR_830755781> , <http://purl.org/rvl/example-avm/GR_-984467627> .
+                <http://purl.org/rvl/example-avm/GR_-1654851887> , <http://purl.org/rvl/example-avm/GR_265479990> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/Cross> .
 
-<http://purl.org/rvl/example-avm/GO_1179263804>
+<urn:rnd:517d07a3:1454c9f8644:-7f76>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f55>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<http://purl.org/rvl/example-avm/GO_-819016166>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "VisualEncodingConfigurability" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_767846032> , <http://purl.org/rvl/example-avm/GR_-433259567> .
-
-<http://purl.org/rvl/example-avm/GR_-2123170046>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_342291035> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-1270413963> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_494002307> .
-
-<http://purl.org/rvl/example-avm/GR_-917206236>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-555314515> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-931801862> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_429953510> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-1317252856>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_Connector_305452651>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_Connector_1312546829>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_544754857>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-931801862> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_87692774> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-1031252004> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_136638058>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_Connector_1600686625>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-795113573>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_506632048>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-47091874> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_452489366> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-484872947> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_1166424541>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_-504810596>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-937819> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_8541406> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-1074242451> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_532741510>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_370302161>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Introspect created visualisation" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-1889911658> , <http://purl.org/rvl/example-avm/GR_815858104> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-1031252004>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_-1889911658>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_370302161> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_2141324738> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_136638058> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-81835995>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-1078142394>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_1841755667>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "RestrictiveToolUsableSchema" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_694761501> , <http://purl.org/rvl/example-avm/GR_1191546289> , <http://purl.org/rvl/example-avm/GR_1794586285> , <http://purl.org/rvl/example-avm/GR_-481842554> .
-
-<http://purl.org/rvl/example-avm/GR_767846032>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1179263804> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_472052052> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_693966292> .
-
-<http://purl.org/rvl/example-avm/GR_1351848551>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1294791546> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_87692774> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-795113573> .
-
-<http://purl.org/rvl/example-avm/GR_-1484056333>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-1424884959> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-1380588086> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-1887849932> .
-
-<http://purl.org/rvl/example-avm/GR_429803378>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-617865798> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_87692774> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_804057891> .
-
-<http://purl.org/rvl/example-avm/GO_-127357490>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "PlatformIndependence" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-1091120523> .
-
-<http://purl.org/rvl/example-avm/GR_735368029>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_362842073> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_87692774> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_785146314> .
-
-<http://purl.org/rvl/example-avm/GO_8541406>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "No_Sharing_and_Reuse_of_Visual_Encodings" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_1986257225> ;
+        rdfs:label  "ServerWithSufficientPerformance" ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Yellow> ;
+        <http://purl.org/viso/graphic/labeled_with>
+                <urn:rnd:517d07a3:1454c9f8644:-7f63> ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_-504810596> , <http://purl.org/rvl/example-avm/GR_2012665582> , <http://purl.org/rvl/example-avm/GR_809216630> , <http://purl.org/rvl/example-avm/GR_-1727046542> , <http://purl.org/rvl/example-avm/GR_-1076768031> , <http://purl.org/rvl/example-avm/GR_-1415213749> , <http://purl.org/rvl/example-avm/GR_872650216> .
+                <http://purl.org/rvl/example-avm/GR_978927245> , <http://purl.org/rvl/example-avm/GR_-586987299> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/Square> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_-548176963>
+<http://purl.org/rvl/example-avm/GR_-180495507>
+        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        rdfs:label  "Linking_Directed_Relation" ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_-1018325627> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_1527051670> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <http://purl.org/rvl/example-avm/GO_Connector_1215060062> .
+
+<http://purl.org/rvl/example-avm/GO_1822162014>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_935975493>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-1380588086> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_190225237> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-1446811439> .
-
-<http://purl.org/rvl/example-avm/GR_-730654399>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1476509564> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-1380588086> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-1532386374> .
-
-<http://purl.org/rvl/example-avm/GR_-1728207388>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-923029151> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1738355934> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-687132391> .
-
-<http://purl.org/rvl/example-avm/GO_-1815020968>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "ComposabilityOfMappings" ;
+        rdfs:label  "LoadPageTimeRestriction" ;
         <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_1452736982> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-1635752165>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_1476509564>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "RDFSupportedByApproach" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-491267545> , <http://purl.org/rvl/example-avm/GR_-730654399> ;
+                <http://purl.org/rvl/example-avm/GR_978927245> ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_-1981040158> .
+                <http://purl.org/rvl/example-avm/GR_-162755706> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/EquiliteralTriangleDown> .
 
-<http://purl.org/rvl/example-avm/GO_1463129483>
+<http://purl.org/rvl/example-avm/GO_1350208176>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "URIForEachMapping" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_1145239263> , <http://purl.org/rvl/example-avm/GR_67015409> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_1493670950>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_1983453543>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Benefits of interaction for information visualisation not exploited" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_27899501> ;
+        rdfs:label  "ServerCrash" ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_1032708171> , <http://purl.org/rvl/example-avm/GR_1892349077> , <http://purl.org/rvl/example-avm/GR_-1240755693> , <http://purl.org/rvl/example-avm/GR_1813108639> .
+                <http://purl.org/rvl/example-avm/GR_233955392> .
 
-<http://purl.org/rvl/example-avm/GR_-481842554>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1841755667> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1571953893> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-666537989> .
-
-<http://purl.org/rvl/example-avm/GO_-394382952>
+<http://purl.org/rvl/example-avm/GO_Connector_286545609>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "What should be the target model we map to" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-540452241> , <http://purl.org/rvl/example-avm/GR_-1415213749> , <http://purl.org/rvl/example-avm/GR_192253414> , <http://purl.org/rvl/example-avm/GR_-788579518> .
+        rdfs:label  "isDescribedByUseCase     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Green> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_-1426888862>
+<urn:rnd:517d07a3:1454c9f8644:-7f63>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Containment_Relation> .
+
+<http://purl.org/rvl/example-avm/GO_1519537076>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_-1906704123>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_342291035> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1827741294> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-739661622> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-1923283010>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_-1446725073>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "No_Visualisation_Language_for_Ontologies" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-343055891> ;
+        rdfs:label  "TestCase1" ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_1997213759> , <http://purl.org/rvl/example-avm/GR_-1360389172> .
+                <http://purl.org/rvl/example-avm/GR_-1496639863> , <http://purl.org/rvl/example-avm/GR_-1203114804> .
 
-<http://purl.org/rvl/example-avm/GR_-343055891>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-1446725073> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_87692774> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-686089653> .
-
-<http://purl.org/rvl/example-avm/GO_-1777931281>
+<http://purl.org/rvl/example-avm/GO_Connector_-913826364>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Guidance4VisualMappingWithAGUI" ;
+        rdfs:label  "isDescribedByUseCase     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Green> .
+
+<http://purl.org/rvl/example-avm/GO_Connector_-895503140>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
+
+<http://purl.org/rvl/example-avm/GO_1637226449>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "UserHasProfilePage" ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Red> ;
+        <http://purl.org/viso/graphic/labeled_with>
+                <urn:rnd:517d07a3:1454c9f8644:-7f57> ;
         <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_1445211798> ;
+                <http://purl.org/rvl/example-avm/GR_973439946> ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_1794586285> .
+                <http://purl.org/rvl/example-avm/GR_-1179179706> , <http://purl.org/rvl/example-avm/GR_-39831132> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/Square> .
 
-<http://purl.org/rvl/example-avm/GO_-1857225366>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "RDFSupportedByLanguage" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-1981040158> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-616826647>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_-2025365292>
+<http://purl.org/rvl/example-avm/GR_-1084732825>
         a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
         rdfs:label  "Linking_Directed_Relation" ;
         <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1491870535> ;
+                <http://purl.org/rvl/example-avm/GO_-1018325627> ;
         <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1814994885> ;
+                <http://purl.org/rvl/example-avm/GO_-601107571> ;
         <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-321849651> .
+                <http://purl.org/rvl/example-avm/GO_Connector_-207766006> .
 
-<http://purl.org/rvl/example-avm/GR_-2105576681>
+<http://purl.org/rvl/example-avm/GR_233955392>
         a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
         rdfs:label  "Linking_Directed_Relation" ;
         <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-555314515> ;
+                <http://purl.org/rvl/example-avm/GO_-1018325627> ;
         <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-1380588086> ;
+                <http://purl.org/rvl/example-avm/GO_1350208176> ;
         <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-1923283010> .
+                <http://purl.org/rvl/example-avm/GO_Connector_1297902444> .
 
-<http://purl.org/rvl/example-avm/GO_Connector_-2129089177>
+<http://purl.org/rvl/example-avm/GO_Connector_359926246>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
 
-<http://purl.org/rvl/example-avm/GR_-920693853>
+<http://purl.org/rvl/example-avm/GO_Connector_-1160809499>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f6e>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f71>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<http://purl.org/rvl/example-avm/GR_-2002080879>
         a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
         rdfs:label  "Linking_Directed_Relation" ;
         <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_1177788122> ;
+                <http://purl.org/rvl/example-avm/GO_-1018325627> ;
         <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_-617865798> ;
+                <http://purl.org/rvl/example-avm/GO_-2050037105> ;
         <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-1426888862> .
+                <http://purl.org/rvl/example-avm/GO_Connector_-1880491110> .
 
-<http://purl.org/rvl/example-avm/GO_472052052>
+<http://purl.org/rvl/example-avm/GR_-1448004934>
+        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        rdfs:label  "Linking_Directed_Relation" ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_-1224315520> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_-2074013531> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <http://purl.org/rvl/example-avm/GO_Connector_-976994402> .
+
+<http://purl.org/rvl/example-avm/GO_1404533405>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "RealVisualEncoding" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-1991849154> ;
+        rdfs:label  "StoreUserDataInDatabase" ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Red> ;
+        <http://purl.org/viso/graphic/labeled_with>
+                <urn:rnd:517d07a3:1454c9f8644:-7f7b> ;
         <http://purl.org/viso/graphic/linked_to>
-                <http://purl.org/rvl/example-avm/GR_767846032> , <http://purl.org/rvl/example-avm/GR_1329960605> .
+                <http://purl.org/rvl/example-avm/GR_-526021932> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/Square> .
 
-<http://purl.org/rvl/example-avm/GR_1012946821>
+<http://purl.org/rvl/example-avm/GO_Connector_-1833357875>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
+
+<http://purl.org/rvl/example-avm/GO_Connector_-874561109>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f7c>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<http://purl.org/rvl/example-avm/GR_396277312>
         a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
         rdfs:label  "Linking_Directed_Relation" ;
         <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-2111307749> ;
+                <http://purl.org/rvl/example-avm/GO_-1473883905> ;
         <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_362842073> ;
+                <http://purl.org/rvl/example-avm/GO_1864840871> ;
         <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_667483855> .
+                <http://purl.org/rvl/example-avm/GO_Connector_1300454744> .
 
-<http://purl.org/rvl/example-avm/GO_-923029151>
+<urn:rnd:517d07a3:1454c9f8644:-7f79>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Containment_Relation> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f5b>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Containment_Relation> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f58>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<http://purl.org/rvl/example-avm/GR_-273161950>
+        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        rdfs:label  "Linking_Directed_Relation" ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_-1018325627> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_-1384106596> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <http://purl.org/rvl/example-avm/GO_Connector_-1969316768> .
+
+<http://purl.org/rvl/example-avm/GR_-1100922736>
+        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        rdfs:label  "Linking_Directed_Relation" ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_-1224315520> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_1197612273> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <http://purl.org/rvl/example-avm/GO_Connector_-674099582> .
+
+<http://purl.org/rvl/example-avm/GR_1626722794>
+        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        rdfs:label  "Linking_Directed_Relation" ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_-1224315520> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_773551329> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <http://purl.org/rvl/example-avm/GO_Connector_-1808126427> .
+
+<http://purl.org/rvl/example-avm/GO_Connector_1558583106>
         a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "InteractionDescribeable" ;
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
+
+<http://purl.org/rvl/example-avm/GR_-1203114804>
+        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        rdfs:label  "Linking_Directed_Relation" ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_-1018325627> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_1519537076> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <http://purl.org/rvl/example-avm/GO_Connector_210220559> .
+
+<urn:rnd:517d07a3:1454c9f8644:-7f66>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
+
+<http://purl.org/rvl/example-avm/GO_-11556397>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "DataControl" ;
+        <http://purl.org/viso/graphic/linked_to>
+                <http://purl.org/rvl/example-avm/GR_1694050442> .
+
+<http://purl.org/rvl/example-avm/GR_265479990>
+        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+        rdfs:label  "Linking_Directed_Relation" ;
+        <http://purl.org/viso/graphic/linkingDirected_endNode>
+                <http://purl.org/rvl/example-avm/GO_-1018325627> ;
+        <http://purl.org/viso/graphic/linkingDirected_startNode>
+                <http://purl.org/rvl/example-avm/GO_-1628817081> ;
+        <http://purl.org/viso/graphic/linking_connector>
+                <http://purl.org/rvl/example-avm/GO_Connector_1834652323> .
+
+<http://purl.org/rvl/example-avm/GO_Connector_1834652323>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
+
+<http://purl.org/rvl/example-avm/GO_Connector_-622650241>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
+
+<http://purl.org/rvl/example-avm/GO_Connector_-1030288997>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "isAuthoredBy     (actually the label of the connector representing this) " ;
+        <http://purl.org/viso/graphic/color_named>
+                <http://purl.org/viso/graphic/Blue> .
+
+<http://purl.org/rvl/example-avm/GO_-1018325627>
+        a           <http://purl.org/viso/graphic/Graphic_Object> ;
+        rdfs:label  "ErikTittel" ;
+        <http://purl.org/viso/graphic/labeled_with>
+                <urn:rnd:517d07a3:1454c9f8644:-7f53> ;
         <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_-1728207388> .
+                <http://purl.org/rvl/example-avm/GR_-2002080879> , <http://purl.org/rvl/example-avm/GR_-180495507> , <http://purl.org/rvl/example-avm/GR_-273161950> , <http://purl.org/rvl/example-avm/GR_-1179179706> , <http://purl.org/rvl/example-avm/GR_-1084732825> , <http://purl.org/rvl/example-avm/GR_-233983403> , <http://purl.org/rvl/example-avm/GR_1538335520> , <http://purl.org/rvl/example-avm/GR_233955392> , <http://purl.org/rvl/example-avm/GR_-586987299> , <http://purl.org/rvl/example-avm/GR_265479990> , <http://purl.org/rvl/example-avm/GR_-896827136> , <http://purl.org/rvl/example-avm/GR_-1203114804> , <http://purl.org/rvl/example-avm/GR_-162755706> ;
+        <http://purl.org/viso/graphic/shape_named>
+                <http://purl.org/viso/shape/commons/EquiliteralTriangle> .
 
-<http://purl.org/rvl/example-avm/GR_-1956767690>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-2111307749> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1827741294> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-1164650581> .
+<urn:rnd:517d07a3:1454c9f8644:-7f74>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
 
-<http://purl.org/rvl/example-avm/GR_-1981040158>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-1857225366> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1476509564> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_1039050975> .
-
-<http://purl.org/rvl/example-avm/GO_-47091874>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "TBoxOntologyConstructsReferenceable" ;
-        <http://purl.org/viso/graphic/linked_from>
-                <http://purl.org/rvl/example-avm/GR_506632048> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-687132391>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-2058776942>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GR_872650216>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-2111307749> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_8541406> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_84546337> .
-
-<http://purl.org/rvl/example-avm/GR_192253414>
-        a           <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-        rdfs:label  "Linking_Directed_Relation" ;
-        <http://purl.org/viso/graphic/linkingDirected_endNode>
-                <http://purl.org/rvl/example-avm/GO_-394382952> ;
-        <http://purl.org/viso/graphic/linkingDirected_startNode>
-                <http://purl.org/rvl/example-avm/GO_1704640417> ;
-        <http://purl.org/viso/graphic/linking_connector>
-                <http://purl.org/rvl/example-avm/GO_Connector_-1985457324> .
-
-<http://purl.org/rvl/example-avm/GO_Connector_-1796971958>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
-
-<http://purl.org/rvl/example-avm/GO_Connector_693966292>
-        a           <http://purl.org/viso/graphic/Graphic_Object> ;
-        rdfs:label  "Connector representing justifiedBy" .
+<urn:rnd:517d07a3:1454c9f8644:-7f53>
+        a       <http://purl.org/viso/graphic/Labeling_Relation> ;
+        <http://purl.org/viso/graphic/labeling_attachedBy>
+                <http://purl.org/viso/graphic/Superimposition_Relation> .
 
 rdfs:Container  a        rdfs:Class , rdfs:Resource ;
         rdfs:subClassOf  rdfs:Container .
@@ -1662,8 +1227,11 @@ rdfs:isDefinedBy  a         rdf:Property , rdfs:Resource ;
 rdfs:seeAlso  a             rdf:Property , rdfs:Resource ;
         rdfs:subPropertyOf  rdfs:seeAlso .
 
-<http://purl.org/viso/graphic/Graphic_Object>
+<http://purl.org/viso/graphic/Labeling_Relation>
         a       rdfs:Class , rdfs:Resource .
 
 <http://purl.org/viso/graphic/Linking_Directed_Relation>
+        a       rdfs:Class , rdfs:Resource .
+
+<http://purl.org/viso/graphic/Graphic_Object>
         a       rdfs:Class , rdfs:Resource .
