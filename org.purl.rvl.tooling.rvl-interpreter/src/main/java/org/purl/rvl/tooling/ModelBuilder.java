@@ -8,12 +8,16 @@ import java.util.Iterator;
 import java.util.logging.Logger;
 
 import org.apache.commons.io.FilenameUtils;
+import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
+import org.ontoware.rdf2go.model.Diff;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
+import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.Syntax;
+import org.ontoware.rdf2go.model.node.Variable;
 import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
 import org.purl.rvl.tooling.process.FileRegistry;
@@ -120,7 +124,7 @@ public class ModelBuilder {
 		modelSet.removeModel(OGVICProcess.GRAPH_MAPPING);
 		
 		// extra model for mappings
-		modelMappings = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		modelMappings = RDF2Go.getModelFactory().createModel(Reasoning.rdfs); // no reasoning seems to be OK here, when mapping model is extended correctly using getExtraStatementModel below (see comments on problems with JENA impl)
 		modelMappings.open();
 		
 		if (null != mappingFileRegistry) {
@@ -132,7 +136,9 @@ public class ModelBuilder {
 			}
 		}
 
-		modelMappings.addModel(modelRVLSchema); // TODO temp hack! // necessary!
+		// add the extra mapping statements that will be inferred based on the RVL schema
+		//modelMappings.addModel(ModelUtils.getExtraStatementModel(modelMappings,modelRVLSchema)); // TODO does not work properly when JENA used. Works as expected for SESAME Impl of RDF2GO
+		modelMappings.addModel(modelRVLSchema); // for now simply add the whole RVL schema to the mappings model and make it a reasoning model
 		
 		modelSet.addModel(modelMappings, OGVICProcess.GRAPH_MAPPING);
 
@@ -149,12 +155,12 @@ public class ModelBuilder {
 
 	
 	
-	public void initDataModel(FileRegistry dataFileRegistry)  {
+	public void initDataModel(FileRegistry dataFileRegistry, Reasoning reasoning)  {
 		
 		modelSet.removeModel(OGVICProcess.GRAPH_DATA);
 		
 		// extra model for data
-		modelData = RDF2Go.getModelFactory().createModel(OGVICProcess.getInstance().getReasoningDataModel()); // no reasoning seems to be OK here?? -> no colors of nodes are missing in ro-instance uss case
+		modelData = RDF2Go.getModelFactory().createModel(reasoning); // no reasoning seems to be OK here?? -> no colors of nodes are missing in ro-instance uss case
 		modelData.open();
 
 		if (null != dataFileRegistry) {

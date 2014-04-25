@@ -166,7 +166,7 @@ public class OGVICProcess {
 	}
 	
 	public void initDataAndMappingsModel(VisProject project) {
-		modelBuilder.initDataModel(project.getDataFileRegistry());
+		modelBuilder.initDataModel(project.getDataFileRegistry(),project.getReasoningDataModel());
 		modelBuilder.initMappingsModel(project.getMappingFileRegistry());
 	}
 	

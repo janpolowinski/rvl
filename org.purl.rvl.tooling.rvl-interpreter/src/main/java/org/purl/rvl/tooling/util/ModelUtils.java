@@ -12,10 +12,14 @@ import java.util.logging.Logger;
 
 import org.apache.commons.io.FilenameUtils;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
+import org.ontoware.rdf2go.RDF2Go;
+import org.ontoware.rdf2go.Reasoning;
+import org.ontoware.rdf2go.model.Diff;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.Syntax;
+import org.ontoware.rdf2go.model.node.Variable;
 
 /**
  * @author Jan
@@ -102,5 +106,96 @@ public class ModelUtils {
 			e.printStackTrace();
 		}
 	}
+	
 
+	/**
+	 * @param extendeeModel - reasoning may be none or rdfs
+	 * @param extenderModel - reasoning may be none or rdfs
+	 * @return Returns a model containing only the extra statements that are created when combining the two inferred models.
+	 */
+	public static Model getExtraStatementModel(Model extendeeModel, Model extenderModel) {
+		
+		// reason on models (they could be non-reasoning models)
+		
+		Model inferenceExtendeeModel = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		inferenceExtendeeModel.open();
+		inferenceExtendeeModel.addModel(extendeeModel);
+	
+		Model inferenceExtenderModel = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		inferenceExtenderModel.open();
+		inferenceExtenderModel.addModel(extenderModel);
+	
+		// manifest inferred statements into new models
+		
+		Model inferredExtendeeModel = RDF2Go.getModelFactory().createModel(Reasoning.none);
+		inferredExtendeeModel.open();
+		inferredExtendeeModel.addModel(inferenceExtendeeModel);
+	
+		Model inferredExtenderModel = RDF2Go.getModelFactory().createModel(Reasoning.none);
+		inferredExtenderModel.open();
+		inferredExtenderModel.addModel(inferenceExtenderModel);
+		
+		printModelInfo("extendee model", extendeeModel, false);
+		printModelInfo("extender model", extenderModel, false);
+		printModelInfo("inference extendee model", inferenceExtendeeModel, false);
+		printModelInfo("inference extender model", inferenceExtenderModel, false);
+		printModelInfo("inferred extendee model", inferredExtendeeModel, false);
+		printModelInfo("inferred extender model", inferredExtenderModel, false);
+				
+		// combined models (with and without reasoning)
+		
+		Model combinedModel = RDF2Go.getModelFactory().createModel(Reasoning.none);
+		combinedModel.open();
+		combinedModel.addModel(inferredExtenderModel);
+		combinedModel.addModel(inferredExtendeeModel);
+		
+		Model inferenceCombinedModel = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		inferenceCombinedModel.open();
+		inferenceCombinedModel.addModel(combinedModel);
+	
+		// manifest combined model
+		Model inferredCombinedModel = RDF2Go.getModelFactory().createModel(Reasoning.none);
+		inferredCombinedModel.open();
+		inferredCombinedModel.addModel(inferenceCombinedModel);
+	
+		printModelInfo("combined model", combinedModel, false);
+		printModelInfo("inference combined model", inferenceCombinedModel, false);	
+		printModelInfo("inferred combined model", inferredCombinedModel, false);
+		
+		Diff diff = combinedModel.getDiff(inferredCombinedModel.iterator());
+		Iterable<Statement> addedIt = diff.getAdded();
+		
+		// extra statements are those added 
+	
+		Model extraMappingStatements = RDF2Go.getModelFactory().createModel(Reasoning.none);
+		extraMappingStatements.open();
+		extraMappingStatements.addAll(addedIt.iterator());
+		
+		printModelInfo("extra statements model", extraMappingStatements, true);
+	
+		return extraMappingStatements;
+	}
+
+	public static void printModelInfo(String modelName, Model model, boolean printEachStatement) {
+	
+	int i = 0;
+		
+		LOGGER.finest(modelName + " size of manifested statements (not inferred): " + model.size());
+		
+		if(printEachStatement) {
+			
+			ClosableIterator<Statement> it = model.findStatements(
+					Variable.ANY,
+					Variable.ANY,
+					Variable.ANY
+					);
+			
+			while (it.hasNext()) {
+				Statement stmt = (Statement) it.next();
+				LOGGER.finest(i + ": statement incl. inferred ones: " + stmt);
+				i++;
+			}
+		}
+	}
+	
 }

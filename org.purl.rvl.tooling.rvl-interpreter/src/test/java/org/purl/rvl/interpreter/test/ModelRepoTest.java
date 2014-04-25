@@ -76,6 +76,59 @@ public class ModelRepoTest {
 		p.setProperty("back-end", "memory");
 		ModelSet modelSet = RDF2Go.getModelFactory().createModelSet(p);*/
 		
+		//newTest();
+		slubTest();
+		
+	}
+	
+	public static void newTest() {
+
+		// extendee
+		Model extendeeModel = RDF2Go.getModelFactory().createModel(
+				Reasoning.none);
+		extendeeModel.open();
+		ModelUtils.readFromAnySyntax(extendeeModel,
+				"../org.purl.rvl.vocabulary/model_repo_test_extendee.ttl");
+
+		ModelUtils.printModelInfo("extendee model", extendeeModel, false);
+
+		// extender
+		Model extenderModel = RDF2Go.getModelFactory().createModel(Reasoning.none);
+		extenderModel.open();
+		ModelUtils.readFromAnySyntax(extenderModel,
+				"../org.purl.rvl.vocabulary/model_repo_test_extender.ttl");
+
+		ModelUtils.printModelInfo("extender model", extenderModel, false);
+		
+		
+		ModelUtils.printModelInfo("extra statement model", ModelUtils.getExtraStatementModel(extendeeModel, extenderModel), true);
+
+	}
+	
+	public static void slubTest() {
+
+		// extendee
+		Model extendeeModel = RDF2Go.getModelFactory().createModel(
+				Reasoning.none);
+		extendeeModel.open();
+		ModelUtils.readFromAnySyntax(extendeeModel,ExampleMapping.SLUB);
+
+		ModelUtils.printModelInfo("extendee model", extendeeModel, false);
+
+		// extender
+		Model extenderModel = RDF2Go.getModelFactory().createModel(Reasoning.none);
+		extenderModel.open();
+		ModelUtils.readFromAnySyntax(extenderModel,OGVICProcess.RVL_LOCAL_REL);
+
+		ModelUtils.printModelInfo("extender model", extenderModel, false);
+		
+		
+		ModelUtils.printModelInfo("extra statement model", ModelUtils.getExtraStatementModel(extendeeModel, extenderModel), true);
+
+	}
+	
+	public static void oldTest(){
+		
 		ModelSet modelSet = RDF2Go.getModelFactory().createModelSet();
 		modelSet.open();
 		
@@ -87,61 +140,77 @@ public class ModelRepoTest {
 		// mapping
 		Model mappingModel = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		mappingModel.open();
-		ModelUtils.readFromAnySyntax(mappingModel, ExampleMapping.SLUB );
-		LOGGER.finest("mapping model size: " + mappingModel.size());
-
-		/*
-		System.out.println("Property mappings in the orig mapping model: ");
-
-		ClosableIterator<Statement> mappingModelIt = mappingModel.iterator();
-
-		while (mappingModelIt.hasNext()) {
-			
-			Statement pmStmt = (Statement) mappingModelIt.next();
-			
-			System.out.println(pmStmt);
-			
-		}*/
+		//ModelUtils.readFromAnySyntax(mappingModel, ExampleMapping.SLUB );
+		ModelUtils.readFromAnySyntax(mappingModel, "../org.purl.rvl.vocabulary/model_repo_test_extendee.ttl" );
+		
+		ModelUtils.printModelInfo("mapping model", mappingModel, false);
 		
 		// mapping inferred
 		Model inferredMappingModel = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		inferredMappingModel.open();
 		inferredMappingModel.addModel(mappingModel);
-		LOGGER.finest("inferred mapping model size: " + inferredMappingModel.size());
+		
+		ModelUtils.printModelInfo("inferred mapping model", inferredMappingModel, false);
+		
 		
 		// rvl
 		Model rvlModel = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		rvlModel.open();
-		ModelUtils.readFromAnySyntax(rvlModel, OGVICProcess.RVL_LOCAL_REL );
-		LOGGER.finest("rvl model size: " + rvlModel.size());
+		//ModelUtils.readFromAnySyntax(rvlModel, OGVICProcess.RVL_LOCAL_REL );
+		ModelUtils.readFromAnySyntax(rvlModel, "../org.purl.rvl.vocabulary/model_repo_test_extender.ttl" );
+		
+		ModelUtils.printModelInfo("rvl model", rvlModel, false);
 		
 		Model inferredRVLModel = RDF2Go.getModelFactory().createModel(Reasoning.none);
 		inferredRVLModel.open();
 		inferredRVLModel.addModel(rvlModel);
-		LOGGER.finest("inferred rvl model size: " + inferredRVLModel.size());
 		
+		ModelUtils.printModelInfo("inferred rvl model", inferredRVLModel, false);
+				
 		// mapping + rvl
 		Model mappingsAndRVLModel = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		mappingsAndRVLModel.open();
 		mappingsAndRVLModel.addModel(inferredRVLModel);
 		mappingsAndRVLModel.addModel(mappingModel);
-		LOGGER.finest("mappings + rvl model size: " + mappingsAndRVLModel.size());
+
+		ModelUtils.printModelInfo("mappings + rvl model", mappingsAndRVLModel, false);
+
 		
 		Model inferredMappingsAndRVLModel = RDF2Go.getModelFactory().createModel(Reasoning.none);
 		inferredMappingsAndRVLModel.open();
 		inferredMappingsAndRVLModel.addModel(mappingsAndRVLModel);
-		LOGGER.finest("inferred mappings + rvl model size: " + inferredMappingsAndRVLModel.size());
 		
-		Diff diff = rvlModel.getDiff(inferredMappingsAndRVLModel.iterator());
+		ModelUtils.printModelInfo("inferred mappings + rvl model", inferredMappingsAndRVLModel, false);
+		
+		
+		Model inferredRVLModelAndNoneInferredMappingsModel = RDF2Go.getModelFactory().createModel(Reasoning.none);
+		inferredRVLModelAndNoneInferredMappingsModel.open();
+		inferredRVLModelAndNoneInferredMappingsModel.addModel(inferredRVLModel);
+		inferredRVLModelAndNoneInferredMappingsModel.addModel(mappingModel);
+		
+		ModelUtils.printModelInfo("none-inferred mappings + rvl model", inferredRVLModelAndNoneInferredMappingsModel, false);
+		
+		
+		
+		Diff diff = inferredRVLModelAndNoneInferredMappingsModel.getDiff(inferredMappingsAndRVLModel.iterator());
 		
 		Iterable<Statement> addedIt = diff.getAdded();
 
 		
 		// enriched mappings
-		Model enrichedMappings = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		Model extraMappingStatements = RDF2Go.getModelFactory().createModel(Reasoning.none);
+		extraMappingStatements.open();
+		extraMappingStatements.addAll(addedIt.iterator());
+		
+		ModelUtils.printModelInfo("extraMappingStatements-model", extraMappingStatements, true);
+		
+		// enriched mappings
+		Model enrichedMappings = RDF2Go.getModelFactory().createModel(Reasoning.none);
 		enrichedMappings.open();
 		enrichedMappings.addModel(inferredMappingModel);
 		enrichedMappings.addAll(addedIt.iterator());
+		
+		ModelUtils.printModelInfo("enriched mappings model", enrichedMappings, true);
 
 		int i = 0;
 		for (Statement statement : addedIt) {
@@ -158,7 +227,7 @@ public class ModelRepoTest {
 		
 		LOGGER.finest("enriched mappings model size: " + enrichedMappings.size());
 		
-		
+		/*
 		
 		modelSet.addModel(dataModel, OGVICProcess.GRAPH_DATA);
 		modelSet.addModel(mappingModel, OGVICProcess.GRAPH_MAPPING);
@@ -204,7 +273,7 @@ public class ModelRepoTest {
 			
 			System.out.println(pmStmt);
 			
-		}
+		}*/
 		
 
 		//listModelStatements("data model",dataModel);
