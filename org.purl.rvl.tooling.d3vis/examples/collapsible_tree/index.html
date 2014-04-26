@@ -79,6 +79,20 @@ function update(source) {
   // Update the nodes…
   var node = vis.selectAll("g.node")
       .data(nodes, function(d) { return d.id || (d.id = ++i); });
+	  
+
+	function activate(d, active) {
+		d.active = active;
+		d.parent && activate(d.parent, active);
+	}
+	
+	function activateChildren(d, active) {
+		d.active = active;
+		d.children && d.children.forEach(function(child) {
+			activate(child, active);
+			});
+	}
+
 
   // Enter any new nodes at the parent's previous position.
   var nodeEnter = node.enter().append("svg:g")
@@ -87,23 +101,56 @@ function update(source) {
       .on("click", function(d) { toggle(d); update(d); })
 	  
 	  .on("mouseover", function(d) {
+	  	
+			var nodesToFilter = vis.selectAll(".node");
+			var linksToFilter = vis.selectAll(".link");
 	  		
 			// highlight this node
 			d3.select(this).attr("class", "node highlighted");
 			
 			// highlight identical nodes	
-			vis.selectAll(".node").filter(function(node) {
+			nodesToFilter.filter(function(node) {
 			    return node.uri === d.uri;
             })
 			.attr("class", "node highlighted identical");
 			
-			// extend label to full label
+			
+			activate(d, true);
+			activateChildren(d, true);
+			
+			// highlight parent and children nodes and the path
+			nodesToFilter.filter(function(node) {
+			    return node.active;
+            })
+			.attr("class", "node highlighted");
+			linksToFilter.filter(function(d) { 
+				return d.target.active;
+			 })
+			 .classed("highlighted", true)
+			 //.attr("marker-end", function(d) { return "url(#g-arrowhead-" + d.target.party + "-active)"; })
+			 ;
+			
+			
+			
+			// extend label to full label (not useful in tree layout)
 			//d3.select(this).selectAll("text").text(function(d){return d.full_label});		
 				
 	  })
 	  .on("mouseout", function(d) {
-			d3.select(this).attr("class", "node");
+	  	
+			var linksToFilter = vis.selectAll(".link");
+	  	
+			//d3.select(this).attr("class", "node");
+			
 			d3.selectAll(".node").attr("class", "node");
+			
+			linksToFilter.classed("highlighted", false);
+			
+			activate(d, false);
+			activateChildren(d, false);
+			
+			// extend label to full label (not useful in tree layout)
+			//d3.select(this).selectAll("text").text(function(d){return d.label});
 	  })
 	  
 	  ;
