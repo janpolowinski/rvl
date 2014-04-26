@@ -15,7 +15,7 @@ public class UseCaseRVLClasses extends TestOGVICProcess {
 	@Test
 	public void testOGVICProcess() {
 		
-		project.setReasoningDataModel(Reasoning.none);
+		project.setReasoningDataModel(Reasoning.rdfs);
 
 		project.registerMappingFile(ExampleMapping.RVL_EXAMPLE_BOOTSTRAP);
 		project.registerDataFile(OGVICProcess.RVL_LOCAL_REL);

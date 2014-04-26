@@ -143,7 +143,7 @@ public class RVLUtils {
 	
 			String query = "" + 
 					" SELECT DISTINCT ?s ?p ?o " +
-					" FROM NAMED " + fromGraph.toSPARQL() + " " + 
+					//" FROM NAMED " + fromGraph.toSPARQL() + " " + 
 					" WHERE { " +
 					" GRAPH " + fromGraph.toSPARQL() + " { " +
 					" ?s ?p ?o . " + 
@@ -228,8 +228,8 @@ public class RVLUtils {
 		
 		QueryResultTable results = null;
 		Set<Statement> stmtSet = new HashSet<Statement>();
-		String subjectString = "?s";
-		String objectString = "?o";
+		//String subjectString = "?s";
+		//String objectString = "?o";
 		String query;
 		
 		// temp only support some and all values from ...
@@ -244,11 +244,11 @@ public class RVLUtils {
 		}
 		
 		// named graphs
-		
+		/*
 		String fromGraphString = " ";
 		if (null!=fromGraph) {
 			fromGraphString = "FROM NAMED " + fromGraph.toSPARQL(); // note: without GRAPH phrase below, only FROM works, not FROM NAMED
-		}
+		}*/
 
 		if (inheritedBy.toString().equals(RVL.TBOX_DOMAIN_RANGE)) {
 			
@@ -263,10 +263,13 @@ public class RVLUtils {
 					RVL.NS + "ValueMapping", false	);*/
 			
 			query = "" + 
-					" SELECT DISTINCT ?src ?s ?p ?o " + 
-					" " + fromGraphString + 
+					//" SELECT DISTINCT ?src ?s ?p ?o " + 
+					//" " + fromGraphString + 
+					" SELECT DISTINCT ?s ?p ?o " + 
+					//" FROM NAMED " + fromGraph.toSPARQL() + " " + 
 					" WHERE { " +
-					" GRAPH ?src { " +
+					//" GRAPH ?src { " +
+					" GRAPH " + fromGraph.toSPARQL() + " { " +
 					" ?p " + Property.SUBPROPERTYOF.toSPARQL() + "* " + spURI.toSPARQL() + " . " +
 					" ?p " + org.ontoware.rdf2go.vocabulary.RDFS.domain.toSPARQL() +  " ?s  . " +  
 					" ?p " + org.ontoware.rdf2go.vocabulary.RDFS.range.toSPARQL() +  " ?o  " +  
@@ -284,10 +287,13 @@ public class RVLUtils {
 			// inheritedBy -> other supported values
 			
 			query = "" + 
-				" SELECT DISTINCT ?src ?s ?p ?o " + 
-				" " + fromGraphString + 
+				//" SELECT DISTINCT ?src ?s ?p ?o " + 
+				//" " + fromGraphString + 
+				" SELECT DISTINCT ?s ?p ?o " + 
+				//" FROM NAMED " + fromGraph.toSPARQL() + " " + 
 				" WHERE { " +
-				" GRAPH ?src { " +
+				//" GRAPH ?src { " +
+				" GRAPH " + fromGraph.toSPARQL() + " { " +
 				" ?s " + Class.SUBCLASSOF.toSPARQL() + " ?restrictionClass . " +
 				" ?restrictionClass a " + Restriction.RDFS_CLASS.toSPARQL() + " . " +  
 				" ?p " + Property.SUBPROPERTYOF.toSPARQL() + "* " + spURI.toSPARQL() + " . " +
@@ -315,12 +321,12 @@ public class RVLUtils {
 				//LOGGER.finest("fetched SPARQL result row: " + row);
 				try {
 					
-					URI context = null; 
+					/*URI context = null; 
 					if (null!=fromGraph){
 						context = row.getValue("src").asURI();
-					}
+					}*/
 					
-					Statement stmt = new StatementImpl(context, row.getValue("s").asURI(), row.getValue("p").asURI(), row.getValue("o"));
+					Statement stmt = new StatementImpl(fromGraph, row.getValue("s").asURI(), row.getValue("p").asURI(), row.getValue("o"));
 					LOGGER.finer("build Statement: " + stmt.toString());
 					
 						//if(row.getValue("s").asURI().toString().startsWith(OGVICProcess.getInstance().getUriStart())) {
@@ -461,11 +467,11 @@ public class RVLUtils {
 			}
 			
 			if (onlyMostSpecific) {
+				
 				 // get only the most specific statements and exclude those using a super-property instead
 				statementSet.addAll(RVLUtils.findStatementsPreferingThoseUsingASubProperty(modelOrModelSet, fromGraph, spURI)); 
-			}
-			
-			else {
+				
+			} else {
 				
 				Model dataModel;
 				try{
