@@ -29,7 +29,7 @@ public class OGVICProcess {
 	private static OGVICProcess instance = null;
 	
 	// SETTINGS
-	public static int MAX_GRAPHIC_RELATIONS_PER_MAPPING = 100;
+	public static int MAX_GRAPHIC_RELATIONS_PER_MAPPING = 10000;
 	public static boolean REGENERATE_AVM = true;
 	public static boolean WRITE_AVM = false;
 	public static boolean WRITE_JSON = true;

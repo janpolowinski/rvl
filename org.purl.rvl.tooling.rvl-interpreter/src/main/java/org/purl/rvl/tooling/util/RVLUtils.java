@@ -131,18 +131,21 @@ public class RVLUtils {
 		
 			Set<Statement> stmtSet = new HashSet<Statement>();
 			
-			String fromGraphString = " ";
+			/*
+			String selectFromString = " SELECT DISTINCT ?src ?s ?p ?o  ";
+			String srcString = "?src";
 			if (null!=fromGraph) {
-				fromGraphString = "FROM NAMED " + fromGraph.toSPARQL(); // note: without GRAPH phrase below, only FROM works, not FROM NAMED
-			}
+				selectFromString = " SELECT DISTINCT ?s ?p ?o  FROM NAMED " + fromGraph.toSPARQL(); // note: without GRAPH phrase below, only FROM works, not FROM NAMED
+				srcString = fromGraph.toSPARQL();
+			}*/
 		
 		try {
 	
 			String query = "" + 
-					" SELECT DISTINCT ?src ?s ?p ?o " + 
-					" " + fromGraphString + 
+					" SELECT DISTINCT ?s ?p ?o " +
+					" FROM NAMED " + fromGraph.toSPARQL() + " " + 
 					" WHERE { " +
-					" GRAPH ?src { " +
+					" GRAPH " + fromGraph.toSPARQL() + " { " +
 					" ?s ?p ?o . " + 
 					" ?p " + Property.SUBPROPERTYOF.toSPARQL() + "* " + spURI.toSPARQL() + " " +
 					" FILTER NOT EXISTS { " + 
@@ -176,14 +179,9 @@ public class RVLUtils {
 			for (QueryRow row : explMapResults) {
 				LOGGER.finest("fetched SPARQL result row: " + row);
 				try {
-					
-					URI context = null; 
-					if (null!=fromGraph){
-						context = row.getValue("src").asURI();
-					}
 						
 					Statement stmt = new StatementImpl(
-							context,
+							fromGraph,
 							row.getValue("s").asURI(),
 							row.getValue("p").asURI(),
 							row.getValue("o")

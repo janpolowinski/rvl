@@ -17,7 +17,7 @@
 
 
 rexm:SubClassOfToLinkingDirected
-	  rvl:disabled "true"^^xsd:boolean ;
+	  rvl:disabled "false"^^xsd:boolean ;
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
       rdfs:label "PM from rdfs:subClassOf to Linking Directed"^^xsd:string ;
       rvl:sourceProperty rdfs:subClassOf ; 
@@ -52,11 +52,11 @@ rexm:TypeToLinkingDirected
 
 :AnyPropertyToLinkingByConnectorMapping
       a rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true"^^xsd:boolean ;
       rdfs:label "(Any) domain - range relation to linking"^^xsd:string ;
       rvl:sourceProperty owl:topObjectProperty ;
       #rvl:invertSourceProperty "true"^^xsd:boolean;
-      rvl:inheritedBy rvl:tBoxDomainRange;
+      #rvl:inheritedBy rvl:tBoxDomainRange;
       rvl:targetObjToObjRelation
               <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
       #rvl:subMapping [
