@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   width="210mm"
+   height="297mm"
+   id="svg5369">
+  <defs
+     id="defs5371" />
+  <metadata
+     id="metadata5374">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1">
+    <g
+       transform="translate(16.97239,1.4935501)"
+       id="g4005">
+      <path
+         d="m 401.56562,24.8125 0,11.815617 -11.81562,0 0,11.805197 11.81562,0 0,11.815617 11.81561,0 0,-11.815617 11.81562,0 0,-11.805197 -11.81562,0 0,-11.815617 -11.81561,0 z"
+         id="plus" />
+    </g>
+    <g
+       transform="translate(638.1784,1.4935501)"
+       id="g4001">
+      <g
+         id="circle">
+        <path
+           d="m 17.789477,0.08321249 c 0,9.78457201 -7.9319604,17.71653451 -17.71653044,17.71653451 -9.78457996,0 -17.71653956,-7.9319625 -17.71653956,-17.71653451 0,-9.78457299 7.9319596,-17.71653649 17.71653956,-17.71653649 9.78457004,0 17.71653044,7.9319635 17.71653044,17.71653649 z"
+           id="path3103" />
+      </g>
+    </g>
+    <g
+       transform="translate(16.97239,1.4935501)"
+       id="minus">
+      <rect
+         width="35.433014"
+         height="11.805198"
+         x="460.62991"
+         y="36.628117"
+         id="rect3100" />
+    </g>
+    <g
+       transform="translate(567.34271,0)"
+       id="g4013">
+      <g
+         id="square">
+        <path
+           d="m -13.228326,-13.22835 26.456652,0 0,26.4567 -26.456652,0 z"
+           id="rect3097" />
+      </g>
+    </g>
+    <g
+       transform="translate(158.12792,1.4935501)"
+       id="g3809">
+      <g
+         id="aliphatic"
+         style="overflow:visible">
+        <path
+           d="M -10.11,20.135802 -5.7172236,6.634532 6.98138,1.9519331 l 6.556797,7.8450324 5.096925,-5.4915039 -5.258417,-6.8492359 5.455238,-6.5641249 -4.767852,-5.8851648 -6.9974263,8.7299986 -12.4444481,4.4527197 -4.2330857,-9.9017913 -6.5078439,4.2885517 3.89383,10.1192676 -4.270546,12.3086377 z"
+           id="path15" />
+      </g>
+    </g>
+    <g
+       transform="translate(87.83853,1.4935501)"
+       id="g3816">
+      <g
+         id="aromatic"
+         style="overflow:visible">
+        <path
+           d="m -8.8971511,-17.772536 -8.8745199,17.71660037 8.8745199,17.71649963 17.7165398,0 L 17.661399,-0.05593563 8.8193887,-17.772536 z m 8.84202001,4.1558 c 12.90576009,3.3312 9.31905979,26.6539 0,27.0903 -12.92791991,-3.3172 -9.29209001,-26.653 0,-27.0903 z"
+           id="path18" />
+      </g>
+    </g>
+    <g
+       transform="translate(16.97239,1.4935501)"
+       id="heart">
+      <path
+         d="m 336.61434,33.328051 c 7.32819,-20.928558 35.90924,0 0,26.908147 -35.90971,-26.908147 -7.32867,-47.836705 0,-26.908147 z"
+         id="path21" />
+    </g>
+    <g
+       transform="translate(16.97239,1.4935501)"
+       id="dislike">
+      <path
+         d="m 256.43395,24.804287 c -8.98537,-0.159283 -16.50129,16.115688 9.31031,35.431911 30.05728,-22.493337 14.94066,-40.800349 4.91377,-33.917164 2.48924,3.321571 2.62672,5.091644 0.90517,9.944644 l -1.74568,-1.119596 -1.35776,8.29818 -1.87499,-1.053738 -3.68533,11.722827 -1.03447,-14.620604 2.1336,1.383031 -0.51723,-9.154341 2.0043,1.053737 c -2.10125,-5.439648 -5.66196,-7.908794 -9.05169,-7.968887 z"
+         id="path24" />
+    </g>
+    <g
+       transform="translate(16.97239,1.4935501)"
+       id="raindrop">
+      <path
+         d="m 194.42194,24.803138 c -1.44593,6.523824 -4.16187,11.765538 -8.1483,15.752885 -4.49549,4.503233 -4.47787,11.819421 0.0282,16.318519 4.50643,4.49874 11.79447,4.475032 16.29659,-0.02829 4.49562,-4.503232 4.50628,-11.791099 0,-16.290238 -3.99012,-3.983638 -6.72483,-9.2304 -8.17659,-15.752887 z"
+         id="path27" />
+    </g>
+    <g
+       transform="translate(705.30809,1.4935501)"
+       id="g4007">
+      <g
+         id="clock"
+         style="fill:#ffffff;stroke:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none">
+        <path
+           d="m 14.283131,-0.38618418 c 0,7.82765758 -6.3455677,14.17322818 -14.17322368,14.17322818 -7.82766402,0 -14.17323232,-6.3455706 -14.17323232,-14.17322818 0,-7.82765842 6.3455683,-14.17322882 14.17323232,-14.17322882 7.82765598,0 14.17322368,6.3455704 14.17322368,14.17322882 z"
+           id="path3014"
+           style="stroke-width:2" />
+        <path
+           d="m 0.10990532,-12.559413 0,12.75259772 11.43128968,0"
+           id="path3016" />
+      </g>
+    </g>
+    <text
+       x="17.580826"
+       y="-135.62299"
+       id="text3997"
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Calibri;-inkscape-font-specification:Calibri"><tspan
+         x="17.580826"
+         y="-135.62299"
+         id="tspan3999">To store the symbols within the same file (may be necessary for old Safari, for example, symbol instead of the inner g should be used with style=&quot;overflow:visible&quot; (only set for aliphatic/aromatic now)</tspan></text>
+    <path
+       d="m -36.50574,1052.9706 72.403051,0"
+       id="path4017"
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       d="M -0.608429,1018.2902 0,1085.8258"
+       id="path4019"
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  </g>
+</svg>

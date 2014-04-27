@@ -5,7 +5,7 @@ body {
 /* nodes */
 
 .node circle, .node path {
-  fill: #fff;
+  /*fill: #fff;*/ /* warning firefox-bug?!: cannot be overridden by Firefox in SVGs, when using a symbol as use-element */
   stroke: #ccc;
   stroke-width: 1.5px;
   cursor: pointer;
