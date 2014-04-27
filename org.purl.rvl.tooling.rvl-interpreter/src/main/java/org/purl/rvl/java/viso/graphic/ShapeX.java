@@ -88,6 +88,8 @@ public class ShapeX extends Shape {
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/EquiliteralTriangle")) return "triangle-up";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Square")) return "square";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Rhomb")) return "diamond";
+		else if (this.asURI().toString().equals("http://purl.org/viso/addon/shapes/bio/Aliphatic_Shape")) return "aliphatic";
+		else if (this.asURI().toString().equals("http://purl.org/viso/addon/shapes/bio/Aromatic_Shape")) return "aromatic";
 		else return "circle";
 	}
 
