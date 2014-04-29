@@ -1,37 +1,37 @@
+<!-- Don't edit! Derived from force-directed-graph -->
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-	<link type="text/css" rel="stylesheet" href="../../css/main.css"/>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+        <link type="text/css" rel="stylesheet" href="../../css/main.css"/>
 	<link type="text/css" rel="stylesheet" href="../../css/labeling.css"/>
 	<link type="text/css" rel="stylesheet" href="../../css/labeling-new-boxmodel.css"/>
 	<link type="text/css" rel="stylesheet" href="../../css/labeling-webkit-old-boxmodel.css"/>
 	<script type="text/javascript" src="../../js/d3.min.js"></script>
-	<style type="text/css">
+        <style type="text/css">
 		
 		<!-- labeling at various positions works, but is cropped (view box bug) in webkit and is slow in firefox (many objects SVG in HTML in SVG ) -->
 	
 		
 	
-	</style>
-</head>
-<body>
+        </style>
+    </head>
+    <body>
 <div id="labelContainerSpace">
-</div>
-
-<script type="text/javascript">
-
+        </div>
+        <script type="text/javascript">
+        	
             /* after an example from http://jsfiddle.net/Y9Qq3/2/ http://jsfiddle.net/nrabinowitz/VYaGg/2/ */
-
-            var drawLinks = true; // choose whether only nodes should be drawn and layouted
+            
+            var drawLinks = false; // choose whether only nodes should be drawn and layouted
 
             var width = 1400,
                 height = 1200,
 				lineWidth = 7,
-				markerWidth = 3,
-			    markerHeight = 3,
-			    cRadius = 10,
+            	markerWidth = 3,
+                markerHeight = 3,
+                cRadius = 10,
 				refX = cRadius + (markerWidth * 1.3) + 0.155 * cRadius, /* works well for stroke widths between 5 and 20 */
 				// ALT refX = cRadius + (markerWidth * 1.5), 
 				// ALT3 refX = cRadius + (markerWidth * 2),
@@ -42,31 +42,31 @@
                 drSub = cRadius + refY, /* works well for stroke widths between 5 and 20 */
 				manualArcLabelPositionCorrection = 27, /* works well for stroke widths between 5 and 20 */
 				ICONSIZE = 0; // TODO does not actually work. hack!
-				;
-
-					 
-
-var force = self.force = d3.layout.force()
-    .charge(-900)
+            	;
+            
+            					 
+            
+            var force = self.force = d3.layout.force()
+                .charge(-900)
                 .linkDistance(200)
-    .size([width, height])
-	;
-
+                .size([width, height])
+            	;
+				
 			var mInfo = d3.select("body").append("div");
             
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height);
-	
+            var svg = d3.select("body").append("svg")
+                .attr("width", width)
+                .attr("height", height);
+				
 var labelContainerSpace = d3.select("#labelContainerSpace")
 	//.style("position","absolute")
 	//.attr("id", "labelContainerSpace") // somehow does not work programmatically
     .attr("width", width)
     .attr("height", height);
-	
-	
-
-	
+				
+            	
+            	
+            	
             // Define Markers to be used in arrow paths
             svg.append("svg:defs").selectAll("marker")
                	.data(["arrow", "uml_generalization_arrow"])
@@ -85,114 +85,121 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
             //d3.json("../../gen/json/graph-data.json", function(error, graph) {
 			d3.json("graph-data-1.json", function(error, graph) {
             	
-	 var symbolFunction = d3.svg.symbol()
+            	 var symbolFunction = d3.svg.symbol()
              						.size(2*Math.PI*cRadius*cRadius)
- 						.type(function (d) {return d.shape_d3_name})
+             						.type(function (d) {return d.shape_d3_name})
 						;
 						
 		 var labelSymbolFunction = d3.svg.symbol()
  						.size(250)
  						.type(function (d) {return d.label_shape_d3_name})
-						//.type("cross")
-						;
-	
-	  var forceVar = force
-	      .nodes(graph.nodes);
+									//.type("cross")
+            						;
+            	
+            	  var forceVar = force
+            	      .nodes(graph.nodes);
 	  if (drawLinks) {
 	  	forceVar.links(graph.links)
 	  }
-	  	forceVar.start();
-		  
-		  
-		 var path = svg.selectAll(".link")
-        .data(graph.links)
-        .enter().append("svg:path")
-        .attr("class", function (d) { return "link link" + d.type; })  
-		//.style("stroke", function(d) { return d.color_rgb_hex; })
-		.style("stroke", function(d) { return d.color_rgb_hex_combined; })
-		.attr("marker-end", function (d) {
-           return "url(#" + d.arrow_type + ")";
-    	})
-		// approach using mid-markers did not suceed -> a marker on each path-node is not desirable
-		/*.attr("marker-mid", function (d) {
-			return "url(#" + "markerSquare" + ")";
-    	})*/
-		.attr("id", function(d){
-        	return d.source.index + "_" + d.target.index;
-    	})
-		;
+            	  forceVar.start();
+            		  
+            		  
+            	   /* links / edges with label and tooltip */
+            
+            		var connectorGroup = svg.selectAll(".connectorGroup")
+                    .data(graph.links)
+                    .enter().append("svg:g")
+                    .attr("class", function (d) { return "connectorGroup link" + d.type; })  
+            		;
+            		
+            		// var path = svg.selectAll(".link")
+                    //.data(graph.links)
+                    var path = connectorGroup.append("svg:path")
+                    .attr("class", function (d) { return "link link" + d.type + " " +  d.arrow_type; })  
+            		//.style("stroke", function(d) { return d.color_rgb_hex; })
+            		.style("stroke", function(d) { return d.color_rgb_hex_combined; })
+            		.attr("marker-end", function (d) {
+                    	return "url(#" + d.arrow_type + ")";
+                	})
+                	// approach using mid-markers did not suceed -> a marker on each path-node is not desirable
+					/*.attr("marker-mid", function (d) {
+            			return "url(#" + "markerSquare" + ")";
+                	})*/
+					.attr("id", function(d){
+                    	return d.source.index + "_" + d.target.index;
+                	})
+            		;
 					
-		/* label aligned at the connector path */
+					/* label aligned at the connector path */
 
-		 var path_label = svg.append("svg:g").selectAll(
-	    ".path_label").data(force.links()).enter()
-	    .append("svg:text").attr("class",
-	        "path_label").append(
-	        "svg:textPath").attr(
-	        "startOffset", "50%").attr(
-	        "text-anchor", "middle").attr(
-	        "xlink:href", function (d) {
-	            return "#" + d.source.index +
-	                "_" + d.target.index;
-	        }).style("fill", "#fff").style(
-	        "font-family", "Arial").text(
-	        function (d) {
-	            return d.label;
-	        });
-		
-		
-		/* alternative : simple labeling of connectors */	
-        /*    		
-		var connectorLabelGroup = connectorGroup.append("svg:g")
-		.attr("class", "label")
-		;
+					 var path_label = svg.append("svg:g").selectAll(
+				    ".path_label").data(force.links()).enter()
+				    .append("svg:text").attr("class",
+				        "path_label").append(
+				        "svg:textPath").attr(
+				        "startOffset", "50%").attr(
+				        "text-anchor", "middle").attr(
+				        "xlink:href", function (d) {
+				            return "#" + d.source.index +
+				                "_" + d.target.index;
+				        }).style("fill", "#fff").style(
+				        "font-family", "Arial").text(
+				        function (d) {
+				            return d.label;
+				        });
+						
+					/* alternative : simple labeling of connectors */	
+            		
+            		var connectorLabelGroup = connectorGroup.append("svg:g")
+            		.attr("class", "label")
+            		;
+            
+            		var connectorLabelSymbol = connectorLabelGroup.append("path")
+            		 .attr("class", function(d) { return "connectorLabelGroup" })
+        			 .attr("d", symbolFunction)
+        			 .style("fill", function(d) { return d.color_rgb_hex_combined; })
+        			 ;	
+					 
+					var connectorLabelText = connectorLabelGroup.append("text")
+            		.attr("class", "label")
+            	    //.attr("dx", function(d){return 100})
+            		//.attr("dy", function(d){return 100})
+            	    .text(function(d){return d.label + " (" + d.type + ")" })
+            		;
+            		
+					/* alternative : very simple labeling of connectors by title-tag */	
+				
+            		//path.append("svg:title")
+            	    //  .text(function(d) { return d.label; });
 
-		var connectorLabelSymbol = connectorLabelGroup.append("path")
-		 .attr("class", function(d) { return "connectorLabelGroup" })
-		 .attr("d", symbolFunction)
-		 .style("fill", function(d) { return d.color_rgb_hex_combined; })
-		 ;	
-		 
-		var connectorLabelText = connectorLabelGroup.append("text")
-		.attr("class", "label")
-	    //.attr("dx", function(d){return 100})
-		//.attr("dy", function(d){return 100})
-	    .text(function(d){return d.label + " (" + d.type + ")" })
-		;
-		*/
-		
-		/* alternative : very simple labeling of connectors by title-tag */	
-	
-		//path.append("svg:title")
-        //  .text(function(d) { return d.label; });
-		
-		
-		  /* manual node positioning */
-		 
-		  var node_drag = d3.behavior.drag()
-        .on("dragstart", dragstart)
-        .on("drag", dragmove)
-        .on("dragend", dragend);
-		
-		function dragstart(d, i) {
-        forceVar.stop() // stops the force auto positioning before you start dragging
-    }
+					
+					/* manual node positioning */
+					
+					  var node_drag = d3.behavior.drag()
+				        .on("dragstart", dragstart)
+				        .on("drag", dragmove)
+				        .on("dragend", dragend);
+						
+						function dragstart(d, i) {
+				        forceVar.stop() // stops the force auto positioning before you start dragging
+				    }
+				
+				    function dragmove(d, i) {
+				        d.px += d3.event.dx;
+				        d.py += d3.event.dy;
+				        d.x += d3.event.dx;
+				        d.y += d3.event.dy; 
+				        tick(); // this is the key to make it work together with updating both px,py,x,y on d !
+				    }
+				
+				    function dragend(d, i) {
+				        d.fixed = true; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
+				        tick();
+				        forceVar.resume();
+				    }
 
-    function dragmove(d, i) {
-        d.px += d3.event.dx;
-        d.py += d3.event.dy;
-        d.x += d3.event.dx;
-        d.y += d3.event.dy; 
-        tick(); // this is the key to make it work together with updating both px,py,x,y on d !
-    }
-
-    function dragend(d, i) {
-        d.fixed = true; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
-        tick();
-        forceVar.resume();
-    }
-
-	/*
+            		  
+            	/*
             	  var link = svg.selectAll(".link")
             	      .data(graph.links)
             	    .enter().append("line")
@@ -201,19 +208,19 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
             		  .style("stroke", function(d) { return d.color_rgb_hex; })
             		  .style("stroke-width", function(d) { return 10 })
             		  ;
-       */
+            		  */
             	
-        /* nodes */ 
-
-	    /*Create and place the "blocks" containing the circle and the text */  
-    	var nodeEnter = svg.selectAll(".node")
-	      .data(graph.nodes).enter()
-	    .append("g")
-		.attr("class", "node")
-	    //.attr("transform", function(d){return "translate("+d.x+",80)"})
-		//.attr("transform", function(d){return "translate(+20,80)"})
-		.call(node_drag)
-		.on("mouseover", function(d) { 
+            	  /* nodes */ 
+            	
+	    			/*Create and place the "blocks" containing the circle and the text */  
+    				var nodeEnter = svg.selectAll(".node")
+            	      .data(graph.nodes).enter()
+            	    .append("g")
+            		.attr("class", "node")
+            	    //.attr("transform", function(d){return "translate("+d.x+",80)"})
+            		//.attr("transform", function(d){return "translate(+20,80)"})
+            		.call(node_drag)
+            		.on("mouseover", function(d) { 
             
             			//d3.select(this).select("path").style("stroke-width", 6); 
             			//d3.select(this).select("path").style("stroke", "yellow"); 
@@ -289,18 +296,19 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
 					})
             		;
             	
-    /* node shape -> symbol */
-	var symbol = nodeEnter.append("path")
-    //.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
-    //.attr("d", d3.svg.symbol());
-	  .attr("class", function(d) { return "node" })
-	 .attr("d", symbolFunction)
-	 .style("fill", function(d) { return d.color_rgb_hex_combined; })
-	 ;	
-	 
-            	/* complex labeling */
+            	/* node shape -> symbol */
+            	var symbol = nodeEnter.append("path")
+                //.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+                //.attr("d", d3.svg.symbol());
+            	  .attr("class", function(d) { return "node" })
+            	 .attr("d", symbolFunction)
+            	 .style("fill", function(d) { return d.color_rgb_hex_combined; })
+            	 ;	
             	
-	 var nodeShapeSize = Math.sqrt(1500); /* TODO area set in symbol functions */ 
+            	
+     /* complex labeling */
+            	
+     var nodeShapeSize = Math.sqrt(1500); /* TODO area set in symbol functions */ 
 	 var labelShapeSize = nodeShapeSize/2;
 	 
 	 var labelContainerContainer = d3.select("#labelContainerSpace")
@@ -310,7 +318,7 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
 		.attr("class","labelContainerContainer")
 		.style("height",nodeShapeSize +"px")
 		.style("width",nodeShapeSize +"px");
-	
+            		 		  	
 	// SVG icon label in html div 
 	
 	var labelContainer1 = labelContainerContainer
@@ -335,9 +343,9 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
 	 			.style("fill", "red")
 				.attr("transform", function(d){ return "translate(" + labelShapeSize/2 + "," + labelShapeSize/2 + ")"})
 			 ;
-			
+            			
 	// SVG text label in html div (cropped in webkit, maybe create a much bigger SVG inside the div, or modify clipping) 
-		
+
 	var labelContainer3 = labelContainerContainer
 		.append("div")
 		//.attr("class","labelContainer bottomLeft")
@@ -355,24 +363,25 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
 			//.style("margin-left",-100 + "px")
 			//.style("margin-bottom",-0.2*nodeShapeSize + "px");
 			
-			// A copy of the label as shadow for better readability
-            	labelContainer3SVG.append("text")
-            		.attr("class", "nodeLabelShadow")
-					.attr("x", function(d){return labelShapeSize/2})  // dx is relative positiong, x is absolute
-					.attr("y", function(d){return labelShapeSize/2})
-				    .text(function(d){return d.label })
-					.style("text-anchor", 
-						function(d){
-							var labelPosition = d.label_position;
-							if(labelPosition.indexOf("Right") != -1){
-								return "start" ;
-							} else if(labelPosition.indexOf("Left") != -1){
-								return "end" ;
-							}
-							else return "middle" ;
-						})
-					;
 			
+			// A copy of the label as shadow for better readability
+        	labelContainer3SVG.append("text")
+        		.attr("class", "nodeLabelShadow")
+				.attr("x", function(d){return labelShapeSize/2})  // dx is relative positiong, x is absolute
+				.attr("y", function(d){return labelShapeSize/2})
+			    .text(function(d){return d.label })
+				.style("text-anchor", 
+					function(d){
+						var labelPosition = d.label_position;
+						if(labelPosition.indexOf("Right") != -1){
+							return "start" ;
+						} else if(labelPosition.indexOf("Left") != -1){
+							return "end" ;
+						}
+						else return "middle" ;
+					})
+				;
+
 			// the actual label text itself
 			labelContainer3SVG.append("text")
 				.attr("class", "nodeLabel") // TODO class was label ... clean up various label CSS classes
@@ -396,9 +405,8 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
 				
 				
 
-				
-			 
-	// HTML label  -> TODO only use this when label attachedBy containment (position = centerCenter)
+    
+    // HTML label  -> TODO only use this when label attachedBy containment (position = centerCenter)
 	
 	/*
 	var labelContainer2 = labelContainerContainer
@@ -416,10 +424,10 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
 				.html(function(d){ return d.label})
 			 ;
 	*/
-			 
-			 
-    /* simple node labeling and tooltips */
-		 
+            			
+            			
+            	/* simple node labeling and tooltips */
+            		  
             	// A copy of the label as shadow for better readability
             	nodeEnter.append("text")
             		.attr("class", "nodeLabelShadow")
@@ -427,36 +435,34 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
             		.attr("dy", function(d){return 0})
             	    .text(function(d){return d.label})
             		;
-		  	
-	// SVG label at svg node
-	nodeEnter.append("text")
-		.attr("class", "nodeLabel")
-	    .attr("dx", function(d){return 10})
-		.attr("dy", function(d){return 0})
-	    .text(function(d){return d.label })
-	    //.text(function(d){return d.label + " lightness: " +  d.color_hsl_lightness + " rgb combined: " + d.color_rgb_hex_combined + " rgb pure: " + d.color_rgb_hex  })
-		//.text(function(d){return d.label + " (shape: " + d.shape_d3_name + ")"})
-		;
-		
-	// tooltip
-    nodeEnter.append("svg:title")
-        .text(function(d) { return d.full_label; });
-
-	
-		
-	
-	  
-	  
-	// Use elliptical arc path segments to doubly-encode directionality.
-	tick = function() {
+				
+				
+				// SVG label at svg node
+            	nodeEnter.append("text")
+            		.attr("class", "nodeLabel")
+            	    .attr("dx", function(d){return 10})
+            		.attr("dy", function(d){return 0})
+            	    .text(function(d){return d.label })
+            	    //.text(function(d){return d.label + " lightness: " +  d.color_hsl_lightness + " rgb combined: " + d.color_rgb_hex_combined + " rgb pure: " + d.color_rgb_hex  })
+            		//.text(function(d){return d.label + " (shape: " + d.shape_d3_name + ")"})
+            		;
+            	
+               // tooltip
+               nodeEnter.append("svg:title")
+            	      .text(function(d) { return d.full_label; });
+            	
+            	  
+            	  
+            	// Use elliptical arc path segments to doubly-encode directionality.
+            	tick = function() {
             		
-       /* position the connector paths */
-        path.attr("d", function (d) {
-            var dx = d.target.x - d.source.x,
-                dy = (d.target.y - d.source.y),
-                dr = Math.sqrt(dx * dx + dy * dy);
-       return "M" + d.source.x + "," + d.source.y + "A" + (dr - drSub) + "," + (dr - drSub) + " 0 0,1 " + d.target.x + "," + d.target.y; // an arc
-       //return "M" + d.source.x + "," + d.source.y + " L" + d.target.x + "," + d.target.y; // a line
+            		/* position the connector paths */
+                    path.attr("d", function (d) {
+                        var dx = d.target.x - d.source.x,
+                            dy = (d.target.y - d.source.y),
+                            dr = Math.sqrt(dx * dx + dy * dy);
+                        return "M" + d.source.x + "," + d.source.y + "A" + (dr - drSub) + "," + (dr - drSub) + " 0 0,1 " + d.target.x + "," + d.target.y; // an arc
+						//return "M" + d.source.x + "," + d.source.y + " L" + d.target.x + "," + d.target.y; // a line
 						/*
 						var pathString = 
 							"M" + d.source.x + "," + d.source.y +
@@ -466,20 +472,20 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
 						
 						return pathString; 
 						*/	
-        });
-
-        /* position the connector labels */
-        /*
-         //connectorGroup.selectAll(".label")
-        	connectorLabel
-			.attr("transform", function (d) {
+                    });
+            
+            
+            		/* position the connector labels */
+            		/* 	
+            		//connectorGroup.selectAll(".label")
+            		connectorLabel
+					.attr("transform", function (d) {
             			var x = d.source.x + (d.target.x - d.source.x - ICONSIZE) / 2;
             		    var y = d.source.y + (d.target.y - d.source.y - ICONSIZE) / 2;
                          return "translate(" + x + "," + y + ")";
                     }); */
-        
-        /*   
-        //symbol2
+					
+					//symbol2
 					connectorLabelGroup
 					.attr("transform", function (d) {
 						
@@ -543,43 +549,41 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
 
                       return "translate(" + x + "," + y + ")";
                     });
-                    */
-	
-		labelContainerContainer
+            
+            labelContainerContainer
 			.style("top", function(d){
 				return d.y - nodeShapeSize/2 + "px";
 			})
 			.style("left", function(d){
 				return d.x -nodeShapeSize/2 + "px";
 			});
-			
-        /* position the nodes */
-		nodeEnter.attr("transform", function (d) {
-            return "translate(" + d.x + "," + d.y + ")";
-        });
-
-    };
-	
-	force.on("tick", tick);
-	  
-
-});
-
-
-
+            
+            		/* position the nodes */
+                    nodeEnter.attr("transform", function (d) {
+                        return "translate(" + d.x + "," + d.y + ")";
+                    });
+            
+                };
+				
+				force.on("tick", tick);
+            	  
+            
+            });
+                                                            
+                                                        
+                                            
                                 
                     
         </script>
 		
         <!-- somehow MUST NOT be before the script! -->
-<svg id="svg-effects">
-    <filter id="blur-effect-1">
-        <feGaussianBlur stdDeviation="0.9" />
-    </filter>
-
-    <filter id="blur-effect-2">
-        <feGaussianBlur stdDeviation="2" />
-    </filter>
+        <svg id="svg-effects">
+            <filter id="blur-effect-1">
+                <feGaussianBlur stdDeviation="0.9" />
+            </filter>
+            <filter id="blur-effect-2">
+                <feGaussianBlur stdDeviation="2" />
+            </filter>
 			<defs>
   <marker id="markerSquare" markerWidth="7" markerHeight="7" refx="4" refy="4"
           orient="auto">
@@ -592,5 +596,5 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
   </marker>
 </defs>
         </svg>
-</body>
+    </body>
 </html>
