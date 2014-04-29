@@ -4,16 +4,26 @@
 	<meta charset="utf-8">
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 	<link type="text/css" rel="stylesheet" href="../../css/main.css"/>
+	<link type="text/css" rel="stylesheet" href="../../css/labeling.css"/>
+	<link type="text/css" rel="stylesheet" href="../../css/labeling-new-boxmodel.css"/>
+	<link type="text/css" rel="stylesheet" href="../../css/labeling-webkit-old-boxmodel.css"/>
 	<script type="text/javascript" src="../../js/d3.min.js"></script>
 	<style type="text/css">
+		
+		<!-- labeling at various positions works, but is cropped (view box bug) in webkit and is slow in firefox (many objects SVG in HTML in SVG ) -->
+	
 		
 	
 	</style>
 </head>
-<body><div id="body"></div>
+<body>
+<div id="labelContainerSpace">
+</div>
 
 <script type="text/javascript">
 /* after an example from http://jsfiddle.net/Y9Qq3/2/ http://jsfiddle.net/Y9Qq3/2/ */
+
+
 
 var drawLinks = false; // choose whether only nodes should be drawn and layouted
 	
@@ -44,28 +54,26 @@ var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 	
+var labelContainerSpace = d3.select("#labelContainerSpace")
+	//.style("position","absolute")
+	//.attr("id", "labelContainerSpace") // somehow does not work programmatically
+    .attr("width", width)
+    .attr("height", height);
 	
 	
-// Define Markers to be used in arrow paths
-svg.append("svg:defs").selectAll("marker")
-   	//.data(["suit", "licensing", "resolved"])
-	.data(["link"])
-    .enter().append("svg:marker")
-    .attr("id", String)
-    .attr("viewBox", "0 -5 10 10")
-    .attr("refX", refX)
-    .attr("refY", refY)
-    .attr("markerWidth", markerWidth)
-    .attr("markerHeight", markerHeight)
-    .attr("orient", "auto")
-    .append("svg:path")
-    .attr("d", "M0,-5L10,0L0,5");
 
-d3.json("../../gen/json/graph-data.json", function(error, graph) {
+//d3.json("../../gen/json/graph-data.json", function(error, graph) {
+d3.json("graph-data-1.json", function(error, graph) {
 	
 	 var symbolFunction = d3.svg.symbol()
  						.size(1500)
  						.type(function (d) {return d.shape_d3_name})
+						;
+						
+		 var labelSymbolFunction = d3.svg.symbol()
+ 						.size(250)
+ 						.type(function (d) {return d.label_shape_d3_name})
+						//.type("cross")
 						;
 	
 	  var forceVar = force
@@ -75,16 +83,6 @@ d3.json("../../gen/json/graph-data.json", function(error, graph) {
 	  }
 	  	forceVar.start();
 		  
-		  /*
-	  var link = svg.selectAll(".link")
-	      .data(graph.links)
-	    .enter().append("line")
-	      .attr("class", "link")
-	      //.style("stroke-width", function(d) { return Math.sqrt(d.value); })
-		  .style("stroke", function(d) { return d.color_rgb_hex; })
-		  .style("stroke-width", function(d) { return 10 })
-		  ;
-		  */
 		  
 		 var path = svg.selectAll(".link")
         .data(graph.links)
@@ -98,9 +96,6 @@ d3.json("../../gen/json/graph-data.json", function(error, graph) {
     	})
 		;
 		
-		path.append("svg:title")
-	      .text(function(d) { return d.label; });
-		  
 		  
 		  var node_drag = d3.behavior.drag()
         .on("dragstart", dragstart)
@@ -136,84 +131,7 @@ d3.json("../../gen/json/graph-data.json", function(error, graph) {
 		//.attr("transform", function(d){return "translate(+20,80)"})
 		.call(node_drag)
 		
-		.on("mouseover", function(d) { 
-
-			//d3.select(this).select("path").style("stroke-width", 6); 
-			//d3.select(this).select("path").style("stroke", "yellow"); 
-			//d3.select(this).select("text").style("font", "20px sans-serif");
-			d3.select(this).attr("class", "node highlighted");
 		
-            // Figure out the neighboring node id's with brute strength because the graph is small
-            var nodeNeighbors = graph.links.filter(function(link) {
-                // Filter the list of links to only those links that have our target 
-                // node as a source or target
-                return link.source.index === d.index || link.target.index === d.index;})
-            .map(function(link) {
-                // Map the list of links to a simple array of the neighboring indices - this is
-                // technically not required but makes the code below simpler because we can use         
-                // indexOf instead of iterating and searching ourselves.
-                return link.source.index === d.index ? link.target.index : link.source.index; });
-            
-            // select neighboring nodes and apply styles
-            svg.selectAll(".node").filter(function(node) {
-                // I filter the selection of all circles to only those that hold a node with an
-                // index in my listg of neighbors
-                return nodeNeighbors.indexOf(node.index) > -1;
-            })
-            //.style("stroke", "yellow");
-			.attr("class", "node highlighted");
-			
-			// select in and out links and apply styles
-            svg.selectAll(".link").filter(function(link) {
-				return (link.source.index === d.index || link.target.index === d.index);
-            })
-            //.style("stroke-width", "8px");
-			.attr("class", "link highlighted");
-			
-			
-			// highlighting of identical resources (same URI)
-			var nodesWithSameURI = graph.nodes.filter(function(node) {
-                // Filter the list of links to only those links that have our target 
-                // node as a source or target
-                return node.uri === d.uri;})
-           .map(function(node) {
-                // Map the list of nodes to a simple array of the same-URI-nodes-indices
-                return node.index })
-				;
-				
-            svg.selectAll(".node").filter(function(node) {
-                // I filter the selection of all circles to only those that hold a node with an
-                // index in my listg of neighbors
-                return nodesWithSameURI.indexOf(node.index) > -1;
-            })
-			.attr("class", "node highlighted identical");
-			//.style("stroke", "red");
-			
-			// extend label to full label
-			d3.select(this).selectAll("text").text(function(d){return d.full_label});	
-			
-			//d.fixed = false;		
-       
-		})
-		.on("mouseout",  function(d) { 
-		
-			// TODO replacing all classes may cause problems! actually we only want to replace "node highlighted" by "node"
-			d3.select(this).select(".node").attr("class", "node");
-			d3.selectAll(".node").attr("class", "node");
-			//d3.selectAll(".link").style("stroke-width", "4px");
-			d3.selectAll(".link").attr("class", "link");
-            //d3.selectAll("path").style("stroke", "gray");
-			//d3.select(this).selectAll("path").style("stroke-width", 1.5); 
-			//d3.select(this).select("text").style("font", "12px sans-serif");
-			
-			d3.select(this).selectAll("text").text(function(d){return d.label});
-
-			})
-		.on("dblclick",  function(d) { 
-		
-			d.fixed = false;	
-			})
-		;
 	
 	var symbol = nodeEnter.append("path")
     //.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
@@ -222,29 +140,129 @@ d3.json("../../gen/json/graph-data.json", function(error, graph) {
 	 .attr("d", symbolFunction)
 	 .style("fill", function(d) { return d.color_rgb_hex_combined; })
 	 ;	
+	 
+	 var nodeShapeSize = Math.sqrt(1500); /* TODO area set in symbol functions */ 
+	 var labelShapeSize = nodeShapeSize/2;
+	 
+	 var labelContainerContainer = d3.select("#labelContainerSpace")
+		.selectAll(".labelContainerContainer")
+		.data(graph.nodes).enter()
+		.append("div")
+		.attr("class","labelContainerContainer")
+		.style("height",nodeShapeSize +"px")
+		.style("width",nodeShapeSize +"px");
+	
+	// SVG icon label in html div 
+	
+	var labelContainer1 = labelContainerContainer
+		.append("div")
+		.attr("class", function(d){ return "labelContainer " + d.label_position})
+		.style("height",nodeShapeSize +"px")
+		.style("width",nodeShapeSize +"px");
+		
+		labelContainer1.append("svg")
+			.attr("class", "svgLabelIcon")
+			.attr("width",labelShapeSize +"px")
+			.attr("height",labelShapeSize +"px")
+			.style("margin",-labelShapeSize/2.75 + "px")
+			/*.append("svg:circle")
+				.attr("r", labelShapeSize/2)
+				.attr("cx",labelShapeSize/2)
+				.attr("cy",labelShapeSize/2)
+				.style("fill","red");*/
+			.append("path")
+	  			.attr("class", "label")
+	 			.attr("d", labelSymbolFunction)
+	 			.style("fill", "red")
+				.attr("transform", function(d){ return "translate(" + labelShapeSize/2 + "," + labelShapeSize/2 + ")"})
+			 ;
+			
+	// SVG text label in html div (cropped in webkit, maybe create a much bigger SVG inside the div, or modify clipping) 
+		
+	var labelContainer3 = labelContainerContainer
+		.append("div")
+		//.attr("class","labelContainer bottomLeft")
+		.attr("class", function(d){ return "labelContainer " + d.label_position})
+		.style("height",nodeShapeSize +"px")
+		.style("width",nodeShapeSize +"px")
+		;
+		
+		var labelContainer3SVG = labelContainer3.append("svg")
+			.attr("class", "svgLabelText")
+			//.attr("width",100 +"px") // are these fixed sizes sensible?
+			//.attr("height",25 +"px")
+			.attr("width",labelShapeSize +"px") // are these fixed sizes sensible?
+			.attr("height",labelShapeSize +"px")
+			//.style("margin-left",-100 + "px")
+			//.style("margin-bottom",-0.2*nodeShapeSize + "px");
+			
+			// A copy of the label as shadow for better readability
+            	labelContainer3SVG.append("text")
+            		.attr("class", "nodeLabelShadow")
+					.attr("x", function(d){return labelShapeSize/2})  // dx is relative positiong, x is absolute
+					.attr("y", function(d){return labelShapeSize/2})
+				    .text(function(d){return d.label })
+					.style("text-anchor", 
+						function(d){
+							var labelPosition = d.label_position;
+							if(labelPosition.indexOf("Right") != -1){
+								return "start" ;
+							} else if(labelPosition.indexOf("Left") != -1){
+								return "end" ;
+							}
+							else return "middle" ;
+						})
+					;
+			
+			labelContainer3SVG.append("text")
+				.attr("class", "nodeLabel") // TODO class was label ... clean up various label CSS classes
+			    //.attr("dx", function(d){return 100}) // dx is relative positiong, x is absolute
+				//.attr("dy", function(d){return 20})
+				.attr("x", function(d){return labelShapeSize/2})  // dx is relative positiong, x is absolute
+				.attr("y", function(d){return labelShapeSize/2})
+			    .text(function(d){return d.label })
+				//.style("text-anchor","middle") // start/middle/end -> TODO set depending on label position
+				.style("text-anchor", 
+					function(d){
+						var labelPosition = d.label_position;
+						if(labelPosition.indexOf("Right") != -1){
+							return "start" ;
+						} else if(labelPosition.indexOf("Left") != -1){
+							return "end" ;
+						}
+						else return "middle" ;
+					})
+				;
+				
+				
+
+				
+			 
+	// HTML label  -> TODO only use this when label attachedBy containment (position = centerCenter)
 	
 	/*
-	  var circle = 
-	  //svg.selectAll(".node")
-	    //  .data(graph.nodes)
-	      //.enter().
-		  nodeEnter.append("svg:circle")
-	      .attr("class", function(d) { return "node " + d.shape_d3_name; })
-	      .attr("r", function(d) { return d.width; })
-	      //.style("fill", function(d) { return d.color_rgb_hex; })
-		  //.style("fill", function(d) { return "hsl(120,100%,50%)"; })
-		  .style("fill", function(d) { return d.color_rgb_hex_combined; })
-		  ;
-		  */
+	var labelContainer2 = labelContainerContainer
+		.append("div")
+		//.attr("class","labelContainer topRight")
+		.attr("class", function(d){ return "labelContainer " + d.label_position})
+		.style("text-align","center")
+		.style("height",nodeShapeSize +"px")
+		.style("width",nodeShapeSize +"px");
+		
+		labelContainer2
+			.append("div")
+	  			.attr("class", "htmlTextLabel")
+				//.style("width", nodeShapeSize + "px") // does only work well for xCenter position
+				.html(function(d){ return d.label})
+			 ;
+	*/
+			 
+			 
+		 
 		  	
-			
-	// A copy of the label as shadow for better readability
-	nodeEnter.append("text")
-		.attr("class", "nodeLabelShadow")
-	    .attr("dx", function(d){return 10})
-		.attr("dy", function(d){return 0})
-	    .text(function(d){return d.label})
-		;
+	/*	
+	
+	// SVG label at svg node
 	
 	nodeEnter.append("text")
 		.attr("class", "nodeLabel")
@@ -254,26 +272,11 @@ d3.json("../../gen/json/graph-data.json", function(error, graph) {
 	    //.text(function(d){return d.label + " lightness: " +  d.color_hsl_lightness + " rgb combined: " + d.color_rgb_hex_combined + " rgb pure: " + d.color_rgb_hex  })
 		//.text(function(d){return d.label + " (shape: " + d.shape_d3_name + ")"})
 		;
+		
+	*/
 	
 		
 	
-   nodeEnter.append("svg:title")
-	      .text(function(d) { return d.full_label; });
-	
-	/*
-	  force.on("tick", function() {
-	    link.attr("x1", function(d) { return d.source.x; })
-	        .attr("y1", function(d) { return d.source.y; })
-	        .attr("x2", function(d) { return d.target.x; })
-	        .attr("y2", function(d) { return d.target.y; });
-	
-	  //  circle.attr("cx", function(d) { return d.x; })
-	    //    .attr("cy", function(d) { return d.y; });
-			
-		nodeEnter.attr("transform", function(d){return "translate("+d.x+","+d.y+")" });
-	  });
-	  
-	  */
 	  
 	  
 	  // Use elliptical arc path segments to doubly-encode directionality.
@@ -289,10 +292,15 @@ d3.json("../../gen/json/graph-data.json", function(error, graph) {
         nodeEnter.attr("transform", function (d) {
             return "translate(" + d.x + "," + d.y + ")";
         });
+			
+		labelContainerContainer
+			.style("top", function(d){
+				return d.y - nodeShapeSize/2 + "px";
+			})
+			.style("left", function(d){
+				return d.x -nodeShapeSize/2 + "px";
+			});
 
-       /* text.attr("transform", function (d) {
-            return "translate(" + d.x + "," + d.y + ")";
-        });*/
     };
 	
 	force.on("tick", tick);
@@ -301,6 +309,7 @@ d3.json("../../gen/json/graph-data.json", function(error, graph) {
 });
 
 </script>
+
 
 <svg id="svg-effects">
     <filter id="blur-effect-1">
