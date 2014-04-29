@@ -304,7 +304,126 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
             	 .style("fill", function(d) { return d.color_rgb_hex_combined; })
             	 ;	
             	
+            	
+     /* complex labeling */
+            	
+     var nodeShapeSize = Math.sqrt(1500); /* TODO area set in symbol functions */ 
+	 var labelShapeSize = nodeShapeSize/2;
+	 
+	 var labelContainerContainer = d3.select("#labelContainerSpace")
+		.selectAll(".labelContainerContainer")
+		.data(graph.nodes).enter()
+		.append("div")
+		.attr("class","labelContainerContainer")
+		.style("height",nodeShapeSize +"px")
+		.style("width",nodeShapeSize +"px");
             		 		  	
+	// SVG icon label in html div 
+	
+	var labelContainer1 = labelContainerContainer
+		.append("div")
+		.attr("class", function(d){ return "labelContainer " + d.label_position})
+		.style("height",nodeShapeSize +"px")
+		.style("width",nodeShapeSize +"px");
+		
+		labelContainer1.append("svg")
+			.attr("class", "svgLabelIcon")
+			.attr("width",labelShapeSize +"px")
+			.attr("height",labelShapeSize +"px")
+			.style("margin",-labelShapeSize/2.75 + "px")
+			/*.append("svg:circle")
+				.attr("r", labelShapeSize/2)
+				.attr("cx",labelShapeSize/2)
+				.attr("cy",labelShapeSize/2)
+				.style("fill","red");*/
+			.append("path")
+	  			.attr("class", "label")
+	 			.attr("d", labelSymbolFunction)
+	 			.style("fill", "red")
+				.attr("transform", function(d){ return "translate(" + labelShapeSize/2 + "," + labelShapeSize/2 + ")"})
+			 ;
+            			
+	// SVG text label in html div (cropped in webkit, maybe create a much bigger SVG inside the div, or modify clipping) 
+
+	var labelContainer3 = labelContainerContainer
+		.append("div")
+		//.attr("class","labelContainer bottomLeft")
+		.attr("class", function(d){ return "labelContainer " + d.label_position})
+		.style("height",nodeShapeSize +"px")
+		.style("width",nodeShapeSize +"px")
+		;
+		
+		var labelContainer3SVG = labelContainer3.append("svg")
+			.attr("class", "svgLabelText")
+			//.attr("width",100 +"px") // are these fixed sizes sensible?
+			//.attr("height",25 +"px")
+			.attr("width",labelShapeSize +"px") // are these fixed sizes sensible?
+			.attr("height",labelShapeSize +"px")
+			//.style("margin-left",-100 + "px")
+			//.style("margin-bottom",-0.2*nodeShapeSize + "px");
+			
+			
+			// A copy of the label as shadow for better readability
+        	labelContainer3SVG.append("text")
+        		.attr("class", "nodeLabelShadow")
+				.attr("x", function(d){return labelShapeSize/2})  // dx is relative positiong, x is absolute
+				.attr("y", function(d){return labelShapeSize/2})
+			    .text(function(d){return d.label })
+				.style("text-anchor", 
+					function(d){
+						var labelPosition = d.label_position;
+						if(labelPosition.indexOf("Right") != -1){
+							return "start" ;
+						} else if(labelPosition.indexOf("Left") != -1){
+							return "end" ;
+						}
+						else return "middle" ;
+					})
+				;
+
+			// the actual label text itself
+			labelContainer3SVG.append("text")
+				.attr("class", "nodeLabel") // TODO class was label ... clean up various label CSS classes
+			    //.attr("dx", function(d){return 100}) // dx is relative positiong, x is absolute
+				//.attr("dy", function(d){return 20})
+				.attr("x", function(d){return labelShapeSize/2})  // dx is relative positiong, x is absolute
+				.attr("y", function(d){return labelShapeSize/2})
+			    .text(function(d){return d.label })
+				//.style("text-anchor","middle") // start/middle/end -> TODO set depending on label position
+				.style("text-anchor", 
+					function(d){
+						var labelPosition = d.label_position;
+						if(labelPosition.indexOf("Right") != -1){
+							return "start" ;
+						} else if(labelPosition.indexOf("Left") != -1){
+							return "end" ;
+						}
+						else return "middle" ;
+					})
+				;
+				
+				
+
+    
+    // HTML label  -> TODO only use this when label attachedBy containment (position = centerCenter)
+	
+	/*
+	var labelContainer2 = labelContainerContainer
+		.append("div")
+		//.attr("class","labelContainer topRight")
+		.attr("class", function(d){ return "labelContainer " + d.label_position})
+		.style("text-align","center")
+		.style("height",nodeShapeSize +"px")
+		.style("width",nodeShapeSize +"px");
+		
+		labelContainer2
+			.append("div")
+	  			.attr("class", "htmlTextLabel")
+				//.style("width", nodeShapeSize + "px") // does only work well for xCenter position
+				.html(function(d){ return d.label})
+			 ;
+	*/
+            			
             			
             	/* simple node labeling and tooltips */
             		  
@@ -430,7 +549,6 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
                       return "translate(" + x + "," + y + ")";
                     });
             
-            /*
             labelContainerContainer
 			.style("top", function(d){
 				return d.y - nodeShapeSize/2 + "px";
@@ -438,7 +556,6 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
 			.style("left", function(d){
 				return d.x -nodeShapeSize/2 + "px";
 			});
-			*/
             
             		/* position the nodes */
                     nodeEnter.attr("transform", function (d) {

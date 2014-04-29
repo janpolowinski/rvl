@@ -214,7 +214,7 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
 		//.attr("transform", function(d){return "translate(+20,80)"})
 		.call(node_drag)
 		.on("mouseover", function(d) { 
-            /*
+            
             			//d3.select(this).select("path").style("stroke-width", 6); 
             			//d3.select(this).select("path").style("stroke", "yellow"); 
             			//d3.select(this).select("text").style("font", "20px sans-serif");
@@ -268,10 +268,10 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
             			
             			// extend label to full label
             			d3.select(this).selectAll("text").text(function(d){return d.full_label});			
-                   */
+                   
             		})
             		.on("mouseout",  function(d) { 
-            		/*
+            		
             			// TODO replacing all classes may cause problems! actually we only want to replace "node highlighted" by "node"
             			d3.select(this).select(".node").attr("class", "node");
             			d3.selectAll(".node").attr("class", "node");
@@ -282,7 +282,7 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
             			//d3.select(this).select("text").style("font", "12px sans-serif");
             			
             			d3.select(this).selectAll("text").text(function(d){return d.label});
-            */
+            
             			})
 					.on("dblclick",  function(d) { 
 						d.fixed = false;	
@@ -298,6 +298,8 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
 	 .style("fill", function(d) { return d.color_rgb_hex_combined; })
 	 ;	
 	 
+            	/* complex labeling */
+            	
 	 var nodeShapeSize = Math.sqrt(1500); /* TODO area set in symbol functions */ 
 	 var labelShapeSize = nodeShapeSize/2;
 	 
@@ -371,6 +373,7 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
 						})
 					;
 			
+			// the actual label text itself
 			labelContainer3SVG.append("text")
 				.attr("class", "nodeLabel") // TODO class was label ... clean up various label CSS classes
 			    //.attr("dx", function(d){return 100}) // dx is relative positiong, x is absolute
