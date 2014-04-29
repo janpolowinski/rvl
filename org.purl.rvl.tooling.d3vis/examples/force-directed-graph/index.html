@@ -4,13 +4,20 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
         <link type="text/css" rel="stylesheet" href="../../css/main.css"/>
-        <script type="text/javascript" src="../../js/d3.min.js">
-        </script>
+	<link type="text/css" rel="stylesheet" href="../../css/labeling.css"/>
+	<link type="text/css" rel="stylesheet" href="../../css/labeling-new-boxmodel.css"/>
+	<link type="text/css" rel="stylesheet" href="../../css/labeling-webkit-old-boxmodel.css"/>
+	<script type="text/javascript" src="../../js/d3.min.js"></script>
         <style type="text/css">
+		
+		<!-- labeling at various positions works, but is cropped (view box bug) in webkit and is slow in firefox (many objects SVG in HTML in SVG ) -->
+	
+		
+	
         </style>
     </head>
     <body>
-        <div id="body">
+<div id="labelContainerSpace">
         </div>
         <script type="text/javascript">
         	
@@ -50,6 +57,11 @@
                 .attr("width", width)
                 .attr("height", height);
 				
+var labelContainerSpace = d3.select("#labelContainerSpace")
+	//.style("position","absolute")
+	//.attr("id", "labelContainerSpace") // somehow does not work programmatically
+    .attr("width", width)
+    .attr("height", height);
 				
             	
             	
@@ -69,18 +81,25 @@
 				.attr("markerUnits","userSpaceOnUse") /* seems to have no effect */
                 .attr("d", "M0,-5L10,0L0,5L0,-5Z");
             
-            d3.json("../../gen/json/graph-data.json", function(error, graph) {
-			//d3.json("graph-data-1.json", function(error, graph) {
+            //d3.json("../../gen/json/graph-data.json", function(error, graph) {
+			d3.json("graph-data-1.json", function(error, graph) {
             	
             	 var symbolFunction = d3.svg.symbol()
              						.size(2*Math.PI*cRadius*cRadius)
              						.type(function (d) {return d.shape_d3_name})
+						;
+						
+		 var labelSymbolFunction = d3.svg.symbol()
+ 						.size(250)
+ 						.type(function (d) {return d.label_shape_d3_name})
 									//.type("cross")
             						;
             	
             	  var forceVar = force
             	      .nodes(graph.nodes);
-            	  if(drawLinks) forceVar.links(graph.links)
+	  if (drawLinks) {
+	  	forceVar.links(graph.links)
+	  }
             	  forceVar.start();
             		  
             		  
@@ -444,9 +463,6 @@
                         return "translate(" + d.x + "," + d.y + ")";
                     });
             
-                   /* text.attr("transform", function (d) {
-                        return "translate(" + d.x + "," + d.y + ")";
-                    });*/
                 };
 				
 				force.on("tick", tick);
