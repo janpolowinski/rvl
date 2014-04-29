@@ -41,7 +41,7 @@
                 drSub = cRadius + refY, /* works well for stroke widths between 5 and 20 */
 				manualArcLabelPositionCorrection = 27, /* works well for stroke widths between 5 and 20 */
 				ICONSIZE = 0; // TODO does not actually work. hack!
-            ;
+            	;
             
             					 
             
@@ -103,7 +103,7 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
             	  forceVar.start();
             		  
             		  
-            	 /* links / edges with label and tooltip */
+            	   /* links / edges with label and tooltip */
             
             		var connectorGroup = svg.selectAll(".connectorGroup")
                     .data(graph.links)
@@ -129,7 +129,7 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
                 	})
             		;
 					
-					/* alternative: label aligned at the connector path */
+					/* label aligned at the connector path */
 
 					 var path_label = svg.append("svg:g").selectAll(
 				    ".path_label").data(force.links()).enter()
@@ -146,12 +146,12 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
 				        function (d) {
 				            return d.label;
 				        });
+						
+					/* alternative : simple labeling of connectors */	
             		
             		var connectorLabelGroup = connectorGroup.append("svg:g")
             		.attr("class", "label")
             		;
-					
-
             
             		var connectorLabelSymbol = connectorLabelGroup.append("path")
             		 .attr("class", function(d) { return "connectorLabelGroup" })
@@ -166,12 +166,13 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
             	    .text(function(d){return d.label + " (" + d.type + ")" })
             		;
             		
+					/* alternative : very simple labeling of connectors by title-tag */	
+				
             		//path.append("svg:title")
             	    //  .text(function(d) { return d.label; });
+
 					
-					
-					
-					/* manual node psoitioning */
+					/* manual node positioning */
 					
 					  var node_drag = d3.behavior.drag()
 				        .on("dragstart", dragstart)
@@ -197,7 +198,7 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
 				    }
 
             		  
-            		              		  /*
+            	/*
             	  var link = svg.selectAll(".link")
             	      .data(graph.links)
             	    .enter().append("line")
@@ -210,14 +211,14 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
             	
             	  /* nodes */ 
             	
-                	var elemEnter = svg.selectAll(".node")
+	    			/*Create and place the "blocks" containing the circle and the text */  
+    				var nodeEnter = svg.selectAll(".node")
             	      .data(graph.nodes).enter()
             	    .append("g")
             		.attr("class", "node")
             	    //.attr("transform", function(d){return "translate("+d.x+",80)"})
             		//.attr("transform", function(d){return "translate(+20,80)"})
             		.call(node_drag)
-            		
             		.on("mouseover", function(d) { 
             
             			//d3.select(this).select("path").style("stroke-width", 6); 
@@ -292,12 +293,10 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
 					.on("dblclick",  function(d) { 
 						d.fixed = false;	
 					})
-            		
             		;
             	
             	/* node shape -> symbol */
-            	
-            	var symbol = elemEnter.append("path")
+            	var symbol = nodeEnter.append("path")
                 //.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
                 //.attr("d", d3.svg.symbol());
             	  .attr("class", function(d) { return "node" })
@@ -305,32 +304,21 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
             	 .style("fill", function(d) { return d.color_rgb_hex_combined; })
             	 ;	
             	
-            	/*
-            	  var circle = 
-            	  //svg.selectAll(".node")
-            	    //  .data(graph.nodes)
-            	      //.enter().
-            		  elemEnter.append("svg:circle")
-            	      .attr("class", function(d) { return "node " + d.shape_d3_name; })
-            	      .attr("r", function(d) { return d.width; })
-            	      //.style("fill", function(d) { return d.color_rgb_hex; })
-            		  //.style("fill", function(d) { return "hsl(120,100%,50%)"; })
-            		  .style("fill", function(d) { return d.color_rgb_hex_combined; })
-            		  ;
-            		  */
-            		  	
+            		 		  	
             			
-            	/* node labeling and tooltips */
+            	/* simple node labeling and tooltips */
             		  
             	// A copy of the label as shadow for better readability
-            	elemEnter.append("text")
+            	nodeEnter.append("text")
             		.attr("class", "nodeLabelShadow")
             	    .attr("dx", function(d){return 10})
             		.attr("dy", function(d){return 0})
             	    .text(function(d){return d.label})
             		;
-            
-            	elemEnter.append("text")
+				
+				
+				// SVG label at svg node
+            	nodeEnter.append("text")
             		.attr("class", "nodeLabel")
             	    .attr("dx", function(d){return 10})
             		.attr("dy", function(d){return 0})
@@ -339,27 +327,13 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
             		//.text(function(d){return d.label + " (shape: " + d.shape_d3_name + ")"})
             		;
             	
-               elemEnter.append("svg:title")
+               // tooltip
+               nodeEnter.append("svg:title")
             	      .text(function(d) { return d.full_label; });
             	
-            	/*
-            	  force.on("tick", function() {
-            	    link.attr("x1", function(d) { return d.source.x; })
-            	        .attr("y1", function(d) { return d.source.y; })
-            	        .attr("x2", function(d) { return d.target.x; })
-            	        .attr("y2", function(d) { return d.target.y; });
-            	
-            	  //  circle.attr("cx", function(d) { return d.x; })
-            	    //    .attr("cy", function(d) { return d.y; });
-            			
-            		elemEnter.attr("transform", function(d){return "translate("+d.x+","+d.y+")" });
-            	  });
-            	  
-            	  */
             	  
             	  
-            	  // Use elliptical arc path segments to doubly-encode directionality.
-                //function tick() {
+            	// Use elliptical arc path segments to doubly-encode directionality.
             	tick = function() {
             		
             		/* position the connector paths */
@@ -382,16 +356,14 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
             
             
             		/* position the connector labels */
-            		/*var ICONSIZE = 200;
-					
-					//connectorGroup.selectAll(".label")
+            		/* 	
+            		//connectorGroup.selectAll(".label")
             		connectorLabel
 					.attr("transform", function (d) {
             			var x = d.source.x + (d.target.x - d.source.x - ICONSIZE) / 2;
             		    var y = d.source.y + (d.target.y - d.source.y - ICONSIZE) / 2;
                          return "translate(" + x + "," + y + ")";
-                    });
-					*/
+                    }); */
 					
 					//symbol2
 					connectorLabelGroup
@@ -458,8 +430,18 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
                       return "translate(" + x + "," + y + ")";
                     });
             
+            /*
+            labelContainerContainer
+			.style("top", function(d){
+				return d.y - nodeShapeSize/2 + "px";
+			})
+			.style("left", function(d){
+				return d.x -nodeShapeSize/2 + "px";
+			});
+			*/
+            
             		/* position the nodes */
-                    elemEnter.attr("transform", function (d) {
+                    nodeEnter.attr("transform", function (d) {
                         return "translate(" + d.x + "," + d.y + ")";
                     });
             

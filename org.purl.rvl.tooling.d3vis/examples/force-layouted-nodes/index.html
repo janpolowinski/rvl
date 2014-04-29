@@ -29,9 +29,9 @@
             var width = 1400,
                 height = 1200,
 				lineWidth = 7,
-	markerWidth = 3,
-    markerHeight = 3,
-    cRadius = 10,
+				markerWidth = 3,
+			    markerHeight = 3,
+			    cRadius = 10,
 				refX = cRadius + (markerWidth * 1.3) + 0.155 * cRadius, /* works well for stroke widths between 5 and 20 */
 				// ALT refX = cRadius + (markerWidth * 1.5), 
 				// ALT3 refX = cRadius + (markerWidth * 2),
@@ -42,7 +42,7 @@
                 drSub = cRadius + refY, /* works well for stroke widths between 5 and 20 */
 				manualArcLabelPositionCorrection = 27, /* works well for stroke widths between 5 and 20 */
 				ICONSIZE = 0; // TODO does not actually work. hack!
-;
+				;
 
 					 
 
@@ -111,12 +111,64 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
 		//.style("stroke", function(d) { return d.color_rgb_hex; })
 		.style("stroke", function(d) { return d.color_rgb_hex_combined; })
 		.attr("marker-end", function (d) {
-        	//return "url(#" + d.type + ")";
-			return "url(#" + "link" + ")";
+           return "url(#" + d.arrow_type + ")";
+    	})
+		// approach using mid-markers did not suceed -> a marker on each path-node is not desirable
+		/*.attr("marker-mid", function (d) {
+			return "url(#" + "markerSquare" + ")";
+    	})*/
+		.attr("id", function(d){
+        	return d.source.index + "_" + d.target.index;
     	})
 		;
+					
+		/* label aligned at the connector path */
+
+		 var path_label = svg.append("svg:g").selectAll(
+	    ".path_label").data(force.links()).enter()
+	    .append("svg:text").attr("class",
+	        "path_label").append(
+	        "svg:textPath").attr(
+	        "startOffset", "50%").attr(
+	        "text-anchor", "middle").attr(
+	        "xlink:href", function (d) {
+	            return "#" + d.source.index +
+	                "_" + d.target.index;
+	        }).style("fill", "#fff").style(
+	        "font-family", "Arial").text(
+	        function (d) {
+	            return d.label;
+	        });
 		
-		  
+		
+		/* alternative : simple labeling of connectors */	
+        /*    		
+		var connectorLabelGroup = connectorGroup.append("svg:g")
+		.attr("class", "label")
+		;
+
+		var connectorLabelSymbol = connectorLabelGroup.append("path")
+		 .attr("class", function(d) { return "connectorLabelGroup" })
+		 .attr("d", symbolFunction)
+		 .style("fill", function(d) { return d.color_rgb_hex_combined; })
+		 ;	
+		 
+		var connectorLabelText = connectorLabelGroup.append("text")
+		.attr("class", "label")
+	    //.attr("dx", function(d){return 100})
+		//.attr("dy", function(d){return 100})
+	    .text(function(d){return d.label + " (" + d.type + ")" })
+		;
+		*/
+		
+		/* alternative : very simple labeling of connectors by title-tag */	
+	
+		//path.append("svg:title")
+        //  .text(function(d) { return d.label; });
+		
+		
+		  /* manual node positioning */
+		 
 		  var node_drag = d3.behavior.drag()
         .on("dragstart", dragstart)
         .on("drag", dragmove)
@@ -140,7 +192,18 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
         forceVar.resume();
     }
 
-	
+	/*
+            	  var link = svg.selectAll(".link")
+            	      .data(graph.links)
+            	    .enter().append("line")
+            	      .attr("class", "link")
+            	      //.style("stroke-width", function(d) { return Math.sqrt(d.value); })
+            		  .style("stroke", function(d) { return d.color_rgb_hex; })
+            		  .style("stroke-width", function(d) { return 10 })
+            		  ;
+       */
+            	
+        /* nodes */ 
 
 	    /*Create and place the "blocks" containing the circle and the text */  
     	var nodeEnter = svg.selectAll(".node")
@@ -150,9 +213,83 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
 	    //.attr("transform", function(d){return "translate("+d.x+",80)"})
 		//.attr("transform", function(d){return "translate(+20,80)"})
 		.call(node_drag)
-		
-		
-	
+		.on("mouseover", function(d) { 
+            /*
+            			//d3.select(this).select("path").style("stroke-width", 6); 
+            			//d3.select(this).select("path").style("stroke", "yellow"); 
+            			//d3.select(this).select("text").style("font", "20px sans-serif");
+            			d3.select(this).attr("class", "node highlighted");
+            		
+                        // Figure out the neighboring node id's with brute strength because the graph is small
+                        var nodeNeighbors = graph.links.filter(function(link) {
+                            // Filter the list of links to only those links that have our target 
+                            // node as a source or target
+                            return link.source.index === d.index || link.target.index === d.index;})
+                        .map(function(link) {
+                            // Map the list of links to a simple array of the neighboring indices - this is
+                            // technically not required but makes the code below simpler because we can use         
+                            // indexOf instead of iterating and searching ourselves.
+                            return link.source.index === d.index ? link.target.index : link.source.index; });
+                        
+                        // select neighboring nodes and apply styles
+                        svg.selectAll(".node").filter(function(node) {
+                            // I filter the selection of all circles to only those that hold a node with an
+                            // index in my listg of neighbors
+                            return nodeNeighbors.indexOf(node.index) > -1;
+                        })
+                        //.style("stroke", "yellow");
+            			.attr("class", "node highlighted");
+            			
+            			// select in and out links and apply styles
+                        svg.selectAll(".link").filter(function(link) {
+            				return (link.source.index === d.index || link.target.index === d.index);
+                        })
+                        //.style("stroke-width", "8px");
+            			.attr("class", "link highlighted");
+            			
+            			
+            			// highlighting of identical resources (same URI)
+            			var nodesWithSameURI = graph.nodes.filter(function(node) {
+                            // Filter the list of links to only those links that have our target 
+                            // node as a source or target
+                            return node.uri === d.uri;})
+                       .map(function(node) {
+                            // Map the list of nodes to a simple array of the same-URI-nodes-indices
+                            return node.index })
+            				;
+            				
+                        svg.selectAll(".node").filter(function(node) {
+                            // I filter the selection of all circles to only those that hold a node with an
+                            // index in my listg of neighbors
+                            return nodesWithSameURI.indexOf(node.index) > -1;
+                        })
+            			.attr("class", "node highlighted identical");
+            			//.style("stroke", "red");
+            			
+            			// extend label to full label
+            			d3.select(this).selectAll("text").text(function(d){return d.full_label});			
+                   */
+            		})
+            		.on("mouseout",  function(d) { 
+            		/*
+            			// TODO replacing all classes may cause problems! actually we only want to replace "node highlighted" by "node"
+            			d3.select(this).select(".node").attr("class", "node");
+            			d3.selectAll(".node").attr("class", "node");
+            			//d3.selectAll(".link").style("stroke-width", "4px");
+            			d3.selectAll(".link").attr("class", "link");
+                        //d3.selectAll("path").style("stroke", "gray");
+            			//d3.select(this).selectAll("path").style("stroke-width", 1.5); 
+            			//d3.select(this).select("text").style("font", "12px sans-serif");
+            			
+            			d3.select(this).selectAll("text").text(function(d){return d.label});
+            */
+            			})
+					.on("dblclick",  function(d) { 
+						d.fixed = false;	
+					})
+            		;
+            	
+    /* node shape -> symbol */
 	var symbol = nodeEnter.append("path")
     //.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
     //.attr("d", d3.svg.symbol());
@@ -278,12 +415,17 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
 	*/
 			 
 			 
+    /* simple node labeling and tooltips */
 		 
+            	// A copy of the label as shadow for better readability
+            	nodeEnter.append("text")
+            		.attr("class", "nodeLabelShadow")
+            	    .attr("dx", function(d){return 10})
+            		.attr("dy", function(d){return 0})
+            	    .text(function(d){return d.label})
+            		;
 		  	
-	/*	
-	
 	// SVG label at svg node
-	
 	nodeEnter.append("text")
 		.attr("class", "nodeLabel")
 	    .attr("dx", function(d){return 10})
@@ -293,26 +435,113 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
 		//.text(function(d){return d.label + " (shape: " + d.shape_d3_name + ")"})
 		;
 		
-	*/
+	// tooltip
+    nodeEnter.append("svg:title")
+        .text(function(d) { return d.full_label; });
+
 	
 		
 	
 	  
 	  
-	  // Use elliptical arc path segments to doubly-encode directionality.
-    //function tick() {
+	// Use elliptical arc path segments to doubly-encode directionality.
 	tick = function() {
+            		
+       /* position the connector paths */
         path.attr("d", function (d) {
             var dx = d.target.x - d.source.x,
                 dy = (d.target.y - d.source.y),
                 dr = Math.sqrt(dx * dx + dy * dy);
-            return "M" + d.source.x + "," + d.source.y + "A" + (dr - drSub) + "," + (dr - drSub) + " 0 0,1 " + d.target.x + "," + d.target.y;
+       return "M" + d.source.x + "," + d.source.y + "A" + (dr - drSub) + "," + (dr - drSub) + " 0 0,1 " + d.target.x + "," + d.target.y; // an arc
+       //return "M" + d.source.x + "," + d.source.y + " L" + d.target.x + "," + d.target.y; // a line
+						/*
+						var pathString = 
+							"M" + d.source.x + "," + d.source.y +
+						   " L" + (dr - drSub) + "," + (dr - drSub) +  
+						   " L" + d.target.x + "," + d.target.y; 
+						   // a line with extra node
+						
+						return pathString; 
+						*/	
         });
 
-        nodeEnter.attr("transform", function (d) {
-            return "translate(" + d.x + "," + d.y + ")";
-        });
-			
+        /* position the connector labels */
+        /*
+         //connectorGroup.selectAll(".label")
+        	connectorLabel
+			.attr("transform", function (d) {
+            			var x = d.source.x + (d.target.x - d.source.x - ICONSIZE) / 2;
+            		    var y = d.source.y + (d.target.y - d.source.y - ICONSIZE) / 2;
+                         return "translate(" + x + "," + y + ")";
+                    }); */
+        
+        /*   
+        //symbol2
+					connectorLabelGroup
+					.attr("transform", function (d) {
+						
+						
+						// switch direction if not in positive x-direction
+						var sx,sy,tx,ty;
+						if (d.source.x <= d.target.x ) {
+							sx = d.source.x;
+							sy = d.source.y;
+							tx = d.target.x;
+							ty = d.target.y;
+						} else {
+							sx = d.target.x;
+							sy = d.target.y;
+							tx = d.source.x;
+							ty = d.source.y;
+						}
+						
+						var dx = tx - sx,
+                            dy = (ty - sy),
+                            dr = Math.sqrt(dx * dx + dy * dy);
+						
+            			var xmid = sx + (dx - ICONSIZE) / 2;
+            		    var ymid = sy + (dy - ICONSIZE) / 2;
+						
+						var c = manualArcLabelPositionCorrection;
+						
+						var m = -(dx/dy);
+						
+						var b = Math.sqrt((c*c)/(m*m+1));
+						var a = Math.sqrt((c*c)-b*b); 
+						
+						// hack: strech for larger node distances
+						b = b*0.005*dr;
+						a = a*0.005*dr;
+						
+						//mInfo.html("m = " + m + "<br> b = " + b + "<br>a = " + a);
+						
+						// adapt position differently depending on 4 quadrants
+						var x,y;
+						if (d.source.x <= d.target.x) {
+							if (m > 0) {
+								x = xmid - b;
+								y = ymid - a;
+							}
+							else if (m <= 0) {
+								x = xmid + b;
+								y = ymid - a;
+							}
+						}
+						else {
+							if (m < 0) {
+								x = xmid - b;
+								y = ymid + a;
+							}
+							else if (m >= 0) {
+								x = xmid + b;
+								y = ymid + a;
+							}
+						} 
+
+                      return "translate(" + x + "," + y + ")";
+                    });
+                    */
+	
 		labelContainerContainer
 			.style("top", function(d){
 				return d.y - nodeShapeSize/2 + "px";
@@ -320,6 +549,11 @@ var labelContainerSpace = d3.select("#labelContainerSpace")
 			.style("left", function(d){
 				return d.x -nodeShapeSize/2 + "px";
 			});
+			
+        /* position the nodes */
+		nodeEnter.attr("transform", function (d) {
+            return "translate(" + d.x + "," + d.y + ")";
+        });
 
     };
 	
