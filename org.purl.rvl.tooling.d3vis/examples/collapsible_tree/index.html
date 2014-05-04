@@ -106,13 +106,13 @@ function update(source) {
 			var linksToFilter = vis.selectAll(".link");
 	  		
 			// highlight this node
-			d3.select(this).attr("class", "node highlighted");
+			d3.select(this).classed("highlighted", true);
 			
 			// highlight identical nodes	
 			nodesToFilter.filter(function(node) {
 			    return node.uri === d.uri;
             })
-			.attr("class", "node highlighted identical");
+			.classed("highlighted identical", true);
 			
 			
 			activate(d, true);
@@ -122,7 +122,7 @@ function update(source) {
 			nodesToFilter.filter(function(node) {
 			    return node.active;
             })
-			.attr("class", "node highlighted");
+			.classed("highlighted", true);
 			linksToFilter.filter(function(d) { 
 				return d.target.active;
 			 })
@@ -142,7 +142,7 @@ function update(source) {
 	  	
 			//d3.select(this).attr("class", "node");
 			
-			d3.selectAll(".node").attr("class", "node");
+			d3.selectAll(".node").classed("highlighted identical", false);
 			
 			linksToFilter.classed("highlighted", false);
 			
@@ -173,7 +173,7 @@ function update(source) {
 	// shapes as reused svg-groups
 	 	var symbol = nodeEnter.append("use")
 		.attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.shape_d3_name; })
-   	  .attr("class", function(d) { return "node" })
+   	  .attr("class", function(d) { return "node svgSymbol" })
 	 .style("fill", function(d) { return d.color_rgb_hex_combined; })
 	 ;
 
@@ -290,7 +290,7 @@ function toggle(d) {
     <filter id="blur-effect-2">
         <feGaussianBlur stdDeviation="2" />
     </filter>
-	
+		
 </svg> 
 
 </body>

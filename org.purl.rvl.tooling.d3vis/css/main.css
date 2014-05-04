@@ -2,11 +2,19 @@ body {
 	background-color: #334;
 }
 
+/* set to whatever the body-background-color is */
+.svgSymbol {
+	stroke: #334;
+    stroke-width: 1.5px;
+    stroke-opacity: 1;
+	fill-opacity: 1; /* settings this here works */
+}
+
 /* nodes */
 
 .node circle, .node path {
   /*fill: #fff;*/ /* warning firefox-bug?!: cannot be overridden by Firefox in SVGs, when using a symbol as use-element */
-  stroke: #ccc;
+  /*stroke: #ccc;*/ /* same problem as above, firefox still shows this settings although overridden 	*/
   stroke-width: 1.5px;
   cursor: pointer;
 }
@@ -98,10 +106,9 @@ body {
   visibility: hidden;
 }
 
-/**/
 .connectorGroup .label path {
-  fill-opacity: .6;
-  transform: scale(0.5);
+  /* fill-opacity: 0.6; */ /* setting this value here is interpreted differently in webkit/firefox */
+  transform: scale(0.75); /* TODO: ignored by webkit, only firefox */
 }
 
 .connectorGroup:hover .label {
