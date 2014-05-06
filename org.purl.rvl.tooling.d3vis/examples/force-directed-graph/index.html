@@ -147,31 +147,14 @@
     		;
 			
 			/* label aligned at the connector path */
-/*
-			 var path_label = svg.append("svg:g")
-			 	.selectAll(".path_label")
-				.data(force.links()).enter()
-		    	.append("svg:text")
-				.attr("class", "path_label")
-				.append("svg:textPath")
-				.attr("startOffset", "50%")
-				.attr("text-anchor", "middle")
-				.attr("xlink:href", function (d) {
-		            return "#" + d.source.index +
-		                "_" + d.target.index;
-		        }).style("fill", "#fff")
-				.style("font-family", "Arial")
-				.text(function (d) {
-		           		 return d.label;
-		        		}
-					);*/
+			var path_label = svg.append("svg:g")
+		 		.selectAll(".path_label")
+				.data(force.links()).enter().avmLabeledConnectorAligned();
 					
-				/* alternative : simple labeling of connectors */	
-        		
-        		var connectorLabelGroup = connectorGroup.append("svg:g")
+			/* alternative : simple labeling of connectors */	
+        	var connectorLabelGroup = connectorGroup.append("svg:g")
 				.attr("class", function(d) { return "connectorLabelGroup" })
-        		.attr("class", "label")
-        		;
+        		.attr("class", "label");
         
 				// shapes as reused svg-groups
 				var connectorLabelSymbol = connectorLabelGroup.avmShapedWithUseSVGPure();

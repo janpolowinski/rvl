@@ -88,6 +88,28 @@
 		  return containerDiv;
 	  };
 
+	  /* label aligned at the connector path */
+	  d3.selection.enter.prototype.avmLabeledConnectorAligned = function() {
+		  
+		  var text =  this.append("svg:text")
+			.attr("class", "path_label");
+		  
+		  text.append("svg:textPath")
+			.attr("startOffset", "50%")
+			.attr("text-anchor", "middle")
+			.attr("xlink:href", function (d) {
+	            return "#" + d.source.index +
+	                "_" + d.target.index;
+	        }).style("fill", "#fff")
+			.style("font-family", "Arial")
+			.text(function (d) {
+	           		 return d.label;
+	        		}
+				);
+		  
+		  return text;
+	  };
+	  
 	  
 	  /* setting the shape by reusing an SVG symbol */ // TODO: this also sets color and node-class at the moment
 	  d3.selection.prototype.avmShapedWithUseSVG = function() {
