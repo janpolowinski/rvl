@@ -1,4 +1,6 @@
-/* own "plugins" to handle AVM based on D3 */    
+/*************************************************/
+/* own "plugins" to handle AVM based on D3       */
+/*************************************************/
     
 (function() {
 	
@@ -135,3 +137,79 @@
 
 	  
 	})();
+
+
+
+/**************************/
+/* NORMAL FUNCTIONS       */
+/**************************/	
+
+/* helper function to calculate the position of labels at the center of arcs */ 
+ function calculateTranslationToArcCenter(d) {
+	
+	//alert("dsourcex" + d.source.x);
+	
+	var x = 100, y = 110;
+	
+ 	var manualArcLabelPositionCorrection = 27, // works well for stroke widths between 5 and 20
+ 		iconsize = 0; // TODO: remove global 
+ 		
+		// switch direction if not in positive x-direction
+		var sx,sy,tx,ty;
+		if (d.source.x <= d.target.x ) {
+			sx = d.source.x;
+			sy = d.source.y;
+			tx = d.target.x;
+			ty = d.target.y;
+		} else {
+			sx = d.target.x;
+			sy = d.target.y;
+			tx = d.source.x;
+			ty = d.source.y;
+		}
+		
+		var dx = tx - sx,
+         dy = (ty - sy),
+         dr = Math.sqrt(dx * dx + dy * dy);
+		
+		var xmid = sx + (dx - iconsize) / 2;
+	    var ymid = sy + (dy - iconsize) / 2;
+		
+		var c = manualArcLabelPositionCorrection;
+		
+		var m = -(dx/dy);
+		
+		var b = Math.sqrt((c*c)/(m*m+1));
+		var a = Math.sqrt((c*c)-b*b); 
+		
+		// hack: strech for larger node distances
+		b = b*0.005*dr;
+		a = a*0.005*dr;
+		
+		//mInfo.html("m = " + m + "<br> b = " + b + "<br>a = " + a);
+		
+		// adapt position differently depending on 4 quadrants
+		//var x,y;
+		if (d.source.x <= d.target.x) {
+			if (m > 0) {
+				x = xmid - b;
+				y = ymid - a;
+			}
+			else if (m <= 0) {
+				x = xmid + b;
+				y = ymid - a;
+			}
+		}
+		else {
+			if (m < 0) {
+				x = xmid - b;
+				y = ymid + a;
+			}
+			else if (m >= 0) {
+				x = xmid + b;
+				y = ymid + a;
+			}
+		} 
+
+   return "translate(" + x + "," + y + ")";
+ }

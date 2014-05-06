@@ -44,7 +44,6 @@
 			// ALT1: refY = -Math.sqrt(cRadius),
 			// ALT2: refY = -Math.sqrt(cRadius) * 0.8 + 20/lineWidth, /* works well for stroke width 7px */
             drSub = cRadius + refY, /* works well for stroke widths between 5 and 20 */
-			manualArcLabelPositionCorrection = 27, /* works well for stroke widths between 5 and 20 */
 			ICONSIZE = 0; // TODO does not actually work. hack!
         	;				 
         
@@ -372,7 +371,8 @@
         	
            // tooltip 
         	nodeEnter.avmTitled();
- 
+
+
         	  
         	// Use elliptical arc path segments to doubly-encode directionality.
         	tick = function() {
@@ -406,70 +406,14 @@
                      return "translate(" + x + "," + y + ")";
                 }); */
 				
+				
+                             
 				//symbol2
-				connectorLabelGroup
-				.attr("transform", function (d) {
-					
-					
-					// switch direction if not in positive x-direction
-					var sx,sy,tx,ty;
-					if (d.source.x <= d.target.x ) {
-						sx = d.source.x;
-						sy = d.source.y;
-						tx = d.target.x;
-						ty = d.target.y;
-					} else {
-						sx = d.target.x;
-						sy = d.target.y;
-						tx = d.source.x;
-						ty = d.source.y;
-					}
-					
-					var dx = tx - sx,
-                        dy = (ty - sy),
-                        dr = Math.sqrt(dx * dx + dy * dy);
-					
-        			var xmid = sx + (dx - ICONSIZE) / 2;
-        		    var ymid = sy + (dy - ICONSIZE) / 2;
-					
-					var c = manualArcLabelPositionCorrection;
-					
-					var m = -(dx/dy);
-					
-					var b = Math.sqrt((c*c)/(m*m+1));
-					var a = Math.sqrt((c*c)-b*b); 
-					
-					// hack: strech for larger node distances
-					b = b*0.005*dr;
-					a = a*0.005*dr;
-					
-					//mInfo.html("m = " + m + "<br> b = " + b + "<br>a = " + a);
-					
-					// adapt position differently depending on 4 quadrants
-					var x,y;
-					if (d.source.x <= d.target.x) {
-						if (m > 0) {
-							x = xmid - b;
-							y = ymid - a;
-						}
-						else if (m <= 0) {
-							x = xmid + b;
-							y = ymid - a;
-						}
-					}
-					else {
-						if (m < 0) {
-							x = xmid - b;
-							y = ymid + a;
-						}
-						else if (m >= 0) {
-							x = xmid + b;
-							y = ymid + a;
-						}
-					} 
-
-                  return "translate(" + x + "," + y + ")";
-                });
+				//connectorLabelGroup.attr("transform", calculateTranslationToArcCenter);
+				// or
+                connectorLabelGroup.attr("transform", function(d){
+					return calculateTranslationToArcCenter(d);
+				});
         
 		        labelContainerContainer
 				.style("top", function(d){
