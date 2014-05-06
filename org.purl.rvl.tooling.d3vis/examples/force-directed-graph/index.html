@@ -11,14 +11,12 @@
         <script type="text/javascript" src="../../js/d3.min.js"/></script>
         <!-- own plugins to handle AVM based on D3.js -->
     	<script type="text/javascript" src="../../js/ogvic.js"></script>
-        <style type="text/css">
-        </style>
     </head>
     <body>
-        <div id="labelContainerSpace">
-        </div>
+    
+        <div id="labelContainerSpace"></div>
+        
         <script type="text/javascript">
-        	
 						
 		/******************************/
 		/* CREDITS        			  */
@@ -114,9 +112,8 @@
 			.size(250)
 			.type(function (d) {return d.label_shape_d3_name})
 	        ;
-				
-				
-	        	
+
+		 	
 	        var forceVar = force.nodes(graph.nodes);
 			if (drawLinks) {
 			  	forceVar.links(graph.links)
@@ -178,18 +175,10 @@
         		;
         
 				// shapes as reused svg-groups
-				 var connectorLabelSymbol = connectorLabelGroup.append("svg:use")
-				 .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.shape_d3_name; })
-				 .attr("class","svgSymbol")
-				 .style("fill", function(d) { return d.color_rgb_hex_combined; })
-				 ;
-				/*
-        		var connectorLabelSymbol = connectorLabelGroup.append("path")
-        		 .attr("class", function(d) { return "connectorLabelGroup" })
-    			 .attr("d", symbolFunction)
-    			 .style("fill", function(d) { return d.color_rgb_hex_combined; })
-    			 ;	
-    			 */
+				var connectorLabelSymbol = connectorLabelGroup.avmShapedWithUseSVGPure();
+				
+				// broken? shapes as paths
+				// var connectorLabelSymbol = connectorLabelGroup.avmShapedWithPath();
 				
 				var connectorLabelText = connectorLabelGroup.append("text")
         		.attr("class", "label")
@@ -199,9 +188,7 @@
         		;
         		
 				/* alternative : very simple labeling of connectors by title-tag */	
-			
-        		//path.append("svg:title")
-        	    //  .text(function(d) { return d.label; });
+				//path.avmTitled();
 
 				
 				/* manual node positioning */
@@ -378,88 +365,20 @@
 					//.style("margin-bottom",-0.2*nodeShapeSize + "px");
 					
 					
-					// A copy of the label as shadow for better readability
-			    	labelContainer3SVG.append("text")
-			    		.attr("class", "nodeLabelShadow")
-						.attr("x", function(d){return labelShapeSize/2})  // dx is relative positiong, x is absolute
-						.attr("y", function(d){return labelShapeSize/2})
-					    .text(function(d){return d.label })
-						.style("text-anchor", 
-							function(d){
-								var labelPosition = d.label_position;
-								if(labelPosition.indexOf("Right") != -1){
-									return "start" ;
-								} else if(labelPosition.indexOf("Left") != -1){
-									return "end" ;
-								}
-								else return "middle" ;
-							})
-						;
-			
-					// the actual label text itself
-					labelContainer3SVG.append("text")
-						.attr("class", "nodeLabel") // TODO class was label ... clean up various label CSS classes
-					    //.attr("dx", function(d){return 100}) // dx is relative positiong, x is absolute
-						//.attr("dy", function(d){return 20})
-						.attr("x", function(d){return labelShapeSize/2})  // dx is relative positiong, x is absolute
-						.attr("y", function(d){return labelShapeSize/2})
-					    .text(function(d){return d.label })
-						//.style("text-anchor","middle") // start/middle/end -> TODO set depending on label position
-						.style("text-anchor", 
-							function(d){
-								var labelPosition = d.label_position;
-								if(labelPosition.indexOf("Right") != -1){
-									return "start" ;
-								} else if(labelPosition.indexOf("Left") != -1){
-									return "end" ;
-								}
-								else return "middle" ;
-							})
-						;
-			
-			
-
+		        	// The label and a copy of the label as shadow for better readability
+					labelContainer3SVG.avmLabeledFDG2(labelShapeSize).attr("class", "nodeLabelShadow");
+					labelContainer3SVG.avmLabeledFDG2(labelShapeSize);
 
 			// HTML label  -> TODO only use this when label attachedBy containment (position = centerCenter)
-			
-			/*
-			var labelContainer2 = labelContainerContainer
-				.append("div")
-				//.attr("class","labelContainer topRight")
-				.attr("class", function(d){ return "labelContainer " + d.label_position})
-				.style("text-align","center")
-				.style("height",nodeShapeSize +"px")
-				.style("width",nodeShapeSize +"px");
-				
-				labelContainer2
-					.append("div")
-			  			.attr("class", "htmlTextLabel")
-						//.style("width", nodeShapeSize + "px") // does only work well for xCenter position
-						.html(function(d){ return d.label})
-					 ;
-			*/
+			var labelContainer2 = labelContainerContainer.avmLabeledHTML(nodeShapeSize);
+
 			        			
         			
         	/* simple node labeling and tooltips */
-        		  
-        	// A copy of the label as shadow for better readability
-        	nodeEnter.append("text")
-        		.attr("class", "nodeLabelShadow")
-        	    .attr("dx", function(d){return 10})
-        		.attr("dy", function(d){return 0})
-        	    .text(function(d){return d.label})
-        		;
-			
-			
-			// SVG label at svg node
-        	nodeEnter.append("text")
-        		.attr("class", "nodeLabel")
-        	    .attr("dx", function(d){return 10})
-        		.attr("dy", function(d){return 0})
-        	    .text(function(d){return d.label })
-        	    //.text(function(d){return d.label + " lightness: " +  d.color_hsl_lightness + " rgb combined: " + d.color_rgb_hex_combined + " rgb pure: " + d.color_rgb_hex  })
-        		//.text(function(d){return d.label + " (shape: " + d.shape_d3_name + ")"})
-        		;
+        	
+        	// The label and a copy of the label as shadow for better readability
+			nodeEnter.avmLabeledFDG().attr("class", "nodeLabelShadow");
+			nodeEnter.avmLabeledFDG();
         	
            // tooltip 
         	nodeEnter.avmTitled();

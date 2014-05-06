@@ -23,7 +23,7 @@
 		  return this.append("svg:title").text(function(d) { return d.full_label; });
 	  };
 		    
-	  /* labeling with SVG text */
+	  /* labeling with SVG text CT */
 	  d3.selection.prototype.avmLabeledCT = function() {
 		  return this.append("svg:text")
 			.attr("class", "nodeLabel")
@@ -35,6 +35,58 @@
 			;
 	  };
 	  
+	  /* labeling with SVG text FDG */
+	  d3.selection.prototype.avmLabeledFDG = function() {
+		  return this.append("svg:text")
+			.attr("class", "nodeLabel")
+	 		.attr("dx", 10)
+	     	.attr("dy", 0)
+			//.attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+		    .text(function(d) { return d.label; })
+			//.style("visibility", "hidden")
+			;
+	  };
+	  
+	  /* labeling with SVG text FDG 2 */
+	  d3.selection.prototype.avmLabeledFDG2 = function(labelShapeSize) {
+		  return this.append("svg:text").
+		  	attr("class", "nodeLabel") // TODO class was label ... clean up various label CSS classes
+			.attr("x", function(d){return labelShapeSize/2})  // dx is relative positiong, x is absolute
+			.attr("y", function(d){return labelShapeSize/2})
+		    .text(function(d){return d.label })
+			.style("text-anchor", 
+				function(d){
+					var labelPosition = d.label_position;
+					if(labelPosition.indexOf("Right") != -1){
+						return "start" ;
+					} else if(labelPosition.indexOf("Left") != -1){
+						return "end" ;
+					}
+					else return "middle" ;
+				})
+			;
+	  };
+	  
+	  
+	  /* labeling with HTML text */
+	  d3.selection.prototype.avmLabeledHTML = function(nodeShapeSize) {
+		  
+		  var containerDiv =  this.append("div")
+		    //.attr("class","labelContainer topRight")
+			.attr("class", function(d){ return "labelContainer " + d.label_position})
+			.style("text-align","center")
+			.style("height",nodeShapeSize +"px")
+			.style("width",nodeShapeSize +"px");
+		  
+		  containerDiv.append("div")
+		  			.attr("class", "htmlTextLabel")
+					//.style("width", nodeShapeSize + "px") // does only work well for xCenter position
+					.html(function(d){ return d.label});
+		  
+		  return containerDiv;
+	  };
+
+	  
 	  /* setting the shape by reusing an SVG symbol */ // TODO: this also sets color and node-class at the moment
 	  d3.selection.prototype.avmShapedWithUseSVG = function() {
 		 	return this.append("use")
@@ -44,6 +96,25 @@
 		      .style("fill", function(d) { return d.color_rgb_hex_combined; })
 		     ;
 	  };
+	  
+	  /* setting the shape by reusing an SVG symbol */ // TODO: this also sets color at the moment; merge with above
+	  d3.selection.prototype.avmShapedWithUseSVGPure = function() {
+		 	return this.append("use")
+			  .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.shape_d3_name; })
+			  //.attr("xlink:href", function(d) { return "../../svg/symbols.svg#clock"; })
+	   	 	  .attr("class", "svgSymbol")
+		      .style("fill", function(d) { return d.color_rgb_hex_combined; })
+		     ;
+	  };
+	  
+	  /* setting the shape by a path object */ // TODO: this also sets color at the moment ; seems broken
+	  /*d3.selection.prototype.avmShapedWithPath = function() {
+		 	return this.append("path")
+			   .attr("class", function(d) { return "connectorLabelGroup" })
+    		   .attr("d", symbolFunction)
+    		    .style("fill", function(d) { return d.color_rgb_hex_combined; })
+		     ;
+	  };*/
 	  
 	  /* // replaced by path from symbol factory below
       var circle = nodeEnter.append("svg:circle")
