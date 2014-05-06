@@ -33,6 +33,58 @@ var vis = d3.select("#body").append("svg:svg")
     .attr("height", h + m[0] + m[2])
   .append("svg:g")
     .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+    
+/* own "plugins" */    
+    
+(function() {
+	
+	 /* highlighting */
+	  d3.selection.prototype.highlight = function(node) {
+	    return this.classed('highlighted', true);
+	  };
+	  
+	  /* highlighting identical elements (same URI attached) */
+	  d3.selection.prototype.avmHighlightIdentical = function(duri) {
+
+		  return this.filter(function(node) {
+			    //alert(duri + " =? "+  node.uri); // TODO seems that evtl. to many nodes are compared here!
+			    return node.uri === duri;
+	      })
+		  .highlight().classed("identical", true);
+		  
+	  };
+	  
+	  /* labeling with title-tag (tooltip) */
+	  d3.selection.prototype.avmTitled = function() {
+		  return this.append("svg:title").text(function(d) { return d.full_label; });
+	  };
+		    
+	  /* labeling with SVG text */
+	  d3.selection.prototype.avmLabeledCT = function() {
+		  return this.append("svg:text")
+			.attr("class", "nodeLabel")
+	 		.attr("x", function(d) { return d.children || d._children ? -10 : 10; })
+	     	.attr("dy", ".35em")
+			.attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+		    .text(function(d) { return d.label; })
+			.style("visibility", "hidden")
+			;
+	  };
+	  
+	  /* setting the shape by reusing an SVG symbol */ // TODO: this also sets color and node-class at the moment
+	  d3.selection.prototype.avmShapedWithUseSVG = function() {
+		 	return this.append("use")
+			  .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.shape_d3_name; })
+			  //.attr("xlink:href", function(d) { return "../../svg/symbols.svg#clock"; })
+	   	 	  .attr("class", function(d) { return "node svgSymbol" })
+		      .style("fill", function(d) { return d.color_rgb_hex_combined; })
+		     ;
+	  };
+
+	  
+	})();
+	
+/* end own plugins */	
 
 d3.json("../../gen/json/tree-data.json", function(json) {
 	
@@ -106,14 +158,11 @@ function update(source) {
 			var linksToFilter = vis.selectAll(".link");
 	  		
 			// highlight this node
-			d3.select(this).classed("highlighted", true);
-			
+			d3.select(this).highlight();
+
 			// highlight identical nodes	
-			nodesToFilter.filter(function(node) {
-			    return node.uri === d.uri;
-            })
-			.classed("highlighted identical", true);
-			
+			nodesToFilter.avmHighlightIdentical(d.uri);
+
 			
 			activate(d, true);
 			activateChildren(d, true);
@@ -122,29 +171,22 @@ function update(source) {
 			nodesToFilter.filter(function(node) {
 			    return node.active;
             })
-			.classed("highlighted", true);
+			.highlight();
 			linksToFilter.filter(function(d) { 
 				return d.target.active;
 			 })
-			 .classed("highlighted", true)
+			 .highlight()
 			 //.attr("marker-end", function(d) { return "url(#g-arrowhead-" + d.target.party + "-active)"; })
 			 ;
-			
-			
 			
 			// extend label to full label (not useful in tree layout)
 			//d3.select(this).selectAll("text").text(function(d){return d.full_label});		
 				
 	  })
 	  .on("mouseout", function(d) {
-	  	
-			var linksToFilter = vis.selectAll(".link");
-	  	
-			//d3.select(this).attr("class", "node");
 			
 			d3.selectAll(".node").classed("highlighted identical", false);
-			
-			linksToFilter.classed("highlighted", false);
+			vis.selectAll(".link").classed("highlighted", false);
 			
 			activate(d, false);
 			activateChildren(d, false);
@@ -171,37 +213,16 @@ function update(source) {
 	 ;	*/
 	
 	// shapes as reused svg-groups
-	 	var symbol = nodeEnter.append("use")
-		.attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.shape_d3_name; })
-   	  .attr("class", function(d) { return "node svgSymbol" })
-	 .style("fill", function(d) { return d.color_rgb_hex_combined; })
-	 ;
+	 	var symbol = nodeEnter.avmShapedWithUseSVG();
 
 
-	// A copy of the label as shadow for better readability
-	nodeEnter.append("svg:text")
-		.attr("class", "nodeLabelShadow")
- 		.attr("x", function(d) { return d.children || d._children ? -10 : 10; })
-     	.attr("dy", ".35em")
-		.attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
-	    .text(function(d){return d.label})
-		.style("visibility", "hidden")
-		//.style("fill-opacity", 1e-6)
-		;
-		
-		
-  var label = nodeEnter.append("svg:text")
-  	 .attr("class","nodeLabel")
-      .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
-      .attr("dy", ".35em")
-      .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
-      .text(function(d) { return d.label; })
-	  .style("visibility", "hidden")
-	  ;
+	// The label and a copy of the label as shadow for better readability
+	nodeEnter.avmLabeledCT().attr("class","nodeLabelShadow");
+	nodeEnter.avmLabeledCT();
 
-	  
-   nodeEnter.append("svg:title")
-	      .text(function(d) { return d.full_label; });
+
+	// tooltip
+    nodeEnter.avmTitled();
 
   // Transition nodes to their new position.
   var nodeUpdate = node.transition()
