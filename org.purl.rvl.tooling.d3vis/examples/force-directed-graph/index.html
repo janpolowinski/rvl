@@ -8,8 +8,9 @@
         <link type="text/css" rel="stylesheet" href="../../css/labeling.css"/>
         <link type="text/css" rel="stylesheet" href="../../css/labeling-new-boxmodel.css"/>
         <link type="text/css" rel="stylesheet" href="../../css/labeling-webkit-old-boxmodel.css"/>
-        <script type="text/javascript" src="../../js/d3.min.js">
-        </script>
+        <script type="text/javascript" src="../../js/d3.min.js"/></script>
+        <!-- own plugins to handle AVM based on D3.js -->
+    	<script type="text/javascript" src="../../js/ogvic.js"></script>
         <style type="text/css">
         </style>
     </head>
@@ -275,34 +276,17 @@
                         // index in my listg of neighbors
                         return nodeNeighbors.indexOf(node.index) > -1;
                     })
-                    //.style("stroke", "yellow");
-        			.attr("class", "node highlighted");
+        			.highlight();
         			
         			// select in and out links and apply styles
                     svg.selectAll(".link").filter(function(link) {
         				return (link.source.index === d.index || link.target.index === d.index);
                     })
-                    //.style("stroke-width", "8px");
-        			.attr("class", "link highlighted");
+        			.highlight();
         			
         			
         			// highlighting of identical resources (same URI)
-        			var nodesWithSameURI = graph.nodes.filter(function(node) {
-                        // Filter the list of links to only those links that have our target 
-                        // node as a source or target
-                        return node.uri === d.uri;})
-                   .map(function(node) {
-                        // Map the list of nodes to a simple array of the same-URI-nodes-indices
-                        return node.index })
-        				;
-        				
-                    svg.selectAll(".node").filter(function(node) {
-                        // I filter the selection of all circles to only those that hold a node with an
-                        // index in my listg of neighbors
-                        return nodesWithSameURI.indexOf(node.index) > -1;
-                    })
-        			.attr("class", "node highlighted identical");
-        			//.style("stroke", "red");
+        			svg.selectAll(".node").avmHighlightIdentical(d.uri);
         			
         			// extend label to full label
         			d3.select(this).selectAll("text").text(function(d){return d.full_label});			
@@ -478,11 +462,9 @@
         		//.text(function(d){return d.label + " (shape: " + d.shape_d3_name + ")"})
         		;
         	
-           // tooltip
-           nodeEnter.append("svg:title")
-        	      .text(function(d) { return d.full_label; });
-        	
-        	  
+           // tooltip 
+        	nodeEnter.avmTitled();
+ 
         	  
         	// Use elliptical arc path segments to doubly-encode directionality.
         	tick = function() {
