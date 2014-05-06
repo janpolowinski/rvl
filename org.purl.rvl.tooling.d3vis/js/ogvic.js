@@ -235,3 +235,13 @@
 
    return "translate(" + x + "," + y + ")";
  }
+ 
+ /* helper function to calculate the position of labels at the center of lines */ 
+ function calculateTranslationToLineCenter(d) {
+
+	var iconsize = 0;
+	var x = d.source.x + (d.target.x - d.source.x - iconsize) / 2;
+    var y = d.source.y + (d.target.y - d.source.y - iconsize) / 2;
+	
+    return "translate(" + x + "," + y + ")";
+ }

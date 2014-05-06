@@ -367,35 +367,23 @@
                         dr = Math.sqrt(dx * dx + dy * dy);
                     return "M" + d.source.x + "," + d.source.y + "A" + (dr - drSub) + "," + (dr - drSub) + " 0 0,1 " + d.target.x + "," + d.target.y; // an arc
 					//return "M" + d.source.x + "," + d.source.y + " L" + d.target.x + "," + d.target.y; // a line
-					/*
+					
+					/*// a line with extra node
 					var pathString = 
 						"M" + d.source.x + "," + d.source.y +
 					   " L" + (dr - drSub) + "," + (dr - drSub) +  
 					   " L" + d.target.x + "," + d.target.y; 
-					   // a line with extra node
-					
+	
 					return pathString; 
 					*/	
                 });
-        
-        
-        		/* position the connector labels */
-        		/* 	
-        		//connectorGroup.selectAll(".label")
-        		connectorLabel
-				.attr("transform", function (d) {
-        			var x = d.source.x + (d.target.x - d.source.x - ICONSIZE) / 2;
-        		    var y = d.source.y + (d.target.y - d.source.y - ICONSIZE) / 2;
-                     return "translate(" + x + "," + y + ")";
-                }); */
-				
-				
-                             
+            
 				//symbol2
 				//connectorLabelGroup.attr("transform", calculateTranslationToArcCenter);
 				// or
                 connectorLabelGroup.attr("transform", function(d){
 					return calculateTranslationToArcCenter(d);
+					//return calculateTranslationToLineCenter(d);
 				});
         
 		        labelContainerContainer
