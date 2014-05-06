@@ -31,7 +31,7 @@ public class OGVICProcess {
 	private static OGVICProcess instance = null;
 	
 	// SETTINGS
-	public static int MAX_GRAPHIC_RELATIONS_PER_MAPPING = 10000;
+	public static int MAX_GRAPHIC_RELATIONS_PER_MAPPING = 200;
 	public static boolean REGENERATE_AVM = true;
 	public static boolean WRITE_AVM = false;
 	public static boolean WRITE_JSON = true;
@@ -127,11 +127,12 @@ public class OGVICProcess {
     		
     	  properties.load(new FileInputStream("ogvic.properties"));
     	  
+    	  MAX_GRAPHIC_RELATIONS_PER_MAPPING = Integer.parseInt(properties.get("org.purl.rvl.tooling.max-graphic-relations-per-mapping").toString());
     	  USE_CASE_FOLDER = properties.get("org.purl.rvl.tooling.use-case-folder").toString();
     	  
-    	} catch (IOException e) {
+    	} catch (Exception e) {
     		
-    		LOGGER.severe("Could not load settings from properties-file.");
+    		LOGGER.severe("Could not load settings from properties-file. Reason: " + e.getMessage());
     		
     	}
     	
