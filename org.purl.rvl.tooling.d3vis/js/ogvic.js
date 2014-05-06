@@ -107,14 +107,16 @@
 		     ;
 	  };
 	  
-	  /* setting the shape by a path object */ // TODO: this also sets color at the moment ; seems broken
-	  /*d3.selection.prototype.avmShapedWithPath = function() {
+	  /* setting the shape by a path object */ // TODO: this also sets color and class node at the moment ; seems broken
+	  d3.selection.prototype.avmShapedWithPath = function(symbolFunction) {
 		 	return this.append("path")
-			   .attr("class", function(d) { return "connectorLabelGroup" })
+		 	    //.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+		 		//.attr("d", d3.svg.symbol());
+			   .attr("class", function(d) { return "node" })
     		   .attr("d", symbolFunction)
     		    .style("fill", function(d) { return d.color_rgb_hex_combined; })
 		     ;
-	  };*/
+	  };
 	  
 	  /* // replaced by path from symbol factory below
       var circle = nodeEnter.append("svg:circle")
