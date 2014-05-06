@@ -18,17 +18,35 @@
 	
 <script type="text/javascript">
 
+/******************************/
+/* CREDITS        			  */
+/******************************/
+            	
+/* after an example from http://bl.ocks.org/mbostock/4339083 */
+
+/******************/
+/* SETTINGS       */
+/******************/
+
 var m = [20, 120, 20, 120],
     w = 1280 - m[1] - m[3],
     h = 800 - m[0] - m[2],
     i = 0,
     root;
 
+/******************/
+/* GLOBAL VARS    */
+/******************/
+
 var tree = d3.layout.tree()
     .size([h, w]);
 
 var diagonal = d3.svg.diagonal()
     .projection(function(d) { return [d.y, d.x]; });
+    
+/******************************/
+/* BASIC PAGE BUILDING        */
+/******************************/
 
 var vis = d3.select("#body").append("svg:svg")
     .attr("width", w + m[1] + m[3])
@@ -36,16 +54,20 @@ var vis = d3.select("#body").append("svg:svg")
   .append("svg:g")
     .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
     
-
+    
+/**************************/
+/* START DATA DRIVE       */
+/**************************/
 
 d3.json("../../gen/json/tree-data.json", function(json) {
-	
 
-
-	
   root = json;
   root.x0 = h / 2;
   root.y0 = 0;
+  
+  /******************************/
+  /* LOCAL(?) FUNCTIONS         */
+  /******************************/
 
   function toggleAll(d) {
     if (d.children) {
@@ -115,11 +137,11 @@ function update(source) {
 			// highlight identical nodes	
 			nodesToFilter.avmHighlightIdentical(d.uri);
 
+			// highlight parent and children nodes and the path
 			
 			activate(d, true);
 			activateChildren(d, true);
-			
-			// highlight parent and children nodes and the path
+
 			nodesToFilter.filter(function(node) {
 			    return node.active;
             })
@@ -128,11 +150,7 @@ function update(source) {
 				return d.target.active;
 			 })
 			 .highlight()
-			 //.attr("marker-end", function(d) { return "url(#g-arrowhead-" + d.target.party + "-active)"; })
 			 ;
-			
-			// extend label to full label (not useful in tree layout)
-			//d3.select(this).selectAll("text").text(function(d){return d.full_label});		
 				
 	  })
 	  .on("mouseout", function(d) {
@@ -143,115 +161,106 @@ function update(source) {
 			activate(d, false);
 			activateChildren(d, false);
 			
-			// extend label to full label (not useful in tree layout)
-			//d3.select(this).selectAll("text").text(function(d){return d.label});
 	  })
-	  
 	  ;
-	  
-	  /* // replaced by path from symbol factory below
-      var circle = nodeEnter.append("svg:circle")
-      .attr("r", 1e-6)
-      //.style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
-	  .style("fill", function(d) { return d.color_rgb_hex_combined });  */
-	 
-	 /* // shapes from shape generator
-	 	var symbol = nodeEnter.append("path")
-    //.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
-    //.attr("d", d3.svg.symbol());
-	  .attr("class", function(d) { return "node" })
-	 .attr("d", symbolFunction)
-	 .style("fill", function(d) { return d.color_rgb_hex_combined; })
-	 ;	*/
+
 	
-	// shapes as reused svg-groups
-	 	var symbol = nodeEnter.avmShapedWithUseSVG();
 
+		// shapes as reused svg-groups
+		var symbol = nodeEnter.avmShapedWithUseSVG();
 
-	// The label and a copy of the label as shadow for better readability
-	nodeEnter.avmLabeledCT().attr("class","nodeLabelShadow");
-	nodeEnter.avmLabeledCT();
+		// The label and a copy of the label as shadow for better readability
+		nodeEnter.avmLabeledCT().attr("class", "nodeLabelShadow");
+		nodeEnter.avmLabeledCT();
 
+		// tooltip
+		nodeEnter.avmTitled();
 
-	// tooltip
-    nodeEnter.avmTitled();
+		// Transition nodes to their new position.
+		var nodeUpdate = node.transition().duration(duration).attr("transform",
+				function(d) {
+					return "translate(" + d.y + "," + d.x + ")";
+				});
 
-  // Transition nodes to their new position.
-  var nodeUpdate = node.transition()
-      .duration(duration)
-      .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+		nodeUpdate.select("path").style("visibility", "visible");
 
-  nodeUpdate.select("path")
-      .style("visibility", "visible");
-	  
-  nodeUpdate.selectAll("text")
-      .style("visibility", "visible");
+		nodeUpdate.selectAll("text").style("visibility", "visible");
 
-  // Transition exiting nodes to the parent's new position.
-  var nodeExit = node.exit().transition()
-      .duration(duration)
-      .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
-      .remove();
+		// Transition exiting nodes to the parent's new position.
+		var nodeExit = node.exit().transition().duration(duration).attr(
+				"transform", function(d) {
+					return "translate(" + source.y + "," + source.x + ")";
+				}).remove();
 
-  nodeExit.select("path")
-      .style("visibility", "hidden");
+		nodeExit.select("path").style("visibility", "hidden");
 
-  nodeExit.selectAll("text")
-      .style("visibility", "hidden");
+		nodeExit.selectAll("text").style("visibility", "hidden");
 
-  // Update the links…
-  var link = vis.selectAll("path.link")
-      .data(tree.links(nodes), function(d) { return d.target.id; });
+		// Update the links…
+		var link = vis.selectAll("path.link").data(tree.links(nodes),
+				function(d) {
+					return d.target.id;
+				});
 
-  // Enter any new links at the parent's previous position.
-  var linkEnter = link.enter().insert("svg:path", "g")
-      .attr("class", "link")
-	  .style("stroke", function(d) { return d.target.connector_color_rgb_hex_combined }) // works -> get the link color from the endNode (target)
-      .attr("d", function(d) {
-        var o = {x: source.x0, y: source.y0};
-        return diagonal({source: o, target: o});
-      });
-	  
-	linkEnter.transition()
-      .duration(duration)
-      .attr("d", diagonal);
-	  
-	linkEnter.append("svg:title")
-       .text(function(d) { return d.target.connector_label; });
+		// Enter any new links at the parent's previous position.
+		var linkEnter = link.enter().insert("svg:path", "g").attr("class",
+				"link").style("stroke", function(d) {
+			return d.target.connector_color_rgb_hex_combined
+		}) // works -> get the link color from the endNode (target)
+		.attr("d", function(d) {
+			var o = {
+				x : source.x0,
+				y : source.y0
+			};
+			return diagonal({
+				source : o,
+				target : o
+			});
+		});
 
+		linkEnter.transition().duration(duration).attr("d", diagonal);
 
-  // Transition links to their new position.
-  link.transition()
-      .duration(duration)
-      .attr("d", diagonal);
+		linkEnter.append("svg:title").text(function(d) {
+			return d.target.connector_label;
+		});
 
-  // Transition exiting nodes to the parent's new position.
-  link.exit().transition()
-      .duration(duration)
-      .attr("d", function(d) {
-        var o = {x: source.x, y: source.y};
-        return diagonal({source: o, target: o});
-      })
-      .remove();
+		// Transition links to their new position.
+		link.transition().duration(duration).attr("d", diagonal);
 
-  // Stash the old positions for transition.
-  nodes.forEach(function(d) {
-    d.x0 = d.x;
-    d.y0 = d.y;
-  });
-}
+		// Transition exiting nodes to the parent's new position.
+		link.exit().transition().duration(duration).attr("d", function(d) {
+			var o = {
+				x : source.x,
+				y : source.y
+			};
+			return diagonal({
+				source : o,
+				target : o
+			});
+		}).remove();
 
-// Toggle children.
-function toggle(d) {
-  if (d.children) {
-    d._children = d.children;
-    d.children = null;
-  } else {
-    d.children = d._children;
-    d._children = null;
-  }
-}
+		// Stash the old positions for transition.
+		nodes.forEach(function(d) {
+			d.x0 = d.x;
+			d.y0 = d.y;
+		});
+		
+	}
 
+	/******************/
+	/* SET UP         */
+	/******************/
+
+	// Toggle children.
+	function toggle(d) {
+		if (d.children) {
+			d._children = d.children;
+			d.children = null;
+		} else {
+			d.children = d._children;
+			d._children = null;
+		}
+	}
 </script>
 	
 <svg id="svg-effects">

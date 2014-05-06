@@ -44,6 +44,21 @@
 		      .style("fill", function(d) { return d.color_rgb_hex_combined; })
 		     ;
 	  };
+	  
+	  /* // replaced by path from symbol factory below
+      var circle = nodeEnter.append("svg:circle")
+      .attr("r", 1e-6)
+      //.style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+	  .style("fill", function(d) { return d.color_rgb_hex_combined });  */
+	 
+	 /* // shapes from shape generator
+	 	var symbol = nodeEnter.append("path")
+    //.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+    //.attr("d", d3.svg.symbol());
+	  .attr("class", function(d) { return "node" })
+	 .attr("d", symbolFunction)
+	 .style("fill", function(d) { return d.color_rgb_hex_combined; })
+	 ;	*/
 
 	  
 	})();
