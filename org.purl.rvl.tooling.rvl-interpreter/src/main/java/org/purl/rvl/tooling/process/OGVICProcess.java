@@ -1,8 +1,10 @@
 package org.purl.rvl.tooling.process;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Properties;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -39,8 +41,7 @@ public class OGVICProcess {
 	public static final String VISO_LOCAL_REL = "../org.purl.rvl.vocabulary/viso-branch/viso-graphic-inference.ttl";
 	
 	// LOCAL FILES AND FOLDER SETTINGS
-	//public static final String USE_CASE_FOLDER = "/Users/Jan/Projekte/Beruf/Promotion/Recherche/CaseStudies";
-	public static final String USE_CASE_FOLDER = "/Users/Jan/Documents/EclipseWorkspace/SemVisRecherche/CaseStudies";
+	public static String USE_CASE_FOLDER = ""; // now set in properties-file
 	public static final String GEN_MODEL_FILE_FOLDER = "../org.purl.rvl.vocabulary/gen";
 	public static final String GEN_MODEL_FILE_FOLDER_D3_JSON = "../org.purl.rvl.tooling.d3vis/gen/json";
 	protected static final String TMP_RVL_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempRvl.ttl";
@@ -86,7 +87,7 @@ public class OGVICProcess {
 	
 	
     static {
-    	  	
+  	
 		//LOGGER.setLevel(Level.SEVERE); 
 		//LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.SEVERE); 
 		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.FINEST);
@@ -117,7 +118,24 @@ public class OGVICProcess {
 		    System.out.println("WARNING: Logging not configured (console output only)");
 		}
 		*/
-        }
+        
+        /* SETTINGS FROM PROPERTIES-FILE */
+        
+    	Properties properties = new Properties();
+    	
+    	try {
+    		
+    	  properties.load(new FileInputStream("ogvic.properties"));
+    	  
+    	  USE_CASE_FOLDER = properties.get("org.purl.rvl.tooling.use-case-folder").toString();
+    	  
+    	} catch (IOException e) {
+    		
+    		LOGGER.severe("Could not load settings from properties-file.");
+    		
+    	}
+    	
+     }
     
     
 	
