@@ -186,7 +186,24 @@
 	 .attr("d", symbolFunction)
 	 .style("fill", function(d) { return d.color_rgb_hex_combined; })
 	 ;	*/
+	  
+	  /* setting the shape by a path object */ // TODO: this also sets color and class node at the moment ; seems broken
+	  d3.selection.prototype.avmProvideMarkerCollection = function() {
 
+	  return this.append("svg:defs").selectAll("marker")
+	      .data(["arrow", "uml_generalization_arrow"])
+	      .enter().append("svg:marker")
+	      .attr("id", String)
+	      .attr("viewBox", "0 -5 10 10")
+	      .attr("refX", refX)
+	      .attr("refY", refY)
+	      .attr("markerWidth", markerWidth)
+	      .attr("markerHeight", markerHeight)
+	      .attr("orient", "auto")
+	      .append("svg:path")
+		    .attr("markerUnits","userSpaceOnUse") /* seems to have no effect */
+	        .attr("d", "M0,-5L10,0L0,5L0,-5Z");
+	};
 	  
 	})();
 
@@ -288,4 +305,25 @@
 		// return "1_0";
  }
  
+/* toggle nodes in collapsible tree */ 
+ 
+// Toggle children.
+function toggle(d) {
+	if (d.children) {
+		d._children = d.children;
+		d.children = null;
+	} else {
+		d.children = d._children;
+		d._children = null;
+	}
+}
+	
+// toggle all	
+ function toggleAll(d) {
+	    if (d.children) {
+	      d.children.forEach(toggleAll);
+	      toggle(d);
+	    }
+	  }
+
  

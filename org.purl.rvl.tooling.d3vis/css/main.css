@@ -2,6 +2,11 @@ body {
 	background-color: #334;
 }
 
+#svg {
+	position:absolute;
+	z-index: 1;
+}
+
 /* set to whatever the body-background-color is */
 .svgSymbol {
 	stroke: #334;

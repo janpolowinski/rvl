@@ -13,8 +13,6 @@
     	<script type="text/javascript" src="../../js/ogvic.js"></script>
     </head>
     <body>
-    
-        <div id="labelContainerSpace"></div>
         
         <script type="text/javascript">
 						
@@ -27,12 +25,18 @@
 		/******************/
 		/* SETTINGS       */
         /******************/
+        
+        // canvas
+		var width = 1400,
+		    height = 1200,
+		    m = [20, 120, 20, 120]
+			;
 		
+		// OGVIC
         var drawLinks = true; // choose whether only nodes should be drawn and layouted
 
-        var width = 1400,
-            height = 1200,
-			lineWidth = 7,
+        // force-directed-graph
+        var lineWidth = 7,
         	markerWidth = 3,
             markerHeight = 3,
             cRadius = 10,
@@ -44,7 +48,7 @@
 			// ALT1: refY = -Math.sqrt(cRadius),
 			// ALT2: refY = -Math.sqrt(cRadius) * 0.8 + 20/lineWidth, /* works well for stroke width 7px */
             drSub = cRadius + refY, /* works well for stroke widths between 5 and 20 */
-			ICONSIZE = 0; // TODO does not actually work. hack!
+			ICONSIZE = 0 // TODO does not actually work. hack!
         	;				 
         
 		/******************/
@@ -61,32 +65,28 @@
 		/* BASIC PAGE BUILDING        */
         /******************************/
 		
-		var mInfo = d3.select("body").append("div");
+		//var mInfo = d3.select("body").append("div");
         
         var svg = d3.select("body").append("svg")
+       		.attr("id", "svg")
             .attr("width", width)
             .attr("height", height);
-			
-		var labelContainerSpace = d3.select("#labelContainerSpace")
-			//.style("position","absolute")
-			//.attr("id", "labelContainerSpace") // somehow does not work programmatically
-		    .attr("width", width)
-		    .attr("height", height);
+        
+        var vis = svg
+	        .append("svg:g")
+	        .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
+	        ;
+		    
+		var labelContainerSpace = d3.select("body").append("div")
+			.attr("id", "labelContainerSpace")
+			.style("margin-top", m[0]+"px")
+			.style("margin-left", m[3]+"px")
+		    .attr("width", width + "px")
+		    .attr("height", height + "px");
+		    
         	
         // Define Markers to be used in arrow paths
-        svg.append("svg:defs").selectAll("marker")
-           	.data(["arrow", "uml_generalization_arrow"])
-            .enter().append("svg:marker")
-            .attr("id", String)
-            .attr("viewBox", "0 -5 10 10")
-            .attr("refX", refX)
-            .attr("refY", refY)
-            .attr("markerWidth", markerWidth)
-            .attr("markerHeight", markerHeight)
-            .attr("orient", "auto")
-            .append("svg:path")
-			.attr("markerUnits","userSpaceOnUse") /* seems to have no effect */
-            .attr("d", "M0,-5L10,0L0,5L0,-5Z");
+        svg.avmProvideMarkerCollection();
 			
 			
 		/**************************/
@@ -122,13 +122,13 @@
         		  
     	    /* links/edges with label and tooltip */
     
-    		var connectorGroup = svg.selectAll(".connectorGroup")
+    		var connectorGroup = vis.selectAll(".connectorGroup")
             .data(graph.links)
             .enter().append("svg:g")
             .attr("class", function (d) { return "connectorGroup link" + d.type; })  
     		;
     		
-    		// var path = svg.selectAll(".link")
+    		// var path = vis.selectAll(".link")
             //.data(graph.links)
             var path = connectorGroup.append("svg:path")
             .attr("class", function (d) { return "link link" + d.type + " " +  d.arrow_type; })  
@@ -147,7 +147,7 @@
     		;
 			
 			/* label aligned at the connector path */
-			var path_label = svg.append("svg:g")
+			var path_label = vis.append("svg:g")
 		 		.selectAll(".path_label")
 				.data(force.links()).enter().avmLabeledConnectorAligned();
 					
@@ -200,7 +200,7 @@
 
         		  
         	/*
-        	  var link = svg.selectAll(".link")
+        	  var link = vis.selectAll(".link")
         	      .data(graph.links)
         	    .enter().append("line")
         	      .attr("class", "link")
@@ -213,7 +213,7 @@
         	  /* nodes */ 
         	
     			/*Create and place the "blocks" containing the circle and the text */  
-				var nodeEnter = svg.selectAll(".node")
+				var nodeEnter = vis.selectAll(".node")
         	      .data(graph.nodes).enter()
         	    .append("g")
         		.attr("class", "node")
@@ -236,7 +236,7 @@
                         return link.source.index === d.index ? link.target.index : link.source.index; });
                     
                     // select neighboring nodes and apply styles
-                    svg.selectAll(".node").filter(function(node) {
+                    vis.selectAll(".node").filter(function(node) {
                         // I filter the selection of all circles to only those that hold a node with an
                         // index in my listg of neighbors
                         return nodeNeighbors.indexOf(node.index) > -1;
@@ -244,14 +244,14 @@
         			.highlight();
         			
         			// select in and out links and apply styles
-                    svg.selectAll(".link").filter(function(link) {
+                    vis.selectAll(".link").filter(function(link) {
         				return (link.source.index === d.index || link.target.index === d.index);
                     })
         			.highlight();
         			
         			
         			// highlighting of identical resources (same URI)
-        			svg.selectAll(".node").avmHighlightIdentical(d.uri);
+        			vis.selectAll(".node").avmHighlightIdentical(d.uri);
         			
         			// extend label to full label
         			d3.select(this).selectAll("text").text(function(d){return d.full_label});			

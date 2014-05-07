@@ -5,6 +5,9 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <link type="text/css" rel="stylesheet" href="d3_collapsibleTree.css"/>
 	<link type="text/css" rel="stylesheet" href="../../css/main.css"/>
+	<link type="text/css" rel="stylesheet" href="../../css/labeling.css"/>
+    <link type="text/css" rel="stylesheet" href="../../css/labeling-new-boxmodel.css"/>
+    <link type="text/css" rel="stylesheet" href="../../css/labeling-webkit-old-boxmodel.css"/>
 	<script type="text/javascript" src="../../js/d3.min.js"></script>
     <script type="text/javascript" src="../../js/d3.layout.js"></script>
     <!-- own plugins to handle AVM based on D3.js -->
@@ -14,7 +17,7 @@
 
     </style>
 </head>
-<body><div id="body"></div>
+<body>
 	
 <script type="text/javascript">
 
@@ -28,11 +31,34 @@
 /* SETTINGS       */
 /******************/
 
-var m = [20, 120, 20, 120],
-    w = 1280 - m[1] - m[3],
-    h = 800 - m[0] - m[2],
+// canvas
+var width = 1400,
+    height = 1200,
+    m = [20, 120, 20, 120]
+    ;
+
+// collapsible tree
+var w = width - m[1] - m[3],
+    h = height - m[0] - m[2],
     i = 0,
-    root;
+    root
+    ;
+    
+//force-directed-graph
+var lineWidth = 7,
+	markerWidth = 3,
+    markerHeight = 3,
+    cRadius = 10,
+	refX = cRadius + (markerWidth * 1.3) + 0.155 * cRadius, /* works well for stroke widths between 5 and 20 */
+	// ALT refX = cRadius + (markerWidth * 1.5), 
+	// ALT3 refX = cRadius + (markerWidth * 2),
+	// ALT1: refX = cRadius + markerWidth * Math.sqrt(lineWidth) ,
+	refY = - (cRadius*cRadius) / 375,  /* works well for stroke widths between 5 and 20 */
+	// ALT1: refY = -Math.sqrt(cRadius),
+	// ALT2: refY = -Math.sqrt(cRadius) * 0.8 + 20/lineWidth, /* works well for stroke width 7px */
+    drSub = cRadius + refY, /* works well for stroke widths between 5 and 20 */
+	ICONSIZE = 0 // TODO does not actually work. hack!
+	;	
 
 /******************/
 /* GLOBAL VARS    */
@@ -52,12 +78,24 @@ var diagonal = d3.svg.diagonal()
 //var mInfo = d3.select("body").append("div");
       
 var svg = d3.select("body").append("svg:svg")
-    .attr("width", w + m[1] + m[3])
-    .attr("height", h + m[0] + m[2]);
+    .attr("width", width)
+    .attr("height", height);
 
 var vis = svg
     .append("svg:g")
-    .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+    .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
+    ;
+    
+/*var labelContainerSpace = d3.select("body").append("div")
+	.attr("id", "labelContainerSpace")
+	.style("margin-top", m[0]+"px")
+	.style("margin-left", m[3]+"px")
+	.attr("width", width + "px")
+	.attr("height", height + "px");*/
+
+    
+//Define Markers to be used in arrow paths
+svg.avmProvideMarkerCollection();
     
     
 /**************************/
@@ -69,26 +107,14 @@ d3.json("../../gen/json/tree-data.json", function(json) {
   root = json;
   root.x0 = h / 2;
   root.y0 = 0;
-  
-  /******************************/
-  /* LOCAL(?) FUNCTIONS         */
-  /******************************/
-
-  function toggleAll(d) {
-    if (d.children) {
-      d.children.forEach(toggleAll);
-      toggle(d);
-    }
-  }
 
   // Initialize the display to show a few nodes.
-  //root.children.forEach(toggleAll);
-  //toggle(root.children[1]);
-  //toggle(root.children[1].children[2]);
-  //toggle(root.children[9]);
-  //toggle(root.children[9].children[0]);
+  root.children.forEach(toggleAll);
+  toggle(root.children[0]);
+  //toggle(root.children[0].children[0]);
 
   update(root);
+  
 });
 
 function update(source) {
@@ -261,21 +287,7 @@ function update(source) {
 			.data(tree.links(nodes)).enter().avmLabeledConnectorAligned2();
 		
 	}
-
-	/******************/
-	/* SET UP         */
-	/******************/
-
-	// Toggle children.
-	function toggle(d) {
-		if (d.children) {
-			d._children = d.children;
-			d.children = null;
-		} else {
-			d.children = d._children;
-			d._children = null;
-		}
-	}
+	
 </script>
 	
 <svg id="svg-effects">
