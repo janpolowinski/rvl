@@ -88,6 +88,7 @@
 		  return containerDiv;
 	  };
 
+	   
 	  /* label aligned at the connector path */
 	  d3.selection.enter.prototype.avmLabeledConnectorAligned = function() {
 		  
@@ -97,10 +98,9 @@
 		  text.append("svg:textPath")
 			.attr("startOffset", "50%")
 			.attr("text-anchor", "middle")
-			.attr("xlink:href", function (d) {
-	            return "#" + d.source.index +
-	                "_" + d.target.index;
-	        }).style("fill", "#fff")
+			.attr("xlink:href", function(d){
+			      	return "#" + createIDForLink(d);
+			  	}).style("fill", "#fff")
 			.style("font-family", "Arial")
 			.text(function (d) {
 	           		 return d.label;
@@ -110,6 +110,35 @@
 		  return text;
 	  };
 	  
+	  /* label aligned at the connector path */ // TODO merge
+	  d3.selection.enter.prototype.avmLabeledConnectorAligned2 = function() {
+		  
+		  var text =  this.append("svg:text")
+			.attr("class", "path_label");
+		  
+		  text.append("svg:textPath")
+			.attr("startOffset", "50%")
+			.attr("text-anchor", "middle")
+			.attr("xlink:href",	function(d){
+			      	return "#" + createIDForLink2(d);
+			  	}).style("fill", "#fff")
+			.style("font-family", "Arial")
+			.text(function (d) {
+	           		 return "test";//return d.label;
+	        		}
+				);
+		  
+		  return text;
+	  };
+	  
+	  /* setting the icon label as a circle */
+	  d3.selection.prototype.avmLabeledWithCircle = function(labelShapeSize) {
+		 	return this.append("svg:circle")
+			.attr("r", labelShapeSize/2)
+			.attr("cx",labelShapeSize/2)
+			.attr("cy",labelShapeSize/2)
+			.style("fill", function(d) { return d.color_rgb_hex_combined; })
+	  };
 	  
 	  /* setting the shape by reusing an SVG symbol */ // TODO: this also sets color and node-class at the moment
 	  d3.selection.prototype.avmShapedWithUseSVG = function() {
@@ -141,6 +170,7 @@
     		    .style("fill", function(d) { return d.color_rgb_hex_combined; })
 		     ;
 	  };
+	  
 	  
 	  /* // replaced by path from symbol factory below
       var circle = nodeEnter.append("svg:circle")
@@ -245,3 +275,17 @@
 	
     return "translate(" + x + "," + y + ")";
  }
+ 
+ /* create a unique ID for a link */ 
+ function createIDForLink(d) {
+	return d.source.index + "_" + d.target.index;
+	// return "1_0";
+ }
+ 
+ // TODO merge?
+ function createIDForLink2(d) {
+		return d.source.id + "_" + d.target.id;
+		// return "1_0";
+ }
+ 
+ 

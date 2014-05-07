@@ -141,8 +141,8 @@
 			/*.attr("marker-mid", function (d) {
     			return "url(#" + "markerSquare" + ")";
         	})*/
-			.attr("id", function(d){
-            	return d.source.index + "_" + d.target.index;
+			.attr("id", function(link){
+            	return createIDForLink(link);
         	})
     		;
 			
@@ -305,17 +305,13 @@
 					.attr("width",labelShapeSize +"px")
 					.attr("height",labelShapeSize +"px")
 					.style("margin",-labelShapeSize/2.75 + "px")
-					/*.append("svg:circle")
-						.attr("r", labelShapeSize/2)
-						.attr("cx",labelShapeSize/2)
-						.attr("cy",labelShapeSize/2)
-						.style("fill","red");*/
-					.append("path")
+					.avmLabeledWithCircle(labelShapeSize);
+					/*.append("path")
 			  			.attr("class", "label")
 			 			.attr("d", labelSymbolFunction)
 			 			.style("fill", "red")
 						.attr("transform", function(d){ return "translate(" + labelShapeSize/2 + "," + labelShapeSize/2 + ")"})
-					 ;
+					 ;*/
 			        			
 			// SVG text label in html div (cropped in webkit, maybe create a much bigger SVG inside the div, or modify clipping) 
 			
@@ -365,17 +361,18 @@
                     var dx = d.target.x - d.source.x,
                         dy = (d.target.y - d.source.y),
                         dr = Math.sqrt(dx * dx + dy * dy);
-                    return "M" + d.source.x + "," + d.source.y + "A" + (dr - drSub) + "," + (dr - drSub) + " 0 0,1 " + d.target.x + "," + d.target.y; // an arc
-					//return "M" + d.source.x + "," + d.source.y + " L" + d.target.x + "," + d.target.y; // a line
-					
-					/*// a line with extra node
-					var pathString = 
-						"M" + d.source.x + "," + d.source.y +
-					   " L" + (dr - drSub) + "," + (dr - drSub) +  
-					   " L" + d.target.x + "," + d.target.y; 
-	
-					return pathString; 
-					*/	
+                    
+                    // an arc
+                    return "M" + d.source.x + "," + d.source.y + "A" + (dr - drSub) + "," + (dr - drSub) + " 0 0,1 " + d.target.x + "," + d.target.y;
+                    
+                    // a line
+					//return "M" + d.source.x + "," + d.source.y + " L" + d.target.x + "," + d.target.y; 
+                    
+                 	// a line with an intermediate node
+                    //return "M" + d.source.x + "," + d.source.y +
+					   //" L" + (dr - drSub) + "," + (dr - drSub) +  
+					   //" L" + d.target.x + "," + d.target.y; ; 	
+					   
                 });
             
 				//symbol2

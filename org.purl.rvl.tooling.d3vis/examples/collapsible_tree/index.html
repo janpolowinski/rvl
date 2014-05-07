@@ -47,11 +47,16 @@ var diagonal = d3.svg.diagonal()
 /******************************/
 /* BASIC PAGE BUILDING        */
 /******************************/
-
-var vis = d3.select("#body").append("svg:svg")
+ 
+ 
+//var mInfo = d3.select("body").append("div");
+      
+var svg = d3.select("body").append("svg:svg")
     .attr("width", w + m[1] + m[3])
-    .attr("height", h + m[0] + m[2])
-  .append("svg:g")
+    .attr("height", h + m[0] + m[2]);
+
+var vis = svg
+    .append("svg:g")
     .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
     
     
@@ -216,7 +221,11 @@ function update(source) {
 				source : o,
 				target : o
 			});
-		});
+		})
+		.attr("id", function(d){
+        	return createIDForLink2(d);
+    	})
+		;
 
 		linkEnter.transition().duration(duration).attr("d", diagonal);
 
@@ -244,6 +253,12 @@ function update(source) {
 			d.x0 = d.x;
 			d.y0 = d.y;
 		});
+		
+		
+		/* label aligned at the connector path */
+		var path_label = vis.append("svg:g")
+	 		.selectAll(".path_label")
+			.data(tree.links(nodes)).enter().avmLabeledConnectorAligned2();
 		
 	}
 
