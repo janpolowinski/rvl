@@ -8,20 +8,21 @@ import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
 import org.purl.rvl.tooling.rvl2avm.SimpleRVLInterpreter;
 
-public class UseCaseAA extends TestOGVICProcess {
+public class UseCasePO_9 extends TestOGVICProcess {
 	
 	@Test
 	public void testOGVICProcess() {
 		
-		//process.setUriStart("http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#");
-		
-		project.registerMappingFile(ExampleMapping.AA);
-		project.registerDataFile(ExampleData.AA);
+		//process.setUriStart("http://purl.org/obo/owl/");
+
+		project.registerMappingFile(ExampleMapping.PO_9);
+		project.registerDataFile(ExampleData.PO);
+		project.registerDataFile(ExampleData.PO_EXTRA_DATA);
 		
 		//project.setRvlInterpreter(new SimpleRVLInterpreter());
-		//process.setD3Generator(new D3GeneratorTreeJSON());
-		project.setD3Generator(new D3GeneratorSimpleJSON());
-
+		project.setD3Generator(new D3GeneratorTreeJSON());
+		//process.setD3Generator(new D3GeneratorSimpleJSON());
+		
 		loadProjectAndRunProcess();
 	}
 
