@@ -1,21 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+        <!-- labeling at various positions works, but is cropped (view box bug) in webkit and is slow in firefox (many objects SVG in HTML in SVG ) -->
   	<meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-    <link type="text/css" rel="stylesheet" href="d3_collapsibleTree.css"/>
 	<link type="text/css" rel="stylesheet" href="../../css/main.css"/>
 	<link type="text/css" rel="stylesheet" href="../../css/labeling.css"/>
     <link type="text/css" rel="stylesheet" href="../../css/labeling-new-boxmodel.css"/>
     <link type="text/css" rel="stylesheet" href="../../css/labeling-webkit-old-boxmodel.css"/>
 	<script type="text/javascript" src="../../js/d3.min.js"></script>
-    <script type="text/javascript" src="../../js/d3.layout.js"></script>
+    <script type="text/javascript" src="../../js/d3.layout.js"></script> <!-- causes conflicts when imported to force-directed-graph -->
     <!-- own plugins to handle AVM based on D3.js -->
     <script type="text/javascript" src="../../js/ogvic.js"></script>
-    <style type="text/css">
-
-
-    </style>
 </head>
 <body>
 	
@@ -60,9 +56,9 @@ var lineWidth = 7,
 	ICONSIZE = 0 // TODO does not actually work. hack!
 	;	
 
-/******************/
-/* GLOBAL VARS    */
-/******************/
+/*****************************************/
+/* GLOBAL VARS & ADAPTED PLUGINS         */
+/*****************************************/
 
 var tree = d3.layout.tree()
     .size([h, w]);
@@ -78,6 +74,7 @@ var diagonal = d3.svg.diagonal()
 //var mInfo = d3.select("body").append("div");
       
 var svg = d3.select("body").append("svg:svg")
+       		.attr("id", "svg")
     .attr("width", width)
     .attr("height", height);
 
@@ -86,12 +83,12 @@ var vis = svg
     .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
     ;
     
-/*var labelContainerSpace = d3.select("body").append("div")
+var labelContainerSpace = d3.select("body").append("div")
 	.attr("id", "labelContainerSpace")
 	.style("margin-top", m[0]+"px")
 	.style("margin-left", m[3]+"px")
 	.attr("width", width + "px")
-	.attr("height", height + "px");*/
+	.attr("height", height + "px");
 
     
 //Define Markers to be used in arrow paths
@@ -117,13 +114,7 @@ d3.json("../../gen/json/tree-data.json", function(json) {
   
 });
 
-function update(source) {
-	
-	 var symbolFunction = d3.svg.symbol()
- 						.size(300)
- 						.type(function (d) {return d.shape_d3_name})
-						;
-						
+function update(source) {				
 						
   var duration = d3.event && d3.event.altKey ? 5000 : 500;
 
@@ -199,6 +190,7 @@ function update(source) {
 
 		// shapes as reused svg-groups
 		var symbol = nodeEnter.avmShapedWithUseSVG();
+		//var symbol = nodeEnter.avmShapedWithPath(avmDefaultSizeSymbolFunction);
 
 		// The label and a copy of the label as shadow for better readability
 		nodeEnter.avmLabeledCT().attr("class", "nodeLabelShadow");
@@ -282,14 +274,15 @@ function update(source) {
 		
 		
 		/* label aligned at the connector path */
-		var path_label = vis.append("svg:g")
+		/*var path_label = vis.append("svg:g")
 	 		.selectAll(".path_label")
-			.data(tree.links(nodes)).enter().avmLabeledConnectorAligned2();
+			.data(tree.links(nodes)).enter().avmLabeledConnectorAligned2();*/
 		
 	}
 	
 </script>
-	
+
+<!-- somehow MUST NOT be before the script! -->
 <svg id="svg-effects">
 	
     <filter id="blur-effect-1">
@@ -299,8 +292,15 @@ function update(source) {
     <filter id="blur-effect-2">
         <feGaussianBlur stdDeviation="2" />
     </filter>
-		
-</svg> 
+            <defs>
+                <marker id="markerSquare" markerWidth="7" markerHeight="7" refx="4" refy="4" orient="auto">
+                    <rect x="1" y="1" width="5" height="5" style="stroke: none; fill:#000000;"/>
+                </marker>
+                <marker id="markerArrow" markerWidth="13" markerHeight="13" refx="2" refy="7" orient="auto">
+                    <path d="M2,2 L2,13 L8,7 L2,2" style="fill: #000000;"/>
+                </marker>
+            </defs>
+</svg>
 
 </body>
 </html>

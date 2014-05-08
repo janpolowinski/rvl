@@ -124,7 +124,7 @@
 			  	}).style("fill", "#fff")
 			.style("font-family", "Arial")
 			.text(function (d) {
-	           		 return "test";//return d.label;
+	           		 return d.target.connector_label;
 	        		}
 				);
 		  
@@ -207,6 +207,20 @@
 	  
 	})();
 
+/**************************/
+/* ADAPTED PLUGINS        */
+/**************************/	
+
+var avmDefaultSizeSymbolFunction = d3.svg.symbol()
+	.size(300) // square pixels!
+	.type(function (d) {return d.shape_d3_name})
+	//.type(function (d) {return "diamond"})
+	;
+
+var avmDefaultSizeLabelSymbolFunction = d3.svg.symbol()
+	.size(250)
+	.type(function (d) {return d.label_shape_d3_name})
+	;
 
 
 /**************************/

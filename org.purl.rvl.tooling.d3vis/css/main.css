@@ -63,7 +63,7 @@ body {
 /* general labels */
 
 .label {
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   font-size: 12px;
   text-anchor: middle;
   text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff; /* not yet supported in firefox it seems */
@@ -73,14 +73,18 @@ body {
 
 .node text { /* strange: "text" alone does not work */
   font-size: 12px;
-  font-family: Arial;
-   fill: black;
+  font-family: Arial, sans-serif;
+  fill: black;
+  cursor: pointer;
+  /*pointer-events: none;*/
 }
 
-/*
-.node text.nodeLabel {
 
-}*/
+
+text.nodeLabel, text.nodeLabelShadow {
+	font-family: Arial;
+	cursor: pointer;
+}
 
 .node text.nodeLabelShadow {
     stroke: white;
