@@ -157,48 +157,92 @@
 				.attr("class", function(d) { return "connectorLabelGroup" })
         		.attr("class", "label");
         
-				// shapes as reused svg-groups
-				var connectorLabelSymbol = connectorLabelGroup.avmShapedWithUseSVGPure();
+			// shapes as reused svg-groups
+			var connectorLabelSymbol = connectorLabelGroup.avmShapedWithUseSVGPure();
 				
-				// broken? shapes as paths
-				// var connectorLabelSymbol = connectorLabelGroup.avmShapedWithPath();
+			// broken? shapes as paths
+			// var connectorLabelSymbol = connectorLabelGroup.avmShapedWithPath();
 				
-				var connectorLabelText = connectorLabelGroup.append("text")
+			var connectorLabelText = connectorLabelGroup.append("text")
         		.attr("class", "label")
         	    //.attr("dx", function(d){return 100})
         		//.attr("dy", function(d){return 100})
         	    .text(function(d){return d.label + " (" + d.type + ")" })
         		;
         		
-				/* alternative : very simple labeling of connectors by title-tag */	
-				//path.avmTitled();
+			/* alternative : very simple labeling of connectors by title-tag */	
+			//path.avmTitled();
 
 				
-				/* manual node positioning */
+			/* manual node positioning */
+			
+			var node_drag = d3.behavior.drag()
+		        .on("dragstart", dragstart)
+		        .on("drag", dragmove)
+		        .on("dragend", dragend);
 				
-				var node_drag = d3.behavior.drag()
-			        .on("dragstart", dragstart)
-			        .on("drag", dragmove)
-			        .on("dragend", dragend);
+			function dragstart(d, i) {
+		        forceVar.stop() // stops the force auto positioning before you start dragging
+		    }
+		
+		    function dragmove(d, i) {
+		        d.px += d3.event.dx;
+		        d.py += d3.event.dy;
+		        d.x += d3.event.dx;
+		        d.y += d3.event.dy; 
+		        tick(); // this is the key to make it work together with updating both px,py,x,y on d !
+		    }
+		
+		    function dragend(d, i) {
+		        d.fixed = true; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
+		        tick();
+		        forceVar.resume();
+		    }
+		    
+		    /* highlighting */ // TODO make reusable 
+		    
+		    function defaultStartHighlightingInGraph(d) { 
+		    	
+		    	var thisNode = d3.select(this);
+			    var allNodes = vis.selectAll(".node");
+			    var allLinks = vis.selectAll(".link");
+			    var thisGraph = graph; // TODO included in d anyway?
+		        
+		        thisNode.highlight();
+			
+			     // Figure out the neighboring node id's with brute strength because the graph is small
+			     var nodeNeighbors = thisGraph.links.filter(function(link) {
+			         // Filter the list of links to only those links that have our target 
+			         // node as a source or target
+			         return link.source.index === d.index || link.target.index === d.index;})
+			     .map(function(link) {
+			         // Map the list of links to a simple array of the neighboring indices - this is
+			         // technically not required but makes the code below simpler because we can use         
+			         // indexOf instead of iterating and searching ourselves.
+			         return link.source.index === d.index ? link.target.index : link.source.index; });
+			     
+			     // select neighboring nodes and apply styles
+			     allNodes.filter(function(node) {
+			         // filter selection to those holding a node with an
+			         // index in the list of neighbors
+			         return nodeNeighbors.indexOf(node.index) > -1;
+			     })
+				.highlight();
 					
-				function dragstart(d, i) {
-			        forceVar.stop() // stops the force auto positioning before you start dragging
-			    }
-			
-			    function dragmove(d, i) {
-			        d.px += d3.event.dx;
-			        d.py += d3.event.dy;
-			        d.x += d3.event.dx;
-			        d.y += d3.event.dy; 
-			        tick(); // this is the key to make it work together with updating both px,py,x,y on d !
-			    }
-			
-			    function dragend(d, i) {
-			        d.fixed = true; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
-			        tick();
-			        forceVar.resume();
-			    }
-        	
+				 // select in and out links and apply styles
+			     allLinks.filter(function(link) {
+						return (link.source.index === d.index || link.target.index === d.index);
+			     })
+				.highlight();
+	
+				// highlighting of identical resources (same URI)
+				allNodes.avmHighlightIdentical(d.uri);
+				
+				// extend label to full label
+				thisNode.selectAll("text").text(function(d){return d.full_label});			
+
+			}
+		    
         	/* nodes */ 
         	
 			var nodeEnter = vis.selectAll(".node")
@@ -206,54 +250,8 @@
        	        .append("g")
        		    .attr("class", "node")
        		    .call(node_drag)
-       		    .on("mouseover", function(d) { 
-        
-        			d3.select(this).attr("class", "node highlighted");
-        		
-                    // Figure out the neighboring node id's with brute strength because the graph is small
-                    var nodeNeighbors = graph.links.filter(function(link) {
-                        // Filter the list of links to only those links that have our target 
-                        // node as a source or target
-                        return link.source.index === d.index || link.target.index === d.index;})
-                    .map(function(link) {
-                        // Map the list of links to a simple array of the neighboring indices - this is
-                        // technically not required but makes the code below simpler because we can use         
-                        // indexOf instead of iterating and searching ourselves.
-                        return link.source.index === d.index ? link.target.index : link.source.index; });
-                    
-                    // select neighboring nodes and apply styles
-                    vis.selectAll(".node").filter(function(node) {
-                        // I filter the selection of all circles to only those that hold a node with an
-                        // index in my listg of neighbors
-                        return nodeNeighbors.indexOf(node.index) > -1;
-                    })
-        			.highlight();
-        			
-        			// select in and out links and apply styles
-                    vis.selectAll(".link").filter(function(link) {
-        				return (link.source.index === d.index || link.target.index === d.index);
-                    })
-        			.highlight();
-        			
-        			
-        			// highlighting of identical resources (same URI)
-        			vis.selectAll(".node").avmHighlightIdentical(d.uri);
-        			
-        			// extend label to full label
-        			d3.select(this).selectAll("text").text(function(d){return d.full_label});			
-               
-        		})
-        		.on("mouseout",  function(d) { 
-        		
-        			// remove highlighting
-        			//d3.select(this).classed("highlighted", false);
-        			d3.selectAll(".link").classed("highlighted identical", false);
-        			d3.selectAll(".node").classed("highlighted identical", false);
-        			
-        			// shorten labels 
-        			d3.select(this).selectAll("text").text(function(d){return d.label});
-        
-        			})
+       		    .on("mouseover", defaultStartHighlightingInGraph)
+        		.on("mouseout",  defaultStopHighlighting)
 				.on("dblclick",  function(d) { 
 					d.fixed = false;	
 				})

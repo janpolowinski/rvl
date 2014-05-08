@@ -147,14 +147,14 @@ function update(source) {
       .attr("class", "node")
       .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
       .on("click", function(d) { toggle(d); update(d); })
-	  
 	  .on("mouseover", function(d) {
 	  	
+		    var thisNode = d3.select(this);
 			var nodesToFilter = vis.selectAll(".node");
 			var linksToFilter = vis.selectAll(".link");
 	  		
 			// highlight this node
-			d3.select(this).highlight();
+			thisNode.highlight();
 
 			// highlight identical nodes	
 			nodesToFilter.avmHighlightIdentical(d.uri);
@@ -166,27 +166,19 @@ function update(source) {
 
 			nodesToFilter.filter(function(node) {
 			    return node.active;
-            })
-			.highlight();
+            }).highlight();
+			
 			linksToFilter.filter(function(d) { 
 				return d.target.active;
-			 })
-			 .highlight()
-			 ;
+			}).highlight();
 				
 	  })
 	  .on("mouseout", function(d) {
-			
-			d3.selectAll(".node").classed("highlighted identical", false);
-			vis.selectAll(".link").classed("highlighted", false);
-			
+		    defaultStopHighlighting(d);
 			activate(d, false);
 			activateChildren(d, false);
-			
-	  })
-	  ;
+	  });
 
-	
 
 		// shapes as reused svg-groups
 		var symbol = nodeEnter.avmShapedWithUseSVG();
@@ -226,24 +218,29 @@ function update(source) {
 				});
 
 		// Enter any new links at the parent's previous position.
-		var linkEnter = link.enter().insert("svg:path", "g").attr("class",
-				"link").style("stroke", function(d) {
-			return d.target.connector_color_rgb_hex_combined
-		}) // works -> get the link color from the endNode (target)
-		.attr("d", function(d) {
-			var o = {
-				x : source.x0,
-				y : source.y0
-			};
-			return diagonal({
-				source : o,
-				target : o
-			});
-		})
+		var linkEnter = link.enter().insert("svg:path", "g")
+			.attr("class","link")
+			.style("stroke", function(d) {
+				return d.target.connector_color_rgb_hex_combined
+			}) // works -> get the link color from the endNode (target)
+			.attr("d", function(d) {
+				var o = {
+					x : source.x0,
+					y : source.y0
+				};
+				return diagonal({
+					source : o,
+					target : o
+				});
+			})
 		.attr("id", function(d){
         	return createIDForLink2(d);
     	})
-		;
+    	.attr("marker-end", function (d) {
+            	return "url(#" + d.target.connector_arrow_type + ")";
+            	//return "url(#" + "uml_generalization_arrow" + ")";
+        })
+        ;
 
 		linkEnter.transition().duration(duration).attr("d", diagonal);
 

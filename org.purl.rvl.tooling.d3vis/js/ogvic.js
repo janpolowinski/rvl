@@ -340,4 +340,19 @@ function toggle(d) {
 	    }
 	  }
 
+
+ /* highlighting, activating */
+ 
+ function defaultStopHighlighting(d) {
+ 	
+ 	// remove highlighting
+	d3.selectAll(".link").classed("highlighted identical", false);
+	d3.selectAll(".node").classed("highlighted identical", false);
+	
+	// shorten labels // TODO: this is no highlighting stuff
+	//d3.select(this).selectAll("text").
+	//	text(function(d){return d.label});
+ }
+ 
+ 
  
