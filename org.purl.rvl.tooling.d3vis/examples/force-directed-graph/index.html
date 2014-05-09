@@ -135,6 +135,7 @@
             .attr("class", function (d) { return "link link" + d.type + " " +  d.arrow_type; })  
     		//.style("stroke", function(d) { return d.color_rgb_hex; })
     		.style("stroke", function(d) { return d.color_rgb_hex_combined; })
+    		.style("stroke-width", function(d) { return d.width })
     		.attr("marker-end", function (d) {
             	return "url(#" + d.arrow_type + ")";
         	})

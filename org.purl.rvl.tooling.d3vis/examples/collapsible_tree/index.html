@@ -223,6 +223,9 @@ function update(source) {
 			.style("stroke", function(d) {
 				return d.target.connector_color_rgb_hex_combined
 			}) // works -> get the link color from the endNode (target)
+			.style("stroke-width", function(d) {
+				return d.target.connector_width
+			})
 			.attr("d", function(d) {
 				var o = {
 					x : source.x0,

@@ -619,6 +619,13 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		    	LOGGER.finer("Set shape to " + shape + " for sv " + sv + NL);
 		    }
 		    
+			// if we are mapping to width
+		    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/width")) {
+		    	Float width = new Float(34); // TODO : Hack
+		    	go.setWidth(width);
+		    	LOGGER.finer("Set width to float value (constant 34!)" + width + " for sv " + sv + NL);
+		    }
+		    
 			// if we are mapping to labeling_attachedBy
 		    if(tga.asURI().equals(Labeling.LABELINGATTACHEDBY)) {
 		    	GraphicObjectToObjectRelation attachementRelation = GraphicObjectToObjectRelation.getInstance(modelVISO, tv.asURI());
