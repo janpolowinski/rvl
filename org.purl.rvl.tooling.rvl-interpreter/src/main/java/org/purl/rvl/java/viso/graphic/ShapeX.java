@@ -97,6 +97,7 @@ public class ShapeX extends Shape {
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Hate")) return "dislike";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/BrokenHeart")) return "dislike";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Clock")) return "clock";
+		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/CircleP")) return "circle-p";
 		else if (this.asURI().toString().equals("http://purl.org/viso/addon/shapes/bio/Aliphatic_Shape")) return "aliphatic";
 		else if (this.asURI().toString().equals("http://purl.org/viso/addon/shapes/bio/Aromatic_Shape")) return "aromatic";
 		else if (this.asURI().toString().equals("http://purl.org/viso/addon/shapes/bio/Hydrophil")) return "raindrop";
