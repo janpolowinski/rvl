@@ -90,7 +90,8 @@ public class ShapeX extends Shape {
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Minus")) return "minus";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Plus")) return "plus";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Cross")) return "plus";
-		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Rhomb")) return "diamond";
+		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Rhomb")) return "rhomb";
+		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Diamond")) return "diamond";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/FlowArrow")) return "flow-arrow";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Heart")) return "heart";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Dislike")) return "dislike";
@@ -101,6 +102,10 @@ public class ShapeX extends Shape {
 		else if (this.asURI().toString().equals("http://purl.org/viso/addon/shapes/bio/Aliphatic_Shape")) return "aliphatic";
 		else if (this.asURI().toString().equals("http://purl.org/viso/addon/shapes/bio/Aromatic_Shape")) return "aromatic";
 		else if (this.asURI().toString().equals("http://purl.org/viso/addon/shapes/bio/Hydrophil")) return "raindrop";
+		
+		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Star18")) return "star-18";
+		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/XMark")) return "x-mark";
+		
 		
 		// shapes used to define connectors primarily
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/UMLGeneralization")) return "uml_generalization_arrow";

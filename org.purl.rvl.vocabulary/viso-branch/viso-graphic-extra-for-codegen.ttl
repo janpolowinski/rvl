@@ -21,3 +21,7 @@ viso-graphic:linking_connector
       rdfs:domain
               viso-graphic:Linking_Undirected_Relation, viso-graphic:Linking_Directed_Relation
     .
+    
+# necessary?    
+#viso-data:has_numeral_value 
+#      rdfs:range xsd:float .

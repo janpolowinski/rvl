@@ -3,5 +3,5 @@
 /target
 pom.properties
 /.classpath
-/gen
+/gen/tempAvm.ttl
 /bin
