@@ -1,72 +1,120 @@
 <!DOCTYPE html>
 <html>
 <head>
+        <!-- labeling at various positions works, but is cropped (view box bug) in webkit and is slow in firefox (many objects SVG in HTML in SVG ) -->
   	<meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-    <link type="text/css" rel="stylesheet" href="d3_collapsibleTree.css"/>
 	<link type="text/css" rel="stylesheet" href="../../css/main.css"/>
+	<link type="text/css" rel="stylesheet" href="../../css/labeling.css"/>
+    <link type="text/css" rel="stylesheet" href="../../css/labeling-new-boxmodel.css"/>
+    <link type="text/css" rel="stylesheet" href="../../css/labeling-webkit-old-boxmodel.css"/>
 	<script type="text/javascript" src="../../js/d3.min.js"></script>
-    <script type="text/javascript" src="../../js/d3.layout.js"></script>
-    <style type="text/css">
-
-
-    </style>
+    <script type="text/javascript" src="../../js/d3.layout.js"></script> <!-- causes conflicts when imported to force-directed-graph -->
+    <!-- own plugins to handle AVM based on D3.js -->
+    <script type="text/javascript" src="../../js/ogvic.js"></script>
 </head>
-<body><div id="body"></div>
+<body>
 	
 <script type="text/javascript">
 
-var m = [20, 120, 20, 120],
-    w = 1280 - m[1] - m[3],
-    h = 800 - m[0] - m[2],
+/******************************/
+/* CREDITS        			  */
+/******************************/
+            	
+/* after an example from http://bl.ocks.org/mbostock/4339083 */
+
+/******************/
+/* SETTINGS       */
+/******************/
+
+// canvas
+var width = 1400,
+    height = 1200,
+    m = [20, 120, 20, 120]
+    ;
+
+// collapsible tree
+var w = width - m[1] - m[3],
+    h = height - m[0] - m[2],
     i = 0,
-    root;
+    root
+    ;
+    
+//force-directed-graph
+var lineWidth = 7,
+	markerWidth = 3,
+    markerHeight = 3,
+    cRadius = 10,
+	refX = cRadius + (markerWidth * 1.3) + 0.155 * cRadius, /* works well for stroke widths between 5 and 20 */
+	// ALT refX = cRadius + (markerWidth * 1.5), 
+	// ALT3 refX = cRadius + (markerWidth * 2),
+	// ALT1: refX = cRadius + markerWidth * Math.sqrt(lineWidth) ,
+	refY = - (cRadius*cRadius) / 375,  /* works well for stroke widths between 5 and 20 */
+	// ALT1: refY = -Math.sqrt(cRadius),
+	// ALT2: refY = -Math.sqrt(cRadius) * 0.8 + 20/lineWidth, /* works well for stroke width 7px */
+    drSub = cRadius + refY, /* works well for stroke widths between 5 and 20 */
+	ICONSIZE = 0 // TODO does not actually work. hack!
+	;	
+
+/*****************************************/
+/* GLOBAL VARS & ADAPTED PLUGINS         */
+/*****************************************/
 
 var tree = d3.layout.tree()
     .size([h, w]);
 
 var diagonal = d3.svg.diagonal()
     .projection(function(d) { return [d.y, d.x]; });
+    
+/******************************/
+/* BASIC PAGE BUILDING        */
+/******************************/
+ 
+ 
+//var mInfo = d3.select("body").append("div");
+      
+var svg = d3.select("body").append("svg:svg")
+       		.attr("id", "svg")
+    .attr("width", width)
+    .attr("height", height);
 
-var vis = d3.select("#body").append("svg:svg")
-    .attr("width", w + m[1] + m[3])
-    .attr("height", h + m[0] + m[2])
-  .append("svg:g")
-    .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+var vis = svg
+    .append("svg:g")
+    .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
+    ;
+    
+var labelContainerSpace = d3.select("body").append("div")
+	.attr("id", "labelContainerSpace")
+	.style("margin-top", m[0]+"px")
+	.style("margin-left", m[3]+"px")
+	.attr("width", width + "px")
+	.attr("height", height + "px");
+
+    
+//Define Markers to be used in arrow paths
+svg.avmProvideMarkerCollection();
+    
+    
+/**************************/
+/* START DATA DRIVE       */
+/**************************/
 
 d3.json("../../gen/json/tree-data.json", function(json) {
-	
 
-
-	
   root = json;
   root.x0 = h / 2;
   root.y0 = 0;
 
-  function toggleAll(d) {
-    if (d.children) {
-      d.children.forEach(toggleAll);
-      toggle(d);
-    }
-  }
-
   // Initialize the display to show a few nodes.
   //root.children.forEach(toggleAll);
-  //toggle(root.children[1]);
-  //toggle(root.children[1].children[2]);
-  //toggle(root.children[9]);
-  //toggle(root.children[9].children[0]);
+  //toggle(root.children[0]);
+  //toggle(root.children[0].children[0]);
 
   update(root);
+  
 });
 
-function update(source) {
-	
-	 var symbolFunction = d3.svg.symbol()
- 						.size(300)
- 						.type(function (d) {return d.shape_d3_name})
-						;
-						
+function update(source) {				
 						
   var duration = d3.event && d3.event.altKey ? 5000 : 500;
 
@@ -99,188 +147,145 @@ function update(source) {
       .attr("class", "node")
       .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
       .on("click", function(d) { toggle(d); update(d); })
-	  
 	  .on("mouseover", function(d) {
 	  	
+		    var thisNode = d3.select(this);
 			var nodesToFilter = vis.selectAll(".node");
 			var linksToFilter = vis.selectAll(".link");
 	  		
 			// highlight this node
-			d3.select(this).attr("class", "node highlighted");
-			
+			thisNode.highlight();
+
 			// highlight identical nodes	
-			nodesToFilter.filter(function(node) {
-			    return node.uri === d.uri;
-            })
-			.attr("class", "node highlighted identical");
-			
+			nodesToFilter.avmHighlightIdentical(d.uri);
+
+			// highlight parent and children nodes and the path
 			
 			activate(d, true);
 			activateChildren(d, true);
-			
-			// highlight parent and children nodes and the path
+
 			nodesToFilter.filter(function(node) {
 			    return node.active;
-            })
-			.attr("class", "node highlighted");
+            }).highlight();
+			
 			linksToFilter.filter(function(d) { 
 				return d.target.active;
-			 })
-			 .classed("highlighted", true)
-			 //.attr("marker-end", function(d) { return "url(#g-arrowhead-" + d.target.party + "-active)"; })
-			 ;
-			
-			
-			
-			// extend label to full label (not useful in tree layout)
-			//d3.select(this).selectAll("text").text(function(d){return d.full_label});		
+			}).highlight();
 				
 	  })
 	  .on("mouseout", function(d) {
-	  	
-			var linksToFilter = vis.selectAll(".link");
-	  	
-			//d3.select(this).attr("class", "node");
-			
-			d3.selectAll(".node").attr("class", "node");
-			
-			linksToFilter.classed("highlighted", false);
-			
+		    defaultStopHighlighting(d);
 			activate(d, false);
 			activateChildren(d, false);
-			
-			// extend label to full label (not useful in tree layout)
-			//d3.select(this).selectAll("text").text(function(d){return d.label});
-	  })
-	  
-	  ;
-	  
-	  /* // replaced by path from symbol factory below
-      var circle = nodeEnter.append("svg:circle")
-      .attr("r", 1e-6)
-      //.style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
-	  .style("fill", function(d) { return d.color_rgb_hex_combined });  */
-	 
-	 /* // shapes from shape generator
-	 	var symbol = nodeEnter.append("path")
-    //.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
-    //.attr("d", d3.svg.symbol());
-	  .attr("class", function(d) { return "node" })
-	 .attr("d", symbolFunction)
-	 .style("fill", function(d) { return d.color_rgb_hex_combined; })
-	 ;	*/
+	  });
+
+
+		// shapes as reused svg-groups
+		var symbol = nodeEnter.avmShapedWithUseSVG();
+		//var symbol = nodeEnter.avmShapedWithPath(avmDefaultSizeSymbolFunction);
+
+		// The label and a copy of the label as shadow for better readability
+		nodeEnter.avmLabeledCT().attr("class", "nodeLabelShadow");
+		nodeEnter.avmLabeledCT();
+
+		// tooltip
+		nodeEnter.avmTitled();
+
+		// Transition nodes to their new position.
+		var nodeUpdate = node.transition().duration(duration).attr("transform",
+				function(d) {
+					return "translate(" + d.y + "," + d.x + ")";
+				});
+
+		nodeUpdate.select("path").style("visibility", "visible");
+
+		nodeUpdate.selectAll("text").style("visibility", "visible");
+
+		// Transition exiting nodes to the parent's new position.
+		var nodeExit = node.exit().transition().duration(duration).attr(
+				"transform", function(d) {
+					return "translate(" + source.y + "," + source.x + ")";
+				}).remove();
+
+		nodeExit.select("path").style("visibility", "hidden");
+
+		nodeExit.selectAll("text").style("visibility", "hidden");
+
+		// Update the links…
+		var link = vis.selectAll("path.link").data(tree.links(nodes),
+				function(d) {
+					return d.target.id;
+				});
+
+		// Enter any new links at the parent's previous position.
+		var linkEnter = link.enter().insert("svg:path", "g")
+			.attr("class","link")
+			.style("stroke", function(d) {
+				return d.target.connector_color_rgb_hex_combined
+			}) // works -> get the link color from the endNode (target)
+			.style("stroke-width", function(d) {
+				return d.target.connector_width
+			})
+			.attr("d", function(d) {
+				var o = {
+					x : source.x0,
+					y : source.y0
+				};
+				return diagonal({
+					source : o,
+					target : o
+				});
+			})
+		.attr("id", function(d){
+        	return createIDForLink2(d);
+    	})
+    	.attr("marker-end", function (d) {
+    			if(d.target.connector_arrow_type == "line" || d.target.connector_arrow_type == "circle") // TODO: hack. should at least be "default". don't draw marker in this case at all
+            		return "url()";
+    			else 
+    				return "url(#" + d.target.connector_arrow_type + ")";
+            	//return "url(#" + "uml_generalization_arrow" + ")";
+        })
+        ;
+
+		linkEnter.transition().duration(duration).attr("d", diagonal);
+
+		linkEnter.append("svg:title").text(function(d) {
+			return d.target.connector_label;
+		});
+
+		// Transition links to their new position.
+		link.transition().duration(duration).attr("d", diagonal);
+
+		// Transition exiting nodes to the parent's new position.
+		link.exit().transition().duration(duration).attr("d", function(d) {
+			var o = {
+				x : source.x,
+				y : source.y
+			};
+			return diagonal({
+				source : o,
+				target : o
+			});
+		}).remove();
+
+		// Stash the old positions for transition.
+		nodes.forEach(function(d) {
+			d.x0 = d.x;
+			d.y0 = d.y;
+		});
+		
+		
+		/* label aligned at the connector path */
+		/*var path_label = vis.append("svg:g")
+	 		.selectAll(".path_label")
+			.data(tree.links(nodes)).enter().avmLabeledConnectorAligned2();*/
+		
+	}
 	
-	// shapes as reused svg-groups
-	 	var symbol = nodeEnter.append("use")
-		.attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.shape_d3_name; })
-   	  .attr("class", function(d) { return "node" })
-	 .style("fill", function(d) { return d.color_rgb_hex_combined; })
-	 ;
-
-
-	// A copy of the label as shadow for better readability
-	nodeEnter.append("svg:text")
-		.attr("class", "nodeLabelShadow")
- 		.attr("x", function(d) { return d.children || d._children ? -10 : 10; })
-     	.attr("dy", ".35em")
-		.attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
-	    .text(function(d){return d.label})
-		.style("visibility", "hidden")
-		//.style("fill-opacity", 1e-6)
-		;
-		
-		
-  var label = nodeEnter.append("svg:text")
-  	 .attr("class","nodeLabel")
-      .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
-      .attr("dy", ".35em")
-      .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
-      .text(function(d) { return d.label; })
-	  .style("visibility", "hidden")
-	  ;
-
-	  
-   nodeEnter.append("svg:title")
-	      .text(function(d) { return d.full_label; });
-
-  // Transition nodes to their new position.
-  var nodeUpdate = node.transition()
-      .duration(duration)
-      .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
-
-  nodeUpdate.select("path")
-      .style("visibility", "visible");
-	  
-  nodeUpdate.selectAll("text")
-      .style("visibility", "visible");
-
-  // Transition exiting nodes to the parent's new position.
-  var nodeExit = node.exit().transition()
-      .duration(duration)
-      .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
-      .remove();
-
-  nodeExit.select("path")
-      .style("visibility", "hidden");
-
-  nodeExit.selectAll("text")
-      .style("visibility", "hidden");
-
-  // Update the links…
-  var link = vis.selectAll("path.link")
-      .data(tree.links(nodes), function(d) { return d.target.id; });
-
-  // Enter any new links at the parent's previous position.
-  var linkEnter = link.enter().insert("svg:path", "g")
-      .attr("class", "link")
-	  .style("stroke", function(d) { return d.target.connector_color_rgb_hex_combined }) // works -> get the link color from the endNode (target)
-      .attr("d", function(d) {
-        var o = {x: source.x0, y: source.y0};
-        return diagonal({source: o, target: o});
-      });
-	  
-	linkEnter.transition()
-      .duration(duration)
-      .attr("d", diagonal);
-	  
-	linkEnter.append("svg:title")
-       .text(function(d) { return d.target.connector_label; });
-
-
-  // Transition links to their new position.
-  link.transition()
-      .duration(duration)
-      .attr("d", diagonal);
-
-  // Transition exiting nodes to the parent's new position.
-  link.exit().transition()
-      .duration(duration)
-      .attr("d", function(d) {
-        var o = {x: source.x, y: source.y};
-        return diagonal({source: o, target: o});
-      })
-      .remove();
-
-  // Stash the old positions for transition.
-  nodes.forEach(function(d) {
-    d.x0 = d.x;
-    d.y0 = d.y;
-  });
-}
-
-// Toggle children.
-function toggle(d) {
-  if (d.children) {
-    d._children = d.children;
-    d.children = null;
-  } else {
-    d.children = d._children;
-    d._children = null;
-  }
-}
-
 </script>
-	
+
+<!-- somehow MUST NOT be before the script! -->
 <svg id="svg-effects">
 	
     <filter id="blur-effect-1">
@@ -290,8 +295,15 @@ function toggle(d) {
     <filter id="blur-effect-2">
         <feGaussianBlur stdDeviation="2" />
     </filter>
-	
-</svg> 
+            <defs>
+                <marker id="markerSquare" markerWidth="7" markerHeight="7" refx="4" refy="4" orient="auto">
+                    <rect x="1" y="1" width="5" height="5" style="stroke: none; fill:#000000;"/>
+                </marker>
+                <marker id="markerArrow" markerWidth="13" markerHeight="13" refx="2" refy="7" orient="auto">
+                    <path d="M2,2 L2,13 L8,7 L2,2" style="fill: #000000;"/>
+                </marker>
+            </defs>
+</svg>
 
 </body>
 </html>

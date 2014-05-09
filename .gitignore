@@ -14,3 +14,9 @@ org.purl.rvl.tooling.codegen.rdfreactor/src/main/java/org/purl/rvl/interpreter/g
 org.purl.rvl.tooling.rvl-interpreter/avm.ttl
 
 *.prefs
+
+org.purl.rvl.tooling.d3vis/gen/json/graph-data.json
+
+org.purl.rvl.tooling.d3vis/gen/json/tree-data.json
+
+org.purl.rvl.vocabulary/gen/tempAVM.ttl

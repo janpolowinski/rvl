@@ -261,5 +261,13 @@ public class GraphicObject extends
 		return (GraphicObject ) ResourcesCache.getInstance().tryReplaceOrCache(go);
 	}
 
+	public Float getWidth() {
+		if (hasWidth()) {
+			return this.getAllWidth_as().firstValue();
+		}
+		else 
+			return null;
+	}
+
 
 }

@@ -197,7 +197,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				// get index of the endNode in the above generated Map
 				Map link = new LinkedHashMap();
 				link.put("type", "Directed");
-				link.put("arrow_type", "arrow");
+				link.put("arrow_type", connector.getShape());
 				//link.put("type", dlRel.getRDFSClassURI().toString());
 				link.put("source", goMap.get(startNode));
 				link.put("target", goMap.get(endNode));
@@ -208,6 +208,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				//link.put("color_rgb_hex", connector.getColorHex());
 				link.put("color_rgb_hex_combined", connector.getColorRGBHexCombinedWithHSLValues());
 				link.put("shape_d3_name", connector.getShape()); // TODO simplification. should use extra label GO
+				link.put("width", connector.getWidth());
 				listOfLinks.add(link);
 				LOGGER.finer("Generated JSON link for " + dlRel + " (" + startNode.getLabel() + " --> " + endNode.getLabel() +")" );
 				}

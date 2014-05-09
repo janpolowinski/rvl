@@ -2,11 +2,24 @@ body {
 	background-color: #334;
 }
 
+#svg {
+	position:absolute;
+	z-index: 1;
+}
+
+/* set to whatever the body-background-color is */
+.svgSymbol {
+	stroke: #334;
+    stroke-width: 1.5px;
+    stroke-opacity: 1;
+	fill-opacity: 1; /* settings this here works */
+}
+
 /* nodes */
 
 .node circle, .node path {
   /*fill: #fff;*/ /* warning firefox-bug?!: cannot be overridden by Firefox in SVGs, when using a symbol as use-element */
-  stroke: #ccc;
+  /*stroke: #ccc;*/ /* same problem as above, firefox still shows this settings although overridden 	*/
   stroke-width: 1.5px;
   cursor: pointer;
 }
@@ -50,7 +63,7 @@ body {
 /* general labels */
 
 .label {
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   font-size: 12px;
   text-anchor: middle;
   text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff; /* not yet supported in firefox it seems */
@@ -60,14 +73,18 @@ body {
 
 .node text { /* strange: "text" alone does not work */
   font-size: 12px;
-  font-family: Arial;
-   fill: black;
+  font-family: Arial, sans-serif;
+  fill: black;
+  cursor: pointer;
+  /*pointer-events: none;*/
 }
 
-/*
-.node text.nodeLabel {
 
-}*/
+
+text.nodeLabel, text.nodeLabelShadow {
+	font-family: Arial;
+	cursor: pointer;
+}
 
 .node text.nodeLabelShadow {
     stroke: white;
@@ -98,10 +115,9 @@ body {
   visibility: hidden;
 }
 
-/**/
 .connectorGroup .label path {
-  fill-opacity: .6;
-  transform: scale(0.5);
+  /* fill-opacity: 0.6; */ /* setting this value here is interpreted differently in webkit/firefox */
+  transform: scale(0.75); /* TODO: ignored by webkit, only firefox */
 }
 
 .connectorGroup:hover .label {
@@ -121,6 +137,7 @@ path.link {
 	fill: none;
     stroke: #ccc;
     stroke-opacity: .6;
+    /*stroke-width:34px;*/ /* for path flow diagrams */
     stroke-width:7px; /* this stroke-width (7px - 30px) fits well for the marker settings in force-directed-graph, for other sizes layout problems may occur */
 }
 
