@@ -106,8 +106,8 @@ d3.json("../../gen/json/tree-data.json", function(json) {
   root.y0 = 0;
 
   // Initialize the display to show a few nodes.
-  root.children.forEach(toggleAll);
-  toggle(root.children[0]);
+  //root.children.forEach(toggleAll);
+  //toggle(root.children[0]);
   //toggle(root.children[0].children[0]);
 
   update(root);
@@ -237,7 +237,10 @@ function update(source) {
         	return createIDForLink2(d);
     	})
     	.attr("marker-end", function (d) {
-            	return "url(#" + d.target.connector_arrow_type + ")";
+    			if(d.target.connector_arrow_type == "line" || d.target.connector_arrow_type == "circle") // TODO: hack. should at least be "default". don't draw marker in this case at all
+            		return "url()";
+    			else 
+    				return "url(#" + d.target.connector_arrow_type + ")";
             	//return "url(#" + "uml_generalization_arrow" + ")";
         })
         ;

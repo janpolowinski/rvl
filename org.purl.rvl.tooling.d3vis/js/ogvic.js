@@ -190,8 +190,10 @@
 	  /* setting the shape by a path object */ // TODO: this also sets color and class node at the moment ; seems broken
 	  d3.selection.prototype.avmProvideMarkerCollection = function() {
 
-	  return this.append("svg:defs").selectAll("marker")
-	      .data(["arrow", "uml_generalization_arrow"])
+	  var defs = this.append("svg:defs");
+	  
+	  defs.append("svg:defs").selectAll("marker")
+	      .data(["arrow", "uml_generalization_arrow", "arrow_small_triangle"])
 	      .enter().append("svg:marker")
 	      .attr("id", String)
 	      .attr("viewBox", "0 -5 10 10")
@@ -203,7 +205,13 @@
 	      .append("svg:path")
 		    .attr("markerUnits","userSpaceOnUse") /* seems to have no effect */
 	        .attr("d", "M0,-5L10,0L0,5L0,-5Z");
+	  
+	  defs.select("#arrow_small_triangle").select("path").attr("d", "M0,-3L6,0L0,3L0,-3Z");
+	  
+	  return defs;
 	};
+	
+	
 	  
 	})();
 

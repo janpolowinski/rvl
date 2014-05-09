@@ -102,7 +102,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 				// shape
 				String endNodeShapeD3Name = actualRootNode.getShape();
 				//connector color
-				String connectorColorRGBHex = actualRootNode.getColorHex();
+				//String connectorColorRGBHex = actualRootNode.getColorHex();
 				
 				Map actualRootNodeObject = new LinkedHashMap();
 				actualRootNodeObject.put("uri", actualRootNode.getRepresentedResource().toString());
@@ -112,9 +112,9 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 				actualRootNodeObject.put("color_rgb_hex_combined", actualRootNode.getColorRGBHexCombinedWithHSLValues());
 				actualRootNodeObject.put("shape_d3_name", endNodeShapeD3Name);
 				actualRootNodeObject.put("connector_label", actualRootNode.getLabel());
-				actualRootNodeObject.put("connector_arrow_type", "arrow");
-				actualRootNodeObject.put("connector_color_rgb_hex", connectorColorRGBHex);
-				actualRootNodeObject.put("connector_color_rgb_hex_combined", actualRootNode.getColorRGBHexCombinedWithHSLValues());
+			//	actualRootNodeObject.put("connector_arrow_type", connector.getShape());
+			//	actualRootNodeObject.put("connector_color_rgb_hex", connectorColorRGBHex);
+			//	actualRootNodeObject.put("connector_color_rgb_hex_combined", actualRootNode.getColorRGBHexCombinedWithHSLValues());
 				
 				List childrenListLinking = generateChildrenListFor4Linking(actualRootNode);
 				if (!childrenListLinking.isEmpty()) {
@@ -220,7 +220,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		child.put("color_rgb_hex_combined", endNode.getColorRGBHexCombinedWithHSLValues());
 		child.put("shape_d3_name", endNodeShapeD3Name);
 		child.put("connector_label", connector.getLabel());
-		child.put("connector_arrow_type", "arrow");
+		child.put("connector_arrow_type", connector.getShape());
 		child.put("connector_color_rgb_hex", connectorColorRGBHex);
 		child.put("connector_color_rgb_hex_combined", connector.getColorRGBHexCombinedWithHSLValues());
 		

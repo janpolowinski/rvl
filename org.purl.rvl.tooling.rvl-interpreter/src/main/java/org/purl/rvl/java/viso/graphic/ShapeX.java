@@ -100,6 +100,13 @@ public class ShapeX extends Shape {
 		else if (this.asURI().toString().equals("http://purl.org/viso/addon/shapes/bio/Aliphatic_Shape")) return "aliphatic";
 		else if (this.asURI().toString().equals("http://purl.org/viso/addon/shapes/bio/Aromatic_Shape")) return "aromatic";
 		else if (this.asURI().toString().equals("http://purl.org/viso/addon/shapes/bio/Hydrophil")) return "raindrop";
+		
+		// shapes used to define connectors primarily
+		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/UMLGeneralization")) return "uml_generalization_arrow";
+		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/UMLAssociation")) return "arrow";
+		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/ArrowSmall")) return "arrow_small_triangle";
+		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Line")) return "line";
+		
 		else return "circle";
 	}
 

@@ -137,7 +137,8 @@ path.link {
 	fill: none;
     stroke: #ccc;
     stroke-opacity: .6;
-    stroke-width:7px; /* this stroke-width (7px - 30px) fits well for the marker settings in force-directed-graph, for other sizes layout problems may occur */
+    /*stroke-width:34px;*/ /* for path flow diagrams */
+    stroke-width:34px; /* this stroke-width (7px - 30px) fits well for the marker settings in force-directed-graph, for other sizes layout problems may occur */
 }
 
 path.link.tree {

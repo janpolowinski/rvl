@@ -197,7 +197,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				// get index of the endNode in the above generated Map
 				Map link = new LinkedHashMap();
 				link.put("type", "Directed");
-				link.put("arrow_type", "arrow");
+				link.put("arrow_type", connector.getShape());
 				//link.put("type", dlRel.getRDFSClassURI().toString());
 				link.put("source", goMap.get(startNode));
 				link.put("target", goMap.get(endNode));
