@@ -90,7 +90,8 @@ public class ShapeX extends Shape {
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Minus")) return "minus";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Plus")) return "plus";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Cross")) return "plus";
-		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Rhomb")) return "diamond";
+		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Rhomb")) return "rhomb";
+		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Diamond")) return "diamond";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/FlowArrow")) return "flow-arrow";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Heart")) return "heart";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Dislike")) return "dislike";

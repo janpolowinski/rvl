@@ -17,6 +17,7 @@ public class UseCaseCIT_5 extends TestOGVICProcess {
 		project.registerDataFile(ExampleData.CITO);
 		
 		project.setD3Generator(new D3GeneratorSimpleJSON());
+		//project.setD3Generator(new D3GeneratorTreeJSON());
 		
 		loadProjectAndRunProcess();
 		

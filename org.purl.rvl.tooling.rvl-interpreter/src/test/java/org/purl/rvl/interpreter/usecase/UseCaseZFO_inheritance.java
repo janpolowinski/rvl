@@ -8,18 +8,18 @@ import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
 import org.purl.rvl.tooling.rvl2avm.SimpleRVLInterpreter;
 
-public class UseCaseZFO extends TestOGVICProcess {
+public class UseCaseZFO_inheritance extends TestOGVICProcess {
 	
 	@Test
 	public void testOGVICProcess() {
 
-		project.registerMappingFile(ExampleMapping.ZFO_Y);
+		project.registerMappingFile(ExampleMapping.ZFO_inheritance);
 		project.registerDataFile(ExampleData.ZFO_SUBSET);
 		//project.registerDataFile(ExampleData.ZFO);
 		
 		//project.setRvlInterpreter(new SimpleRVLInterpreter());
+		//project.setD3Generator(new D3GeneratorSimpleJSON()); // requires better filtering!
 		project.setD3Generator(new D3GeneratorTreeJSON());
-		//project.setD3Generator(new D3GeneratorSimpleJSON());
 		
 		loadProjectAndRunProcess();
 	}
