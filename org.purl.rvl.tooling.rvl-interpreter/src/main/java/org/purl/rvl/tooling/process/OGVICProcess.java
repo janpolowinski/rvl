@@ -42,7 +42,7 @@ public class OGVICProcess {
 	
 	// LOCAL FILES AND FOLDER SETTINGS
 	public static String USE_CASE_FOLDER = ""; // now set in properties-file
-	public static final String GEN_MODEL_FILE_FOLDER = "../org.purl.rvl.vocabulary/gen";
+	public static final String GEN_MODEL_FILE_FOLDER = "../org.purl.rvl.tooling.rvl-interpreter/gen";
 	public static final String GEN_MODEL_FILE_FOLDER_D3_JSON = "../org.purl.rvl.tooling.d3vis/gen/json";
 	protected static final String TMP_RVL_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempRvl.ttl";
 	public static final String TMP_AVM_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempAVM.ttl";
