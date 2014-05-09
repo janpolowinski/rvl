@@ -1,3 +1,5 @@
+@prefix bibo:    <http://purl.org/ontology/bibo/> .
+@prefix bixt:    <http://purl.org/viso/bibo-extension/> .
 @prefix cc-schema:  <http://creativecommons.org/schema.rdf#> .
 @prefix dc:      <http://purl.org/dc/elements/1.1/> .
 @prefix dct:     <http://purl.org/dc/terms/> .
@@ -23,3 +25,9 @@ viso-graphic:linking_connector
                 owl:unionOf (viso-graphic:Linking_Undirected_Relation viso-graphic:Linking_Directed_Relation)
               ] ;
     .
+
+    
+    <http://purl.org/viso/anno/Quote_Engelhardt2002_11>
+      rdfs:comment "Engelhardt discusses various terms (Icon, Symbol, Sign) of many authors (Peirce, Anheim, ..) in detail in the context of metaphoric correspondence. He also offers a tabular comparison."^^xsd:string ;
+      bibo:pageEnd "117"^^xsd:string ;
+      bibo:pageStart "115"^^xsd:string .
