@@ -23,8 +23,10 @@ public class ExampleMapping {
 	public static final String AA = OGVICProcess.USE_CASE_FOLDER + "/Bio/AminoAcid/MappingExample/amino-acids-rvl-mapping-example.ttl";
 	public static final String AA_3 = OGVICProcess.USE_CASE_FOLDER + "/Bio/AminoAcid/MappingExample/AA_3.ttl";
 	public static final String AA_4 = OGVICProcess.USE_CASE_FOLDER + "/Bio/AminoAcid/MappingExample/AA_4.ttl";
-	
+	public static final String CIT_1 = OGVICProcess.USE_CASE_FOLDER + "/Publication/SPAR/MappingExample/CIT_1.ttl";
+	public static final String CIT_5 = OGVICProcess.USE_CASE_FOLDER + "/Publication/SPAR/MappingExample/CIT_5.ttl";
 	public static final String SLUB = OGVICProcess.USE_CASE_FOLDER + "/Publication/SLUB/slub-data-mapping-example.ttl";
+	
 	public static final String AVM_EXAMPLE_BOOTSTRAP = "../org.purl.rvl.vocabulary/avm-example-mappings-bootstrap.ttl";
 
 }
