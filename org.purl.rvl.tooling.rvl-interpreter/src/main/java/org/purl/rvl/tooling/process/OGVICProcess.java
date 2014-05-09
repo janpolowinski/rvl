@@ -33,7 +33,7 @@ public class OGVICProcess {
 	// SETTINGS
 	public static int MAX_GRAPHIC_RELATIONS_PER_MAPPING = 200;
 	public static boolean REGENERATE_AVM = true;
-	public static boolean WRITE_AVM = false;
+	public static boolean WRITE_AVM = true;
 	public static boolean WRITE_JSON = true;
 	
 	// LOCAL RDF FILES
@@ -252,7 +252,6 @@ public class OGVICProcess {
 	public void writeAVMToFile() {
 	
 		try {
-			
 			String fileName = OGVICProcess.TMP_AVM_MODEL_FILE_NAME;
 			FileWriter writer = new FileWriter(fileName);
 			
@@ -271,6 +270,7 @@ public class OGVICProcess {
 		interpreteRVL2AVM();	
 		transformAVMToD3();
 		populateD3HTMLFolder();
+		if (isWriteAVM()) writeAVMToFile();
 	}
 
 	private void interpreteRVL2AVM() {
@@ -360,6 +360,10 @@ public class OGVICProcess {
 	
 	public Model getModelAVM() {
 		return this.modelAVM;
+	}
+
+	private boolean isWriteAVM() {
+		return this.writeAVM;
 	}
 
 	/**

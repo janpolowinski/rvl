@@ -18,3 +18,5 @@ org.purl.rvl.tooling.rvl-interpreter/avm.ttl
 org.purl.rvl.tooling.d3vis/gen/json/graph-data.json
 
 org.purl.rvl.tooling.d3vis/gen/json/tree-data.json
+
+org.purl.rvl.vocabulary/gen/tempAVM.ttl
