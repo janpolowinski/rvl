@@ -128,7 +128,7 @@ public class RVLUtils {
 			Sparqlable modelOrModelSet,
 			URI fromGraph,
 			URI spURI,
-			Resource classSelector
+			String selectorSPARQLString
 			) {
 		
 			Set<Statement> stmtSet = new HashSet<Statement>();
@@ -140,11 +140,7 @@ public class RVLUtils {
 				selectFromString = " SELECT DISTINCT ?s ?p ?o  FROM NAMED " + fromGraph.toSPARQL(); // note: without GRAPH phrase below, only FROM works, not FROM NAMED
 				srcString = fromGraph.toSPARQL();
 			}*/
-			
-			// filter subjects based on class selector
-			String subjectFilterString = "";
-			if (null!=classSelector) subjectFilterString = "?s " + RDF.type.toSPARQL() +  classSelector.toSPARQL() + "." ;
-		
+
 		try {
 	
 			String query = "" + 
@@ -153,7 +149,7 @@ public class RVLUtils {
 					" WHERE { " +
 					" GRAPH " + fromGraph.toSPARQL() + " { " +
 					" ?s ?p ?o . " + 
-					" " + subjectFilterString + " " + 
+					" " + selectorSPARQLString + " " + // this string is expected to be a set of " s? <p> <o> . " triples
 					" ?p " + Property.SUBPROPERTYOF.toSPARQL() + "* " + spURI.toSPARQL() + " " +
 					" FILTER NOT EXISTS { " + 
 							" ?s ?pp ?o . " + 
@@ -448,6 +444,16 @@ public class RVLUtils {
 	
 	
 	
+	/** NOTE: Hack: Reflexive edges are ignored at filtering
+	 * @param modelOrModelSet
+	 * @param fromGraph
+	 * @param pm
+	 * @param onlyMostSpecific
+	 * @param subject
+	 * @param object
+	 * @return
+	 * @throws InsufficientMappingSpecificationException
+	 */
 	public static Set<Statement> findRelationsOnInstanceOrClassLevel(
 			Sparqlable modelOrModelSet,
 			URI fromGraph,
@@ -461,22 +467,55 @@ public class RVLUtils {
 			URI spURI = pm.getSourceProperty().asURI();
 			
 			org.ontoware.rdf2go.model.node.Resource classSelector = null;
+			String selectorSPARQLString = "";
 			
 			if(pm.hasSubjectfilter()) {
 				
-				DatatypeLiteral selector = pm.getSubjectFilterSPARQL();
-				String selectorString = selector.getValue();
-				 classSelector = new URIImpl(selectorString).asResource();
+				Literal selector = pm.getSubjectFilter();
+				URI selectorType = null;
 				
-				LOGGER.info("Applying subject filter. Only resources with the type " + classSelector + " will be affected by the mapping (and thus shown, which is not the default behavior --> TODO!)");
-				// TODO: at the moment the selector will be interpreted as a constraint on the type of resources (a class name is expected)
+				// get selector type if available
+				try {
+					DatatypeLiteral typedSelector = selector.asDatatypeLiteral();
+					selectorType = typedSelector.getDatatype();
+				} catch (Exception e){}
+				 
+				 String selectorValue = selector.getValue();
+				 String filterSubjectVarString = "?s";
+				 
+				 LOGGER.info("Processing selector type " + selectorType);
+								
+				 if(null!=selectorType && selectorType.toString().equals("http://purl.org/rvl/fslSelector")) {
+					
+					 // RVLs basic "fsl selector"
+					 
+					 String[] fslParts = selectorValue.split("::");
+					 URI filterPredicate = new URIImpl(fslParts[0]).asURI();
+					 URI filterObject = new URIImpl(fslParts[1]).asURI();
+
+					 selectorSPARQLString = filterSubjectVarString + " " + filterPredicate.toSPARQL() + " " + filterObject.toSPARQL() + " . " +
+							 " FILTER( ?s !=" + filterObject.toSPARQL() + ") "; // HACK: we exclude reflexive occurences for now to avoid showing classes being the subclass of itself ...
+					 
+				 } 
+				 /*if(selectorType.toString().equals("http://purl.org/rvl/sparqlSelector")) {
+					 // RVLs basic "sparql selector"
+				 } */
+				 else {
+					 // class selector
+					 // at the moment the selector will be interpreted as a constraint on the type of resources (a class name is expected)
+					 
+					 selectorSPARQLString = filterSubjectVarString + " " + RDF.type.toSPARQL() + " " + new URIImpl(selectorValue).asResource().toSPARQL() + " . " ;
+				 }
+				
+				LOGGER.info("Applying subject filter. Only resources matching " + selectorSPARQLString + " will be affected by the mapping (and thus shown, which is not the default behavior --> TODO!)");
+				
 				
 			}
 			
 			if (onlyMostSpecific) {
 				
 				 // get only the most specific statements and exclude those using a super-property instead
-				statementSet.addAll(RVLUtils.findStatementsPreferingThoseUsingASubProperty(modelOrModelSet, fromGraph, spURI, classSelector)); 
+				statementSet.addAll(RVLUtils.findStatementsPreferingThoseUsingASubProperty(modelOrModelSet, fromGraph, spURI, selectorSPARQLString)); 
 				
 			} else {
 				
