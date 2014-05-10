@@ -94,6 +94,7 @@ static final String NL =  System.getProperty("line.separator");
 	}
 	
 	/**
+	 * TODO: not in use at the moment. DELETE? Merge?
 	 * Get the resources affected by this property mapping, i.e.,
 	 * all resources used as a subject in statements with the source property 
 	 * defined in this mapping.

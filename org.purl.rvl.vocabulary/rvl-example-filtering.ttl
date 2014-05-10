@@ -17,7 +17,7 @@
 :SubClassOf_to_Linking_Directed
 	  rvl:disabled "true";
       rdf:type rvl:PropertyMapping ;
-      #rvl:subjectFilter "http://www.w3.org/2002/07/owl#Class"^^rvl:sparqlSelector;
+      #rvl:subjectFilter "http://www.w3.org/2002/07/owl#Class"^^rvl:sparqlSelector; # filtering to resources being a subClassOf this is currently not possible
       rvl:subjectFilter "http://purl.org/rvl/example-data/Person"^^rvl:sparqlSelector; # seems to have no effect!
       rvl:sourceProperty rdfs:subClassOf ;
       rvl:targetObjToObjRelation vg:Linking_Directed_Relation ;
@@ -28,8 +28,7 @@
 :Type_to_Linking_Directed
 	  rvl:disabled "false";
       rdf:type rvl:PropertyMapping ;
-      #rvl:subjectFilter "http://www.w3.org/2002/07/owl#Class"^^rvl:sparqlSelector;
-      rvl:subjectFilter "http://purl.org/rvl/example-data/Person"^^rvl:sparqlSelector; # seems to have no effect!
+      rvl:subjectFilter "http://purl.org/rvl/example-data/Person"^^rvl:sparqlSelector;
       rvl:sourceProperty rdf:type ;
       rvl:targetObjToObjRelation vg:Linking_Directed_Relation ;
     . 

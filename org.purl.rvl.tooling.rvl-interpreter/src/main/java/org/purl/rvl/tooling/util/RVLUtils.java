@@ -27,6 +27,7 @@ import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.model.node.impl.DatatypeLiteralImpl;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
+import org.ontoware.rdf2go.vocabulary.RDF;
 import org.ontoware.rdfreactor.runtime.ReactorResult;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
@@ -126,7 +127,8 @@ public class RVLUtils {
 	public static Set<Statement> findStatementsPreferingThoseUsingASubProperty(
 			Sparqlable modelOrModelSet,
 			URI fromGraph,
-			URI spURI
+			URI spURI,
+			Resource classSelector
 			) {
 		
 			Set<Statement> stmtSet = new HashSet<Statement>();
@@ -138,6 +140,10 @@ public class RVLUtils {
 				selectFromString = " SELECT DISTINCT ?s ?p ?o  FROM NAMED " + fromGraph.toSPARQL(); // note: without GRAPH phrase below, only FROM works, not FROM NAMED
 				srcString = fromGraph.toSPARQL();
 			}*/
+			
+			// filter subjects based on class selector
+			String subjectFilterString = "";
+			if (null!=classSelector) subjectFilterString = "?s " + RDF.type.toSPARQL() +  classSelector.toSPARQL() + "." ;
 		
 		try {
 	
@@ -147,6 +153,7 @@ public class RVLUtils {
 					" WHERE { " +
 					" GRAPH " + fromGraph.toSPARQL() + " { " +
 					" ?s ?p ?o . " + 
+					" " + subjectFilterString + " " + 
 					" ?p " + Property.SUBPROPERTYOF.toSPARQL() + "* " + spURI.toSPARQL() + " " +
 					" FILTER NOT EXISTS { " + 
 							" ?s ?pp ?o . " + 
@@ -453,15 +460,15 @@ public class RVLUtils {
 		
 			URI spURI = pm.getSourceProperty().asURI();
 			
-			org.ontoware.rdf2go.model.node.Resource selectorClass = null;
+			org.ontoware.rdf2go.model.node.Resource classSelector = null;
 			
 			if(pm.hasSubjectfilter()) {
 				
 				DatatypeLiteral selector = pm.getSubjectFilterSPARQL();
 				String selectorString = selector.getValue();
-				 selectorClass = new URIImpl(selectorString).asResource();
+				 classSelector = new URIImpl(selectorString).asResource();
 				
-				LOGGER.info("Applying subject filter. Only resources with the type " + selectorClass + " will be affected by the mapping (and thus shown, which is not the default behavior --> TODO!)");
+				LOGGER.info("Applying subject filter. Only resources with the type " + classSelector + " will be affected by the mapping (and thus shown, which is not the default behavior --> TODO!)");
 				// TODO: at the moment the selector will be interpreted as a constraint on the type of resources (a class name is expected)
 				
 			}
@@ -469,7 +476,7 @@ public class RVLUtils {
 			if (onlyMostSpecific) {
 				
 				 // get only the most specific statements and exclude those using a super-property instead
-				statementSet.addAll(RVLUtils.findStatementsPreferingThoseUsingASubProperty(modelOrModelSet, fromGraph, spURI)); 
+				statementSet.addAll(RVLUtils.findStatementsPreferingThoseUsingASubProperty(modelOrModelSet, fromGraph, spURI, classSelector)); 
 				
 			} else {
 				
@@ -499,7 +506,7 @@ public class RVLUtils {
 					if (
 						//statement.getSubject().toString().startsWith(OGVICProcess.getInstance().getUriStart())
 						//&& 
-						(null==selectorClass || RVLUtils.hasType(dataModel, statement.getSubject(), selectorClass ))
+						(null==classSelector || RVLUtils.hasType(dataModel, statement.getSubject(), classSelector ))
 						) {
 						statementSet.add(statement);
 						LOGGER.finest("added Statement (matching subfilter): " + statement.toString());
