@@ -1,6 +1,7 @@
 package org.purl.rvl.interpreter.usecase;
 
 import org.junit.Test;
+import org.ontoware.rdf2go.Reasoning;
 import org.purl.rvl.interpreter.test.TestOGVICProcess;
 import org.purl.rvl.tooling.avm.D3GeneratorSimpleJSON;
 import org.purl.rvl.tooling.avm.D3GeneratorTreeJSON;

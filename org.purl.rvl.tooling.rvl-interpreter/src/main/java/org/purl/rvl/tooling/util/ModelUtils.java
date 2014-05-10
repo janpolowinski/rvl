@@ -49,8 +49,6 @@ public class ModelUtils {
 				model.readFrom(new FileReader(file),
 						Syntax.RdfXml);
 			}
-		
-			LOGGER.info("Reading file into (some) model: " + file.getPath());
 			
 		} catch (FileNotFoundException e) {
 			LOGGER.info("File could not be read into the model, since it wasn't found: " +  file.getPath());

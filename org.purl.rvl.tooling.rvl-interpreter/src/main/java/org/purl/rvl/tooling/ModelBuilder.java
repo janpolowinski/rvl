@@ -105,7 +105,9 @@ public class ModelBuilder {
 		// extra model for VISO
 		modelVISO = RDF2Go.getModelFactory().createModel(Reasoning.none); // no reasoning seems to be OK here
 		modelVISO.open();
-		ModelUtils.readFromAnySyntax(modelVISO,OGVICProcess.VISO_LOCAL_REL);
+		String visoFileName = OGVICProcess.VISO_LOCAL_REL;
+		ModelUtils.readFromAnySyntax(modelVISO,visoFileName);
+		LOGGER.info("Read VISO-graphic into VISO model: " + visoFileName);
 	
 		modelSet.addModel(modelVISO, OGVICProcess.GRAPH_VISO);
 	}
@@ -114,7 +116,9 @@ public class ModelBuilder {
 		// extra model for RVL (schema)
 		modelRVLSchema = RDF2Go.getModelFactory().createModel(Reasoning.none); // no reasoning seems to be OK here
 		modelRVLSchema.open();
-		ModelUtils.readFromAnySyntax(modelRVLSchema,OGVICProcess.RVL_LOCAL_REL);
+		String rvlFileName = OGVICProcess.RVL_LOCAL_REL;
+		ModelUtils.readFromAnySyntax(modelRVLSchema,rvlFileName);
+		LOGGER.info("Read RVL schmema into RVL schema model: " + rvlFileName);
 		
 		modelSet.addModel(modelRVLSchema, OGVICProcess.GRAPH_RVL_SCHEMA);
 	}
@@ -130,8 +134,7 @@ public class ModelBuilder {
 		if (null != mappingFileRegistry) {
 			for (Iterator<File> iterator = mappingFileRegistry.getFiles().iterator(); iterator.hasNext();) {
 				File file = (File) iterator.next();
-				LOGGER.finer("Found registered mapping file: " + file.getAbsolutePath().toString());
-				//readFromAnySyntax(model,file);
+				LOGGER.info("Reading file into mappings model: " + file.getAbsolutePath());
 				ModelUtils.readFromAnySyntax(modelMappings,file);
 			}
 		}
@@ -155,27 +158,46 @@ public class ModelBuilder {
 
 	
 	
+	/**
+	 * @param dataFileRegistry
+	 * @param reasoning - Reasoning used while building the data model. Note: the final data model will still have reasoning off!
+	 */
 	public void initDataModel(FileRegistry dataFileRegistry, Reasoning reasoning)  {
 		
+		// clean up
 		modelSet.removeModel(OGVICProcess.GRAPH_DATA);
 		
-		// extra model for data
-		modelData = RDF2Go.getModelFactory().createModel(reasoning); // no reasoning seems to be OK here?? -> no colors of nodes are missing in ro-instance uss case
-		modelData.open();
+		// temp model for data to apply reasoning if desired
+		Model reasoningDataModel = RDF2Go.getModelFactory().createModel(reasoning);
+		reasoningDataModel.open();
+		//ModelUtils.printModelInfo("model data no reasoning", reasoningDataModel, true);
 
 		if (null != dataFileRegistry) {
 			for (Iterator<File> iterator = dataFileRegistry.getFiles().iterator(); iterator.hasNext();) {
 				File file = (File) iterator.next();
-				LOGGER.finer("Found registered data file: " + file.getAbsolutePath().toString());
-				//readFromAnySyntax(model,file);
-				ModelUtils.readFromAnySyntax(modelData,file);
+				LOGGER.info("Reading file into temp data model (Reasoning " + reasoning + " ): " + file.getAbsolutePath());
+				ModelUtils.readFromAnySyntax(reasoningDataModel,file);
 			}
 		}
+		
+		// helper model with RDFS-Triples only
+		Model rdfsTriplesModel = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		rdfsTriplesModel.open();
+		//ModelUtils.printModelInfo("rdfs triples model", rdfsTriplesModel, true);
 
+		// cleaned data model without RDFS triples (they are not to be visualized!)
+		// please note: the final model will have reasoning off!
+		Model cleanedDataModel = RDF2Go.getModelFactory().createModel(Reasoning.none);
+		cleanedDataModel.open();
+		cleanedDataModel.addModel(reasoningDataModel);
+		cleanedDataModel.removeAll(rdfsTriplesModel.iterator()); 
+		//ModelUtils.printModelInfo("model data cleaned", cleanedDataModel, true);
+
+		modelData = cleanedDataModel; // TODO: still needed?
+		
 		modelSet.addModel(modelData, OGVICProcess.GRAPH_DATA);
 				
 		// cache inferred files for speeding up future starts
-		
 		// since multiple files may be used to infer the models, 
 		// a new file name per use case / project is needed
 	}
@@ -213,6 +235,7 @@ public class ModelBuilder {
 	
 		try {
 			ModelUtils.readFromAnySyntax(modelAVM,fileName);
+			LOGGER.info("Read AVM from file: " + fileName);
 		} catch (Exception e) {
 			LOGGER.severe("Problem reading the tmp AVM model from file: " + e);
 		}
