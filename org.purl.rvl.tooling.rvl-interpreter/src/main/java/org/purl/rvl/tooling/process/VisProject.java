@@ -8,8 +8,8 @@ import org.purl.rvl.tooling.avm.D3GeneratorTreeJSON;
 
 public class VisProject {
 	
-	private final  FileRegistry dataFileRegistry = new FileRegistry(); // DATA
-	private final  FileRegistry mappingFileRegistry = new FileRegistry(); // Mapping files (each interpreted as a mapping set)
+	private final  FileRegistry dataFileRegistry = new FileRegistry("data files"); // DATA
+	private final  FileRegistry mappingFileRegistry = new FileRegistry("mapping files"); // Mapping files (each interpreted as a mapping set)
 	private D3GeneratorBase d3Generator;
 	private Reasoning reasoningDataModel = Reasoning.rdfs;
 	private String name;

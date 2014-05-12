@@ -67,9 +67,9 @@ public class OGVICProcess {
 	protected D3GeneratorBase d3Generator;
 	protected RVLInterpreterBase rvlInterpreter;
 	
-	private final  FileRegistry ontologyFileRegistry = new FileRegistry(); // RVL, VISO ,...
-	private final  FileRegistry dataFileRegistry = new FileRegistry(); // DATA
-	private final  FileRegistry mappingFileRegistry = new FileRegistry(); // Mapping files (each interpreted as a mapping set)
+	private final  FileRegistry ontologyFileRegistry = new FileRegistry("ontology files"); // RVL, VISO ,...
+	private final  FileRegistry dataFileRegistry = new FileRegistry("data files"); // DATA
+	private final  FileRegistry mappingFileRegistry = new FileRegistry("mapping files"); // Mapping files (each interpreted as a mapping set)
 	
 	private boolean writeAVM = WRITE_AVM;
 	private Reasoning reasoningDataModel = Reasoning.rdfs;

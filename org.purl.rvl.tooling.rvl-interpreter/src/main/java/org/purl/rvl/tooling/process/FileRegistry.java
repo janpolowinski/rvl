@@ -10,6 +10,16 @@ import org.apache.commons.io.FilenameUtils;
 
 public class FileRegistry {
 	
+	private String name = "";
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	private final static Logger LOGGER = Logger.getLogger(FileRegistry.class.getName()); 
 	
 	Set<File> registeredFiles;
@@ -23,11 +33,11 @@ public class FileRegistry {
 		File file = new File(fileName);
 		if (file.exists()) {
 
-			LOGGER.finer("Adding file to the registry: " + fileName);
+			LOGGER.finer("Adding file to the " + name + " registry: " + fileName);
 			addFile(file);
 			
 		} else {
-			LOGGER.severe("File not found: " + fileName);
+			LOGGER.severe("File not found (" + name + " registry) : " + fileName);
 		}
 	}
 	
@@ -38,9 +48,10 @@ public class FileRegistry {
 	/**
 	 * @param registeredFiles
 	 */
-	public FileRegistry() {
+	public FileRegistry(String name) {
 		super();
 		this.registeredFiles = new HashSet<File>();
+		this.name = name;
 	}
 
 }
