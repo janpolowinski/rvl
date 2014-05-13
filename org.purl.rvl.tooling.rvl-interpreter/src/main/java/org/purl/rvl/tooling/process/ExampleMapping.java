@@ -17,6 +17,7 @@ public class ExampleMapping {
 	public static final String PO_9 = OGVICProcess.USE_CASE_FOLDER + "/Bio/PO/MappingExample/PO_9.ttl";
 	public static final String RVL_EXAMPLE_OLD = "../org.purl.rvl.vocabulary/rvl-example-mappings-old.ttl";
 	public static final String RVL_EXAMPLE = "../org.purl.rvl.vocabulary/rvl-example-mappings.ttl";
+	public static final String RVL_EXAMPLE_FILTERING = "../org.purl.rvl.vocabulary/rvl-example-filtering.ttl";
 	public static final String ZFO = OGVICProcess.USE_CASE_FOLDER + "/Bio/Zebrafish/MappingExample/zfa-rvl-mapping-example.n3";
 	public static final String ZFO_X = OGVICProcess.USE_CASE_FOLDER + "/Bio/Zebrafish/MappingExample/ZFO-X.n3";
 	public static final String ZFO_Y = OGVICProcess.USE_CASE_FOLDER + "/Bio/Zebrafish/MappingExample/ZFO-Y.n3";

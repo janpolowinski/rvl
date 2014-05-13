@@ -149,9 +149,9 @@
     		;
 			
 			/* label aligned at the connector path */
-			var path_label = vis.append("svg:g")
+			/*var path_label = vis.append("svg:g")
 		 		.selectAll(".path_label")
-				.data(force.links()).enter().avmLabeledConnectorAligned();
+				.data(force.links()).enter().avmLabeledConnectorAligned();*/
 					
 			/* alternative : simple labeling of connectors */	
         	var connectorLabelGroup = connectorGroup.append("svg:g")
@@ -159,7 +159,7 @@
         		.attr("class", "label");
         
 			// shapes as reused svg-groups
-			var connectorLabelSymbol = connectorLabelGroup.avmShapedWithUseSVGPure();
+			//var connectorLabelSymbol = connectorLabelGroup.avmShapedWithUseSVGPure();
 				
 			// broken? shapes as paths
 			// var connectorLabelSymbol = connectorLabelGroup.avmShapedWithPath();
@@ -265,8 +265,9 @@
         	//var symbol = nodeEnter.avmShapedWithPath(localSymbolFunction);
 
 			 /* complex labeling */
-			        	
-			 var nodeShapeSize = Math.sqrt(1500); /* TODO area set in symbol functions */ 
+			 
+			 /*	
+			 var nodeShapeSize = Math.sqrt(1500);  // TODO area set in symbol functions 
 			 var labelShapeSize = nodeShapeSize/2;
 			 
 			 var labelContainerContainer = d3.select("#labelContainerSpace")
@@ -324,8 +325,8 @@
 
 			// HTML label  -> TODO only use this when label attachedBy containment (position = centerCenter)
 			var labelContainer2 = labelContainerContainer.avmLabeledHTML(nodeShapeSize);
-
-			        			
+			
+			*/		
         			
         	/* simple node labeling and tooltips */
         	
@@ -368,13 +369,14 @@
 					//return calculateTranslationToLineCenter(d);
 				});
         
+				/*
 		        labelContainerContainer
 				.style("top", function(d){
 					return d.y - nodeShapeSize/2 + "px";
 				})
 				.style("left", function(d){
 					return d.x -nodeShapeSize/2 + "px";
-				});
+				});*/
 		        
 				/* position the nodes */
 		        nodeEnter.attr("transform", function (d) {

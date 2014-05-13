@@ -94,12 +94,13 @@ static final String NL =  System.getProperty("line.separator");
 	}
 	
 	/**
+	 * TODO: not in use at the moment. DELETE? Merge?
 	 * Get the resources affected by this property mapping, i.e.,
 	 * all resources used as a subject in statements with the source property 
 	 * defined in this mapping.
 	 * @return
 	 */
-	public Set<Resource> getAffectedResources() throws InsufficientMappingSpecificationException {
+	/*public Set<Resource> getAffectedResources() throws InsufficientMappingSpecificationException {
 		
 		Set<Statement> statementSet = new HashSet<Statement>();
 		Set<Resource> subjectSet = new HashSet<Resource>();
@@ -198,7 +199,7 @@ static final String NL =  System.getProperty("line.separator");
 		}
 	
 		return subjectSet;
-	}
+	} */
 
 	public boolean isDisabled() {
 		if (this.hasDisabled()) {
@@ -221,9 +222,9 @@ static final String NL =  System.getProperty("line.separator");
 	}
 	
 	
-	public DatatypeLiteral getSubjectFilterSPARQL(){
-		if (hasSubjectfilter()) { // TODO also FSL possible ; we get the selector as a datatypeliteral, since getting the sparqlselector caused casting problems
-			return getAllSubjectfilter_asNode_().firstValue().asDatatypeLiteral();
+	public Literal getSubjectFilter(){
+		if (hasSubjectfilter()) { // TODO also FSL possible ; we get the selector as a literal, since getting the sparqlselector caused casting problems
+			return getAllSubjectfilter_asNode_().firstValue().asLiteral();
 		} else return null;
 	}
 
