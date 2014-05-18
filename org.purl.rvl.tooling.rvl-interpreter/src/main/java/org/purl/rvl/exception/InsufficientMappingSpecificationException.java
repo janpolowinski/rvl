@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.purl.rvl.java.exception;
+package org.purl.rvl.exception;
 
 /**
  * @author Jan Polowinski

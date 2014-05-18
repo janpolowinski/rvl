@@ -11,46 +11,50 @@ import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
-import org.purl.rvl.java.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
 import org.purl.rvl.java.gen.rvl.Sub_mappingrelation;
-import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.RVLUtils;
 
-public class PropertyToGO2ORMapping extends
+public class PropertyToGO2ORMappingX extends
 		Property_to_Graphic_Object_to_Object_RelationMapping implements MappingIF {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	static final String NL =  System.getProperty("line.separator");
 	
-	private final static Logger LOGGER = Logger.getLogger(PropertyToGO2ORMapping.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(PropertyToGO2ORMappingX.class.getName());
 
 	private Set<SubMappingRelationX> subMappings; 
 	
-	public PropertyToGO2ORMapping(Model model, URI classURI,
+	public PropertyToGO2ORMappingX(Model model, URI classURI,
 			Resource instanceIdentifier, boolean write) {
 		super(model, classURI, instanceIdentifier, write);
 		// TODO Auto-generated constructor stub
 	}
 
-	public PropertyToGO2ORMapping(Model model, Resource instanceIdentifier,
+	public PropertyToGO2ORMappingX(Model model, Resource instanceIdentifier,
 			boolean write) {
 		super(model, instanceIdentifier, write);
 		// TODO Auto-generated constructor stub
 	}
 
-	public PropertyToGO2ORMapping(Model model, String uriString, boolean write)
+	public PropertyToGO2ORMappingX(Model model, String uriString, boolean write)
 			throws ModelRuntimeException {
 		super(model, uriString, write);
 		// TODO Auto-generated constructor stub
 	}
 
-	public PropertyToGO2ORMapping(Model model, BlankNode bnode, boolean write) {
+	public PropertyToGO2ORMappingX(Model model, BlankNode bnode, boolean write) {
 		super(model, bnode, write);
 		// TODO Auto-generated constructor stub
 	}
 
-	public PropertyToGO2ORMapping(Model model, boolean write) {
+	public PropertyToGO2ORMappingX(Model model, boolean write) {
 		super(model, write);
 		// TODO Auto-generated constructor stub
 	}
@@ -59,8 +63,8 @@ public class PropertyToGO2ORMapping extends
 		
 		String s = "";
 		
-		// try to get the string description from the (manual) PropertyMapping class, which is not in the super-class hierarchy
-		PropertyMapping pm = (PropertyMapping) this.castTo(PropertyMapping.class);
+		// try to get the string description from the (manual) PropertyMappingX class, which is not in the super-class hierarchy
+		PropertyMappingX pm = (PropertyMappingX) this.castTo(PropertyMappingX.class);
 		s += pm.toStringDetailed();
 		
 		// targetAttribute is specific to P2GAM
@@ -82,7 +86,7 @@ public class PropertyToGO2ORMapping extends
 				s += "          ... to mapping: " + mapping + NL ; // wrong return type and wrong methode name, but seems to work
 				s += "              ... Sub-Mapping-Details: " + NL;
 				s += NL;
-				s += RVLUtils.mappingToStringAsSpecificAsPossible((Mapping)mapping.castTo(Mapping.class)) + NL ;
+				s += RVLUtils.mappingToStringAsSpecificAsPossible((MappingX)mapping.castTo(MappingX.class)) + NL ;
 			}
 	
 		}
@@ -104,7 +108,7 @@ public class PropertyToGO2ORMapping extends
 	}
 	
 	public Property getSourceProperty() throws InsufficientMappingSpecificationException {
-		return ((PropertyMapping) this.castTo(PropertyMapping.class)).getSourceProperty();
+		return ((PropertyMappingX) this.castTo(PropertyMappingX.class)).getSourceProperty();
 	}
 
 	public GraphicObjectToObjectRelation getTargetGraphicRelation() throws InsufficientMappingSpecificationException {

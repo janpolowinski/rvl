@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.purl.rvl.java.viso.graphic;
 
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
@@ -11,10 +8,15 @@ import org.ontoware.rdf2go.model.node.URI;
 import org.purl.rvl.java.gen.viso.graphic.Shape;
 
 /**
- * @author Jan
+ * @author Jan Polowinski
  *
  */
 public class ShapeX extends Shape {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2635892870816043355L;
 
 	/**
 	 * @param model
@@ -72,16 +74,14 @@ public class ShapeX extends Shape {
 	public String toD3Name() {
 		
 		/*
-		 * 
-    circle - a circle.
-    cross - a Greek cross or plus sign.
-    diamond - a rhombus.
-    square - an axis-aligned square.
-    triangle-down - a downward-pointing equilateral triangle.
-    triangle-up - an upward-pointing equilateral triangle.
-
-
-		 * */
+	    circle - a circle.
+	    cross - a Greek cross or plus sign.
+	    diamond - a rhombus.
+	    square - an axis-aligned square.
+	    triangle-down - a downward-pointing equilateral triangle.
+	    triangle-up - an upward-pointing equilateral triangle.
+		*/
+		
 		if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Cross")) return "cross";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Circle")) return "circle";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/EquiliteralTriangleDown")) return "triangle-down";

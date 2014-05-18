@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.purl.rvl.java.exception;
+package org.purl.rvl.exception;
 
 /**
  * @author Jan Polowinski
@@ -28,7 +28,6 @@ public class UnexpressiveMappingSpecificationException extends Exception {
 	 */
 	public UnexpressiveMappingSpecificationException(String arg0) {
 		super(GENERAL_MESSAGE + " " + arg0);
-		// TODO Auto-generated constructor stub
 	}
 
 }

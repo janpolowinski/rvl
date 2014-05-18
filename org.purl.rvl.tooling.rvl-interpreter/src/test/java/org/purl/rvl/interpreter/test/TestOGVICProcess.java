@@ -1,15 +1,12 @@
 package org.purl.rvl.interpreter.test;
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.purl.rvl.tooling.avm.D3GeneratorSimpleJSON;
+import org.purl.rvl.tooling.avm2d3.D3GeneratorSimpleJSON;
 import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.process.VisProject;
-import org.purl.rvl.tooling.rvl2avm.SimpleRVLInterpreter;
 
 public class TestOGVICProcess {
 	

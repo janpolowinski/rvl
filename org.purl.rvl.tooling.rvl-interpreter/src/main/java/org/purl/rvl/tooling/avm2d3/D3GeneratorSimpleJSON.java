@@ -1,10 +1,8 @@
 /**
  * 
  */
-package org.purl.rvl.tooling.avm;
+package org.purl.rvl.tooling.avm2d3;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -18,9 +16,6 @@ import java.util.logging.Logger;
 import org.json.simple.JSONObject;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
-import org.ontoware.rdf2go.model.Syntax;
-import org.ontoware.rdf2go.model.node.Node;
-import org.purl.rvl.java.exception.IncompleteColorValuesException;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
@@ -28,9 +23,7 @@ import org.purl.rvl.java.gen.viso.graphic.Labeling;
 import org.purl.rvl.java.gen.viso.graphic.Superimposition;
 import org.purl.rvl.java.gen.viso.graphic.Thing1;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
-import org.purl.rvl.java.viso.graphic.Color;
-import org.purl.rvl.java.viso.graphic.GraphicObject;
-import org.purl.rvl.tooling.process.OGVICProcess;
+import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.D3Utils;
 
@@ -60,15 +53,15 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 	
 
 	// TODO move to some upper class or AVMUTils
-	private Set<GraphicObject> getAllGraphicObjects(){
+	private Set<GraphicObjectX> getAllGraphicObjects(){
 		
-		Set<GraphicObject> gos = new HashSet<GraphicObject>();
+		Set<GraphicObjectX> gos = new HashSet<GraphicObjectX>();
 		
 		org.purl.rvl.java.gen.viso.graphic.GraphicObject[] goArray = 
 				org.purl.rvl.java.gen.viso.graphic.GraphicObject.getAllInstances_as(modelAVM).asArray();
 		
 		for (int i = 0; i < goArray.length; i++) {
-			GraphicObject startNode = (GraphicObject) goArray[i].castTo(GraphicObject.class);
+			GraphicObjectX startNode = (GraphicObjectX) goArray[i].castTo(GraphicObjectX.class);
 			gos.add(startNode);
 		}
 		
@@ -80,21 +73,21 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 	 */
 	public String generateJSONforD3(){
 		
-		Set<GraphicObject> goSet = AVMUtils.getRelevantGraphicObjects(modelAVM);
-		GraphicObject[] goArray = new GraphicObject[goSet.size()];
-		Map<GraphicObject, Integer> goMap = new HashMap<GraphicObject, Integer>(50);	
+		Set<GraphicObjectX> goSet = AVMUtils.getRelevantGraphicObjects(modelAVM);
+		GraphicObjectX[] goArray = new GraphicObjectX[goSet.size()];
+		Map<GraphicObjectX, Integer> goMap = new HashMap<GraphicObjectX, Integer>(50);	
 		
 		// we need an array, not a set below ...
 		int j = 0;
-		for (Iterator<GraphicObject> iterator = goSet.iterator(); iterator.hasNext();) {
-			GraphicObject graphicObject = (GraphicObject) iterator.next();
+		for (Iterator<GraphicObjectX> iterator = goSet.iterator(); iterator.hasNext();) {
+			GraphicObjectX graphicObject = (GraphicObjectX) iterator.next();
 			goArray[j] = graphicObject;
 			j++;
 		}
 				
 		// save GOs into a map to allow for looking up the index
 		for (int i = 0; i < goArray.length; i++) {
-			GraphicObject startNode = goArray[i];
+			GraphicObjectX startNode = goArray[i];
 			goMap.put(startNode,i);
 		}
 		
@@ -105,7 +98,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 		// generate JSON node entries
 		for (int i = 0; i < goArray.length; i++) {
 			
-			GraphicObject startNode = goArray[i];
+			GraphicObjectX startNode = goArray[i];
 			
 			// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
 			startNode = startNode.tryReplaceWithCashedInstanceForSameURI(startNode);
@@ -161,15 +154,15 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 		
 		// generate JSON link entries iterating startNodes 
 		for (int i = 0; i < goArray.length; i++) {
-			GraphicObject startNode = goArray[i];
+			GraphicObjectX startNode = goArray[i];
 			try {
 				ClosableIterator<? extends DirectedLinking> dlRelIt =
 						startNode.getAllLinkedto_as().asClosableIterator();
 				while (dlRelIt.hasNext()) {
 					DirectedLinking dlRel = (DirectedLinking) dlRelIt.next().castTo(DirectedLinking.class); // TODO wieso liess sich GO zu DLRel casten???
 					LOGGER.info("Generating JSON link for " + dlRel);
-					GraphicObject endNode = (GraphicObject) dlRel.getAllEndnode_as().firstValue().castTo(GraphicObject.class);
-					GraphicObject connector = (GraphicObject) dlRel.getAllLinkingconnector_as().firstValue().castTo(GraphicObject.class);
+					GraphicObjectX endNode = (GraphicObjectX) dlRel.getAllEndnode_as().firstValue().castTo(GraphicObjectX.class);
+					GraphicObjectX connector = (GraphicObjectX) dlRel.getAllLinkingconnector_as().firstValue().castTo(GraphicObjectX.class);
 					// get index of the endNode in the above generated Map
 					Map link = new LinkedHashMap();
 					link.put("source", i);
@@ -191,9 +184,9 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 					DirectedLinking.getAllInstances_as(modelAVM).asClosableIterator();
 			while (dlRelIt.hasNext()) {
 				DirectedLinking dlRel = (DirectedLinking) dlRelIt.next().castTo(DirectedLinking.class); // TODO wieso liess sich GO zu DLRel casten???
-				GraphicObject startNode = (GraphicObject) dlRel.getAllStartnode_as().firstValue().castTo(GraphicObject.class);
-				GraphicObject endNode = (GraphicObject) dlRel.getAllEndnode_as().firstValue().castTo(GraphicObject.class);
-				GraphicObject connector = (GraphicObject) dlRel.getAllLinkingconnector_as().firstValue().castTo(GraphicObject.class);
+				GraphicObjectX startNode = (GraphicObjectX) dlRel.getAllStartnode_as().firstValue().castTo(GraphicObjectX.class);
+				GraphicObjectX endNode = (GraphicObjectX) dlRel.getAllEndnode_as().firstValue().castTo(GraphicObjectX.class);
+				GraphicObjectX connector = (GraphicObjectX) dlRel.getAllLinkingconnector_as().firstValue().castTo(GraphicObjectX.class);
 				// get index of the endNode in the above generated Map
 				Map link = new LinkedHashMap();
 				link.put("type", "Directed");
@@ -226,20 +219,20 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				
 				List<Thing1> nodes = rel.getAllLinkingnode_as().asList();
 				
-				GraphicObject node1 = null;
-				GraphicObject node2 = null;
+				GraphicObjectX node1 = null;
+				GraphicObjectX node2 = null;
 				
 				if(nodes.size() == 2) {
 				
-					node1 = (GraphicObject) nodes.get(0).castTo(GraphicObject.class);
-					node2 = (GraphicObject) nodes.get(1).castTo(GraphicObject.class);
+					node1 = (GraphicObjectX) nodes.get(0).castTo(GraphicObjectX.class);
+					node2 = (GraphicObjectX) nodes.get(1).castTo(GraphicObjectX.class);
 					
 				} else {
 					LOGGER.warning("Undirected Linkings with a number of nodes unequal 2 are not supported");
 					continue;
 				}
 				
-				GraphicObject connector = (GraphicObject) rel.getAllLinkingconnector_as().firstValue().castTo(GraphicObject.class);
+				GraphicObjectX connector = (GraphicObjectX) rel.getAllLinkingconnector_as().firstValue().castTo(GraphicObjectX.class);
 				// get index of the endNode in the above generated Map
 				Map link = new LinkedHashMap();
 				//link.put("type", rel.getRDFSClassURI().toString());
@@ -269,8 +262,8 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				
 				Containment rel = (Containment) relIt.next().castTo(Containment.class); 
 				
-				GraphicObject container = (GraphicObject) rel.getAllContainmentcontainer_as().firstValue().castTo(GraphicObject.class);
-				GraphicObject containee = (GraphicObject) rel.getAllContainmentcontainee_as().firstValue().castTo(GraphicObject.class);
+				GraphicObjectX container = (GraphicObjectX) rel.getAllContainmentcontainer_as().firstValue().castTo(GraphicObjectX.class);
+				GraphicObjectX containee = (GraphicObjectX) rel.getAllContainmentcontainee_as().firstValue().castTo(GraphicObjectX.class);
 
 				// get index of the endNode in the above generated Map
 				Map link = new LinkedHashMap();

@@ -1,14 +1,12 @@
 package org.purl.rvl.tooling.process;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.ontoware.rdf2go.Reasoning;
-import org.purl.rvl.tooling.avm.D3GeneratorSimpleJSON;
-import org.purl.rvl.tooling.avm.D3GeneratorTreeJSON;
+import org.purl.rvl.tooling.avm2d3.D3GeneratorSimpleJSON;
+import org.purl.rvl.tooling.avm2d3.D3GeneratorTreeJSON;
 
 public class VisProjectLibrary {
 	

@@ -5,35 +5,34 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
-import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 
-public class Mapping extends org.purl.rvl.java.gen.rvl.Mapping implements MappingIF {
+public class MappingX extends org.purl.rvl.java.gen.rvl.Mapping implements MappingIF {
 
 	static final String NL =  System.getProperty("line.separator");
 
 	
-	public Mapping(Model model, BlankNode bnode, boolean write) {
+	public MappingX(Model model, BlankNode bnode, boolean write) {
 		super(model, bnode, write);
 		// TODO Auto-generated constructor stub
 	}
 
-	public Mapping(Model model, boolean write) {
+	public MappingX(Model model, boolean write) {
 		super(model, write);
 		// TODO Auto-generated constructor stub
 	}
 
-	public Mapping(Model model, Resource instanceIdentifier, boolean write) {
+	public MappingX(Model model, Resource instanceIdentifier, boolean write) {
 		super(model, instanceIdentifier, write);
 		// TODO Auto-generated constructor stub
 	}
 
-	public Mapping(Model model, String uriString, boolean write)
+	public MappingX(Model model, String uriString, boolean write)
 			throws ModelRuntimeException {
 		super(model, uriString, write);
 		// TODO Auto-generated constructor stub
 	}
 
-	protected Mapping(Model model, URI classURI, Resource instanceIdentifier,
+	protected MappingX(Model model, URI classURI, Resource instanceIdentifier,
 			boolean write) {
 		super(model, classURI, instanceIdentifier, write);
 		// TODO Auto-generated constructor stub

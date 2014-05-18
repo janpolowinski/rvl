@@ -8,9 +8,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.apache.velocity.runtime.resource.ResourceCache;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
-import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.QueryResultTable;
 import org.ontoware.rdf2go.model.QueryRow;
@@ -22,20 +20,20 @@ import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.util.RDFTool;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
-import org.purl.rvl.java.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.GraphicAttribute;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Valuemapping;
-import org.purl.rvl.java.mapping.CalculatedValueMapping;
+import org.purl.rvl.java.rvl.mapping.CalculatedValueMapping;
 import org.purl.rvl.tooling.process.ResourcesCache;
 import org.purl.rvl.tooling.util.AVMUtils;
 
 
-public class PropertyToGraphicAttributeMapping extends
+public class PropertyToGraphicAttributeMappingX extends
 		Property_to_Graphic_AttributeMapping implements MappingIF {
 	
 	
-	private final static Logger LOGGER = Logger.getLogger(PropertyToGraphicAttributeMapping.class .getName()); 
+	private final static Logger LOGGER = Logger.getLogger(PropertyToGraphicAttributeMappingX.class .getName()); 
 	
 	private static final long serialVersionUID = 5391124674649010787L;
 	static final String NL =  System.getProperty("line.separator");
@@ -43,17 +41,17 @@ public class PropertyToGraphicAttributeMapping extends
 	Map<Node, Node> explicitlyMappedValues;
 	Map<Node, Node> calculatedMappedValues;
 
-	public PropertyToGraphicAttributeMapping(Model model, boolean write) {
+	public PropertyToGraphicAttributeMappingX(Model model, boolean write) {
 		super(model, write);
 	}
 
-	public PropertyToGraphicAttributeMapping(Model model,
+	public PropertyToGraphicAttributeMappingX(Model model,
 			Resource instanceIdentifier, boolean write) {
 		super(model, instanceIdentifier, write);
 		// TODO Auto-generated constructor stub
 	}
 
-	public PropertyToGraphicAttributeMapping(Model model, URI classURI,
+	public PropertyToGraphicAttributeMappingX(Model model, URI classURI,
 			Resource instanceIdentifier, boolean write) {
 		super(model, classURI, instanceIdentifier, write);
 		// TODO Auto-generated constructor stub
@@ -97,8 +95,8 @@ public class PropertyToGraphicAttributeMapping extends
 					
 					LOGGER.finest(statement.toString());
 					
-					Node sv = RDFTool.getSingleValue(model, statement.getObject().asResource(), ValueMapping.SOURCEVALUE);
-					Node tv = RDFTool.getSingleValue(model, statement.getObject().asResource(), ValueMapping.TARGETVALUE);
+					Node sv = RDFTool.getSingleValue(model, statement.getObject().asResource(), ValueMappingX.SOURCEVALUE);
+					Node tv = RDFTool.getSingleValue(model, statement.getObject().asResource(), ValueMappingX.TARGETVALUE);
 					
 					explicitlyMappedValues.put(sv,tv);
 				}
@@ -126,8 +124,8 @@ public class PropertyToGraphicAttributeMapping extends
 					"SELECT DISTINCT ?sv ?tv " +
 					"WHERE { " +
 				    	toSPARQL() + " <" + VALUEMAPPING + "> ?vm ." + 
-				    "	?vm <" + ValueMapping.SOURCEVALUE + "> ?sv . " +
-				    "	?vm <" + ValueMapping.TARGETVALUE + "> ?tv . " + 
+				    "	?vm <" + ValueMappingX.SOURCEVALUE + "> ?sv . " +
+				    "	?vm <" + ValueMappingX.TARGETVALUE + "> ?tv . " + 
 					"} ";
 			
 			QueryResultTable explMapResults = model.sparqlSelect(querySubjectsAndSVtoTVMapForGivenProperty);
@@ -165,10 +163,10 @@ public class PropertyToGraphicAttributeMapping extends
 		String querySubjectsAndSVtoTVMapForGivenProperty = "" +
 				"SELECT DISTINCT ?s ?o ?tv " +
 				"WHERE { " +
-			    	p2gam.toSPARQL() + " <" + PropertyToGraphicAttributeMapping.VALUEMAPPING + "> ?vm ." + 
-	//		    	p2gam.toSPARQL() +  " <" + ValueMapping.TARGETVALUE + "> ?ta. " + 
-			    "	?vm <" + ValueMapping.SOURCEVALUE + "> ?o . " +
-			    "	?vm <" + ValueMapping.TARGETVALUE + "> ?tv . " + 
+			    	p2gam.toSPARQL() + " <" + PropertyToGraphicAttributeMappingX.VALUEMAPPING + "> ?vm ." + 
+	//		    	p2gam.toSPARQL() +  " <" + ValueMappingX.TARGETVALUE + "> ?ta. " + 
+			    "	?vm <" + ValueMappingX.SOURCEVALUE + "> ?o . " +
+			    "	?vm <" + ValueMappingX.TARGETVALUE + "> ?tv . " + 
 			    "	?s <" + sp + "> ?o . " +
 				"} ";
 				
@@ -180,11 +178,11 @@ public class PropertyToGraphicAttributeMapping extends
 		for(QueryRow row : explMapResults) {
 			System.out.println(row);
 			// create a new GO
-			GraphicObject go = new GraphicObject(model, "http://purl.org/rvl/example-avm/GO_for_" + r.nextInt(), false);
+			GraphicObjectX go = new GraphicObjectX(model, "http://purl.org/rvl/example-avm/GO_for_" + r.nextInt(), false);
 			// relate it to the resource
 			// TODO
 			// set target attribute TODO: generic TODO: so many casts necessary???
-			Color tv = Color.getInstance(model, (Resource)row.getValue("tv"));
+			ColorX tv = ColorX.getInstance(model, (Resource)row.getValue("tv"));
 //			go.setColornamed(tv);
 			goSet.add(go);	
 			//System.out.println(go);
@@ -219,16 +217,16 @@ public class PropertyToGraphicAttributeMapping extends
 		return explicitlyMappedValues;
 	}
 
-	private ValueMapping getFirstValueMapping() {
-		return (ValueMapping)this.getAllValuemapping_as().firstValue().castTo(ValueMapping.class);
+	private ValueMappingX getFirstValueMapping() {
+		return (ValueMappingX)this.getAllValuemapping_as().firstValue().castTo(ValueMappingX.class);
 	}
 
 	public String toStringDetailed(){
 		
 		String s = "";
 		
-		// try to get the string description from the (manual) PropertyMapping class, which is not in the super-class hierarchy
-		PropertyMapping pm = (PropertyMapping) this.castTo(PropertyMapping.class);
+		// try to get the string description from the (manual) PropertyMappingX class, which is not in the super-class hierarchy
+		PropertyMappingX pm = (PropertyMappingX) this.castTo(PropertyMappingX.class);
 		s += pm.toStringDetailed();
 		
 		//targetAttribute is specific to P2GAM
@@ -247,7 +245,7 @@ public class PropertyToGraphicAttributeMapping extends
 				s += "     Value mappings:" + NL;
 				ClosableIterator<Valuemapping> vmIterator = this.getAllValuemapping_as().asClosableIterator();
 				while (vmIterator.hasNext()) {
-					ValueMapping vm = (ValueMapping) vmIterator.next().castTo(ValueMapping.class);
+					ValueMappingX vm = (ValueMappingX) vmIterator.next().castTo(ValueMappingX.class);
 					s += "" + vm + NL;
 				}
 			}
@@ -286,7 +284,7 @@ public class PropertyToGraphicAttributeMapping extends
 	}
 
 	public Property getSourceProperty() throws InsufficientMappingSpecificationException {
-		return ((PropertyMapping) this.castTo(PropertyMapping.class)).getSourceProperty();
+		return ((PropertyMappingX) this.castTo(PropertyMappingX.class)).getSourceProperty();
 	}
 
 	public String explicitlyMappedValuesToString() {
@@ -319,7 +317,7 @@ public class PropertyToGraphicAttributeMapping extends
 	}
 
 	
-	public PropertyToGraphicAttributeMapping tryReplaceWithCashedInstanceForSameURI(PropertyToGraphicAttributeMapping mapping) {
-		return (PropertyToGraphicAttributeMapping) ResourcesCache.getInstance().tryReplaceOrCache(mapping);
+	public PropertyToGraphicAttributeMappingX tryReplaceWithCashedInstanceForSameURI(PropertyToGraphicAttributeMappingX mapping) {
+		return (PropertyToGraphicAttributeMappingX) ResourcesCache.getInstance().tryReplaceOrCache(mapping);
 	}
 }
