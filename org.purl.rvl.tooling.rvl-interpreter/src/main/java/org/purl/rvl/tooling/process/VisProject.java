@@ -3,8 +3,7 @@ package org.purl.rvl.tooling.process;
 import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.Reasoning;
-import org.purl.rvl.tooling.avm.D3GeneratorBase;
-import org.purl.rvl.tooling.avm.D3GeneratorTreeJSON;
+import org.purl.rvl.tooling.avm2d3.D3GeneratorBase;
 
 public class VisProject {
 	

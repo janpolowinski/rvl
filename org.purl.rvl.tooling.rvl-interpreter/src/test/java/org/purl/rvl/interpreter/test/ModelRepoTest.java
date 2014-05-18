@@ -1,32 +1,17 @@
 package org.purl.rvl.interpreter.test;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Properties;
-import java.util.Set;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
-import org.ontoware.rdf2go.impl.jena.ModelFactoryImpl;
-import org.ontoware.rdf2go.impl.jena.ModelSetImplJena;
 import org.ontoware.rdf2go.model.Diff;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
-import org.ontoware.rdf2go.model.QueryResultTable;
-import org.ontoware.rdf2go.model.QueryRow;
 import org.ontoware.rdf2go.model.Statement;
-import org.ontoware.rdf2go.model.impl.StatementImpl;
-import org.ontoware.rdf2go.model.node.URI;
-import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
-import org.ontoware.rdf2go.vocabulary.RDF;
-import org.ontoware.rdfreactor.schema.rdfs.Property;
-import org.purl.rvl.java.gen.rvl.PropertyMapping;
 import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
 import org.purl.rvl.tooling.process.OGVICProcess;
@@ -246,7 +231,7 @@ public class ModelRepoTest {
 		ClosableIterator<Statement> iteratorPM = mappingsAndRVLModel.findStatements(
 				Variable.ANY,
 				RDF.type,
-				PropertyMapping.RDFS_CLASS
+				PropertyMappingX.RDFS_CLASS
 				);
 
 		while (iteratorPM.hasNext()) {
@@ -264,7 +249,7 @@ public class ModelRepoTest {
 				GRAPH_MAPPING_ENRICHED_WITH_RVL,
 				Variable.ANY,
 				RDF.type,
-				PropertyMapping.RDFS_CLASS
+				PropertyMappingX.RDFS_CLASS
 				);
 
 		while (iteratorPMInModelSet.hasNext()) {
@@ -320,86 +305,6 @@ public class ModelRepoTest {
 			
 		} */
 		
-	}
-	
-	private static Set<Statement> findStatementsPreferingThoseUsingASubProperty(
-			ModelSet modelSet,
-			URI spURI,
-			URI fromGraph, 
-			org.ontoware.rdf2go.model.node.Resource selectorClass
-			) {
-		
-		Set<Statement> stmtSet = new HashSet<Statement>();
-		
-		LOGGER.finest("Size of model set: " + modelSet.size());
-		
-		try {
-	
-			
-			String query = "" + 
-					" SELECT " +
-					" DISTINCT ?src ?s ?p ?o " + 
-					" FROM NAMED " + fromGraph.toSPARQL() + // note: without GRAPH phrase below, only FROM works, not FROM NAMED
-					" WHERE { " + 
-					" GRAPH ?src { " +
-					"";
-			if (selectorClass != null) {
-				query += 
-					" ?s " + RDF.type.toSPARQL()  + " " + selectorClass.toSPARQL() + " . ";
-			}
-			query += 
-					" ?s ?p ?o . " + 
-					" ?p " + Property.SUBPROPERTYOF.toSPARQL() + "* " + spURI.toSPARQL() + " " +
-					" FILTER NOT EXISTS { " + 
-							" ?s ?pp ?o . " + 
-					        " ?pp " + Property.SUBPROPERTYOF.toSPARQL() + "+ ?p " +		 
-					" FILTER(?pp != ?p) " +
-					" } " +
-					" FILTER(?s != ?o) " + // TODO: this stops reflexive arcs completely! make optional
-					" FILTER isIRI(?s) " + // TODO: this stops blank nodes as subjects ...
-					" FILTER isIRI(?o) " + // .. or objects! make optional!
-					" } " + 
-					" } " + 
-					" LIMIT " + OGVICProcess.MAX_GRAPHIC_RELATIONS_PER_MAPPING + " ";
-			
-			
-			/*
-			String query = "" + 
-					" SELECT DISTINCT ?src ?s ?p ?o " + 
-					" FROM NAMED " + fromGraph.toSPARQL() + // note: without GRAPH phrase below, only FROM works, not FROM NAMED
-					" WHERE { " + 
-					" GRAPH ?src { ";
-			query += 
-					" ?s ?p ?o . " +
-					" } "  + 
-					" } " ;
-					*/
-					
-								
-			
-			LOGGER.fine("Query statements in graph " + fromGraph + " with property (respectively most specific subproperty of) :" + spURI);
-			LOGGER.finest("Query: " + query);
-			
-			
-			QueryResultTable explMapResults = modelSet.sparqlSelect(query);
-			
-			for (QueryRow row : explMapResults) {
-				LOGGER.finest("fetched SPARQL result row: " + row);
-				try {
-					//System.out.println(row.getValue("src").asURI());
-					Statement stmt = new StatementImpl(row.getValue("src").asURI(), row.getValue("s").asURI(), row.getValue("p").asURI(), row.getValue("o"));
-					LOGGER.finer("added Statement: " + stmt.toString());
-					stmtSet.add(stmt);
-				} catch (ClassCastException e){
-					LOGGER.finer("Skipped statement for linking (blank node casting to URI?): " + e.getMessage());
-				}
-			}
-		
-		} catch (UnsupportedOperationException e){
-			LOGGER.warning("Problem with query to get statements for linking (blank node?): " + e.getMessage());
-		} 
-		
-		return stmtSet;
 	}
 
 }

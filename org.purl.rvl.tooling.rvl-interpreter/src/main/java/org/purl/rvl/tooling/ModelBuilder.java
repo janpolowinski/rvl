@@ -1,30 +1,19 @@
 package org.purl.rvl.tooling;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
-import org.apache.commons.io.FilenameUtils;
-import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
-import org.ontoware.rdf2go.model.Diff;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
-import org.ontoware.rdf2go.model.Statement;
-import org.ontoware.rdf2go.model.Syntax;
-import org.ontoware.rdf2go.model.node.Variable;
 import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
 import org.purl.rvl.tooling.process.FileRegistry;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.ModelUtils;
-
-import com.hp.hpl.jena.rdf.model.impl.ModelListenerAdapter;
 
 
 public class ModelBuilder {

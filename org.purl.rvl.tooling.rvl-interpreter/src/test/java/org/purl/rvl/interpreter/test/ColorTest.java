@@ -1,12 +1,12 @@
 package org.purl.rvl.interpreter.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.ontoware.rdf2go.model.Model;
-import org.purl.rvl.java.exception.IncompleteColorValuesException;
-import org.purl.rvl.java.viso.graphic.Color;
+import org.purl.rvl.exception.IncompleteColorValuesException;
+import org.purl.rvl.java.viso.graphic.ColorX;
 import org.purl.rvl.tooling.ModelBuilder;
 import org.purl.rvl.tooling.util.AVMUtils;
 
@@ -25,7 +25,7 @@ public class ColorTest {
 
 	@Test
 	public void testToHexString() {
-		Color color = new Color(100,100,100,model,false);
+		ColorX color = new ColorX(100,100,100,model,false);
 		
 		String expectedColorHexString = "#646464";
 		String colorHexString = "";

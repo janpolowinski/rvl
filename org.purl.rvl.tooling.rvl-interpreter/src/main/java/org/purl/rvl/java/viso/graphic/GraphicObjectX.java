@@ -1,6 +1,5 @@
 package org.purl.rvl.java.viso.graphic;
 
-import java.util.Iterator;
 import java.util.logging.Logger;
 
 import org.ontoware.aifbcommons.collection.ClosableIterator;
@@ -9,53 +8,48 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
-import org.purl.rvl.java.exception.IncompleteColorValuesException;
-import org.purl.rvl.java.gen.rvl.Thing1;
+import org.purl.rvl.exception.IncompleteColorValuesException;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.process.ResourcesCache;
 import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.ColorUtils;
 
-import javax.swing.SwingUtilities;
-import javax.xml.bind.annotation.*;
-
-@XmlAccessorType(XmlAccessType.NONE)
-public class GraphicObject extends
+public class GraphicObjectX extends
 		org.purl.rvl.java.gen.viso.graphic.GraphicObject {
 	
 	private static final long serialVersionUID = -9112269162175431905L;
 	
-	private final static Logger LOGGER = Logger.getLogger(GraphicObject.class.getName()); 
+	private final static Logger LOGGER = Logger.getLogger(GraphicObjectX.class.getName()); 
 	static final String NL =  System.getProperty("line.separator");
 	
 	Resource representedResource;
 
-	public GraphicObject(Model model, URI classURI,
+	public GraphicObjectX(Model model, URI classURI,
 			Resource instanceIdentifier, boolean write) {
 		super(model, classURI, instanceIdentifier, write);
 		// TODO Auto-generated constructor stub
 	}
 
-	public GraphicObject(Model model, Resource instanceIdentifier, boolean write) {
+	public GraphicObjectX(Model model, Resource instanceIdentifier, boolean write) {
 		super(model, instanceIdentifier, write);
 		// TODO Auto-generated constructor stub
 	}
 
-	public GraphicObject(Model model, String uriString, boolean write)
+	public GraphicObjectX(Model model, String uriString, boolean write)
 			throws ModelRuntimeException {
 		super(model, uriString, write);
 		// TODO Auto-generated constructor stub
 	}
 
-	public GraphicObject(Model model, BlankNode bnode, boolean write) {
+	public GraphicObjectX(Model model, BlankNode bnode, boolean write) {
 		super(model, bnode, write);
 		// TODO Auto-generated constructor stub
 	}
 
-	public GraphicObject(Model model, boolean write) {
+	public GraphicObjectX(Model model, boolean write) {
 		super(model, write);
-		this.setColornamed(Color.getDefaultColor(OGVICProcess.getInstance().getModelVISO()));
+		this.setColornamed(ColorX.getDefaultColor(OGVICProcess.getInstance().getModelVISO()));
 	}
 
 	
@@ -65,13 +59,13 @@ public class GraphicObject extends
 		s += super.toString() + NL;
 		s += "Label: " + this.getAllLabel_as().firstValue() + NL;
 		if(hasColornamed())
-			s += this.getAllColornamed_as().firstValue().castTo(Color.class);
+			s += this.getAllColornamed_as().firstValue().castTo(ColorX.class);
 		// containment (binary)
 		try {
 			ClosableIterator<? extends org.purl.rvl.java.gen.viso.graphic.GraphicObject> containeeIt =
 					getAllContains_as().asClosableIterator();
 			while (containeeIt.hasNext()) {
-				GraphicObject containee = (GraphicObject) containeeIt.next().castTo(GraphicObject.class);
+				GraphicObjectX containee = (GraphicObjectX) containeeIt.next().castTo(GraphicObjectX.class);
 				s += "---contains--->" + containee.getAllLabel_as().firstValue() + NL;
 			}	
 		} catch (Exception e) {
@@ -83,7 +77,7 @@ public class GraphicObject extends
 					getAllLinkedto_as().asClosableIterator();
 			while (nodeIt.hasNext()) {
 				DirectedLinking dlRel = (DirectedLinking) nodeIt.next().castTo(DirectedLinking.class); // TODO wieso liess sich GO zu DLRel casten???
-				GraphicObject endNode = (GraphicObject) dlRel.getAllEndnode_as().firstValue().castTo(GraphicObject.class);
+				GraphicObjectX endNode = (GraphicObjectX) dlRel.getAllEndnode_as().firstValue().castTo(GraphicObjectX.class);
 				
 				s += "---linked-to--->" + endNode.asURI() + NL;
 			}	
@@ -97,7 +91,7 @@ public class GraphicObject extends
 	//@XmlElement(name="label")
 	public String getLabel() {
 		
-		return  AVMUtils.getGoodLabel(this.asURI(),model); // sending a GraphicObject instead of a URI, causes class cast problems
+		return  AVMUtils.getGoodLabel(this.asURI(),model); // sending a GraphicObjectX instead of a URI, causes class cast problems
 				//this.getAllLabel_as().firstValue().toString();
 		
 	}
@@ -107,7 +101,7 @@ public class GraphicObject extends
 		String colorHex = "";
 
 		if(this.hasColornamed()) {
-			Color colorNamed = getColorNamed();
+			ColorX colorNamed = getColorNamed();
 			
 			try {
 				colorHex = colorNamed.toHexString();
@@ -117,7 +111,7 @@ public class GraphicObject extends
 		}
 		
 		if (colorHex.equals("")) {
-			colorHex = org.purl.rvl.java.viso.graphic.Color.getDefaultColorHex();
+			colorHex = org.purl.rvl.java.viso.graphic.ColorX.getDefaultColorHex();
 		}
 		return colorHex;
 	}
@@ -149,15 +143,15 @@ public class GraphicObject extends
 		return representedResource;
 	}
 
-	public Color getColorNamed() {
+	public ColorX getColorNamed() {
 		if (hasColornamed()) {
 			
 			// TODO: problem: when AVM does not include VISO, a GO cannot calculate its color values. merge models? or enrich for ease case?
-			Color colorInCurrentModel = (Color)this.getAllColornamed_as().firstValue().castTo(Color.class);
+			ColorX colorInCurrentModel = (ColorX)this.getAllColornamed_as().firstValue().castTo(ColorX.class);
 			
 			// "enrich" the color object by data from the VISO model
 			Model modelVISO = OGVICProcess.getInstance().getModelVISO();
-			Color colorInVISO = (Color)Color.getInstance(modelVISO, colorInCurrentModel.asURI()).castTo(Color.class);
+			ColorX colorInVISO = (ColorX)ColorX.getInstance(modelVISO, colorInCurrentModel.asURI()).castTo(ColorX.class);
 			
 			// get cached named color
 			colorInVISO = colorInVISO.tryReplaceWithCashedInstanceForSameURI(colorInVISO);
@@ -184,7 +178,7 @@ public class GraphicObject extends
 
 	public String getColorRGBHexCombinedWithHSLValues() {
 		
-		Color baseColor;
+		ColorX baseColor;
 		String colorHexString = "";
 		java.awt.Color awtColor = null;
 		float lightnessInPercent;
@@ -196,7 +190,7 @@ public class GraphicObject extends
 		if (hasColornamed()) {
 			baseColor = getColorNamed();
 		} else {
-			baseColor = Color.getDefaultColor(OGVICProcess.getInstance().getModelVISO());
+			baseColor = ColorX.getDefaultColor(OGVICProcess.getInstance().getModelVISO());
 		}
 		// TODO check for RGB-hex and R,G,B values directly added to the GO
 	
@@ -256,9 +250,9 @@ public class GraphicObject extends
 		return colorHexString;
 	}
 
-	public GraphicObject tryReplaceWithCashedInstanceForSameURI(
-			GraphicObject go) {
-		return (GraphicObject ) ResourcesCache.getInstance().tryReplaceOrCache(go);
+	public GraphicObjectX tryReplaceWithCashedInstanceForSameURI(
+			GraphicObjectX go) {
+		return (GraphicObjectX ) ResourcesCache.getInstance().tryReplaceOrCache(go);
 	}
 
 	public Float getWidth() {

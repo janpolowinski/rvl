@@ -34,9 +34,9 @@ public class SubMappingRelationX {
 		return subMappingRelationGen.getAllOntriplepart_as().firstValue();
 	}
 	
-	public Mapping getSubMapping() {
+	public MappingX getSubMapping() {
 		// wrong return type and wrong methode name, but seems to work
-		return (Mapping)subMappingRelationGen.getAllSub_mapping_as().firstValue().castTo(Mapping.class);
+		return (MappingX)subMappingRelationGen.getAllSub_mapping_as().firstValue().castTo(MappingX.class);
 	}
 	
 	public boolean hasOnRole(){
@@ -62,7 +62,7 @@ public class SubMappingRelationX {
 			
 			//label += " ... to mapping: " + getSubMapping() ; // wrong return type and wrong methode name, but seems to work
 			label += " ... on role: " + getOnRole() ;
-			label += "... to mapping: " + RVLUtils.mappingToStringAsSpecificAsPossible((org.purl.rvl.java.rvl.Mapping)getSubMapping().castTo(org.purl.rvl.java.rvl.Mapping.class)) ;
+			label += "... to mapping: " + RVLUtils.mappingToStringAsSpecificAsPossible((org.purl.rvl.java.rvl.MappingX)getSubMapping().castTo(org.purl.rvl.java.rvl.MappingX.class)) ;
 
 		}
 		if(hasOnTriplePart()) {

@@ -1,4 +1,4 @@
-package org.purl.rvl.java.mapping;
+package org.purl.rvl.java.rvl.mapping;
 
 import org.ontoware.rdf2go.model.node.Node;
 

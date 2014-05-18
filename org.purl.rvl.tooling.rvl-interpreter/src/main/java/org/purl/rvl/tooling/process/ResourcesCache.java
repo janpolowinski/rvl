@@ -1,14 +1,11 @@
 package org.purl.rvl.tooling.process;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
-import org.purl.rvl.java.rvl.MappingIF;
 
 
 public class ResourcesCache {
