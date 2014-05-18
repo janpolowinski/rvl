@@ -1,11 +1,8 @@
-/target
-/src/main/java/org/purl/rvl/java/rvlsmall
+target/
 *.DS_Store
-.DS_Store
 
 *.log
-*.log.1
-/new.ttl
-avm.ttl
-/src/main/java/org/purl/rvl/java/gen/
-/.classpath
+*.log.*
+
+src/main/java/org/purl/rvl/java/gen/**/
+.classpath
