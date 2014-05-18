@@ -643,6 +643,20 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	
 	
 
+	private void applyGraphicValueToGOsRepresentingNodesRelatedVia(
+			GraphicAttribute tga, Node tv, Resource subject, Property inheritedBy) {
+		
+			Set<Resource> relatedResources = RVLUtils.getRelatedResources(modelSet, subject, inheritedBy);
+			
+			LOGGER.finest("related resources " + relatedResources.toString() + " will receive same tv (" + tv + ")");
+		
+			// iterate over set, create GOs and applyGraphicValueToGo ... TODO replace parameter subject!
+			
+			for (Resource resource : relatedResources) {
+				applyGraphicValueToGO(tga, tv, subject, createOrGetGraphicObject(resource));
+			}
+	}
+
 	/**
 	 * Interprets only the simple P2GA mappings, i.e. those without need for calculating value mappings. 
 	 * Unlike interpretNormalP2GAMappings, multiple VMs are considered.
@@ -699,7 +713,26 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			    	
 			    	// if we found a tv for the sv
 			    	if (null != tv) {
+			    		
+			    		// apply the target value to the GO itself
+			    		
 			    		applyGraphicValueToGO(tga, tv, sv, go);
+			    		
+			    		// handle inheritance of target values via arbitrary relations
+			    		
+			    		Property inheritedBy = ((PropertyMapping)p2gam.castTo(PropertyMapping.class)).getInheritedBy();
+						
+						// temp only support some and all values from ... // TODO these checks are also done in findRelationsOnClassLevel
+						if (!(inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
+								|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())	
+								|| inheritedBy.toString().equals(RVL.TBOX_RESTRICTION)
+								|| inheritedBy.toString().equals(RVL.TBOX_DOMAIN_RANGE)	
+								)) {
+							LOGGER.fine("Mapped value " + tv + " will be inherited to GOs representing nodes related via " + inheritedBy);
+						
+							applyGraphicValueToGOsRepresentingNodesRelatedVia(tga, tv, statement.getSubject(), inheritedBy);
+							
+						} 
 			    	}
 			    }
 			

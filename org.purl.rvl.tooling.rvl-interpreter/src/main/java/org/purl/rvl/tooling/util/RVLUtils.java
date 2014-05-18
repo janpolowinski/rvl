@@ -19,6 +19,7 @@ import org.ontoware.rdf2go.model.impl.StatementImpl;
 import org.ontoware.rdf2go.model.node.DatatypeLiteral;
 import org.ontoware.rdf2go.model.node.Literal;
 import org.ontoware.rdf2go.model.node.Node;
+import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
@@ -184,35 +185,35 @@ public class RVLUtils {
 		Set<Statement> stmtSet = new HashSet<Statement>();
 		String query;
 		
-		// temp only support some and all values from ...
+		// for now only support some / all values from + domain / range ...
 		if (!(
 				inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
 				|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())
 				|| inheritedBy.toString().equals(RVL.TBOX_DOMAIN_RANGE)	
-				
+				|| inheritedBy.toString().equals(RVL.TBOX_RESTRICTION)
 			)) {
-			LOGGER.warning("inherited by is set to a value, currently not supported.");
+			LOGGER.warning("inheritedBy set to a value that is not (yet) supported.");
 			return stmtSet;
 		}
 
 		SPARQLQueryBuilder queryBuilder;
+		
 		if (inheritedBy.toString().equals(RVL.TBOX_DOMAIN_RANGE)) {
 			
 			// inheritedBy -> domain-range
 			queryBuilder = new DomainRangeSPARQLQueryBuilder(spURI);
-			queryBuilder.constrainToGraph(fromGraph);
-			//queryBuilder.constrainToSubjectBySelector(selectorSPARQLString);
-			query = queryBuilder.toString();
 			
 		} else {
 			
-			// inheritedBy -> other supported values
+			// inheritedBy -> other supported values (someValuesFrom / allValuesFrom or both (tBoxRestriction) )
 			queryBuilder = new AllSomeValuesFromSPARQLQueryBuilder(spURI);
-			queryBuilder.constrainToGraph(fromGraph);
-			//queryBuilder.constrainToSubjectBySelector(selectorSPARQLString);
 			((AllSomeValuesFromSPARQLQueryBuilder)queryBuilder).setInheritedBy(inheritedBy);
-			query = queryBuilder.toString();
+			
 		}
+			
+		queryBuilder.constrainToGraph(fromGraph);
+		//queryBuilder.constrainToSubjectBySelector(selectorSPARQLString);
+		query = queryBuilder.toString();
 
 		try {			
 						
@@ -376,27 +377,29 @@ public class RVLUtils {
 			if(pm.hasInheritedby()) {
 				
 				try{
-					Property inheritedBy = pm.getInheritedBy();
-					
-					// temp only support some and all values from ... // TODO these checks are also done in findRelationsOnClassLevel
-					if (!(inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
-							|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())	
-							|| inheritedBy.toString().equals(RVL.TBOX_DOMAIN_RANGE)	
-							)) {
-						LOGGER.warning("inheritedBy is set to a value, currently not supported.");
-					} else {
-						statementSet.addAll(findRelationsOnClassLevel(
-								modelOrModelSet,
-								fromGraph,
-								spURI,
-								inheritedBy,
-								subject,
-								object)
-								);
-					}
-					
+				
+				Property inheritedBy = pm.getInheritedBy();
+				
+				// temp only support some and all values from ...
+				if (!(
+						inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
+						|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())
+						|| inheritedBy.toString().equals(RVL.TBOX_RESTRICTION)
+						|| inheritedBy.toString().equals(RVL.TBOX_DOMAIN_RANGE)	
+					)) {
+					LOGGER.finest("inheritedBy set to a value not defining a class level relation or value not yet supported. Will be ignored as a class level relation.");
+					return statementSet;
 				}
-				catch (Exception e) {
+
+				statementSet.addAll(findRelationsOnClassLevel(
+							modelOrModelSet,
+							fromGraph,
+							spURI,
+							inheritedBy,
+							subject,
+							object)
+							);
+				} catch (Exception e) {
 					LOGGER.warning("Problem evaluating inheritedBy setting or getting relations on class level");
 				}
 			} 
@@ -493,6 +496,46 @@ public class RVLUtils {
 			GraphicObject go = (GraphicObject) goGen.castTo(GraphicObject.class);
 			
 			return go;
+
+	}
+
+	public static Set<Resource> getRelatedResources(Sparqlable modelOrModelSet, Resource subject,
+			Property inheritedBy) {
+		
+		Set<Resource> resourceSet = new HashSet<Resource>();
+
+		try {
+			
+			String queryString = "" + 
+					" SELECT DISTINCT ?r " + 
+					" FROM " + OGVICProcess.GRAPH_DATA.toSPARQL() + " " + 
+					" WHERE { " +
+					//" ?r " + inheritedBy.toSPARQL()+"* " + subject.toSPARQL() + " . " +  TODO: overwrites everything when owl:Class is mapped
+					" ?r " + inheritedBy.toSPARQL()+" " + subject.toSPARQL() + " . " + 
+					" }";
+	
+			LOGGER.finest("Query :" + queryString);
+	
+			QueryResultTable explMapResults = modelOrModelSet.sparqlSelect(queryString);
+			
+			for (QueryRow row : explMapResults) {
+				
+				try {
+						
+					Resource relatedResource = 	row.getValue("r").asURI();
+					LOGGER.finest("added related resource: " + relatedResource.toString());
+					resourceSet.add(relatedResource);
+					
+				} catch (ClassCastException e){
+					LOGGER.finer("Problem getting a related resource : " + e.getMessage());
+				}
+			}
+		
+		} catch (UnsupportedOperationException e){
+			LOGGER.warning("Problem with query to get related resources (blank node?): " + e.getMessage());
+		} 
+		
+		return resourceSet;
 
 	}
 
