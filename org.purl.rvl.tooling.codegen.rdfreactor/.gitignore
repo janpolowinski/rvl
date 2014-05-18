@@ -4,5 +4,5 @@
 *.log
 *.log.*
 
-/src/main/java/org/purl/rvl/java/gen/
+
 /.classpath
