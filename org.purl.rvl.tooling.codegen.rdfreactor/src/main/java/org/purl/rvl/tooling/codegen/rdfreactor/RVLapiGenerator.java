@@ -1,33 +1,28 @@
 package org.purl.rvl.tooling.codegen.rdfreactor;
 
-import org.ontoware.rdf2go.Reasoning;
-import org.ontoware.rdfreactor.generator.CodeGenerator;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
 import org.ontoware.rdf2go.RDF2Go;
+import org.ontoware.rdf2go.Reasoning;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.Syntax;
-
-
-
+import org.ontoware.rdfreactor.generator.CodeGenerator;
 
 
 public class RVLapiGenerator {
 
 	// paths
-	final public static String PATH_TO_PROJECT_ONTOLOGIES = "src/test/resources/ontologies/";
+	final public static String PATH_TO_TEST_ONTOLOGIES = "src/test/resources/ontologies/";
 	final public static String PATH_FOR_GEN_CODE = "src/main/java/";
 	
 	// ontologies
-//	final public static String RVL_LOCAL_ABSOLUTE = "file:///Users/Jan/VersionControlRepositories/git/rvl/org.purl.rvl.vocabulary/rvl.owl"; // does not work somehow
-	final public static String RVL_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl.owl"; // HACK: references the rvl.owl in the vocabularies project
-	public static final String RVL_EXTRA_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl-extra-for-codegen.ttl";
+	final public static String RVL_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl.owl";
+	public static final String RVL_EXTRA_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl-extra-for-codegen.ttl"; // extra statements required for correct code generation
 	public static final String ONTOLOGY_URL = RVL_LOCAL_REL;
-//	public static final String ONTOLOGY_URL = "../org.purl.rvl.vocabulary/rvl-small.n3";
-//	public static final String ONTOLOGY_URL = PATH_TO_PROJECT_ONTOLOGIES + "pizza.owl";
-//	public static final String ONTOLOGY_URL = PATH_TO_PROJECT_ONTOLOGIES + "people+pets.owl";
+//	public static final String ONTOLOGY_URL = PATH_TO_TEST_ONTOLOGIES + "pizza.owl";
+//	public static final String ONTOLOGY_URL = PATH_TO_TEST_ONTOLOGIES + "people+pets.owl";
 	
 	public static final String PACKAGE = "org.purl.rvl.java.gen.rvl";
 //	public static final String PACKAGE = "org.purl.rvl.test.pizza";

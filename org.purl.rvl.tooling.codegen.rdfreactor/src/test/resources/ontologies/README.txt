@@ -1,0 +1,1 @@
+The third-party ontologies in this folder are stored here only for test purposes and not part of this project. All rights remain at the authors.

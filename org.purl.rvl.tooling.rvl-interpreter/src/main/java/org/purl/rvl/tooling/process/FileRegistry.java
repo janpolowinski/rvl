@@ -1,12 +1,9 @@
 package org.purl.rvl.tooling.process;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
-
-import org.apache.commons.io.FilenameUtils;
 
 public class FileRegistry {
 	

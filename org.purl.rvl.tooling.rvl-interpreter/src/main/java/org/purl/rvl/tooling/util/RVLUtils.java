@@ -27,11 +27,11 @@ import org.ontoware.rdf2go.vocabulary.RDF;
 import org.ontoware.rdfreactor.runtime.ReactorResult;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
+import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.RVL;
-import org.purl.rvl.java.exception.InsufficientMappingSpecificationException;
-import org.purl.rvl.java.rvl.Mapping;
-import org.purl.rvl.java.rvl.PropertyMapping;
-import org.purl.rvl.java.viso.graphic.GraphicObject;
+import org.purl.rvl.java.rvl.MappingX;
+import org.purl.rvl.java.rvl.PropertyMappingX;
+import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 
 public class RVLUtils {
@@ -45,16 +45,16 @@ public class RVLUtils {
 				" (including subclasses when reasoning is on):");
 		System.out.println("");
 
-		// get references for all objects of the Mapping class
-		ReactorResult<? extends org.purl.rvl.java.gen.rvl.Mapping> rrMappings = Mapping
+		// get references for all objects of the MappingX class
+		ReactorResult<? extends org.purl.rvl.java.gen.rvl.Mapping> rrMappings = MappingX
 				.getAllInstances_as(model);
 
 		// get and print all mapping instances
 		ClosableIterator<? extends org.purl.rvl.java.gen.rvl.Mapping> mappingIterator = rrMappings
 				.asClosableIterator();
-		Mapping mapping;
+		MappingX mapping;
 		while (mappingIterator.hasNext()) {
-			mapping = (Mapping) mappingIterator.next().castTo(Mapping.class);
+			mapping = (MappingX) mappingIterator.next().castTo(MappingX.class);
 			if(!mapping.isDisabled()) {
 				//mappingToStringAsSpecificAsPossible(mapping);
 				System.out.println(mappingToStringAsSpecificAsPossible(mapping)); // TODO causes exception
@@ -69,40 +69,40 @@ public class RVLUtils {
 			System.out.println("Trying to get and print mapping with the URI " + uriString + ":");
 			System.out.println("");
 			
-		  	org.purl.rvl.java.gen.rvl.Mapping mapping = Mapping.getInstance(model, new URIImpl(uriString));
-		  	System.out.println(mappingToStringAsSpecificAsPossible((Mapping) mapping.castTo(Mapping.class)));
+		  	org.purl.rvl.java.gen.rvl.Mapping mapping = MappingX.getInstance(model, new URIImpl(uriString));
+		  	System.out.println(mappingToStringAsSpecificAsPossible((MappingX) mapping.castTo(MappingX.class)));
 	  }
 	  
 	  public static void printMapping(org.purl.rvl.java.gen.rvl.Mapping mapping){  
-		  printMapping((Mapping)mapping.castTo(Mapping.class));
+		  printMapping((MappingX)mapping.castTo(MappingX.class));
 	  }
 	  
 	  
-	  public static void printMapping(Mapping mapping){
+	  public static void printMapping(MappingX mapping){
 		  
 			System.out.println("");
 			System.out.println("Mapping details: ");
 			System.out.println("");
 			
-			System.out.println(mappingToStringAsSpecificAsPossible((Mapping) mapping.castTo(Mapping.class)));
+			System.out.println(mappingToStringAsSpecificAsPossible((MappingX) mapping.castTo(MappingX.class)));
 	  }
 	  
-	  public static String mappingToStringAsSpecificAsPossible(Mapping mapping){
+	  public static String mappingToStringAsSpecificAsPossible(MappingX mapping){
 		
 		 String s = "";
 		  
 		// print as P2GAM (value mappings ... )
-		if(mapping.isInstanceof(org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping.RDFS_CLASS)) {
-			org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping p2gam = 
-					(org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping) mapping.castTo(
-							org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping.class);
+		if(mapping.isInstanceof(org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX.RDFS_CLASS)) {
+			org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX p2gam = 
+					(org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX) mapping.castTo(
+							org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX.class);
 			s += p2gam.toStringDetailed();
 		}
 		// print as P2GO2ORM (submappings ... )
-		else if(mapping.isInstanceof(org.purl.rvl.java.rvl.PropertyToGO2ORMapping.RDFS_CLASS)) {
-			org.purl.rvl.java.rvl.PropertyToGO2ORMapping p2go2orm = 
-					(org.purl.rvl.java.rvl.PropertyToGO2ORMapping) mapping.castTo(
-							org.purl.rvl.java.rvl.PropertyToGO2ORMapping.class);
+		else if(mapping.isInstanceof(org.purl.rvl.java.rvl.PropertyToGO2ORMappingX.RDFS_CLASS)) {
+			org.purl.rvl.java.rvl.PropertyToGO2ORMappingX p2go2orm = 
+					(org.purl.rvl.java.rvl.PropertyToGO2ORMappingX) mapping.castTo(
+							org.purl.rvl.java.rvl.PropertyToGO2ORMappingX.class);
 			s += p2go2orm.toStringDetailed();
 		}
 		// print as general mapping
@@ -253,7 +253,7 @@ public class RVLUtils {
 	public static Set<Statement> findRelationsOnInstanceOrClassLevel(
 			Model model,
 			URI fromGraph,
-			PropertyMapping pm
+			PropertyMappingX pm
 			) throws InsufficientMappingSpecificationException {
 		
 		return findRelationsOnInstanceOrClassLevel(model, fromGraph, pm, false, null, null);
@@ -274,7 +274,7 @@ public class RVLUtils {
 	public static Set<Statement> findRelationsOnInstanceOrClassLevel(
 			Sparqlable modelOrModelSet,
 			URI fromGraph,
-			PropertyMapping pm,
+			PropertyMappingX pm,
 			boolean onlyMostSpecific, 
 			org.ontoware.rdf2go.model.node.Resource subject,
 			org.ontoware.rdf2go.model.node.Node object) throws InsufficientMappingSpecificationException {
@@ -484,16 +484,16 @@ public class RVLUtils {
 		return stmtList;
 	}
 	
-	public static GraphicObject getGOForRole(
+	public static GraphicObjectX getGOForRole(
 			Model modelAVM, Node rel, URI roleURI) {
 		
 			List<Statement> stmtList = getRolesAndGOsFor(modelAVM,rel,roleURI);
 			
 			Node goNode = stmtList.get(0).getObject();
 			
-			org.purl.rvl.java.gen.viso.graphic.GraphicObject goGen = GraphicObject.getInstance(modelAVM, goNode.asResource());
+			org.purl.rvl.java.gen.viso.graphic.GraphicObject goGen = GraphicObjectX.getInstance(modelAVM, goNode.asResource());
 			
-			GraphicObject go = (GraphicObject) goGen.castTo(GraphicObject.class);
+			GraphicObjectX go = (GraphicObjectX) goGen.castTo(GraphicObjectX.class);
 			
 			return go;
 

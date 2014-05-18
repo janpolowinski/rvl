@@ -2,45 +2,23 @@ package org.purl.rvl.tooling.rvl2avm;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.ontoware.aifbcommons.collection.ClosableIterable;
-import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.QueryResultTable;
 import org.ontoware.rdf2go.model.QueryRow;
-import org.ontoware.rdf2go.model.Statement;
-import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.URI;
-import org.ontoware.rdf2go.model.node.Variable;
-import org.ontoware.rdf2go.model.node.impl.URIImpl;
-import org.ontoware.rdfreactor.schema.rdfs.Property;
-import org.ontoware.rdfreactor.schema.rdfs.Resource;
-import org.purl.rvl.java.exception.InsufficientMappingSpecificationException;
-import org.purl.rvl.java.gen.rvl.GraphicAttribute;
-import org.purl.rvl.java.gen.rvl.GraphicObjectToObjectRelation;
-import org.purl.rvl.java.gen.rvl.Mapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
-import org.purl.rvl.java.gen.rvl.Sub_mappingrelation;
-import org.purl.rvl.java.gen.viso.graphic.Color;
-import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
-import org.purl.rvl.java.gen.viso.graphic.Shape;
-import org.purl.rvl.java.gen.viso.graphic.Thing1;
-import org.purl.rvl.java.rvl.PropertyMapping;
-import org.purl.rvl.java.rvl.PropertyToGO2ORMapping;
-import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping;
-import org.purl.rvl.java.viso.graphic.GraphicObject;
-import org.purl.rvl.java.viso.graphic.ShapeX;
+import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
+import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
+import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.AVMUtils;
-import org.purl.rvl.tooling.util.RVLUtils;
 
 public abstract class RVLInterpreterBase {
 	
@@ -50,7 +28,7 @@ public abstract class RVLInterpreterBase {
 	protected Model modelData;
 	protected Model modelMappings;
 	protected Model modelVISO;
-	protected Map<org.ontoware.rdf2go.model.node.Resource,GraphicObject> resourceGraphicObjectMap; 
+	protected Map<org.ontoware.rdf2go.model.node.Resource,GraphicObjectX> resourceGraphicObjectMap; 
 	protected Random random;
 	
 	protected OGVICProcess ogvicProcess = OGVICProcess.getInstance();
@@ -74,7 +52,7 @@ public abstract class RVLInterpreterBase {
 		this.modelMappings = modelSet.getModel(OGVICProcess.GRAPH_MAPPING);
 		this.modelVISO = modelSet.getModel(OGVICProcess.GRAPH_VISO);
 		this.random = new Random();
-		this.resourceGraphicObjectMap = new HashMap<org.ontoware.rdf2go.model.node.Resource, GraphicObject>();
+		this.resourceGraphicObjectMap = new HashMap<org.ontoware.rdf2go.model.node.Resource, GraphicObjectX>();
 	}
 
 
@@ -91,11 +69,11 @@ public abstract class RVLInterpreterBase {
 
 
 	/**
-	 * Creates a GraphicObject for a Resource or returns the existing GraphicObject, if already created before
+	 * Creates a GraphicObjectX for a Resource or returns the existing GraphicObjectX, if already created before
 	 * @param resource
-	 * @return the GraphicObject representing the resource
+	 * @return the GraphicObjectX representing the resource
 	 */
-	protected GraphicObject createOrGetGraphicObject(org.ontoware.rdf2go.model.node.Resource resource) {
+	protected GraphicObjectX createOrGetGraphicObject(org.ontoware.rdf2go.model.node.Resource resource) {
 		
 		if (resourceGraphicObjectMap.containsKey(resource)) {
 			
@@ -104,7 +82,7 @@ public abstract class RVLInterpreterBase {
 		} 
 		else {
 			
-			GraphicObject go = new GraphicObject(modelAVM,"http://purl.org/rvl/example-avm/GO_" + random.nextInt(), true);
+			GraphicObjectX go = new GraphicObjectX(modelAVM,"http://purl.org/rvl/example-avm/GO_" + random.nextInt(), true);
 			
 			// add to cache
 			go = go.tryReplaceWithCashedInstanceForSameURI(go);
@@ -122,20 +100,20 @@ public abstract class RVLInterpreterBase {
 	/**
 	 * Get all the mappings that require no calculation, because they only have explicit 1-1-value-mappings
 	 */
-	protected Set<PropertyToGraphicAttributeMapping> getAllP2GAMappingsWithExplicitMappings(){
+	protected Set<PropertyToGraphicAttributeMappingX> getAllP2GAMappingsWithExplicitMappings(){
 		
-		Set<PropertyToGraphicAttributeMapping> mappingSet = new HashSet<PropertyToGraphicAttributeMapping>();
+		Set<PropertyToGraphicAttributeMappingX> mappingSet = new HashSet<PropertyToGraphicAttributeMappingX>();
 
 		String queryString = "" +
 				"SELECT DISTINCT ?p2gam " +
 				"WHERE { " +
-				"    ?p2gam a <" + PropertyToGraphicAttributeMapping.RDFS_CLASS + "> . " +
-				"    ?p2gam <" + PropertyToGraphicAttributeMapping.VALUEMAPPING + "> ?vm . " +
+				"    ?p2gam a <" + PropertyToGraphicAttributeMappingX.RDFS_CLASS + "> . " +
+				"    ?p2gam <" + PropertyToGraphicAttributeMappingX.VALUEMAPPING + "> ?vm . " +
 				"	{ " +
 				"	SELECT ?vm  (COUNT(?sv) AS ?svCount) " +
 				"       WHERE " +
 				"       { " +
-				"	 		  ?vm <" + PropertyToGraphicAttributeMapping.SOURCEVALUE + "> ?sv  " +
+				"	 		  ?vm <" + PropertyToGraphicAttributeMappingX.SOURCEVALUE + "> ?sv  " +
 				"       } " +
 				"        GROUP BY ?vm " +
 				"	} " +
@@ -151,7 +129,7 @@ public abstract class RVLInterpreterBase {
 		
 		for(QueryRow row : results) {
 			Property_to_Graphic_AttributeMapping p2gam = Property_to_Graphic_AttributeMapping.getInstance(modelMappings, row.getValue("p2gam").asResource());
-			mappingSet.add((PropertyToGraphicAttributeMapping)p2gam.castTo(PropertyToGraphicAttributeMapping.class));
+			mappingSet.add((PropertyToGraphicAttributeMappingX)p2gam.castTo(PropertyToGraphicAttributeMappingX.class));
 			//LOGGER.info(row.getValue("p2gam"));
 		}
 		
@@ -164,20 +142,20 @@ public abstract class RVLInterpreterBase {
 	 * TODO: this curently gets all mappings, including the 1-1, therefore it should actually only be called when it is clear that
 	 *  the 1-1 case does not apply. 
 	 */
-	protected Set<PropertyToGraphicAttributeMapping> getAllP2GAMappingsWithSomeValueMappings(){
+	protected Set<PropertyToGraphicAttributeMappingX> getAllP2GAMappingsWithSomeValueMappings(){
 		
-		Set<PropertyToGraphicAttributeMapping> mappingSet = new HashSet<PropertyToGraphicAttributeMapping>();
+		Set<PropertyToGraphicAttributeMappingX> mappingSet = new HashSet<PropertyToGraphicAttributeMappingX>();
 
 		String queryString = "" +
 				"SELECT DISTINCT ?p2gam " +
 				"WHERE { " +
-				"    ?p2gam a <" + PropertyToGraphicAttributeMapping.RDFS_CLASS + "> . " +
-				"    ?p2gam <" + PropertyToGraphicAttributeMapping.VALUEMAPPING + "> ?vm . " +
+				"    ?p2gam a <" + PropertyToGraphicAttributeMappingX.RDFS_CLASS + "> . " +
+				"    ?p2gam <" + PropertyToGraphicAttributeMappingX.VALUEMAPPING + "> ?vm . " +
 //				"	{ " +
 //				"	SELECT ?vm  (COUNT(?sv) AS ?svCount) " +
 //				"       WHERE " +
 //				"       { " +
-//				"	 		  ?vm <" + PropertyToGraphicAttributeMapping.SOURCEVALUE + "> ?sv  " +
+//				"	 		  ?vm <" + PropertyToGraphicAttributeMappingX.SOURCEVALUE + "> ?sv  " +
 //				"       } " +
 //				"        GROUP BY ?vm " +
 //				"	} " +
@@ -190,7 +168,7 @@ public abstract class RVLInterpreterBase {
 			try {
 			//Property_to_Graphic_AttributeMapping p2gam = Property_to_Graphic_AttributeMapping.getInstance(model, (URI)row.getValue("p2gam"));
 			Property_to_Graphic_AttributeMapping p2gam = Property_to_Graphic_AttributeMapping.getInstance(modelMappings, row.getValue("p2gam").asResource());
-			mappingSet.add((PropertyToGraphicAttributeMapping)p2gam.castTo(PropertyToGraphicAttributeMapping.class));
+			mappingSet.add((PropertyToGraphicAttributeMappingX)p2gam.castTo(PropertyToGraphicAttributeMappingX.class));
 			}
 			catch (Exception e) {
 				LOGGER.warning("P2GAM could not be added to the mapping set.");
@@ -202,15 +180,15 @@ public abstract class RVLInterpreterBase {
 	}
 	
 	/*
-	protected Set<PropertyToGO2ORMapping> getAllMappingsToLinking() {
+	protected Set<PropertyToGO2ORMappingX> getAllMappingsToLinking() {
 		
-		Set<PropertyToGO2ORMapping> mappingSet = new HashSet<PropertyToGO2ORMapping>();
+		Set<PropertyToGO2ORMappingX> mappingSet = new HashSet<PropertyToGO2ORMappingX>();
 
 		String queryString = "" +
 				"SELECT DISTINCT ?mapping " +
 				"WHERE { " +
-				"    ?mapping a <" + PropertyToGO2ORMapping.RDFS_CLASS + "> . " +
-				"    ?mapping <" + PropertyToGO2ORMapping.TARGETOBJECT_TO_OBJECTRELATION + "> <" + DirectedLinking.RDFS_CLASS + "> . " +
+				"    ?mapping a <" + PropertyToGO2ORMappingX.RDFS_CLASS + "> . " +
+				"    ?mapping <" + PropertyToGO2ORMappingX.TARGETOBJECT_TO_OBJECTRELATION + "> <" + DirectedLinking.RDFS_CLASS + "> . " +
 				"} " ;
 		
 		LOGGER.finer("SPARQL: query all mappings to Directed Linking:" + NL + 
@@ -222,7 +200,7 @@ public abstract class RVLInterpreterBase {
 		
 		for(QueryRow row : results) {
 			Property_to_Graphic_Object_to_Object_RelationMapping mapping = Property_to_Graphic_Object_to_Object_RelationMapping.getInstance(model, (URI)row.getValue("mapping"));
-			mappingSet.add((PropertyToGO2ORMapping)mapping.castTo(PropertyToGO2ORMapping.class));
+			mappingSet.add((PropertyToGO2ORMappingX)mapping.castTo(PropertyToGO2ORMappingX.class));
 			//LOGGER.info("Found mapping to linking: " + row.getValue("mapping").toString());
 		}
 		
@@ -231,9 +209,9 @@ public abstract class RVLInterpreterBase {
 	
 	*/
 	
-	protected Set<PropertyToGO2ORMapping> getAllP2GOTORMappingsTo(URI gotor) {
+	protected Set<PropertyToGO2ORMappingX> getAllP2GOTORMappingsTo(URI gotor) {
 		
-		Set<PropertyToGO2ORMapping> mappingSet = new HashSet<PropertyToGO2ORMapping>();
+		Set<PropertyToGO2ORMappingX> mappingSet = new HashSet<PropertyToGO2ORMappingX>();
 		
 		// constraining target GOTOR is optional
 		String gotorString;
@@ -246,8 +224,8 @@ public abstract class RVLInterpreterBase {
 		String queryString = "" +
 				"SELECT DISTINCT ?mapping " +
 				"WHERE { " +
-				"    ?mapping a <" + PropertyToGO2ORMapping.RDFS_CLASS + "> . " +
-				"    ?mapping " + PropertyToGO2ORMapping.TARGETOBJECT_TO_OBJECTRELATION.toSPARQL() + " " + gotorString + " . " +
+				"    ?mapping a <" + PropertyToGO2ORMappingX.RDFS_CLASS + "> . " +
+				"    ?mapping " + PropertyToGO2ORMappingX.TARGETOBJECT_TO_OBJECTRELATION.toSPARQL() + " " + gotorString + " . " +
 				"} " ;
 		
 		LOGGER.finer("SPARQL: query all mappings to " + gotorString + ":" + NL + 
@@ -259,7 +237,7 @@ public abstract class RVLInterpreterBase {
 		
 		for(QueryRow row : results) {
 			Property_to_Graphic_Object_to_Object_RelationMapping mapping = Property_to_Graphic_Object_to_Object_RelationMapping.getInstance(modelMappings, (URI)row.getValue("mapping"));
-			mappingSet.add((PropertyToGO2ORMapping)mapping.castTo(PropertyToGO2ORMapping.class));
+			mappingSet.add((PropertyToGO2ORMappingX)mapping.castTo(PropertyToGO2ORMappingX.class));
 			//LOGGER.info("Found mapping to linking: " + row.getValue("mapping").toString());
 		}
 		
@@ -267,7 +245,7 @@ public abstract class RVLInterpreterBase {
 	}
 	
 	
-	protected Set<PropertyToGO2ORMapping> getAllP2GOTORMappings() {
+	protected Set<PropertyToGO2ORMappingX> getAllP2GOTORMappings() {
 		
 		return getAllP2GOTORMappingsTo(null);
 	}
@@ -276,12 +254,12 @@ public abstract class RVLInterpreterBase {
 	 * Iterates through all GOs in the GO map and performs a default label mapping on them
 	 */
 	protected void interpretResourceLabelAsGOLabelForAllCreatedResources(){
-		for (Map.Entry<org.ontoware.rdf2go.model.node.Resource,GraphicObject> entry : resourceGraphicObjectMap.entrySet()) {
+		for (Map.Entry<org.ontoware.rdf2go.model.node.Resource,GraphicObjectX> entry : resourceGraphicObjectMap.entrySet()) {
 			//LOGGER.info(entry.getKey() + " with value " + entry.getValue());
 			// perform the default label mapping, when not already set
 		    // TODO this is simply using rdfs:label of the GOs now, not the n-ary graphic labeling!
 		    // only rdfreactor resources have labels ...
-			GraphicObject go = entry.getValue();
+			GraphicObjectX go = entry.getValue();
 			org.ontoware.rdf2go.model.node.Resource resource = entry.getKey();
 			if(!go.hasLabels()) {
 				performDefaultLabelMapping(go,resource);
@@ -294,7 +272,7 @@ public abstract class RVLInterpreterBase {
 	 * @param go
 	 * @param resource
 	 */
-	private void performDefaultLabelMapping(GraphicObject go,
+	private void performDefaultLabelMapping(GraphicObjectX go,
 			org.ontoware.rdf2go.model.node.Resource resource) {
 		
 		//LOGGER.finest("Problems getting represented resource, no label generated for GO " + this.asURI());
