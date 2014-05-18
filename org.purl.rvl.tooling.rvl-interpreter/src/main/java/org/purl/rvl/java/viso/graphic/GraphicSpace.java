@@ -2,9 +2,7 @@ package org.purl.rvl.java.viso.graphic;
 
 import java.util.Set;
 import java.util.HashSet;
-import javax.xml.bind.annotation.*;
 
-@XmlRootElement(name="graphicSpace")
 public class GraphicSpace {
 	
 	private Set<GraphicObject> gos;
@@ -36,7 +34,6 @@ public class GraphicSpace {
 	/**
 	 * @return the gos
 	 */
-	@XmlElement(name="nodes")
 	public Set<GraphicObject> getGos() {
 		return gos;
 	}

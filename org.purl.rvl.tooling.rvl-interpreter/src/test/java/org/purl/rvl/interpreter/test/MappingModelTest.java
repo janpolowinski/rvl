@@ -1,6 +1,6 @@
 package org.purl.rvl.interpreter.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.Random;
 import java.util.logging.ConsoleHandler;
@@ -9,16 +9,13 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.ontoware.rdf2go.model.Model;
-import org.openrdf.rdf2go.StatementIterator;
 import org.purl.rvl.tooling.ModelBuilder;
 import org.purl.rvl.tooling.util.CustomRecordFormatter;
 import org.purl.rvl.tooling.util.RVLUtils;
 
-import com.hp.hpl.jena.ontology.OntClass;
-import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.ontology.OntResource;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
@@ -62,7 +59,7 @@ public class MappingModelTest {
 		model = modelBuilder.getMappingsModel();
 	}
 
-	//@Test
+	@Test @Ignore
 	public void create10Mappings() {
 		
 		Random random = new Random();
@@ -94,7 +91,7 @@ public class MappingModelTest {
 		RVLUtils.listAllMappings(model);
 	}
 	
-	//@Test
+	@Test @Ignore
 	public void testPrintMappingWithURI(){
 		//RVLUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithNamedSubmappingToNamedMappingOnConnector");
 		//RVLUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithAnonymousSubmappingToNamedMappingOnConnector");
@@ -102,7 +99,7 @@ public class MappingModelTest {
 		RVLUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithValueMappingOfRanges");
 	}
 	
-	//@Test
+	@Test @Ignore 
 	public void testJena(){
 		System.out.println("Access via Jena:");
 		System.out.println();

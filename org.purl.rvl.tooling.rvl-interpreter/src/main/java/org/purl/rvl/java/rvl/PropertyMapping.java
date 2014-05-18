@@ -1,36 +1,25 @@
 package org.purl.rvl.java.rvl;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.naming.InsufficientResourcesException;
-
-import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
-import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.BlankNode;
-import org.ontoware.rdf2go.model.node.DatatypeLiteral;
 import org.ontoware.rdf2go.model.node.Literal;
-import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
-import org.ontoware.rdf2go.model.node.Variable;
-import org.ontoware.rdf2go.model.node.impl.DatatypeLiteralImpl;
-import org.ontoware.rdf2go.model.node.impl.URIImpl;
-import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
-import org.purl.rvl.java.exception.InsufficientMappingSpecificationException;
-import org.purl.rvl.java.gen.rvl.SPARQLselector;
-import org.purl.rvl.tooling.process.OGVICProcess;
+import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.tooling.util.AVMUtils;
-import org.purl.rvl.tooling.util.RVLUtils;
 
 public class PropertyMapping extends
 		org.purl.rvl.java.gen.rvl.PropertyMapping  implements MappingIF {
 	
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4491101288581389956L;
+
 private final static Logger LOGGER = Logger.getLogger(PropertyMapping.class .getName()); 
 
 static final String NL =  System.getProperty("line.separator");

@@ -2,8 +2,6 @@ package org.purl.rvl.tooling.util;
 
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
-import org.ontoware.rdfreactor.schema.owl.Restriction;
-import org.ontoware.rdfreactor.schema.rdfs.Class;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.tooling.process.OGVICProcess;
 

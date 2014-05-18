@@ -1,12 +1,8 @@
 /**
  * 
  */
-package org.purl.rvl.tooling.avm;
+package org.purl.rvl.tooling.avm2d3;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -16,9 +12,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import org.json.simple.JSONObject;
-import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
-import org.ontoware.rdf2go.model.Syntax;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.viso.graphic.GraphicObject;

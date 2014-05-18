@@ -1,10 +1,8 @@
 /**
  * 
  */
-package org.purl.rvl.tooling.avm;
+package org.purl.rvl.tooling.avm2d3;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -18,9 +16,6 @@ import java.util.logging.Logger;
 import org.json.simple.JSONObject;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
-import org.ontoware.rdf2go.model.Syntax;
-import org.ontoware.rdf2go.model.node.Node;
-import org.purl.rvl.java.exception.IncompleteColorValuesException;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
@@ -28,9 +23,7 @@ import org.purl.rvl.java.gen.viso.graphic.Labeling;
 import org.purl.rvl.java.gen.viso.graphic.Superimposition;
 import org.purl.rvl.java.gen.viso.graphic.Thing1;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
-import org.purl.rvl.java.viso.graphic.Color;
 import org.purl.rvl.java.viso.graphic.GraphicObject;
-import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.D3Utils;
 

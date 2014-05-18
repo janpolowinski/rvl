@@ -9,9 +9,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.SetUtils;
-import org.apache.commons.collections.map.CaseInsensitiveMap;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
@@ -23,16 +20,13 @@ import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.impl.DatatypeLiteralImpl;
-import org.ontoware.rdf2go.model.node.impl.LiteralImpl;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
-import org.ontoware.rdfreactor.schema.rdfs.Container;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
-import org.purl.rvl.java.exception.InsufficientMappingSpecificationException;
-import org.purl.rvl.java.exception.UnexpressiveMappingSpecificationException;
+import org.purl.rvl.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.exception.UnexpressiveMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.Interval;
 import org.purl.rvl.java.gen.rvl.Valuemapping;
-import org.purl.rvl.java.gen.rvl.VisualValueList;
-import org.purl.rvl.java.mapping.CalculatedValueMapping;
+import org.purl.rvl.java.rvl.mapping.CalculatedValueMapping;
 import org.purl.rvl.tooling.util.RVLUtils;
 
 /**

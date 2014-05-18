@@ -1,6 +1,5 @@
 package org.purl.rvl.java.viso.graphic;
 
-import java.util.Iterator;
 import java.util.logging.Logger;
 
 import org.ontoware.aifbcommons.collection.ClosableIterator;
@@ -9,18 +8,13 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
-import org.purl.rvl.java.exception.IncompleteColorValuesException;
-import org.purl.rvl.java.gen.rvl.Thing1;
+import org.purl.rvl.exception.IncompleteColorValuesException;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.process.ResourcesCache;
 import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.ColorUtils;
 
-import javax.swing.SwingUtilities;
-import javax.xml.bind.annotation.*;
-
-@XmlAccessorType(XmlAccessType.NONE)
 public class GraphicObject extends
 		org.purl.rvl.java.gen.viso.graphic.GraphicObject {
 	

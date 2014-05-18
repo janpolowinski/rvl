@@ -5,7 +5,6 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
-import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 
 public class Mapping extends org.purl.rvl.java.gen.rvl.Mapping implements MappingIF {
 

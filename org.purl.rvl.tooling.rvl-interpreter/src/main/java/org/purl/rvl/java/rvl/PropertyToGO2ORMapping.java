@@ -11,16 +11,20 @@ import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
-import org.purl.rvl.java.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
 import org.purl.rvl.java.gen.rvl.Sub_mappingrelation;
-import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.RVLUtils;
 
 public class PropertyToGO2ORMapping extends
 		Property_to_Graphic_Object_to_Object_RelationMapping implements MappingIF {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	static final String NL =  System.getProperty("line.separator");
 	
 	private final static Logger LOGGER = Logger.getLogger(PropertyToGO2ORMapping.class.getName());

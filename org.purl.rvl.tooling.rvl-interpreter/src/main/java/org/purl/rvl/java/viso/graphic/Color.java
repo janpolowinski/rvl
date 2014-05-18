@@ -1,7 +1,5 @@
 package org.purl.rvl.java.viso.graphic;
 
-import java.awt.MultipleGradientPaint.ColorSpaceType;
-import java.awt.color.ColorSpace;
 import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
@@ -9,12 +7,15 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
-import org.openrdf.model.impl.URIImpl;
-import org.purl.rvl.java.exception.IncompleteColorValuesException;
-import org.purl.rvl.tooling.process.OGVICProcess;
+import org.purl.rvl.exception.IncompleteColorValuesException;
 import org.purl.rvl.tooling.process.ResourcesCache;
 
 public class Color extends org.purl.rvl.java.gen.viso.graphic.Color {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2242937133613803861L;
 
 	private final static Logger LOGGER = Logger.getLogger(Color.class .getName()); 
 

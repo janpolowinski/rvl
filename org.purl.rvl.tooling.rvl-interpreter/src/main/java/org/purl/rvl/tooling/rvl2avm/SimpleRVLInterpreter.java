@@ -1,45 +1,27 @@
 package org.purl.rvl.tooling.rvl2avm;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Random;
 import java.util.Set;
 import java.util.logging.Logger;
 
-
 import org.ontoware.aifbcommons.collection.ClosableIterator;
-import org.ontoware.rdf2go.model.Model;
-import org.ontoware.rdf2go.model.QueryResultTable;
-import org.ontoware.rdf2go.model.QueryRow;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
-import org.ontoware.rdf2go.model.node.impl.URIImpl;
-import org.ontoware.rdf2go.util.RDFTool;
-import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
+import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.RDF;
 import org.purl.rvl.java.RVL;
-import org.purl.rvl.java.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.GraphicAttribute;
-import org.purl.rvl.java.gen.rvl.GraphicRelation;
-
-import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
-import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
-import org.purl.rvl.java.gen.rvl.Sub_mappingrelation;
 import org.purl.rvl.java.gen.viso.graphic.Color;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
 import org.purl.rvl.java.gen.viso.graphic.Shape;
-import org.purl.rvl.java.gen.viso.graphic.Thing1;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
 import org.purl.rvl.java.rvl.Mapping;
 import org.purl.rvl.java.rvl.PropertyMapping;
