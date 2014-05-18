@@ -14,8 +14,8 @@ import org.ontoware.rdf2go.model.QueryRow;
 import org.ontoware.rdf2go.model.node.URI;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
-import org.purl.rvl.java.rvl.PropertyToGO2ORMapping;
-import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping;
+import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
+import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.AVMUtils;
@@ -100,20 +100,20 @@ public abstract class RVLInterpreterBase {
 	/**
 	 * Get all the mappings that require no calculation, because they only have explicit 1-1-value-mappings
 	 */
-	protected Set<PropertyToGraphicAttributeMapping> getAllP2GAMappingsWithExplicitMappings(){
+	protected Set<PropertyToGraphicAttributeMappingX> getAllP2GAMappingsWithExplicitMappings(){
 		
-		Set<PropertyToGraphicAttributeMapping> mappingSet = new HashSet<PropertyToGraphicAttributeMapping>();
+		Set<PropertyToGraphicAttributeMappingX> mappingSet = new HashSet<PropertyToGraphicAttributeMappingX>();
 
 		String queryString = "" +
 				"SELECT DISTINCT ?p2gam " +
 				"WHERE { " +
-				"    ?p2gam a <" + PropertyToGraphicAttributeMapping.RDFS_CLASS + "> . " +
-				"    ?p2gam <" + PropertyToGraphicAttributeMapping.VALUEMAPPING + "> ?vm . " +
+				"    ?p2gam a <" + PropertyToGraphicAttributeMappingX.RDFS_CLASS + "> . " +
+				"    ?p2gam <" + PropertyToGraphicAttributeMappingX.VALUEMAPPING + "> ?vm . " +
 				"	{ " +
 				"	SELECT ?vm  (COUNT(?sv) AS ?svCount) " +
 				"       WHERE " +
 				"       { " +
-				"	 		  ?vm <" + PropertyToGraphicAttributeMapping.SOURCEVALUE + "> ?sv  " +
+				"	 		  ?vm <" + PropertyToGraphicAttributeMappingX.SOURCEVALUE + "> ?sv  " +
 				"       } " +
 				"        GROUP BY ?vm " +
 				"	} " +
@@ -129,7 +129,7 @@ public abstract class RVLInterpreterBase {
 		
 		for(QueryRow row : results) {
 			Property_to_Graphic_AttributeMapping p2gam = Property_to_Graphic_AttributeMapping.getInstance(modelMappings, row.getValue("p2gam").asResource());
-			mappingSet.add((PropertyToGraphicAttributeMapping)p2gam.castTo(PropertyToGraphicAttributeMapping.class));
+			mappingSet.add((PropertyToGraphicAttributeMappingX)p2gam.castTo(PropertyToGraphicAttributeMappingX.class));
 			//LOGGER.info(row.getValue("p2gam"));
 		}
 		
@@ -142,20 +142,20 @@ public abstract class RVLInterpreterBase {
 	 * TODO: this curently gets all mappings, including the 1-1, therefore it should actually only be called when it is clear that
 	 *  the 1-1 case does not apply. 
 	 */
-	protected Set<PropertyToGraphicAttributeMapping> getAllP2GAMappingsWithSomeValueMappings(){
+	protected Set<PropertyToGraphicAttributeMappingX> getAllP2GAMappingsWithSomeValueMappings(){
 		
-		Set<PropertyToGraphicAttributeMapping> mappingSet = new HashSet<PropertyToGraphicAttributeMapping>();
+		Set<PropertyToGraphicAttributeMappingX> mappingSet = new HashSet<PropertyToGraphicAttributeMappingX>();
 
 		String queryString = "" +
 				"SELECT DISTINCT ?p2gam " +
 				"WHERE { " +
-				"    ?p2gam a <" + PropertyToGraphicAttributeMapping.RDFS_CLASS + "> . " +
-				"    ?p2gam <" + PropertyToGraphicAttributeMapping.VALUEMAPPING + "> ?vm . " +
+				"    ?p2gam a <" + PropertyToGraphicAttributeMappingX.RDFS_CLASS + "> . " +
+				"    ?p2gam <" + PropertyToGraphicAttributeMappingX.VALUEMAPPING + "> ?vm . " +
 //				"	{ " +
 //				"	SELECT ?vm  (COUNT(?sv) AS ?svCount) " +
 //				"       WHERE " +
 //				"       { " +
-//				"	 		  ?vm <" + PropertyToGraphicAttributeMapping.SOURCEVALUE + "> ?sv  " +
+//				"	 		  ?vm <" + PropertyToGraphicAttributeMappingX.SOURCEVALUE + "> ?sv  " +
 //				"       } " +
 //				"        GROUP BY ?vm " +
 //				"	} " +
@@ -168,7 +168,7 @@ public abstract class RVLInterpreterBase {
 			try {
 			//Property_to_Graphic_AttributeMapping p2gam = Property_to_Graphic_AttributeMapping.getInstance(model, (URI)row.getValue("p2gam"));
 			Property_to_Graphic_AttributeMapping p2gam = Property_to_Graphic_AttributeMapping.getInstance(modelMappings, row.getValue("p2gam").asResource());
-			mappingSet.add((PropertyToGraphicAttributeMapping)p2gam.castTo(PropertyToGraphicAttributeMapping.class));
+			mappingSet.add((PropertyToGraphicAttributeMappingX)p2gam.castTo(PropertyToGraphicAttributeMappingX.class));
 			}
 			catch (Exception e) {
 				LOGGER.warning("P2GAM could not be added to the mapping set.");
@@ -180,15 +180,15 @@ public abstract class RVLInterpreterBase {
 	}
 	
 	/*
-	protected Set<PropertyToGO2ORMapping> getAllMappingsToLinking() {
+	protected Set<PropertyToGO2ORMappingX> getAllMappingsToLinking() {
 		
-		Set<PropertyToGO2ORMapping> mappingSet = new HashSet<PropertyToGO2ORMapping>();
+		Set<PropertyToGO2ORMappingX> mappingSet = new HashSet<PropertyToGO2ORMappingX>();
 
 		String queryString = "" +
 				"SELECT DISTINCT ?mapping " +
 				"WHERE { " +
-				"    ?mapping a <" + PropertyToGO2ORMapping.RDFS_CLASS + "> . " +
-				"    ?mapping <" + PropertyToGO2ORMapping.TARGETOBJECT_TO_OBJECTRELATION + "> <" + DirectedLinking.RDFS_CLASS + "> . " +
+				"    ?mapping a <" + PropertyToGO2ORMappingX.RDFS_CLASS + "> . " +
+				"    ?mapping <" + PropertyToGO2ORMappingX.TARGETOBJECT_TO_OBJECTRELATION + "> <" + DirectedLinking.RDFS_CLASS + "> . " +
 				"} " ;
 		
 		LOGGER.finer("SPARQL: query all mappings to Directed Linking:" + NL + 
@@ -200,7 +200,7 @@ public abstract class RVLInterpreterBase {
 		
 		for(QueryRow row : results) {
 			Property_to_Graphic_Object_to_Object_RelationMapping mapping = Property_to_Graphic_Object_to_Object_RelationMapping.getInstance(model, (URI)row.getValue("mapping"));
-			mappingSet.add((PropertyToGO2ORMapping)mapping.castTo(PropertyToGO2ORMapping.class));
+			mappingSet.add((PropertyToGO2ORMappingX)mapping.castTo(PropertyToGO2ORMappingX.class));
 			//LOGGER.info("Found mapping to linking: " + row.getValue("mapping").toString());
 		}
 		
@@ -209,9 +209,9 @@ public abstract class RVLInterpreterBase {
 	
 	*/
 	
-	protected Set<PropertyToGO2ORMapping> getAllP2GOTORMappingsTo(URI gotor) {
+	protected Set<PropertyToGO2ORMappingX> getAllP2GOTORMappingsTo(URI gotor) {
 		
-		Set<PropertyToGO2ORMapping> mappingSet = new HashSet<PropertyToGO2ORMapping>();
+		Set<PropertyToGO2ORMappingX> mappingSet = new HashSet<PropertyToGO2ORMappingX>();
 		
 		// constraining target GOTOR is optional
 		String gotorString;
@@ -224,8 +224,8 @@ public abstract class RVLInterpreterBase {
 		String queryString = "" +
 				"SELECT DISTINCT ?mapping " +
 				"WHERE { " +
-				"    ?mapping a <" + PropertyToGO2ORMapping.RDFS_CLASS + "> . " +
-				"    ?mapping " + PropertyToGO2ORMapping.TARGETOBJECT_TO_OBJECTRELATION.toSPARQL() + " " + gotorString + " . " +
+				"    ?mapping a <" + PropertyToGO2ORMappingX.RDFS_CLASS + "> . " +
+				"    ?mapping " + PropertyToGO2ORMappingX.TARGETOBJECT_TO_OBJECTRELATION.toSPARQL() + " " + gotorString + " . " +
 				"} " ;
 		
 		LOGGER.finer("SPARQL: query all mappings to " + gotorString + ":" + NL + 
@@ -237,7 +237,7 @@ public abstract class RVLInterpreterBase {
 		
 		for(QueryRow row : results) {
 			Property_to_Graphic_Object_to_Object_RelationMapping mapping = Property_to_Graphic_Object_to_Object_RelationMapping.getInstance(modelMappings, (URI)row.getValue("mapping"));
-			mappingSet.add((PropertyToGO2ORMapping)mapping.castTo(PropertyToGO2ORMapping.class));
+			mappingSet.add((PropertyToGO2ORMappingX)mapping.castTo(PropertyToGO2ORMappingX.class));
 			//LOGGER.info("Found mapping to linking: " + row.getValue("mapping").toString());
 		}
 		
@@ -245,7 +245,7 @@ public abstract class RVLInterpreterBase {
 	}
 	
 	
-	protected Set<PropertyToGO2ORMapping> getAllP2GOTORMappings() {
+	protected Set<PropertyToGO2ORMappingX> getAllP2GOTORMappings() {
 		
 		return getAllP2GOTORMappingsTo(null);
 	}

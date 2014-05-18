@@ -33,7 +33,7 @@ import org.purl.rvl.tooling.util.RVLUtils;
  * @author Jan Polowinski
  * 
  */
-public class ValueMapping extends Valuemapping implements MappingIF {
+public class ValueMappingX extends Valuemapping implements MappingIF {
 
 	/**
 	 * 
@@ -42,7 +42,7 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 
 	static final String NL = System.getProperty("line.separator");
 	
-	private final static Logger LOGGER = Logger.getLogger(ValueMapping.class.getName()); 
+	private final static Logger LOGGER = Logger.getLogger(ValueMappingX.class.getName()); 
 
 	
 	static final int NOT_CALCULATED = -1;
@@ -107,29 +107,29 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 	
 	
 
-	public ValueMapping(Model model, URI classURI, Resource instanceIdentifier,
+	public ValueMappingX(Model model, URI classURI, Resource instanceIdentifier,
 			boolean write) {
 		super(model, classURI, instanceIdentifier, write);
 		// TODO Auto-generated constructor stub
 	}
 
-	public ValueMapping(Model model, Resource instanceIdentifier, boolean write) {
+	public ValueMappingX(Model model, Resource instanceIdentifier, boolean write) {
 		super(model, instanceIdentifier, write);
 		// TODO Auto-generated constructor stub
 	}
 
-	public ValueMapping(Model model, String uriString, boolean write)
+	public ValueMappingX(Model model, String uriString, boolean write)
 			throws ModelRuntimeException {
 		super(model, uriString, write);
 		// TODO Auto-generated constructor stub
 	}
 
-	public ValueMapping(Model model, BlankNode bnode, boolean write) {
+	public ValueMappingX(Model model, BlankNode bnode, boolean write) {
 		super(model, bnode, write);
 		// TODO Auto-generated constructor stub
 	}
 
-	public ValueMapping(Model model, boolean write) {
+	public ValueMappingX(Model model, boolean write) {
 		super(model, write);
 		// TODO Auto-generated constructor stub
 	}
@@ -137,7 +137,7 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 	
 	/**
 	 * Determine the Scale of Measurement (SoM) of the target graphic relation handled by
-	 * this {@link ValueMapping}. Here only the globally set SoM is
+	 * this {@link ValueMappingX}. Here only the globally set SoM is
 	 * considered, which is stated as a super-property of the target graphic relation.
 	 * 
 	 * @return the scale of measurement ID as integer
@@ -150,7 +150,7 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 		
 		try {
 			
-			targetGraphicRelation = ((org.purl.rvl.java.rvl.PropertyMapping)getPropertyMapping().castTo(org.purl.rvl.java.rvl.PropertyMapping.class)).getTargetGraphicRelation();
+			targetGraphicRelation = ((org.purl.rvl.java.rvl.PropertyMappingX)getPropertyMapping().castTo(org.purl.rvl.java.rvl.PropertyMappingX.class)).getTargetGraphicRelation();
 			
 			return getExplicitlyStatedScaleOfMeasurement(targetGraphicRelation);
 		
@@ -167,7 +167,7 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 
 	/**
 	 * (TODO: Determine the Scale of Measurement (SoM) of the source values handled by
-	 * this {@link ValueMapping}.) Here only the globally set SoM is
+	 * this {@link ValueMappingX}.) Here only the globally set SoM is
 	 * considered, which is stated for the source property.
 	 * 
 	 * @return the scale of measurement ID as integer
@@ -180,7 +180,7 @@ public class ValueMapping extends Valuemapping implements MappingIF {
 		
 		try {
 			
-			sp = ((org.purl.rvl.java.rvl.PropertyMapping)getPropertyMapping().castTo(org.purl.rvl.java.rvl.PropertyMapping.class)).getSourceProperty();
+			sp = ((org.purl.rvl.java.rvl.PropertyMappingX)getPropertyMapping().castTo(org.purl.rvl.java.rvl.PropertyMappingX.class)).getSourceProperty();
 			
 			return getExplicitlyStatedScaleOfMeasurement(sp);
 		
@@ -362,7 +362,7 @@ private int determineAdressedTargetValues() {
 	
 	LOGGER.info("Determining Target Value (Situation) for " + this.getPropertyMapping().toStringSummary());
 
-	int addressedValueSituation = ValueMapping.UNKNOWN;
+	int addressedValueSituation = ValueMappingX.UNKNOWN;
 
 	// are values defined via rvl:targetValue?
 	List<Node> singleTargetValueList = getTargetValues();
@@ -372,13 +372,13 @@ private int determineAdressedTargetValues() {
 
 		// is exactly 1 rvl:targetValue defined?
 		if (numberOfSingleTargetValues == 1) {
-			addressedValueSituation = ValueMapping.SINGLE_VALUE;
+			addressedValueSituation = ValueMappingX.SINGLE_VALUE;
 			targetValuesSingleValue = singleTargetValueList.get(0);
 
 		}
 		// if multiple rvl:targetValue are defined ...
 		else {
-			addressedValueSituation = ValueMapping.UNORDERED_SET;
+			addressedValueSituation = ValueMappingX.UNORDERED_SET;
 			// store all values set via targetValue as our new unordered set
 			// TODO: problem at the moment strings (literals) and resources
 			// are allowed, therefore node is used here.
@@ -398,7 +398,7 @@ private int determineAdressedTargetValues() {
 	else {
 		if (this.hasTargetvalueset() && !this.hasTargetvalueorderedset()) { // also ordered sets are sets!
 			
-			addressedValueSituation = ValueMapping.UNORDERED_SET;
+			addressedValueSituation = ValueMappingX.UNORDERED_SET;
 			targetValuesUnorderedSet = getTargetValueSet();
 			
 			// TODO: exclude target values
@@ -413,7 +413,7 @@ private int determineAdressedTargetValues() {
 				
 				// TODO handle cycles etc. here and above : if ((this.hasTargetvaluelist()) || (this.hasTargetvalueorderedset()) || (this.hasTargetvaluecycle())) 
 				
-				addressedValueSituation = ValueMapping.ORDERED_SET;
+				addressedValueSituation = ValueMappingX.ORDERED_SET;
 				
 				// TODO: exclude target values
 				
@@ -427,7 +427,7 @@ private int determineAdressedTargetValues() {
 					
 					if (getExplicitScaleOfMeasurementOfTargetGR() == SOM_ORDINAL) {
 						
-						addressedValueSituation = ValueMapping.ORDERED_SET;
+						addressedValueSituation = ValueMappingX.ORDERED_SET;
 						
 						targetValuesList = calculateOrderedSetFromRange();
 						
@@ -435,7 +435,7 @@ private int determineAdressedTargetValues() {
 						
 					} else {
 						
-						addressedValueSituation = ValueMapping.CONTINUOUS_RANGE;
+						addressedValueSituation = ValueMappingX.CONTINUOUS_RANGE;
 						
 						targetValuesContinuousInterval = new IntervalX(getTargetValueInterval());
 						
@@ -453,7 +453,7 @@ private int determineAdressedSourceValues() {
 	
 	LOGGER.info("Determining Source Value (Situation) for " + this.getPropertyMapping().toStringSummary());
 
-	int addressedValueSituation = ValueMapping.UNKNOWN;
+	int addressedValueSituation = ValueMappingX.UNKNOWN;
 
 	// are values defined via rvl:sourceValue?
 	List<Node> singleSourceValueList = getSourceValues();
@@ -463,13 +463,13 @@ private int determineAdressedSourceValues() {
 
 		// is exactly 1 rvl:sourceValue defined?
 		if (numberOfSingleSourceValues == 1) {
-			addressedValueSituation = ValueMapping.SINGLE_VALUE;
+			addressedValueSituation = ValueMappingX.SINGLE_VALUE;
 			sourceValuesSingleValue = singleSourceValueList.get(0);
 
 		}
 		// if multiple rvl:sourceValue are defined ...
 		else {
-			addressedValueSituation = ValueMapping.UNORDERED_SET;
+			addressedValueSituation = ValueMappingX.UNORDERED_SET;
 			// store all values set via sourceValue as our new unordered set
 			// TODO: problem at the moment strings (literals) and resources
 			// are allowed, therefore node is used here.
@@ -489,7 +489,7 @@ private int determineAdressedSourceValues() {
 	else {
 		if (this.hasSourcevalueset() && !this.hasSourcevalueorderedset()) { // also ordered sets are sets!
 			
-			addressedValueSituation = ValueMapping.UNORDERED_SET;
+			addressedValueSituation = ValueMappingX.UNORDERED_SET;
 			sourceValuesUnorderedSet = getSourceValueSet();
 			
 			// TODO: exclude source values
@@ -512,7 +512,7 @@ private int determineAdressedSourceValues() {
 
 				if (this.hasSourcevalueorderedset()) {
 					
-					addressedValueSituation = ValueMapping.ORDERED_SET;
+					addressedValueSituation = ValueMappingX.ORDERED_SET;
 					
 					// TODO: exclude source values
 					
@@ -526,7 +526,7 @@ private int determineAdressedSourceValues() {
 						
 						if (getExplicitScaleOfMeasurementOfSourceProperty() == SOM_ORDINAL) {
 							
-							addressedValueSituation = ValueMapping.ORDERED_SET;
+							addressedValueSituation = ValueMappingX.ORDERED_SET;
 							
 							sourceValuesOrderedSet = calculateOrderedSetFromRange();
 							
@@ -534,7 +534,7 @@ private int determineAdressedSourceValues() {
 							
 						} else {
 							
-							addressedValueSituation = ValueMapping.CONTINUOUS_RANGE;
+							addressedValueSituation = ValueMappingX.CONTINUOUS_RANGE;
 							
 							sourceValuesContinuousInterval = new IntervalX(getSourceValueInterval());
 							
@@ -1124,9 +1124,9 @@ public int getDiscreteStepCount() {
 	}
 }
 
-private PropertyMapping getPropertyMapping() {
+private PropertyMappingX getPropertyMapping() {
 	Resource res = this.getAllValuemapping_Inverse().next();
-	return new PropertyMapping(model, res, false);
+	return new PropertyMappingX(model, res, false);
 }
 
 public String toStringDetailed() {

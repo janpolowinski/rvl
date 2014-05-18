@@ -23,10 +23,10 @@ import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
 import org.purl.rvl.java.gen.viso.graphic.Shape;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
-import org.purl.rvl.java.rvl.Mapping;
-import org.purl.rvl.java.rvl.PropertyMapping;
-import org.purl.rvl.java.rvl.PropertyToGO2ORMapping;
-import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping;
+import org.purl.rvl.java.rvl.MappingX;
+import org.purl.rvl.java.rvl.PropertyMappingX;
+import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
+import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
 import org.purl.rvl.java.rvl.SubMappingRelationX;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.java.viso.graphic.ShapeX;
@@ -68,17 +68,17 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	protected void interpretP2GO2ORMappings() {
 		
 		// get all P2GO2OR mappings to linking and create n-ary linking relations
-		//Set<PropertyToGO2ORMapping> setOfMappingsToLinking = getAllP2GOTORMappingsTo(DirectedLinking.RDFS_CLASS); // 
+		//Set<PropertyToGO2ORMappingX> setOfMappingsToLinking = getAllP2GOTORMappingsTo(DirectedLinking.RDFS_CLASS); // 
 		
-		Set<PropertyToGO2ORMapping> mappings = getAllP2GOTORMappings();
+		Set<PropertyToGO2ORMappingX> mappings = getAllP2GOTORMappings();
 		
 		LOGGER.info(NL + "Found " + mappings.size() + " PGOTOR mappings (enabled and disabled mappings).");
 		
 		// for each mapping
-		for (Iterator<PropertyToGO2ORMapping> iterator = mappings
+		for (Iterator<PropertyToGO2ORMappingX> iterator = mappings
 				.iterator(); iterator.hasNext();) {
 			
-			PropertyToGO2ORMapping p2go2orm = (PropertyToGO2ORMapping) iterator.next();
+			PropertyToGO2ORMappingX p2go2orm = (PropertyToGO2ORMappingX) iterator.next();
 			
 			// skip disabled
 			if (p2go2orm.isDisabled()) {
@@ -119,12 +119,12 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 
 	
 	@SuppressWarnings("unused")
-	protected void interpretMappingToLinking(PropertyToGO2ORMapping p2go2orm) throws InsufficientMappingSpecificationException {
+	protected void interpretMappingToLinking(PropertyToGO2ORMappingX p2go2orm) throws InsufficientMappingSpecificationException {
 
 		Iterator<Statement> stmtSetIterator = RVLUtils.findRelationsOnInstanceOrClassLevel(
 				modelSet,
 				OGVICProcess.GRAPH_DATA,
-				(PropertyMapping) p2go2orm.castTo(PropertyMapping.class),
+				(PropertyMappingX) p2go2orm.castTo(PropertyMappingX.class),
 				true,
 				null,
 				null
@@ -234,12 +234,12 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	
 	// cloned from linking, much duplicated code
 	@SuppressWarnings("unused")
-	protected void interpretMappingToContainment(PropertyToGO2ORMapping p2go2orm) throws InsufficientMappingSpecificationException {
+	protected void interpretMappingToContainment(PropertyToGO2ORMappingX p2go2orm) throws InsufficientMappingSpecificationException {
 
 		Iterator<Statement> stmtSetIterator = RVLUtils.findRelationsOnInstanceOrClassLevel(
 				modelSet,
 				OGVICProcess.GRAPH_DATA,
-				(PropertyMapping) p2go2orm.castTo(PropertyMapping.class),
+				(PropertyMappingX) p2go2orm.castTo(PropertyMappingX.class),
 				true,
 				null,
 				null
@@ -327,7 +327,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	 * @param mainStatement
 	 * @param dlRel
 	 */
-	protected void applySubmappings(PropertyToGO2ORMapping p2go2orm, Statement mainStatement, Resource dlRel) {
+	protected void applySubmappings(PropertyToGO2ORMappingX p2go2orm, Statement mainStatement, Resource dlRel) {
 		
 		// TODO derive GO by onRole settings and the mainStatement? or just check if correct?
 
@@ -349,7 +349,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			GraphicObjectX goToApplySubmapping = RVLUtils.getGOForRole(modelAVM, dlRel, roleURI); 
 			// TODO this is a simplification: multiple GOs may be affected, not only one
 				
-			Mapping subMapping = smr.getSubMapping();
+			MappingX subMapping = smr.getSubMapping();
 			
 			if (subMapping.isDisabled()) {
 				//LOGGER.info("The referenced submapping was disabled. Will ignore it");
@@ -358,8 +358,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			}
 
 			// TODO can also be another P2GO2OR-mapping
-			PropertyToGraphicAttributeMapping p2gam = 
-					(PropertyToGraphicAttributeMapping) subMapping.castTo(PropertyToGraphicAttributeMapping.class);
+			PropertyToGraphicAttributeMappingX p2gam = 
+					(PropertyToGraphicAttributeMappingX) subMapping.castTo(PropertyToGraphicAttributeMappingX.class);
 			
 			// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
 			p2gam = p2gam.tryReplaceWithCashedInstanceForSameURI(p2gam);
@@ -382,7 +382,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 
 	private void applyMappingToGraphicObject(
 			Statement mainStatement, URI triplePartURI, GraphicObjectX goToApplySubmapping,
-			PropertyToGraphicAttributeMapping p2gam) throws InsufficientMappingSpecificationException {
+			PropertyToGraphicAttributeMappingX p2gam) throws InsufficientMappingSpecificationException {
 		
 		GraphicAttribute tga = p2gam.getTargetAttribute();
 		Property sp = p2gam.getSourceProperty();
@@ -489,15 +489,15 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	 */
 	protected void interpretNormalP2GArvlMappings() {
 		
-		Set<PropertyToGraphicAttributeMapping> setOfP2GAMappings = getAllP2GAMappingsWithSomeValueMappings();
+		Set<PropertyToGraphicAttributeMappingX> setOfP2GAMappings = getAllP2GAMappingsWithSomeValueMappings();
 		
 		LOGGER.info(NL + "Found " +setOfP2GAMappings.size()+ " normal P2GA mappings.");
 		
 		// for each normal P2GA mapping
-		for (Iterator<PropertyToGraphicAttributeMapping> iterator = setOfP2GAMappings
+		for (Iterator<PropertyToGraphicAttributeMappingX> iterator = setOfP2GAMappings
 				.iterator(); iterator.hasNext();) {
 			
-			PropertyToGraphicAttributeMapping p2gam = (PropertyToGraphicAttributeMapping) iterator.next();
+			PropertyToGraphicAttributeMappingX p2gam = (PropertyToGraphicAttributeMappingX) iterator.next();
 			
 			// caching
 			p2gam = p2gam.tryReplaceWithCashedInstanceForSameURI(p2gam);
@@ -522,7 +522,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	 * Creates GO for all affected resources if they don't exist already.
 	 * @param p2gam 
 	 */
-	protected void interpretNormalP2GArvlMapping(PropertyToGraphicAttributeMapping p2gam) {
+	protected void interpretNormalP2GArvlMapping(PropertyToGraphicAttributeMappingX p2gam) {
 
 		LOGGER.info("Interpret P2GAM mapping " + p2gam.toStringSummary() );
 
@@ -534,7 +534,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		    Set<Statement> stmtSet = RVLUtils.findRelationsOnInstanceOrClassLevel(
 		    		modelSet,
 		    		OGVICProcess.GRAPH_DATA,
-		    		(PropertyMapping) p2gam.castTo(PropertyMapping.class),
+		    		(PropertyMappingX) p2gam.castTo(PropertyMappingX.class),
 		    		false,
 		    		null,
 		    		null
@@ -632,15 +632,15 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	 */
 	protected void interpretSimpleP2GArvlMappings() {
 		
-		Set<PropertyToGraphicAttributeMapping> setOfSimpleP2GAMappings = getAllP2GAMappingsWithExplicitMappings();
+		Set<PropertyToGraphicAttributeMappingX> setOfSimpleP2GAMappings = getAllP2GAMappingsWithExplicitMappings();
 		
 		LOGGER.info(NL + "Found " +setOfSimpleP2GAMappings.size()+ " simple P2GA mappings.");
 		
 		// for each simple mapping
-		for (Iterator<PropertyToGraphicAttributeMapping> iterator = setOfSimpleP2GAMappings
+		for (Iterator<PropertyToGraphicAttributeMappingX> iterator = setOfSimpleP2GAMappings
 				.iterator(); iterator.hasNext();) {
 			
-			PropertyToGraphicAttributeMapping p2gam = (PropertyToGraphicAttributeMapping) iterator.next();
+			PropertyToGraphicAttributeMappingX p2gam = (PropertyToGraphicAttributeMappingX) iterator.next();
 			
 			// caching
 			p2gam = p2gam.tryReplaceWithCashedInstanceForSameURI(p2gam);
@@ -661,7 +661,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			    Set<Statement> theStatementWithOurObject = RVLUtils.findRelationsOnInstanceOrClassLevel(
 			    		modelSet,
 			    		OGVICProcess.GRAPH_DATA,
-			    		(PropertyMapping) p2gam.castTo(PropertyMapping.class),
+			    		(PropertyMappingX) p2gam.castTo(PropertyMappingX.class),
 			    		false,
 			    		null,
 			    		null

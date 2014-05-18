@@ -12,7 +12,7 @@ import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.tooling.util.AVMUtils;
 
-public class PropertyMapping extends
+public class PropertyMappingX extends
 		org.purl.rvl.java.gen.rvl.PropertyMapping  implements MappingIF {
 	
 /**
@@ -20,34 +20,34 @@ public class PropertyMapping extends
 	 */
 	private static final long serialVersionUID = 4491101288581389956L;
 
-private final static Logger LOGGER = Logger.getLogger(PropertyMapping.class .getName()); 
+private final static Logger LOGGER = Logger.getLogger(PropertyMappingX.class .getName()); 
 
 static final String NL =  System.getProperty("line.separator");
 	
-	public PropertyMapping(Model model, URI classURI,
+	public PropertyMappingX(Model model, URI classURI,
 			Resource instanceIdentifier, boolean write) {
 		super(model, classURI, instanceIdentifier, write);
 		// TODO Auto-generated constructor stub
 	}
 
-	public PropertyMapping(Model model, Resource instanceIdentifier,
+	public PropertyMappingX(Model model, Resource instanceIdentifier,
 			boolean write) {
 		super(model, instanceIdentifier, write);
 		// TODO Auto-generated constructor stub
 	}
 
-	public PropertyMapping(Model model, String uriString, boolean write)
+	public PropertyMappingX(Model model, String uriString, boolean write)
 			throws ModelRuntimeException {
 		super(model, uriString, write);
 		// TODO Auto-generated constructor stub
 	}
 
-	public PropertyMapping(Model model, BlankNode bnode, boolean write) {
+	public PropertyMappingX(Model model, BlankNode bnode, boolean write) {
 		super(model, bnode, write);
 		// TODO Auto-generated constructor stub
 	}
 
-	public PropertyMapping(Model model, boolean write) {
+	public PropertyMappingX(Model model, boolean write) {
 		super(model, write);
 		// TODO Auto-generated constructor stub
 	}
@@ -55,8 +55,8 @@ static final String NL =  System.getProperty("line.separator");
 	public String toStringDetailed() {
 		String s ="";
 		
-		// try to get the string description from the (manual) Mapping class, which is not in the super-class hierarchy
-		Mapping m = (Mapping) this.castTo(Mapping.class);
+		// try to get the string description from the (manual) MappingX class, which is not in the super-class hierarchy
+		MappingX m = (MappingX) this.castTo(MappingX.class);
 		s += m.toStringDetailed();
 
 		/*// letting the mapping print the affected resources is bad, since this depends on the used data model now, which may be unavailable in test scenarios
@@ -227,7 +227,7 @@ static final String NL =  System.getProperty("line.separator");
 		return AVMUtils.getGoodLabel(this, model);
 	}
 
-//	public PropertyMapping tryReplaceWithCashedInstanceForSameURI(MappingIF mapping) {
+//	public PropertyMappingX tryReplaceWithCashedInstanceForSameURI(MappingIF mapping) {
 //		// TODO Auto-generated method stub
 //		return null;
 //	}

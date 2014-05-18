@@ -231,7 +231,7 @@ public class ModelRepoTest {
 		ClosableIterator<Statement> iteratorPM = mappingsAndRVLModel.findStatements(
 				Variable.ANY,
 				RDF.type,
-				PropertyMapping.RDFS_CLASS
+				PropertyMappingX.RDFS_CLASS
 				);
 
 		while (iteratorPM.hasNext()) {
@@ -249,7 +249,7 @@ public class ModelRepoTest {
 				GRAPH_MAPPING_ENRICHED_WITH_RVL,
 				Variable.ANY,
 				RDF.type,
-				PropertyMapping.RDFS_CLASS
+				PropertyMappingX.RDFS_CLASS
 				);
 
 		while (iteratorPMInModelSet.hasNext()) {
