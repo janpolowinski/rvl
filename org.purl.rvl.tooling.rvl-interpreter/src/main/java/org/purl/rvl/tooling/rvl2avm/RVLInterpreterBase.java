@@ -16,7 +16,7 @@ import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMapping;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping;
-import org.purl.rvl.java.viso.graphic.GraphicObject;
+import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.AVMUtils;
 
@@ -28,7 +28,7 @@ public abstract class RVLInterpreterBase {
 	protected Model modelData;
 	protected Model modelMappings;
 	protected Model modelVISO;
-	protected Map<org.ontoware.rdf2go.model.node.Resource,GraphicObject> resourceGraphicObjectMap; 
+	protected Map<org.ontoware.rdf2go.model.node.Resource,GraphicObjectX> resourceGraphicObjectMap; 
 	protected Random random;
 	
 	protected OGVICProcess ogvicProcess = OGVICProcess.getInstance();
@@ -52,7 +52,7 @@ public abstract class RVLInterpreterBase {
 		this.modelMappings = modelSet.getModel(OGVICProcess.GRAPH_MAPPING);
 		this.modelVISO = modelSet.getModel(OGVICProcess.GRAPH_VISO);
 		this.random = new Random();
-		this.resourceGraphicObjectMap = new HashMap<org.ontoware.rdf2go.model.node.Resource, GraphicObject>();
+		this.resourceGraphicObjectMap = new HashMap<org.ontoware.rdf2go.model.node.Resource, GraphicObjectX>();
 	}
 
 
@@ -69,11 +69,11 @@ public abstract class RVLInterpreterBase {
 
 
 	/**
-	 * Creates a GraphicObject for a Resource or returns the existing GraphicObject, if already created before
+	 * Creates a GraphicObjectX for a Resource or returns the existing GraphicObjectX, if already created before
 	 * @param resource
-	 * @return the GraphicObject representing the resource
+	 * @return the GraphicObjectX representing the resource
 	 */
-	protected GraphicObject createOrGetGraphicObject(org.ontoware.rdf2go.model.node.Resource resource) {
+	protected GraphicObjectX createOrGetGraphicObject(org.ontoware.rdf2go.model.node.Resource resource) {
 		
 		if (resourceGraphicObjectMap.containsKey(resource)) {
 			
@@ -82,7 +82,7 @@ public abstract class RVLInterpreterBase {
 		} 
 		else {
 			
-			GraphicObject go = new GraphicObject(modelAVM,"http://purl.org/rvl/example-avm/GO_" + random.nextInt(), true);
+			GraphicObjectX go = new GraphicObjectX(modelAVM,"http://purl.org/rvl/example-avm/GO_" + random.nextInt(), true);
 			
 			// add to cache
 			go = go.tryReplaceWithCashedInstanceForSameURI(go);
@@ -254,12 +254,12 @@ public abstract class RVLInterpreterBase {
 	 * Iterates through all GOs in the GO map and performs a default label mapping on them
 	 */
 	protected void interpretResourceLabelAsGOLabelForAllCreatedResources(){
-		for (Map.Entry<org.ontoware.rdf2go.model.node.Resource,GraphicObject> entry : resourceGraphicObjectMap.entrySet()) {
+		for (Map.Entry<org.ontoware.rdf2go.model.node.Resource,GraphicObjectX> entry : resourceGraphicObjectMap.entrySet()) {
 			//LOGGER.info(entry.getKey() + " with value " + entry.getValue());
 			// perform the default label mapping, when not already set
 		    // TODO this is simply using rdfs:label of the GOs now, not the n-ary graphic labeling!
 		    // only rdfreactor resources have labels ...
-			GraphicObject go = entry.getValue();
+			GraphicObjectX go = entry.getValue();
 			org.ontoware.rdf2go.model.node.Resource resource = entry.getKey();
 			if(!go.hasLabels()) {
 				performDefaultLabelMapping(go,resource);
@@ -272,7 +272,7 @@ public abstract class RVLInterpreterBase {
 	 * @param go
 	 * @param resource
 	 */
-	private void performDefaultLabelMapping(GraphicObject go,
+	private void performDefaultLabelMapping(GraphicObjectX go,
 			org.ontoware.rdf2go.model.node.Resource resource) {
 		
 		//LOGGER.finest("Problems getting represented resource, no label generated for GO " + this.asURI());

@@ -30,7 +30,7 @@ import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.RVL;
 import org.purl.rvl.java.rvl.Mapping;
 import org.purl.rvl.java.rvl.PropertyMapping;
-import org.purl.rvl.java.viso.graphic.GraphicObject;
+import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 
 public class RVLUtils {
@@ -481,16 +481,16 @@ public class RVLUtils {
 		return stmtList;
 	}
 	
-	public static GraphicObject getGOForRole(
+	public static GraphicObjectX getGOForRole(
 			Model modelAVM, Node rel, URI roleURI) {
 		
 			List<Statement> stmtList = getRolesAndGOsFor(modelAVM,rel,roleURI);
 			
 			Node goNode = stmtList.get(0).getObject();
 			
-			org.purl.rvl.java.gen.viso.graphic.GraphicObject goGen = GraphicObject.getInstance(modelAVM, goNode.asResource());
+			org.purl.rvl.java.gen.viso.graphic.GraphicObject goGen = GraphicObjectX.getInstance(modelAVM, goNode.asResource());
 			
-			GraphicObject go = (GraphicObject) goGen.castTo(GraphicObject.class);
+			GraphicObjectX go = (GraphicObjectX) goGen.castTo(GraphicObjectX.class);
 			
 			return go;
 

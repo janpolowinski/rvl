@@ -15,7 +15,7 @@ import org.json.simple.JSONObject;
 import org.ontoware.rdf2go.model.Model;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
-import org.purl.rvl.java.viso.graphic.GraphicObject;
+import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.D3Utils;
 
@@ -54,7 +54,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		
 		JSONObject d3data = new JSONObject();
 
-		GraphicObject rootNode = AVMUtils.getRootNodeGraphicObject(modelAVM);
+		GraphicObjectX rootNode = AVMUtils.getRootNodeGraphicObject(modelAVM);
 		if (null != rootNode) {
 			// generate JSON root object
 			d3data.put("label", rootNode.getLabel());
@@ -79,14 +79,14 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		// generate empty JSON root object, containing all actual root nodes
 		JSONObject d3data = new JSONObject();
 
-		Set<GraphicObject> rootNodeSet = AVMUtils.getRootNodesGraphicObject(modelAVM); // TODO SEVERE: only linking considered here!!!
+		Set<GraphicObjectX> rootNodeSet = AVMUtils.getRootNodesGraphicObject(modelAVM); // TODO SEVERE: only linking considered here!!!
 		if (null!=rootNodeSet && !rootNodeSet.isEmpty()) {
 			
 			List listOfRootNodes = new LinkedList();
 			
-			for (Iterator<GraphicObject> iterator = rootNodeSet.iterator(); iterator.hasNext();) {
+			for (Iterator<GraphicObjectX> iterator = rootNodeSet.iterator(); iterator.hasNext();) {
 				
-				GraphicObject actualRootNode = (GraphicObject) iterator.next();
+				GraphicObjectX actualRootNode = (GraphicObjectX) iterator.next();
 				
 				// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
 				actualRootNode = actualRootNode.tryReplaceWithCashedInstanceForSameURI(actualRootNode);
@@ -136,7 +136,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 	}
 	
 	
-	private List generateChildrenListFor4Linking(GraphicObject parentGO) {
+	private List generateChildrenListFor4Linking(GraphicObjectX parentGO) {
 		
 		List listOfChildren = new LinkedList();
 		
@@ -151,8 +151,8 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 				DirectedLinking directedLinking = (DirectedLinking) iterator.next();
 		
 				/*
-				GraphicObject endNode = (GraphicObject) directedLinking.getAllEndnode_as().firstValue().castTo(GraphicObject.class);
-				GraphicObject connector = (GraphicObject) directedLinking.getAllLinkingconnector_as().firstValue().castTo(GraphicObject.class);
+				GraphicObjectX endNode = (GraphicObjectX) directedLinking.getAllEndnode_as().firstValue().castTo(GraphicObjectX.class);
+				GraphicObjectX connector = (GraphicObjectX) directedLinking.getAllLinkingconnector_as().firstValue().castTo(GraphicObjectX.class);
 				
 				*/
 				
@@ -166,7 +166,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 	}
 	
 	// cloned from linking, much redundant, similar code	
-	private List generateChildrenListFor4Containment(GraphicObject parentGO) {
+	private List generateChildrenListFor4Containment(GraphicObjectX parentGO) {
 		
 		List listOfChildren = new LinkedList();
 		
@@ -192,8 +192,8 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 	
 	private Map generateObjectFor(DirectedLinking directedLinking) {
 		
-		GraphicObject endNode = (GraphicObject) directedLinking.getAllEndnode_as().firstValue().castTo(GraphicObject.class);
-		GraphicObject connector = (GraphicObject) directedLinking.getAllLinkingconnector_as().firstValue().castTo(GraphicObject.class);
+		GraphicObjectX endNode = (GraphicObjectX) directedLinking.getAllEndnode_as().firstValue().castTo(GraphicObjectX.class);
+		GraphicObjectX connector = (GraphicObjectX) directedLinking.getAllLinkingconnector_as().firstValue().castTo(GraphicObjectX.class);
 		
 		// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
 		endNode = endNode.tryReplaceWithCashedInstanceForSameURI(endNode);
@@ -232,7 +232,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 // cloned from linking, much redundant, similar code
 private Map generateObjectFor(Containment rel) {
 		
-		GraphicObject containee = (GraphicObject) rel.getAllContainmentcontainee_as().firstValue().castTo(GraphicObject.class);
+		GraphicObjectX containee = (GraphicObjectX) rel.getAllContainmentcontainee_as().firstValue().castTo(GraphicObjectX.class);
 		
 		// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
 		containee = containee.tryReplaceWithCashedInstanceForSameURI(containee);

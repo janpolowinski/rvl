@@ -178,11 +178,11 @@ public class PropertyToGraphicAttributeMapping extends
 		for(QueryRow row : explMapResults) {
 			System.out.println(row);
 			// create a new GO
-			GraphicObject go = new GraphicObject(model, "http://purl.org/rvl/example-avm/GO_for_" + r.nextInt(), false);
+			GraphicObjectX go = new GraphicObjectX(model, "http://purl.org/rvl/example-avm/GO_for_" + r.nextInt(), false);
 			// relate it to the resource
 			// TODO
 			// set target attribute TODO: generic TODO: so many casts necessary???
-			Color tv = Color.getInstance(model, (Resource)row.getValue("tv"));
+			ColorX tv = ColorX.getInstance(model, (Resource)row.getValue("tv"));
 //			go.setColornamed(tv);
 			goSet.add(go);	
 			//System.out.println(go);

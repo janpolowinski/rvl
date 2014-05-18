@@ -10,16 +10,16 @@ import org.ontoware.rdf2go.model.node.URI;
 import org.purl.rvl.exception.IncompleteColorValuesException;
 import org.purl.rvl.tooling.process.ResourcesCache;
 
-public class Color extends org.purl.rvl.java.gen.viso.graphic.Color {
+public class ColorX extends org.purl.rvl.java.gen.viso.graphic.Color {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -2242937133613803861L;
 
-	private final static Logger LOGGER = Logger.getLogger(Color.class .getName()); 
+	private final static Logger LOGGER = Logger.getLogger(ColorX.class .getName()); 
 
-	static Color defaultColor;
+	static ColorX defaultColor;
 	static final String NL =  System.getProperty("line.separator");
 	
 	int r = -1;
@@ -33,7 +33,7 @@ public class Color extends org.purl.rvl.java.gen.viso.graphic.Color {
 	 * @param bnode
 	 * @param write
 	 */
-	public Color(Model model, BlankNode bnode, boolean write) {
+	public ColorX(Model model, BlankNode bnode, boolean write) {
 		super(model, bnode, write);
 		// TODO Auto-generated constructor stub
 	}
@@ -42,7 +42,7 @@ public class Color extends org.purl.rvl.java.gen.viso.graphic.Color {
 	 * @param model
 	 * @param write
 	 */
-	public Color(Model model, boolean write) {
+	public ColorX(Model model, boolean write) {
 		super(model, write);
 		// TODO Auto-generated constructor stub
 	}
@@ -52,7 +52,7 @@ public class Color extends org.purl.rvl.java.gen.viso.graphic.Color {
 	 * @param instanceIdentifier
 	 * @param write
 	 */
-	public Color(Model model, Resource instanceIdentifier, boolean write) {
+	public ColorX(Model model, Resource instanceIdentifier, boolean write) {
 		super(model, instanceIdentifier, write);
 		// TODO Auto-generated constructor stub
 	}
@@ -63,7 +63,7 @@ public class Color extends org.purl.rvl.java.gen.viso.graphic.Color {
 	 * @param write
 	 * @throws ModelRuntimeException
 	 */
-	public Color(Model model, String uriString, boolean write)
+	public ColorX(Model model, String uriString, boolean write)
 			throws ModelRuntimeException {
 		super(model, uriString, write);
 		// TODO Auto-generated constructor stub
@@ -75,20 +75,20 @@ public class Color extends org.purl.rvl.java.gen.viso.graphic.Color {
 	 * @param instanceIdentifier
 	 * @param write
 	 */
-	public Color(Model model, URI classURI, Resource instanceIdentifier,
+	public ColorX(Model model, URI classURI, Resource instanceIdentifier,
 			boolean write) {
 		super(model, classURI, instanceIdentifier, write);
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Color(float r, float g, float b, Model model, boolean write){
+	public ColorX(float r, float g, float b, Model model, boolean write){
 		super(model, write);
 		setColorRGBRed(r);
 		setColorRGBGreen(g);
 		setColorRGBBlue(b);
 	}
 	
-	public Color(double r, double g, double b, Model model, boolean write){
+	public ColorX(double r, double g, double b, Model model, boolean write){
 		super(model, write);
 		setColorRGBRed(new Float(r));
 		setColorRGBGreen(new Float(g));
@@ -175,15 +175,15 @@ public class Color extends org.purl.rvl.java.gen.viso.graphic.Color {
 		return s;
 	}
 
-	public static Color getDefaultColor(Model model) {
+	public static ColorX getDefaultColor(Model model) {
 		if (null==defaultColor) {
-			//defaultColor =  new org.purl.rvl.java.viso.graphic.Color(model, "http://purl.org/viso/graphic/Red", true);
-			defaultColor = (org.purl.rvl.java.viso.graphic.Color)Color.getInstance(model, new org.ontoware.rdf2go.model.node.impl.URIImpl("http://purl.org/viso/graphic/Grey")).castTo(org.purl.rvl.java.viso.graphic.Color.class);
+			//defaultColor =  new org.purl.rvl.java.viso.graphic.ColorX(model, "http://purl.org/viso/graphic/Red", true);
+			defaultColor = (org.purl.rvl.java.viso.graphic.ColorX)ColorX.getInstance(model, new org.ontoware.rdf2go.model.node.impl.URIImpl("http://purl.org/viso/graphic/Grey")).castTo(org.purl.rvl.java.viso.graphic.ColorX.class);
 		}
 		return defaultColor;
 	}
 
-	public Color tryReplaceWithCashedInstanceForSameURI(Color colorNamed) {
-		return (Color) ResourcesCache.getInstance().tryReplaceOrCache(colorNamed);
+	public ColorX tryReplaceWithCashedInstanceForSameURI(ColorX colorNamed) {
+		return (ColorX) ResourcesCache.getInstance().tryReplaceOrCache(colorNamed);
 	}
 }

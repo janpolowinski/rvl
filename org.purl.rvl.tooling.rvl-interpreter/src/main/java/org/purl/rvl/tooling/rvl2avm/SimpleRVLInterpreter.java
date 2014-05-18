@@ -28,7 +28,7 @@ import org.purl.rvl.java.rvl.PropertyMapping;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMapping;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMapping;
 import org.purl.rvl.java.rvl.SubMappingRelationX;
-import org.purl.rvl.java.viso.graphic.GraphicObject;
+import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.java.viso.graphic.ShapeX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.AVMUtils;
@@ -114,7 +114,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 
 		}
 		
-		LOGGER.fine("The size of the Resource-to-GraphicObject map is " + resourceGraphicObjectMap.size()+".");
+		LOGGER.fine("The size of the Resource-to-GraphicObjectX map is " + resourceGraphicObjectMap.size()+".");
 	}
 
 	
@@ -151,18 +151,18 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				LOGGER.fine("Statement to be mapped : " + statement);
 
 				// For each statement, create a startNode GO representing the subject (if not exists)
-			    GraphicObject subjectNode = createOrGetGraphicObject(subject);
+			    GraphicObjectX subjectNode = createOrGetGraphicObject(subject);
 		    	LOGGER.finest("Created GO for subject: " + subject.toString());
 				
 				// For each statement, create an endNode GO representing the object (if not exists)
 		    	//Node object = statement.getObject();
 				
-				GraphicObject objectNode = createOrGetGraphicObject(object);
+				GraphicObjectX objectNode = createOrGetGraphicObject(object);
 		    	LOGGER.finest("Created GO for object: " + object.toString());
 		    	
 				// create a connector and add default color
-				//GraphicObject connector = new GraphicObject(modelAVM, true);
-				GraphicObject connector = new GraphicObject(modelAVM,"http://purl.org/rvl/example-avm/GO_Connector_" + random.nextInt(), true);
+				//GraphicObjectX connector = new GraphicObjectX(modelAVM, true);
+				GraphicObjectX connector = new GraphicObjectX(modelAVM,"http://purl.org/rvl/example-avm/GO_Connector_" + random.nextInt(), true);
 				//connector.setLabel(statement.getPredicate()); 
 		    	connector.setLabel(AVMUtils.getGoodLabel(statement.getPredicate(), modelAVM) + "     (actually the label of the connector representing this) "); // statement contains evtl. used subproperty
 				
@@ -266,10 +266,10 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				LOGGER.fine("Statement to be mapped : " + statement);
 
 				// For each statement, create a container GO representing the subject (if not exists)
-			    GraphicObject subjectContainer = createOrGetGraphicObject(subject);
+			    GraphicObjectX subjectContainer = createOrGetGraphicObject(subject);
 
 				// For each statement, create a containee GO representing the object (if not exists)
-				GraphicObject objectContainee = createOrGetGraphicObject(object);
+				GraphicObjectX objectContainee = createOrGetGraphicObject(object);
 				
 		    	LOGGER.finest("Created GO for subject: " + subject.toString());
 		    	LOGGER.finest("Created GO for object: " + object.toString());
@@ -346,7 +346,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			
 			// modelAVM.findStatements(dlRel,role,Variable.ANY); does not work somehow -> Jena mapping problems
 
-			GraphicObject goToApplySubmapping = RVLUtils.getGOForRole(modelAVM, dlRel, roleURI); 
+			GraphicObjectX goToApplySubmapping = RVLUtils.getGOForRole(modelAVM, dlRel, roleURI); 
 			// TODO this is a simplification: multiple GOs may be affected, not only one
 				
 			Mapping subMapping = smr.getSubMapping();
@@ -381,7 +381,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	}
 
 	private void applyMappingToGraphicObject(
-			Statement mainStatement, URI triplePartURI, GraphicObject goToApplySubmapping,
+			Statement mainStatement, URI triplePartURI, GraphicObjectX goToApplySubmapping,
 			PropertyToGraphicAttributeMapping p2gam) throws InsufficientMappingSpecificationException {
 		
 		GraphicAttribute tga = p2gam.getTargetAttribute();
@@ -510,7 +510,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			interpretNormalP2GArvlMapping(p2gam);
 		}
 
-		LOGGER.fine("The size of the Resource-to-GraphicObject map is " + resourceGraphicObjectMap.size()+".");
+		LOGGER.fine("The size of the Resource-to-GraphicObjectX map is " + resourceGraphicObjectMap.size()+".");
 		
 	}
 
@@ -551,7 +551,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		    	Statement statement = (Statement) stmtSetIt.next();
 		    	
 				// create a GO for each subject of the statement
-			    GraphicObject go = createOrGetGraphicObject(statement.getSubject());
+			    GraphicObjectX go = createOrGetGraphicObject(statement.getSubject());
 
 		    	Node sv = statement.getObject();
 
@@ -573,9 +573,9 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			
 	}
 	
-	// may be moved to GraphicObject class
+	// may be moved to GraphicObjectX class
 	private void applyGraphicValueToGO(GraphicAttribute tga,
-			Node tv, Node sv, GraphicObject go) {
+			Node tv, Node sv, GraphicObjectX go) {
 		
 		if (null != tga && null != tv && null != sv && null != go ) {
 			
@@ -672,7 +672,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					Statement statement = (Statement) stmtSetIt.next();
 					
 					// create a GO for each subject
-				    GraphicObject go = createOrGetGraphicObject(statement.getSubject());
+				    GraphicObjectX go = createOrGetGraphicObject(statement.getSubject());
 				    
 			    	Node sv = statement.getObject(); 
 							
