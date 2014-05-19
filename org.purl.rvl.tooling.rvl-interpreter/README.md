@@ -1,5 +1,8 @@
+RVL JAVA Interpreter
+===
+
 An interpreter for the RDFS/OWL Visualization Language (RVL) in Java that takes RVL mappings and rdf data and creates an Abstract Visual Model (AVM)
-	- org.purl.rvl.tooling.rvl2avm
+- org.purl.rvl.tooling.rvl2avm
 
 Currently other tooling for the OGVIC process is contained in this project, which may be separated in future:
 
