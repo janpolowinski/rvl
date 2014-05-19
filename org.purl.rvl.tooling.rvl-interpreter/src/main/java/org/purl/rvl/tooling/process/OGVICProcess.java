@@ -19,9 +19,9 @@ import org.ontoware.rdf2go.model.Syntax;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.purl.rvl.tooling.ModelBuilder;
-import org.purl.rvl.tooling.avm2d3.D3GeneratorBase;
+import org.purl.rvl.tooling.avm2d3.D3Generator;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorSimpleJSON;
-import org.purl.rvl.tooling.rvl2avm.RVLInterpreterBase;
+import org.purl.rvl.tooling.rvl2avm.RVLInterpreter;
 import org.purl.rvl.tooling.rvl2avm.SimpleRVLInterpreter;
 import org.purl.rvl.tooling.util.CustomRecordFormatter;
 
@@ -64,8 +64,8 @@ public class OGVICProcess {
 	ModelBuilder modelBuilder;
 
 	//protected static FakeRVLInterpreter avmBuilder;
-	protected D3GeneratorBase d3Generator;
-	protected RVLInterpreterBase rvlInterpreter;
+	protected D3Generator d3Generator;
+	protected RVLInterpreter rvlInterpreter;
 	
 	private final  FileRegistry ontologyFileRegistry = new FileRegistry("ontology files"); // RVL, VISO ,...
 	private final  FileRegistry dataFileRegistry = new FileRegistry("data files"); // DATA
@@ -310,18 +310,18 @@ public class OGVICProcess {
 	/**
 	 * @return the rvlInterpreter
 	 */
-	public RVLInterpreterBase getRvlInterpreter() {
+	public RVLInterpreter getRvlInterpreter() {
 		return rvlInterpreter;
 	}
 
 	/**
 	 * @param rvlInterpreter the rvlInterpreter to set
 	 */
-	public void setRvlInterpreter(RVLInterpreterBase rvlInterpreter) {
+	public void setRvlInterpreter(RVLInterpreter rvlInterpreter) {
 		this.rvlInterpreter = rvlInterpreter;
 	}
 
-	public void setD3Generator(D3GeneratorBase d3Generator) {
+	public void setD3Generator(D3Generator d3Generator) {
 		this.d3Generator = d3Generator;
 	}
 
