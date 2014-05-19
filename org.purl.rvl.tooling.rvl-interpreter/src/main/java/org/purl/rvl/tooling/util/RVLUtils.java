@@ -34,6 +34,10 @@ import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class RVLUtils {
 	
 	private final static Logger LOGGER = Logger.getLogger(RVLUtils.class.getName()); 

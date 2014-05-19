@@ -17,6 +17,10 @@ import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.viso.graphic.ColorX;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class AVMUtils {
 	
 	private final static Logger LOGGER = Logger.getLogger(AVMUtils.class.getName()); 

@@ -10,6 +10,10 @@ import org.purl.rvl.java.viso.graphic.ColorX;
 import org.purl.rvl.tooling.ModelBuilder;
 import org.purl.rvl.tooling.util.AVMUtils;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class ColorTest {
 	
 	Model model;

@@ -8,6 +8,10 @@ import org.ontoware.rdf2go.Reasoning;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorSimpleJSON;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorTreeJSON;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class VisProjectLibrary {
 	
 	Map<String,VisProject> library = new HashMap<String,VisProject>();

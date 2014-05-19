@@ -11,6 +11,10 @@ import org.ontoware.rdf2go.model.Syntax;
 import org.ontoware.rdfreactor.generator.CodeGenerator;
 
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class RVLapiGenerator {
 
 	// paths

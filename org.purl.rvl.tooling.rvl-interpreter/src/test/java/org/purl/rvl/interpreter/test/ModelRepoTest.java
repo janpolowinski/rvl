@@ -18,6 +18,10 @@ import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.CustomRecordFormatter;
 import org.purl.rvl.tooling.util.ModelUtils;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class ModelRepoTest {
 	
 	private static final URIImpl GRAPH_MAPPING_ENRICHED_WITH_RVL = new URIImpl("http://purl.org/rvl/example/mapping/enriched/");

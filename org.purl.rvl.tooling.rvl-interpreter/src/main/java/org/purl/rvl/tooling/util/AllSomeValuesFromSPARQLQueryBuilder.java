@@ -5,6 +5,10 @@ import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Class;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class AllSomeValuesFromSPARQLQueryBuilder extends SPARQLQueryBuilder {
 
 	private Property inheritedBy;

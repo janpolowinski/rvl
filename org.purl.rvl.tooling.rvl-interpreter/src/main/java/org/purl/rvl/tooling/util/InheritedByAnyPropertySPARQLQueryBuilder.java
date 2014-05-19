@@ -1,11 +1,14 @@
 package org.purl.rvl.tooling.util;
 
-import org.ontoware.rdf2go.model.impl.TriplePatternImpl.SPO;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Class;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class InheritedByAnyPropertySPARQLQueryBuilder extends SPARQLQueryBuilder {
 
 	private Property inheritedBy;

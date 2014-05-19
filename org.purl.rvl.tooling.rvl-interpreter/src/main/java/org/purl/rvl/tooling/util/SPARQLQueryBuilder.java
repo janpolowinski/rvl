@@ -5,6 +5,10 @@ import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.tooling.process.OGVICProcess;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class SPARQLQueryBuilder {
 	
 	SPARQLStringBuilder query;

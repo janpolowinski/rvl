@@ -8,6 +8,10 @@ import org.purl.rvl.tooling.process.ExampleMapping;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.process.VisProject;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class TestOGVICProcess {
 	
 	protected OGVICProcess process;

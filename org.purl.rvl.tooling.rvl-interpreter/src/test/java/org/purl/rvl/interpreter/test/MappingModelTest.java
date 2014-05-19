@@ -23,9 +23,12 @@ import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.rdf.model.impl.ModelCom;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class MappingModelTest {
-	
-	
+
 	private final static Logger LOGGER_RVL_PACKAGE = Logger.getLogger("org.purl.rvl"); 
 	
 	static {

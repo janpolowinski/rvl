@@ -2,6 +2,10 @@ package org.purl.rvl.tooling.avm2d3;
 
 import org.ontoware.rdf2go.model.Model;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public interface D3Generator {
 
 	public static final int GENERATOR_SIMPLE_JSON = 1;

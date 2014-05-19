@@ -3,6 +3,10 @@ package org.purl.rvl.tooling.process;
 import org.ontoware.rdf2go.Reasoning;
 import org.purl.rvl.tooling.avm2d3.D3Generator;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class VisProject {
 	
 	private final  FileRegistry dataFileRegistry = new FileRegistry("data files"); // DATA

@@ -35,6 +35,10 @@ import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.RVLUtils;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	
 

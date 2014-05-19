@@ -8,6 +8,10 @@ import org.ontoware.rdf2go.model.Model;
 import org.purl.rvl.tooling.process.OGVICProcess;
 
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public abstract class D3GeneratorBase implements D3Generator {
 	
 	protected static final String NL = System.getProperty("line.separator");

@@ -16,6 +16,10 @@ import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.ModelUtils;
 
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class ModelBuilder {
 	
 	//private Model model;

@@ -1,5 +1,9 @@
 package org.purl.rvl.tooling.process;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class ExampleData {
 	
 	public static final String AVM = OGVICProcess.GEN_MODEL_FILE_FOLDER + "/" + "tempAVM.ttl";;

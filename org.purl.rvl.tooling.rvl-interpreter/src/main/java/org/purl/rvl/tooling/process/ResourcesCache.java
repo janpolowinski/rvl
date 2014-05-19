@@ -8,6 +8,10 @@ import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class ResourcesCache {
 	
 	private static ResourcesCache instance = null;

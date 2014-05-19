@@ -20,6 +20,10 @@ import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.AVMUtils;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public abstract class RVLInterpreterBase implements RVLInterpreter {
 	
 	protected Model modelAVM;

@@ -12,6 +12,10 @@ import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.tooling.util.AVMUtils;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class PropertyMappingX extends
 		org.purl.rvl.java.gen.rvl.PropertyMapping  implements MappingIF {
 	

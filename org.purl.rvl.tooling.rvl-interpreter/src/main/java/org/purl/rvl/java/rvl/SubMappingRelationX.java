@@ -5,6 +5,10 @@ import org.purl.rvl.java.gen.rvl.Sub_mappingrelation;
 import org.purl.rvl.java.gen.rvl.SyntacticRole;
 import org.purl.rvl.tooling.util.RVLUtils;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class SubMappingRelationX {
 	
 	private Sub_mappingrelation subMappingRelationGen;

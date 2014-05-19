@@ -10,11 +10,12 @@ import org.ontoware.rdf2go.model.node.URI;
 import org.purl.rvl.exception.IncompleteColorValuesException;
 import org.purl.rvl.tooling.process.ResourcesCache;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class ColorX extends org.purl.rvl.java.gen.viso.graphic.Color {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2242937133613803861L;
 
 	private final static Logger LOGGER = Logger.getLogger(ColorX.class .getName()); 

@@ -26,6 +26,10 @@ import org.purl.rvl.tooling.rvl2avm.SimpleRVLInterpreter;
 import org.purl.rvl.tooling.util.CustomRecordFormatter;
 
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class OGVICProcess {
 	
 	private static OGVICProcess instance = null;

@@ -1,5 +1,9 @@
 package org.purl.rvl.tooling.process;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class ExampleMapping {
 	
 	public static final String RVL_EXAMPLE_MINI = "../org.purl.rvl.vocabulary/rvl-example-mappings-mini.ttl";

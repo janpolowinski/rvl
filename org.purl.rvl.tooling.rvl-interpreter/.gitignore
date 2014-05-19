@@ -1,7 +1,9 @@
 *.DS_Store
-.DS_Store
-/target
+
+target/
+/bin
+
 pom.properties
 /.classpath
-/gen/tempAvm.ttl
-/bin
+
+/gen/*.*

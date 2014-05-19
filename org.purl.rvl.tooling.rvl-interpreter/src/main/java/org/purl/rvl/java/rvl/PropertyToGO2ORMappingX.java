@@ -17,6 +17,10 @@ import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMa
 import org.purl.rvl.java.gen.rvl.Sub_mappingrelation;
 import org.purl.rvl.tooling.util.RVLUtils;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class PropertyToGO2ORMappingX extends
 		Property_to_Graphic_Object_to_Object_RelationMapping implements MappingIF {
 	
