@@ -11,6 +11,7 @@ import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
+import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.RDF;
@@ -702,10 +703,10 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			    		
 			    		// handle inheritance of target values via arbitrary relations
 			    		
-			    		Property inheritedBy = ((PropertyMapping)p2gam.castTo(PropertyMapping.class)).getInheritedBy();
+			    		Property inheritedBy = ((PropertyMappingX)p2gam.castTo(PropertyMappingX.class)).getInheritedBy();
 						
 						// temp only support some and all values from ... // TODO these checks are also done in findRelationsOnClassLevel
-						if (!(inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
+						if (null!=inheritedBy && !(inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
 								|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())	
 								|| inheritedBy.toString().equals(RVL.TBOX_RESTRICTION)
 								|| inheritedBy.toString().equals(RVL.TBOX_DOMAIN_RANGE)	
