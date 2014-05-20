@@ -14,12 +14,12 @@ public class OntologyFile {
 	public static final String RVL_EXTRA = "../org.purl.rvl.vocabulary/rvl-extra-for-codegen.ttl"; // extra statements required for correct code generation
 	
 	// VISO_GRAPHIC FILES
+	//final public static String VISO_GRAPHIC = "../../viso-ontology/modules/graphic-for-rvl-codegen/viso-graphic.ttl";
+	//final public static String VISO_GRAPHIC_EXTRA = "../../viso-ontology/modules/graphic-for-rvl-codegen/viso-graphic-extra-for-codegen.ttl"; // extra statements required for correct code generation
+	
 	final public static String VISO_GRAPHIC = "../../viso-ontology/modules/graphic-for-rvl-codegen-old/viso-graphic.ttl";
 	final public static String VISO_GRAPHIC_EXTRA = "../../viso-ontology/modules/graphic-for-rvl-codegen-old/viso-graphic-extra-for-codegen.ttl"; // extra statements required for correct code generation
 	
-	//final public static String VISO_GRAPHIC = "../viso-ontology/modules/graphic/viso-graphic.ttl";
-
-	//final public static String VISO_GRAPHIC_EXTRA = "../org.purl.rvl.vocabulary/viso-branch/viso-graphic-extra-for-codegen.ttl"; // extra statements required for correct code generation
 	
 	
 	// PATHS
