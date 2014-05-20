@@ -1,5 +1,7 @@
 package org.purl.rvl.interpreter.usecase;
 
+import java.io.FileNotFoundException;
+
 import org.junit.Test;
 import org.purl.rvl.interpreter.test.TestOGVICProcess;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorSimpleJSON;
@@ -9,7 +11,7 @@ import org.purl.rvl.tooling.process.ExampleMapping;
 public class UseCaseSLUB extends TestOGVICProcess {
 	
 	@Test
-	public void testOGVICProcess() {
+	public void testOGVICProcess() throws FileNotFoundException {
 		
 		project.registerDataFile(ExampleData.SLUB_TEST);
 		project.registerDataFile(ExampleData.SLUB_EXTRA_DATA);

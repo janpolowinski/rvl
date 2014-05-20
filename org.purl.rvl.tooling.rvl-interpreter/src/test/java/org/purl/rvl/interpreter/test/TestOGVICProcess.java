@@ -1,5 +1,7 @@
 package org.purl.rvl.interpreter.test;
 
+import java.io.FileNotFoundException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorSimpleJSON;
@@ -28,7 +30,7 @@ public class TestOGVICProcess {
 	}
 
 	@Test
-	public void testOGVICProcess() {
+	public void testOGVICProcess() throws FileNotFoundException {
 		
 		//public static final String REXD_URI = "http://purl.org/rvl/example-data";
 		//public static final String REXD_URI = "http://purl.org/rvl";

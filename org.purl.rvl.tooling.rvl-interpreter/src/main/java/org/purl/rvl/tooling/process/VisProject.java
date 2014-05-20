@@ -1,5 +1,7 @@
 package org.purl.rvl.tooling.process;
 
+import java.io.FileNotFoundException;
+
 import org.ontoware.rdf2go.Reasoning;
 import org.purl.rvl.tooling.avm2d3.D3Generator;
 
@@ -27,12 +29,12 @@ public class VisProject {
 
 
 	
-	public void registerMappingFile(String fileName){
+	public void registerMappingFile(String fileName) throws FileNotFoundException{
 		this.mappingFileRegistry.addFile(fileName);
 	}
 	
 	
-	public void registerDataFile(String fileName){
+	public void registerDataFile(String fileName) throws FileNotFoundException{
 		this.dataFileRegistry.addFile(fileName);
 	}
 	

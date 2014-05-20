@@ -1,10 +1,13 @@
 package org.purl.rvl.tooling.process;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.Reasoning;
+import org.purl.rvl.tooling.ModelBuilder;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorSimpleJSON;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorTreeJSON;
 
@@ -15,16 +18,25 @@ import org.purl.rvl.tooling.avm2d3.D3GeneratorTreeJSON;
 public class VisProjectLibrary {
 	
 	Map<String,VisProject> library = new HashMap<String,VisProject>();
+	
+	private final static Logger LOGGER = Logger.getLogger(VisProjectLibrary.class.getName()); 
 
 	/**
+	 * @throws FileNotFoundException 
 	 * 
 	 */
 	public VisProjectLibrary() {
 		super();
-		initWithUseCaseTestProjects();
+		try {
+			initWithUseCaseTestProjects();
+		} catch (FileNotFoundException e) {
+			LOGGER.severe("One of the files could not be read into the visualisation project library:");
+			LOGGER.severe(e.getMessage());
+			System.exit(0);
+		}
 	}
 	
-	public void initWithUseCaseTestProjects() {
+	public void initWithUseCaseTestProjects() throws FileNotFoundException {
 		
 		//////////////////////////////////////////////////////////////////
 		// Amino-Acids

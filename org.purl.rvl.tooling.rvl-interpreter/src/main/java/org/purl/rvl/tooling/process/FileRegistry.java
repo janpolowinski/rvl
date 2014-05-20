@@ -1,6 +1,7 @@
 package org.purl.rvl.tooling.process;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -25,7 +26,7 @@ public class FileRegistry {
 		registeredFiles.add(file);
 	}
 	
-	public void addFile(String fileName) {
+	public void addFile(String fileName) throws FileNotFoundException {
 		
 		File file = new File(fileName);
 		if (file.exists()) {
@@ -34,7 +35,7 @@ public class FileRegistry {
 			addFile(file);
 			
 		} else {
-			LOGGER.severe("File not found (" + name + " registry) : " + fileName);
+			throw new FileNotFoundException("File not found (" + name + " registry) : " + fileName);
 		}
 	}
 	

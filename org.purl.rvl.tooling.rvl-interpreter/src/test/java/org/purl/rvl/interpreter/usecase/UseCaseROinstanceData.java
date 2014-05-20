@@ -1,5 +1,7 @@
 package org.purl.rvl.interpreter.usecase;
 
+import java.io.FileNotFoundException;
+
 import org.junit.Test;
 import org.ontoware.rdf2go.Reasoning;
 import org.purl.rvl.interpreter.test.TestOGVICProcess;
@@ -10,7 +12,7 @@ import org.purl.rvl.tooling.process.ExampleMapping;
 public class UseCaseROinstanceData extends TestOGVICProcess {
 	
 	@Test
-	public void testOGVICProcess() {
+	public void testOGVICProcess() throws FileNotFoundException {
 		
 		process.setWriteAVM(true);
 		

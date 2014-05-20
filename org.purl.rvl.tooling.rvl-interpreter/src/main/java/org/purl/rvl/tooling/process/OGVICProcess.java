@@ -2,6 +2,7 @@ package org.purl.rvl.tooling.process;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
@@ -329,15 +330,15 @@ public class OGVICProcess {
 		this.d3Generator = d3Generator;
 	}
 
-	public void registerMappingFile(String fileName){
+	public void registerMappingFile(String fileName) throws FileNotFoundException{
 		this.mappingFileRegistry.addFile(fileName);
 	}
 	
-	public void registerOntologyFile(String fileName){
+	public void registerOntologyFile(String fileName) throws FileNotFoundException{
 		this.ontologyFileRegistry.addFile(fileName);
 	}
 	
-	public void registerDataFile(String fileName){
+	public void registerDataFile(String fileName) throws FileNotFoundException{
 		this.dataFileRegistry.addFile(fileName);
 	}
 
