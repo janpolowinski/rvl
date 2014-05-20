@@ -81,7 +81,7 @@ public class ModelBuilder {
 		try {
 			ModelUtils.readFromAnySyntax(modelRVLSchema,OGVICProcess.RVL_LOCAL_REL);
 			ModelUtils.readFromAnySyntax(modelVISO,OGVICProcess.VISO_LOCAL_REL);
-			ModelUtils.readFromAnySyntax(modelMappings,ExampleMapping.RVL_EXAMPLE_MINI);
+			ModelUtils.readFromAnySyntax(modelMappings,ExampleMapping.RVL_EXAMPLE);
 			ModelUtils.readFromAnySyntax(modelData,ExampleData.RVL_EXAMPLE); 
 			
 			modelMappings.addModel(modelRVLSchema); // TODO temp hack!
