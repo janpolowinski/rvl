@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorSimpleJSON;
+import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
 import org.purl.rvl.tooling.process.OGVICProcess;
@@ -24,8 +25,8 @@ public class TestOGVICProcess {
 		
 		process = OGVICProcess.getInstance();
 		
-		process.registerOntologyFile(OGVICProcess.VISO_LOCAL_REL);
-		process.registerOntologyFile(OGVICProcess.RVL_LOCAL_REL);
+		process.registerOntologyFile(OntologyFile.VISO_GRAPHIC);
+		process.registerOntologyFile(OntologyFile.RVL);
 
 	}
 

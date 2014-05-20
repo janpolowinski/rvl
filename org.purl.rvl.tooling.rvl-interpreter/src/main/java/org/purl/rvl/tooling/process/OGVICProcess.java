@@ -41,10 +41,6 @@ public class OGVICProcess {
 	public static boolean WRITE_AVM = true;
 	public static boolean WRITE_JSON = true;
 	
-	// LOCAL RDF FILES
-	public static final String RVL_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl.owl";
-	public static final String VISO_LOCAL_REL = "../org.purl.rvl.vocabulary/viso-branch/viso-graphic-inference.ttl";
-	
 	// LOCAL FILES AND FOLDER SETTINGS
 	public static String USE_CASE_FOLDER = ""; // now set in properties-file
 	public static final String GEN_MODEL_FILE_FOLDER = "../org.purl.rvl.tooling.rvl-interpreter/gen"; // new
@@ -72,7 +68,7 @@ public class OGVICProcess {
 	protected D3Generator d3Generator;
 	protected RVLInterpreter rvlInterpreter;
 	
-	private final  FileRegistry ontologyFileRegistry = new FileRegistry("ontology files"); // RVL, VISO ,...
+	private final  FileRegistry ontologyFileRegistry = new FileRegistry("ontology files"); // RVL, VISO_GRAPHIC ,...
 	private final  FileRegistry dataFileRegistry = new FileRegistry("data files"); // DATA
 	private final  FileRegistry mappingFileRegistry = new FileRegistry("mapping files"); // Mapping files (each interpreted as a mapping set)
 	

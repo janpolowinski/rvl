@@ -10,6 +10,7 @@ import org.ontoware.rdf2go.Reasoning;
 import org.purl.rvl.tooling.ModelBuilder;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorSimpleJSON;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorTreeJSON;
+import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 
 /**
  * @author Jan Polowinski
@@ -101,7 +102,7 @@ public class VisProjectLibrary {
 		///////////////////////////////////////////////////////////////////
 		VisProject useCaseRVLClasses = new VisProject("rvlclasses");
 		useCaseRVLClasses.registerMappingFile(ExampleMapping.RVL_EXAMPLE_BOOTSTRAP);
-		useCaseRVLClasses.registerDataFile(OGVICProcess.RVL_LOCAL_REL);
+		useCaseRVLClasses.registerDataFile(OntologyFile.RVL);
 		useCaseRVLClasses.registerDataFile(ExampleData.RVL_EXTRA_DATA);
 		//useCaseRVLClasses.setRvlInterpreter(new SimpleRVLInterpreter());
 		useCaseRVLClasses.setD3Generator(new D3GeneratorTreeJSON());
@@ -135,7 +136,7 @@ public class VisProjectLibrary {
 		storeProject(useCaseSLUB);
 		
 		//////////////////////////////////////////////////////////////////
-		// VISO Classes
+		// VISO_GRAPHIC Classes
 		///////////////////////////////////////////////////////////////////
 		VisProject useCaseVISOClasses = new VisProject("visoclasses");
 		useCaseVISOClasses.registerMappingFile(ExampleMapping.RVL_EXAMPLE_BOOTSTRAP);
