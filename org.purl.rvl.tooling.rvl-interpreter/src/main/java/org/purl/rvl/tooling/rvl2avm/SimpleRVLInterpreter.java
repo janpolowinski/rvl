@@ -694,6 +694,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				    GraphicObjectX go = createOrGetGraphicObject(statement.getSubject());
 				    
 			    	Node sv = statement.getObject(); 
+			    	Resource subject = statement.getSubject();
 							
 					// get the target value for the sv
 			    	Node tv = svUriTVuriMap.get(sv);
@@ -715,9 +716,10 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 								|| inheritedBy.toString().equals(RVL.TBOX_RESTRICTION)
 								|| inheritedBy.toString().equals(RVL.TBOX_DOMAIN_RANGE)	
 								)) {
-							LOGGER.fine("Mapped value " + tv + " will be inherited to GOs representing nodes related via " + inheritedBy);
+							LOGGER.fine("Mapped value " + tv + " will be inherited to GOs representing nodes related to " + 
+								subject + "("+ AVMUtils.getGoodLabel(subject, modelSet.getModel(OGVICProcess.GRAPH_DATA)) +") via " + inheritedBy);
 						
-							applyGraphicValueToGOsRepresentingNodesRelatedVia(tga, tv, statement.getSubject(), inheritedBy);
+							applyGraphicValueToGOsRepresentingNodesRelatedVia(tga, tv, subject, inheritedBy);
 							
 						} 
 			    	}
