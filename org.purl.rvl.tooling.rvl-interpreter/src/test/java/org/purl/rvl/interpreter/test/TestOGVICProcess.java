@@ -1,13 +1,20 @@
 package org.purl.rvl.interpreter.test;
 
+import java.io.FileNotFoundException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorSimpleJSON;
+import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.process.VisProject;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class TestOGVICProcess {
 	
 	protected OGVICProcess process;
@@ -18,13 +25,13 @@ public class TestOGVICProcess {
 		
 		process = OGVICProcess.getInstance();
 		
-		process.registerOntologyFile(OGVICProcess.VISO_LOCAL_REL);
-		process.registerOntologyFile(OGVICProcess.RVL_LOCAL_REL);
+		process.registerOntologyFile(OntologyFile.VISO_GRAPHIC);
+		process.registerOntologyFile(OntologyFile.RVL);
 
 	}
 
 	@Test
-	public void testOGVICProcess() {
+	public void testOGVICProcess() throws FileNotFoundException {
 		
 		//public static final String REXD_URI = "http://purl.org/rvl/example-data";
 		//public static final String REXD_URI = "http://purl.org/rvl";

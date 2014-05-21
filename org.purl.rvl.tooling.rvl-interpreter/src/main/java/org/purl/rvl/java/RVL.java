@@ -1,5 +1,10 @@
 package org.purl.rvl.java;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
+
 public final class RVL {
 	
 	public static final String NS = "http://purl.org/rvl/";

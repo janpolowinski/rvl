@@ -1,26 +1,43 @@
 package org.purl.rvl.tooling.process;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.Reasoning;
+import org.purl.rvl.tooling.ModelBuilder;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorSimpleJSON;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorTreeJSON;
+import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class VisProjectLibrary {
 	
 	Map<String,VisProject> library = new HashMap<String,VisProject>();
+	
+	private final static Logger LOGGER = Logger.getLogger(VisProjectLibrary.class.getName()); 
 
 	/**
+	 * @throws FileNotFoundException 
 	 * 
 	 */
 	public VisProjectLibrary() {
 		super();
-		initWithUseCaseTestProjects();
+		try {
+			initWithUseCaseTestProjects();
+		} catch (FileNotFoundException e) {
+			LOGGER.severe("One of the files could not be read into the visualisation project library:");
+			LOGGER.severe(e.getMessage());
+			System.exit(0);
+		}
 	}
 	
-	public void initWithUseCaseTestProjects() {
+	public void initWithUseCaseTestProjects() throws FileNotFoundException {
 		
 		//////////////////////////////////////////////////////////////////
 		// Amino-Acids
@@ -85,7 +102,7 @@ public class VisProjectLibrary {
 		///////////////////////////////////////////////////////////////////
 		VisProject useCaseRVLClasses = new VisProject("rvlclasses");
 		useCaseRVLClasses.registerMappingFile(ExampleMapping.RVL_EXAMPLE_BOOTSTRAP);
-		useCaseRVLClasses.registerDataFile(OGVICProcess.RVL_LOCAL_REL);
+		useCaseRVLClasses.registerDataFile(OntologyFile.RVL);
 		useCaseRVLClasses.registerDataFile(ExampleData.RVL_EXTRA_DATA);
 		//useCaseRVLClasses.setRvlInterpreter(new SimpleRVLInterpreter());
 		useCaseRVLClasses.setD3Generator(new D3GeneratorTreeJSON());
@@ -107,19 +124,19 @@ public class VisProjectLibrary {
 		storeProject(useCaseRVLExampleData);
 		
 		//////////////////////////////////////////////////////////////////
-		// SLUB
+		// LLD
 		///////////////////////////////////////////////////////////////////
-		VisProject useCaseSLUB = new VisProject("slub");
-		useCaseSLUB.registerDataFile(ExampleData.SLUB_TEST);
-		useCaseSLUB.registerDataFile(ExampleData.SLUB_EXTRA_DATA);
-		useCaseSLUB.registerMappingFile(ExampleMapping.SLUB);
-		//useCaseSLUB.setRvlInterpreter(new SimpleRVLInterpreter());
-		//useCaseSLUB.setD3Generator(new D3GeneratorTreeJSON());
-		useCaseSLUB.setD3Generator(new D3GeneratorSimpleJSON());
-		storeProject(useCaseSLUB);
+		VisProject useCaseLLD = new VisProject("lld");
+		useCaseLLD.registerDataFile(ExampleData.LLD_TEST);
+		useCaseLLD.registerDataFile(ExampleData.LLD_EXTRA_DATA);
+		useCaseLLD.registerMappingFile(ExampleMapping.LLD);
+		//useCaseLLD.setRvlInterpreter(new SimpleRVLInterpreter());
+		//useCaseLLD.setD3Generator(new D3GeneratorTreeJSON());
+		useCaseLLD.setD3Generator(new D3GeneratorSimpleJSON());
+		storeProject(useCaseLLD);
 		
 		//////////////////////////////////////////////////////////////////
-		// VISO Classes
+		// VISO_GRAPHIC Classes
 		///////////////////////////////////////////////////////////////////
 		VisProject useCaseVISOClasses = new VisProject("visoclasses");
 		useCaseVISOClasses.registerMappingFile(ExampleMapping.RVL_EXAMPLE_BOOTSTRAP);

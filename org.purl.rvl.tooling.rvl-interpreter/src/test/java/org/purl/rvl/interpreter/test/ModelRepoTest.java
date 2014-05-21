@@ -12,12 +12,16 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
+import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
-import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.CustomRecordFormatter;
 import org.purl.rvl.tooling.util.ModelUtils;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class ModelRepoTest {
 	
 	private static final URIImpl GRAPH_MAPPING_ENRICHED_WITH_RVL = new URIImpl("http://purl.org/rvl/example/mapping/enriched/");
@@ -62,7 +66,7 @@ public class ModelRepoTest {
 		ModelSet modelSet = RDF2Go.getModelFactory().createModelSet(p);*/
 		
 		//newTest();
-		slubTest();
+		lldTest();
 		
 	}
 	
@@ -90,20 +94,20 @@ public class ModelRepoTest {
 
 	}
 	
-	public static void slubTest() {
+	public static void lldTest() {
 
 		// extendee
 		Model extendeeModel = RDF2Go.getModelFactory().createModel(
 				Reasoning.none);
 		extendeeModel.open();
-		ModelUtils.readFromAnySyntax(extendeeModel,ExampleMapping.SLUB);
+		ModelUtils.readFromAnySyntax(extendeeModel,ExampleMapping.LLD);
 
 		ModelUtils.printModelInfo("extendee model", extendeeModel, false);
 
 		// extender
 		Model extenderModel = RDF2Go.getModelFactory().createModel(Reasoning.none);
 		extenderModel.open();
-		ModelUtils.readFromAnySyntax(extenderModel,OGVICProcess.RVL_LOCAL_REL);
+		ModelUtils.readFromAnySyntax(extenderModel,OntologyFile.RVL);
 
 		ModelUtils.printModelInfo("extender model", extenderModel, false);
 		
@@ -120,12 +124,12 @@ public class ModelRepoTest {
 		// data
 		Model dataModel = RDF2Go.getModelFactory().createModel(Reasoning.none);
 		dataModel.open();
-		ModelUtils.readFromAnySyntax(dataModel, ExampleData.SLUB_TEST);
+		ModelUtils.readFromAnySyntax(dataModel, ExampleData.LLD_TEST);
 		
 		// mapping
 		Model mappingModel = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		mappingModel.open();
-		//ModelUtils.readFromAnySyntax(mappingModel, ExampleMapping.SLUB );
+		//ModelUtils.readFromAnySyntax(mappingModel, ExampleMapping.LLD );
 		ModelUtils.readFromAnySyntax(mappingModel, "../org.purl.rvl.vocabulary/model_repo_test_extendee.ttl" );
 		
 		ModelUtils.printModelInfo("mapping model", mappingModel, false);

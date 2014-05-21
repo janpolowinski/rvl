@@ -15,6 +15,10 @@ import org.purl.rvl.tooling.process.ResourcesCache;
 import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.ColorUtils;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class GraphicObjectX extends
 		org.purl.rvl.java.gen.viso.graphic.GraphicObject {
 	

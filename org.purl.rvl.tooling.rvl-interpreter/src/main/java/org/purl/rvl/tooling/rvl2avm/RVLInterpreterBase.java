@@ -20,9 +20,12 @@ import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.AVMUtils;
 
-public abstract class RVLInterpreterBase {
+/**
+ * @author Jan Polowinski
+ *
+ */
+public abstract class RVLInterpreterBase implements RVLInterpreter {
 	
-	//protected Model model;
 	protected Model modelAVM;
 	protected ModelSet modelSet;
 	protected Model modelData;
@@ -42,10 +45,11 @@ public abstract class RVLInterpreterBase {
 	}
 	
 
+	/* (non-Javadoc)
+	 * @see org.purl.rvl.tooling.rvl2avm.RVLInterpreter#init(org.ontoware.rdf2go.model.Model, org.ontoware.rdf2go.model.ModelSet)
+	 */
 	public void init(
-			//Model model,
-			Model modelAVM, ModelSet modelSet) {
-		//this.model = model;
+		Model modelAVM, ModelSet modelSet) {
 		this.modelAVM = modelAVM;
 		this.modelSet = modelSet;
 		this.modelData = modelSet.getModel(OGVICProcess.GRAPH_DATA);
@@ -56,8 +60,8 @@ public abstract class RVLInterpreterBase {
 	}
 
 
-	/**
-	 * Interpret all supported RVL mappings 
+	/* (non-Javadoc)
+	 * @see org.purl.rvl.tooling.rvl2avm.RVLInterpreter#interpretMappings()
 	 */
 	public void interpretMappings() {
 		LOGGER.info("Starting mapping interpretation ... ");

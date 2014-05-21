@@ -22,7 +22,7 @@ import org.ontoware.rdf2go.model.Syntax;
 import org.ontoware.rdf2go.model.node.Variable;
 
 /**
- * @author Jan
+ * @author Jan Polowinski
  *
  */
 public class ModelUtils {

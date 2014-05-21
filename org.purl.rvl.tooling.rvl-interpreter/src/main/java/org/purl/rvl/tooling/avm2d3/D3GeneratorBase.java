@@ -8,11 +8,12 @@ import org.ontoware.rdf2go.model.Model;
 import org.purl.rvl.tooling.process.OGVICProcess;
 
 
-public abstract class D3GeneratorBase {
+/**
+ * @author Jan Polowinski
+ *
+ */
+public abstract class D3GeneratorBase implements D3Generator {
 	
-	public static final int GENERATOR_SIMPLE_JSON = 1;
-	public static final int GENERATOR_TREE_JSON = 2;
-
 	protected static final String NL = System.getProperty("line.separator");
 
 	protected Model modelAVM;
@@ -39,8 +40,8 @@ public abstract class D3GeneratorBase {
 
 
 
-	/**
-	 * Saves a String to JSON file
+	/* (non-Javadoc)
+	 * @see org.purl.rvl.tooling.avm2d3.D3Generator#writeJSONToFile(java.lang.String)
 	 */
 	public void writeJSONToFile(String fileContent){
 		try {
@@ -57,13 +58,25 @@ public abstract class D3GeneratorBase {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.purl.rvl.tooling.avm2d3.D3Generator#init(org.ontoware.rdf2go.model.Model)
+	 */
 	public void init(Model modelAVM) {
 		this.modelAVM = modelAVM;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.purl.rvl.tooling.avm2d3.D3Generator#generateJSONforD3()
+	 */
 	public abstract String generateJSONforD3();
 	
+	/* (non-Javadoc)
+	 * @see org.purl.rvl.tooling.avm2d3.D3Generator#getGenJSONFileName()
+	 */
 	public abstract String getGenJSONFileName();
 	
+	/* (non-Javadoc)
+	 * @see org.purl.rvl.tooling.avm2d3.D3Generator#getDefaultD3GraphicFile()
+	 */
 	public abstract String getDefaultD3GraphicFile();
 }

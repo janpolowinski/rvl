@@ -3,79 +3,87 @@ package org.purl.rvl.java.rvl;
 import org.ontoware.rdf2go.model.node.Node;
 import org.purl.rvl.java.gen.rvl.Interval;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class IntervalX {
 
-private Interval intervalGen;
+	private Interval intervalGen;
 
-static final String NL = System.getProperty("line.separator");
+	static final String NL = System.getProperty("line.separator");
 
-/**
- * @param intervalGen
- */
-public IntervalX(Interval intervalGen) {
-	super();
-	this.intervalGen = intervalGen;
-}
+	/**
+	 * @param intervalGen
+	 */
+	public IntervalX(Interval intervalGen) {
+		super();
+		this.intervalGen = intervalGen;
+	}
 
-/**
- * @return the intervalGen
- */
-public Interval getIntervalGen() {
+	/**
+	 * @return the intervalGen
+	 */
+	public Interval getIntervalGen() {
 
-	return intervalGen;
-}
+		return intervalGen;
+	}
 
-public Node getLowerBoundExcl() {
-	if (intervalGen.hasLowerboundexclusive()) {
-		return intervalGen.getAllLowerboundexclusive_asNode_().firstValue();
-	} else return null;
-}
+	public Node getLowerBoundExcl() {
+		if (intervalGen.hasLowerboundexclusive()) {
+			return intervalGen.getAllLowerboundexclusive_asNode_().firstValue();
+		} else
+			return null;
+	}
 
-public Node getLowerBoundIncl() {
-	if (intervalGen.hasLowerboundinclusive()) {
-		return intervalGen.getAllLowerboundinclusive_asNode_().firstValue();
-	} else return null;
-}
+	public Node getLowerBoundIncl() {
+		if (intervalGen.hasLowerboundinclusive()) {
+			return intervalGen.getAllLowerboundinclusive_asNode_().firstValue();
+		} else
+			return null;
+	}
 
-public Node getUpperBoundExcl() {
-	if (intervalGen.hasUpperboundexclusive()) {
-		return intervalGen.getAllUpperboundexclusive_asNode_().firstValue();
-	} else return null;
-}
+	public Node getUpperBoundExcl() {
+		if (intervalGen.hasUpperboundexclusive()) {
+			return intervalGen.getAllUpperboundexclusive_asNode_().firstValue();
+		} else
+			return null;
+	}
 
-public Node getUpperBoundIncl() {
-	if (intervalGen.hasUpperboundinclusive()) {
-		return intervalGen.getAllUpperboundinclusive_asNode_().firstValue();
-	} else return null;
-}
+	public Node getUpperBoundIncl() {
+		if (intervalGen.hasUpperboundinclusive()) {
+			return intervalGen.getAllUpperboundinclusive_asNode_().firstValue();
+		} else
+			return null;
+	}
 
-public String toStringDetailed(){
-	
-	String s = "";
-	
-	s += " lower bound incl: " + getLowerBoundIncl() ;
-	s += ", lower bound excl: " + getLowerBoundExcl() ;
-	s += ", upper bound incl: " + getUpperBoundIncl() ;
-	s += ", upper bound excl: " + getUpperBoundExcl() ;
-	
-	return s;
-	
-}
+	public String toStringDetailed() {
 
-public Node getLowerBound() {
-	return getLowerBoundIncl();
-}
+		String s = "";
 
-public Node getUpperBound() {
-	return getUpperBoundIncl();
-}
+		s += " lower bound incl: " + getLowerBoundIncl();
+		s += ", lower bound excl: " + getLowerBoundExcl();
+		s += ", upper bound incl: " + getUpperBoundIncl();
+		s += ", upper bound excl: " + getUpperBoundExcl();
 
-public float getLowerBoundAsFloat() {
-	return Float.parseFloat(getLowerBound().asLiteral().toString());
-}
+		return s;
 
-public float getUpperBoundAsFloat() {
-	return Float.parseFloat(getUpperBound().asLiteral().toString());
-}
+	}
+
+	public Node getLowerBound() {
+		return getLowerBoundIncl();
+	}
+
+	public Node getUpperBound() {
+		return getUpperBoundIncl();
+	}
+
+	public float getLowerBoundAsFloat() {
+		return Float.parseFloat(getLowerBound().asLiteral().toString());
+	}
+
+	public float getUpperBoundAsFloat() {
+		return Float.parseFloat(getUpperBound().asLiteral().toString());
+	}
 
 }

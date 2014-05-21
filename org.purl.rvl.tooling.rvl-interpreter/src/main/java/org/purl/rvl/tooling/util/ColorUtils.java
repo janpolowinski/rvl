@@ -2,6 +2,10 @@ package org.purl.rvl.tooling.util;
 
 import java.util.logging.Logger;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class ColorUtils {
 	
 	private final static Logger LOGGER = Logger.getLogger(ColorUtils.class.getName());

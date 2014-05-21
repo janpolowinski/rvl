@@ -3,6 +3,10 @@ package org.purl.rvl.java.viso.graphic;
 import java.util.Set;
 import java.util.HashSet;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class GraphicSpaceX {
 	
 	private Set<GraphicObjectX> gos;

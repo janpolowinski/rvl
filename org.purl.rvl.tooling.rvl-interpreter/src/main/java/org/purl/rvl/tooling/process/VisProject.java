@@ -1,15 +1,19 @@
 package org.purl.rvl.tooling.process;
 
-import java.util.logging.Logger;
+import java.io.FileNotFoundException;
 
 import org.ontoware.rdf2go.Reasoning;
-import org.purl.rvl.tooling.avm2d3.D3GeneratorBase;
+import org.purl.rvl.tooling.avm2d3.D3Generator;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class VisProject {
 	
 	private final  FileRegistry dataFileRegistry = new FileRegistry("data files"); // DATA
 	private final  FileRegistry mappingFileRegistry = new FileRegistry("mapping files"); // Mapping files (each interpreted as a mapping set)
-	private D3GeneratorBase d3Generator;
+	private D3Generator d3Generator;
 	private Reasoning reasoningDataModel = Reasoning.rdfs;
 	private String name;
 
@@ -24,16 +28,13 @@ public class VisProject {
 	}
 
 
-	// LOGGING
-	private final static Logger LOGGER = Logger.getLogger(OGVICProcess.class.getName()); 
-
 	
-	public void registerMappingFile(String fileName){
+	public void registerMappingFile(String fileName) throws FileNotFoundException{
 		this.mappingFileRegistry.addFile(fileName);
 	}
 	
 	
-	public void registerDataFile(String fileName){
+	public void registerDataFile(String fileName) throws FileNotFoundException{
 		this.dataFileRegistry.addFile(fileName);
 	}
 	
@@ -71,11 +72,11 @@ public class VisProject {
 	}
 
 
-	public D3GeneratorBase getD3Generator() {
+	public D3Generator getD3Generator() {
 		return d3Generator;
 	}
 	
-	public void setD3Generator(D3GeneratorBase d3Generator) {
+	public void setD3Generator(D3Generator d3Generator) {
 		this.d3Generator = d3Generator;
 	}
 

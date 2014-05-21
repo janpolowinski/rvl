@@ -9,6 +9,7 @@ import org.ontoware.rdf2go.Reasoning;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
+import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
 import org.purl.rvl.tooling.process.FileRegistry;
@@ -16,6 +17,10 @@ import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.ModelUtils;
 
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class ModelBuilder {
 	
 	//private Model model;
@@ -75,9 +80,9 @@ public class ModelBuilder {
 
 
 		try {
-			ModelUtils.readFromAnySyntax(modelRVLSchema,OGVICProcess.RVL_LOCAL_REL);
-			ModelUtils.readFromAnySyntax(modelVISO,OGVICProcess.VISO_LOCAL_REL);
-			ModelUtils.readFromAnySyntax(modelMappings,ExampleMapping.RVL_EXAMPLE_MINI);
+			ModelUtils.readFromAnySyntax(modelRVLSchema,OntologyFile.RVL);
+			ModelUtils.readFromAnySyntax(modelVISO,OntologyFile.VISO_GRAPHIC);
+			ModelUtils.readFromAnySyntax(modelMappings,ExampleMapping.RVL_EXAMPLE);
 			ModelUtils.readFromAnySyntax(modelData,ExampleData.RVL_EXAMPLE); 
 			
 			modelMappings.addModel(modelRVLSchema); // TODO temp hack!
@@ -94,7 +99,7 @@ public class ModelBuilder {
 		// extra model for VISO
 		modelVISO = RDF2Go.getModelFactory().createModel(Reasoning.none); // no reasoning seems to be OK here
 		modelVISO.open();
-		String visoFileName = OGVICProcess.VISO_LOCAL_REL;
+		String visoFileName = OntologyFile.VISO_GRAPHIC;
 		ModelUtils.readFromAnySyntax(modelVISO,visoFileName);
 		LOGGER.info("Read VISO-graphic into VISO model: " + visoFileName);
 	
@@ -105,7 +110,7 @@ public class ModelBuilder {
 		// extra model for RVL (schema)
 		modelRVLSchema = RDF2Go.getModelFactory().createModel(Reasoning.none); // no reasoning seems to be OK here
 		modelRVLSchema.open();
-		String rvlFileName = OGVICProcess.RVL_LOCAL_REL;
+		String rvlFileName = OntologyFile.RVL;
 		ModelUtils.readFromAnySyntax(modelRVLSchema,rvlFileName);
 		LOGGER.info("Read RVL schmema into RVL schema model: " + rvlFileName);
 		

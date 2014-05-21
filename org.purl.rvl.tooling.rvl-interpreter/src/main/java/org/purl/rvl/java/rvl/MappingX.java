@@ -6,6 +6,10 @@ import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class MappingX extends org.purl.rvl.java.gen.rvl.Mapping implements MappingIF {
 
 	static final String NL =  System.getProperty("line.separator");

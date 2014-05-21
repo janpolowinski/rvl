@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.logging.Logger;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class OGVICConsole {
 	
 	private final static Logger LOGGER = Logger.getLogger(OGVICConsole.class.getName()); 

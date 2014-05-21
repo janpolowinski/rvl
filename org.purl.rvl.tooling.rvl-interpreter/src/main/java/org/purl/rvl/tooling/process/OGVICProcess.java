@@ -2,6 +2,7 @@ package org.purl.rvl.tooling.process;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
@@ -19,13 +20,17 @@ import org.ontoware.rdf2go.model.Syntax;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.purl.rvl.tooling.ModelBuilder;
-import org.purl.rvl.tooling.avm2d3.D3GeneratorBase;
+import org.purl.rvl.tooling.avm2d3.D3Generator;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorSimpleJSON;
-import org.purl.rvl.tooling.rvl2avm.RVLInterpreterBase;
+import org.purl.rvl.tooling.rvl2avm.RVLInterpreter;
 import org.purl.rvl.tooling.rvl2avm.SimpleRVLInterpreter;
 import org.purl.rvl.tooling.util.CustomRecordFormatter;
 
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class OGVICProcess {
 	
 	private static OGVICProcess instance = null;
@@ -35,10 +40,6 @@ public class OGVICProcess {
 	public static boolean REGENERATE_AVM = true;
 	public static boolean WRITE_AVM = true;
 	public static boolean WRITE_JSON = true;
-	
-	// LOCAL RDF FILES
-	public static final String RVL_LOCAL_REL = "../org.purl.rvl.vocabulary/rvl.owl";
-	public static final String VISO_LOCAL_REL = "../org.purl.rvl.vocabulary/viso-branch/viso-graphic-inference.ttl";
 	
 	// LOCAL FILES AND FOLDER SETTINGS
 	public static String USE_CASE_FOLDER = ""; // now set in properties-file
@@ -64,10 +65,10 @@ public class OGVICProcess {
 	ModelBuilder modelBuilder;
 
 	//protected static FakeRVLInterpreter avmBuilder;
-	protected D3GeneratorBase d3Generator;
-	protected RVLInterpreterBase rvlInterpreter;
+	protected D3Generator d3Generator;
+	protected RVLInterpreter rvlInterpreter;
 	
-	private final  FileRegistry ontologyFileRegistry = new FileRegistry("ontology files"); // RVL, VISO ,...
+	private final  FileRegistry ontologyFileRegistry = new FileRegistry("ontology files"); // RVL, VISO_GRAPHIC ,...
 	private final  FileRegistry dataFileRegistry = new FileRegistry("data files"); // DATA
 	private final  FileRegistry mappingFileRegistry = new FileRegistry("mapping files"); // Mapping files (each interpreted as a mapping set)
 	
@@ -125,7 +126,7 @@ public class OGVICProcess {
     	
     	try {
     		
-    	  properties.load(new FileInputStream("ogvic.properties"));
+    	  properties.load(new FileInputStream("ogvic.properties")); // TODO: this is taken from the maven project, which executes the program, not always from the interpreter project! 
     	  
     	  MAX_GRAPHIC_RELATIONS_PER_MAPPING = Integer.parseInt(properties.get("org.purl.rvl.tooling.max-graphic-relations-per-mapping").toString());
     	  USE_CASE_FOLDER = properties.get("org.purl.rvl.tooling.use-case-folder").toString();
@@ -133,6 +134,8 @@ public class OGVICProcess {
     	} catch (Exception e) {
     		
     		LOGGER.severe("Could not load settings from properties-file. Reason: " + e.getMessage());
+    		e.printStackTrace();
+    		System.exit(0);
     		
     	}
     	
@@ -310,30 +313,30 @@ public class OGVICProcess {
 	/**
 	 * @return the rvlInterpreter
 	 */
-	public RVLInterpreterBase getRvlInterpreter() {
+	public RVLInterpreter getRvlInterpreter() {
 		return rvlInterpreter;
 	}
 
 	/**
 	 * @param rvlInterpreter the rvlInterpreter to set
 	 */
-	public void setRvlInterpreter(RVLInterpreterBase rvlInterpreter) {
+	public void setRvlInterpreter(RVLInterpreter rvlInterpreter) {
 		this.rvlInterpreter = rvlInterpreter;
 	}
 
-	public void setD3Generator(D3GeneratorBase d3Generator) {
+	public void setD3Generator(D3Generator d3Generator) {
 		this.d3Generator = d3Generator;
 	}
 
-	public void registerMappingFile(String fileName){
+	public void registerMappingFile(String fileName) throws FileNotFoundException{
 		this.mappingFileRegistry.addFile(fileName);
 	}
 	
-	public void registerOntologyFile(String fileName){
+	public void registerOntologyFile(String fileName) throws FileNotFoundException{
 		this.ontologyFileRegistry.addFile(fileName);
 	}
 	
-	public void registerDataFile(String fileName){
+	public void registerDataFile(String fileName) throws FileNotFoundException{
 		this.dataFileRegistry.addFile(fileName);
 	}
 

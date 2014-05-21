@@ -1,4 +1,1 @@
-Notes on installing the OGVIC tooling
-
-a third change
-dsf 
+For now please look at the wiki pages on GitHub for notes on installing the RVL tooling.

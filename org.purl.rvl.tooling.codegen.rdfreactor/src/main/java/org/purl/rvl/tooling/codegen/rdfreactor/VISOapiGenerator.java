@@ -10,16 +10,14 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.Syntax;
 import org.ontoware.rdfreactor.generator.CodeGenerator;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class VISOapiGenerator {
 
 	// paths
 	final public static String PATH_FOR_GEN_CODE = "src/main/java/";
-	final public static File pathToGenCode = new File("src/main/java/");
-
-	// ontologies
-	final public static String ONTOLOGY_URL = "../org.purl.rvl.vocabulary/viso-branch/viso-graphic-inference.ttl";
-
-	final public static String VISO_GRAPHIC_EXTRA = "../org.purl.rvl.vocabulary/viso-branch/viso-graphic-extra-for-codegen.ttl"; // extra statements required for correct code generation
 
 	public static final String PACKAGE = "org.purl.rvl.java.gen.viso.graphic";
 
@@ -29,8 +27,8 @@ public class VISOapiGenerator {
 		Model model = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		model.open();
 		
-		// read VISO/graphic into its own model and into the main model
-		File file = new File(ONTOLOGY_URL);
+		// read VISO_GRAPHIC/graphic into its own model and into the main model
+		File file = new File(OntologyFile.VISO_GRAPHIC);
 		
 		if (file.exists()) {
 			try {
@@ -41,7 +39,7 @@ public class VISOapiGenerator {
 		}
 		
 		// add extra triples useful for code generation
-		File fileVisoExtra = new File(VISO_GRAPHIC_EXTRA);
+		File fileVisoExtra = new File(OntologyFile.VISO_GRAPHIC_EXTRA);
 		
 		if (file.exists()) {
 			try {
@@ -51,11 +49,11 @@ public class VISOapiGenerator {
 			}
 		}
 
-		CodeGenerator.generate(model, pathToGenCode, PACKAGE, Reasoning.rdfs,
+		CodeGenerator.generate(model, new File(PATH_FOR_GEN_CODE), PACKAGE, Reasoning.rdfs,
 				true, "");
 
 		// CodeGenerator.generate(
-		// ONTOLOGY_URL,
+		// VISO_GRAPHIC,
 		// PATH_FOR_GEN_CODE,
 		// PACKAGE,
 		// Reasoning.rdfs, // rdfsAndOwl causes errors when rdfs:comment is

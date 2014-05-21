@@ -29,6 +29,10 @@ import org.purl.rvl.tooling.process.ResourcesCache;
 import org.purl.rvl.tooling.util.AVMUtils;
 
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class PropertyToGraphicAttributeMappingX extends
 		Property_to_Graphic_AttributeMapping implements MappingIF {
 	

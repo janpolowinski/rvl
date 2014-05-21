@@ -4,6 +4,10 @@ import java.util.logging.Logger;
 
 import org.apache.commons.lang.StringUtils;
 
+/**
+ * @author Jan Polowinski
+ *
+ */
 public class D3Utils {
 	
 	private final static Logger LOGGER = Logger.getLogger(D3Utils.class.getName());
