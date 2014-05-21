@@ -7,3 +7,5 @@ pom.properties
 /.classpath
 
 /gen/*.*
+
+ogvic.properties

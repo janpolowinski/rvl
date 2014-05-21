@@ -17,9 +17,9 @@ public class ExampleData {
 	public static final String ZFO_SUBSET = OGVICProcess.USE_CASE_FOLDER + "/Bio/Zebrafish/ZFA_subset.ttl";
 	public static final String ZFO = OGVICProcess.USE_CASE_FOLDER + "/Bio/Zebrafish/ZFA.ttl";
 	public static final String AA = OGVICProcess.USE_CASE_FOLDER + "/Bio/AminoAcid/amino-acid.owl";
-	public static final String SLUB = OGVICProcess.USE_CASE_FOLDER + "/Publication/SLUB/dmpf_bsp_abbrv.ttl";
-	public static final String SLUB_EXTRA_DATA = OGVICProcess.USE_CASE_FOLDER + "/Publication/SLUB/extra_data.ttl";
-	public static final String SLUB_TEST = OGVICProcess.USE_CASE_FOLDER + "/Publication/SLUB/dmpf_bsp_abbrv_test.ttl";
+	public static final String LLD = OGVICProcess.USE_CASE_FOLDER + "/Publication/LLD/dmpf_bsp_abbrv.ttl";
+	public static final String LLD_EXTRA_DATA = OGVICProcess.USE_CASE_FOLDER + "/Publication/LLD/extra_data.ttl";
+	public static final String LLD_TEST = OGVICProcess.USE_CASE_FOLDER + "/Publication/LLD/dmpf_bsp_abbrv_test.ttl";
 	public static final String CIT = OGVICProcess.USE_CASE_FOLDER + "/Publication/SPAR/cito_example_data.ttl";
 	public static final String CITO = OGVICProcess.USE_CASE_FOLDER + "/Publication/SPAR/cito.owl";
 

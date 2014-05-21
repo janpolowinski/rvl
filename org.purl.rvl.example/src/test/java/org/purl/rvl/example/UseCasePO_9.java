@@ -1,4 +1,4 @@
-package org.purl.rvl.interpreter.usecase;
+package org.purl.rvl.example;
 
 import java.io.FileNotFoundException;
 

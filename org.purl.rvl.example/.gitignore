@@ -8,3 +8,5 @@ pom.properties
 .project
 
 /gen/*.*
+
+ogvic.properties

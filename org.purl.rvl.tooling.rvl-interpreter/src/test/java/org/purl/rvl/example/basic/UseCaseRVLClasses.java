@@ -1,27 +1,29 @@
-package org.purl.rvl.interpreter.usecase;
+package org.purl.rvl.example.basic;
 
 import java.io.FileNotFoundException;
 
 import org.junit.Test;
+import org.ontoware.rdf2go.Reasoning;
 import org.purl.rvl.interpreter.test.TestOGVICProcess;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorTreeJSON;
+import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
 
-public class UseCasePO extends TestOGVICProcess {
+public class UseCaseRVLClasses extends TestOGVICProcess {
 	
 	@Test
 	public void testOGVICProcess() throws FileNotFoundException {
 		
-		//process.setUriStart("http://purl.org/obo/owl/");
+		project.setReasoningDataModel(Reasoning.rdfs);
 
-		project.registerMappingFile(ExampleMapping.PO);
-		project.registerDataFile(ExampleData.PO);
-		project.registerDataFile(ExampleData.PO_EXTRA_DATA);
+		project.registerMappingFile(ExampleMapping.RVL_EXAMPLE_BOOTSTRAP);
+		project.registerDataFile(OntologyFile.RVL);
+		project.registerDataFile(ExampleData.RVL_EXTRA_DATA);
 		
 		//project.setRvlInterpreter(new SimpleRVLInterpreter());
 		project.setD3Generator(new D3GeneratorTreeJSON());
-		//process.setD3Generator(new D3GeneratorSimpleJSON());
+		//project.setD3Generator(new D3GeneratorSimpleJSON());
 		
 		loadProjectAndRunProcess();
 	}

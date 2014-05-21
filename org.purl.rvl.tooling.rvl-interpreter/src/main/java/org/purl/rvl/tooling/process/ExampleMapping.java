@@ -30,7 +30,7 @@ public class ExampleMapping {
 	public static final String CIT_1 = OGVICProcess.USE_CASE_FOLDER + "/Publication/SPAR/MappingExample/CIT_1.ttl";
 	public static final String CIT_5 = OGVICProcess.USE_CASE_FOLDER + "/Publication/SPAR/MappingExample/CIT_5.ttl";
 	public static final String CIT_blog = OGVICProcess.USE_CASE_FOLDER + "/Publication/SPAR/MappingExample/CIT_blog.ttl";
-	public static final String SLUB = OGVICProcess.USE_CASE_FOLDER + "/Publication/SLUB/slub-data-mapping-example.ttl";
+	public static final String LLD = OGVICProcess.USE_CASE_FOLDER + "/Publication/LLD/lld-data-mapping-example.ttl";
 	
 	public static final String AVM_EXAMPLE_BOOTSTRAP = "../org.purl.rvl.vocabulary/example-mappings/avm-example-mappings-bootstrap.ttl";
 

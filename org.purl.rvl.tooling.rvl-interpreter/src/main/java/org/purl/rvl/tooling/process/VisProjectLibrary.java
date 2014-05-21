@@ -124,16 +124,16 @@ public class VisProjectLibrary {
 		storeProject(useCaseRVLExampleData);
 		
 		//////////////////////////////////////////////////////////////////
-		// SLUB
+		// LLD
 		///////////////////////////////////////////////////////////////////
-		VisProject useCaseSLUB = new VisProject("slub");
-		useCaseSLUB.registerDataFile(ExampleData.SLUB_TEST);
-		useCaseSLUB.registerDataFile(ExampleData.SLUB_EXTRA_DATA);
-		useCaseSLUB.registerMappingFile(ExampleMapping.SLUB);
-		//useCaseSLUB.setRvlInterpreter(new SimpleRVLInterpreter());
-		//useCaseSLUB.setD3Generator(new D3GeneratorTreeJSON());
-		useCaseSLUB.setD3Generator(new D3GeneratorSimpleJSON());
-		storeProject(useCaseSLUB);
+		VisProject useCaseLLD = new VisProject("lld");
+		useCaseLLD.registerDataFile(ExampleData.LLD_TEST);
+		useCaseLLD.registerDataFile(ExampleData.LLD_EXTRA_DATA);
+		useCaseLLD.registerMappingFile(ExampleMapping.LLD);
+		//useCaseLLD.setRvlInterpreter(new SimpleRVLInterpreter());
+		//useCaseLLD.setD3Generator(new D3GeneratorTreeJSON());
+		useCaseLLD.setD3Generator(new D3GeneratorSimpleJSON());
+		storeProject(useCaseLLD);
 		
 		//////////////////////////////////////////////////////////////////
 		// VISO_GRAPHIC Classes

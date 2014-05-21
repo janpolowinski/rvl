@@ -126,7 +126,7 @@ public class OGVICProcess {
     	
     	try {
     		
-    	  properties.load(new FileInputStream("ogvic.properties"));
+    	  properties.load(new FileInputStream("ogvic.properties")); // TODO: this is taken from the maven project, which executes the program, not always from the interpreter project! 
     	  
     	  MAX_GRAPHIC_RELATIONS_PER_MAPPING = Integer.parseInt(properties.get("org.purl.rvl.tooling.max-graphic-relations-per-mapping").toString());
     	  USE_CASE_FOLDER = properties.get("org.purl.rvl.tooling.use-case-folder").toString();
@@ -134,6 +134,8 @@ public class OGVICProcess {
     	} catch (Exception e) {
     		
     		LOGGER.severe("Could not load settings from properties-file. Reason: " + e.getMessage());
+    		e.printStackTrace();
+    		System.exit(0);
     		
     	}
     	

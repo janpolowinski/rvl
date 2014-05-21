@@ -66,7 +66,7 @@ public class ModelRepoTest {
 		ModelSet modelSet = RDF2Go.getModelFactory().createModelSet(p);*/
 		
 		//newTest();
-		slubTest();
+		lldTest();
 		
 	}
 	
@@ -94,13 +94,13 @@ public class ModelRepoTest {
 
 	}
 	
-	public static void slubTest() {
+	public static void lldTest() {
 
 		// extendee
 		Model extendeeModel = RDF2Go.getModelFactory().createModel(
 				Reasoning.none);
 		extendeeModel.open();
-		ModelUtils.readFromAnySyntax(extendeeModel,ExampleMapping.SLUB);
+		ModelUtils.readFromAnySyntax(extendeeModel,ExampleMapping.LLD);
 
 		ModelUtils.printModelInfo("extendee model", extendeeModel, false);
 
@@ -124,12 +124,12 @@ public class ModelRepoTest {
 		// data
 		Model dataModel = RDF2Go.getModelFactory().createModel(Reasoning.none);
 		dataModel.open();
-		ModelUtils.readFromAnySyntax(dataModel, ExampleData.SLUB_TEST);
+		ModelUtils.readFromAnySyntax(dataModel, ExampleData.LLD_TEST);
 		
 		// mapping
 		Model mappingModel = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		mappingModel.open();
-		//ModelUtils.readFromAnySyntax(mappingModel, ExampleMapping.SLUB );
+		//ModelUtils.readFromAnySyntax(mappingModel, ExampleMapping.LLD );
 		ModelUtils.readFromAnySyntax(mappingModel, "../org.purl.rvl.vocabulary/model_repo_test_extendee.ttl" );
 		
 		ModelUtils.printModelInfo("mapping model", mappingModel, false);

@@ -1,4 +1,4 @@
-package org.purl.rvl.interpreter.usecase;
+package org.purl.rvl.example;
 
 import java.io.FileNotFoundException;
 
@@ -8,12 +8,12 @@ import org.purl.rvl.tooling.avm2d3.D3GeneratorSimpleJSON;
 import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
 
-public class UseCaseRO_4b extends TestOGVICProcess {
+public class UseCaseRO_5 extends TestOGVICProcess {
 	
 	@Test
 	public void testOGVICProcess() throws FileNotFoundException {
 		
-		project.registerMappingFile(ExampleMapping.RO_4b);
+		project.registerMappingFile(ExampleMapping.RO_5);
 		project.registerDataFile(ExampleData.RO_SOCIAL_NETWORK);
 		project.registerDataFile(ExampleData.RO_SOCIAL_NETWORK_EXTRA_DATA);
 		

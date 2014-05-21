@@ -1,4 +1,5 @@
-# modify this file according to your environment and save it as ogvic.properties
+# modify this file according to your environment and save it as ogvic.properties in the interpreter 
+# project AND (!) in the examples project if you want to run the examples (properties currently not shared)
 
 #org.purl.rvl.tooling.max-graphic-relations-per-mapping=200
 #org.purl.rvl.tooling.use-case-folder=/absolute/path/to/the/use/case/folder/currently/not/on/git/hub

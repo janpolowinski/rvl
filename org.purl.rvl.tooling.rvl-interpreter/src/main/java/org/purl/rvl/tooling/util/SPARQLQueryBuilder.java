@@ -1,5 +1,7 @@
 package org.purl.rvl.tooling.util;
 
+import java.io.File;
+
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
@@ -189,7 +191,7 @@ public class SPARQLQueryBuilder {
 		StringBuilder stringBuilder = new StringBuilder();
 		
 		protected SPARQLStringBuilder append(String sparqlLine){
-			stringBuilder.append(sparqlLine).append(System.lineSeparator());
+			stringBuilder.append(sparqlLine).append(System.getProperty("line.separator"));
 			return this;
 		}
 		
