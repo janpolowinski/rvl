@@ -66,7 +66,22 @@ public class ModelRepoTest {
 		ModelSet modelSet = RDF2Go.getModelFactory().createModelSet(p);*/
 		
 		//newTest();
-		lldTest();
+		//lldTest();
+		owlReasoningTest();
+		
+	}
+	
+	public static void owlReasoningTest() {
+
+		// extendee
+		Model extendeeModel = RDF2Go.getModelFactory().createModel(
+				Reasoning.owl);
+		extendeeModel.open();
+		ModelUtils.readFromAnySyntax(extendeeModel,
+				"../org.purl.rvl.vocabulary/experiments/example-data/model_repo_test_extendee.ttl");
+
+		ModelUtils.printModelInfo("extendee model", extendeeModel, true);
+
 		
 	}
 	
@@ -77,7 +92,7 @@ public class ModelRepoTest {
 				Reasoning.none);
 		extendeeModel.open();
 		ModelUtils.readFromAnySyntax(extendeeModel,
-				"../org.purl.rvl.vocabulary/model_repo_test_extendee.ttl");
+				"../org.purl.rvl.vocabulary/experiments/example-data/model_repo_test_extendee.ttl");
 
 		ModelUtils.printModelInfo("extendee model", extendeeModel, false);
 
@@ -85,7 +100,7 @@ public class ModelRepoTest {
 		Model extenderModel = RDF2Go.getModelFactory().createModel(Reasoning.none);
 		extenderModel.open();
 		ModelUtils.readFromAnySyntax(extenderModel,
-				"../org.purl.rvl.vocabulary/model_repo_test_extender.ttl");
+				"../org.purl.rvl.vocabulary/experiments/example-data/model_repo_test_extender.ttl");
 
 		ModelUtils.printModelInfo("extender model", extenderModel, false);
 		
@@ -130,7 +145,7 @@ public class ModelRepoTest {
 		Model mappingModel = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		mappingModel.open();
 		//ModelUtils.readFromAnySyntax(mappingModel, ExampleMapping.LLD );
-		ModelUtils.readFromAnySyntax(mappingModel, "../org.purl.rvl.vocabulary/model_repo_test_extendee.ttl" );
+		ModelUtils.readFromAnySyntax(mappingModel, "../org.purl.rvl.vocabulary/experiments/example-data/model_repo_test_extendee.ttl" );
 		
 		ModelUtils.printModelInfo("mapping model", mappingModel, false);
 		
@@ -146,7 +161,7 @@ public class ModelRepoTest {
 		Model rvlModel = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		rvlModel.open();
 		//ModelUtils.readFromAnySyntax(rvlModel, OGVICProcess.RVL_LOCAL_REL );
-		ModelUtils.readFromAnySyntax(rvlModel, "../org.purl.rvl.vocabulary/model_repo_test_extender.ttl" );
+		ModelUtils.readFromAnySyntax(rvlModel, "../org.purl.rvl.vocabulary/experiments/example-data/model_repo_test_extender.ttl" );
 		
 		ModelUtils.printModelInfo("rvl model", rvlModel, false);
 		

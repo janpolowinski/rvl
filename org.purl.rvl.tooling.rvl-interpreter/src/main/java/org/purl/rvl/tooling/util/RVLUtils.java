@@ -512,11 +512,13 @@ public class RVLUtils {
 			
 			String queryString = "" + 
 					" SELECT DISTINCT ?r " + 
-					" FROM " + OGVICProcess.GRAPH_DATA.toSPARQL() + " " + 
 					" WHERE { " +
+					" GRAPH " + OGVICProcess.GRAPH_DATA.toSPARQL() + " { " +
 					//" ?r " + inheritedBy.toSPARQL()+"* " + subject.toSPARQL() + " . " +  TODO: overwrites everything when owl:Class is mapped
-					" ?r " + inheritedBy.toSPARQL()+" " + subject.toSPARQL() + " . " + 
+					" ?r " + inheritedBy.toSPARQL()+" " + subject.toSPARQL()  + 
+					" } " +
 					" }";
+			
 	
 			LOGGER.finest("Query :" + queryString);
 	
