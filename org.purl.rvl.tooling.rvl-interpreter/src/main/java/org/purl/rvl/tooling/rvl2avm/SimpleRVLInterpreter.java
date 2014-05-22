@@ -169,8 +169,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				//GraphicObjectX connector = new GraphicObjectX(modelAVM, true);
 				GraphicObjectX connector = new GraphicObjectX(modelAVM,"http://purl.org/rvl/example-avm/GO_Connector_" + random.nextInt(), true);
 				//connector.setLabel(statement.getPredicate()); 
-		    	connector.setLabel(AVMUtils.getGoodLabel(statement.getPredicate(), modelAVM) + "     (actually the label of the connector representing this) "); // statement contains evtl. used subproperty
-				
+		    	connector.setLabel(AVMUtils.getGoodLabel(statement.getPredicate(), modelAVM)); // TODO: actually the label of the connector representing this ; statement contains evtl. used subproperty
+					    	
 				// generic graphic relation needed for submappings 
 				// (could also be some super class of directed linking, undirected linking, containment ,...)
 				Resource rel = null;
@@ -196,6 +196,9 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 						objectNode.addLinkedfrom(dlRel);
 					}
 					
+					// set default shape of directed connectors
+					connector.setShapenamed(new ShapeX(modelAVM, "http://purl.org/viso/shape/commons/UMLAssociation", false));
+					
 					dlRel.setLinkingconnector(connector);
 					rel=dlRel;
 					
@@ -213,6 +216,9 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					subjectNode.addLinkedwith(udlRel);
 					objectNode.addLinkedwith(udlRel);
 					
+					// set default shape of undirected connectors
+					connector.setShapenamed(new ShapeX(modelAVM, "http://purl.org/viso/shape/commons/Line", false));
+
 					udlRel.setLinkingconnector(connector);
 					rel=udlRel;
 				}
