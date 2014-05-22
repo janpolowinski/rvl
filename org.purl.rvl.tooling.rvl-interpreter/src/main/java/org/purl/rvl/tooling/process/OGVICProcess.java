@@ -181,8 +181,8 @@ public class OGVICProcess {
 		//	this.modelAVM = readAVMFromFile(modelBuilder);
 		//}
 		
-		this.modelAVM = modelBuilder.initAVMModel();
 		modelBuilder.initVISOModel();
+		this.modelAVM = modelBuilder.initAVMModel();
 		modelBuilder.initRVLModel();
 		
 	}

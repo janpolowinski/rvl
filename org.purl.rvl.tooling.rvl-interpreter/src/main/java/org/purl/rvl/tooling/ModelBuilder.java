@@ -95,9 +95,14 @@ public class ModelBuilder {
 	}
 	
 	
+	/** Extra model for VISO
+	 * 
+	 */
 	public void initVISOModel() {
-		// extra model for VISO
-		modelVISO = RDF2Go.getModelFactory().createModel(Reasoning.none); // no reasoning seems to be OK here
+		modelVISO = RDF2Go.getModelFactory().createModel(Reasoning.none); // no reasoning seems to be OK here 
+		// temp. turned on reasoning to allow for reasoning that linking_node subPropertyOf linkingDirected_endNode, 
+		// however that does not seem to work due to other issues (e.g. Linking_Directed is not a subclass of Linking_Undirected) anyway.
+		
 		modelVISO.open();
 		String visoFileName = OntologyFile.VISO_GRAPHIC;
 		ModelUtils.readFromAnySyntax(modelVISO,visoFileName);
@@ -210,6 +215,7 @@ public class ModelBuilder {
 		// empty model to hold the AVM
 		modelAVM = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		modelAVM.open();	
+		// modelAVM.addModel(modelVISO); enable when needed (cf. comment at VISO model)
 		
 		modelSet.addModel(modelAVM, OGVICProcess.GRAPH_AVM);
 		
