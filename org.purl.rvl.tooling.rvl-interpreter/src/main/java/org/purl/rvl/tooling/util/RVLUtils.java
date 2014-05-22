@@ -1,6 +1,7 @@
 package org.purl.rvl.tooling.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -170,9 +171,10 @@ public class RVLUtils {
 			Sparqlable modelOrModelSet,
 			URI fromGraph,
 			URI spURI, 
+			String selectorSPARQLString,
 			org.ontoware.rdfreactor.schema.rdfs.Property inheritedBy
 			) {
-		return findRelationsOnClassLevel(modelOrModelSet, fromGraph, spURI, inheritedBy, null, null);
+		return findRelationsOnClassLevel(modelOrModelSet, fromGraph, spURI, selectorSPARQLString, inheritedBy, null, null);
 	}
 
 
@@ -180,6 +182,7 @@ public class RVLUtils {
 			Sparqlable modelOrModelSet,
 			URI fromGraph,
 			URI spURI, 
+			String selectorSPARQLString,
 			org.ontoware.rdfreactor.schema.rdfs.Property inheritedBy,
 			org.ontoware.rdf2go.model.node.Resource subject,
 			org.ontoware.rdf2go.model.node.Node object
@@ -216,7 +219,7 @@ public class RVLUtils {
 		}
 			
 		queryBuilder.constrainToGraph(fromGraph);
-		//queryBuilder.constrainToSubjectBySelector(selectorSPARQLString);
+		queryBuilder.constrainToSubjectBySelector(selectorSPARQLString);
 		query = queryBuilder.toString();
 
 		try {			
@@ -254,7 +257,7 @@ public class RVLUtils {
 		return stmtSet;
 	}
 	
-	public static Set<Statement> findRelationsOnInstanceOrClassLevel(
+	/*public static Set<Statement> findRelationsOnInstanceOrClassLevel(
 			Model model,
 			URI fromGraph,
 			PropertyMappingX pm
@@ -262,7 +265,7 @@ public class RVLUtils {
 		
 		return findRelationsOnInstanceOrClassLevel(model, fromGraph, pm, false, null, null);
 		
-	}
+	}*/
 	
 	
 	/** NOTE: Hack: Reflexive edges are ignored at filtering
@@ -287,7 +290,6 @@ public class RVLUtils {
 		
 			URI spURI = pm.getSourceProperty().asURI();
 			
-			org.ontoware.rdf2go.model.node.Resource classSelector = null;
 			String selectorSPARQLString = "";
 			
 			if(pm.hasSubjectfilter()) {
@@ -340,41 +342,13 @@ public class RVLUtils {
 				
 			} else {
 				
-				Model dataModel;
-				try{
-				ModelSet modelSet = (ModelSet)modelOrModelSet;
-				dataModel = modelSet.getModel(OGVICProcess.GRAPH_DATA);
-				} catch (Exception e) {
-					LOGGER.severe("Could not get data model from modelOrModelSet, will use modelOrModelSet as if is was the data graph (model)");
-					dataModel = (Model)modelOrModelSet;
-				}
+				// old code for getting statements directly with the API without SPARQL. maybe reuse later, when performance should matter
+				// not usable in most cases, since many filter and restrictions usually apply for statement selection
+				LOGGER.severe("Finding statements including less specific statements not implemented.");
+				System.exit(1);
+				//statementSet.addAll(findStatementsIncludingSubPropertyStatementsWithoutSPARQL(
+				//		modelOrModelSet, subject, object, spURI,classSelector));
 				
-				
-				ClosableIterator<Statement> it = dataModel.findStatements(
-						null==subject ? Variable.ANY : subject
-						,
-						spURI
-						,
-						null==object ? 	Variable.ANY : object
-						);
-				
-				while (it.hasNext()) {
-					
-					Statement statement = it.next();
-					
-					// check starts with constraint (workaround) and subjectFilter
-					if (
-						(null==classSelector || RVLUtils.hasType(dataModel, statement.getSubject(), classSelector ))
-						) {
-						statementSet.add(statement);
-						LOGGER.finest("added Statement (matching subfilter): " + statement.toString());
-					} else {
-						LOGGER.finest("skipped Statement (not matching subfilter): " + statement.toString());
-					}
-					
-					
-				}
-
 			}
 			
 			// consider inherited relations, including those between classes (someValueFrom ...)
@@ -399,6 +373,7 @@ public class RVLUtils {
 							modelOrModelSet,
 							fromGraph,
 							spURI,
+							selectorSPARQLString,
 							inheritedBy,
 							subject,
 							object)
@@ -410,6 +385,62 @@ public class RVLUtils {
 			
 			return statementSet;
 	}
+
+	/**
+	 * Currently not in use! old code for getting statements directly with the
+	 * API without SPARQL. maybe reuse later, when performance should matter not
+	 * usable in most cases, since many filter and restrictions usually apply
+	 * for statement selection
+	 * 
+	 * @param modelOrModelSet
+	 * @param subject
+	 * @param object
+	 * @param spURI
+	 * @param classSelector
+	 * @return
+	 */
+	/*
+	protected static Collection<? extends Statement> findStatementsIncludingSubPropertyStatementsWithoutSPARQL(
+			Sparqlable modelOrModelSet,
+			org.ontoware.rdf2go.model.node.Resource subject,
+			org.ontoware.rdf2go.model.node.Node object, URI spURI,
+			org.ontoware.rdf2go.model.node.Resource classSelector) {
+		
+		Set<Statement> statementSet = new HashSet<Statement>();
+
+		Model dataModel;
+		try {
+			ModelSet modelSet = (ModelSet) modelOrModelSet;
+			dataModel = modelSet.getModel(OGVICProcess.GRAPH_DATA);
+		} catch (Exception e) {
+			LOGGER.severe("Could not get data model from modelOrModelSet, " +
+					"will use modelOrModelSet as if is was the data graph (model)");
+			dataModel = (Model) modelOrModelSet;
+		}
+
+		ClosableIterator<Statement> it = dataModel.findStatements(
+				null == subject ? Variable.ANY : subject, spURI,
+				null == object ? Variable.ANY : object);
+
+		while (it.hasNext()) {
+
+			Statement statement = it.next();
+
+			// check starts with constraint (workaround) and subjectFilter
+			if ((null == classSelector || RVLUtils.hasType(dataModel,
+					statement.getSubject(), classSelector))) {
+				statementSet.add(statement);
+				LOGGER.finest("added Statement (matching subfilter): "
+						+ statement.toString());
+			} else {
+				LOGGER.finest("skipped Statement (not matching subfilter): "
+						+ statement.toString());
+			}
+
+		}
+		
+		return statementSet;
+	}*/
 
 	
 

@@ -553,7 +553,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		    		modelSet,
 		    		OGVICProcess.GRAPH_DATA,
 		    		(PropertyMappingX) p2gam.castTo(PropertyMappingX.class),
-		    		false,
+		    		true,
 		    		null,
 		    		null
 		    		); 
@@ -700,7 +700,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			    		modelSet,
 			    		OGVICProcess.GRAPH_DATA,
 			    		(PropertyMappingX) p2gam.castTo(PropertyMappingX.class),
-			    		false,
+			    		true,
 			    		null,
 			    		null
 			    		); 
