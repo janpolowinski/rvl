@@ -326,7 +326,11 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 
 
 	/**
-	 * Sets the color of the connector according to evtl. existent submappings
+	 * Applies sub-mappings (if any exist) based on a "main" statement. An existing GO to
+	 * append the sub-mapping, as well as a triple part (S,P,O) of the main
+	 * statement (as a base for the mapping) is determined by the sub-mapping
+	 * relation. TODO: linking-specific! only works on top of P2GOTORMs and 
+	 * only for sub-mappings that are P2GAMs
 	 * 
 	 * @param p2go2orm
 	 * @param mainStatement
@@ -341,13 +345,13 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		for (Iterator<SubMappingRelationX> iterator = subMappingRelations.iterator(); iterator
 				.hasNext();) {
 
-			SubMappingRelationX smr = (SubMappingRelationX) iterator
-					.next();
-			
-			LOGGER.finer("Applying submapping to GO with the role " + smr.getOnRole());
-			
+			SubMappingRelationX smr = (SubMappingRelationX) iterator.next();
+
 			URI roleURI = smr.getOnRole().asURI();
 			URI triplePartURI = smr.getOnTriplePart().asURI();
+			
+			LOGGER.finer("Applying submapping to GO with the role " + roleURI + 
+					" based on triple part " + triplePartURI);
 			
 			// modelAVM.findStatements(dlRel,role,Variable.ANY); does not work somehow -> Jena mapping problems
 
@@ -358,7 +362,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			
 			if (subMapping.isDisabled()) {
 				//LOGGER.info("The referenced submapping was disabled. Will ignore it");
-				LOGGER.info("The referenced submapping was disabled but will still be used. TODO: implement 3 status ENABLED (default), DISABLED, USE-ONLY-AS-SUBMAPPING");
+				LOGGER.info("The referenced submapping was disabled but will still be used." +
+						" TODO: implement 3 status ENABLED (default), DISABLED, USE-ONLY-AS-SUBMAPPING");
 				//continue;
 			}
 
@@ -369,8 +374,6 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
 			p2gam = p2gam.tryReplaceWithCashedInstanceForSameURI(p2gam);
 			
-			//System.out.println(p2gam);
-			
 			try {
 				applyMappingToGraphicObject(mainStatement, triplePartURI, goToApplySubmapping, p2gam);
 				// this does not use the cashed mappings somehow:
@@ -378,7 +381,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				
 			} catch (InsufficientMappingSpecificationException e) {
 				
-				LOGGER.warning("Submapping could not be applied. Reason: " + e.getMessage());
+				LOGGER.warning("Submapping " + p2gam + " could not be applied. Reason: " + e.getMessage());
 			}
 			
 		}
@@ -474,7 +477,11 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			
 			// if we found a tv for the sv
 			if (null != tv && null != sv) {
+				
 				applyGraphicValueToGO(tga, tv, sv, goToApplySubmapping);
+				
+	    		applyInheritanceOfTargetValue(p2gam, mainStatement.getSubject(), tv); 
+	    		
 			} else {
 				LOGGER.finest("Source or target value was null, couldn't apply graphic value " + tv + " to the sv " + sv);
 			}
@@ -568,6 +575,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		    	// if we found a tv for the sv
 		    	if (null != tv) {
 			    	applyGraphicValueToGO(tga, tv, sv, go);	
+			    	
+			    	applyInheritanceOfTargetValue(p2gam, statement.getSubject(), tv);
 		    	}
 		    	
 			}
@@ -630,17 +639,21 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	
 	
 
+	/**
+	 * @param tga - the graphic attribute to set
+	 * @param tv - the graphic attribute value to apply
+	 * @param mappedNode - the node the mapping was originally applied to
+	 * @param inheritedBy - the required relation between the mapped node and nodes inheriting the mapping
+	 */
 	private void applyGraphicValueToGOsRepresentingNodesRelatedVia(
-			GraphicAttribute tga, Node tv, Resource subject, Property inheritedBy) {
+			GraphicAttribute tga, Node tv, Resource mappedNode, Property inheritedBy) {
 		
-			Set<Resource> relatedResources = RVLUtils.getRelatedResources(modelSet, subject, inheritedBy);
+			Set<Resource> relatedResources = RVLUtils.getRelatedResources(modelSet, mappedNode, inheritedBy);
 			
 			LOGGER.finest("related resources " + relatedResources.toString() + " will receive same tv (" + tv + ")");
-		
-			// iterate over set, create GOs and applyGraphicValueToGo ... TODO replace parameter subject!
 			
 			for (Resource resource : relatedResources) {
-				applyGraphicValueToGO(tga, tv, subject, createOrGetGraphicObject(resource));
+				applyGraphicValueToGO(tga, tv, mappedNode, createOrGetGraphicObject(resource));
 			}
 	}
 
@@ -706,28 +719,45 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			    		
 			    		applyGraphicValueToGO(tga, tv, sv, go);
 			    		
-			    		// handle inheritance of target values via arbitrary relations
-			    		
-			    		Property inheritedBy = ((PropertyMappingX)p2gam.castTo(PropertyMappingX.class)).getInheritedBy();
-						
-						// temp only support some and all values from ... // TODO these checks are also done in findRelationsOnClassLevel
-						if (null!=inheritedBy && !(inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
-								|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())	
-								|| inheritedBy.toString().equals(RVL.TBOX_RESTRICTION)
-								|| inheritedBy.toString().equals(RVL.TBOX_DOMAIN_RANGE)	
-								)) {
-							LOGGER.fine("Mapped value " + tv + " will be inherited to GOs representing nodes related to " + 
-								subject + "("+ AVMUtils.getGoodLabel(subject, modelSet.getModel(OGVICProcess.GRAPH_DATA)) +") via " + inheritedBy);
-						
-							applyGraphicValueToGOsRepresentingNodesRelatedVia(tga, tv, subject, inheritedBy);
-							
-						} 
+			    		applyInheritanceOfTargetValue(p2gam, subject, tv); 
 			    	}
 			    }
 			
 			} catch (InsufficientMappingSpecificationException e) {
 				LOGGER.warning("No resources will be affected by mapping " + p2gam + " (" + e.getMessage() + ")" );
 			} 
+			
+		}
+	}
+
+	/**
+	 * Handle inheritance of graphic values via arbitrary relations. All nodes
+	 * related to the baseResource via the inheritedBy-relation are given the
+	 * same tv (target value)
+	 * 
+	 * @param p2gam
+	 * @param tga
+	 * @param baseResource
+	 * @param tv
+	 * @throws InsufficientMappingSpecificationException
+	 */
+	protected void applyInheritanceOfTargetValue(
+			PropertyToGraphicAttributeMappingX p2gam,
+			Resource baseResource, Node tv) throws InsufficientMappingSpecificationException {
+
+		Property inheritedBy = ((PropertyMappingX)p2gam.castTo(PropertyMappingX.class)).getInheritedBy();
+		
+		// temp only support some and allValuesFrom ... // TODO these checks are also done in findRelationsOnClassLevel
+		if (null!=inheritedBy && !(inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
+				|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())	
+				|| inheritedBy.toString().equals(RVL.TBOX_RESTRICTION)
+				|| inheritedBy.toString().equals(RVL.TBOX_DOMAIN_RANGE)	
+				)) {
+			LOGGER.fine("Mapped value " + tv + " will be inherited to GOs representing nodes related to " + 
+				baseResource + "("+ AVMUtils.getGoodLabel(baseResource, modelSet.getModel(OGVICProcess.GRAPH_DATA)) +") via " + inheritedBy);
+		
+			GraphicAttribute tga = p2gam.getTargetAttribute();
+			applyGraphicValueToGOsRepresentingNodesRelatedVia(tga, tv, baseResource, inheritedBy);
 			
 		}
 	}

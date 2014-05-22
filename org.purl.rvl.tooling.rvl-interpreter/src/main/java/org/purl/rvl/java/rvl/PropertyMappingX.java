@@ -221,6 +221,7 @@ static final String NL =  System.getProperty("line.separator");
 		} else return null;
 	}
 
+	// TODO multiple inheritedBy values should be allowed
 	public Property getInheritedBy() {
 		if (this.hasInheritedby()) {
 			return (Property)getAllInheritedby_as().firstValue().castTo(Property.class);

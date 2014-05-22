@@ -15,15 +15,15 @@ public class UseCaseZFO_inheritance extends TestOGVICProcess {
 	@Test
 	public void testOGVICProcess() throws FileNotFoundException {
 
-		project.setReasoningDataModel(Reasoning.rdfsAndOwl);
+		project.setReasoningDataModel(Reasoning.rdfs);
 		
 		project.registerMappingFile(ExampleMapping.ZFO_inheritance);
 		project.registerDataFile(ExampleData.ZFO_SUBSET);
 		//project.registerDataFile(ExampleData.ZFO);
 		
 		//project.setRvlInterpreter(new SimpleRVLInterpreter());
-		//project.setD3Generator(new D3GeneratorSimpleJSON()); // requires better filtering!
-		project.setD3Generator(new D3GeneratorTreeJSON());
+		project.setD3Generator(new D3GeneratorSimpleJSON()); // requires better filtering!
+		//project.setD3Generator(new D3GeneratorTreeJSON());
 		
 		loadProjectAndRunProcess();
 	}
