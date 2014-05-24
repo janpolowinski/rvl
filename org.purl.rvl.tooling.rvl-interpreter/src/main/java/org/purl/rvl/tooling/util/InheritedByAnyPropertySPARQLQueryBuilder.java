@@ -7,6 +7,7 @@ import org.ontoware.rdfreactor.schema.rdfs.Property;
 
 /**
  * @author Jan Polowinski
+ * TODO: not in use. Decide if still needed
  *
  */
 public class InheritedByAnyPropertySPARQLQueryBuilder extends SPARQLQueryBuilder {

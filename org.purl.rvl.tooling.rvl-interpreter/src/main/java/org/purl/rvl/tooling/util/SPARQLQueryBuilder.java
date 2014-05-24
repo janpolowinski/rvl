@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
+import org.ontoware.rdf2go.vocabulary.OWL;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.tooling.process.OGVICProcess;
 
@@ -50,7 +51,8 @@ public class SPARQLQueryBuilder {
 		query.append(" ?s ?p ?o . ");
 	}
 	
-	protected void statementSPARQL(URI spURI){
+	/* old version without removing transitiv hull */
+	/*protected void statementSPARQL(URI spURI){
 		query
 			// including statements of subproperties of spURI or spURI itself
 			.append(" ?p " + Property.SUBPROPERTYOF.toSPARQL() + "* " + spURI.toSPARQL() + " ")
@@ -61,17 +63,43 @@ public class SPARQLQueryBuilder {
 			.append(" FILTER(?pp != ?p) ")
 			.append(" } ")
 			;
+	}*/
+	
+	//protected void statementSPARQLRemoveTransitiveHull(URI spURI)
+	protected void statementSPARQL(URI spURI){
+		query
+
+			// include statements of subproperties of spURI or spURI itself (problem with transitive hull, see comment below)
+			.append(" ?p " + Property.SUBPROPERTYOF.toSPARQL() + "* " + spURI.toSPARQL() + " ")
+			
+			// but select only the most specific for display
+			.append(" FILTER NOT EXISTS { ")
+			.append(" ?s ?pp ?o . ")
+			.append(" ?pp " + Property.SUBPROPERTYOF.toSPARQL() + "+ ?p ")
+			.append(" FILTER(?pp != ?p) ")
+			.append(" } ")
+			
+			// ignore transitive hull triples for property ?p (when ?p is transitive, e.g. rdfs:subClassOf)
+			.append(" FILTER NOT EXISTS { ")
+			//.append(" ?p a " + OWL.TransitiveProperty.toSPARQL() + " . ")
+			.append(" { ?p a " + OWL.TransitiveProperty.toSPARQL() + "} " +
+					" UNION " + // HACK! at the moment the triple stating transitivity of subClassOf is removed from the DATAGRAPH // TODO: better change it there
+					" { BIND (<http://www.w3.org/2000/01/rdf-schema#subClassOf> AS ?p) } . ") 
+			.append(" ?s ?p ?intermediateNode . ")
+			.append(" ?intermediateNode " + spURI.toSPARQL() + "+ ?o . ") // TODO: how to use a variable here? actually p should be used here!!
+			.append(" FILTER(?s != ?intermediateNode) ")
+			.append(" FILTER(?intermediateNode != ?o) ")
+			.append(" } ")
+			
+			// exclude additional types assigned by subclass-reasoning 
+			
+			;
 	}
 	
-	// most specific
+	// filter subjects
 	private void selectorSPARQL(){
 		query.append(" " + selectorSPARQLString + " " ); // this string is expected to be a set of " s? <p> <o> . " triples)
 	}
-	
-	
-	
-	
-	
 	
 	private void filterOnlyIRIsForSubjectAndObjectSPARQL(){
 		query.append(" FILTER isIRI(?s) "); // TODO: this stops blank nodes as subjects ... ;
