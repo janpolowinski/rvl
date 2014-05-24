@@ -16,7 +16,8 @@ public class UseCasePO_9 extends TestOGVICProcess {
 		
 		//process.setUriStart("http://purl.org/obo/owl/");
 		
-		project.setReasoningDataModel(Reasoning.rdfs); // setting to rdfs leads to strange results three additional statements that seems to be unrelated
+		project.setReasoningDataModel(Reasoning.rdfs); // setting to rdfs makes it necessary to remove the transitive hull (default setting at the moment),
+		   											   // but shape is not evaluated otherwise
 
 		project.registerMappingFile(ExampleMapping.PO_9);
 		project.registerDataFile(ExampleData.PO);

@@ -17,25 +17,16 @@ public class UseCasePO_8 extends TestOGVICProcess {
 
 		// process.setUriStart("http://purl.org/obo/owl/");
 
-		project.setReasoningDataModel(Reasoning.none); // setting to rdfs leads
-														// to strange results
-														// and many statements
-														// are inferred and
-														// displayed (since
-														// mostSpecific does not
-														// apply to sub-classing
-														// but ont sub-property
-														// hierarchies), but
-														// shape not evaluated
-														// otherwise
+		project.setReasoningDataModel(Reasoning.rdfs); // setting to rdfs makes it necessary to remove the transitive hull (default setting at the moment),
+													   // but shape is not evaluated otherwise
 
 		project.registerMappingFile(ExampleMapping.PO_8);
 		project.registerDataFile(ExampleData.PO);
 		project.registerDataFile(ExampleData.PO_EXTRA_DATA);
 
 		// project.setRvlInterpreter(new SimpleRVLInterpreter());
-		// project.setD3Generator(new D3GeneratorTreeJSON());
-		process.setD3Generator(new D3GeneratorSimpleJSON());
+		 project.setD3Generator(new D3GeneratorTreeJSON());
+		//process.setD3Generator(new D3GeneratorSimpleJSON());
 
 		loadProjectAndRunProcess();
 	}
