@@ -1,0 +1,1685 @@
+# Saved by TopBraid on Fri May 23 12:38:13 CEST 2014
+# baseURI: http://purl.org/rvl/example-data/.infGraph
+
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+<http://purl.org/rvl/example-data/>
+      rdf:type rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://purl.org/rvl/example-data/> .
+
+<http://purl.org/rvl/example-data/Alice>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , <http://purl.org/rvl/example-data/Person> , rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://purl.org/rvl/example-data/Alice> .
+
+<http://purl.org/rvl/example-data/America>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , rdfs:Resource , owl:Thing ;
+      <http://purl.org/rvl/example-data/domainProperty>
+              <http://purl.org/rvl/example-data/World> ;
+      <http://purl.org/viso/data/has_nominal_value>
+              <http://purl.org/rvl/example-data/World> ;
+      owl:sameAs <http://purl.org/rvl/example-data/America> .
+
+<http://purl.org/rvl/example-data/Asia>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , rdfs:Resource , owl:Thing ;
+      <http://purl.org/rvl/example-data/domainProperty>
+              <http://purl.org/rvl/example-data/World> ;
+      <http://purl.org/viso/data/has_nominal_value>
+              <http://purl.org/rvl/example-data/World> ;
+      owl:sameAs <http://purl.org/rvl/example-data/Asia> .
+
+<http://purl.org/rvl/example-data/Australia>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , rdfs:Resource , owl:Thing ;
+      <http://purl.org/rvl/example-data/domainProperty>
+              <http://purl.org/rvl/example-data/World> , "100"^^xsd:int ;
+      <http://purl.org/viso/data/has_nominal_value>
+              <http://purl.org/rvl/example-data/World> ;
+      <http://purl.org/viso/data/has_quantitative_value>
+              "100"^^xsd:int ;
+      owl:sameAs <http://purl.org/rvl/example-data/Australia> .
+
+<http://purl.org/rvl/example-data/Author>
+      rdf:type rdfs:Class , rdfs:Resource , owl:Thing ;
+      rdfs:subClassOf <http://purl.org/rvl/example-data/Author> , <http://purl.org/rvl/example-data/DomainResource> , rdfs:Resource , owl:Thing ;
+      owl:equivalentClass <http://purl.org/rvl/example-data/Author> ;
+      owl:sameAs <http://purl.org/rvl/example-data/Author> .
+
+<http://purl.org/rvl/example-data/Biography>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://purl.org/rvl/example-data/Biography> .
+
+<http://purl.org/rvl/example-data/Bob>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , <http://purl.org/rvl/example-data/Person> , rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://purl.org/rvl/example-data/Bob> .
+
+<http://purl.org/rvl/example-data/Book>
+      rdf:type rdfs:Class , rdfs:Resource , owl:Thing ;
+      rdfs:subClassOf <http://purl.org/rvl/example-data/Book> , rdfs:Resource , owl:Thing ;
+      owl:equivalentClass <http://purl.org/rvl/example-data/Book> ;
+      owl:sameAs <http://purl.org/rvl/example-data/Book> .
+
+<http://purl.org/rvl/example-data/China>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , rdfs:Resource , owl:Thing ;
+      <http://purl.org/rvl/example-data/domainProperty>
+              <http://purl.org/rvl/example-data/America> , <http://purl.org/rvl/example-data/Asia> , <http://purl.org/rvl/example-data/World> , "3000"^^xsd:int ;
+      <http://purl.org/rvl/example-data/partOf>
+              <http://purl.org/rvl/example-data/World> ;
+      <http://purl.org/viso/data/has_nominal_value>
+              <http://purl.org/rvl/example-data/America> , <http://purl.org/rvl/example-data/Asia> , <http://purl.org/rvl/example-data/World> ;
+      <http://purl.org/viso/data/has_quantitative_value>
+              "3000"^^xsd:int ;
+      owl:sameAs <http://purl.org/rvl/example-data/China> .
+
+<http://purl.org/rvl/example-data/Christof>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , <http://purl.org/rvl/example-data/Person> , rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://purl.org/rvl/example-data/Christof> .
+
+<http://purl.org/rvl/example-data/DomainResource>
+      rdf:type rdfs:Class , rdfs:Resource , owl:Thing ;
+      rdfs:subClassOf <http://purl.org/rvl/example-data/DomainResource> , rdfs:Resource , owl:Thing ;
+      owl:equivalentClass <http://purl.org/rvl/example-data/DomainResource> ;
+      owl:sameAs <http://purl.org/rvl/example-data/DomainResource> .
+
+<http://purl.org/rvl/example-data/Dresden>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , rdfs:Resource , owl:Thing ;
+      <http://purl.org/rvl/example-data/domainProperty>
+              <http://purl.org/rvl/example-data/Europe> , <http://purl.org/rvl/example-data/Germany> , <http://purl.org/rvl/example-data/World> ;
+      <http://purl.org/rvl/example-data/partOf>
+              <http://purl.org/rvl/example-data/Europe> , <http://purl.org/rvl/example-data/World> ;
+      <http://purl.org/viso/data/has_nominal_value>
+              <http://purl.org/rvl/example-data/Europe> , <http://purl.org/rvl/example-data/Germany> , <http://purl.org/rvl/example-data/World> ;
+      owl:sameAs <http://purl.org/rvl/example-data/Dresden> .
+
+<http://purl.org/rvl/example-data/Europe>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , rdfs:Resource , owl:Thing ;
+      <http://purl.org/rvl/example-data/domainProperty>
+              <http://purl.org/rvl/example-data/World> ;
+      <http://purl.org/viso/data/has_nominal_value>
+              <http://purl.org/rvl/example-data/World> ;
+      owl:sameAs <http://purl.org/rvl/example-data/Europe> .
+
+<http://purl.org/rvl/example-data/Fiction>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://purl.org/rvl/example-data/Fiction> .
+
+<http://purl.org/rvl/example-data/Field>
+      rdf:type rdfs:Class , rdfs:Resource , owl:Thing ;
+      rdfs:subClassOf <http://purl.org/rvl/example-data/Field> , rdfs:Resource , owl:Thing ;
+      owl:equivalentClass <http://purl.org/rvl/example-data/Field> ;
+      owl:sameAs <http://purl.org/rvl/example-data/Field> .
+
+<http://purl.org/rvl/example-data/Franzi>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , <http://purl.org/rvl/example-data/Person> , rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://purl.org/rvl/example-data/Franzi> .
+
+<http://purl.org/rvl/example-data/Gelsenkirchen>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , rdfs:Resource , owl:Thing ;
+      <http://purl.org/rvl/example-data/domainProperty>
+              <http://purl.org/rvl/example-data/Europe> , <http://purl.org/rvl/example-data/Germany> , <http://purl.org/rvl/example-data/World> ;
+      <http://purl.org/rvl/example-data/partOf>
+              <http://purl.org/rvl/example-data/Europe> , <http://purl.org/rvl/example-data/World> ;
+      <http://purl.org/viso/data/has_nominal_value>
+              <http://purl.org/rvl/example-data/Europe> , <http://purl.org/rvl/example-data/Germany> , <http://purl.org/rvl/example-data/World> ;
+      owl:sameAs <http://purl.org/rvl/example-data/Gelsenkirchen> .
+
+<http://purl.org/rvl/example-data/Germany>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , rdfs:Resource , owl:Thing ;
+      <http://purl.org/rvl/example-data/domainProperty>
+              <http://purl.org/rvl/example-data/China> , <http://purl.org/rvl/example-data/Europe> , <http://purl.org/rvl/example-data/World> ;
+      <http://purl.org/rvl/example-data/partOf>
+              <http://purl.org/rvl/example-data/World> ;
+      <http://purl.org/viso/data/has_nominal_value>
+              <http://purl.org/rvl/example-data/China> , <http://purl.org/rvl/example-data/Europe> , <http://purl.org/rvl/example-data/World> ;
+      owl:sameAs <http://purl.org/rvl/example-data/Germany> .
+
+<http://purl.org/rvl/example-data/Jan>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://purl.org/rvl/example-data/Jan> .
+
+<http://purl.org/rvl/example-data/John>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , <http://purl.org/rvl/example-data/Person> , rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://purl.org/rvl/example-data/John> .
+
+<http://purl.org/rvl/example-data/Lina>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , <http://purl.org/rvl/example-data/Person> , rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://purl.org/rvl/example-data/Lina> .
+
+<http://purl.org/rvl/example-data/Luisa>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , <http://purl.org/rvl/example-data/Person> , rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://purl.org/rvl/example-data/Luisa> .
+
+<http://purl.org/rvl/example-data/Person>
+      rdf:type rdfs:Class , rdfs:Resource , owl:Thing ;
+      rdfs:subClassOf <http://purl.org/rvl/example-data/Person> , rdfs:Resource , owl:Thing ;
+      owl:equivalentClass <http://purl.org/rvl/example-data/Person> ;
+      owl:sameAs <http://purl.org/rvl/example-data/Person> .
+
+<http://purl.org/rvl/example-data/Place>
+      rdf:type rdfs:Class , rdfs:Resource , owl:Thing ;
+      rdfs:subClassOf <http://purl.org/rvl/example-data/Place> , rdfs:Resource , owl:Thing ;
+      owl:equivalentClass <http://purl.org/rvl/example-data/Place> ;
+      owl:sameAs <http://purl.org/rvl/example-data/Place> .
+
+<http://purl.org/rvl/example-data/Sci-Fi>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://purl.org/rvl/example-data/Sci-Fi> .
+
+<http://purl.org/rvl/example-data/Science>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://purl.org/rvl/example-data/Science> .
+
+<http://purl.org/rvl/example-data/Spain>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , rdfs:Resource , owl:Thing ;
+      <http://purl.org/rvl/example-data/domainProperty>
+              <http://purl.org/rvl/example-data/Europe> , <http://purl.org/rvl/example-data/World> , "40"^^xsd:int ;
+      <http://purl.org/rvl/example-data/partOf>
+              <http://purl.org/rvl/example-data/World> ;
+      <http://purl.org/viso/data/has_nominal_value>
+              <http://purl.org/rvl/example-data/Europe> , <http://purl.org/rvl/example-data/World> ;
+      <http://purl.org/viso/data/has_quantitative_value>
+              "40"^^xsd:int ;
+      owl:sameAs <http://purl.org/rvl/example-data/Spain> .
+
+<http://purl.org/rvl/example-data/Susane>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , <http://purl.org/rvl/example-data/Person> , rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://purl.org/rvl/example-data/Susane> .
+
+<http://purl.org/rvl/example-data/Travel>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://purl.org/rvl/example-data/Travel> .
+
+<http://purl.org/rvl/example-data/Turkey>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , rdfs:Resource , owl:Thing ;
+      <http://purl.org/rvl/example-data/domainProperty>
+              <http://purl.org/rvl/example-data/Asia> , <http://purl.org/rvl/example-data/Europe> , <http://purl.org/rvl/example-data/World> ;
+      <http://purl.org/rvl/example-data/partOf>
+              <http://purl.org/rvl/example-data/World> ;
+      <http://purl.org/viso/data/has_nominal_value>
+              <http://purl.org/rvl/example-data/Asia> , <http://purl.org/rvl/example-data/Europe> , <http://purl.org/rvl/example-data/World> ;
+      owl:sameAs <http://purl.org/rvl/example-data/Turkey> .
+
+<http://purl.org/rvl/example-data/World>
+      rdf:type <http://purl.org/rvl/example-data/DomainResource> , <http://purl.org/rvl/example-data/Place> , rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://purl.org/rvl/example-data/World> .
+
+<http://purl.org/rvl/example-data/category>
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:range <http://purl.org/rvl/example-data/DomainResource> , rdfs:Resource , owl:Thing ;
+      rdfs:subPropertyOf <http://purl.org/rvl/example-data/category> ;
+      owl:equivalentProperty
+              <http://purl.org/rvl/example-data/category> ;
+      owl:sameAs <http://purl.org/rvl/example-data/category> .
+
+<http://purl.org/rvl/example-data/cites>
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:range <http://purl.org/rvl/example-data/DomainResource> , rdfs:Resource , owl:Thing ;
+      rdfs:subPropertyOf <http://purl.org/rvl/example-data/cites> ;
+      owl:equivalentProperty
+              <http://purl.org/rvl/example-data/cites> ;
+      owl:sameAs <http://purl.org/rvl/example-data/cites> .
+
+<http://purl.org/rvl/example-data/citesCritical>
+      rdf:type rdf:Property , rdfs:Resource , owl:Thing ;
+      rdfs:range <http://purl.org/rvl/example-data/DomainResource> , <http://purl.org/rvl/example-data/Field> , rdfs:Resource , owl:Thing ;
+      rdfs:subPropertyOf <http://purl.org/rvl/example-data/citesCritical> , <http://purl.org/rvl/example-data/domainProperty> , <http://purl.org/viso/data/has_nominal_value> ;
+      owl:equivalentProperty
+              <http://purl.org/rvl/example-data/citesCritical> ;
+      owl:sameAs <http://purl.org/rvl/example-data/citesCritical> .
+
+<http://purl.org/rvl/example-data/citesVeryCritical>
+      rdf:type rdf:Property , rdfs:Resource , owl:Thing ;
+      rdfs:range <http://purl.org/rvl/example-data/DomainResource> , <http://purl.org/rvl/example-data/Field> , rdfs:Resource , owl:Thing ;
+      rdfs:subPropertyOf <http://purl.org/rvl/example-data/cites> , <http://purl.org/rvl/example-data/citesVeryCritical> , <http://purl.org/rvl/example-data/domainProperty> , <http://purl.org/viso/data/has_nominal_value> ;
+      owl:equivalentProperty
+              <http://purl.org/rvl/example-data/citesVeryCritical> ;
+      owl:sameAs <http://purl.org/rvl/example-data/citesVeryCritical> .
+
+<http://purl.org/rvl/example-data/domainProperty>
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:subPropertyOf <http://purl.org/rvl/example-data/domainProperty> ;
+      owl:equivalentProperty
+              <http://purl.org/rvl/example-data/domainProperty> ;
+      owl:sameAs <http://purl.org/rvl/example-data/domainProperty> .
+
+<http://purl.org/rvl/example-data/exportsTo>
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Thing ;
+      rdfs:range <http://purl.org/rvl/example-data/DomainResource> , rdfs:Resource , owl:Thing ;
+      rdfs:subPropertyOf <http://purl.org/rvl/example-data/exportsTo> ;
+      owl:equivalentProperty
+              <http://purl.org/rvl/example-data/exportsTo> ;
+      owl:sameAs <http://purl.org/rvl/example-data/exportsTo> .
+
+<http://purl.org/rvl/example-data/partOf>
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Thing ;
+      rdfs:range <http://purl.org/rvl/example-data/DomainResource> , rdfs:Resource , owl:Thing ;
+      rdfs:subPropertyOf <http://purl.org/rvl/example-data/partOf> ;
+      owl:equivalentProperty
+              <http://purl.org/rvl/example-data/partOf> ;
+      owl:sameAs <http://purl.org/rvl/example-data/partOf> .
+
+<http://purl.org/rvl/example-data/population>
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , xsd:decimal , xsd:integer , xsd:long , owl:Thing ;
+      rdfs:subPropertyOf <http://purl.org/rvl/example-data/population> ;
+      owl:equivalentProperty
+              <http://purl.org/rvl/example-data/population> ;
+      owl:sameAs <http://purl.org/rvl/example-data/population> .
+
+<http://purl.org/rvl/example-data/workingField>
+      rdf:type rdf:Property , rdfs:Resource , owl:Thing ;
+      rdfs:subPropertyOf <http://purl.org/rvl/example-data/workingField> ;
+      owl:equivalentProperty
+              <http://purl.org/rvl/example-data/workingField> ;
+      owl:sameAs <http://purl.org/rvl/example-data/workingField> .
+
+<http://purl.org/viso/data/has_nominal_value>
+      rdf:type rdf:Property , rdfs:Resource , owl:Thing ;
+      rdfs:subPropertyOf <http://purl.org/viso/data/has_nominal_value> ;
+      owl:equivalentProperty
+              <http://purl.org/viso/data/has_nominal_value> ;
+      owl:sameAs <http://purl.org/viso/data/has_nominal_value> .
+
+<http://purl.org/viso/data/has_quantitative_value>
+      rdf:type rdf:Property , rdfs:Resource , owl:Thing ;
+      rdfs:subPropertyOf <http://purl.org/viso/data/has_quantitative_value> ;
+      owl:equivalentProperty
+              <http://purl.org/viso/data/has_quantitative_value> ;
+      owl:sameAs <http://purl.org/viso/data/has_quantitative_value> .
+
+rdf:  rdf:type rdfs:Resource , owl:Thing ;
+      owl:sameAs rdf: .
+
+rdf:Alt
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso rdf: ;
+      rdfs:subClassOf rdf:Alt , rdfs:Resource , owl:Thing ;
+      owl:equivalentClass rdf:Alt ;
+      owl:sameAs rdf:Alt .
+
+rdf:Bag
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso rdf: ;
+      rdfs:subClassOf rdf:Bag , rdfs:Resource , owl:Thing ;
+      owl:equivalentClass rdf:Bag ;
+      owl:sameAs rdf:Bag .
+
+rdf:List
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso rdf: ;
+      rdfs:subClassOf rdf:List , owl:Thing ;
+      owl:equivalentClass rdf:List ;
+      owl:sameAs rdf:List .
+
+rdf:PlainLiteral
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf rdf:PlainLiteral , owl:Thing ;
+      owl:equivalentClass rdf:PlainLiteral ;
+      owl:sameAs rdf:PlainLiteral .
+
+rdf:Property
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso rdf: ;
+      rdfs:subClassOf rdf:Property , owl:Thing ;
+      owl:equivalentClass rdf:Property ;
+      owl:sameAs rdf:Property .
+
+rdf:Seq
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso rdf: ;
+      rdfs:subClassOf rdf:Seq , rdfs:Resource , owl:Thing ;
+      owl:equivalentClass rdf:Seq ;
+      owl:sameAs rdf:Seq .
+
+rdf:Statement
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso rdf: ;
+      rdfs:subClassOf rdf:Statement , owl:Thing ;
+      owl:equivalentClass rdf:Statement ;
+      owl:sameAs rdf:Statement .
+
+rdf:XMLLiteral
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso rdf: ;
+      rdfs:subClassOf rdf:XMLLiteral , owl:Thing ;
+      owl:equivalentClass rdf:XMLLiteral ;
+      owl:sameAs rdf:XMLLiteral .
+
+rdf:first
+      rdf:type rdfs:Resource , owl:FunctionalProperty , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Thing ;
+      rdfs:range owl:Thing ;
+      rdfs:seeAlso rdf: ;
+      rdfs:subPropertyOf rdf:first ;
+      owl:equivalentProperty
+              rdf:first ;
+      owl:sameAs rdf:first .
+
+()    rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso rdf: ;
+      owl:sameAs () .
+
+rdf:object
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Thing ;
+      rdfs:range owl:Thing ;
+      rdfs:seeAlso rdf: ;
+      rdfs:subPropertyOf rdf:object ;
+      owl:equivalentProperty
+              rdf:object ;
+      owl:sameAs rdf:object .
+
+rdf:predicate
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso rdf: ;
+      rdfs:subPropertyOf rdf:predicate ;
+      owl:equivalentProperty
+              rdf:predicate ;
+      owl:sameAs rdf:predicate .
+
+rdf:rest
+      rdf:type rdfs:Resource , owl:FunctionalProperty , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso rdf: ;
+      rdfs:subPropertyOf rdf:rest ;
+      owl:equivalentProperty
+              rdf:rest ;
+      owl:sameAs rdf:rest .
+
+rdf:subject
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Thing ;
+      rdfs:range owl:Thing ;
+      rdfs:seeAlso rdf: ;
+      rdfs:subPropertyOf rdf:subject ;
+      owl:equivalentProperty
+              rdf:subject ;
+      owl:sameAs rdf:subject .
+
+rdf:type
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso rdf: ;
+      rdfs:subPropertyOf rdf:type ;
+      owl:equivalentProperty
+              rdf:type ;
+      owl:sameAs rdf:type .
+
+rdf:value
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain owl:Thing ;
+      rdfs:range owl:Thing ;
+      rdfs:seeAlso rdf: ;
+      rdfs:subPropertyOf rdf:value ;
+      owl:equivalentProperty
+              rdf:value ;
+      owl:sameAs rdf:value .
+
+rdfs:
+      rdf:type rdfs:Resource , owl:Thing ;
+      owl:sameAs rdfs: .
+
+rdfs:Class
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso rdfs: ;
+      rdfs:subClassOf rdfs:Class , owl:Class , owl:Thing ;
+      owl:equivalentClass rdfs:Class , owl:Class ;
+      owl:sameAs rdfs:Class .
+
+rdfs:Container
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso rdfs: ;
+      rdfs:subClassOf rdfs:Container , owl:Thing ;
+      owl:equivalentClass rdfs:Container ;
+      owl:sameAs rdfs:Container .
+
+rdfs:ContainerMembershipProperty
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso rdfs: ;
+      rdfs:subClassOf rdfs:ContainerMembershipProperty , rdfs:Resource , owl:Thing ;
+      owl:equivalentClass rdfs:ContainerMembershipProperty ;
+      owl:sameAs rdfs:ContainerMembershipProperty .
+
+rdfs:Datatype
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso rdfs: ;
+      rdfs:subClassOf rdfs:Datatype , rdfs:Resource , owl:Class , owl:Thing ;
+      owl:equivalentClass rdfs:Datatype ;
+      owl:sameAs rdfs:Datatype .
+
+rdfs:Literal
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso rdfs: ;
+      rdfs:subClassOf rdfs:Literal , owl:Thing ;
+      owl:equivalentClass rdfs:Literal ;
+      owl:sameAs rdfs:Literal .
+
+rdfs:Resource
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso rdfs: ;
+      rdfs:subClassOf rdfs:Resource , owl:Thing ;
+      owl:equivalentClass rdfs:Resource , owl:Thing ;
+      owl:sameAs rdfs:Resource .
+
+rdfs:comment
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso rdfs: ;
+      rdfs:subPropertyOf rdfs:comment ;
+      owl:equivalentProperty
+              rdfs:comment ;
+      owl:sameAs rdfs:comment .
+
+rdfs:domain
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso rdfs: ;
+      rdfs:subPropertyOf rdfs:domain ;
+      owl:equivalentProperty
+              rdfs:domain ;
+      owl:sameAs rdfs:domain .
+
+rdfs:isDefinedBy
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain owl:Thing ;
+      rdfs:range owl:Thing ;
+      rdfs:seeAlso rdfs: ;
+      rdfs:subPropertyOf rdfs:isDefinedBy ;
+      owl:equivalentProperty
+              rdfs:isDefinedBy ;
+      owl:sameAs rdfs:isDefinedBy .
+
+rdfs:label
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso rdfs: ;
+      rdfs:subPropertyOf rdfs:label ;
+      owl:equivalentProperty
+              rdfs:label ;
+      owl:sameAs rdfs:label .
+
+rdfs:member
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain owl:Thing ;
+      rdfs:range owl:Thing ;
+      rdfs:seeAlso rdfs: ;
+      rdfs:subPropertyOf rdfs:member ;
+      owl:equivalentProperty
+              rdfs:member ;
+      owl:sameAs rdfs:member .
+
+rdfs:range
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso rdfs: ;
+      rdfs:subPropertyOf rdfs:range ;
+      owl:equivalentProperty
+              rdfs:range ;
+      owl:sameAs rdfs:range .
+
+rdfs:seeAlso
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain owl:Thing ;
+      rdfs:range owl:Thing ;
+      rdfs:seeAlso rdfs: ;
+      rdfs:subPropertyOf rdfs:seeAlso ;
+      owl:equivalentProperty
+              rdfs:seeAlso ;
+      owl:sameAs rdfs:seeAlso .
+
+rdfs:subClassOf
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso rdfs: ;
+      rdfs:subPropertyOf rdfs:subClassOf ;
+      owl:equivalentProperty
+              rdfs:subClassOf ;
+      owl:sameAs rdfs:subClassOf .
+
+rdfs:subPropertyOf
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso rdfs: ;
+      rdfs:subPropertyOf rdfs:subPropertyOf ;
+      owl:equivalentProperty
+              rdfs:subPropertyOf ;
+      owl:sameAs rdfs:subPropertyOf .
+
+<http://www.w3.org/2000/01/rdf-schema-more>
+      rdf:type rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://www.w3.org/2000/01/rdf-schema-more> .
+
+xsd:ENTITY
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:ENTITY , owl:Thing ;
+      owl:equivalentClass xsd:ENTITY ;
+      owl:sameAs xsd:ENTITY .
+
+xsd:ID
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:ID , owl:Thing ;
+      owl:equivalentClass xsd:ID ;
+      owl:sameAs xsd:ID .
+
+xsd:IDREF
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:IDREF , owl:Thing ;
+      owl:equivalentClass xsd:IDREF ;
+      owl:sameAs xsd:IDREF .
+
+xsd:NCName
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:NCName , owl:Thing ;
+      owl:equivalentClass xsd:NCName ;
+      owl:sameAs xsd:NCName .
+
+xsd:NMTOKEN
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:NMTOKEN , owl:Thing ;
+      owl:equivalentClass xsd:NMTOKEN ;
+      owl:sameAs xsd:NMTOKEN .
+
+xsd:NOTATION
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:NOTATION , owl:Thing ;
+      owl:equivalentClass xsd:NOTATION ;
+      owl:sameAs xsd:NOTATION .
+
+xsd:Name
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:Name , owl:Thing ;
+      owl:equivalentClass xsd:Name ;
+      owl:sameAs xsd:Name .
+
+xsd:QName
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:QName , owl:Thing ;
+      owl:equivalentClass xsd:QName ;
+      owl:sameAs xsd:QName .
+
+xsd:anySimpleType
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:anySimpleType , owl:Thing ;
+      owl:equivalentClass xsd:anySimpleType ;
+      owl:sameAs xsd:anySimpleType .
+
+xsd:anyURI
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:anyURI , owl:Thing ;
+      owl:equivalentClass xsd:anyURI ;
+      owl:sameAs xsd:anyURI .
+
+xsd:base64Binary
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:base64Binary , owl:Thing ;
+      owl:equivalentClass xsd:base64Binary ;
+      owl:sameAs xsd:base64Binary .
+
+xsd:boolean
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:boolean , owl:Thing ;
+      owl:disjointWith xsd:byte , xsd:date , xsd:dateTime , xsd:decimal , xsd:duration , xsd:float , xsd:int , xsd:integer , xsd:long , xsd:nonNegativeInteger , xsd:nonPositiveInteger , xsd:short , xsd:string , xsd:time , xsd:unsignedByte , xsd:unsignedInt , xsd:unsignedLong , xsd:unsignedShort ;
+      owl:equivalentClass xsd:boolean ;
+      owl:sameAs xsd:boolean .
+
+xsd:byte
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:byte , xsd:decimal , xsd:int , xsd:integer , xsd:long , xsd:short , owl:Thing ;
+      owl:disjointWith xsd:boolean , xsd:date , xsd:dateTime , xsd:duration , xsd:float , xsd:string , xsd:time ;
+      owl:equivalentClass xsd:byte ;
+      owl:sameAs xsd:byte .
+
+xsd:date
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:date , owl:Thing ;
+      owl:disjointWith xsd:boolean , xsd:byte , xsd:dateTime , xsd:decimal , xsd:duration , xsd:float , xsd:int , xsd:integer , xsd:long , xsd:nonNegativeInteger , xsd:nonPositiveInteger , xsd:short , xsd:string , xsd:time , xsd:unsignedByte , xsd:unsignedInt , xsd:unsignedLong , xsd:unsignedShort ;
+      owl:equivalentClass xsd:date ;
+      owl:sameAs xsd:date .
+
+xsd:dateTime
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:dateTime , owl:Thing ;
+      owl:disjointWith xsd:boolean , xsd:byte , xsd:date , xsd:decimal , xsd:duration , xsd:float , xsd:int , xsd:integer , xsd:long , xsd:nonNegativeInteger , xsd:nonPositiveInteger , xsd:short , xsd:string , xsd:time , xsd:unsignedByte , xsd:unsignedInt , xsd:unsignedLong , xsd:unsignedShort ;
+      owl:equivalentClass xsd:dateTime ;
+      owl:sameAs xsd:dateTime .
+
+xsd:decimal
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:decimal , owl:Thing ;
+      owl:disjointWith xsd:boolean , xsd:date , xsd:dateTime , xsd:duration , xsd:float , xsd:string , xsd:time ;
+      owl:equivalentClass xsd:decimal ;
+      owl:sameAs xsd:decimal .
+
+xsd:double
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:double , owl:Thing ;
+      owl:equivalentClass xsd:double ;
+      owl:sameAs xsd:double .
+
+xsd:duration
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:duration , owl:Thing ;
+      owl:disjointWith xsd:boolean , xsd:byte , xsd:date , xsd:dateTime , xsd:decimal , xsd:float , xsd:int , xsd:integer , xsd:long , xsd:nonNegativeInteger , xsd:nonPositiveInteger , xsd:short , xsd:string , xsd:time , xsd:unsignedByte , xsd:unsignedInt , xsd:unsignedLong , xsd:unsignedShort ;
+      owl:equivalentClass xsd:duration ;
+      owl:sameAs xsd:duration .
+
+xsd:float
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:float , owl:Thing ;
+      owl:disjointWith xsd:boolean , xsd:byte , xsd:date , xsd:dateTime , xsd:decimal , xsd:duration , xsd:int , xsd:integer , xsd:long , xsd:nonNegativeInteger , xsd:nonPositiveInteger , xsd:short , xsd:string , xsd:time , xsd:unsignedByte , xsd:unsignedInt , xsd:unsignedLong , xsd:unsignedShort ;
+      owl:equivalentClass xsd:float ;
+      owl:sameAs xsd:float .
+
+xsd:fractionDigits
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , xsd:decimal , xsd:integer , owl:Thing ;
+      rdfs:subPropertyOf xsd:fractionDigits ;
+      owl:equivalentProperty
+              xsd:fractionDigits ;
+      owl:sameAs xsd:fractionDigits .
+
+xsd:gDay
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:gDay , owl:Thing ;
+      owl:equivalentClass xsd:gDay ;
+      owl:sameAs xsd:gDay .
+
+xsd:gMonth
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:gMonth , owl:Thing ;
+      owl:equivalentClass xsd:gMonth ;
+      owl:sameAs xsd:gMonth .
+
+xsd:gMonthDay
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:gMonthDay , owl:Thing ;
+      owl:equivalentClass xsd:gMonthDay ;
+      owl:sameAs xsd:gMonthDay .
+
+xsd:gYear
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:gYear , owl:Thing ;
+      owl:equivalentClass xsd:gYear ;
+      owl:sameAs xsd:gYear .
+
+xsd:gYearMonth
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:gYearMonth , owl:Thing ;
+      owl:equivalentClass xsd:gYearMonth ;
+      owl:sameAs xsd:gYearMonth .
+
+xsd:hexBinary
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:hexBinary , owl:Thing ;
+      owl:equivalentClass xsd:hexBinary ;
+      owl:sameAs xsd:hexBinary .
+
+xsd:int
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:decimal , xsd:int , xsd:integer , xsd:long , owl:Thing ;
+      owl:disjointWith xsd:boolean , xsd:date , xsd:dateTime , xsd:duration , xsd:float , xsd:string , xsd:time ;
+      owl:equivalentClass xsd:int ;
+      owl:sameAs xsd:int .
+
+xsd:integer
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:decimal , xsd:integer , owl:Thing ;
+      owl:disjointWith xsd:boolean , xsd:date , xsd:dateTime , xsd:duration , xsd:float , xsd:string , xsd:time ;
+      owl:equivalentClass xsd:integer ;
+      owl:sameAs xsd:integer .
+
+xsd:language
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:language , owl:Thing ;
+      owl:equivalentClass xsd:language ;
+      owl:sameAs xsd:language .
+
+xsd:length
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , xsd:decimal , xsd:integer , owl:Thing ;
+      rdfs:subPropertyOf xsd:length ;
+      owl:equivalentProperty
+              xsd:length ;
+      owl:sameAs xsd:length .
+
+xsd:long
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:decimal , xsd:integer , xsd:long , owl:Thing ;
+      owl:disjointWith xsd:boolean , xsd:date , xsd:dateTime , xsd:duration , xsd:float , xsd:string , xsd:time ;
+      owl:equivalentClass xsd:long ;
+      owl:sameAs xsd:long .
+
+xsd:maxExclusive
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:subPropertyOf xsd:maxExclusive ;
+      owl:equivalentProperty
+              xsd:maxExclusive ;
+      owl:sameAs xsd:maxExclusive .
+
+xsd:maxInclusive
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:subPropertyOf xsd:maxInclusive ;
+      owl:equivalentProperty
+              xsd:maxInclusive ;
+      owl:sameAs xsd:maxInclusive .
+
+xsd:maxLength
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , xsd:decimal , xsd:integer , owl:Thing ;
+      rdfs:subPropertyOf xsd:maxLength ;
+      owl:equivalentProperty
+              xsd:maxLength ;
+      owl:sameAs xsd:maxLength .
+
+xsd:minExclusive
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:subPropertyOf xsd:minExclusive ;
+      owl:equivalentProperty
+              xsd:minExclusive ;
+      owl:sameAs xsd:minExclusive .
+
+xsd:minInclusive
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:subPropertyOf xsd:minInclusive ;
+      owl:equivalentProperty
+              xsd:minInclusive ;
+      owl:sameAs xsd:minInclusive .
+
+xsd:minLength
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , xsd:decimal , xsd:integer , owl:Thing ;
+      rdfs:subPropertyOf xsd:minLength ;
+      owl:equivalentProperty
+              xsd:minLength ;
+      owl:sameAs xsd:minLength .
+
+xsd:negativeInteger
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:negativeInteger , owl:Thing ;
+      owl:equivalentClass xsd:negativeInteger ;
+      owl:sameAs xsd:negativeInteger .
+
+xsd:nonNegativeInteger
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:decimal , xsd:integer , xsd:nonNegativeInteger , owl:Thing ;
+      owl:disjointWith xsd:boolean , xsd:date , xsd:dateTime , xsd:duration , xsd:float , xsd:string , xsd:time ;
+      owl:equivalentClass xsd:nonNegativeInteger ;
+      owl:sameAs xsd:nonNegativeInteger .
+
+xsd:nonPositiveInteger
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:nonPositiveInteger , owl:Thing ;
+      owl:disjointWith xsd:boolean , xsd:date , xsd:dateTime , xsd:duration , xsd:float , xsd:string , xsd:time ;
+      owl:equivalentClass xsd:nonPositiveInteger ;
+      owl:sameAs xsd:nonPositiveInteger .
+
+xsd:normalizedString
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:normalizedString , owl:Thing ;
+      owl:equivalentClass xsd:normalizedString ;
+      owl:sameAs xsd:normalizedString .
+
+xsd:pattern
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:subPropertyOf xsd:pattern ;
+      owl:equivalentProperty
+              xsd:pattern ;
+      owl:sameAs xsd:pattern .
+
+xsd:positiveInteger
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:positiveInteger , owl:Thing ;
+      owl:equivalentClass xsd:positiveInteger ;
+      owl:sameAs xsd:positiveInteger .
+
+xsd:short
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:decimal , xsd:int , xsd:integer , xsd:long , xsd:short , owl:Thing ;
+      owl:disjointWith xsd:boolean , xsd:date , xsd:dateTime , xsd:duration , xsd:float , xsd:string , xsd:time ;
+      owl:equivalentClass xsd:short ;
+      owl:sameAs xsd:short .
+
+xsd:string
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:string , owl:Thing ;
+      owl:disjointWith xsd:boolean , xsd:byte , xsd:date , xsd:dateTime , xsd:decimal , xsd:duration , xsd:float , xsd:int , xsd:integer , xsd:long , xsd:nonNegativeInteger , xsd:nonPositiveInteger , xsd:short , xsd:time , xsd:unsignedByte , xsd:unsignedInt , xsd:unsignedLong , xsd:unsignedShort ;
+      owl:equivalentClass xsd:string ;
+      owl:sameAs xsd:string .
+
+xsd:time
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:time , owl:Thing ;
+      owl:disjointWith xsd:boolean , xsd:byte , xsd:date , xsd:dateTime , xsd:decimal , xsd:duration , xsd:float , xsd:int , xsd:integer , xsd:long , xsd:nonNegativeInteger , xsd:nonPositiveInteger , xsd:short , xsd:string , xsd:unsignedByte , xsd:unsignedInt , xsd:unsignedLong , xsd:unsignedShort ;
+      owl:equivalentClass xsd:time ;
+      owl:sameAs xsd:time .
+
+xsd:token
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:token , owl:Thing ;
+      owl:equivalentClass xsd:token ;
+      owl:sameAs xsd:token .
+
+xsd:totalDigits
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , xsd:decimal , xsd:integer , owl:Thing ;
+      rdfs:subPropertyOf xsd:totalDigits ;
+      owl:equivalentProperty
+              xsd:totalDigits ;
+      owl:sameAs xsd:totalDigits .
+
+xsd:unsignedByte
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:byte , xsd:decimal , xsd:int , xsd:integer , xsd:long , xsd:nonNegativeInteger , xsd:short , xsd:unsignedByte , xsd:unsignedInt , xsd:unsignedLong , xsd:unsignedShort , owl:Thing ;
+      owl:disjointWith xsd:boolean , xsd:date , xsd:dateTime , xsd:duration , xsd:float , xsd:string , xsd:time ;
+      owl:equivalentClass xsd:unsignedByte ;
+      owl:sameAs xsd:unsignedByte .
+
+xsd:unsignedInt
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:decimal , xsd:int , xsd:integer , xsd:long , xsd:nonNegativeInteger , xsd:unsignedInt , xsd:unsignedLong , owl:Thing ;
+      owl:disjointWith xsd:boolean , xsd:date , xsd:dateTime , xsd:duration , xsd:float , xsd:string , xsd:time ;
+      owl:equivalentClass xsd:unsignedInt ;
+      owl:sameAs xsd:unsignedInt .
+
+xsd:unsignedLong
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:decimal , xsd:integer , xsd:long , xsd:nonNegativeInteger , xsd:unsignedLong , owl:Thing ;
+      owl:disjointWith xsd:boolean , xsd:date , xsd:dateTime , xsd:duration , xsd:float , xsd:string , xsd:time ;
+      owl:equivalentClass xsd:unsignedLong ;
+      owl:sameAs xsd:unsignedLong .
+
+xsd:unsignedShort
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf xsd:decimal , xsd:int , xsd:integer , xsd:long , xsd:nonNegativeInteger , xsd:short , xsd:unsignedInt , xsd:unsignedLong , xsd:unsignedShort , owl:Thing ;
+      owl:disjointWith xsd:boolean , xsd:date , xsd:dateTime , xsd:duration , xsd:float , xsd:string , xsd:time ;
+      owl:equivalentClass xsd:unsignedShort ;
+      owl:sameAs xsd:unsignedShort .
+
+<http://www.w3.org/2002/07/owl>
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso <http://www.w3.org/TR/owl2-mapping-to-rdf/> , <http://www.w3.org/TR/owl2-rdf-based-semantics/> , <http://www.w3.org/TR/owl2-syntax/> ;
+      owl:sameAs <http://www.w3.org/2002/07/owl> .
+
+owl:  rdf:type rdfs:Resource , owl:Thing ;
+      owl:sameAs owl: .
+
+owl:AllDifferent
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf owl:AllDifferent , owl:Thing ;
+      owl:equivalentClass owl:AllDifferent ;
+      owl:sameAs owl:AllDifferent .
+
+owl:AllDisjointClasses
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf owl:AllDisjointClasses , owl:Thing ;
+      owl:equivalentClass owl:AllDisjointClasses ;
+      owl:sameAs owl:AllDisjointClasses .
+
+owl:AllDisjointProperties
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf owl:AllDisjointProperties , owl:Thing ;
+      owl:equivalentClass owl:AllDisjointProperties ;
+      owl:sameAs owl:AllDisjointProperties .
+
+owl:Annotation
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf owl:Annotation , owl:Thing ;
+      owl:equivalentClass owl:Annotation ;
+      owl:sameAs owl:Annotation .
+
+owl:AnnotationProperty
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf rdfs:Resource , owl:AnnotationProperty , owl:Thing ;
+      owl:equivalentClass owl:AnnotationProperty ;
+      owl:sameAs owl:AnnotationProperty .
+
+owl:AsymmetricProperty
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf rdf:Property , rdfs:Resource , owl:AsymmetricProperty , owl:Thing ;
+      owl:equivalentClass owl:AsymmetricProperty ;
+      owl:sameAs owl:AsymmetricProperty .
+
+owl:Axiom
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf owl:Axiom , owl:Thing ;
+      owl:equivalentClass owl:Axiom ;
+      owl:sameAs owl:Axiom .
+
+owl:Class
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf rdfs:Resource , owl:Class , owl:Thing ;
+      owl:equivalentClass rdfs:Class , owl:Class ;
+      owl:sameAs owl:Class .
+
+owl:DataRange
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf rdfs:Class , rdfs:Resource , owl:Class , owl:DataRange , owl:Thing ;
+      owl:equivalentClass owl:DataRange ;
+      owl:sameAs owl:DataRange .
+
+owl:DataTypeProperty
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf rdfs:Resource , owl:DataTypeProperty , owl:Thing ;
+      owl:equivalentClass owl:DataTypeProperty ;
+      owl:sameAs owl:DataTypeProperty .
+
+owl:DatatypeProperty
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf rdfs:Resource , owl:DatatypeProperty , owl:Thing ;
+      owl:equivalentClass owl:DatatypeProperty ;
+      owl:sameAs owl:DatatypeProperty .
+
+owl:DeprecatedClass
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf rdfs:Resource , owl:Class , owl:DeprecatedClass , owl:Thing ;
+      owl:equivalentClass owl:DeprecatedClass ;
+      owl:sameAs owl:DeprecatedClass .
+
+owl:DeprecatedProperty
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf rdfs:Resource , owl:DeprecatedProperty , owl:Thing ;
+      owl:equivalentClass owl:DeprecatedProperty ;
+      owl:sameAs owl:DeprecatedProperty .
+
+owl:FunctionalProperty
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf rdfs:Resource , owl:FunctionalProperty , owl:Thing ;
+      owl:equivalentClass owl:FunctionalProperty ;
+      owl:sameAs owl:FunctionalProperty .
+
+owl:InverseFunctionalProperty
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf rdf:Property , rdfs:Resource , owl:InverseFunctionalProperty , owl:Thing ;
+      owl:equivalentClass owl:InverseFunctionalProperty ;
+      owl:sameAs owl:InverseFunctionalProperty .
+
+owl:IrreflexiveProperty
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf rdf:Property , rdfs:Resource , owl:IrreflexiveProperty , owl:Thing ;
+      owl:equivalentClass owl:IrreflexiveProperty ;
+      owl:sameAs owl:IrreflexiveProperty .
+
+owl:NamedIndividual
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf rdfs:Resource , owl:NamedIndividual , owl:Thing ;
+      owl:equivalentClass owl:NamedIndividual ;
+      owl:sameAs owl:NamedIndividual .
+
+owl:NegativePropertyAssertion
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf owl:NegativePropertyAssertion , owl:Thing ;
+      owl:equivalentClass owl:NegativePropertyAssertion ;
+      owl:sameAs owl:NegativePropertyAssertion .
+
+owl:Nothing
+      rdf:type rdfs:Class , rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf rdfs:Resource , owl:Nothing , owl:Thing ;
+      owl:equivalentClass owl:Nothing ;
+      owl:sameAs owl:Nothing .
+
+owl:ObjectProperty
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf rdfs:Resource , owl:ObjectProperty , owl:Thing ;
+      owl:equivalentClass owl:ObjectProperty ;
+      owl:sameAs owl:ObjectProperty .
+
+owl:Ontology
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf owl:Ontology , owl:Thing ;
+      owl:equivalentClass owl:Ontology ;
+      owl:sameAs owl:Ontology .
+
+owl:OntologyProperty
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf rdfs:Resource , owl:OntologyProperty , owl:Thing ;
+      owl:equivalentClass owl:OntologyProperty ;
+      owl:sameAs owl:OntologyProperty .
+
+owl:Property
+      rdf:type rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:subClassOf rdfs:Resource , owl:Property , owl:Thing ;
+      owl:equivalentClass owl:Property ;
+      owl:sameAs owl:Property .
+
+owl:ReflexiveProperty
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf rdf:Property , rdfs:Resource , owl:ReflexiveProperty , owl:Thing ;
+      owl:equivalentClass owl:ReflexiveProperty ;
+      owl:sameAs owl:ReflexiveProperty .
+
+owl:Restriction
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf rdfs:Class , rdfs:Resource , owl:Restriction , owl:Thing ;
+      owl:equivalentClass owl:Restriction ;
+      owl:sameAs owl:Restriction .
+
+owl:SymmetricProperty
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf rdf:Property , rdfs:Resource , owl:SymmetricProperty , owl:Thing ;
+      owl:equivalentClass owl:SymmetricProperty ;
+      owl:sameAs owl:SymmetricProperty .
+
+owl:Thing
+      rdf:type rdfs:Class , rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf rdfs:Resource , owl:Thing ;
+      owl:equivalentClass rdfs:Resource , owl:Thing ;
+      owl:sameAs owl:Thing .
+
+owl:TransitiveProperty
+      rdf:type rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subClassOf rdf:Property , rdfs:Resource , owl:Thing , owl:TransitiveProperty ;
+      owl:equivalentClass owl:TransitiveProperty ;
+      owl:sameAs owl:TransitiveProperty .
+
+owl:allValuesFrom
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:allValuesFrom ;
+      owl:equivalentProperty
+              owl:allValuesFrom ;
+      owl:sameAs owl:allValuesFrom .
+
+owl:annotatedProperty
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain owl:Thing ;
+      rdfs:range owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:annotatedProperty ;
+      owl:equivalentProperty
+              owl:annotatedProperty ;
+      owl:sameAs owl:annotatedProperty .
+
+owl:annotatedSource
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain owl:Thing ;
+      rdfs:range owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:annotatedSource ;
+      owl:equivalentProperty
+              owl:annotatedSource ;
+      owl:sameAs owl:annotatedSource .
+
+owl:annotatedTarget
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain owl:Thing ;
+      rdfs:range owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:annotatedTarget ;
+      owl:equivalentProperty
+              owl:annotatedTarget ;
+      owl:sameAs owl:annotatedTarget .
+
+owl:assertionProperty
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:assertionProperty ;
+      owl:equivalentProperty
+              owl:assertionProperty ;
+      owl:sameAs owl:assertionProperty .
+
+owl:backwardCompatibleWith
+      rdf:type rdf:Property , rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:backwardCompatibleWith ;
+      owl:equivalentProperty
+              owl:backwardCompatibleWith ;
+      owl:sameAs owl:backwardCompatibleWith .
+
+owl:bottomDataProperty
+      rdf:type rdf:Property , rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:bottomDataProperty ;
+      owl:equivalentProperty
+              owl:bottomDataProperty ;
+      owl:sameAs owl:bottomDataProperty .
+
+owl:bottomObjectProperty
+      rdf:type rdf:Property , rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource ;
+      rdfs:range rdfs:Resource ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:bottomObjectProperty ;
+      owl:equivalentProperty
+              owl:bottomObjectProperty ;
+      owl:sameAs owl:bottomObjectProperty .
+
+owl:cardinality
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:range rdfs:Resource , xsd:decimal , xsd:integer , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:cardinality ;
+      owl:equivalentProperty
+              owl:cardinality ;
+      owl:sameAs owl:cardinality .
+
+owl:complementOf
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Class , rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Class , rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:complementOf ;
+      owl:equivalentProperty
+              owl:complementOf ;
+      owl:sameAs owl:complementOf .
+
+owl:datatypeComplementOf
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:range rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:datatypeComplementOf ;
+      owl:equivalentProperty
+              owl:datatypeComplementOf ;
+      owl:sameAs owl:datatypeComplementOf .
+
+owl:deprecated
+      rdf:type rdf:Property , rdfs:Resource , owl:Thing ;
+      rdfs:domain owl:Thing ;
+      rdfs:range owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:deprecated ;
+      owl:equivalentProperty
+              owl:deprecated ;
+      owl:sameAs owl:deprecated .
+
+owl:differentFrom
+      rdf:type rdfs:Resource , owl:ObjectProperty , owl:Thing ;
+      rdfs:domain rdfs:Resource ;
+      rdfs:range rdfs:Resource ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:differentFrom ;
+      owl:equivalentProperty
+              owl:differentFrom ;
+      owl:sameAs owl:differentFrom .
+
+owl:disjointUnionOf
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Class , rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:disjointUnionOf ;
+      owl:equivalentProperty
+              owl:disjointUnionOf ;
+      owl:sameAs owl:disjointUnionOf .
+
+owl:disjointWith
+      rdf:type rdfs:Resource , owl:ObjectProperty , owl:Thing ;
+      rdfs:domain rdfs:Class , rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Class , rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:disjointWith ;
+      owl:equivalentProperty
+              owl:disjointWith ;
+      owl:sameAs owl:disjointWith .
+
+owl:distinctMembers
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:distinctMembers ;
+      owl:equivalentProperty
+              owl:distinctMembers ;
+      owl:sameAs owl:distinctMembers .
+
+owl:equivalentClass
+      rdf:type rdfs:Resource , owl:ObjectProperty , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:equivalentClass ;
+      owl:equivalentProperty
+              owl:equivalentClass ;
+      owl:sameAs owl:equivalentClass .
+
+owl:equivalentProperty
+      rdf:type rdfs:Resource , owl:ObjectProperty , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:equivalentProperty ;
+      owl:equivalentProperty
+              owl:equivalentProperty ;
+      owl:sameAs owl:equivalentProperty .
+
+owl:hasKey
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Class , rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:hasKey ;
+      owl:equivalentProperty
+              owl:hasKey ;
+      owl:sameAs owl:hasKey .
+
+owl:hasSelf
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:range owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:hasSelf ;
+      owl:equivalentProperty
+              owl:hasSelf ;
+      owl:sameAs owl:hasSelf .
+
+owl:hasValue
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:range owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:hasValue ;
+      owl:equivalentProperty
+              owl:hasValue ;
+      owl:sameAs owl:hasValue .
+
+owl:imports
+      rdf:type rdf:Property , rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:imports ;
+      owl:equivalentProperty
+              owl:imports ;
+      owl:sameAs owl:imports .
+
+owl:incompatibleWith
+      rdf:type rdf:Property , rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:incompatibleWith ;
+      owl:equivalentProperty
+              owl:incompatibleWith ;
+      owl:sameAs owl:incompatibleWith .
+
+owl:intersectionOf
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:intersectionOf ;
+      owl:equivalentProperty
+              owl:intersectionOf ;
+      owl:sameAs owl:intersectionOf .
+
+owl:inverseOf
+      rdf:type rdfs:Resource , owl:ObjectProperty , owl:Thing ;
+      rdfs:domain rdf:Property , rdfs:Resource , owl:Thing ;
+      rdfs:range rdf:Property , rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:inverseOf ;
+      owl:equivalentProperty
+              owl:inverseOf ;
+      owl:sameAs owl:inverseOf .
+
+owl:maxCardinality
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:range rdfs:Resource , xsd:decimal , xsd:integer , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:maxCardinality ;
+      owl:equivalentProperty
+              owl:maxCardinality ;
+      owl:sameAs owl:maxCardinality .
+
+owl:maxQualifiedCardinality
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:range rdfs:Resource , xsd:decimal , xsd:integer , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:maxQualifiedCardinality ;
+      owl:equivalentProperty
+              owl:maxQualifiedCardinality ;
+      owl:sameAs owl:maxQualifiedCardinality .
+
+owl:members
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:members ;
+      owl:equivalentProperty
+              owl:members ;
+      owl:sameAs owl:members .
+
+owl:minCardinality
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:range rdfs:Resource , xsd:decimal , xsd:integer , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:minCardinality ;
+      owl:equivalentProperty
+              owl:minCardinality ;
+      owl:sameAs owl:minCardinality .
+
+owl:minQualifiedCardinality
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:range rdfs:Resource , xsd:decimal , xsd:integer , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:minQualifiedCardinality ;
+      owl:equivalentProperty
+              owl:minQualifiedCardinality ;
+      owl:sameAs owl:minQualifiedCardinality .
+
+owl:onClass
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:range rdfs:Class , rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:onClass ;
+      owl:equivalentProperty
+              owl:onClass ;
+      owl:sameAs owl:onClass .
+
+owl:onDataRange
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:range rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:onDataRange ;
+      owl:equivalentProperty
+              owl:onDataRange ;
+      owl:sameAs owl:onDataRange .
+
+owl:onDatatype
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:range rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:onDatatype ;
+      owl:equivalentProperty
+              owl:onDatatype ;
+      owl:sameAs owl:onDatatype .
+
+owl:onProperties
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:onProperties ;
+      owl:equivalentProperty
+              owl:onProperties ;
+      owl:sameAs owl:onProperties .
+
+owl:onProperty
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Property , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:onProperty ;
+      owl:equivalentProperty
+              owl:onProperty ;
+      owl:sameAs owl:onProperty .
+
+owl:oneOf
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:oneOf ;
+      owl:equivalentProperty
+              owl:oneOf ;
+      owl:sameAs owl:oneOf .
+
+owl:priorVersion
+      rdf:type rdf:Property , rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:priorVersion ;
+      owl:equivalentProperty
+              owl:priorVersion ;
+      owl:sameAs owl:priorVersion .
+
+owl:propertyChainAxiom
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdf:Property , rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:propertyChainAxiom ;
+      owl:equivalentProperty
+              owl:propertyChainAxiom ;
+      owl:sameAs owl:propertyChainAxiom .
+
+owl:propertyDisjointWith
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:propertyDisjointWith ;
+      owl:equivalentProperty
+              owl:propertyDisjointWith ;
+      owl:sameAs owl:propertyDisjointWith .
+
+owl:qualifiedCardinality
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:range rdfs:Resource , xsd:decimal , xsd:integer , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:qualifiedCardinality ;
+      owl:equivalentProperty
+              owl:qualifiedCardinality ;
+      owl:sameAs owl:qualifiedCardinality .
+
+owl:sameAs
+      rdf:type rdfs:Resource , owl:ObjectProperty , owl:Thing ;
+      rdfs:domain rdfs:Resource ;
+      rdfs:range rdfs:Resource ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:sameAs ;
+      owl:equivalentProperty
+              owl:sameAs ;
+      owl:sameAs owl:sameAs .
+
+owl:someValuesFrom
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:someValuesFrom ;
+      owl:equivalentProperty
+              owl:someValuesFrom ;
+      owl:sameAs owl:someValuesFrom .
+
+owl:sourceIndividual
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:sourceIndividual ;
+      owl:equivalentProperty
+              owl:sourceIndividual ;
+      owl:sameAs owl:sourceIndividual .
+
+owl:targetIndividual
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:targetIndividual ;
+      owl:equivalentProperty
+              owl:targetIndividual ;
+      owl:sameAs owl:targetIndividual .
+
+owl:targetValue
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:targetValue ;
+      owl:equivalentProperty
+              owl:targetValue ;
+      owl:sameAs owl:targetValue .
+
+owl:topDataProperty
+      rdf:type rdf:Property , rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:topDataProperty ;
+      owl:equivalentProperty
+              owl:topDataProperty ;
+      owl:sameAs owl:topDataProperty .
+
+owl:topObjectProperty
+      rdf:type rdf:Property , rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource ;
+      rdfs:range rdfs:Resource ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:topObjectProperty ;
+      owl:equivalentProperty
+              owl:topObjectProperty ;
+      owl:sameAs owl:topObjectProperty .
+
+owl:unionOf
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:unionOf ;
+      owl:equivalentProperty
+              owl:unionOf ;
+      owl:sameAs owl:unionOf .
+
+owl:versionIRI
+      rdf:type rdf:Property , rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Resource , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:versionIRI ;
+      owl:equivalentProperty
+              owl:versionIRI ;
+      owl:sameAs owl:versionIRI .
+
+owl:versionInfo
+      rdf:type rdf:Property , rdfs:Resource , owl:Thing ;
+      rdfs:domain owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:versionInfo ;
+      owl:equivalentProperty
+              owl:versionInfo ;
+      owl:sameAs owl:versionInfo .
+
+owl:withRestrictions
+      rdf:type rdfs:Resource , owl:Thing ;
+      rdfs:domain rdfs:Class , rdfs:Resource , owl:Class , owl:Thing ;
+      rdfs:range rdfs:Resource , owl:Thing ;
+      rdfs:seeAlso owl: ;
+      rdfs:subPropertyOf owl:withRestrictions ;
+      owl:equivalentProperty
+              owl:withRestrictions ;
+      owl:sameAs owl:withRestrictions .
+
+<http://www.w3.org/TR/owl2-mapping-to-rdf/>
+      rdf:type rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://www.w3.org/TR/owl2-mapping-to-rdf/> .
+
+<http://www.w3.org/TR/owl2-rdf-based-semantics/>
+      rdf:type rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://www.w3.org/TR/owl2-rdf-based-semantics/> .
+
+<http://www.w3.org/TR/owl2-rdf-based-semantics/#table-axiomatic-classes>
+      rdf:type rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://www.w3.org/TR/owl2-rdf-based-semantics/#table-axiomatic-classes> .
+
+<http://www.w3.org/TR/owl2-rdf-based-semantics/#table-axiomatic-properties>
+      rdf:type rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://www.w3.org/TR/owl2-rdf-based-semantics/#table-axiomatic-properties> .
+
+<http://www.w3.org/TR/owl2-syntax/>
+      rdf:type rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://www.w3.org/TR/owl2-syntax/> .
+
+<http://www.w3.org/TR/xmlschema-2/#rf-fractionDigits>
+      rdf:type rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://www.w3.org/TR/xmlschema-2/#rf-fractionDigits> .
+
+<http://www.w3.org/TR/xmlschema-2/#rf-length>
+      rdf:type rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://www.w3.org/TR/xmlschema-2/#rf-length> .
+
+<http://www.w3.org/TR/xmlschema-2/#rf-maxExclusive>
+      rdf:type rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://www.w3.org/TR/xmlschema-2/#rf-maxExclusive> .
+
+<http://www.w3.org/TR/xmlschema-2/#rf-maxInclusive>
+      rdf:type rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://www.w3.org/TR/xmlschema-2/#rf-maxInclusive> .
+
+<http://www.w3.org/TR/xmlschema-2/#rf-maxLength>
+      rdf:type rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://www.w3.org/TR/xmlschema-2/#rf-maxLength> .
+
+<http://www.w3.org/TR/xmlschema-2/#rf-minExclusive>
+      rdf:type rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://www.w3.org/TR/xmlschema-2/#rf-minExclusive> .
+
+<http://www.w3.org/TR/xmlschema-2/#rf-minInclusive>
+      rdf:type rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://www.w3.org/TR/xmlschema-2/#rf-minInclusive> .
+
+<http://www.w3.org/TR/xmlschema-2/#rf-minLength>
+      rdf:type rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://www.w3.org/TR/xmlschema-2/#rf-minLength> .
+
+<http://www.w3.org/TR/xmlschema-2/#rf-pattern>
+      rdf:type rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://www.w3.org/TR/xmlschema-2/#rf-pattern> .
+
+<http://www.w3.org/TR/xmlschema-2/#rf-totalDigits>
+      rdf:type rdfs:Resource , owl:Thing ;
+      owl:sameAs <http://www.w3.org/TR/xmlschema-2/#rf-totalDigits> .

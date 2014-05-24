@@ -1,3 +1,6 @@
+# Saved by TopBraid on Fri May 23 12:16:05 CEST 2014
+# baseURI: http://purl.org/rvl/example-data/
+
 @prefix :        <http://purl.org/rvl/example-data/> .
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -7,103 +10,28 @@
 
 :     rdf:type owl:Ontology .
 
-
-
-:Place
-      rdf:type owl:Class ;
-      rdfs:label "Place"^^xsd:string ;
-      rdfs:subClassOf :DomainResource .
-      
-:Germany
-      a :Place ;
-      :partOf :Europe ;
-      :exportsTo :China .
-      
-      
-:Spain
-      a :Place ;
-      :partOf :Europe ;
-      :population "40"^^xsd:int
-      .
-      
-:Europe
-      a :Place ;
-      :partOf :World .
-      
-:Asia
-      a :Place ;
-      :partOf :World .      
-      
-:China
-      a :Place ;
-      :partOf :Asia ;
-      :exportsTo :America ;
-      :population "3000"^^xsd:int
-      .      
-      
-:America
-      a :Place ;
-      :partOf :World .   
-      
-:Australia
-      a :Place ;
-      :partOf :World ;
-      :population "100"^^xsd:int
-      .   
-      
-:Turkey
-      a :Place ;
-      :partOf :Europe, :Asia .    
-
-      
-:Dresden
-      a :Place ;
-      :partOf :Germany .
-      
-:Gelsenkirchen
-      a :Place ;
-      :partOf :Germany .
-      
-      
-:partOf
-      a rdf:Property , owl:ObjectProperty ;
-      rdfs:range :Place ;
-      rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value .
-
-      
-:exportsTo
-      a rdf:Property , owl:ObjectProperty ;
-      rdfs:range :Place ;
-      rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value .
-      
-      
-:population
-      a rdf:Property , owl:DataTypeProperty ;
-      rdfs:range xsd:int ;
-      rdfs:subPropertyOf :domainProperty , viso-data:has_quantitative_value .
-      
-
-
 :Alice
       rdf:type :Author ;
       rdfs:label "Bob"^^xsd:string ;
       :workingField :Biography .
-      
-:Jan
-      rdf:type :Person ;
-      rdfs:label "Jan"^^xsd:string ;
-      :workingField :InfoVis .
+
+:America
+      rdf:type :Place ;
+      :partOf :World .
+
+:Asia
+      rdf:type :Place ;
+      :partOf :World .
+
+:Australia
+      rdf:type :Place ;
+      :partOf :World ;
+      :population "100"^^xsd:int .
 
 :Author
       rdf:type owl:Class ;
       rdfs:label "Author"^^xsd:string ;
       rdfs:subClassOf :Person .
-      
-:Person
-      rdf:type owl:Class ;
-      rdfs:label "Person"^^xsd:string ;
-      rdfs:subClassOf :DomainResource .
-
 
 :Biography
       rdf:type :Field ;
@@ -118,20 +46,29 @@
       rdfs:label "Book"^^xsd:string ;
       rdfs:subClassOf :DomainResource .
 
-
+:China
+      rdf:type :Place ;
+      :exportsTo :America ;
+      :partOf :Asia ;
+      :population "3000"^^xsd:int .
 
 :Christof
       rdf:type :Author ;
       rdfs:label "Christof"^^xsd:string ;
       :workingField :Sci-Fi .
 
-
 :DomainResource
       rdf:type owl:Class ;
       rdfs:label "Domain resource"^^xsd:string ;
       rdfs:subClassOf owl:Thing .
 
+:Dresden
+      rdf:type :Place ;
+      :partOf :Germany .
 
+:Europe
+      rdf:type :Place ;
+      :partOf :World .
 
 :Fiction
       rdf:type :Field ;
@@ -146,6 +83,19 @@
       rdf:type :Author ;
       rdfs:label "Franzi"^^xsd:string ;
       :workingField :Travel .
+
+:Gelsenkirchen
+      rdf:type :Place ;
+      :partOf :Germany .
+
+:Germany
+      rdf:type :Place ;
+      :exportsTo :China ;
+      :partOf :Europe .
+
+:Jan  rdf:type :Person ;
+      rdfs:label "Jan"^^xsd:string ;
+      :workingField :InfoVis .
 
 :John
       rdf:type :Author ;
@@ -162,7 +112,15 @@
       rdfs:label "Luisa"^^xsd:string ;
       :workingField :Science .
 
+:Person
+      rdf:type owl:Class ;
+      rdfs:label "Person"^^xsd:string ;
+      rdfs:subClassOf :DomainResource .
 
+:Place
+      rdf:type owl:Class ;
+      rdfs:label "Place"^^xsd:string ;
+      rdfs:subClassOf :DomainResource .
 
 :Sci-Fi
       rdf:type :Field ;
@@ -172,19 +130,23 @@
       rdf:type :Field ;
       rdfs:label "Science"^^xsd:string .
 
+:Spain
+      rdf:type :Place ;
+      :partOf :Europe ;
+      :population "40"^^xsd:int .
 
 :Susane
       rdf:type :Author ;
       rdfs:label "Susane"^^xsd:string ;
       :workingField :Travel .
 
-
-
-
 :Travel
       rdf:type :Field ;
       rdfs:label "Travel"^^xsd:string .
 
+:Turkey
+      rdf:type :Place ;
+      :partOf :Asia , :Europe .
 
 :category
       rdf:type rdf:Property , owl:DatatypeProperty ;
@@ -200,11 +162,24 @@
 
 :citesCritical
       rdfs:subPropertyOf :cites .
-      
+
 :citesVeryCritical
       rdfs:subPropertyOf :citesCritical .
 
 :domainProperty
       rdf:type rdf:Property .
 
+:exportsTo
+      rdf:type rdf:Property , owl:ObjectProperty ;
+      rdfs:range :Place ;
+      rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value .
 
+:partOf
+      rdf:type rdf:Property , owl:ObjectProperty , owl:TransitiveProperty ;
+      rdfs:range :Place ;
+      rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value .
+
+:population
+      rdf:type rdf:Property , owl:DataTypeProperty ;
+      rdfs:range xsd:int ;
+      rdfs:subPropertyOf :domainProperty , viso-data:has_quantitative_value .

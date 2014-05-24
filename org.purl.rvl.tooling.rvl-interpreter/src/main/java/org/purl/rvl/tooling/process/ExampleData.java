@@ -8,6 +8,7 @@ public class ExampleData {
 	
 	public static final String AVM = OGVICProcess.GEN_MODEL_FILE_FOLDER + "/" + "tempAVM.ttl";;
 	public static final String RVL_EXAMPLE = "../org.purl.rvl.vocabulary/example-data/rvl-example-data.ttl";
+	public static final String RVL_EXAMPLE_INFERRED_TRIPLES = "../org.purl.rvl.vocabulary/example-data/rvl-example-data-inferred-triples.ttl";
 	public static final String RO_SEMVIS = OGVICProcess.USE_CASE_FOLDER + "/Requirements/stRO/semvis-example-ro.ttl";
 	public static final String RO_SOCIAL_NETWORK = OGVICProcess.USE_CASE_FOLDER + "/Requirements/stRO/RO_version_1_4_1_social_network_consistent.owl";
 	public static final String RO_SOCIAL_NETWORK_EXTRA_DATA = OGVICProcess.USE_CASE_FOLDER + "/Requirements/stRO/MappingExample/extra_data.ttl";
