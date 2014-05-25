@@ -216,7 +216,7 @@ static final String NL =  System.getProperty("line.separator");
 	
 	
 	public Literal getSubjectFilter(){
-		if (hasSubjectfilter()) { // TODO also FSL possible ; we get the selector as a literal, since getting the sparqlselector caused casting problems
+		if (hasSubjectfilter()) {
 			return getAllSubjectfilter_asNode_().firstValue().asLiteral();
 		} else return null;
 	}

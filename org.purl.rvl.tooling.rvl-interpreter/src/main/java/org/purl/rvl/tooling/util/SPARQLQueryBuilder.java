@@ -22,7 +22,12 @@ public class SPARQLQueryBuilder {
 	private URI spURI;
 	private String selectorSPARQLString;
 
-	
+	public void addPrefix(){
+		query.append("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> ");
+		query.append("PREFIX po: <http://purl.org/obo/owl/PO#> ");
+		query.append("PREFIX obo: <http://purl.org/obo/owl/obo#> ");
+		query.append("PREFIX owl: <http://www.w3.org/2002/07/owl#> ");
+	}
 	
 	public void startQuerySPARQL(){
 				//" SELECT DISTINCT ?src ?s ?p ?o " + 
@@ -137,6 +142,8 @@ public class SPARQLQueryBuilder {
 	public String buildQuery(){
 		
 		query = new SPARQLStringBuilder();
+								
+								addPrefix();
 		
 								startQuerySPARQL();
 		if (null!=graphURI) 		constrainToGraphSPARQL(graphURI);
