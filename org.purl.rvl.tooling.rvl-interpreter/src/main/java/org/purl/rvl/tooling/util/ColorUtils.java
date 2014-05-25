@@ -8,6 +8,7 @@ import java.util.logging.Logger;
  */
 public class ColorUtils {
 	
+	@SuppressWarnings("unused")
 	private final static Logger LOGGER = Logger.getLogger(ColorUtils.class.getName());
 
 

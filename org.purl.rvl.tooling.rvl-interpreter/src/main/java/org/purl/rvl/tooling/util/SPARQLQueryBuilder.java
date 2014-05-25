@@ -1,21 +1,15 @@
 package org.purl.rvl.tooling.util;
 
-import java.io.File;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.vocabulary.OWL;
 import org.ontoware.rdf2go.vocabulary.RDFS;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
-import org.purl.rvl.tooling.ModelBuilder;
 import org.purl.rvl.tooling.process.OGVICProcess;
-
-import com.hp.hpl.jena.query.Dataset;
 
 /**
  * @author Jan Polowinski
@@ -23,6 +17,7 @@ import com.hp.hpl.jena.query.Dataset;
  */
 public class SPARQLQueryBuilder {
 	
+	@SuppressWarnings("unused")
 	private final static Logger LOGGER = Logger.getLogger(SPARQLQueryBuilder.class.getName()); 
 	
 	SPARQLStringBuilder query;
