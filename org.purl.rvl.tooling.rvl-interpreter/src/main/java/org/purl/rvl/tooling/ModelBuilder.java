@@ -3,10 +3,11 @@ package org.purl.rvl.tooling;
 import java.io.File;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.apache.commons.collections.MapUtils;
-import org.apache.xerces.util.XML11Char;
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
@@ -24,7 +25,6 @@ import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.ModelUtils;
 
 import com.hp.hpl.jena.query.Dataset;
-import com.hp.hpl.jena.vocabulary.XSD;
 
 
 /**
@@ -53,10 +53,6 @@ public class ModelBuilder {
 		super();
 		initModelSet();
 	}
-
-	/*public Model getModel(){
-		return model;
-		}*/
 	
 	public void initModelSet(){
 		
@@ -151,27 +147,9 @@ public class ModelBuilder {
 		// add the extra mapping statements that will be inferred based on the RVL schema
 		//modelMappings.addModel(ModelUtils.getExtraStatementModel(modelMappings,modelRVLSchema)); // TODO does not work properly when JENA used. Works as expected for SESAME Impl of RDF2GO
 		modelMappings.addModel(modelRVLSchema); // for now simply add the whole RVL schema to the mappings model and make it a reasoning model
-		
-		com.hp.hpl.jena.rdf.model.Model jenaModelMapping = (com.hp.hpl.jena.rdf.model.Model)modelMappings.getUnderlyingModelImplementation();
-		LOGGER.info(jenaModelMapping.getNsPrefixMap().toString());
-		
-		addStandardPrefixesForCommonNamespaces(modelMappings);
-		
-		jenaModelMapping = (com.hp.hpl.jena.rdf.model.Model)modelMappings.getUnderlyingModelImplementation();
-		LOGGER.info(jenaModelMapping.getNsPrefixMap().toString());
-			
+
 		modelSet.addModel(modelMappings, OGVICProcess.GRAPH_MAPPING);
-		
-		ModelSet ms = modelSet;
-		Dataset ds =  ((com.hp.hpl.jena.query.Dataset) ms.getUnderlyingModelSetImplementation());
 
-		LOGGER.info(ds.getNamedModel(OGVICProcess.GRAPH_DATA.toString()).getNsPrefixMap().toString());
-		LOGGER.info(ds.getNamedModel(OGVICProcess.GRAPH_RVL_SCHEMA.toString()).getNsPrefixMap().toString());
-		LOGGER.info(ds.getNamedModel(OGVICProcess.GRAPH_MAPPING.toString()).getNsPrefixMap().toString());
-		LOGGER.info(ds.getDefaultModel().getNsPrefixMap().toString());
-
-
-		
 		//modelMappings.addModel(modelVISO); // TODO temp hack!
 		//modelMappings.addModel(modelData); // TODO temp hack!
 		
@@ -209,7 +187,7 @@ public class ModelBuilder {
 				ModelUtils.readFromAnySyntax(reasoningDataModel,file);
 			}
 		}
-		
+	
 		// helper model with RDFS-Triples only
 		Model rdfsTriplesModel = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		rdfsTriplesModel.open();
@@ -220,32 +198,34 @@ public class ModelBuilder {
 		Model cleanedDataModel = RDF2Go.getModelFactory().createModel(Reasoning.none);
 		cleanedDataModel.open();
 		cleanedDataModel.addModel(reasoningDataModel);
-		cleanedDataModel.removeAll(rdfsTriplesModel.iterator()); 
+		cleanedDataModel.removeAll(rdfsTriplesModel.iterator());
 		//ModelUtils.printModelInfo("model data cleaned", cleanedDataModel, true);
+		
+		// TODO making the data model namespaces available as we do below is usually sufficient, 
+		// however also those from the mapping model could be added as well unless the are conflicting
+		transferNamespaces(reasoningDataModel, cleanedDataModel);
+		
+		Map<String,String> namespacesCleanedModel = cleanedDataModel.getNamespaces();
+		LOGGER.info("cleaned data model NS: " +  namespacesCleanedModel);
 
-		modelData = cleanedDataModel; // TODO: still needed?
-		
-		com.hp.hpl.jena.rdf.model.Model jenaModelData = (com.hp.hpl.jena.rdf.model.Model)modelData.getUnderlyingModelImplementation();
-		LOGGER.info(jenaModelData.getNsPrefixMap().toString());
 
+		modelData = cleanedDataModel; // TODO: still needed? -> yes for storing prefixes/namespaces, 
+									  // which seem not be retrievable indirectly from the model set
 		
-		addStandardPrefixesForCommonNamespaces(modelData);
-		addStandardPrefixesForCommonNamespaces(modelSet);
-		
-		jenaModelData = (com.hp.hpl.jena.rdf.model.Model)modelData.getUnderlyingModelImplementation();
-		LOGGER.info(jenaModelData.getNsPrefixMap().toString());
+		//com.hp.hpl.jena.rdf.model.Model jenaModelData = (com.hp.hpl.jena.rdf.model.Model)modelData.getUnderlyingModelImplementation();
+		//LOGGER.info(jenaModelData.getNsPrefixMap().toString());
+
+		//jenaModelData = (com.hp.hpl.jena.rdf.model.Model)modelData.getUnderlyingModelImplementation();
+		//LOGGER.info(jenaModelData.getNsPrefixMap().toString());
 
 		modelSet.addModel(modelData, OGVICProcess.GRAPH_DATA);
-		
-		addStandardPrefixesForCommonNamespaces(modelSet);
-		
-		Dataset ds =  ((com.hp.hpl.jena.query.Dataset) modelSet.getUnderlyingModelSetImplementation());
-		
 
-		LOGGER.info(ds.getNamedModel(OGVICProcess.GRAPH_DATA.toString()).getNsPrefixMap().toString());
-		LOGGER.info(ds.getNamedModel(OGVICProcess.GRAPH_RVL_SCHEMA.toString()).getNsPrefixMap().toString());
-		LOGGER.info(ds.getNamedModel(OGVICProcess.GRAPH_MAPPING.toString()).getNsPrefixMap().toString());
-		LOGGER.info(ds.getDefaultModel().getNsPrefixMap().toString());
+		//Dataset ds =  ((com.hp.hpl.jena.query.Dataset) modelSet.getUnderlyingModelSetImplementation());
+
+		//LOGGER.info(ds.getNamedModel(OGVICProcess.GRAPH_DATA.toString()).getNsPrefixMap().toString());
+		//LOGGER.info(ds.getNamedModel(OGVICProcess.GRAPH_RVL_SCHEMA.toString()).getNsPrefixMap().toString());
+		//LOGGER.info(ds.getNamedModel(OGVICProcess.GRAPH_MAPPING.toString()).getNsPrefixMap().toString());
+		//LOGGER.info(ds.getDefaultModel().getNsPrefixMap().toString());
 
 				
 		// cache inferred files for speeding up future starts
@@ -254,10 +234,30 @@ public class ModelBuilder {
 	}
 	
 	/**
+	 * Transfers namespaces from a source model to a target model 
+	 * 
+	 * @param sourceModel - the model to get the namespaces from
+	 * @param targetModel - the model to add the namespace
+	 */
+	private void transferNamespaces(Model sourceModel,
+			Model targetModel) {
+	
+		Set<Entry<String, String>> nameSpaces = sourceModel.getNamespaces().entrySet();
+
+		for (Entry<String, String> entry : nameSpaces) {
+			targetModel.setNamespace(entry.getKey(), entry.getValue());
+		}
+		
+		LOGGER.finest("transferred namespaces to target model : " +  nameSpaces);
+
+	}
+
+	/**
 	 * Adds the preferred prefixes for common namespaces like RDFS, OWL ...
 	 * 
 	 * @param modelSet - the model to enrich with the default namespace settings
 	 */
+	/*
 	private void addStandardPrefixesForCommonNamespaces(NamespaceSupport nameSpaceSupportable) {
 
 		nameSpaceSupportable.setNamespace("rdf", RDF.RDF_NS);
@@ -270,7 +270,7 @@ public class ModelBuilder {
 		LOGGER.info("Added standard prefixes to model/modelSet " + nameSpaceSupportable + NL + 
 					MapUtils.toProperties(namespace).toString());
 		
-	}
+	}*/
 
 	public void clearMappingAndDataModels() {
 		if (null!= modelMappings)

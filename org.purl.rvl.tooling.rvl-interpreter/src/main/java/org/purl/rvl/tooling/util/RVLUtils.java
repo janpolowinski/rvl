@@ -135,7 +135,7 @@ public class RVLUtils {
 			SPARQLQueryBuilder queryBuilder = new SPARQLQueryBuilder(spURI);
 			queryBuilder.constrainToGraph(fromGraph);
 			queryBuilder.constrainToSubjectBySelector(selectorSPARQLString);
-			String queryString = queryBuilder.toString();
+			String queryString = queryBuilder.buildQuery();
 
 			LOGGER.fine("Query statements with property (respectively most specific subproperty of) :" + spURI);
 			LOGGER.finest("Query :" + queryString);
@@ -222,7 +222,7 @@ public class RVLUtils {
 			
 		queryBuilder.constrainToGraph(fromGraph);
 		queryBuilder.constrainToSubjectBySelector(selectorSPARQLString);
-		query = queryBuilder.toString();
+		query = queryBuilder.buildQuery();
 
 		try {			
 						
