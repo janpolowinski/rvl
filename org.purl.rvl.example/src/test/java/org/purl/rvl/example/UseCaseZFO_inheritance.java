@@ -10,6 +10,7 @@ import org.purl.rvl.tooling.avm2d3.D3GeneratorTreeJSON;
 import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
 
+@SuppressWarnings("unused")
 public class UseCaseZFO_inheritance extends TestOGVICProcess {
 	
 	@Test

@@ -2,19 +2,29 @@ package org.purl.rvl.tooling;
 
 import java.io.File;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.logging.Logger;
 
+import org.apache.commons.collections.MapUtils;
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
+import org.ontoware.rdf2go.model.NamespaceSupport;
+import org.ontoware.rdf2go.vocabulary.OWL;
+import org.ontoware.rdf2go.vocabulary.RDF;
+import org.ontoware.rdf2go.vocabulary.RDFS;
 import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
 import org.purl.rvl.tooling.process.FileRegistry;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.ModelUtils;
+
+import com.hp.hpl.jena.query.Dataset;
 
 
 /**
@@ -43,10 +53,6 @@ public class ModelBuilder {
 		super();
 		initModelSet();
 	}
-
-	/*public Model getModel(){
-		return model;
-		}*/
 	
 	public void initModelSet(){
 		
@@ -141,10 +147,9 @@ public class ModelBuilder {
 		// add the extra mapping statements that will be inferred based on the RVL schema
 		//modelMappings.addModel(ModelUtils.getExtraStatementModel(modelMappings,modelRVLSchema)); // TODO does not work properly when JENA used. Works as expected for SESAME Impl of RDF2GO
 		modelMappings.addModel(modelRVLSchema); // for now simply add the whole RVL schema to the mappings model and make it a reasoning model
-		
+
 		modelSet.addModel(modelMappings, OGVICProcess.GRAPH_MAPPING);
 
-		
 		//modelMappings.addModel(modelVISO); // TODO temp hack!
 		//modelMappings.addModel(modelData); // TODO temp hack!
 		
@@ -160,6 +165,10 @@ public class ModelBuilder {
 	/**
 	 * @param dataFileRegistry
 	 * @param reasoning - Reasoning used while building the data model. Note: the final data model will still have reasoning off!
+	 */
+	/**
+	 * @param dataFileRegistry
+	 * @param reasoning
 	 */
 	public void initDataModel(FileRegistry dataFileRegistry, Reasoning reasoning)  {
 		
@@ -178,7 +187,7 @@ public class ModelBuilder {
 				ModelUtils.readFromAnySyntax(reasoningDataModel,file);
 			}
 		}
-		
+	
 		// helper model with RDFS-Triples only
 		Model rdfsTriplesModel = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		rdfsTriplesModel.open();
@@ -189,18 +198,80 @@ public class ModelBuilder {
 		Model cleanedDataModel = RDF2Go.getModelFactory().createModel(Reasoning.none);
 		cleanedDataModel.open();
 		cleanedDataModel.addModel(reasoningDataModel);
-		cleanedDataModel.removeAll(rdfsTriplesModel.iterator()); 
+		cleanedDataModel.removeAll(rdfsTriplesModel.iterator());
 		//ModelUtils.printModelInfo("model data cleaned", cleanedDataModel, true);
-
-		modelData = cleanedDataModel; // TODO: still needed?
 		
+		// TODO making the data model namespaces available as we do below is usually sufficient, 
+		// however also those from the mapping model could be added as well unless the are conflicting
+		transferNamespaces(reasoningDataModel, cleanedDataModel);
+		
+		Map<String,String> namespacesCleanedModel = cleanedDataModel.getNamespaces();
+		LOGGER.info("cleaned data model NS: " +  namespacesCleanedModel);
+
+
+		modelData = cleanedDataModel; // TODO: still needed? -> yes for storing prefixes/namespaces, 
+									  // which seem not be retrievable indirectly from the model set
+		
+		//com.hp.hpl.jena.rdf.model.Model jenaModelData = (com.hp.hpl.jena.rdf.model.Model)modelData.getUnderlyingModelImplementation();
+		//LOGGER.info(jenaModelData.getNsPrefixMap().toString());
+
+		//jenaModelData = (com.hp.hpl.jena.rdf.model.Model)modelData.getUnderlyingModelImplementation();
+		//LOGGER.info(jenaModelData.getNsPrefixMap().toString());
+
 		modelSet.addModel(modelData, OGVICProcess.GRAPH_DATA);
+
+		//Dataset ds =  ((com.hp.hpl.jena.query.Dataset) modelSet.getUnderlyingModelSetImplementation());
+
+		//LOGGER.info(ds.getNamedModel(OGVICProcess.GRAPH_DATA.toString()).getNsPrefixMap().toString());
+		//LOGGER.info(ds.getNamedModel(OGVICProcess.GRAPH_RVL_SCHEMA.toString()).getNsPrefixMap().toString());
+		//LOGGER.info(ds.getNamedModel(OGVICProcess.GRAPH_MAPPING.toString()).getNsPrefixMap().toString());
+		//LOGGER.info(ds.getDefaultModel().getNsPrefixMap().toString());
+
 				
 		// cache inferred files for speeding up future starts
 		// since multiple files may be used to infer the models, 
 		// a new file name per use case / project is needed
 	}
 	
+	/**
+	 * Transfers namespaces from a source model to a target model 
+	 * 
+	 * @param sourceModel - the model to get the namespaces from
+	 * @param targetModel - the model to add the namespace
+	 */
+	private void transferNamespaces(Model sourceModel,
+			Model targetModel) {
+	
+		Set<Entry<String, String>> nameSpaces = sourceModel.getNamespaces().entrySet();
+
+		for (Entry<String, String> entry : nameSpaces) {
+			targetModel.setNamespace(entry.getKey(), entry.getValue());
+		}
+		
+		LOGGER.finest("transferred namespaces to target model : " +  nameSpaces);
+
+	}
+
+	/**
+	 * Adds the preferred prefixes for common namespaces like RDFS, OWL ...
+	 * 
+	 * @param modelSet - the model to enrich with the default namespace settings
+	 */
+	/*
+	private void addStandardPrefixesForCommonNamespaces(NamespaceSupport nameSpaceSupportable) {
+
+		nameSpaceSupportable.setNamespace("rdf", RDF.RDF_NS);
+		nameSpaceSupportable.setNamespace("rdfs", RDFS.RDFS_NS);
+		nameSpaceSupportable.setNamespace("owl", OWL.OWL_NS);
+		nameSpaceSupportable.setNamespace("xsd", org.ontoware.rdf2go.vocabulary.XSD.XS_URIPREFIX);
+		
+		Map<String, String> namespace = nameSpaceSupportable.getNamespaces();
+		
+		LOGGER.info("Added standard prefixes to model/modelSet " + nameSpaceSupportable + NL + 
+					MapUtils.toProperties(namespace).toString());
+		
+	}*/
+
 	public void clearMappingAndDataModels() {
 		if (null!= modelMappings)
 			modelMappings.removeAll();
@@ -264,22 +335,22 @@ public class ModelBuilder {
 	
 	/*public Model getModel(){
 		return model;
-		}*/
+	}*/
 	
 	public Model getVISOModel(){
 		return modelVISO;
 		}
 
 	public Model getDataModel(){
-	return modelData;
+		return modelData;
 	}
 
 	public Model getMappingsModel(){
-	return modelMappings;
+		return modelMappings;
 	}
 
 	public Model getAVMModel(){
-	return modelAVM;
+		return modelAVM;
 	}
 
 

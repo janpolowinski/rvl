@@ -1,7 +1,6 @@
 package org.purl.rvl.tooling.util;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -11,27 +10,24 @@ import java.util.logging.Logger;
 
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
-import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.QueryResultTable;
 import org.ontoware.rdf2go.model.QueryRow;
 import org.ontoware.rdf2go.model.Sparqlable;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.impl.StatementImpl;
-import org.ontoware.rdf2go.model.node.DatatypeLiteral;
-import org.ontoware.rdf2go.model.node.Literal;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
-import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
-import org.ontoware.rdf2go.vocabulary.RDF;
 import org.ontoware.rdfreactor.runtime.ReactorResult;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.exception.UnsupportedSelectorTypeException;
 import org.purl.rvl.java.RVL;
 import org.purl.rvl.java.rvl.MappingX;
 import org.purl.rvl.java.rvl.PropertyMappingX;
+import org.purl.rvl.java.rvl.filter.SubjectFilter;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 
@@ -133,7 +129,7 @@ public class RVLUtils {
 			SPARQLQueryBuilder queryBuilder = new SPARQLQueryBuilder(spURI);
 			queryBuilder.constrainToGraph(fromGraph);
 			queryBuilder.constrainToSubjectBySelector(selectorSPARQLString);
-			String queryString = queryBuilder.toString();
+			String queryString = queryBuilder.buildQuery();
 
 			LOGGER.fine("Query statements with property (respectively most specific subproperty of) :" + spURI);
 			LOGGER.finest("Query :" + queryString);
@@ -220,7 +216,7 @@ public class RVLUtils {
 			
 		queryBuilder.constrainToGraph(fromGraph);
 		queryBuilder.constrainToSubjectBySelector(selectorSPARQLString);
-		query = queryBuilder.toString();
+		query = queryBuilder.buildQuery();
 
 		try {			
 						
@@ -294,45 +290,8 @@ public class RVLUtils {
 			
 			if(pm.hasSubjectfilter()) {
 				
-				Literal selector = pm.getSubjectFilter();
-				URI selectorType = null;
-				
-				// get selector type if available
-				try {
-					DatatypeLiteral typedSelector = selector.asDatatypeLiteral();
-					selectorType = typedSelector.getDatatype();
-				} catch (Exception e){}
-				 
-				 String selectorValue = selector.getValue();
-				 String filterSubjectVarString = "?s";
-				 
-				 LOGGER.info("Processing selector type " + selectorType);
-								
-				 if(null!=selectorType && selectorType.toString().equals("http://purl.org/rvl/fslSelector")) {
-					
-					 // RVLs basic "fsl selector"
-					 
-					 String[] fslParts = selectorValue.split("::");
-					 URI filterPredicate = new URIImpl(fslParts[0]).asURI();
-					 URI filterObject = new URIImpl(fslParts[1]).asURI();
-
-					 selectorSPARQLString = filterSubjectVarString + " " + filterPredicate.toSPARQL() + " " + filterObject.toSPARQL() + " . " +
-							 " FILTER( ?s !=" + filterObject.toSPARQL() + ") "; // HACK: we exclude reflexive occurences for now to avoid showing classes being the subclass of itself ...
-					 
-				 } 
-				 /*if(selectorType.toString().equals("http://purl.org/rvl/sparqlSelector")) {
-					 // RVLs basic "sparql selector"
-				 } */
-				 else {
-					 // class selector
-					 // at the moment the selector will be interpreted as a constraint on the type of resources (a class name is expected)
-					 
-					 selectorSPARQLString = filterSubjectVarString + " " + RDF.type.toSPARQL() + " " + new URIImpl(selectorValue).asResource().toSPARQL() + " . " ;
-				 }
-				
-				LOGGER.info("Applying subject filter. Only resources matching " + selectorSPARQLString + " will be affected by the mapping (and thus shown, which is not the default behavior --> TODO!)");
-				
-				
+				selectorSPARQLString = getSubjectFilterString(pm);
+			
 			}
 			
 			if (onlyMostSpecific) {
@@ -384,6 +343,20 @@ public class RVLUtils {
 			} 
 			
 			return statementSet;
+	}
+
+	/**
+	 * @param pm - a PropertyMapping with a filter
+	 * @return the filter string for the subject in SPARQL
+	 */
+	protected static String getSubjectFilterString(PropertyMappingX pm) {
+		
+		try {
+			return new SubjectFilter(pm).getFilterString();
+		} catch (UnsupportedSelectorTypeException e) {
+			LOGGER.severe("Will ignore filter. Reason: " + e.getMessage());
+			return "";
+		}
 	}
 
 	/**

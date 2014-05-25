@@ -1,10 +1,13 @@
 package org.purl.rvl.tooling.util;
 
-import java.io.File;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.vocabulary.OWL;
+import org.ontoware.rdf2go.vocabulary.RDFS;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.tooling.process.OGVICProcess;
 
@@ -14,6 +17,9 @@ import org.purl.rvl.tooling.process.OGVICProcess;
  */
 public class SPARQLQueryBuilder {
 	
+	@SuppressWarnings("unused")
+	private final static Logger LOGGER = Logger.getLogger(SPARQLQueryBuilder.class.getName()); 
+	
 	SPARQLStringBuilder query;
 	
 	private Resource subject;
@@ -22,7 +28,35 @@ public class SPARQLQueryBuilder {
 	private URI spURI;
 	private String selectorSPARQLString;
 
+	public void addCommonPrefixes(){
+		
+		addPrefix("rdfs", RDFS.RDFS_NS);
+		addPrefix("owl", "http://www.w3.org/2002/07/owl#");
+		
+	}
 	
+	private void addPrefixesFromDataModel() {
+
+		// getting the namespace from the model set does not seem to work (at least not when jena impl used)
+		//ModelSet modelSet = OGVICProcess.getInstance().getModelSet();
+		//Set<Entry<String, String>> namespacesfromDataModel = modelSet.getModel(OGVICProcess.GRAPH_DATA).getNamespaces().entrySet();
+		
+		// instead we get them from the data model directly
+		Set<Entry<String, String>> namespacesfromDataModel = OGVICProcess.getInstance().getModelData().getNamespaces().entrySet();
+		
+		for (Entry<String, String> entry : namespacesfromDataModel) {
+			addPrefix(entry.getKey(), entry.getValue());
+		}
+
+	}
+	
+	public void addPrefix(String prefix, URI namespace){
+		query.append("PREFIX "+ prefix + ": " + namespace.toSPARQL());
+	}
+	
+	public void addPrefix(String prefix, String namespace){
+		query.append("PREFIX "+ prefix + ": <" + namespace + ">");
+	}
 	
 	public void startQuerySPARQL(){
 				//" SELECT DISTINCT ?src ?s ?p ?o " + 
@@ -137,6 +171,9 @@ public class SPARQLQueryBuilder {
 	public String buildQuery(){
 		
 		query = new SPARQLStringBuilder();
+								
+								//addCommonPrefixes();
+								addPrefixesFromDataModel();
 		
 								startQuerySPARQL();
 		if (null!=graphURI) 		constrainToGraphSPARQL(graphURI);
@@ -154,6 +191,8 @@ public class SPARQLQueryBuilder {
 		return query.toString();
 	}
 	
+
+
 	public void constrainToSubject(Resource subject){
 		this.subject = subject;
 	}
@@ -207,11 +246,6 @@ public class SPARQLQueryBuilder {
 	" LIMIT " + OGVICProcess.MAX_GRAPHIC_RELATIONS_PER_MAPPING + " ";
 	
 	*/
-	
-	@Override
-	public String toString() {
-		return buildQuery();
-	}
 
 
 	public class SPARQLStringBuilder {

@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class D3Utils {
 	
+	@SuppressWarnings("unused")
 	private final static Logger LOGGER = Logger.getLogger(D3Utils.class.getName());
 	
 	public static int MAX_LABEL_LENGTH = 15;
