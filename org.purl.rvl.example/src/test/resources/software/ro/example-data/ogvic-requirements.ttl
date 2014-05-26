@@ -1,0 +1,986 @@
+ ##################### ##################### ##################### ##################### ##################### #####################
+ # This example ontology describes goals, requirements and use case that describe the OGVIC approach for Ontology-Driven Guided Visualisation as suggested by Jan Polowinski. 
+ # This ontology is licensed under a CC-BY 3.0 license (https://creativecommons.org/licenses/by/3.0/).
+ # Please refer to http://www-st.inf.tu-dresden.de/semvis/blog/ for further information.
+ ##################### ##################### ##################### ##################### ##################### #####################
+
+@prefix asserted_rest:  <http://purl.org/ro/asserted_rest/> .
+@prefix cs:      <http://purl.org/ro/cs#> .
+@prefix dcterms:  <http://purl.org/dc/terms/> .
+@prefix html:    <http://uispin.org/html#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ro:      <http://purl.org/ro/ont#> .
+@prefix ro-ex:   <http://purl.org/ro/semvis-example/> .
+@prefix ro-ui:   <http://purl.org/ro/ui#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix sp:      <http://spinrdf.org/sp#> .
+@prefix spin:    <http://spinrdf.org/spin#> .
+@prefix spl:     <http://spinrdf.org/spl#> .
+@prefix tui:     <http://uispin.org/tui#> .
+@prefix ui:      <http://uispin.org/ui#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+ro:Challenge
+      rdfs:label "Problems / Challenges"^^xsd:string ;
+      ro-ex:abbreviationInitial
+              "P"^^xsd:string ;
+      ui:instanceView
+              [ rdf:type html:Div ;
+                html:class "explained_item"^^xsd:string ;
+                ui:child
+                        [ rdf:type html:Div ;
+                          html:class "label"^^xsd:string ;
+                          ui:child
+                                  [ rdf:type ui:TextNode ;
+                                    ui:childIndex 0 ;
+                                    ui:text [ rdf:type ui:label ;
+                                              sp:arg1 spin:_this
+                                            ]
+                                  ] ;
+                          ui:childIndex 0
+                        ] ;
+                ui:child
+                        [ rdf:type html:Div ;
+                          html:class "description"^^xsd:string ;
+                          ui:child
+                                  [ rdf:type ui:TextNode ;
+                                    ui:childIndex 0 ;
+                                    ui:text [ rdf:type spl:object ;
+                                              sp:arg1 spin:_this ;
+                                              sp:arg2 dcterms:description
+                                            ]
+                                  ] ;
+                          ui:childIndex 1
+                        ] ;
+                ui:child
+                        [ rdf:type tui:CommentBox ;
+                          tui:subject spin:_this ;
+                          ui:childIndex 2
+                        ] ;
+                ui:child
+                        [ rdf:type html:Div ;
+                          ui:child
+                                  [ rdf:type html:Span ;
+                                    html:class "skosEditorialNote"^^xsd:string ;
+                                    ui:child
+                                            [ rdf:type ui:TextNode ;
+                                              ui:childIndex 0 ;
+                                              ui:text [ rdf:type spl:object ;
+                                                        sp:arg1 spin:_this ;
+                                                        sp:arg2 skos:editorialNote
+                                                      ]
+                                            ] ;
+                                    ui:childIndex 0
+                                  ] ;
+                          ui:childIndex 3
+                        ] ;
+                ui:child
+                        [ rdf:type html:Span ;
+                          html:class "explanation"^^xsd:string ;
+                          ui:child
+                                  [ rdf:type ui:TextNode ;
+                                    ui:childIndex 0 ;
+                                    ui:text "fulfilled (partly) by the following contributions:"^^xsd:string
+                                  ] ;
+                          ui:childIndex 4
+                        ] ;
+                ui:child
+                        [ rdf:type ro-ui:Unordered_Object_List ;
+                          ro-ui:objectType ro-ex:ThesisContribution ;
+                          ro-ui:relation ro-ex:solvedBy ;
+                          ro-ui:subjectUI spin:_this ;
+                          ui:childIndex 5
+                        ] ;
+                ui:priority 2000
+              ] .
+
+ro:isRefinementOf
+      owl:inverseOf ro:refinesTo .
+
+ro:refinesTo
+      owl:inverseOf ro:isRefinementOf .
+
+ro-ex:
+      rdf:type owl:Ontology ;
+      owl:imports dcterms: , asserted_rest: , <http://purl.org/ro/cs> , <http://purl.org/ro/ont> , <http://purl.org/ro/ui> , <http://www.w3.org/2004/02/skos/core> ;
+      owl:versionInfo "Created with TopBraid Composer"^^xsd:string .
+
+ro-ex:AVM
+      rdf:type ro-ex:ThesisContribution ;
+      rdfs:label "AVM"^^xsd:string ;
+      ro-ex:fulfills ro-ex:IntrospectCreatedVisualisation ;
+      ro-ex:printOrder "3"^^xsd:float ;
+      ro-ex:solvesProblem ro-ex:Composition_of_Mappings_insufficient , ro-ex:No_Sharing_and_Reuse_of_Visual_Encodings , ro-ex:PlatformVariability , ro-ex:Single_Visual_Paradigm ;
+      skos:editorialNote "Alternatives to AVM as a solution?"^^xsd:string .
+
+ro-ex:AnalysisStateOfTheArtApproachesAndLanguages
+      rdf:type ro-ex:ThesisContribution ;
+      rdfs:label "Analysis of the State of the Art"^^xsd:string ;
+      ro-ex:printOrder "1"^^xsd:float .
+
+ro-ex:Benefits_of_interaction_for_information_visualisation_not_exploited
+      rdf:type ro:Challenge , ro-ex:RechercheResult ;
+      rdfs:label "Benefits of interaction for information visualisation not exploited"^^xsd:string ;
+      ro-ex:justifiedBy ro-ex:someRechercheResult ;
+      ro-ex:justifies ro-ex:ConfigurationResultsInstantlyShown , ro-ex:DataFiltering , ro-ex:Guidance4ViewTransformations , ro-ex:Interaction ;
+      ro-ex:printOrder "20"^^xsd:float .
+
+ro-ex:BothTBoxAndABoxVisualisationsAreRequired
+      rdf:type ro-ex:CaseStudyOntologyAnalysisObservation ;
+      rdfs:label "Both TBox and ABox visualisations are required"^^xsd:string .
+
+ro-ex:Can_visualisation_benefit_from_the_additional_complexity_of_ontological_data
+      rdf:type ro-ex:ResearchQuestion ;
+      rdfs:label "Can visualisation benefit from the additional complexity of ontological data?"^^xsd:string ;
+      ro:isRefinementOf ro-ex:How_can_we_support_the_creation_of_tailor-made_efficient_and_reusable_visualisations_for_ontological_data ;
+      ro-ex:justifiedBy ro-ex:Ontology_Specifics_Not_Exploited , ro-ex:Single_Visual_Paradigm ;
+      ro-ex:printOrder "1"^^xsd:float .
+
+ro-ex:CaseStudyObservation
+      rdf:type owl:Class ;
+      rdfs:subClassOf ro:Influencer .
+
+ro-ex:CaseStudyOntologyAnalysisObservation
+      rdf:type owl:Class ;
+      rdfs:label "Influencer 1"^^xsd:string ;
+      rdfs:subClassOf ro-ex:CaseStudyObservation .
+
+ro-ex:ComposabilityOfMappings
+      rdf:type ro-ex:VariabilityShareabilityAndComposabilityLanguageRequirement ;
+      ro-ex:fulfilledBy ro-ex:RVL ;
+      ro-ex:justifiedBy ro-ex:ReusabilityOfMappings ;
+      ro-ex:printOrder "9"^^xsd:float .
+
+ro-ex:ComposabilityOfTheDefinedMapping
+      rdf:type ro:FunctionalRequirement , ro-ex:VariabilityReuseAndComposabilityRequirement ;
+      ro-ex:fulfilledBy ro-ex:SemVisApproach ;
+      ro-ex:justifiedBy ro-ex:Composition_of_Mappings_insufficient ;
+      ro-ex:justifies ro-ex:IntrospectCreatedVisualisation , ro-ex:ShareabilitySupportedByTheLanguage ;
+      ro-ex:printOrder "6"^^xsd:float .
+
+ro-ex:Composition_of_Mappings_insufficient
+      rdf:type ro:Challenge , ro-ex:RechercheResult ;
+      dcterms:description "Visualisation authors cannot compose their own mappings with existing ones."^^xsd:string ;
+      ro-ex:justifiedBy ro-ex:someRechercheResult ;
+      ro-ex:justifies ro-ex:ComposabilityOfTheDefinedMapping , ro-ex:VisualStructureVariability ;
+      ro-ex:printOrder "4"^^xsd:float ;
+      ro-ex:solvedBy ro-ex:AVM , ro-ex:RVL , ro-ex:SemVisApproach .
+
+ro-ex:ConfigurationResultsInstantlyShown
+      rdf:type ro:FunctionalRequirement , ro-ex:OptionalFeature ;
+      ro-ex:justifiedBy ro-ex:Benefits_of_interaction_for_information_visualisation_not_exploited , ro-ex:Interaction ;
+      ro-ex:printOrder "1"^^xsd:float .
+
+ro-ex:ConsiderComplexSemanticsOfOntologyForVisualMapping
+      rdf:type ro:FunctionalRequirement , ro-ex:GuidanceRequirement ;
+      ro-ex:fulfilledBy ro-ex:SemVisApproach ;
+      ro-ex:justifiedBy ro-ex:Ontology_Specifics_Not_Exploited ;
+      ro-ex:justifies ro-ex:RestrictiveToolUsableSchema ;
+      ro-ex:printOrder "1"^^xsd:float .
+
+ro-ex:ControlOrBehaviourConfigurability
+      rdf:type ro:FunctionalRequirement , ro-ex:CustomisationRequirement ;
+      rdfs:comment "Interaction configurability"^^xsd:string ;
+      ro-ex:fulfilledBy ro-ex:SemVisApproach ;
+      ro-ex:justifiedBy ro-ex:Interaction ;
+      ro-ex:printOrder "3"^^xsd:float .
+
+ro-ex:CustomisationRequirement
+      rdf:type owl:Class ;
+      rdfs:subClassOf ro-ex:SemVisRequirement .
+
+ro-ex:DataFiltering
+      rdf:type ro:FunctionalRequirement , ro-ex:OptionalFeature ;
+      ro-ex:justifiedBy ro-ex:Benefits_of_interaction_for_information_visualisation_not_exploited ;
+      ro-ex:printOrder "3"^^xsd:float .
+
+ro-ex:DataLanguageRequirement
+      rdf:type owl:Class ;
+      rdfs:subClassOf ro-ex:RVLRequirement .
+
+ro-ex:DataRequirement
+      rdf:type owl:Class ;
+      rdfs:subClassOf ro-ex:SemVisRequirement .
+
+ro-ex:Declarative
+      rdf:type ro-ex:GeneralLanguageRequirement ;
+      ro-ex:fulfilledBy ro-ex:RVL ;
+      ro-ex:justifiedBy ro-ex:ExplicitMappingDefinition , ro-ex:PlatformVariability ;
+      ro-ex:printOrder "1"^^xsd:float .
+
+ro-ex:DomainAgnostic
+      rdf:type ro:FunctionalRequirement , ro-ex:DataRequirement ;
+      dcterms:description "Data from every domain can be visualised. There is at least some support for visualisation that is independent from the domain."^^xsd:string ;
+      ro-ex:fulfilledBy ro-ex:SemVisApproach ;
+      ro-ex:justifiedBy ro-ex:Domain_experts_can_not_easily_visualise_domain_ontologies ;
+      ro-ex:printOrder "4"^^xsd:float .
+
+ro-ex:DomainExpertsCanUseTheSystem
+      rdf:type ro:FunctionalRequirement , ro-ex:OptionalFeature ;
+      ro-ex:justifiedBy ro-ex:Domain_experts_can_not_easily_visualise_domain_ontologies , ro-ex:semVisApproach ;
+      ro-ex:printOrder "2"^^xsd:float .
+
+ro-ex:Domain_experts_can_not_easily_visualise_domain_ontologies
+      rdf:type ro:Challenge , ro-ex:RechercheResult ;
+      rdfs:comment "We cannot assume that domain experts are also visualisation experts."^^xsd:string ;
+      dcterms:description "Domain Experts cannot easily create visualisations of their domain ontologies."^^xsd:string ;
+      ro-ex:justifiedBy ro-ex:someRechercheResult ;
+      ro-ex:justifies ro-ex:DomainAgnostic , ro-ex:DomainExpertsCanUseTheSystem , ro-ex:GUIforVisualEncodingConfiguration , ro-ex:Guidance4DataSelection , ro-ex:Guidance4ViewTransformations , ro-ex:Guidance4VisualMapping , ro-ex:Guidance4VisualMappingWithAGUI ;
+      ro-ex:printOrder "9"^^xsd:float ;
+      ro-ex:solvedBy ro-ex:SemVisApproach , ro-ex:VISO .
+
+ro-ex:Exchange_of_Visualisation_Knowledge
+      rdf:type ro:Challenge , ro-ex:RechercheResult ;
+      rdfs:comment "Visualisation Knowledge is hard-coded to the system and sometimes implicitly contained in system defaults. Since it is not made explicit, it cannot easily be exchanged when new empirical results are at hand. Also, it cannot be shared easily with others."^^xsd:string ;
+      dcterms:description "Visualisation knowledge is not exchangeable and shareable."^^xsd:string ;
+      ro-ex:justifiedBy ro-ex:someRechercheResult ;
+      ro-ex:printOrder "7"^^xsd:float ;
+      ro-ex:solvedBy ro-ex:RVL , ro-ex:VISO .
+
+ro-ex:Experimenting_with_visualisation_settings_is_tedious_in_standard_pipeline_approaches
+      rdf:type ro:Challenge , ro-ex:RechercheResult ;
+      rdfs:comment "Experimenting with new visualisation settings (filtering data, changing the visual mapping) is often tedious, since the results of configuring the visualisation are not visible immediatledy but only after running through all step s of the visualisation pipeline. Changes done to other parts (e.g. view transformations) are often lost."^^xsd:string ;
+      dcterms:description "No incremental, iterative, immediate application of configuration changes. Experimenting is tedious."^^xsd:string ;
+      ro-ex:justifiedBy ro-ex:someRechercheResult ;
+      ro-ex:printOrder "8"^^xsd:float .
+
+ro-ex:ExplicitMappingDefinition
+      rdf:type ro:FunctionalRequirement , ro-ex:VariabilityReuseAndComposabilityRequirement ;
+      rdfs:label "Explicit mapping definition"^^xsd:string ;
+      ro-ex:fulfilledBy ro-ex:RVL , ro-ex:SemVisApproach ;
+      ro-ex:justifiedBy ro-ex:No_Sharing_and_Reuse_of_Visual_Encodings ;
+      ro-ex:justifies ro-ex:Declarative ;
+      ro-ex:printOrder "3"^^xsd:float .
+
+ro-ex:ExtensibilityOfMappings
+      rdf:type ro-ex:VariabilityShareabilityAndComposabilityLanguageRequirement ;
+      ro-ex:fulfilledBy ro-ex:RVL ;
+      ro-ex:justifiedBy ro-ex:ReusabilityOfMappings ;
+      ro-ex:printOrder "5"^^xsd:float .
+
+ro-ex:FamiliarToUsers
+      rdf:type ro-ex:GeneralLanguageRequirement ;
+      ro-ex:printOrder "3"^^xsd:float ;
+      skos:editorialNote "Löschen? Evtl. nur diskutieren, ob Requirement?"^^xsd:string .
+
+ro-ex:GUIforVisualEncodingConfiguration
+      rdf:type ro:FunctionalRequirement , ro-ex:CustomisationRequirement ;
+      ro-ex:fulfilledBy ro-ex:SemVisApproach ;
+      ro-ex:justifiedBy ro-ex:Domain_experts_can_not_easily_visualise_domain_ontologies ;
+      ro-ex:justifies ro-ex:RestrictiveToolUsableSchema ;
+      ro-ex:printOrder "2"^^xsd:float .
+
+ro-ex:GeneralLanguageRequirement
+      rdf:type owl:Class ;
+      rdfs:subClassOf ro-ex:RVLRequirement .
+
+ro-ex:Guidance4DataSelection
+      rdf:type ro-ex:OptionalFeature ;
+      ro-ex:fulfilledBy ro-ex:SemVisApproach ;
+      ro-ex:justifiedBy ro-ex:Domain_experts_can_not_easily_visualise_domain_ontologies ;
+      ro-ex:printOrder "4"^^xsd:float .
+
+ro-ex:Guidance4ViewTransformations
+      rdf:type ro-ex:OptionalFeature ;
+      ro-ex:justifiedBy ro-ex:Benefits_of_interaction_for_information_visualisation_not_exploited , ro-ex:Domain_experts_can_not_easily_visualise_domain_ontologies ;
+      ro-ex:printOrder "5"^^xsd:float .
+
+ro-ex:Guidance4VisualMapping
+      rdf:type ro:FunctionalRequirement , ro-ex:GuidanceRequirement ;
+      ro:refinesTo ro-ex:Guidance4VisualMappingWithAGUI ;
+      ro-ex:fulfilledBy ro-ex:SemVisApproach ;
+      ro-ex:justifiedBy ro-ex:Domain_experts_can_not_easily_visualise_domain_ontologies ;
+      ro-ex:justifies ro-ex:IntrospectCreatedVisualisation , ro-ex:RestrictiveToolUsableSchema ;
+      ro-ex:printOrder "2"^^xsd:float .
+
+ro-ex:Guidance4VisualMappingWithAGUI
+      rdf:type ro:FunctionalRequirement , ro-ex:GuidanceRequirement ;
+      ro:isRefinementOf ro-ex:Guidance4VisualMapping ;
+      ro-ex:fulfilledBy ro-ex:SemVisApproach ;
+      ro-ex:justifiedBy ro-ex:Domain_experts_can_not_easily_visualise_domain_ontologies ;
+      ro-ex:justifies ro-ex:RestrictiveToolUsableSchema ;
+      ro-ex:printOrder "3"^^xsd:float .
+
+ro-ex:GuidanceRequirement
+      rdf:type owl:Class ;
+      rdfs:subClassOf ro-ex:SemVisRequirement .
+
+ro-ex:How_can_we_guide_the_visual_mapping_of_ontological_data
+      rdf:type ro-ex:ResearchQuestion ;
+      rdfs:label "How can we guide the visual mapping of ontological data"^^xsd:string ;
+      ro:isRefinementOf ro-ex:How_can_we_support_the_creation_of_tailor-made_efficient_and_reusable_visualisations_for_ontological_data ;
+      ro-ex:justifiedBy ro-ex:Exchange_of_Visualisation_Knowledge , ro-ex:Ontology_Specifics_Not_Exploited ;
+      ro-ex:printOrder "6"^^xsd:float .
+
+ro-ex:How_can_we_support_the_creation_of_tailor-made_efficient_and_reusable_visualisations_for_ontological_data
+      rdf:type ro-ex:ResearchQuestion ;
+      rdfs:label "How can we support the creation of tailor-made  efficient and reusable visualisations for ontological data?"^^xsd:string ;
+      ro-ex:printOrder "0"^^xsd:float .
+
+ro-ex:How_to_define_composable_and_shareable_mappings_from_ontological_data_to_visual_means
+      rdf:type ro-ex:ResearchQuestion ;
+      rdfs:label "How to define composable and shareable mappings from ontological data to visual means"^^xsd:string ;
+      ro:isRefinementOf ro-ex:How_can_we_support_the_creation_of_tailor-made_efficient_and_reusable_visualisations_for_ontological_data ;
+      ro-ex:justifiedBy ro-ex:Composition_of_Mappings_insufficient , ro-ex:No_Sharing_and_Reuse_of_Visual_Encodings , ro-ex:No_Standard_for_Visualisation_Information , ro-ex:No_Visualisation_Language_for_Ontologies , ro-ex:Single_Visual_Paradigm ;
+      ro-ex:printOrder "5"^^xsd:float .
+
+ro-ex:How_to_formalise_graphic_vocabulary_and_knowledge
+      rdf:type ro-ex:ResearchQuestion ;
+      rdfs:label "How to formalise graphic vocabulary and knowledge"^^xsd:string ;
+      ro:isRefinementOf ro-ex:How_can_we_support_the_creation_of_tailor-made_efficient_and_reusable_visualisations_for_ontological_data ;
+      ro-ex:justifiedBy ro-ex:Exchange_of_Visualisation_Knowledge ;
+      ro-ex:printOrder "3"^^xsd:float .
+
+ro-ex:InSomeFieldsMidLevelOntologiesAreUsedAndSemanticsEmergeFromReusingThemInManyDomainOntologies
+      rdf:type ro-ex:CaseStudyOntologyAnalysisObservation ;
+      rdfs:label "In some fields mid level ontologies are used and semantics emerge from reusing them in many domain ontologies"^^xsd:string .
+
+ro-ex:Interaction
+      rdf:type ro:FunctionalRequirement , ro-ex:VisualEncodingAndInteractivityRequirement ;
+      ro-ex:fulfilledBy ro-ex:SemVisApproach ;
+      ro-ex:justifiedBy ro-ex:Benefits_of_interaction_for_information_visualisation_not_exploited ;
+      ro-ex:justifies ro-ex:ConfigurationResultsInstantlyShown , ro-ex:ControlOrBehaviourConfigurability , ro-ex:InteractionDescribeable ;
+      ro-ex:printOrder "2"^^xsd:float .
+
+ro-ex:InteractionDescribeable
+      rdf:type ro-ex:VisualEncodingAndInteractivityLanguageRequirement ;
+      ro-ex:fulfilledBy ro-ex:RVL ;
+      ro-ex:justifiedBy ro-ex:Interaction ;
+      ro-ex:printOrder "0"^^xsd:float .
+
+ro-ex:IntrospectCreatedVisualisation
+      rdf:type ro-ex:GuidanceRequirement ;
+      rdfs:label "Introspect created visualisation"^^xsd:string ;
+      dcterms:description "Introspecting the already performed (composed visualisation) is required in order to allow making statements on further (appropriate or even possible) compositions."^^xsd:string ;
+      ro-ex:fulfilledBy ro-ex:AVM ;
+      ro-ex:justifiedBy ro-ex:ComposabilityOfTheDefinedMapping , ro-ex:Guidance4VisualMapping ;
+      ro-ex:printOrder "6"^^xsd:float .
+
+ro-ex:It_is_so_much_work_to_create_a_good_visualisation_that_it_would_be_nice_to_reuse_the_settings_in_multiple_settings_eg_on_other_platforms
+      rdf:type ro-ex:MockupObservation ;
+      rdfs:label " on other platforms"^^xsd:string .
+
+ro-ex:It_would_be_nice_to_reuse_already_created_parts_of_visualisations_in_other_contexts_to_save_time_and_have_a_consistent_appearance
+      rdf:type ro-ex:MockupObservation ;
+      rdfs:label "It would be nice to reuse already created parts of visualisations in other contexts to save time and have a consistent appearance"^^xsd:string .
+
+ro-ex:It_would_save_time_to_employ_ready_to_use_visualisation_and_styling_settings_for_standard_relations_classes_and_instances
+      rdf:type ro-ex:MockupObservation ;
+      rdfs:label "It would save time to employ ready to use visualisation and styling settings for standard relations classes and instances"^^xsd:string .
+
+ro-ex:MockupObservation
+      rdf:type owl:Class ;
+      rdfs:label "Mockup observation"^^xsd:string ;
+      rdfs:subClassOf ro-ex:CaseStudyObservation .
+
+ro-ex:MultipleVS
+      rdf:type ro-ex:VariabilityShareabilityAndComposabilityLanguageRequirement ;
+      ro:refinesTo ro-ex:VisualStructureIndependence ;
+      ro-ex:fulfilledBy ro-ex:RVL ;
+      ro-ex:justifiedBy ro-ex:VisualStructureVariability ;
+      ro-ex:printOrder "3"^^xsd:float .
+
+ro-ex:NeedForDirectlyReferencingOntologyTerms
+      rdf:type ro-ex:CaseStudyOntologyAnalysisObservation ;
+      rdfs:label "Need for directly referencing ontology terms"^^xsd:string .
+
+ro-ex:NeedForVisualingRelationsBetweenComplexObjectsRatherThanAttributeValuesAlone
+      rdf:type ro-ex:CaseStudyOntologyAnalysisObservation ;
+      rdfs:label "Need for visualing relations between complex objects rather than attribute values alone"^^xsd:string .
+
+ro-ex:NeedForVisualisingManyDiffererntRelationshipsWithLittleOccurencesHeterogeneousData
+      rdf:type ro-ex:CaseStudyOntologyAnalysisObservation ;
+      rdfs:label "Need for visualising many differernt relationships with little occurences (heterogeneous data)"^^xsd:string .
+
+ro-ex:No_Real_Visual_Encoding
+      rdf:type ro:Challenge , ro-ex:RechercheResult ;
+      rdfs:comment "Setting concrete visual values for all data values is time-consuming and unflexible in case of changes. A reasonable selection of defaults, following the convention over configuration principle,  is often not possible."^^xsd:string ;
+      dcterms:description "Often no real visual encoding but transformation of data to document shape (for ontological data)."^^xsd:string ;
+      ro-ex:justifiedBy ro-ex:someRechercheResult ;
+      ro-ex:justifies ro-ex:RealVisualEncoding , ro-ex:VisualEncodingConfigurability ;
+      ro-ex:printOrder "1"^^xsd:float ;
+      ro-ex:solvedBy ro-ex:RVL , ro-ex:SemVisApproach .
+
+ro-ex:No_Sharing_and_Reuse_of_Visual_Encodings
+      rdf:type ro:Challenge , ro-ex:RechercheResult ;
+      rdfs:comment "Even if there are explicit visual mapping definitions, it may still be the case that these cannot easily be shared together with the data, because they are stored in different formats."^^xsd:string , "Ontology visualisations are created for specific platforms and separatly for each visual paradigm. They cannot be shared with others and reused on other visualisation platforms or in combination with different visual paradigms."^^xsd:string ;
+      dcterms:description "Visualisation authors cannot reuse mappings in other tools and share them with other people."^^xsd:string ;
+      ro-ex:justifiedBy ro-ex:someRechercheResult ;
+      ro-ex:justifies ro-ex:ExplicitMappingDefinition , ro-ex:PlatformVariability , ro-ex:ReusabilityOfMappings , ro-ex:ShareabilityOfMappings , ro-ex:VisualStructureVariability ;
+      ro-ex:printOrder "3"^^xsd:float ;
+      ro-ex:solvedBy ro-ex:AVM , ro-ex:RVL , ro-ex:VISO .
+
+ro-ex:No_Standard_for_Visualisation_Information
+      rdf:type ro:Challenge , ro-ex:RechercheResult ;
+      dcterms:description "Domain data authors do not have a standard format to ship also visualisation information along with their data."^^xsd:string ;
+      ro-ex:justifiedBy ro-ex:someRechercheResult ;
+      ro-ex:justifies ro-ex:OntologyAware , ro-ex:RDFSupportedByApproach ;
+      ro-ex:printOrder "5"^^xsd:float ;
+      ro-ex:solvedBy ro-ex:RVL .
+
+ro-ex:No_Visualisation_Language_for_Ontologies
+      rdf:type ro:Challenge , ro-ex:RechercheResult ;
+      dcterms:description "No visualisation language for ontological data exists."^^xsd:string ;
+      ro-ex:justifiedBy ro-ex:someRechercheResult ;
+      ro-ex:printOrder "6"^^xsd:float ;
+      ro-ex:solvedBy ro-ex:RVL , ro-ex:VISO ;
+      skos:editorialNote "TODO: Is this a language problem?"^^xsd:string .
+
+ro-ex:Often_we_want_to_map_whole_properties_to_visual_means
+      rdf:type ro-ex:MockupObservation ;
+      rdfs:label "Often we want to map whole properties to visual means"^^xsd:string ;
+      dcterms:description "Often we do ot want to map each domain data value to a visual value, but do this implicitly by mapping on the property level. This applies to visual attributes but other visual relations as well."^^xsd:string .
+
+ro-ex:OntologyAware
+      rdf:type ro:FunctionalRequirement , ro-ex:DataRequirement ;
+      dcterms:description "Ontology terms can be referenced within display definitions. The visualisation is specific to ontologies not graphs, i.e. representing RDF on a graph level is not sufficient."^^xsd:string ;
+      ro-ex:fulfilledBy ro-ex:SemVisApproach ;
+      ro-ex:justifiedBy ro-ex:No_Standard_for_Visualisation_Information , ro-ex:Ontology_Specifics_Not_Exploited ;
+      ro-ex:justifies ro-ex:OntologyConstructsReferenceable ;
+      ro-ex:printOrder "1"^^xsd:float .
+
+ro-ex:OntologyConstructsReferenceable
+      rdf:type ro-ex:DataLanguageRequirement ;
+      dcterms:description "The language can reference ontology terms. Switching on/off inference is optional."^^xsd:string ;
+      ro-ex:fulfilledBy ro-ex:RVL ;
+      ro-ex:justifiedBy ro-ex:OntologyAware ;
+      ro-ex:printOrder "1"^^xsd:float .
+
+ro-ex:Ontology_Specifics_Not_Exploited
+      rdf:type ro:Challenge , ro-ex:RechercheResult ;
+      rdfs:comment "Inferencing often needs to be done as a previous separate step and cannot be accessed later on demand for parts of the visualisation."^^xsd:string , "Only for tabular data and simple datatypes some systems offer basic guidance functionality based on internal visualisation knowledge and analysis of the data. However, they cannot guide the user when it comes to visualising ontological data with ist specifics."^^xsd:string , "Structured, shared meaning ..."^^xsd:string ;
+      dcterms:description "The specific characteristics of ontological data are not exploited for the visualisation process."^^xsd:string ;
+      ro-ex:justifiedBy ro-ex:someCaseStudyObservation , ro-ex:someRechercheResult ;
+      ro-ex:justifies ro-ex:ConsiderComplexSemanticsOfOntologyForVisualMapping , ro-ex:OntologyAware , ro-ex:RDFSupportedByApproach , ro-ex:ReusabilityOfMappings , ro-ex:TBoxSupported ;
+      ro-ex:printOrder "0"^^xsd:float ;
+      ro-ex:solvedBy ro-ex:SemVisApproach .
+
+ro-ex:OptionalFeature
+      rdf:type owl:Class ;
+      rdfs:subClassOf ro-ex:SemVisRequirement .
+
+ro-ex:PlatformIndependence
+      rdf:type ro-ex:VariabilityShareabilityAndComposabilityLanguageRequirement ;
+      ro:refinesTo ro-ex:PlatformIndependentDescriptionOfVisualStructures ;
+      ro-ex:fulfilledBy ro-ex:RVL ;
+      ro-ex:justifiedBy ro-ex:PlatformVariability ;
+      ro-ex:printOrder "1"^^xsd:float .
+
+ro-ex:PlatformIndependentDescriptionOfVisualStructures
+      rdf:type ro-ex:VariabilityShareabilityAndComposabilityLanguageRequirement ;
+      rdfs:label "Platform independent description of visual structures"^^xsd:string ;
+      ro:isRefinementOf ro-ex:PlatformIndependence ;
+      ro-ex:fulfilledBy ro-ex:RVL ;
+      ro-ex:justifiedBy ro-ex:PlatformVariability ;
+      ro-ex:printOrder "2"^^xsd:float .
+
+ro-ex:PlatformVariability
+      rdf:type ro:FunctionalRequirement , ro-ex:VariabilityReuseAndComposabilityRequirement ;
+      ro-ex:fulfilledBy ro-ex:SemVisApproach ;
+      ro-ex:justifiedBy ro-ex:No_Sharing_and_Reuse_of_Visual_Encodings ;
+      ro-ex:justifies ro-ex:Declarative , ro-ex:PlatformIndependence , ro-ex:PlatformIndependentDescriptionOfVisualStructures ;
+      ro-ex:printOrder "1"^^xsd:float ;
+      ro-ex:solvedBy ro-ex:AVM .
+
+ro-ex:RDFSupportedByApproach
+      rdf:type ro:FunctionalRequirement , ro-ex:DataRequirement ;
+      dcterms:description "RDF or the languages build on top of it (RDFS, OWL) are supported as ontology languages."^^xsd:string ;
+      ro-ex:fulfilledBy ro-ex:SemVisApproach ;
+      ro-ex:justifiedBy ro-ex:No_Standard_for_Visualisation_Information , ro-ex:Ontology_Specifics_Not_Exploited ;
+      ro-ex:justifies ro-ex:RDFSupportedByLanguage ;
+      ro-ex:printOrder "3"^^xsd:float .
+
+ro-ex:RDFSupportedByLanguage
+      rdf:type ro:FunctionalRequirement , ro-ex:DataLanguageRequirement ;
+      dcterms:description "RDF and the languages build on top of it (RDFS, OWL) are supported. "^^xsd:string ;
+      ro-ex:fulfilledBy ro-ex:RVL ;
+      ro-ex:justifiedBy ro-ex:RDFSupportedByApproach ;
+      ro-ex:printOrder "3"^^xsd:float .
+
+ro-ex:RVL
+      rdf:type ro-ex:ThesisContribution ;
+      rdfs:label "RVL"^^xsd:string ;
+      ro-ex:fulfills ro-ex:ComposabilityOfMappings , ro-ex:Declarative , ro-ex:ExplicitMappingDefinition , ro-ex:ExtensibilityOfMappings , ro-ex:InteractionDescribeable , ro-ex:MultipleVS , ro-ex:OntologyConstructsReferenceable , ro-ex:PlatformIndependence , ro-ex:PlatformIndependentDescriptionOfVisualStructures , ro-ex:RDFSupportedByLanguage , ro-ex:RealVisualEncodingsDefinable , ro-ex:RestrictiveToolUsableSchema , ro-ex:ShareabilitySupportedByTheLanguage , ro-ex:TBoxOntologyConstructsReferenceable , ro-ex:URIForEachMapping , ro-ex:VisualStructureIndependence ;
+      ro-ex:printOrder "4"^^xsd:float ;
+      ro-ex:solvesProblem ro-ex:Composition_of_Mappings_insufficient , ro-ex:Exchange_of_Visualisation_Knowledge , ro-ex:No_Real_Visual_Encoding , ro-ex:No_Sharing_and_Reuse_of_Visual_Encodings , ro-ex:No_Standard_for_Visualisation_Information , ro-ex:No_Visualisation_Language_for_Ontologies , ro-ex:Single_Visual_Paradigm .
+
+ro-ex:RVLRequirement
+      rdf:type owl:Class ;
+      rdfs:label "RVL-Requirement"^^xsd:string ;
+      rdfs:subClassOf ro:Requirement ;
+      ro-ex:abbreviationInitial
+              "LR"^^xsd:string ;
+      ui:view [ rdf:type html:Div ;
+                html:class "contribution"^^xsd:string ;
+                ui:child
+                        [ rdf:type html:H1 ;
+                          ui:child
+                                  [ rdf:type ui:TextNode ;
+                                    ui:childIndex 0 ;
+                                    ui:text [ rdf:type ui:label ;
+                                              sp:arg1 spin:_this
+                                            ]
+                                  ] ;
+                          ui:child
+                                  [ rdf:type ui:TextNode ;
+                                    ui:childIndex 1 ;
+                                    ui:text "s"^^xsd:string
+                                  ] ;
+                          ui:childIndex 0
+                        ] ;
+                ui:child
+                        [ rdf:type ui:forEach ;
+                          ui:child
+                                  [ rdf:type ui:resourceView ;
+                                    ui:childIndex 0 ;
+                                    ui:resource
+                                            [ sp:varName "subjectToList"^^xsd:string
+                                            ]
+                                  ] ;
+                          ui:childIndex 1 ;
+                          ui:resultSet
+                                  [ rdf:type sp:Select ;
+                                    sp:distinct "true"^^xsd:boolean ;
+                                    sp:orderBy ([ rdf:type sp:Asc ;
+                                                sp:expression _:b1
+                                              ] [ rdf:type sp:Asc ;
+                                                sp:expression _:b2
+                                              ]) ;
+                                    sp:resultVariables (_:b2 _:b3) ;
+                                    sp:where ([ rdf:type sp:TriplePath ;
+                                                sp:object spin:_this ;
+                                                sp:path [ rdf:type sp:SeqPath ;
+                                                          sp:path1 rdf:type ;
+                                                          sp:path2
+                                                                  [ rdf:type sp:ModPath ;
+                                                                    sp:modMax -2 ;
+                                                                    sp:modMin 0 ;
+                                                                    sp:subPath rdfs:subClassOf
+                                                                  ]
+                                                        ] ;
+                                                sp:subject _:b3
+                                              ] [ sp:object _:b2 ;
+                                                sp:predicate ro-ex:printOrder ;
+                                                sp:subject _:b3
+                                              ] [ sp:object _:b1 ;
+                                                sp:predicate rdf:type ;
+                                                sp:subject _:b3
+                                              ] [ sp:object spin:_this ;
+                                                sp:predicate rdfs:subClassOf ;
+                                                sp:subject _:b1
+                                              ])
+                                  ]
+                        ] ;
+                ui:priority 2000
+              ] .
+
+ro-ex:RealVisualEncoding
+      rdf:type ro:FunctionalRequirement , ro-ex:VisualEncodingAndInteractivityRequirement ;
+      ro-ex:fulfilledBy ro-ex:SemVisApproach ;
+      ro-ex:justifiedBy ro-ex:No_Real_Visual_Encoding ;
+      ro-ex:justifies ro-ex:RealVisualEncodingsDefinable , ro-ex:VisualEncodingConfigurability ;
+      ro-ex:printOrder "1"^^xsd:float .
+
+ro-ex:RealVisualEncodingsDefinable
+      rdf:type ro:FunctionalRequirement , ro-ex:VisualEncodingAndInteractivityLanguageRequirement ;
+      ro-ex:fulfilledBy ro-ex:RVL ;
+      ro-ex:justifiedBy ro-ex:RealVisualEncoding ;
+      ro-ex:printOrder "1"^^xsd:float .
+
+ro-ex:RechercheResult
+      rdf:type owl:Class ;
+      rdfs:subClassOf ro:Influencer .
+
+ro-ex:ResearchQuestion
+      rdf:type owl:Class ;
+      rdfs:label "Research question"^^xsd:string ;
+      rdfs:subClassOf ro:Artifact ;
+      ro-ex:abbreviationInitial
+              "Q"^^xsd:string .
+
+ro-ex:RestrictiveToolUsableSchema
+      rdf:type ro-ex:GeneralLanguageRequirement ;
+      ro-ex:fulfilledBy ro-ex:RVL ;
+      ro-ex:justifiedBy ro-ex:ConsiderComplexSemanticsOfOntologyForVisualMapping , ro-ex:GUIforVisualEncodingConfiguration , ro-ex:Guidance4VisualMapping , ro-ex:Guidance4VisualMappingWithAGUI ;
+      ro-ex:printOrder "2"^^xsd:float .
+
+ro-ex:ReusabilityOfMappings
+      rdf:type ro:FunctionalRequirement , ro-ex:VariabilityReuseAndComposabilityRequirement ;
+      ro-ex:fulfilledBy ro-ex:SemVisApproach ;
+      ro-ex:justifiedBy ro-ex:No_Sharing_and_Reuse_of_Visual_Encodings , ro-ex:Ontology_Specifics_Not_Exploited ;
+      ro-ex:justifies ro-ex:ComposabilityOfMappings , ro-ex:ExtensibilityOfMappings , ro-ex:ShareabilitySupportedByTheLanguage , ro-ex:URIForEachMapping ;
+      ro-ex:printOrder "4"^^xsd:float .
+
+ro-ex:SemVisApproach
+      rdf:type ro-ex:ThesisContribution ;
+      rdfs:label "SemVis Approach"^^xsd:string ;
+      ro-ex:fulfills ro-ex:ComposabilityOfTheDefinedMapping , ro-ex:ConsiderComplexSemanticsOfOntologyForVisualMapping , ro-ex:ControlOrBehaviourConfigurability , ro-ex:DomainAgnostic , ro-ex:ExplicitMappingDefinition , ro-ex:GUIforVisualEncodingConfiguration , ro-ex:Guidance4DataSelection , ro-ex:Guidance4VisualMapping , ro-ex:Guidance4VisualMappingWithAGUI , ro-ex:Interaction , ro-ex:OntologyAware , ro-ex:PlatformVariability , ro-ex:RDFSupportedByApproach , ro-ex:RealVisualEncoding , ro-ex:ReusabilityOfMappings , ro-ex:ShareabilityOfMappings , ro-ex:TBoxSupported , ro-ex:VisualEncodingConfigurability , ro-ex:VisualStructureVariability ;
+      ro-ex:printOrder "5"^^xsd:float ;
+      ro-ex:solvesProblem ro-ex:Composition_of_Mappings_insufficient , ro-ex:Domain_experts_can_not_easily_visualise_domain_ontologies , ro-ex:No_Real_Visual_Encoding , ro-ex:Ontology_Specifics_Not_Exploited , ro-ex:Single_Visual_Paradigm .
+
+ro-ex:SemVisRequirement
+      rdf:type owl:Class ;
+      rdfs:label "SemVis Requirement"^^xsd:string ;
+      rdfs:subClassOf ro:Requirement ;
+      ro-ex:abbreviationInitial
+              "R"^^xsd:string ;
+      ui:view [ rdf:type html:Div ;
+                html:class "contribution"^^xsd:string ;
+                ui:child
+                        [ rdf:type html:H1 ;
+                          ui:child
+                                  [ rdf:type ui:TextNode ;
+                                    ui:childIndex 0 ;
+                                    ui:text [ rdf:type ui:label ;
+                                              sp:arg1 spin:_this
+                                            ]
+                                  ] ;
+                          ui:child
+                                  [ rdf:type ui:TextNode ;
+                                    ui:childIndex 1 ;
+                                    ui:text "s"^^xsd:string
+                                  ] ;
+                          ui:childIndex 0
+                        ] ;
+                ui:child
+                        [ rdf:type ui:forEach ;
+                          ui:child
+                                  [ rdf:type ui:resourceView ;
+                                    ui:childIndex 0 ;
+                                    ui:resource
+                                            [ sp:varName "subjectToList"^^xsd:string
+                                            ]
+                                  ] ;
+                          ui:childIndex 1 ;
+                          ui:resultSet
+                                  [ rdf:type sp:Select ;
+                                    sp:distinct "true"^^xsd:boolean ;
+                                    sp:orderBy ([ rdf:type sp:Asc ;
+                                                sp:expression _:b4
+                                              ] [ rdf:type sp:Asc ;
+                                                sp:expression _:b5
+                                              ]) ;
+                                    sp:resultVariables (_:b5 _:b6) ;
+                                    sp:where ([ rdf:type sp:TriplePath ;
+                                                sp:object spin:_this ;
+                                                sp:path [ rdf:type sp:SeqPath ;
+                                                          sp:path1 rdf:type ;
+                                                          sp:path2
+                                                                  [ rdf:type sp:ModPath ;
+                                                                    sp:modMax -2 ;
+                                                                    sp:modMin 0 ;
+                                                                    sp:subPath rdfs:subClassOf
+                                                                  ]
+                                                        ] ;
+                                                sp:subject _:b6
+                                              ] [ sp:object _:b5 ;
+                                                sp:predicate ro-ex:printOrder ;
+                                                sp:subject _:b6
+                                              ] [ sp:object _:b4 ;
+                                                sp:predicate rdf:type ;
+                                                sp:subject _:b6
+                                              ] [ sp:object spin:_this ;
+                                                sp:predicate rdfs:subClassOf ;
+                                                sp:subject _:b4
+                                              ])
+                                  ]
+                        ] ;
+                ui:priority 2000
+              ] .
+
+ro-ex:SemanticsOnTBoxLevelOfferedThatCouldBeUsedForVisualisation
+      rdf:type ro-ex:CaseStudyOntologyAnalysisObservation ;
+      rdfs:label "Semantics on TBox level offered that could be used for visualisation"^^xsd:string .
+
+ro-ex:ShareabilityOfMappings
+      rdf:type ro:FunctionalRequirement , ro-ex:VariabilityReuseAndComposabilityRequirement ;
+      ro-ex:fulfilledBy ro-ex:SemVisApproach ;
+      ro-ex:justifiedBy ro-ex:No_Sharing_and_Reuse_of_Visual_Encodings ;
+      ro-ex:justifies ro-ex:URIForEachMapping ;
+      ro-ex:printOrder "5"^^xsd:float .
+
+ro-ex:ShareabilitySupportedByTheLanguage
+      rdf:type ro-ex:VariabilityShareabilityAndComposabilityLanguageRequirement ;
+      ro:refinesTo ro-ex:URIForEachMapping ;
+      ro-ex:fulfilledBy ro-ex:RVL ;
+      ro-ex:justifiedBy ro-ex:ComposabilityOfTheDefinedMapping , ro-ex:ReusabilityOfMappings ;
+      ro-ex:printOrder "7"^^xsd:float .
+
+ro-ex:Single_Visual_Paradigm
+      rdf:type ro:Challenge , ro-ex:RechercheResult ;
+      dcterms:description "Often visualisations only support a single visual paradigm (e.g. Node- Link-Diagrams). Other visual means are not exploited."^^xsd:string ;
+      ro-ex:justifiedBy ro-ex:someRechercheResult ;
+      ro-ex:printOrder "2"^^xsd:float ;
+      ro-ex:solvedBy ro-ex:AVM , ro-ex:RVL , ro-ex:SemVisApproach , ro-ex:VISO .
+
+ro-ex:Sometimes_we_may_want_to_do_both_style_and_visualise
+      rdf:type ro-ex:MockupObservation ;
+      rdfs:label "Sometimes we may want to do both style and visualise"^^xsd:string .
+
+ro-ex:TBoxOntologyConstructsReferenceable
+      rdf:type ro-ex:DataLanguageRequirement ;
+      dcterms:description "Specific representation of statements on the relation between classes and properties – T-Box (terminological component). It is possible to reference these relations explicitly in the display definition."^^xsd:string ;
+      ro-ex:fulfilledBy ro-ex:RVL ;
+      ro-ex:justifiedBy ro-ex:TBoxSupported ;
+      ro-ex:printOrder "2"^^xsd:float .
+
+ro-ex:TBoxSupported
+      rdf:type ro:FunctionalRequirement , ro-ex:DataRequirement ;
+      dcterms:description "Specific representation of statements on the relation between classes and properties – T-Box (terminological component). These statements should be displayed differerently from A-Box information. "^^xsd:string ;
+      ro-ex:fulfilledBy ro-ex:SemVisApproach ;
+      ro-ex:justifiedBy ro-ex:Ontology_Specifics_Not_Exploited ;
+      ro-ex:justifies ro-ex:TBoxOntologyConstructsReferenceable ;
+      ro-ex:printOrder "2"^^xsd:float .
+
+ro-ex:TheCaseStudiesAreFromVariousDomainsWhereWeCannotExpectTheDomainExpertsToHaveVisualisationSkillsAsWell
+      rdf:type ro-ex:CaseStudyOntologyAnalysisObservation ;
+      rdfs:label "The case studies are from various domains where we cannot expect the domain experts to have visualisation skills as well"^^xsd:string ;
+      dcterms:description "We cannot make any asumption about the domain and also not about the skills of the user, except that he knows his domain fairly good. Still he will not know all synonyms for the domains terms and not all the details in a large knowledge base."^^xsd:string .
+
+ro-ex:ThesisContribution
+      rdf:type owl:Class ;
+      rdfs:subClassOf owl:Thing ;
+      ro-ex:abbreviationInitial
+              "C"^^xsd:string ;
+      spin:constraint
+              [ rdf:type spl:Attribute ;
+                rdfs:comment "Each contribution should at last solve one problem!"^^xsd:string ;
+                spl:minCount 1 ;
+                spl:predicate ro-ex:solvesProblem ;
+                spl:valueType ro:Challenge
+              ] ;
+      ui:instanceView
+              [ rdf:type html:Div ;
+                html:class "explained_item"^^xsd:string ;
+                ui:child
+                        [ rdf:type html:Div ;
+                          html:class "label"^^xsd:string ;
+                          ui:child
+                                  [ rdf:type ui:TextNode ;
+                                    ui:childIndex 0 ;
+                                    ui:text [ rdf:type ui:label ;
+                                              sp:arg1 spin:_this
+                                            ]
+                                  ] ;
+                          ui:childIndex 0
+                        ] ;
+                ui:child
+                        [ rdf:type html:Div ;
+                          html:class "description"^^xsd:string ;
+                          ui:child
+                                  [ rdf:type ui:TextNode ;
+                                    ui:childIndex 0 ;
+                                    ui:text [ rdf:type spl:object ;
+                                              sp:arg1 spin:_this ;
+                                              sp:arg2 dcterms:description
+                                            ]
+                                  ] ;
+                          ui:childIndex 1
+                        ] ;
+                ui:child
+                        [ rdf:type tui:CommentBox ;
+                          tui:subject spin:_this ;
+                          ui:childIndex 2
+                        ] ;
+                ui:child
+                        [ rdf:type html:Div ;
+                          ui:child
+                                  [ rdf:type html:Span ;
+                                    html:class "skosEditorialNote"^^xsd:string ;
+                                    ui:child
+                                            [ rdf:type ui:TextNode ;
+                                              ui:childIndex 0 ;
+                                              ui:text [ rdf:type spl:object ;
+                                                        sp:arg1 spin:_this ;
+                                                        sp:arg2 skos:editorialNote
+                                                      ]
+                                            ] ;
+                                    ui:childIndex 0
+                                  ] ;
+                          ui:childIndex 3
+                        ] ;
+                ui:child
+                        [ rdf:type html:Span ;
+                          html:class "explanation"^^xsd:string ;
+                          ui:child
+                                  [ rdf:type ui:TextNode ;
+                                    ui:childIndex 0 ;
+                                    ui:text "fullfills the following challenges:"^^xsd:string
+                                  ] ;
+                          ui:childIndex 4
+                        ] ;
+                ui:child
+                        [ rdf:type ro-ui:Unordered_Object_List ;
+                          ro-ui:objectType ro:Challenge ;
+                          ro-ui:relation ro-ex:solvesProblem ;
+                          ro-ui:subjectUI spin:_this ;
+                          ui:childIndex 5
+                        ] ;
+                ui:child
+                        [ rdf:type html:Span ;
+                          html:class "explanation"^^xsd:string ;
+                          ui:child
+                                  [ rdf:type ui:TextNode ;
+                                    ui:childIndex 0 ;
+                                    ui:text "fullfills the following requirements:"^^xsd:string
+                                  ] ;
+                          ui:childIndex 6
+                        ] ;
+                ui:child
+                        [ rdf:type ro-ui:Unordered_Object_List ;
+                          ro-ui:objectType ro:Requirement ;
+                          ro-ui:relation ro-ex:fulfills ;
+                          ro-ui:subjectUI spin:_this ;
+                          ui:childIndex 7
+                        ] ;
+                ui:priority 2000
+              ] .
+
+ro-ex:URIForEachMapping
+      rdf:type ro-ex:VariabilityShareabilityAndComposabilityLanguageRequirement ;
+      ro:isRefinementOf ro-ex:ShareabilitySupportedByTheLanguage ;
+      ro-ex:fulfilledBy ro-ex:RVL ;
+      ro-ex:justifiedBy ro-ex:ReusabilityOfMappings , ro-ex:ShareabilityOfMappings ;
+      ro-ex:printOrder "8"^^xsd:float .
+
+ro-ex:VISO
+      rdf:type ro-ex:ThesisContribution ;
+      rdfs:label "VISO"^^xsd:string ;
+      ro-ex:printOrder "2"^^xsd:float ;
+      ro-ex:solvesProblem ro-ex:Domain_experts_can_not_easily_visualise_domain_ontologies , ro-ex:Exchange_of_Visualisation_Knowledge , ro-ex:No_Sharing_and_Reuse_of_Visual_Encodings , ro-ex:No_Visualisation_Language_for_Ontologies , ro-ex:Single_Visual_Paradigm .
+
+ro-ex:VariabilityReuseAndComposabilityRequirement
+      rdf:type owl:Class ;
+      rdfs:subClassOf ro-ex:SemVisRequirement .
+
+ro-ex:VariabilityShareabilityAndComposabilityLanguageRequirement
+      rdf:type owl:Class ;
+      rdfs:subClassOf ro-ex:RVLRequirement .
+
+ro-ex:VisualEncodingAndInteractivityLanguageRequirement
+      rdf:type owl:Class ;
+      rdfs:subClassOf ro-ex:RVLRequirement .
+
+ro-ex:VisualEncodingAndInteractivityRequirement
+      rdf:type owl:Class ;
+      rdfs:subClassOf ro-ex:SemVisRequirement .
+
+ro-ex:VisualEncodingConfigurability
+      rdf:type ro:FunctionalRequirement , ro-ex:CustomisationRequirement ;
+      ro-ex:fulfilledBy ro-ex:SemVisApproach ;
+      ro-ex:justifiedBy ro-ex:No_Real_Visual_Encoding , ro-ex:RealVisualEncoding ;
+      ro-ex:printOrder "1"^^xsd:float .
+
+ro-ex:VisualStructureIndependence
+      rdf:type ro-ex:VariabilityShareabilityAndComposabilityLanguageRequirement ;
+      ro:isRefinementOf ro-ex:MultipleVS ;
+      ro-ex:fulfilledBy ro-ex:RVL ;
+      ro-ex:justifiedBy ro-ex:VisualStructureVariability ;
+      ro-ex:printOrder "4"^^xsd:float .
+
+ro-ex:VisualStructureVariability
+      rdf:type ro-ex:VariabilityReuseAndComposabilityRequirement ;
+      rdfs:label "Visual structure variability"^^xsd:string ;
+      ro-ex:fulfilledBy ro-ex:SemVisApproach ;
+      ro-ex:justifiedBy ro-ex:Composition_of_Mappings_insufficient , ro-ex:No_Sharing_and_Reuse_of_Visual_Encodings ;
+      ro-ex:justifies ro-ex:MultipleVS , ro-ex:VisualStructureIndependence ;
+      ro-ex:printOrder "2"^^xsd:float .
+
+ro-ex:We_often_want_to_combine_several_visual_means_to_show_multiple_aspects_or_variables_of_the_data_at_the_same_time
+      rdf:type ro-ex:MockupObservation ;
+      rdfs:label "We often want to combine several visual means to show multiple aspects or variables of the data at the same time"^^xsd:string .
+
+ro-ex:What_ontology_constructs_do_we_want_to_map_and_onto_which_visual_means
+      rdf:type ro-ex:ResearchQuestion ;
+      rdfs:label "What ontology constructs do we want to map and onto which visual means"^^xsd:string ;
+      ro:isRefinementOf ro-ex:How_can_we_support_the_creation_of_tailor-made_efficient_and_reusable_visualisations_for_ontological_data ;
+      ro-ex:justifiedBy ro-ex:No_Real_Visual_Encoding , ro-ex:No_Visualisation_Language_for_Ontologies , ro-ex:Single_Visual_Paradigm ;
+      ro-ex:printOrder "2"^^xsd:float .
+
+ro-ex:What_should_be_the_target_model_we_map_to
+      rdf:type ro-ex:ResearchQuestion ;
+      rdfs:label "What should be the target model we map to"^^xsd:string ;
+      ro:isRefinementOf ro-ex:How_can_we_support_the_creation_of_tailor-made_efficient_and_reusable_visualisations_for_ontological_data ;
+      ro-ex:justifiedBy ro-ex:Composition_of_Mappings_insufficient , ro-ex:No_Sharing_and_Reuse_of_Visual_Encodings , ro-ex:No_Standard_for_Visualisation_Information , ro-ex:Single_Visual_Paradigm ;
+      ro-ex:printOrder "4"^^xsd:float .
+
+ro-ex:When_visualisations_are_domain_specific_it_would_be_useful_to_have_a_means_of_tying_them_to_their_domain_classes_and_relations_in_a_standardized_way
+      rdf:type ro-ex:MockupObservation ;
+      rdfs:label "When visualisations are domain specific it would be useful to have a means of easily tying them to their domain classes and relations in a standardized way."^^xsd:string .
+
+ro-ex:abbreviationInitial
+      rdf:type owl:DatatypeProperty ;
+      rdfs:label "abbreviation initial"^^xsd:string .
+
+ro-ex:fulfilledBy
+      rdf:type owl:ObjectProperty ;
+      rdfs:label "fulfilled by"^^xsd:string ;
+      owl:inverseOf ro-ex:fulfills .
+
+ro-ex:fulfills
+      rdf:type owl:ObjectProperty ;
+      rdfs:label "fulfills"^^xsd:string ;
+      owl:inverseOf ro-ex:fulfilledBy .
+
+ro-ex:justifiedBy
+      rdf:type owl:ObjectProperty ;
+      rdfs:label "justified by"^^xsd:string ;
+      owl:inverseOf ro-ex:justifies .
+
+ro-ex:justifies
+      rdf:type owl:ObjectProperty ;
+      rdfs:label "justifies"^^xsd:string ;
+      owl:inverseOf ro-ex:justifiedBy .
+
+ro-ex:otherApproaches
+      rdf:type ro:ApproachPart .
+
+ro-ex:printOrder
+      rdf:type rdf:Property ;
+      rdfs:range xsd:float .
+
+ro-ex:rVL
+      rdf:type ro:ApproachPart .
+
+ro-ex:rdfDisplayLanguages
+      rdf:type ro:ApproachPart .
+
+ro-ex:semVisApproach
+      rdf:type ro:ApproachPart ;
+      ro-ex:justifies ro-ex:DomainExpertsCanUseTheSystem .
+
+ro-ex:solvedBy
+      owl:inverseOf ro-ex:solvesProblem .
+
+ro-ex:solvesProblem
+      rdf:type owl:ObjectProperty ;
+      rdfs:label "solves the problem of"^^xsd:string ;
+      owl:inverseOf ro-ex:solvedBy .
+
+ro-ex:someCaseStudyObservation
+      rdf:type ro-ex:CaseStudyOntologyAnalysisObservation ;
+      ro-ex:justifies ro-ex:Ontology_Specifics_Not_Exploited .
+
+ro-ex:someRechercheResult
+      rdf:type ro-ex:RechercheResult ;
+      ro-ex:justifies ro-ex:Benefits_of_interaction_for_information_visualisation_not_exploited , ro-ex:Composition_of_Mappings_insufficient , ro-ex:Domain_experts_can_not_easily_visualise_domain_ontologies , ro-ex:Exchange_of_Visualisation_Knowledge , ro-ex:Experimenting_with_visualisation_settings_is_tedious_in_standard_pipeline_approaches , ro-ex:No_Real_Visual_Encoding , ro-ex:No_Sharing_and_Reuse_of_Visual_Encodings , ro-ex:No_Standard_for_Visualisation_Information , ro-ex:No_Visualisation_Language_for_Ontologies , ro-ex:Ontology_Specifics_Not_Exploited , ro-ex:Single_Visual_Paradigm .
+
+ro-ex:vISO
+      rdf:type ro:ApproachPart .
+
+ro-ex:visualisationLanguages
+      rdf:type ro:ApproachPart .
+
+_:b6  sp:varName "subjectToList"^^xsd:string .
+
+_:b5  sp:varName "printOrder"^^xsd:string .
+
+_:b4  sp:varName "directType"^^xsd:string .
+
+_:b3  sp:varName "subjectToList"^^xsd:string .
+
+_:b2  sp:varName "printOrder"^^xsd:string .
+
+_:b1  sp:varName "directType"^^xsd:string .

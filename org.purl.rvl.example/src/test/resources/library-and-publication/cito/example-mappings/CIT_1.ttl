@@ -1,0 +1,69 @@
+@prefix cito:     <http://purl.org/spar/cito/> .
+@prefix vg:       <http://purl.org/viso/graphic/> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix dct:     <http://purl.org/dc/terms/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix common-shapes:  <http://purl.org/viso/shape/commons/> .
+@prefix :        <http://purl.org/rvl/example/mapping/cito/> .
+
+:CIT-1
+      a rvl:PropertyMapping ;
+      rdfs:label "CIT-1"^^xsd:string ;
+      dct:description "Colored arrows represent different citation relations ; Map cites to linking by connector, color the connector depending on which subproperty of this relation is used from green (rather positive citation) to red (rather negative citation)."^^xsd:string ;
+      rvl:sourceProperty cito:cites ;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ;
+      rvl:subMapping [
+        rdf:type rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linking_connector;
+        rvl:subMapping-onTriplePart rdf:predicate;
+        rvl:subMapping-mapping :PMfromID2ColorNamed;
+      ],[
+        rdf:type rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linking_connector;
+        rvl:subMapping-onTriplePart rdf:predicate;
+        rvl:subMapping-mapping :PMfromID2ShapeNamed;
+      ]
+   	 .
+	 
+   	 
+# order a bit misused here, better use single vms
+:PMfromID2ColorNamed
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM from ID to color 2 (used as a submapping above)"^^xsd:string ;
+ 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:targetAttribute vg:color_named ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:sourceValueOrderedSet (
+        	cito:confirms
+			cito:cites 
+			cito:critiques
+		);
+		rvl:targetValueList (
+			vg:Green
+			vg:Yellow
+			vg:Red
+		);
+      ]
+      . 
+      
+# order a bit misused here, better use single vms
+:PMfromID2ShapeNamed
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM from ID to shape (used as a submapping above)"^^xsd:string ;
+ 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:targetAttribute vg:shape_named ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:sourceValueOrderedSet (
+			cito:cites
+		);
+		rvl:targetValueList (
+			common-shapes:ArrowSmall
+		);
+      ]
+      . 

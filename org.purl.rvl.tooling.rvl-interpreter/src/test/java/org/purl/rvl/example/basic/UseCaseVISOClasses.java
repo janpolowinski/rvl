@@ -15,11 +15,11 @@ public class UseCaseVISOClasses extends TestOGVICProcess {
 	@Test
 	public void testOGVICProcess() throws FileNotFoundException {
 		
-		project.setReasoningDataModel(Reasoning.none);
+		project.setReasoningDataModel(Reasoning.rdfs);
 		
-		project.registerMappingFile(ExampleMapping.RVL_EXAMPLE_BOOTSTRAP);
+		project.registerMappingFile(ExampleMapping.VISO_EXAMPLE_BOOTSTRAP);
 		project.registerDataFile(OntologyFile.VISO_GRAPHIC);
-		project.registerDataFile(ExampleData.RVL_EXTRA_DATA);
+		project.registerDataFile(ExampleData.VISO_EXTRA_DATA);
 		
 		//project.setRvlInterpreter(new SimpleRVLInterpreter());
 		project.setD3Generator(new D3GeneratorTreeJSON());

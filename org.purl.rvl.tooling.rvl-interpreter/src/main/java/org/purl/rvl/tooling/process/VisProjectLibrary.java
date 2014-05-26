@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.ontoware.rdf2go.Reasoning;
-import org.purl.rvl.tooling.ModelBuilder;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorSimpleJSON;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorTreeJSON;
 import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
@@ -43,17 +41,27 @@ public class VisProjectLibrary {
 		// Amino-Acids
 		///////////////////////////////////////////////////////////////////
 		VisProject useCaseAA = new VisProject("aa");
-		useCaseAA.registerMappingFile(ExampleMapping.AA);
-		useCaseAA.registerDataFile(ExampleData.AA);
-		//useCaseAA.setRvlInterpreter(new SimpleRVLInterpreter());
-		useCaseAA.setD3Generator(new D3GeneratorTreeJSON());
-		//useCaseAA.setD3Generator(new D3GeneratorSimpleJSON());
+		useCaseAA.registerMappingFile("../org.purl.rvl.example/src/test/resources/life-sciences/amino-acid/example-mappings/experimental-wip.ttl");
+		useCaseAA.registerDataFile("../org.purl.rvl.example/src/test/resources/life-sciences/amino-acid/example-data/amino-acid.owl");
+		//useCaseAA.setD3Generator(new D3GeneratorTreeJSON());
+		useCaseAA.setD3Generator(new D3GeneratorSimpleJSON());
 		storeProject(useCaseAA);
+		
+		//////////////////////////////////////////////////////////////////
+		// Zebra-fishs
+		///////////////////////////////////////////////////////////////////
+		VisProject useCaseZFA = new VisProject("zfa");
+		useCaseZFA.registerMappingFile("../org.purl.rvl.example/src/test/resources/life-sciences/zebra-fish-anatomy/example-mappings/experimental-wip.ttl");
+		useCaseZFA.registerDataFile("../org.purl.rvl.example/src/test/resources/life-sciences/zebra-fish-anatomy/example-data/ZFA_subset.ttl");
+		//useCaseAA.setRvlInterpreter(new SimpleRVLInterpreter());
+		useCaseZFA.setD3Generator(new D3GeneratorTreeJSON());
+		//useCaseAA.setD3Generator(new D3GeneratorSimpleJSON());
+		storeProject(useCaseZFA);
 		
 		//////////////////////////////////////////////////////////////////
 		// AVM Bootstrap
 		///////////////////////////////////////////////////////////////////
-		VisProject avmBootstrap = new VisProject("avmbootstrap");
+		VisProject avmBootstrap = new VisProject("avm");
 		//avmBootstrap.setWriteAVM(false);
 		avmBootstrap.registerMappingFile(ExampleMapping.AVM_EXAMPLE_BOOTSTRAP);
 		avmBootstrap.registerDataFile(ExampleData.AVM);
@@ -62,45 +70,11 @@ public class VisProjectLibrary {
 		avmBootstrap.setD3Generator(new D3GeneratorSimpleJSON());
 		//avmBootstrap.setD3Generator(new D3GeneratorTreeJSON());
 		storeProject(avmBootstrap);
-		
-		//////////////////////////////////////////////////////////////////
-		// RO Instance Data
-		///////////////////////////////////////////////////////////////////
-		VisProject useCaseROInstanceData = new VisProject("roinstancedata");
-		useCaseROInstanceData.registerMappingFile(ExampleMapping.RO_SOCIAL_NETWORK);
-		useCaseROInstanceData.registerDataFile(ExampleData.RO_SOCIAL_NETWORK);
-		useCaseROInstanceData.registerDataFile(ExampleData.RO_SOCIAL_NETWORK_EXTRA_DATA);
-		useCaseROInstanceData.setReasoningDataModel(Reasoning.rdfs);
-		//useCaseROInstanceData.setRvlInterpreter(new SimpleRVLInterpreter());
-		useCaseROInstanceData.setD3Generator(new D3GeneratorSimpleJSON());
-		//useCaseROInstanceData.setD3Generator(new D3GeneratorTreeJSON());
-		storeProject(useCaseROInstanceData);
-
-		//////////////////////////////////////////////////////////////////
-		// PO
-		///////////////////////////////////////////////////////////////////
-		VisProject useCasePO = new VisProject("po");
-		useCasePO.registerMappingFile(ExampleMapping.PO);
-		useCasePO.registerDataFile(ExampleData.PO);
-		useCasePO.registerDataFile(ExampleData.PO_EXTRA_DATA);
-		//useCasePO.setRvlInterpreter(new SimpleRVLInterpreter());
-		useCasePO.setD3Generator(new D3GeneratorTreeJSON());
-		//useCasePO.setD3Generator(new D3GeneratorSimpleJSON());
-		storeProject(useCasePO);
-		
-		//////////////////////////////////////////////////////////////////
-		// RO
-		///////////////////////////////////////////////////////////////////
-		VisProject useCaseRO = new VisProject("ro");
-		useCaseRO.registerMappingFile(ExampleMapping.RO);
-		useCaseRO.registerDataFile(ExampleData.RO_SEMVIS);
-		useCaseRO.setD3Generator(new D3GeneratorTreeJSON());
-		storeProject(useCaseRO);
-		
+				
 		//////////////////////////////////////////////////////////////////
 		// RVL
 		///////////////////////////////////////////////////////////////////
-		VisProject useCaseRVLClasses = new VisProject("rvlclasses");
+		VisProject useCaseRVLClasses = new VisProject("rvl");
 		useCaseRVLClasses.registerMappingFile(ExampleMapping.RVL_EXAMPLE_BOOTSTRAP);
 		useCaseRVLClasses.registerDataFile(OntologyFile.RVL);
 		useCaseRVLClasses.registerDataFile(ExampleData.RVL_EXTRA_DATA);
@@ -112,7 +86,7 @@ public class VisProjectLibrary {
 		//////////////////////////////////////////////////////////////////
 		// RVL Example Data
 		///////////////////////////////////////////////////////////////////
-		VisProject useCaseRVLExampleData = new VisProject("rvlexampledata");
+		VisProject useCaseRVLExampleData = new VisProject("example");
 		useCaseRVLExampleData.registerMappingFile(ExampleMapping.RVL_EXAMPLE);
 		//useCaseRVLExampleData.registerMappingFile(ExampleMapping.RVL_EXAMPLE_MINI);
 		useCaseRVLExampleData.registerDataFile(ExampleData.RVL_EXAMPLE);
@@ -122,41 +96,19 @@ public class VisProjectLibrary {
 		useCaseRVLExampleData.setD3Generator(new D3GeneratorSimpleJSON());
 		//useCaseRVLExampleData.setD3Generator(new D3GeneratorTreeJSON());
 		storeProject(useCaseRVLExampleData);
-		
-		//////////////////////////////////////////////////////////////////
-		// LLD
-		///////////////////////////////////////////////////////////////////
-		VisProject useCaseLLD = new VisProject("lld");
-		useCaseLLD.registerDataFile(ExampleData.LLD_TEST);
-		useCaseLLD.registerDataFile(ExampleData.LLD_EXTRA_DATA);
-		useCaseLLD.registerMappingFile(ExampleMapping.LLD);
-		//useCaseLLD.setRvlInterpreter(new SimpleRVLInterpreter());
-		//useCaseLLD.setD3Generator(new D3GeneratorTreeJSON());
-		useCaseLLD.setD3Generator(new D3GeneratorSimpleJSON());
-		storeProject(useCaseLLD);
-		
+				
 		//////////////////////////////////////////////////////////////////
 		// VISO_GRAPHIC Classes
 		///////////////////////////////////////////////////////////////////
-		VisProject useCaseVISOClasses = new VisProject("visoclasses");
-		useCaseVISOClasses.registerMappingFile(ExampleMapping.RVL_EXAMPLE_BOOTSTRAP);
+		VisProject useCaseVISOClasses = new VisProject("viso");
+		useCaseVISOClasses.registerMappingFile(ExampleMapping.VISO_EXAMPLE_BOOTSTRAP);
+		useCaseVISOClasses.registerDataFile(OntologyFile.VISO_GRAPHIC);
+		useCaseVISOClasses.registerDataFile(ExampleData.VISO_EXTRA_DATA);
 		//useCaseVISOClasses.setRvlInterpreter(new SimpleRVLInterpreter());
 		useCaseVISOClasses.setD3Generator(new D3GeneratorTreeJSON());
 		//useCaseVISOClasses.setD3Generator(new D3GeneratorSimpleJSON());
 		storeProject(useCaseVISOClasses);
 		
-		//////////////////////////////////////////////////////////////////
-		// ZFO
-		///////////////////////////////////////////////////////////////////
-		VisProject useCaseZFO = new VisProject("zfo");
-		//useCaseZFO.registerMappingFile(ExampleMapping.ZFO_X);
-		useCaseZFO.registerMappingFile(ExampleMapping.ZFO_Y);
-		//useCaseZFO.registerDataFile(ExampleData.ZFO_SUBSET);
-		useCaseZFO.registerDataFile(ExampleData.ZFO);
-		//useCaseZFO.setRvlInterpreter(new SimpleRVLInterpreter());
-		useCaseZFO.setD3Generator(new D3GeneratorTreeJSON());
-		//useCaseZFO.setD3Generator(new D3GeneratorSimpleJSON());
-		storeProject(useCaseZFO);
 	}
 	
 	public void storeProject(VisProject project){

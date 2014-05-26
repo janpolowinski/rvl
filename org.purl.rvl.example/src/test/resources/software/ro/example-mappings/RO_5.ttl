@@ -1,0 +1,57 @@
+@prefix :        <http://purl.org/viso/example/ro/> .
+@prefix commons:  <http://purl.org/viso/shape/commons/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ro:      <http://purl.org/ro/ont#> .
+@prefix common-shapes:  <http://purl.org/viso/shape/commons/> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix semvis-example:  <http://purl.org/ro/semvis-example/> .
+@prefix viso-graphic:  <http://purl.org/viso/graphic/> .
+@prefix vg:  	<http://purl.org/viso/graphic/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+rvl:valueMapping
+      rdfs:domain rvl:PropertyMapping .
+
+:     rdf:type owl:Ontology ;
+      owl:imports semvis-example: , commons: , <http://purl.org/ro/ont> , rvl: .
+      
+ :RO-4b-Ampel
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "RO-4b-Ampel"^^xsd:string ;
+      rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
+      rvl:sourceProperty rdf:type ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueOrderedSet (
+			ro:LowPriority
+			ro:MediumPriority
+			ro:HighPriority
+		);
+		rvl:discretize "true"^^xsd:boolean ;
+		rvl:targetValueList (
+        	vg:Green 
+        	vg:Red
+        );
+      ]
+      . 
+  
+  
+  :ShapeMapping
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "Shape mapping"^^xsd:string ;
+      rvl:sourceProperty rdf:type ;
+      rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
+      rvl:targetAttribute
+              <http://purl.org/viso/graphic/shape_named> ;
+      rvl:valueMapping [
+      	a rvl:valueMapping;
+      	rvl:sourceValue ro:Requirement;
+      	rvl:targetValue common-shapes:Square;
+      ]
+      .
+
+
+

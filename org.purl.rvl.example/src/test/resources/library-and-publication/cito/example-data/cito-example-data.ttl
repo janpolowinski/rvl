@@ -1,0 +1,17 @@
+@prefix cito: <http://purl.org/spar/cito/> .
+@prefix :        <http://purl.org/rvl/example/data/cito/> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+
+:Document_A cito:cites :Document_B.
+
+:Document_B cito:cites :Document_C.
+
+:Document_C cito:confirms :Document_D.
+
+:Document_B cito:critiques :Document_E.
+
+:Document_D cito:critiques :Document_E.
+
+:Document_D cito:critiques :Document_B.
+
+#:Document_D cito:critiques :Document_A. # this causes the treeification algo to break ... TODO

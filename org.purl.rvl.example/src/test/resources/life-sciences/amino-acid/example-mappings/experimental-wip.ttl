@@ -1,0 +1,178 @@
+# Saved by TopBraid on Tue May 28 18:15:20 CEST 2013
+# baseURI: http://purl.org/viso/example/amino-acids/
+# imports: http://purl.org/rvl/spin-constraints/
+# imports: http://purl.org/rvl/
+# imports: http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl
+# imports: http://purl.org/viso/addon/shapes/bio/
+
+@prefix :        <http://purl.org/viso/example/amino-acids/> .
+@prefix amino-acid:  <http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#> .
+@prefix bio:     <http://purl.org/viso/addon/shapes/bio/> .
+@prefix common-shapes:    <http://purl.org/viso/shape/commons/> .
+@prefix dct:     <http://purl.org/dc/terms/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix spin-constraints:  <http://purl.org/rvl/spin-constraints/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix vg:    <http://purl.org/viso/graphic/> .
+
+:     rdf:type owl:Ontology ;
+      owl:imports spin-constraints: , <http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl> , rvl: , bio: ;
+      owl:versionInfo "Created with TopBraid Composer"^^xsd:string .
+
+:AA-1
+      rdf:type rvl:PropertyMapping ;
+      rvl:disabled "true"^^xsd:boolean ;
+      rdfs:label "Hydrophobicity to Shape"^^xsd:string ;
+      rvl:sourceProperty amino-acid:hasHydrophobicity ;
+      rvl:subMapping :hasChargeToShapeHelperMapping ;
+      rvl:targetGraphicRelation
+              <http://purl.org/viso/graphic/shape_named> ;
+      rvl:valueMapping
+              [ rdf:type rvl:ValueMapping ;
+                rvl:sourceValue amino-acid:Hydrophobic ;
+                rvl:targetValue bio:Raindrop_Broken_Heart
+              ] .
+
+:AA-2
+      rdf:type rvl:PropertyMapping ;
+      rvl:disabled "true"^^xsd:boolean ;
+      rdfs:comment "Map property hasCharge to Symbol of an added Icon (M 4.o3 + M 2.2 for object). Order values on the source side by using a list and map them to an (ordered) list of symbols on the target side."^^xsd:string ;
+      rdfs:label "AA-2"^^xsd:string ;
+      rvl:sourceProperty amino-acid:hasCharge ;
+      rvl:sourceValueOrderedSet
+              (amino-acid:Negative amino-acid:Neutral amino-acid:Positive) ;
+      rvl:subMapping :hasChargeToShapeHelperMapping ;
+      rvl:targetGraphicRelation
+              <http://purl.org/viso/graphic/labeled_with> ;
+      rvl:targetValues bio:ThreeStepNegativeNeutralPositiveList .
+
+:AA-3
+      rdf:type rvl:PropertyMapping ;
+      rvl:disabled "true"^^xsd:boolean ;
+      rdfs:label "AA-3"^^xsd:string ;
+      dct:description "Map property hasPolarity to Symbol of an added Icon (M 4.o3 + M 2.2 for object). Use the symbol \"compass\" if the acid has a polarity and no icon otherwise. "^^xsd:string ;
+      rvl:missingValueMapping
+              rvl:NoMapping ;
+      rvl:sourceProperty amino-acid:hasPolarity ;
+      rvl:subMapping :hasPolarityToShapeHelperMapping ;
+      rvl:targetGraphicRelation
+              <http://purl.org/viso/graphic/labeled_with> ;
+      rvl:valueMapping
+              [ rdf:type rvl:ValueMapping ;
+                rvl:sourceValue amino-acid:Polar ;
+                rvl:targetValue <http://purl.org/viso/graphic/Labeled>
+              ] .
+
+:AA-4
+      rdf:type rvl:PropertyMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
+      rdfs:label "SideChainStructure to Shape"^^xsd:string ;
+      rvl:sourceProperty amino-acid:hasSideChainStructure ;
+      rvl:inheritedBy owl:allValuesFrom ;
+      #rvl:targetGraphicRelation
+      rvl:targetAttribute
+              <http://purl.org/viso/graphic/shape_named> ;
+      rvl:valueMapping :Aromatic_to_Shape2 , :Aliphatic_to_Shape1 .
+      
+:AA-4Color
+      rdf:type rvl:PropertyMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
+      rdfs:label "Manual SideChainStructure to Color"^^xsd:string ;
+      rvl:sourceProperty amino-acid:hasSideChainStructure ;
+      rvl:inheritedBy owl:allValuesFrom ;
+      rvl:targetAttribute
+              <http://purl.org/viso/graphic/color_named> ;
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue amino-acid:Aliphatic;
+        rvl:targetValue vg:Red;
+      ],[
+        a rvl:ValueMapping ;
+		rvl:sourceValue amino-acid:Aromatic ;
+        rvl:targetValue vg:Green;
+      ].
+
+:AA-4Color-Auto
+      rdf:type rvl:PropertyMapping ;
+      rvl:disabled "true"^^xsd:boolean ;
+      rdfs:label "Automatic SideChainStructure to Color"^^xsd:string ;
+      rvl:sourceProperty amino-acid:hasSideChainStructure ;
+      rvl:inheritedBy owl:allValuesFrom ;
+      rvl:targetAttribute
+              <http://purl.org/viso/graphic/color_named> ;
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueOrderedSet ( amino-acid:Aliphatic amino-acid:Aromatic) ; 
+        rvl:targetValueList ( vg:Green vg:Red);
+      ].
+
+
+:SideChainStructureToLinking
+      rdf:type rvl:PropertyMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
+      rdfs:label "SideChainStructure to Linking"^^xsd:string ;
+      rvl:sourceProperty amino-acid:hasSideChainStructure ;
+      rvl:invertSourceProperty "true"^^xsd:boolean ;
+      rvl:inheritedBy owl:allValuesFrom ;
+      rvl:targetObjToObjRelation
+              <http://purl.org/viso/graphic/Linking_Directed_Relation> .
+
+:AA-5-Hydrophobicity_to_Line_up
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:disabled "true"^^xsd:boolean ;
+      rdfs:label "Hydrophobicity to Line-Up"^^xsd:string ;
+      dct:description "Shows how in AA-5 hasHydrophobicity is mapped to a Lineup. This happens, however, in composition with other mappings not decsribed here."^^xsd:string ;
+      rvl:sourceProperty amino-acid:hasHydrophobicity ;
+      rvl:targetGraphicRelation
+              <http://purl.org/viso/graphic/lined_up_with_horizontally> .
+
+
+      
+      
+:Aliphatic_to_Shape1
+      rdf:type rvl:ValueMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
+      rdfs:label "Aliphatic to Shape1"^^xsd:string ;
+      rvl:includeInLegend "true"^^xsd:boolean ;
+      rvl:sourceValue amino-acid:Aliphatic ;
+      #rvl:targetValue common-shapes:Square;
+     rvl:targetValue bio:Aliphatic_Shape 
+     .
+
+:Aromatic_to_Shape2
+      rdf:type rvl:ValueMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
+      rdfs:label "Aromatic to Shape2"^^xsd:string ;
+      rvl:includeInLegend "true"^^xsd:boolean ;
+      rvl:sourceValue amino-acid:Aromatic ;
+      #rvl:targetValue common-shapes:Cross;
+      rvl:targetValue bio:Aromatic_Shape 
+      .
+
+:hasChargeToShapeHelperMapping
+      rdf:type rvl:PropertyMapping ;
+      rvl:disabled "true"^^xsd:boolean ;
+      rdfs:label "has charge to shape submapping"^^xsd:string ;
+      rvl:sourceProperty amino-acid:hasCharge ;
+      rvl:subMapping_onRole
+              <http://purl.org/viso/graphic/labeling_label> ;
+      rvl:targetGraphicRelation
+              <http://purl.org/viso/graphic/shape_named> .
+
+:hasPolarityToShapeHelperMapping
+      rdf:type rvl:PropertyMapping ;
+      rvl:disabled "true"^^xsd:boolean ;
+      rdfs:label "has polarity to shape helper mapping"^^xsd:string ;
+      rvl:sourceProperty amino-acid:hasPolarity ;
+      rvl:subMapping_onRole
+              <http://purl.org/viso/graphic/labeling_label> ;
+      rvl:targetGraphicRelation
+              <http://purl.org/viso/graphic/shape_named> ;
+      rvl:valueMapping
+              [ rdf:type rvl:ValueMapping ;
+                rvl:sourceValue amino-acid:Polar ;
+                rvl:targetValue bio:Compass
+              ] .

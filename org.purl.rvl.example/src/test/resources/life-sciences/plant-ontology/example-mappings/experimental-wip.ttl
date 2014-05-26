@@ -1,0 +1,83 @@
+# Saved by TopBraid on Tue May 28 18:15:20 CEST 2013
+# baseURI: http://purl.org/viso/example/po/
+# imports: http://purl.org/rvl/spin-constraints/
+# imports: http://purl.org/rvl/
+
+@prefix :        <http://purl.org/viso/example/po/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix spin-constraints:  <http://purl.org/rvl/spin-constraints/> .
+@prefix sp:      <http://spinrdf.org/sp#> .
+@prefix spin:    <http://spinrdf.org/spin#> .
+@prefix spl:     <http://spinrdf.org/spl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix vg:    <http://purl.org/viso/graphic/> .
+@prefix po: <http://purl.org/obo/owl/PO#> .
+
+:     rdf:type owl:Ontology ;
+      owl:imports spin-constraints: , rvl: ;
+      owl:versionInfo "Created with TopBraid Composer"^^xsd:string .
+
+:PropertyToLinkingByConnectorMapping
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
+      #rvl:subjectFilter "http://www.w3.org/2000/01/rdf-schema#subClassOf::http://purl.org/obo/owl/PO#PO_0025059"^^rvl:fslSelector; # this works already
+      rvl:subjectFilter " ?s rdfs:subClassOf ?restriction . ?restriction owl:onProperty obo:develops_from . ?restriction owl:someValuesFrom  po:PO_0005599 . "^^rvl:sparqlSelector; # test
+      rdfs:label "Property to linking by connector mapping"^^xsd:string ;
+      rvl:sourceProperty owl:topObjectProperty ;
+      rvl:invertSourceProperty "true"^^xsd:boolean;
+      rvl:inheritedBy owl:someValuesFrom;
+      rvl:subMapping [
+        a rvl:SubMappingRelation ;  
+		rvl:subMapping-onRole vg:linking_connector;
+   	 	rvl:subMapping-onTriplePart rdf:predicate;
+   		rvl:subMapping-mapping :PropertyURIToColorHelperMapping 
+      ] ;
+      rvl:targetObjToObjRelation
+              vg:Linking_Directed_Relation .
+
+
+:PropertyURIToColorHelperMapping # (used as a submapping)
+      rdf:type rvl:PropertyMapping ;
+      rvl:disabled "true"^^xsd:boolean ;
+      rdfs:label "Property type to color helper mapping"^^xsd:string ;
+      rvl:sourceProperty rvl:ID ;
+      rvl:targetAttribute
+              vg:color_named ;
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue <http://purl.org/obo/owl/OBO_REL#part_of> ;
+        rvl:targetValue vg:Blue;
+      ],[
+        a rvl:ValueMapping ;
+		rvl:sourceValue <http://purl.org/obo/owl/obo#develops_from>;
+        rvl:targetValue vg:Yellow;
+      ],[
+        a rvl:ValueMapping ;
+		rvl:sourceValue rdfs:subClassOf;
+        rvl:targetValue vg:Red;
+      ]
+      .             
+
+# ALTERNATIVES #############
+
+# subClassOf (no need for this when inheritedBy used above in the any property mapping. should be necessary, when passedTo is used)   
+:SubClassofOfToLinkingDirected
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:disabled "true";
+      #rvl:subjectFilter "http://www.w3.org/2000/01/rdf-schema#subClassOf::http://purl.org/obo/owl/PO#PO_0025059"^^rvl:fslSelector; # this works already ; PO_0025059 (superclass of cork cambium);  PO_0005599 (cork cambium)
+      #rvl:subjectFilter " ?s rdfs:subClassOf po:PO_0025059 . "^^rvl:sparqlSelector; # works
+      rvl:subjectFilter " ?s rdfs:subClassOf ?restriction . ?restriction owl:onProperty obo:develops_from . ?restriction owl:someValuesFrom  po:PO_0005599 . "^^rvl:sparqlSelector; # test
+      #rvl:subjectFilter "http://www.w3.org/2000/01/rdf-schema#Class"; # test class selector
+      rvl:sourceProperty rdfs:subClassOf ;
+      rvl:invertSourceProperty "true"^^xsd:boolean;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ;
+      rvl:subMapping [
+        a rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linking_connector;
+        rvl:subMapping-onTriplePart rdf:predicate;
+        rvl:subMapping-mapping :PropertyURIToColorHelperMapping;
+      ]
+      . 

@@ -1,0 +1,2025 @@
+<?xml version="1.0"?>
+
+<!-- 
+ ##################### ##################### ##################### ##################### ##################### #####################
+ This is a copy of the ontology that we store here in a specific version for (offline) testing purposes.
+ Besides the requirements ontology itself, this file also contains exemplary instance data (requirments for a social network application)
+ All rights remain at the authors. 
+ Please refer to http://purl.org/ro/ont# or cf. Siegemund, Katja, et al. "Towards ontology-driven requirements engineering." 
+ Workshop Semantic Web Enabled Software Engineering at 10th International Semantic Web Conference (ISWC), Bonn. 2011
+ for further information.
+ ##################### ##################### ##################### ##################### ##################### #####################
+ -->
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY ont "http://purl.org/ro/ont#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://purl.org/ro/ont#"
+     xml:base="http://purl.org/ro/ont"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:ont="http://purl.org/ro/ont#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <owl:Ontology rdf:about=""/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/ro/ont#belongsToUseCase -->
+
+    <owl:ObjectProperty rdf:about="#belongsToUseCase">
+        <rdfs:domain rdf:resource="#Scenario"/>
+        <rdfs:range rdf:resource="#UseCase"/>
+        <owl:inverseOf rdf:resource="#hasScenario"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#describesRequirement -->
+
+    <owl:ObjectProperty rdf:about="#describesRequirement">
+        <rdfs:range rdf:resource="#Requirement"/>
+        <rdfs:domain rdf:resource="#UseCase"/>
+        <owl:inverseOf rdf:resource="#isDescribedByUseCase"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#hasAbstractRequirement -->
+
+    <owl:ObjectProperty rdf:about="#hasAbstractRequirement">
+        <rdfs:range rdf:resource="#AbstractFunctionalRequirement"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#hasCost -->
+
+    <owl:ObjectProperty rdf:about="#hasCost">
+        <rdf:type rdf:resource="&owl;Class"/>
+        <owl:objectPropertyRange rdf:resource="#Cost"/>
+        <owl:objectPropertyDomain rdf:resource="#hasCost"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#hasFailurePostcondition -->
+
+    <owl:ObjectProperty rdf:about="#hasFailurePostcondition">
+        <rdfs:range rdf:resource="#FailurePostcondition"/>
+        <rdfs:domain rdf:resource="#Requirement"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#hasGoal -->
+
+    <owl:ObjectProperty rdf:about="#hasGoal">
+        <rdfs:range rdf:resource="#Goal"/>
+        <rdfs:domain rdf:resource="#Requirement"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#hasObstacle -->
+
+    <owl:ObjectProperty rdf:about="#hasObstacle">
+        <rdfs:range rdf:resource="#Obstacle"/>
+        <rdfs:domain rdf:resource="#RequirementArtifact"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#hasRefinementSource -->
+
+    <owl:ObjectProperty rdf:about="#hasRefinementSource">
+        <rdfs:domain rdf:resource="#Refinement"/>
+        <rdfs:range rdf:resource="#Requirement"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#hasRefinementTarget -->
+
+    <owl:ObjectProperty rdf:about="#hasRefinementTarget">
+        <rdfs:domain rdf:resource="#Refinement"/>
+        <rdfs:range rdf:resource="#Requirement"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#hasRelationship -->
+
+    <owl:ObjectProperty rdf:about="#hasRelationship">
+        <rdfs:comment
+            >Describes the kind of relationship between Requirement Artifacts, usually between requirements.</rdfs:comment>
+        <rdfs:domain rdf:resource="#Requirement"/>
+        <rdfs:range rdf:resource="#Requirement"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#hasRisk -->
+
+    <owl:ObjectProperty rdf:about="#hasRisk">
+        <rdfs:domain rdf:resource="#RequirementArtifact"/>
+        <rdfs:range rdf:resource="#Risk"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#hasScenario -->
+
+    <owl:ObjectProperty rdf:about="#hasScenario">
+        <rdfs:range rdf:resource="#Scenario"/>
+        <rdfs:domain rdf:resource="#UseCase"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#hasSoftMetric -->
+
+    <owl:ObjectProperty rdf:about="#hasSoftMetric">
+        <rdfs:domain rdf:resource="#Requirement"/>
+        <rdfs:range rdf:resource="#SoftMetric"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#hasSource -->
+
+    <owl:ObjectProperty rdf:about="#hasSource">
+        <rdfs:domain rdf:resource="#Artifact"/>
+        <rdfs:range rdf:resource="#Source"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#hasTestCase -->
+
+    <owl:ObjectProperty rdf:about="#hasTestCase">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:domain rdf:resource="#Requirement"/>
+        <rdfs:range rdf:resource="#TestCase"/>
+        <owl:inverseOf rdf:resource="#testsRequirement"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#hasTrigger -->
+
+    <owl:ObjectProperty rdf:about="#hasTrigger">
+        <rdfs:domain rdf:resource="#Requirement"/>
+        <rdfs:range rdf:resource="#Trigger"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#hasVerificationMethod -->
+
+    <owl:ObjectProperty rdf:about="#hasVerificationMethod"/>
+    
+
+
+    <!-- http://purl.org/ro/ont#isAlternativeTo -->
+
+    <owl:ObjectProperty rdf:about="#isAlternativeTo">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdfs:range rdf:resource="#Requirement"/>
+        <rdfs:domain rdf:resource="#Requirement"/>
+        <rdfs:subPropertyOf rdf:resource="#hasRelationship"/>
+        <owl:propertyDisjointWith rdf:resource="#isCoexistentWith"/>
+        <owl:propertyDisjointWith rdf:resource="#isGeneralizationOf"/>
+        <owl:propertyDisjointWith rdf:resource="#isInConflictWith"/>
+        <owl:propertyDisjointWith rdf:resource="#isRefinementOf"/>
+        <owl:propertyDisjointWith rdf:resource="#isRevisionOf"/>
+        <owl:propertyDisjointWith rdf:resource="#isSpecializationOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#isAuthoredBy -->
+
+    <owl:ObjectProperty rdf:about="#isAuthoredBy">
+        <rdfs:domain rdf:resource="#Artifact"/>
+        <rdfs:range rdf:resource="#Stakeholder"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#isCoexistentWith -->
+
+    <owl:ObjectProperty rdf:about="#isCoexistentWith">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdfs:subPropertyOf rdf:resource="#hasRelationship"/>
+        <owl:propertyDisjointWith rdf:resource="#isExclusionOf"/>
+        <owl:propertyDisjointWith rdf:resource="#isInConflictWith"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#isConnectedToUseCase -->
+
+    <owl:ObjectProperty rdf:about="#isConnectedToUseCase">
+        <rdfs:domain rdf:resource="#Goal"/>
+        <rdfs:range rdf:resource="#UseCase"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#isDescribedByUseCase -->
+
+    <owl:ObjectProperty rdf:about="#isDescribedByUseCase">
+        <rdfs:domain rdf:resource="#Requirement"/>
+        <rdfs:range rdf:resource="#UseCase"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#isExclusionOf -->
+
+    <owl:ObjectProperty rdf:about="#isExclusionOf">
+        <rdfs:subPropertyOf rdf:resource="#hasRelationship"/>
+        <owl:propertyDisjointWith rdf:resource="#isGeneralizationOf"/>
+        <owl:propertyDisjointWith rdf:resource="#isRefinementOf"/>
+        <owl:propertyDisjointWith rdf:resource="#isRevisionOf"/>
+        <owl:propertyDisjointWith rdf:resource="#isSpecializationOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#isGeneralizationOf -->
+
+    <owl:ObjectProperty rdf:about="#isGeneralizationOf">
+        <rdfs:subPropertyOf rdf:resource="#hasRelationship"/>
+        <owl:propertyDisjointWith rdf:resource="#isInConflictWith"/>
+        <owl:propertyDisjointWith rdf:resource="#isRefinementOf"/>
+        <owl:propertyDisjointWith rdf:resource="#isSpecializationOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#isInConflictWith -->
+
+    <owl:ObjectProperty rdf:about="#isInConflictWith">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdfs:subPropertyOf rdf:resource="#hasRelationship"/>
+        <owl:propertyDisjointWith rdf:resource="#isRefinementOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#isNegativeContributionTo -->
+
+    <owl:ObjectProperty rdf:about="#isNegativeContributionTo">
+        <rdfs:range rdf:resource="#RequirementArtifact"/>
+        <rdfs:domain rdf:resource="#RequirementArtifact"/>
+        <owl:propertyDisjointWith rdf:resource="#isPositiveContributionTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#isPositiveContributionTo -->
+
+    <owl:ObjectProperty rdf:about="#isPositiveContributionTo">
+        <rdfs:range rdf:resource="#RequirementArtifact"/>
+        <rdfs:domain rdf:resource="#RequirementArtifact"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#isRefinementOf -->
+
+    <owl:ObjectProperty rdf:about="#isRefinementOf">
+        <rdfs:subPropertyOf rdf:resource="#hasRelationship"/>
+        <owl:propertyDisjointWith rdf:resource="#isRevisionOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#isRevisionOf -->
+
+    <owl:ObjectProperty rdf:about="#isRevisionOf">
+        <rdfs:subPropertyOf rdf:resource="#hasRelationship"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#isSpecializationOf -->
+
+    <owl:ObjectProperty rdf:about="#isSpecializationOf">
+        <rdfs:subPropertyOf rdf:resource="#hasRelationship"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#refinesTo -->
+
+    <owl:ObjectProperty rdf:about="#refinesTo">
+        <rdfs:range rdf:resource="#RequirementArtifact"/>
+        <rdfs:domain rdf:resource="#RequirementArtifact"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#testsRequirement -->
+
+    <owl:ObjectProperty rdf:about="#testsRequirement">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:range rdf:resource="#Requirement"/>
+        <rdfs:domain rdf:resource="#TestCase"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#throwsException -->
+
+    <owl:ObjectProperty rdf:about="#throwsException">
+        <rdfs:domain rdf:resource="#Exception"/>
+        <rdfs:range rdf:resource="#Exception"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/ro/ont#hasCost -->
+
+    <owl:DatatypeProperty rdf:about="#hasCost">
+        <owl:dataPropertyRange rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#hasID -->
+
+    <owl:DatatypeProperty rdf:about="#hasID">
+        <rdfs:comment
+            >The Identifier for a Requirement Artifact, e.g.
+
+FR1 or Functional Requirement
+G1 for Goal
+NFR2.2 for a refined Non-Functional Requirement
+R7 for a Risk, etc.</rdfs:comment>
+        <rdfs:domain rdf:resource="#RequirementArtifact"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#hasRefinementReason -->
+
+    <owl:DatatypeProperty rdf:about="#hasRefinementReason">
+        <rdfs:domain rdf:resource="#Refinement"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#hasResponseTime -->
+
+    <owl:DatatypeProperty rdf:about="#hasResponseTime">
+        <rdfs:domain rdf:resource="#Requirement"/>
+        <rdfs:subPropertyOf rdf:resource="#hasTimingMetric"/>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#hasThroughput -->
+
+    <owl:DatatypeProperty rdf:about="#hasThroughput">
+        <rdfs:domain rdf:resource="#Requirement"/>
+        <rdfs:subPropertyOf rdf:resource="#hasTimingMetric"/>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#hasTimingMetric -->
+
+    <owl:DatatypeProperty rdf:about="#hasTimingMetric">
+        <rdfs:domain rdf:resource="#Requirement"/>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://purl.org/ro/ont#hasWaitingTime -->
+
+    <owl:DatatypeProperty rdf:about="#hasWaitingTime">
+        <rdfs:domain rdf:resource="#Requirement"/>
+        <rdfs:subPropertyOf rdf:resource="#hasTimingMetric"/>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/ro/ont#AbstractFunctionalRequirement -->
+
+    <owl:Class rdf:about="#AbstractFunctionalRequirement">
+        <rdfs:subClassOf rdf:resource="#FunctionalRequirement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Accuracy -->
+
+    <owl:Class rdf:about="#Accuracy">
+        <rdfs:subClassOf rdf:resource="#Functionality"/>
+        <owl:disjointWith rdf:resource="#FCompliance"/>
+        <owl:disjointWith rdf:resource="#Interoperability"/>
+        <owl:disjointWith rdf:resource="#Security"/>
+        <owl:disjointWith rdf:resource="#Suitability"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Adaptability -->
+
+    <owl:Class rdf:about="#Adaptability">
+        <rdfs:subClassOf rdf:resource="#Portability"/>
+        <owl:disjointWith rdf:resource="#Coexistence"/>
+        <owl:disjointWith rdf:resource="#Conformance"/>
+        <owl:disjointWith rdf:resource="#Installability"/>
+        <owl:disjointWith rdf:resource="#Interoperability"/>
+        <owl:disjointWith rdf:resource="#PCompliance"/>
+        <owl:disjointWith rdf:resource="#Replaceability"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Analysis -->
+
+    <owl:Class rdf:about="#Analysis">
+        <rdfs:subClassOf rdf:resource="#VerificationMethod"/>
+        <rdfs:comment
+            >The requirements functionality will be verified by analysis.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Analyzability -->
+
+    <owl:Class rdf:about="#Analyzability">
+        <rdfs:subClassOf rdf:resource="#Maintainability"/>
+        <owl:disjointWith rdf:resource="#Changeability"/>
+        <owl:disjointWith rdf:resource="#FCompliance"/>
+        <owl:disjointWith rdf:resource="#MCompliance"/>
+        <owl:disjointWith rdf:resource="#Stability"/>
+        <owl:disjointWith rdf:resource="#Testability"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Artifact -->
+
+    <owl:Class rdf:about="#Artifact">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#isAuthoredBy"/>
+                <owl:someValuesFrom rdf:resource="#Stakeholder"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment
+            >Requirement Assets that appear during Requirements Engineering tasks.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#AtomicFunctionalRequirement -->
+
+    <owl:Class rdf:about="#AtomicFunctionalRequirement">
+        <rdfs:subClassOf rdf:resource="#FunctionalRequirement"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasAbstractRequirement"/>
+                <owl:someValuesFrom rdf:resource="#AbstractFunctionalRequirement"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Attractiveness -->
+
+    <owl:Class rdf:about="#Attractiveness">
+        <rdfs:subClassOf rdf:resource="#Usability"/>
+        <owl:disjointWith rdf:resource="#Effectiveness"/>
+        <owl:disjointWith rdf:resource="#Learnability"/>
+        <owl:disjointWith rdf:resource="#Operability"/>
+        <owl:disjointWith rdf:resource="#UCompliance"/>
+        <owl:disjointWith rdf:resource="#UEfficiency"/>
+        <owl:disjointWith rdf:resource="#Understandability"/>
+        <owl:disjointWith rdf:resource="#UserSatisfaction"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Attribute -->
+
+    <owl:Class rdf:about="#Attribute">
+        <rdfs:comment
+            >Additional data for Requirement Artifacts.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Challenge -->
+
+    <owl:Class rdf:about="#Challenge">
+        <rdfs:subClassOf rdf:resource="#RequirementArtifact"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasObstacle"/>
+                <owl:someValuesFrom rdf:resource="#Obstacle"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#isAuthoredBy"/>
+                <owl:someValuesFrom rdf:resource="#Stakeholder"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#refinesTo"/>
+                <owl:someValuesFrom rdf:resource="#RequirementArtifact"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasRisk"/>
+                <owl:someValuesFrom rdf:resource="#Risk"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="#Goal"/>
+        <owl:disjointWith rdf:resource="#Requirement"/>
+        <owl:disjointWith rdf:resource="#Story"/>
+        <rdfs:comment
+            >An act or statement of defiance regarding the project objectives.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Changeability -->
+
+    <owl:Class rdf:about="#Changeability">
+        <rdfs:subClassOf rdf:resource="#Maintainability"/>
+        <owl:disjointWith rdf:resource="#FCompliance"/>
+        <owl:disjointWith rdf:resource="#MCompliance"/>
+        <owl:disjointWith rdf:resource="#Stability"/>
+        <owl:disjointWith rdf:resource="#Testability"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Checked -->
+
+    <owl:Class rdf:about="#Checked">
+        <rdfs:subClassOf rdf:resource="#State"/>
+        <owl:disjointWith rdf:resource="#Unchecked"/>
+        <rdfs:comment
+            >The status of a requirement is automatically set to &#39;checked&#39; if it has been checked.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Coexistence -->
+
+    <owl:Class rdf:about="#Coexistence">
+        <rdfs:subClassOf rdf:resource="#Portability"/>
+        <owl:disjointWith rdf:resource="#Conformance"/>
+        <owl:disjointWith rdf:resource="#Installability"/>
+        <owl:disjointWith rdf:resource="#PCompliance"/>
+        <owl:disjointWith rdf:resource="#Replaceability"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Complete -->
+
+    <owl:Class rdf:about="#Complete">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="#Checked"/>
+                    <rdf:Description rdf:about="#Implemented"/>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:disjointWith rdf:resource="#Incomplete"/>
+        <rdfs:comment
+            >The status of the requirement automatically becomes &#39;complete&#39; if it was checked and has been implemented.  This cannot be set by the user.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Condition -->
+
+    <owl:Class rdf:about="#Condition">
+        <rdfs:subClassOf rdf:resource="#Attribute"/>
+        <rdfs:comment></rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Conformance -->
+
+    <owl:Class rdf:about="#Conformance">
+        <rdfs:subClassOf rdf:resource="#Portability"/>
+        <owl:disjointWith rdf:resource="#Installability"/>
+        <owl:disjointWith rdf:resource="#Interoperability"/>
+        <owl:disjointWith rdf:resource="#PCompliance"/>
+        <owl:disjointWith rdf:resource="#Replaceability"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Cost -->
+
+    <owl:Class rdf:about="#Cost">
+        <rdfs:subClassOf rdf:resource="#Attribute"/>
+        <rdfs:comment
+            >Financial cost for a Requirement Artifact, usually for a requirement.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Demonstration -->
+
+    <owl:Class rdf:about="#Demonstration">
+        <rdfs:subClassOf rdf:resource="#VerificationMethod"/>
+        <rdfs:comment
+            >The requirements functionality will be verified by demonstration.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#ECompliance -->
+
+    <owl:Class rdf:about="#ECompliance">
+        <rdfs:subClassOf rdf:resource="#Efficiency"/>
+        <owl:disjointWith rdf:resource="#ResourceBehaviour"/>
+        <owl:disjointWith rdf:resource="#TimeBehaviour"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Effectiveness -->
+
+    <owl:Class rdf:about="#Effectiveness">
+        <rdfs:subClassOf rdf:resource="#Usability"/>
+        <owl:disjointWith rdf:resource="#Learnability"/>
+        <owl:disjointWith rdf:resource="#Operability"/>
+        <owl:disjointWith rdf:resource="#UCompliance"/>
+        <owl:disjointWith rdf:resource="#UEfficiency"/>
+        <owl:disjointWith rdf:resource="#Understandability"/>
+        <owl:disjointWith rdf:resource="#UserSatisfaction"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Efficiency -->
+
+    <owl:Class rdf:about="#Efficiency">
+        <rdfs:subClassOf rdf:resource="#NonFunctionalRequirement"/>
+        <owl:disjointWith rdf:resource="#Functionality"/>
+        <owl:disjointWith rdf:resource="#Maintainability"/>
+        <owl:disjointWith rdf:resource="#Portability"/>
+        <owl:disjointWith rdf:resource="#Reliability"/>
+        <owl:disjointWith rdf:resource="#Usability"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A set of attributes that bear on the relationship between the level of performance of the software and the amount of resources used, under stated conditions.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Exception -->
+
+    <owl:Class rdf:about="#Exception">
+        <rdfs:comment
+            >Exceptions occur as a result of any Completeness, Consistency or Quality check. Exceptions will be automatically stored in this class as Individuals. This class shall not be visible to the user, except when querying for Exceptions. Exception cannot be added manually by the user.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#FCompliance -->
+
+    <owl:Class rdf:about="#FCompliance">
+        <rdfs:subClassOf rdf:resource="#Functionality"/>
+        <owl:disjointWith rdf:resource="#Interoperability"/>
+        <owl:disjointWith rdf:resource="#Security"/>
+        <owl:disjointWith rdf:resource="#Stability"/>
+        <owl:disjointWith rdf:resource="#Suitability"/>
+        <owl:disjointWith rdf:resource="#Testability"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#FailurePostcondition -->
+
+    <owl:Class rdf:about="#FailurePostcondition">
+        <rdfs:subClassOf rdf:resource="#Condition"/>
+        <rdfs:comment
+            >A condition that is caused by faulty behaviour.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#FaultTolerance -->
+
+    <owl:Class rdf:about="#FaultTolerance">
+        <rdfs:subClassOf rdf:resource="#Reliability"/>
+        <owl:disjointWith rdf:resource="#Maturity"/>
+        <owl:disjointWith rdf:resource="#RCompliance"/>
+        <owl:disjointWith rdf:resource="#Recoverability"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#FunctionalRequirement -->
+
+    <owl:Class rdf:about="#FunctionalRequirement">
+        <rdfs:subClassOf rdf:resource="#Requirement"/>
+        <owl:disjointWith rdf:resource="#NonFunctionalRequirement"/>
+        <owl:disjointWith rdf:resource="#PlatformRequirement"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Functional Requirement defines a function of a software system or its component. It can be classified into goal, feature and atomic.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Functionality -->
+
+    <owl:Class rdf:about="#Functionality">
+        <rdfs:subClassOf rdf:resource="#NonFunctionalRequirement"/>
+        <owl:disjointWith rdf:resource="#Maintainability"/>
+        <owl:disjointWith rdf:resource="#Portability"/>
+        <owl:disjointWith rdf:resource="#Reliability"/>
+        <owl:disjointWith rdf:resource="#Usability"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A set of attributes that bear on the existence of a set of functions and their specified properties.  The functions are those that satisfy stated or implied needs.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Goal -->
+
+    <owl:Class rdf:about="#Goal">
+        <rdfs:subClassOf rdf:resource="#RequirementArtifact"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#refinesTo"/>
+                <owl:someValuesFrom rdf:resource="#Goal"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#refinesTo"/>
+                <owl:someValuesFrom rdf:resource="#Requirement"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="#Requirement"/>
+        <owl:disjointWith rdf:resource="#Story"/>
+        <rdfs:comment
+            >An Objective to be achieved regarding this product.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#HardwareComponent -->
+
+    <owl:Class rdf:about="#HardwareComponent">
+        <rdfs:subClassOf rdf:resource="#PlatformRequirement"/>
+        <owl:disjointWith rdf:resource="#HardwareInfrastructure"/>
+        <owl:disjointWith rdf:resource="#Host"/>
+        <owl:disjointWith rdf:resource="#PeripheralDevice"/>
+        <owl:disjointWith rdf:resource="#SystemSoftware"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#HardwareInfrastructure -->
+
+    <owl:Class rdf:about="#HardwareInfrastructure">
+        <rdfs:subClassOf rdf:resource="#PlatformRequirement"/>
+        <owl:disjointWith rdf:resource="#Host"/>
+        <owl:disjointWith rdf:resource="#PeripheralDevice"/>
+        <owl:disjointWith rdf:resource="#SystemSoftware"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#HighCost -->
+
+    <owl:Class rdf:about="#HighCost">
+        <rdfs:subClassOf rdf:resource="#Cost"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#HighPriority -->
+
+    <owl:Class rdf:about="#HighPriority">
+        <owl:equivalentClass rdf:resource="#Important"/>
+        <rdfs:subClassOf rdf:resource="#Priority"/>
+        <owl:disjointWith rdf:resource="#LowPriority"/>
+        <owl:disjointWith rdf:resource="#MediumPriority"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Host -->
+
+    <owl:Class rdf:about="#Host">
+        <rdfs:subClassOf rdf:resource="#PlatformRequirement"/>
+        <owl:disjointWith rdf:resource="#PeripheralDevice"/>
+        <owl:disjointWith rdf:resource="#SystemSoftware"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Implemented -->
+
+    <owl:Class rdf:about="#Implemented">
+        <rdfs:subClassOf rdf:resource="#State"/>
+        <owl:disjointWith rdf:resource="#Incomplete"/>
+        <owl:disjointWith rdf:resource="#Invalid"/>
+        <owl:disjointWith rdf:resource="#NotImplemented"/>
+        <owl:disjointWith rdf:resource="#Unchecked"/>
+        <rdfs:comment
+            >The status can be set to &#39;implemented&#39; by the user when the requirement was implemented.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Important -->
+
+    <owl:Class rdf:about="#Important">
+        <rdfs:subClassOf rdf:resource="#State"/>
+        <rdfs:comment
+            >All requirements that have a high priority automatically become &#39;Important&#39;.  This cannot be set by the user.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Incomplete -->
+
+    <owl:Class rdf:about="#Incomplete">
+        <rdfs:subClassOf rdf:resource="#Invalid"/>
+        <rdfs:comment
+            >The requirement was checked but has not been implemented yet.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Influencer -->
+
+    <owl:Class rdf:about="#Influencer">
+        <rdfs:subClassOf rdf:resource="#Artifact"/>
+        <rdfs:comment
+            >Artifacts that have a main influence during Requirements Engineering.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Inspection -->
+
+    <owl:Class rdf:about="#Inspection">
+        <rdfs:subClassOf rdf:resource="#VerificationMethod"/>
+        <rdfs:comment
+            >The requirements functionality will be verified by inspection.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Installability -->
+
+    <owl:Class rdf:about="#Installability">
+        <rdfs:subClassOf rdf:resource="#Portability"/>
+        <owl:disjointWith rdf:resource="#Interoperability"/>
+        <owl:disjointWith rdf:resource="#PCompliance"/>
+        <owl:disjointWith rdf:resource="#Replaceability"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Interoperability -->
+
+    <owl:Class rdf:about="#Interoperability">
+        <rdfs:subClassOf rdf:resource="#Functionality"/>
+        <owl:disjointWith rdf:resource="#Replaceability"/>
+        <owl:disjointWith rdf:resource="#Security"/>
+        <owl:disjointWith rdf:resource="#Suitability"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Invalid -->
+
+    <owl:Class rdf:about="#Invalid">
+        <rdfs:subClassOf rdf:resource="#State"/>
+        <owl:disjointWith rdf:resource="#Valid"/>
+        <rdfs:comment
+            >checked with negative result, e.g. in conflict with other requirement</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Learnability -->
+
+    <owl:Class rdf:about="#Learnability">
+        <rdfs:subClassOf rdf:resource="#Usability"/>
+        <owl:disjointWith rdf:resource="#Operability"/>
+        <owl:disjointWith rdf:resource="#Suitability"/>
+        <owl:disjointWith rdf:resource="#UCompliance"/>
+        <owl:disjointWith rdf:resource="#UEfficiency"/>
+        <owl:disjointWith rdf:resource="#Understandability"/>
+        <owl:disjointWith rdf:resource="#UserSatisfaction"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#LowCost -->
+
+    <owl:Class rdf:about="#LowCost">
+        <rdfs:subClassOf rdf:resource="#Cost"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#LowPriority -->
+
+    <owl:Class rdf:about="#LowPriority">
+        <rdfs:subClassOf rdf:resource="#Priority"/>
+        <owl:disjointWith rdf:resource="#MediumPriority"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#MCompliance -->
+
+    <owl:Class rdf:about="#MCompliance">
+        <rdfs:subClassOf rdf:resource="#Maintainability"/>
+        <owl:disjointWith rdf:resource="#Stability"/>
+        <owl:disjointWith rdf:resource="#Testability"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Maintainability -->
+
+    <owl:Class rdf:about="#Maintainability">
+        <rdfs:subClassOf rdf:resource="#NonFunctionalRequirement"/>
+        <owl:disjointWith rdf:resource="#Portability"/>
+        <owl:disjointWith rdf:resource="#Reliability"/>
+        <owl:disjointWith rdf:resource="#Usability"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A set of attributes that bear on the effort needed to make specified modified modifications</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Mandate -->
+
+    <owl:Class rdf:about="#Mandate">
+        <rdfs:subClassOf rdf:resource="#Attribute"/>
+        <rdfs:comment
+            >Defines whether a requirement is mandatory or optional.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Mandatory -->
+
+    <owl:Class rdf:about="#Mandatory">
+        <rdfs:subClassOf rdf:resource="#Mandate"/>
+        <owl:disjointWith rdf:resource="#Optional"/>
+        <rdfs:comment
+            >Mandatory requirements must be implemented by any means.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Maturity -->
+
+    <owl:Class rdf:about="#Maturity">
+        <rdfs:subClassOf rdf:resource="#Reliability"/>
+        <owl:disjointWith rdf:resource="#RCompliance"/>
+        <owl:disjointWith rdf:resource="#Recoverability"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#MediumCost -->
+
+    <owl:Class rdf:about="#MediumCost">
+        <rdfs:subClassOf rdf:resource="#Cost"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#MediumPriority -->
+
+    <owl:Class rdf:about="#MediumPriority">
+        <rdfs:subClassOf rdf:resource="#Priority"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#NonFunctionalRequirement -->
+
+    <owl:Class rdf:about="#NonFunctionalRequirement">
+        <rdfs:subClassOf rdf:resource="#Requirement"/>
+        <owl:disjointWith rdf:resource="#PlatformRequirement"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >(Quality Requirement)
+Non Functional Requirement defines how a system is supposed to be. It specifies the quality of a system. It is initially discovered according to the defined softgoals.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#NotImplemented -->
+
+    <owl:Class rdf:about="#NotImplemented">
+        <rdfs:subClassOf rdf:resource="#State"/>
+        <rdfs:comment
+            >The requirement has not been implemented yet.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Obstacle -->
+
+    <owl:Class rdf:about="#Obstacle">
+        <rdfs:subClassOf rdf:resource="#Problem"/>
+        <rdfs:comment
+            >An obstruction that stands in the way (and must be removed or surmounted or circumvented).</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Operability -->
+
+    <owl:Class rdf:about="#Operability">
+        <rdfs:subClassOf rdf:resource="#Usability"/>
+        <owl:disjointWith rdf:resource="#Suitability"/>
+        <owl:disjointWith rdf:resource="#UCompliance"/>
+        <owl:disjointWith rdf:resource="#UEfficiency"/>
+        <owl:disjointWith rdf:resource="#Understandability"/>
+        <owl:disjointWith rdf:resource="#UserSatisfaction"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Optional -->
+
+    <owl:Class rdf:about="#Optional">
+        <rdfs:subClassOf rdf:resource="#Mandate"/>
+        <rdfs:comment
+            >Optional requirements may be implemented, but must not.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#PCompliance -->
+
+    <owl:Class rdf:about="#PCompliance">
+        <rdfs:subClassOf rdf:resource="#Portability"/>
+        <owl:disjointWith rdf:resource="#Replaceability"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#PeripheralDevice -->
+
+    <owl:Class rdf:about="#PeripheralDevice">
+        <rdfs:subClassOf rdf:resource="#PlatformRequirement"/>
+        <owl:disjointWith rdf:resource="#SystemSoftware"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#PlatformRequirement -->
+
+    <owl:Class rdf:about="#PlatformRequirement">
+        <rdfs:subClassOf rdf:resource="#Requirement"/>
+        <rdfs:comment
+            >Requirements regarding to the Platform of the software to be developed.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Portability -->
+
+    <owl:Class rdf:about="#Portability">
+        <rdfs:subClassOf rdf:resource="#NonFunctionalRequirement"/>
+        <owl:disjointWith rdf:resource="#Reliability"/>
+        <owl:disjointWith rdf:resource="#Usability"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A set of attributes that bear on the ability of software to be transferred from on environment to another</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Postcondition -->
+
+    <owl:Class rdf:about="#Postcondition">
+        <rdfs:subClassOf rdf:resource="#Condition"/>
+        <rdfs:comment
+            >Conditions that must be true after a certain action.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Precondition -->
+
+    <owl:Class rdf:about="#Precondition">
+        <rdfs:subClassOf rdf:resource="#Condition"/>
+        <rdfs:comment
+            >A condition that must exist or be established before something can occur or be considered; a prerequisite.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Priority -->
+
+    <owl:Class rdf:about="#Priority">
+        <rdfs:subClassOf rdf:resource="#Attribute"/>
+        <rdfs:comment
+            >The Importance of a Requirement Artifact.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Problem -->
+
+    <owl:Class rdf:about="#Problem">
+        <rdfs:subClassOf rdf:resource="#Influencer"/>
+        <rdfs:comment
+            >Something negative to deal with.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#RCompliance -->
+
+    <owl:Class rdf:about="#RCompliance">
+        <rdfs:subClassOf rdf:resource="#Reliability"/>
+        <owl:disjointWith rdf:resource="#Recoverability"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Recoverability -->
+
+    <owl:Class rdf:about="#Recoverability">
+        <rdfs:subClassOf rdf:resource="#Reliability"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Refinement -->
+
+    <owl:Class rdf:about="#Refinement">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasRefinementTarget"/>
+                <owl:someValuesFrom rdf:resource="#RequirementArtifact"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasRefinementSource"/>
+                <owl:someValuesFrom rdf:resource="#RequirementArtifact"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment
+            >The result of refining; an improvement or elaboration.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Reliability -->
+
+    <owl:Class rdf:about="#Reliability">
+        <rdfs:subClassOf rdf:resource="#NonFunctionalRequirement"/>
+        <owl:disjointWith rdf:resource="#Usability"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A set of attributes that bear on the capability of software to maintain its level of performance under stated conditions for a stated period of time</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Replaceability -->
+
+    <owl:Class rdf:about="#Replaceability">
+        <rdfs:subClassOf rdf:resource="#Portability"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Requirement -->
+
+    <owl:Class rdf:about="#Requirement">
+        <rdfs:subClassOf rdf:resource="#RequirementArtifact"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasFailurePostcondition"/>
+                <owl:someValuesFrom rdf:resource="#FailurePostcondition"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasCost"/>
+                <owl:someValuesFrom rdf:resource="#Cost"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasTestCase"/>
+                <owl:someValuesFrom rdf:resource="#TestCase"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasTrigger"/>
+                <owl:someValuesFrom rdf:resource="#Trigger"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasVerificationMethod"/>
+                <owl:someValuesFrom rdf:resource="#VerificationMethod"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#isDescribedByUseCase"/>
+                <owl:someValuesFrom rdf:resource="#UseCase"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="#Story"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A requirement is:
+
+1. a condition or capability needed by a user to solve a problem or achieve an objective
+2. a condition or capability that must be met or possessed by a system or system component to satisfy a contract, standard,specification, or other formally imposed document
+3. a documented representation of a condition or capability as in (1) or (2)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#RequirementArtifact -->
+
+    <owl:Class rdf:about="#RequirementArtifact">
+        <rdfs:subClassOf rdf:resource="#Influencer"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasObstacle"/>
+                <owl:someValuesFrom rdf:resource="#Obstacle"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasID"/>
+                <owl:someValuesFrom rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasRisk"/>
+                <owl:someValuesFrom rdf:resource="#Risk"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment
+            >All Requirement related Artifacts: Challenges, Goals, Stories, Equirements, Test-Cases and Soft-Metrics.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#ResourceBehaviour -->
+
+    <owl:Class rdf:about="#ResourceBehaviour">
+        <rdfs:subClassOf rdf:resource="#Efficiency"/>
+        <owl:disjointWith rdf:resource="#TimeBehaviour"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Risk -->
+
+    <owl:Class rdf:about="#Risk">
+        <rdfs:subClassOf rdf:resource="#Problem"/>
+        <rdfs:comment
+            >The quantifiable likelihood of loss or less-than-expected returns.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Risky -->
+
+    <owl:Class rdf:about="#Risky">
+        <rdfs:subClassOf rdf:resource="#State"/>
+        <rdfs:comment
+            >All requirements that have a risk automatically become &#39;Risky&#39;. This cannot be set by the user.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Scenario -->
+
+    <owl:Class rdf:about="#Scenario">
+        <rdfs:subClassOf rdf:resource="#Story"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#belongsToUseCase"/>
+                <owl:someValuesFrom rdf:resource="#UseCase"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment
+            >A textual description of a small part of a Use-Case. A scenario describes a sequence of user actions in general terms.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Security -->
+
+    <owl:Class rdf:about="#Security">
+        <rdfs:subClassOf rdf:resource="#Functionality"/>
+        <owl:disjointWith rdf:resource="#Suitability"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#SoftMetric -->
+
+    <owl:Class rdf:about="#SoftMetric">
+        <rdfs:subClassOf rdf:resource="#Artifact"/>
+        <rdfs:comment
+            >A Metric for Non-Functional Requirements.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Source -->
+
+    <owl:Class rdf:about="#Source">
+        <rdfs:comment
+            >Source may contain resources of Requirement Artifact, e.g. previous or new Requirement Specification, Guidelines, Company Guidelines, Laws, Standards, etc.
+
+The best way to use this Class is adding the appropriate Individuals and reffering to them via &#39;hasSource&#39; property.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Stability -->
+
+    <owl:Class rdf:about="#Stability">
+        <rdfs:subClassOf rdf:resource="#Maintainability"/>
+        <owl:disjointWith rdf:resource="#Testability"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Stakeholder -->
+
+    <owl:Class rdf:about="#Stakeholder">
+        <rdfs:comment
+            >A person responsible for a Requirement Artifact; the author.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#State -->
+
+    <owl:Class rdf:about="#State">
+        <rdfs:subClassOf rdf:resource="#Attribute"/>
+        <rdfs:comment
+            >The status of a Requirement Artifact.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Story -->
+
+    <owl:Class rdf:about="#Story">
+        <rdfs:subClassOf rdf:resource="#RequirementArtifact"/>
+        <rdfs:comment
+            >Use-Cases and Scenarios.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Suitability -->
+
+    <owl:Class rdf:about="#Suitability">
+        <rdfs:subClassOf rdf:resource="#Functionality"/>
+        <owl:disjointWith rdf:resource="#Understandability"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#SystemSoftware -->
+
+    <owl:Class rdf:about="#SystemSoftware">
+        <rdfs:subClassOf rdf:resource="#PlatformRequirement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#TestCase -->
+
+    <owl:Class rdf:about="#TestCase">
+        <rdfs:subClassOf rdf:resource="#Artifact"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#testsRequirement"/>
+                <owl:someValuesFrom rdf:resource="#Requirement"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment
+            >A Test-Case defines how to test a requirement after implementation.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Testability -->
+
+    <owl:Class rdf:about="#Testability">
+        <rdfs:subClassOf rdf:resource="#Maintainability"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Testing -->
+
+    <owl:Class rdf:about="#Testing">
+        <rdfs:subClassOf rdf:resource="#VerificationMethod"/>
+        <rdfs:comment
+            >If the requirement shall be tested, a test-case must be provided.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#TimeBehaviour -->
+
+    <owl:Class rdf:about="#TimeBehaviour">
+        <rdfs:subClassOf rdf:resource="#Efficiency"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Trigger -->
+
+    <owl:Class rdf:about="#Trigger">
+        <rdfs:subClassOf rdf:resource="#Attribute"/>
+        <rdfs:comment
+            >An event that initiates a certain action.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#UCompliance -->
+
+    <owl:Class rdf:about="#UCompliance">
+        <rdfs:subClassOf rdf:resource="#Usability"/>
+        <owl:disjointWith rdf:resource="#UEfficiency"/>
+        <owl:disjointWith rdf:resource="#Understandability"/>
+        <owl:disjointWith rdf:resource="#UserSatisfaction"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#UEfficiency -->
+
+    <owl:Class rdf:about="#UEfficiency">
+        <rdfs:subClassOf rdf:resource="#Usability"/>
+        <owl:disjointWith rdf:resource="#Understandability"/>
+        <owl:disjointWith rdf:resource="#UserSatisfaction"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Unchecked -->
+
+    <owl:Class rdf:about="#Unchecked">
+        <rdfs:subClassOf rdf:resource="#State"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Understandability -->
+
+    <owl:Class rdf:about="#Understandability">
+        <rdfs:subClassOf rdf:resource="#Usability"/>
+        <owl:disjointWith rdf:resource="#UserSatisfaction"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Usability -->
+
+    <owl:Class rdf:about="#Usability">
+        <rdfs:subClassOf rdf:resource="#NonFunctionalRequirement"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A set of attributes that bear on the effort needed for use, and on the individual assessment of such use by a stated or implied set of users.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#UseCase -->
+
+    <owl:Class rdf:about="#UseCase">
+        <rdfs:subClassOf rdf:resource="#Story"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasScenario"/>
+                <owl:someValuesFrom rdf:resource="#Scenario"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#describesRequirement"/>
+                <owl:someValuesFrom rdf:resource="#Requirement"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment
+            >A textual description for analysis, identification, clarification, and organization of system requirements. The use case is made up of a set of possible sequences of interactions between systems and users in a particular environment and related to a particular goal.
+
+It consists of a group of elements (for example, classes and interfaces) that can be used together in a way that will have an effect larger than the sum of the separate elements combined. 
+
+The use case should contain all system activities that have significance to the users. A use case can be thought of as a collection of possible scenarios related to a particular goal.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#UserSatisfaction -->
+
+    <owl:Class rdf:about="#UserSatisfaction">
+        <rdfs:subClassOf rdf:resource="#Usability"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#Valid -->
+
+    <owl:Class rdf:about="#Valid">
+        <rdfs:subClassOf rdf:resource="#Checked"/>
+        <rdfs:comment
+            >The status of a requiremet is set to &#39;valid&#39; when the check was successfull.  This cannot be set by the user.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#VerificationMethod -->
+
+    <owl:Class rdf:about="#VerificationMethod">
+        <rdfs:subClassOf rdf:resource="#Attribute"/>
+        <rdfs:comment
+            >The method that shall be used for verification of requirements.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/ro/ont#hasCost -->
+
+    <owl:Class rdf:about="#hasCost"/>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+    <owl:Class rdf:about="&owl;Thing"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/ro/ont#AccessibleToBlindUsers -->
+
+    <owl:Thing rdf:about="#AccessibleToBlindUsers">
+        <rdf:type rdf:resource="#UserSatisfaction"/>
+        <hasRisk rdf:resource="#InconvenientDesignForSeeingUsers"/>
+        <isAuthoredBy rdf:resource="#PersonC"/>
+        <isInConflictWith rdf:resource="#UserHasPhotoAlbum"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://purl.org/ro/ont#AdvertisementOnProfilePage -->
+
+    <owl:Thing rdf:about="#AdvertisementOnProfilePage">
+        <rdf:type rdf:resource="#AbstractFunctionalRequirement"/>
+        <isAuthoredBy rdf:resource="#PersonC"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://purl.org/ro/ont#CollectUserData -->
+
+    <owl:Thing rdf:about="#CollectUserData">
+        <rdf:type rdf:resource="#Goal"/>
+        <isAuthoredBy rdf:resource="#PersonA"/>
+        <refinesTo rdf:resource="#UserHasProfilePage"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://purl.org/ro/ont#CommercialSuccess -->
+
+    <Goal rdf:about="#CommercialSuccess">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <refinesTo rdf:resource="#EarnMoney"/>
+        <isAuthoredBy rdf:resource="#PersonC"/>
+    </Goal>
+    
+
+
+    <!-- http://purl.org/ro/ont#ConnectPeople -->
+
+    <Challenge rdf:about="#ConnectPeople">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <refinesTo rdf:resource="#DevelopSocialNetworkingPlatform"/>
+        <isAuthoredBy rdf:resource="#PersonB"/>
+    </Challenge>
+    
+
+
+    <!-- http://purl.org/ro/ont#DataControl -->
+
+    <owl:Thing rdf:about="#DataControl">
+        <rdf:type rdf:resource="#Refinement"/>
+        <hasRefinementReason
+            >The user must be allowed to completely control which data shall be displayed and which not in order to satisfy data security plocies from government.</hasRefinementReason>
+        <isAuthoredBy rdf:resource="#PersonA"/>
+        <hasRefinementTarget rdf:resource="#UserCanHideData"/>
+        <hasRefinementSource rdf:resource="#UserHasProfilePage"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://purl.org/ro/ont#DataPrivacyProtection -->
+
+    <owl:Thing rdf:about="#DataPrivacyProtection">
+        <rdf:type rdf:resource="#Goal"/>
+        <rdf:type rdf:resource="#LowPriority"/>
+        <isAuthoredBy rdf:resource="#PersonC"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://purl.org/ro/ont#DevelopSocialNetworkingPlatform -->
+
+    <Goal rdf:about="#DevelopSocialNetworkingPlatform">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <refinesTo rdf:resource="#CommercialSuccess"/>
+        <isAuthoredBy rdf:resource="#PersonB"/>
+        <refinesTo rdf:resource="#ExchangeInformation"/>
+        <refinesTo rdf:resource="#PlatformIsEasyToUseForEveryone"/>
+        <isAuthoredBy rdf:resource="#PersonC"/>
+    </Goal>
+    
+
+
+    <!-- http://purl.org/ro/ont#EarnMoney -->
+
+    <HighPriority rdf:about="#EarnMoney">
+        <rdf:type rdf:resource="#Goal"/>
+        <rdf:type rdf:resource="#Mandatory"/>
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <refinesTo rdf:resource="#AdvertisementOnProfilePage"/>
+        <isAuthoredBy rdf:resource="#PersonC"/>
+    </HighPriority>
+    
+
+
+    <!-- http://purl.org/ro/ont#PersonB -->
+
+    <Stakeholder rdf:about="#PersonB">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </Stakeholder>
+    
+
+
+    <!-- http://purl.org/ro/ont#ExchangeInformation -->
+
+    <owl:Thing rdf:about="#ExchangeInformation">
+        <rdf:type rdf:resource="#Goal"/>
+        <refinesTo rdf:resource="#CollectUserData"/>
+        <isAuthoredBy rdf:resource="#PersonB"/>
+        <isConnectedToUseCase rdf:resource="#ProvidingUserInformation"/>
+        <isNegativeContributionTo rdf:resource="#ServerWithSufficientPerformance"/>
+        <refinesTo rdf:resource="#StoreInformation"/>
+        <isAuthoredBy rdf:resource="#PersonC"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://purl.org/ro/ont#FastAccessToPlatform -->
+
+    <owl:Thing rdf:about="#FastAccessToPlatform">
+        <rdf:type rdf:resource="#Goal"/>
+        <isAuthoredBy rdf:resource="#PersonB"/>
+        <isPositiveContributionTo rdf:resource="#PlatformIsEasyToUseForEveryone"/>
+        <isAuthoredBy rdf:resource="#PersonC"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://purl.org/ro/ont#FillProfilePage -->
+
+    <Scenario rdf:about="#FillProfilePage">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <isAuthoredBy rdf:resource="#PersonB"/>
+        <belongsToUseCase rdf:resource="#ProvidingUserInformation"/>
+    </Scenario>
+    
+
+
+    <!-- http://purl.org/ro/ont#HighNumberOfUsers -->
+
+    <owl:Thing rdf:about="#HighNumberOfUsers">
+        <rdf:type rdf:resource="#AtomicFunctionalRequirement"/>
+        <rdf:type rdf:resource="#HighPriority"/>
+        <isNegativeContributionTo rdf:resource="#ServerWithSufficientPerformance"/>
+        <isAuthoredBy rdf:resource="#PersonC"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://purl.org/ro/ont#InconvenientDesignForSeeingUsers -->
+
+    <Risk rdf:about="#InconvenientDesignForSeeingUsers">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <isAuthoredBy rdf:resource="#PersonA"/>
+    </Risk>
+    
+
+
+    <!-- http://purl.org/ro/ont#IntegratedInstantMessaging -->
+
+    <LowPriority rdf:about="#IntegratedInstantMessaging">
+        <rdf:type rdf:resource="#AtomicFunctionalRequirement"/>
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <isPositiveContributionTo rdf:resource="#ExchangeInformation"/>
+        <isAuthoredBy rdf:resource="#PersonA"/>
+        <isAlternativeTo rdf:resource="#UserHasPhotoAlbum"/>
+    </LowPriority>
+    
+
+
+    <!-- http://purl.org/ro/ont#PersonA -->
+
+    <owl:Thing rdf:about="#PersonA">
+        <rdf:type rdf:resource="#Stakeholder"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://purl.org/ro/ont#LoadPageTimeRestriction -->
+
+    <owl:Thing rdf:about="#LoadPageTimeRestriction">
+        <rdf:type rdf:resource="#UseCase"/>
+        <rdfs:comment
+            >Load Page in less than 2s</rdfs:comment>
+        <isAuthoredBy rdf:resource="#PersonB"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://purl.org/ro/ont#PlatformIsEasyToUseForEveryone -->
+
+    <owl:Thing rdf:about="#PlatformIsEasyToUseForEveryone">
+        <rdf:type rdf:resource="#Goal"/>
+        <isAuthoredBy rdf:resource="#PersonA"/>
+        <isAuthoredBy rdf:resource="#PersonC"/>
+        <refinesTo rdf:resource="#WellArrangedLayout"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://purl.org/ro/ont#ProvidingUserInformation -->
+
+    <owl:Thing rdf:about="#ProvidingUserInformation">
+        <rdf:type rdf:resource="#UseCase"/>
+        <isAuthoredBy rdf:resource="#PersonB"/>
+        <hasScenario rdf:resource="#UploadPhotos"/>
+        <describesRequirement rdf:resource="#UserHasPhotoAlbum"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://purl.org/ro/ont#ServerCrash -->
+
+    <Risk rdf:about="#ServerCrash">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <isAuthoredBy rdf:resource="#PersonB"/>
+    </Risk>
+    
+
+
+    <!-- http://purl.org/ro/ont#ServerWithSufficientPerformance -->
+
+    <Host rdf:about="#ServerWithSufficientPerformance">
+        <rdf:type rdf:resource="#Mandatory"/>
+        <rdf:type rdf:resource="#MediumPriority"/>
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <isAuthoredBy rdf:resource="#PersonB"/>
+        <isDescribedByUseCase rdf:resource="#LoadPageTimeRestriction"/>
+        <hasRisk rdf:resource="#ServerCrash"/>
+    </Host>
+    
+
+
+    <!-- http://purl.org/ro/ont#StoreInformation -->
+
+    <owl:Thing rdf:about="#StoreInformation">
+        <rdf:type rdf:resource="#Goal"/>
+        <isNegativeContributionTo rdf:resource="#DataPrivacyProtection"/>
+        <refinesTo rdf:resource="#StoreUserDataInDatabase"/>
+        <isAuthoredBy rdf:resource="#PersonC"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://purl.org/ro/ont#StoreUserDataInDatabase -->
+
+    <owl:Thing rdf:about="#StoreUserDataInDatabase">
+        <rdf:type rdf:resource="#HighPriority"/>
+        <rdf:type rdf:resource="#Mandatory"/>
+        <rdf:type rdf:resource="#SystemSoftware"/>
+        <isAuthoredBy rdf:resource="#PersonC"/>
+        <refinesTo rdf:resource="#UsingOracleDatabase"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://purl.org/ro/ont#TestCase1 -->
+
+    <owl:Thing rdf:about="#TestCase1">
+        <rdf:type rdf:resource="#TestCase"/>
+        <rdfs:comment
+            >The user can view, edit, insert, delete information on profile page.</rdfs:comment>
+        <isAuthoredBy rdf:resource="#PersonB"/>
+        <isAuthoredBy rdf:resource="#PersonC"/>
+        <testsRequirement rdf:resource="#UserHasProfilePage"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://purl.org/ro/ont#PersonC -->
+
+    <owl:Thing rdf:about="#PersonC">
+        <rdf:type rdf:resource="#Stakeholder"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://purl.org/ro/ont#UploadPhotos -->
+
+    <owl:Thing rdf:about="#UploadPhotos">
+        <rdf:type rdf:resource="#Scenario"/>
+        <isAuthoredBy rdf:resource="#PersonB"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://purl.org/ro/ont#UserCanHideData -->
+
+    <AtomicFunctionalRequirement rdf:about="#UserCanHideData">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <isAuthoredBy rdf:resource="#PersonA"/>
+        <isRefinementOf rdf:resource="#UserHasProfilePage"/>
+    </AtomicFunctionalRequirement>
+    
+
+
+    <!-- http://purl.org/ro/ont#UserHasPhotoAlbum -->
+
+    <LowPriority rdf:about="#UserHasPhotoAlbum">
+        <rdf:type rdf:resource="#AtomicFunctionalRequirement"/>
+        <rdf:type rdf:resource="#Optional"/>
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <isNegativeContributionTo rdf:resource="#AccessibleToBlindUsers"/>
+        <isAuthoredBy rdf:resource="#PersonB"/>
+        <isPositiveContributionTo rdf:resource="#ExchangeInformation"/>
+    </LowPriority>
+    
+
+
+    <!-- http://purl.org/ro/ont#UserHasProfilePage -->
+
+    <HighPriority rdf:about="#UserHasProfilePage">
+        <rdf:type rdf:resource="#AtomicFunctionalRequirement"/>
+        <rdf:type rdf:resource="#Mandatory"/>
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <isAuthoredBy rdf:resource="#PersonB"/>
+        <isDescribedByUseCase rdf:resource="#ProvidingUserInformation"/>
+    </HighPriority>
+    
+
+
+    <!-- http://purl.org/ro/ont#UsingOracleDatabase -->
+
+    <owl:Thing rdf:about="#UsingOracleDatabase">
+        <rdf:type rdf:resource="#HighCost"/>
+        <rdf:type rdf:resource="#Mandatory"/>
+        <rdf:type rdf:resource="#SystemSoftware"/>
+        <isAuthoredBy rdf:resource="#PersonC"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://purl.org/ro/ont#WellArrangedLayout -->
+
+    <owl:Thing rdf:about="#WellArrangedLayout">
+        <rdf:type rdf:resource="#HighPriority"/>
+        <rdf:type rdf:resource="#Mandatory"/>
+        <rdf:type rdf:resource="#Understandability"/>
+        <isAuthoredBy rdf:resource="#PersonC"/>
+    </owl:Thing>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="#Accuracy"/>
+            <rdf:Description rdf:about="#FCompliance"/>
+            <rdf:Description rdf:about="#Interoperability"/>
+            <rdf:Description rdf:about="#Suitability"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="#Analyzability"/>
+            <rdf:Description rdf:about="#Changeability"/>
+            <rdf:Description rdf:about="#Stability"/>
+            <rdf:Description rdf:about="#Testability"/>
+        </owl:members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 2.2.1.1138) http://owlapi.sourceforge.net -->
+

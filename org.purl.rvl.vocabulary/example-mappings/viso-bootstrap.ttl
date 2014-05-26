@@ -1,0 +1,69 @@
+# baseURI: http://purl.org/rvl/example-mappings/
+
+@prefix :        <http://purl.org/rvl/example-mappings/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rexm:    <http://purl.org/rvl/example-mappings/> .
+@prefix rexd:    <http://purl.org/rvl/example-data/> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix vg:    	 <http://purl.org/viso/graphic/> .
+@prefix common-shapes:    <http://purl.org/viso/shape/commons/> .
+
+:     rdf:type owl:Ontology ;
+      owl:imports rvl: , rexd: ,common-shapes: .
+
+
+
+rexm:SubClassOfToLinkingDirected
+	  rvl:disabled "false"^^xsd:boolean ;
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:subjectFilter "http://www.w3.org/2000/01/rdf-schema#subClassOf::http://purl.org/viso/graphic/Graphic_Representation"^^rvl:fslSelector; # this works already
+      rdfs:label "PM from rdfs:subClassOf to Linking Directed"^^xsd:string ;
+      rvl:sourceProperty rdfs:subClassOf ; 
+      rvl:invertSourceProperty
+              "true"^^xsd:boolean ;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ;
+      .
+
+
+rexm:SubPropertyOfToLinkingDirected
+	  rvl:disabled "true"^^xsd:boolean ;
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rdfs:label "PM from rdfs:subPropertyOf to Linking Directed"^^xsd:string ;
+      rvl:sourceProperty rdfs:subPropertyOf ;
+      rvl:invertSourceProperty
+              "true"^^xsd:boolean ;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ;
+      .
+      
+rexm:TypeToLinkingDirected
+	  rvl:disabled "true"^^xsd:boolean ;
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rdfs:label "PM from rdfs:subPropertyOf to Linking Directed"^^xsd:string ;
+      rvl:sourceProperty rdf:type ;
+      rvl:invertSourceProperty
+              "true"^^xsd:boolean ;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ;
+      .
+      
+      
+      # TODO:  try domain-range relations
+
+:AnyPropertyToLinkingByConnectorMapping
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:disabled "true"^^xsd:boolean ;
+      rdfs:label "(Any) domain - range relation to linking"^^xsd:string ;
+      rvl:sourceProperty owl:topObjectProperty ;
+      #rvl:invertSourceProperty "true"^^xsd:boolean;
+      rvl:inheritedBy rvl:tBoxDomainRange;
+      rvl:targetObjToObjRelation
+              <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+      #rvl:subMapping [
+      #  a rvl:SubMappingRelation ;
+      #  rvl:subMapping-onRole vg:linking_connector;
+      #  rvl:subMapping-onTriplePart rdf:predicate;
+      #  rvl:subMapping-mapping :PMfromID2ColorNamed2;
+      #]
+      .

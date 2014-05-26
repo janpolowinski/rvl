@@ -1,0 +1,38 @@
+### synonyms
+SELECT DISTINCT ?subject ?p ?synLabel
+WHERE {
+	?subject ?p ?synonym . 
+    ?subject oboInOwl:hasBroadSynonym|oboInOwl:hasRelatedSynonym|oboInOwl:hasExactSynonym|oboInOwl:hasNarrowSynonym|oboInOwl:hasSynonym ?synonym .
+	?synonym rdfs:label ?synLabel .
+}
+
+
+
+
+
+
+#### NORMAL PART-OF
+SELECT ?part ?whole
+WHERE {
+     {?part <http://purl.org/obo/owl/OBO_REL#part_of> ?whole .}
+UNION
+    { ?whole obo:has_part ?part .}
+}
+
+
+
+
+# create a contains link between GOs for each part_of relation
+CONSTRUCT {
+    ?newGO viso-graphic:refers_to ?this .
+    ?newGO a viso-graphic:Graphic_Object .
+    ?newGO rdfs:label ?thisLabel .
+}
+WHERE {
+    ?this rdfs:subClassOf ?restrictionClass .
+    ?restrictionClass a owl:Restriction .
+    ?restrictionClass owl:onProperty <http://purl.org/obo/owl/OBO_REL#part_of> .
+    ?restrictionClass owl:someValuesFrom ?whole .
+    ?this rdfs:label ?thisLabel .
+}
+

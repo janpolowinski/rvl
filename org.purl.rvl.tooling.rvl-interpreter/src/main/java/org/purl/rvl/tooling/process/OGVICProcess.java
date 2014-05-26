@@ -42,7 +42,7 @@ public class OGVICProcess {
 	public static boolean WRITE_JSON = true;
 	
 	// LOCAL FILES AND FOLDER SETTINGS
-	public static String USE_CASE_FOLDER = ""; // now set in properties-file
+	//public static String USE_CASE_FOLDER = ""; // now use cases in examples project ; now set in properties-file
 	public static final String GEN_MODEL_FILE_FOLDER = "../org.purl.rvl.tooling.rvl-interpreter/gen"; // new
 	public static final String GEN_MODEL_FILE_FOLDER_D3_JSON = "../org.purl.rvl.tooling.d3vis/gen/json";
 	protected static final String TMP_RVL_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempRvl.ttl";
@@ -129,7 +129,7 @@ public class OGVICProcess {
     	  properties.load(new FileInputStream("ogvic.properties")); // TODO: this is taken from the maven project, which executes the program, not always from the interpreter project! 
     	  
     	  MAX_GRAPHIC_RELATIONS_PER_MAPPING = Integer.parseInt(properties.get("org.purl.rvl.tooling.max-graphic-relations-per-mapping").toString());
-    	  USE_CASE_FOLDER = properties.get("org.purl.rvl.tooling.use-case-folder").toString();
+    	  //USE_CASE_FOLDER = properties.get("org.purl.rvl.tooling.use-case-folder").toString();
     	  
     	} catch (Exception e) {
     		

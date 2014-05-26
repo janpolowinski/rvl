@@ -108,28 +108,7 @@ public class ModelRepoTest {
 		ModelUtils.printModelInfo("extra statement model", ModelUtils.getExtraStatementModel(extendeeModel, extenderModel), true);
 
 	}
-	
-	public static void lldTest() {
 
-		// extendee
-		Model extendeeModel = RDF2Go.getModelFactory().createModel(
-				Reasoning.none);
-		extendeeModel.open();
-		ModelUtils.readFromAnySyntax(extendeeModel,ExampleMapping.LLD);
-
-		ModelUtils.printModelInfo("extendee model", extendeeModel, false);
-
-		// extender
-		Model extenderModel = RDF2Go.getModelFactory().createModel(Reasoning.none);
-		extenderModel.open();
-		ModelUtils.readFromAnySyntax(extenderModel,OntologyFile.RVL);
-
-		ModelUtils.printModelInfo("extender model", extenderModel, false);
-		
-		
-		ModelUtils.printModelInfo("extra statement model", ModelUtils.getExtraStatementModel(extendeeModel, extenderModel), true);
-
-	}
 	
 	public static void oldTest(){
 		
@@ -139,7 +118,7 @@ public class ModelRepoTest {
 		// data
 		Model dataModel = RDF2Go.getModelFactory().createModel(Reasoning.none);
 		dataModel.open();
-		ModelUtils.readFromAnySyntax(dataModel, ExampleData.LLD_TEST);
+		//ModelUtils.readFromAnySyntax(dataModel, ExampleData.LLD_TEST);
 		
 		// mapping
 		Model mappingModel = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);

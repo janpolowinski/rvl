@@ -1,0 +1,26 @@
+@prefix :        <http://purl.org/viso/example/zfa/> .
+@prefix commons:  <http://purl.org/viso/shape/commons/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix owl1:    <http://purl.org/obo/owl/> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix rvl-cs:  <http://purl.org/rvl/spin-constraints/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix vg:    <http://purl.org/viso/graphic/> .
+@prefix zebrafish_anatomy_subset:  <http://purl.org/obo/owl/zebrafish_anatomy_subset#> .
+
+:     rdf:type owl:Ontology ;
+      owl:imports owl1:zebrafish_anatomy_subset , rvl: , commons: , rvl-cs: ;
+      owl:versionInfo "Created with TopBraid Composer"^^xsd:string .
+
+
+:SubClassOf_to_Linking_Directed
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "ZFO-Y: SubClassOf (inverted) to Directed Linking"^^xsd:string ;
+      #rvl:subjectFilter " ?s rdfs:subClassOf oboInOwl:ObsoleteClass . "^^rvl:sparqlSelector;
+      rvl:subjectFilter " FILTER NOT EXISTS { ?s rdfs:subClassOf oboInOwl:ObsoleteClass . } "^^rvl:sparqlSelector;
+      rvl:invertSourceProperty
+              "true"^^xsd:boolean ;
+      rvl:sourceProperty rdfs:subClassOf ;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation .

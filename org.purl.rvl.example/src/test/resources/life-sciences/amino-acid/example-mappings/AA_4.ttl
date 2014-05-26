@@ -1,0 +1,61 @@
+# Saved by TopBraid on Tue May 28 18:15:20 CEST 2013
+# baseURI: http://purl.org/viso/example/amino-acids/
+# imports: http://purl.org/rvl/spin-constraints/
+# imports: http://purl.org/rvl/
+# imports: http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl
+# imports: http://purl.org/viso/addon/shapes/bio/
+
+@prefix :        <http://purl.org/viso/example/amino-acids/> .
+@prefix amino-acid:  <http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#> .
+@prefix bio:     <http://purl.org/viso/addon/shapes/bio/> .
+@prefix common-shapes:    <http://purl.org/viso/shape/commons/> .
+@prefix dct:     <http://purl.org/dc/terms/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix vg:    <http://purl.org/viso/graphic/> .
+
+:     rdf:type owl:Ontology ;
+      owl:imports <http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl> , rvl: , bio: ;
+      owl:versionInfo "Created with TopBraid Composer"^^xsd:string .
+
+
+:AA-4
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "SideChainStructure to Shape"^^xsd:string ;
+      rvl:sourceProperty amino-acid:hasSideChainStructure ;
+      rvl:inheritedBy owl:allValuesFrom ;
+      rvl:targetAttribute
+              <http://purl.org/viso/graphic/shape_named> ;
+      rvl:valueMapping :Aromatic_to_Shape2 , :Aliphatic_to_Shape1 .
+
+   
+:Aliphatic_to_Shape1
+      rdf:type rvl:ValueMapping ;
+      rdfs:label "Aliphatic to Shape1"^^xsd:string ;
+      rvl:includeInLegend "true"^^xsd:boolean ;
+      rvl:sourceValue amino-acid:Aliphatic ;
+      rvl:targetValue bio:Aliphatic_Shape 
+      .
+
+:Aromatic_to_Shape2
+      rdf:type rvl:ValueMapping ;
+      rdfs:label "Aromatic to Shape2"^^xsd:string ;
+      rvl:includeInLegend "true"^^xsd:boolean ;
+      rvl:sourceValue amino-acid:Aromatic ;
+      rvl:targetValue bio:Aromatic_Shape 
+      .
+      
+ ######################## EXTRA ############################
+      
+      :SideChainStructureToLinking
+      rdf:type rvl:PropertyMapping ;
+      rvl:disabled "true"^^xsd:boolean ;
+      rdfs:label "SideChainStructure to Linking"^^xsd:string ;
+      rvl:sourceProperty amino-acid:hasSideChainStructure ;
+      rvl:invertSourceProperty "true"^^xsd:boolean ;
+      rvl:inheritedBy owl:allValuesFrom ;
+      rvl:targetObjToObjRelation
+              vg:Linking_Directed_Relation .

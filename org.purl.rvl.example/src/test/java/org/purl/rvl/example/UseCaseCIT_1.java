@@ -13,9 +13,9 @@ public class UseCaseCIT_1 extends TestOGVICProcess {
 	@Test
 	public void testOGVICProcess() throws FileNotFoundException {
 		
-		project.registerMappingFile(ExampleMapping.CIT_1);
-		project.registerDataFile(ExampleData.CIT);
-		project.registerDataFile(ExampleData.CITO);
+		project.registerMappingFile(ExampleFile.get("library-and-publication/cito/example-mappings/CIT_1.ttl"));
+		project.registerDataFile(ExampleFile.get("library-and-publication/cito/example-data/cito.owl"));
+		project.registerDataFile(ExampleFile.get("library-and-publication/cito/example-data/cito-example-data.ttl"));
 		
 		project.setD3Generator(new D3GeneratorSimpleJSON());
 		

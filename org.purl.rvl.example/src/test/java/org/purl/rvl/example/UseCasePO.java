@@ -15,9 +15,10 @@ public class UseCasePO extends TestOGVICProcess {
 		
 		//process.setUriStart("http://purl.org/obo/owl/");
 
-		project.registerMappingFile(ExampleMapping.PO);
-		project.registerDataFile(ExampleData.PO);
-		project.registerDataFile(ExampleData.PO_EXTRA_DATA);
+		project.registerMappingFile(ExampleFile.get("life-sciences/plant-ontology/example-mappings/experimental-wip.ttl"));
+		project.registerDataFile(ExampleFile.get("life-sciences/plant-ontology/example-data/po_anatomy.owl"));
+		project.registerDataFile(ExampleFile.get("life-sciences/plant-ontology/example-mappings/extra-data.ttl"));
+
 		
 		//project.setRvlInterpreter(new SimpleRVLInterpreter());
 		project.setD3Generator(new D3GeneratorTreeJSON());

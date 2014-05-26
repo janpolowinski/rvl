@@ -1,0 +1,123 @@
+@prefix :        <http://purl.org/viso/example/zfa/> .
+@prefix common-shapes:  <http://purl.org/viso/shape/commons/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix owl2xml:  <http://www.w3.org/2006/12/owl2-xml#> .
+@prefix owl1:    <http://purl.org/obo/owl/> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix rvl-cs:  <http://purl.org/rvl/spin-constraints/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix vg:    <http://purl.org/viso/graphic/> .
+@prefix zebrafish_anatomy_subset:  <http://purl.org/obo/owl/zebrafish_anatomy_subset#> .
+
+:     rdf:type owl:Ontology ;
+      owl:imports owl1:zebrafish_anatomy_subset , rvl: , common-shapes: , rvl-cs: ;
+      owl:versionInfo "Created with TopBraid Composer"^^xsd:string .
+
+
+:SubClassOf_to_Linking_Directed
+      rdf:type rvl:PropertyMapping ;
+      rvl:subjectFilter "http://www.w3.org/2000/01/rdf-schema#subClassOf::http://purl.org/obo/owl/ZFA#ZFA_0000228"^^rvl:fslSelector;
+      rdfs:label "SubClassOf (inverted) to Directed Linking"^^xsd:string ;
+      rvl:invertSourceProperty
+              "true"^^xsd:boolean ;
+      rvl:sourceProperty rdfs:subClassOf ;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ;
+      rvl:subMapping [
+        rdf:type rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linkingDirected_endNode;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :ShapeMapping;
+      ],[
+        rdf:type rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linkingDirected_endNode;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :Individuals2Purple;
+      ]
+       .
+       
+   :Type_to_Linking_Directed
+      rdf:type rvl:PropertyMapping ;
+      rvl:subjectFilter "http://purl.org/obo/owl/ZFA#ZFA_0000228";
+      rdfs:label "  to Directed Linking"^^xsd:string ;
+      rvl:invertSourceProperty
+              "true"^^xsd:boolean ;
+      rvl:sourceProperty rdf:type ;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ;
+      rvl:subMapping [
+        rdf:type rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linkingDirected_endNode;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :ShapeMapping;
+      ],[
+        rdf:type rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linkingDirected_startNode;
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :ShapeMapping;
+      ],[
+        rdf:type rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linkingDirected_startNode;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :ShapeMapping;
+      ],[
+        rdf:type rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linkingDirected_endNode;
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :ShapeMapping;
+      ],[
+        rdf:type rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linkingDirected_endNode;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :Individuals2Purple;
+      ]
+       .
+
+  :ShapeMapping
+      rdf:type rvl:PropertyMapping ;
+      rvl:disabled "true"^^xsd:boolean ;
+      rdfs:label "Shape mapping"^^xsd:string ;
+      rvl:sourceProperty rdfs:subClassOf ;
+      rvl:inheritedBy rdf:type ; 
+      #rvl:subjectFilter "http://www.w3.org/2000/01/rdf-schema#subClassOf::http://purl.org/obo/owl/ZFA#ZFA_0000228"^^rvl:fslSelector;
+      rvl:targetAttribute
+              <http://purl.org/viso/graphic/shape_named> ;
+      rvl:valueMapping [
+      	a rvl:valueMapping;
+      	#rvl:sourceValue <http://purl.org/obo/owl/ZFA#ZFA_0100000>; # zf anatomical entity
+      	#rvl:sourceValue <http://purl.org/obo/owl/ZFA#ZFA_0009000>; # cell
+      	rvl:sourceValue <http://purl.org/obo/owl/ZFA#ZFA_0000228>; # lateral line primordium
+      	rvl:targetValue common-shapes:Rhomb;
+      ], [
+      	a rvl:valueMapping;
+      	rvl:sourceValue <http://purl.org/obo/owl/ZFS#ZFS_0100000>; # stages
+      	rvl:targetValue common-shapes:FlowArrow;
+      ],[
+        rdf:type rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linkingDirected_startNode;
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :ShapeMapping;
+      ]
+      .
+      
+	:Individuals2Purple
+      rdf:type rvl:PropertyMapping ;
+      rvl:disabled "true"^^xsd:boolean ;
+      #rvl:subjectFilter "http://www.w3.org/2000/01/rdf-schema#subClassOf::http://purl.org/obo/owl/ZFA#ZFA_0000228"^^rvl:fslSelector;
+      rdfs:label "Individual/Class Color Mapping"^^xsd:string ;
+      rvl:sourceProperty rdf:type ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueOrderedSet (
+			#rdfs:Resource
+			#owl:Class
+			owl:NamedIndividual
+		);
+		rvl:discretize "true"^^xsd:boolean ;
+		rvl:targetValueList (
+		    vg:Purple
+        	#vg:Grey
+        );
+      ]
+      . 
