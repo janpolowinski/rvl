@@ -87,6 +87,53 @@
 		  
 		  return containerDiv;
 	  };
+	  
+	  /* labeling with SVG text */
+	  d3.selection.prototype.avmLabeledSVG = function(nodeShapeSize,labelShapeSize) {
+		  
+		  var containerDiv = this.append("div")
+			.attr("class", function(d){ return "labelContainer " + d.label_position ;})
+			.style("height",nodeShapeSize +"px")
+			.style("width",nodeShapeSize +"px");
+			
+		var labelContainerSVG = containerDiv.append("svg")
+			.attr("class", "svgLabelText")
+			//.attr("width",100 +"px")
+			//.attr("height",25 +"px")
+			.attr("width",labelShapeSize +"px") // are these sizes sensible?
+			.attr("height",labelShapeSize +"px");
+			//.style("margin-left",-100 + "px")
+			//.style("margin-bottom",-0.2*nodeShapeSize + "px");
+										
+			// The label and a copy of the label as shadow for better readability
+			labelContainerSVG.avmLabeledFDG2(labelShapeSize).attr("class", "nodeLabelShadow");
+			labelContainerSVG.avmLabeledFDG2(labelShapeSize);
+		  
+		    return containerDiv;
+	  };
+	  
+	  /* labeling with SVG icon  */
+	  d3.selection.prototype.avmLabeledSVGIcon = function(nodeShapeSize,labelShapeSize) {
+		  
+		var containerDiv = this.append("div")
+			.attr("class", function(d){ return "labelContainer " + d.label_position;})
+			.style("height",nodeShapeSize +"px")
+			.style("width",nodeShapeSize +"px");
+			
+		containerDiv.append("svg")
+			.attr("class", "svgLabelIcon")
+			.attr("width",labelShapeSize +"px")
+			.attr("height",labelShapeSize +"px")
+			.style("margin",-labelShapeSize/2.75 + "px")
+			//.avmLabeledWithCircle(labelShapeSize);
+			.append("path")
+	  			.attr("class", "label")
+	 			.attr("d", avmDefaultSizeLabelSymbolFunction)
+	 			.style("fill", "red")
+				.attr("transform", function(d){ return "translate(" + labelShapeSize/2 + "," + labelShapeSize/2 + ")";});
+		  
+		  return containerDiv;
+	  };
 
 	   
 	  /* label aligned at the connector path */
