@@ -111,7 +111,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			Map node = new LinkedHashMap();
 			node.put("uri", startNode.getRepresentedResource().toString());
 			node.put("label", D3Utils.shortenLabel(startNode.getLabel()));
-			node.put("full_label", startNode.getLabel());
+			node.put("full_label", startNode.getLabel() + " (ID: " + startNode.getRepresentedResource() + ")");
 			node.put("color_rgb_hex", startNodeColorRGBHex);
 			node.put("color_hsl_lightness", startNode.getColorHSLLightness());
 			node.put("color_rgb_hex_combined", startNode.getColorRGBHexCombinedWithHSLValues());
@@ -196,7 +196,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				link.put("target", goMap.get(endNode));
 				link.put("value", "1");
 				link.put("label", D3Utils.shortenLabel(connector.getLabel()));
-				link.put("full_label", connector.getLabel());
+				link.put("full_label", connector.getLabel() + " (ID: " + connector.getRepresentedResource() + ")");
 				link.put("color_hsl_lightness", connector.getColorHSLLightness());
 				//link.put("color_rgb_hex", connector.getColorHex());
 				link.put("color_rgb_hex_combined", connector.getColorRGBHexCombinedWithHSLValues());
