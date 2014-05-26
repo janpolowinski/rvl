@@ -101,7 +101,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 				Map actualRootNodeObject = new LinkedHashMap();
 				actualRootNodeObject.put("uri", actualRootNode.getRepresentedResource().toString());
 				actualRootNodeObject.put("label",D3Utils.shortenLabel(actualRootNode.getLabel()));
-				actualRootNodeObject.put("full_label",actualRootNode.getLabel());
+				actualRootNodeObject.put("full_label",actualRootNode.getLabel() + " (ID: " + actualRootNode.getRepresentedResource() + ")");
 				actualRootNodeObject.put("color_rgb_hex", endNodeColorRGBHex);
 				actualRootNodeObject.put("color_rgb_hex_combined", actualRootNode.getColorRGBHexCombinedWithHSLValues());
 				actualRootNodeObject.put("shape_d3_name", endNodeShapeD3Name);
@@ -209,11 +209,12 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		Map child = new LinkedHashMap();
 		child.put("uri", endNode.getRepresentedResource().toString());
 		child.put("label",D3Utils.shortenLabel(endNode.getLabel()));
-		child.put("full_label",endNode.getLabel());
+		child.put("full_label",endNode.getLabel() + " (ID: " + endNode.getRepresentedResource() + ")");
 		child.put("color_rgb_hex", endNodeColorRGBHex);
 		child.put("color_rgb_hex_combined", endNode.getColorRGBHexCombinedWithHSLValues());
 		child.put("shape_d3_name", endNodeShapeD3Name);
 		child.put("connector_label", connector.getLabel());
+		child.put("connector_full_label", connector.getLabel() + " (ID: " + connector.getRepresentedResource() + ")");
 		child.put("connector_arrow_type", connector.getShape());
 		child.put("connector_width", connector.getWidth());
 		child.put("connector_color_rgb_hex", connectorColorRGBHex);
@@ -247,7 +248,7 @@ private Map generateObjectFor(Containment rel) {
 		Map child = new LinkedHashMap();
 		child.put("uri", containee.getRepresentedResource().toString());
 		child.put("label",D3Utils.shortenLabel(containee.getLabel()));
-		child.put("full_label",containee.getLabel());
+		child.put("full_label",containee.getLabel() + " (ID: " + containee.getRepresentedResource() + ")");
 		child.put("color_rgb_hex", endNodeColorRGBHex);
 		child.put("shape_d3_name", endNodeShapeD3Name);
 		child.put("connector_arrow_type", "uml_generalization_arrow");
