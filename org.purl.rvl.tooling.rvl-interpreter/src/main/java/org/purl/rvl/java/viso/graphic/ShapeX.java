@@ -82,14 +82,13 @@ public class ShapeX extends Shape {
 	    triangle-up - an upward-pointing equilateral triangle.
 		*/
 		
-		if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Cross")) return "cross";
+		if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Cross")) return "plus";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Circle")) return "circle";
-		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/EquiliteralTriangleDown")) return "triangle-down";
-		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/EquiliteralTriangle")) return "triangle-up";
+		//else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/EquiliteralTriangleDown")) return "triangle-down";
+		//else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/EquiliteralTriangle")) return "triangle-up";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Square")) return "square";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Minus")) return "minus";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Plus")) return "plus";
-		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Cross")) return "plus";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Rhomb")) return "rhomb";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Diamond")) return "diamond";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/FlowArrow")) return "flow-arrow";

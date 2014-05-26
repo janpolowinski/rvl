@@ -34,6 +34,7 @@
 		
 		// OGVIC
         var drawLinks = true; // choose whether only nodes should be drawn and layouted
+        var complexLabeling = true;
 
         // force-directed-graph
         var lineWidth = 7,
@@ -266,7 +267,8 @@
 
 			 /* complex labeling */
 			 
-			 /*	
+ if(complexLabeling) {
+			 	
 			 var nodeShapeSize = Math.sqrt(1500);  // TODO area set in symbol functions 
 			 var labelShapeSize = nodeShapeSize/2;
 			 
@@ -326,17 +328,17 @@
 			// HTML label  -> TODO only use this when label attachedBy containment (position = centerCenter)
 			var labelContainer2 = labelContainerContainer.avmLabeledHTML(nodeShapeSize);
 			
-			*/		
+ } else {				
         			
         	/* simple node labeling and tooltips */
-        	
+
         	// The label and a copy of the label as shadow for better readability
 			nodeEnter.avmLabeledFDG().attr("class", "nodeLabelShadow");
 			nodeEnter.avmLabeledFDG();
         	
-           // tooltip 
+            // tooltip 
         	nodeEnter.avmTitled();
-
+}
 
         	  
         	// Use elliptical arc path segments to doubly-encode directionality.
@@ -368,15 +370,17 @@
 					return calculateTranslationToArcCenter(d);
 					//return calculateTranslationToLineCenter(d);
 				});
-        
-				/*
-		        labelContainerContainer
-				.style("top", function(d){
-					return d.y - nodeShapeSize/2 + "px";
-				})
-				.style("left", function(d){
-					return d.x -nodeShapeSize/2 + "px";
-				});*/
+
+				/* position complex labels */
+				if(complexLabeling) {
+			        labelContainerContainer
+					.style("top", function(d){
+						return d.y - nodeShapeSize/2 + "px";
+					})
+					.style("left", function(d){
+						return d.x -nodeShapeSize/2 + "px";
+					});
+				}
 		        
 				/* position the nodes */
 		        nodeEnter.attr("transform", function (d) {

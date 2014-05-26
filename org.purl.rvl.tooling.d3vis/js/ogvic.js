@@ -53,9 +53,9 @@
 	  d3.selection.prototype.avmLabeledFDG2 = function(labelShapeSize) {
 		  return this.append("svg:text").
 		  	attr("class", "nodeLabel") // TODO class was label ... clean up various label CSS classes
-			.attr("x", function(d){return labelShapeSize/2})  // dx is relative positiong, x is absolute
-			.attr("y", function(d){return labelShapeSize/2})
-		    .text(function(d){return d.label })
+			.attr("x", function(d){return labelShapeSize/2;})  // dx is relative positiong, x is absolute
+			.attr("y", function(d){return labelShapeSize/2;})
+		    .text(function(d){return d.label; })
 			.style("text-anchor", 
 				function(d){
 					var labelPosition = d.label_position;
@@ -75,7 +75,7 @@
 		  
 		  var containerDiv =  this.append("div")
 		    //.attr("class","labelContainer topRight")
-			.attr("class", function(d){ return "labelContainer " + d.label_position})
+			.attr("class", function(d){ return "labelContainer " + d.label_position;})
 			.style("text-align","center")
 			.style("height",nodeShapeSize +"px")
 			.style("width",nodeShapeSize +"px");
@@ -83,7 +83,7 @@
 		  containerDiv.append("div")
 		  			.attr("class", "htmlTextLabel")
 					//.style("width", nodeShapeSize + "px") // does only work well for xCenter position
-					.html(function(d){ return d.label});
+					.html(function(d){ return d.label;});
 		  
 		  return containerDiv;
 	  };
@@ -137,7 +137,7 @@
 			.attr("r", labelShapeSize/2)
 			.attr("cx",labelShapeSize/2)
 			.attr("cy",labelShapeSize/2)
-			.style("fill", function(d) { return d.color_rgb_hex_combined; })
+			.style("fill", function(d) { return d.color_rgb_hex_combined; });
 	  };
 	  
 	  /* setting the shape by reusing an SVG symbol */ // TODO: this also sets color and node-class at the moment
@@ -145,7 +145,7 @@
 		 	return this.append("use")
 			  .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.shape_d3_name; })
 			  //.attr("xlink:href", function(d) { return "../../svg/symbols.svg#clock"; })
-	   	 	  .attr("class", function(d) { return "node svgSymbol" })
+	   	 	  .attr("class", function(d) { return "node svgSymbol"; })
 		      .style("fill", function(d) { return d.color_rgb_hex_combined; })
 		     ;
 	  };
@@ -165,7 +165,7 @@
 		 	return this.append("path")
 		 	    //.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
 		 		//.attr("d", d3.svg.symbol());
-			   .attr("class", function(d) { return "node" })
+			   .attr("class", function(d) { return "node";})
     		   .attr("d", symbolFunction)
     		    .style("fill", function(d) { return d.color_rgb_hex_combined; })
 		     ;
@@ -221,13 +221,13 @@
 
 var avmDefaultSizeSymbolFunction = d3.svg.symbol()
 	.size(300) // square pixels!
-	.type(function (d) {return d.shape_d3_name})
+	.type(function (d) {return d.shape_d3_name;})
 	//.type(function (d) {return "diamond"})
 	;
 
 var avmDefaultSizeLabelSymbolFunction = d3.svg.symbol()
 	.size(250)
-	.type(function (d) {return d.label_shape_d3_name})
+	.type(function (d) {return d.label_shape_d3_name;})
 	;
 
 
@@ -360,7 +360,7 @@ function toggle(d) {
 
 	// shorten labels // TODO: this is no highlighting stuff
 	d3.select(this).selectAll("text").
-		text(function(d){return d.label});
+		text(function(d){return d.label;});
  }
  
  
