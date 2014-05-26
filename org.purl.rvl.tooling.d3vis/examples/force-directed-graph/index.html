@@ -34,7 +34,7 @@
 		
 		// OGVIC
         var drawLinks = true; // choose whether only nodes should be drawn and layouted
-        var complexLabeling = true;
+        var complexLabeling = false;
 
         // force-directed-graph
         var lineWidth = 7,
@@ -184,7 +184,8 @@
 		        .on("dragend", dragend);
 				
 			function dragstart(d, i) {
-		        forceVar.stop() // stops the force auto positioning before you start dragging
+		        forceVar.stop(); // stops the force auto positioning before you start dragging
+		        d3.select(this).classed("dragged",true);
 		    }
 		
 		    function dragmove(d, i) {
@@ -199,6 +200,7 @@
 		        d.fixed = true; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
 		        tick();
 		        forceVar.resume();
+		        d3.select(this).classed("dragged",false);
 		    }
 		    
 		    /* highlighting */ // TODO make reusable 

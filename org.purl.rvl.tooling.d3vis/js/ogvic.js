@@ -73,6 +73,7 @@
 	  /* labeling with HTML text */
 	  d3.selection.prototype.avmLabeledHTML = function(nodeShapeSize) {
 		  
+		  // TODO: reuse avmLabelPositioning
 		  var containerDiv =  this.append("div")
 		    //.attr("class","labelContainer topRight")
 			.attr("class", function(d){ return "labelContainer " + d.label_position;})
@@ -88,13 +89,19 @@
 		  return containerDiv;
 	  };
 	  
-	  /* labeling with SVG text */
-	  d3.selection.prototype.avmLabeledSVG = function(nodeShapeSize,labelShapeSize) {
+	  /* add label positioning div */
+	  d3.selection.prototype.avmLabelPositioning = function(nodeShapeSize) {
 		  
-		  var containerDiv = this.append("div")
+		  return this.append("div")
 			.attr("class", function(d){ return "labelContainer " + d.label_position ;})
 			.style("height",nodeShapeSize +"px")
 			.style("width",nodeShapeSize +"px");
+	  };
+	  
+	  /* labeling with SVG text */
+	  d3.selection.prototype.avmLabeledSVG = function(nodeShapeSize,labelShapeSize) {
+		  
+		var containerDiv = this.avmLabelPositioning(nodeShapeSize);
 			
 		var labelContainerSVG = containerDiv.append("svg")
 			.attr("class", "svgLabelText")
@@ -115,10 +122,7 @@
 	  /* labeling with SVG icon  */
 	  d3.selection.prototype.avmLabeledSVGIcon = function(nodeShapeSize,labelShapeSize) {
 		  
-		var containerDiv = this.append("div")
-			.attr("class", function(d){ return "labelContainer " + d.label_position;})
-			.style("height",nodeShapeSize +"px")
-			.style("width",nodeShapeSize +"px");
+		var containerDiv = this.avmLabelPositioning(nodeShapeSize);
 			
 		containerDiv.append("svg")
 			.attr("class", "svgLabelIcon")
