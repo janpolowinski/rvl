@@ -1,0 +1,65 @@
+# Saved by TopBraid on Tue May 28 18:20:49 CEST 2013
+# baseURI: http://purl.org/viso/example/zfa/
+# imports: http://purl.org/rvl/spin-constraints/
+# imports: http://purl.org/obo/owl/zebrafish_anatomy_subset
+# imports: http://purl.org/viso/shape/commons/
+# imports: http://purl.org/rvl/
+
+@prefix :        <http://purl.org/viso/example/zfa/> .
+@prefix commons:  <http://purl.org/viso/shape/commons/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix owl1:    <http://purl.org/obo/owl/> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix rvl-cs:  <http://purl.org/rvl/spin-constraints/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix vg:    <http://purl.org/viso/graphic/> .
+@prefix zebrafish_anatomy_subset:  <http://purl.org/obo/owl/zebrafish_anatomy_subset#> .
+
+:     rdf:type owl:Ontology ;
+      owl:imports owl1:zebrafish_anatomy_subset , rvl: , commons: , rvl-cs: ;
+      owl:versionInfo "Created with TopBraid Composer"^^xsd:string .
+
+:Stage_to_Arrow
+      rdf:type rvl:ValueMapping ;
+      rdfs:label "Stage to Arrow"^^xsd:string ;
+      rvl:sourceValue <http://purl.org/obo/owl/ZFS#ZFS_0100000> ;
+      rvl:targetValue commons:Arrow .
+
+:Stage_to_Diamond
+      rdf:type rvl:ValueMapping ;
+      rdfs:label "AnatomicalEntity to Square"^^xsd:string ;
+      rvl:sourceValue <http://purl.org/obo/owl/ZFA#ZFA_0100000> ;
+      rvl:targetValue commons:Square .
+
+:SubClassOf_to_Contains
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "SubClassOf (inverted) to Containment"^^xsd:string ;
+      rvl:invertSourceProperty
+              "true"^^xsd:boolean ;
+      #rvl:orderSourceValuesBy
+       #       <http://purl.org/obo/owl/OBO_REL#part_of> ;
+      rvl:sourceProperty rdfs:subClassOf ;
+      #rvl:targetGraphicRelation vg:contains ;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation .
+
+:ZFO-1
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "SubClassOf_to_Shape"^^xsd:string ;
+      rvl:sourceProperty rdfs:subClassOf ;
+      rvl:targetGraphicRelation
+              <http://purl.org/viso/graphic/shape_named> ;
+      rvl:valueMapping :Stage_to_Arrow , :Stage_to_Diamond .
+
+:ZFO-2a
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PartOf to Containment"^^xsd:string ;
+      rvl:inheritedBy owl:someValuesFrom ;
+      rvl:invertSourceProperty
+              "true"^^xsd:boolean ;
+      #rvl:orderSourceValuesBy
+      #        <http://purl.org/obo/owl/OBO_REL#part_of> ;
+      rvl:sourceProperty <http://purl.org/obo/owl/OBO_REL#part_of> ;
+      #rvl:targetGraphicRelation vg:contains ;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation .

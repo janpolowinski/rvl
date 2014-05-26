@@ -1,0 +1,131 @@
+@prefix :        <http://purl.org/viso/example/ro/> .
+@prefix commons:  <http://purl.org/viso/shape/commons/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ro:      <http://purl.org/ro/ont#> .
+@prefix common-shapes:  <http://purl.org/viso/shape/commons/> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix semvis-example:  <http://purl.org/ro/semvis-example/> .
+@prefix viso-graphic:  <http://purl.org/viso/graphic/> .
+@prefix vg:  	<http://purl.org/viso/graphic/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+rvl:valueMapping
+      rdfs:domain rvl:PropertyMapping .
+
+:     rdf:type owl:Ontology ;
+      owl:imports semvis-example: , commons: , <http://purl.org/ro/ont> , rvl: .
+      
+ :RO-4b-Ampel
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "RO-4b-Ampel"^^xsd:string ;
+      rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
+      rvl:sourceProperty rdf:type ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueOrderedSet (
+			ro:LowPriority
+			ro:MediumPriority
+			ro:HighPriority
+		);
+		rvl:discretize "true"^^xsd:boolean ;
+		rvl:targetValueList (
+        	vg:Green 
+        	vg:Red
+        );
+      ]
+      . 
+  
+  
+  :ShapeMapping
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "Shape mapping"^^xsd:string ;
+      rvl:sourceProperty rdf:type ;
+      rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
+      rvl:targetAttribute
+              <http://purl.org/viso/graphic/shape_named> ;
+      rvl:valueMapping [
+      	a rvl:valueMapping;
+      	rvl:sourceValue ro:Requirement;
+      	rvl:targetValue common-shapes:Square;
+      ]
+      .
+
+:IsRefinementOfToLinkingDirected
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rdfs:label "PM from ro:isRefinementOf to Linking Directed"^^xsd:string ;
+      rvl:sourceProperty ro:isRefinementOf ;
+      rvl:targetObjToObjRelation viso-graphic:Linking_Directed_Relation ;
+      rvl:subMapping [
+        rdf:type rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linking_connector;
+        rvl:subMapping-onTriplePart rdf:predicate;
+        rvl:subMapping-mapping :PMfromID2ColorNamed;
+      ],[
+        rdf:type rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linking_connector;
+        rvl:subMapping-onTriplePart rdf:predicate;
+        rvl:subMapping-mapping :PMfromID2ShapeNamed;
+      ]
+      . 
+      
+:IsInConflictWithToLinkingDirected
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rdfs:label "PM from ro:isInConflictWith to Linking Directed"^^xsd:string ;
+      rvl:sourceProperty ro:isInConflictWith ;
+      rvl:targetObjToObjRelation viso-graphic:Linking_Directed_Relation ;
+      rvl:subMapping [
+        rdf:type rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linking_connector;
+        rvl:subMapping-onTriplePart rdf:predicate;
+        rvl:subMapping-mapping :PMfromID2ColorNamed;
+      ],[ 
+        rdf:type rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linking_connector;
+        rvl:subMapping-onTriplePart rdf:predicate;
+        rvl:subMapping-mapping :PMfromID2ShapeNamed;
+      ]
+      . 
+      
+      
+# order a bit misused here, better use single vms
+:PMfromID2ColorNamed
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM from ID to color 2 (used as a submapping above)"^^xsd:string ;
+ 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:targetAttribute vg:color_named ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:sourceValueOrderedSet (
+			ro:isRefinementOf 
+			ro:isInConflictWith 
+		);
+		rvl:targetValueList (
+			vg:Grey
+			vg:Red
+		);
+      ]
+      . 
+      
+# order a bit misused here, better use single vms
+:PMfromID2ShapeNamed
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM from ID to shape (used as a submapping above)"^^xsd:string ;
+ 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:targetAttribute vg:shape_named ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:sourceValueOrderedSet (
+			ro:isRefinementOf 
+			ro:isInConflictWith 
+		);
+		rvl:targetValueList (
+			common-shapes:UMLGeneralization
+			common-shapes:ArrowSmall
+		);
+      ]
+      . 
+     
+

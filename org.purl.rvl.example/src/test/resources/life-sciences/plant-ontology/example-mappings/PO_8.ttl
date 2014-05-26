@@ -1,0 +1,61 @@
+@prefix :        <http://purl.org/viso/example/po/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix sp:      <http://spinrdf.org/sp#> .
+@prefix spin:    <http://spinrdf.org/spin#> .
+@prefix spl:     <http://spinrdf.org/spl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix vg:    <http://purl.org/viso/graphic/> .
+@prefix common-shapes:  <http://purl.org/viso/shape/commons/> .
+
+:     rdf:type owl:Ontology ;
+      owl:imports rvl: .
+
+:PropertyToLinkingByConnectorMapping
+      rvl:disabled "false"^^xsd:boolean ;
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rdfs:label "Property to linking by connector mapping"^^xsd:string ;
+      rvl:subjectFilter "http://www.w3.org/2000/01/rdf-schema#subClassOf::http://purl.org/obo/owl/PO#PO_0025059"^^rvl:fslSelector; # this works already
+      rvl:sourceProperty <http://purl.org/obo/owl/obo#develops_from> ;
+      rvl:invertSourceProperty "true"^^xsd:boolean;
+      rvl:inheritedBy owl:someValuesFrom;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ;
+      rvl:subMapping [
+        a rvl:SubMappingRelation ;  
+		rvl:subMapping-onRole vg:linking_connector;
+   	 	rvl:subMapping-onTriplePart rdf:predicate;
+   		rvl:subMapping-mapping :ArrowShapeMapping
+      ] 
+      .
+
+:ShapeMapping
+      rvl:disabled "false"^^xsd:boolean ;
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "Shape mapping"^^xsd:string ;
+      rvl:subjectFilter "http://www.w3.org/2000/01/rdf-schema#subClassOf::http://purl.org/obo/owl/PO#PO_0025059"^^rvl:fslSelector; # this works already
+      rvl:sourceProperty rdfs:subClassOf ;
+      rvl:targetAttribute
+              <http://purl.org/viso/graphic/shape_named> ;
+      rvl:valueMapping [
+      	a rvl:valueMapping;
+      	rvl:sourceValue <http://purl.org/obo/owl/PO#PO_0025059>; # not all classes, but many
+      	rvl:targetValue common-shapes:Minus;
+      ]
+      .
+      
+:ArrowShapeMapping # (used as a submapping)
+      rvl:disabled "true"^^xsd:boolean ;
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "Property type to shape helper mapping"^^xsd:string ;
+      rvl:sourceProperty rvl:ID ;
+      rvl:targetAttribute
+              vg:shape_named ;
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue <http://purl.org/obo/owl/obo#develops_from> ;
+        #rvl:targetValue common-shapes:UMLAssociation ;
+        rvl:targetValue common-shapes:ArrowSmall ;
+      ]
+      . 

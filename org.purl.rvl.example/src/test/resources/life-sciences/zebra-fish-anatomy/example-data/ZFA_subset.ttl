@@ -1,0 +1,1131 @@
+ ##################### ##################### ##################### ##################### ##################### #####################
+ # This is a modified (partial) copy of the ontology that we store here in a specific version for (offline) testing purposes.
+ # Using the original ontology, which is quite large, currently may cause heap space problems
+ # All rights remain at the authors. 
+ # Please refer to http://www.obofoundry.org/ for further information. 
+ ##################### ##################### ##################### ##################### ##################### #####################
+
+@prefix :        <http://purl.org/obo/owl/zebrafish_anatomy_subset#> .
+@prefix oban:    <http://purl.org/obo/oban/> .
+@prefix obo:     <http://purl.org/obo/owl/obo#> .
+@prefix oboContent:  <http://purl.org/obo/owl/> .
+@prefix oboInOwl:  <http://www.geneontology.org/formats/oboInOwl#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+<http://purl.org/obo/owl/OBO_REL#part_of>
+      rdf:type owl:ObjectProperty , owl:TransitiveProperty ;
+      rdfs:label "part of"@en ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomical_ontology" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000015>
+      rdf:type owl:Class ;
+      rdfs:label "anatomical set"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-061101-1" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-061101-1"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000049>
+      rdf:type owl:Class ;
+      rdfs:label "optic recess"@en ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "TAO:0000049" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/TAO#TAO_0000049"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-010921-465" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-010921-465"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasExactSynonym
+              [ rdf:type oboInOwl:Synonym ;
+                rdfs:label "optic recesses"@en
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000068>
+      rdf:type owl:Class ;
+      rdfs:label "proneural cluster"@en ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "TAO:0000068" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/TAO#TAO_0000068"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-010921-486" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-010921-486"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasExactSynonym
+              [ rdf:type oboInOwl:Synonym ;
+                rdfs:label "proneural clusters"@en
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000070>
+      rdf:type owl:Class ;
+      rdfs:label "sensory axons peripheral"@en ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "TAO:0000070" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/TAO#TAO_0000070"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-010921-488" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-010921-488"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000103>
+      rdf:type owl:Class ;
+      rdfs:label "embryo"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-010921-528" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-010921-528"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000104>
+      rdf:type owl:Class ;
+      rdfs:label "lateral cells"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-010921-529" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-010921-529"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000127>
+      rdf:type owl:Class ;
+      rdfs:label "mesenchyme condensations"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-010921-554" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-010921-554"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000137>
+      rdf:type owl:Class ;
+      rdfs:label "optic stalk"@en ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "TAO:0000137" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/TAO#TAO_0000137"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-010921-566" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-010921-566"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasExactSynonym
+              [ rdf:type oboInOwl:Synonym ;
+                rdfs:label "optic stalks"@en
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000169>
+      rdf:type owl:Class ;
+      rdfs:label "antorbital"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-102" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-102"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000171>
+      rdf:type owl:Class ;
+      rdfs:label "basisphenoid"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-105" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-105"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000192>
+      rdf:type owl:Class ;
+      rdfs:label "descending trigeminal root"@en ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "TAO:0000192" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/TAO#TAO_0000192"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-124" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-124"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasExactSynonym
+              [ rdf:type oboInOwl:Synonym ;
+                rdfs:label "radix descendens nervi trigemini"@en
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000203>
+      rdf:type owl:Class ;
+      rdfs:label "epicentrals"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-134" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-134"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000215>
+      rdf:type owl:Class ;
+      rdfs:label "inferior olive"@en ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "TAO:0000215" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/TAO#TAO_0000215"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-145" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-145"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000219>
+      rdf:type owl:Class ;
+      rdfs:label "intermediate reticular formation"@en ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "TAO:0000219" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/TAO#TAO_0000219"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-149" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-149"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasExactSynonym
+              [ rdf:type oboInOwl:Synonym ;
+                rdfs:label "intermediate reticular formations"@en
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000224>
+      rdf:type owl:Class ;
+      rdfs:label "larva"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-154" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-154"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000225>
+      rdf:type owl:Class ;
+      rdfs:label "lateral crista primordium"@en ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "TAO:0000225" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/TAO#TAO_0000225"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-155" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-155"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasExactSynonym
+              [ rdf:type oboInOwl:Synonym ;
+                rdfs:label "lateral crista primordia"@en
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000228>
+      rdf:type owl:Class ;
+      rdfs:label "lateral line primordium"@en ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-158" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-158"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "TAO:0000228" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/TAO#TAO_0000228"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasExactSynonym
+              [ rdf:type oboInOwl:Synonym ;
+                rdfs:label "llp"@en
+              ] ;
+      oboInOwl:hasExactSynonym
+              [ rdf:type oboInOwl:Synonym ;
+                rdfs:label "lateral line primordia"@en
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000251>
+      rdf:type owl:Class ;
+      rdfs:label "opercular-branchiostegal series"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-182" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-182"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000289>
+      rdf:type owl:Class ;
+      rdfs:label "supramaxillae"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-218" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-218"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000336>
+      rdf:type owl:Class ;
+      rdfs:label "hypural arches"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-262" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-262"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000337>
+      rdf:type owl:Class ;
+      rdfs:label "dermopalatine"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-263" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-263"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000348>
+      rdf:type owl:Class ;
+      rdfs:label "duodenum"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-273" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-273"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000367>
+      rdf:type owl:Class ;
+      rdfs:label "infraorbital bridge"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-291" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-291"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000373>
+      rdf:type owl:Class ;
+      rdfs:label "juvenile"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-297" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-297"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000375>
+      rdf:type owl:Class ;
+      rdfs:label "last preural centrum"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-299" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-299"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000437>
+      rdf:type owl:Class ;
+      rdfs:label "stomach"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "TAO:0002121" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/TAO#TAO_0002121"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-361" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-361"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000460>
+      rdf:type owl:Class ;
+      rdfs:label "Mauthner axon"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-386" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-386"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000544>
+      rdf:type owl:Class ;
+      rdfs:label "medial pterygiophores anal fin"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-465" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-465"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000596>
+      rdf:type owl:Class ;
+      rdfs:label "supraorbital series"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-524" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-524"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000624>
+      rdf:type owl:Class ;
+      rdfs:comment "Term is being obsoleted because it cannot be anatomically identified in zebrafish. From Neuroanatomy of the Zebrafish Brain ISBN:3764351209."^^xsd:string ;
+      rdfs:label "brachium conjunctivum"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "TAO:0000624" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/TAO#TAO_0000624"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-552" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-552"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000699>
+      rdf:type owl:Class ;
+      rdfs:label "ural ossification"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-83" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-83"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0000911>
+      rdf:type owl:Class ;
+      rdfs:label "medial pterygiophores dorsal fin"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-020309-276" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-020309-276"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0001157>
+      rdf:type owl:Class ;
+      rdfs:label "posterior lateral line primordium"@en ;
+      rdfs:subClassOf <http://purl.org/obo/owl/ZFA#ZFA_0000228> ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "TAO:0001157" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/TAO#TAO_0001157"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-050228-67" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-050228-67"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasDefinition
+              [ rdf:type oboInOwl:Definition ;
+                rdfs:label "A migrating group of cells originating from the posterior lateral line placode.  The primordium deposits seven to nine neuromasts and interneuromasts between them during its posterior migration to the tail."@en ;
+                oboInOwl:hasDbXref
+                        [ rdf:type oboInOwl:DbXref ;
+                          rdfs:label "ZFIN:ZDB-PUB-010705-16" ;
+                          oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-PUB-010705-16"^^xsd:anyURI
+                        ]
+              ] ;
+      oboInOwl:hasExactSynonym
+              [ rdf:type oboInOwl:Synonym ;
+                rdfs:label "posterior lateral line primordia"@en
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0001160>
+      rdf:type owl:Class ;
+      rdfs:label "adult"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-050228-9" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-050228-9"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0001248>
+      rdf:type owl:Class ;
+      rdfs:label "pharyngobranchial 1"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-050711-59" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-050711-59"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0001253>
+      rdf:type owl:Class ;
+      rdfs:label "pharyngobranchial 2+3"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-050711-63" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-050711-63"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0001254>
+      rdf:type owl:Class ;
+      rdfs:label "cranial motoneurons"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-050711-64" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-050711-64"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0001275>
+      rdf:type owl:Class ;
+      rdfs:label "mentomeckelian"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-050711-83" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-050711-83"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0001333>
+      rdf:type owl:Class ;
+      rdfs:label "visceral organ"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-060131-13" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-060131-13"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0001474>
+      rdf:type owl:Class ;
+      rdfs:label "presumptive cardinal organ"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-061101-18" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-061101-18"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0001475>
+      rdf:type owl:Class ;
+      rdfs:label "presumptive organ"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-061101-19" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-061101-19"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0001476>
+      rdf:type owl:Class ;
+      rdfs:label "presumptive organ system"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-061101-20" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-061101-20"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0001532>
+      rdf:type owl:Class ;
+      rdfs:label "axial bone"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-070928-134" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-070928-134"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0001544>
+      rdf:type owl:Class ;
+      rdfs:label "chondrocranium bone"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-070928-146" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-070928-146"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0001545>
+      rdf:type owl:Class ;
+      rdfs:label "cranial bone"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-070928-147" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-070928-147"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0001546>
+      rdf:type owl:Class ;
+      rdfs:label "pharyngeal arch bone"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-070928-148" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-070928-148"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0001547>
+      rdf:type owl:Class ;
+      rdfs:label "dermatocranium bone"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-070928-149" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-070928-149"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0001548>
+      rdf:type owl:Class ;
+      rdfs:label "axial fin bone"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-070928-150" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-070928-150"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0001549>
+      rdf:type owl:Class ;
+      rdfs:label "paired fin bone"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-070928-151" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-070928-151"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0001553>
+      rdf:type owl:Class ;
+      rdfs:label "fin bone"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-070928-155" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-070928-155"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0001618>
+      rdf:type owl:Class ;
+      rdfs:label "pons"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-080417-97" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-080417-97"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0005115>
+      rdf:type owl:Class ;
+      rdfs:label "primary posterior lateral line primordium"@en ;
+      rdfs:subClassOf <http://purl.org/obo/owl/ZFA#ZFA_0001157> ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-061211-19" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-061211-19"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "TAO:0005115" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/TAO#TAO_0005115"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasDefinition
+              [ rdf:type oboInOwl:Definition ;
+                rdfs:label "Primordium that forms the first neuromasts of the posterior lateral line.  This primordium travels at 1.5-1.7 somites/hour and deposits  neuromast that are polarized along the antero-posterior axis."@en ;
+                oboInOwl:hasDbXref
+                        [ rdf:type oboInOwl:DbXref ;
+                          rdfs:label "ZFIN:curator" ;
+                          oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_curator"^^xsd:anyURI
+                        ]
+              ] ;
+      oboInOwl:hasExactSynonym
+              [ rdf:type oboInOwl:Synonym ;
+                rdfs:label "primI"@en
+              ] ;
+      oboInOwl:hasExactSynonym
+              [ rdf:type oboInOwl:Synonym ;
+                rdfs:label "primary posterior lateral line primordia"@en
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0005116>
+      rdf:type owl:Class ;
+      rdfs:label "secondary posterior lateral line primordium"@en ;
+      rdfs:subClassOf <http://purl.org/obo/owl/ZFA#ZFA_0001157> ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "TAO:0005116" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/TAO#TAO_0005116"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-061211-20" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-061211-20"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasDefinition
+              [ rdf:type oboInOwl:Definition ;
+                rdfs:label "Second lateral line primordium.  These primordia move at 0.2 somites/hour and deposit neuromasts that are polarized in a dorso-ventral direction."@en ;
+                oboInOwl:hasDbXref
+                        [ rdf:type oboInOwl:DbXref ;
+                          rdfs:label "ZFIN:curator" ;
+                          oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_curator"^^xsd:anyURI
+                        ]
+              ] ;
+      oboInOwl:hasExactSynonym
+              [ rdf:type oboInOwl:Synonym ;
+                rdfs:label "secondary posterior lateral line primordia"@en
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0005117>
+      rdf:type owl:Class ;
+      rdfs:label "anterior lateral line primordium"@en ;
+      rdfs:subClassOf <http://purl.org/obo/owl/ZFA#ZFA_0000228> ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "TAO:0005117" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/TAO#TAO_0005117"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-061211-21" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-061211-21"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasDefinition
+              [ rdf:type oboInOwl:Definition ;
+                rdfs:label "A migrating group of cells originating from an anterior lateral line placode.  The primordium deposits neuromasts and interneuromasts between them during its migration."@en ;
+                oboInOwl:hasDbXref
+                        [ rdf:type oboInOwl:DbXref ;
+                          rdfs:label "ZFIN:curator" ;
+                          oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_curator"^^xsd:anyURI
+                        ]
+              ] ;
+      oboInOwl:hasExactSynonym
+              [ rdf:type oboInOwl:Synonym ;
+                rdfs:label "anterior lateral line primordia"@en
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0005118>
+      rdf:type owl:Class ;
+      rdfs:label "middle lateral line primordium"@en ;
+      rdfs:subClassOf <http://purl.org/obo/owl/ZFA#ZFA_0000228> ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-061211-22" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-061211-22"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "TAO:0005118" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/TAO#TAO_0005118"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasDefinition
+              [ rdf:type oboInOwl:Definition ;
+                rdfs:label "A migrating group of cells originating from the middle lateral line placode.  The primordium deposits neuromasts  with interneuromasts between them."@en ;
+                oboInOwl:hasDbXref
+                        [ rdf:type oboInOwl:DbXref ;
+                          rdfs:label "ZFIN:curator" ;
+                          oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_curator"^^xsd:anyURI
+                        ]
+              ] ;
+      oboInOwl:hasExactSynonym
+              [ rdf:type oboInOwl:Synonym ;
+                rdfs:label "middle lateral line primordia"@en
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFA#ZFA_0009122>
+      rdf:type owl:Class ;
+      rdfs:label "auditory hair cell"@en ;
+      rdfs:subClassOf oboInOwl:ObsoleteClass ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-ANAT-011113-512" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-ANAT-011113-512"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomy" .
+
+<http://purl.org/obo/owl/ZFS#ZFS_0000034>
+      rdf:type owl:Class ;
+      rdfs:label "Hatching:Pec-fin"@en ;
+      rdfs:subClassOf <http://purl.org/obo/owl/ZFS#ZFS_0100000> ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-STAGE-010723-26" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-STAGE-010723-26"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_stages" .
+
+<http://purl.org/obo/owl/ZFS#ZFS_0000035>
+      rdf:type owl:Class ;
+      rdfs:label "Larval:Protruding-mouth"@en ;
+      rdfs:subClassOf <http://purl.org/obo/owl/ZFS#ZFS_0100000> ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-STAGE-010723-8" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-STAGE-010723-8"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_stages" .
+
+<http://purl.org/obo/owl/ZFS#ZFS_0000036>
+      rdf:type owl:Class ;
+      rdfs:label "Larval:Day 4"@en ;
+      rdfs:subClassOf <http://purl.org/obo/owl/ZFS#ZFS_0100000> ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-STAGE-010723-35" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-STAGE-010723-35"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_stages" .
+
+<http://purl.org/obo/owl/ZFS#ZFS_0000037>
+      rdf:type owl:Class ;
+      rdfs:label "Larval:Day 5"@en ;
+      rdfs:subClassOf <http://purl.org/obo/owl/ZFS#ZFS_0100000> ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-STAGE-010723-36" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-STAGE-010723-36"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_stages" .
+
+<http://purl.org/obo/owl/ZFS#ZFS_0000038>
+      rdf:type owl:Class ;
+      rdfs:label "Larval:Day 6"@en ;
+      rdfs:subClassOf <http://purl.org/obo/owl/ZFS#ZFS_0100000> ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-STAGE-010723-37" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-STAGE-010723-37"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_stages" .
+
+<http://purl.org/obo/owl/ZFS#ZFS_0000039>
+      rdf:type owl:Class ;
+      rdfs:label "Larval:Days 7-13"@en ;
+      rdfs:subClassOf <http://purl.org/obo/owl/ZFS#ZFS_0100000> ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-STAGE-010723-47" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-STAGE-010723-47"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_stages" .
+
+<http://purl.org/obo/owl/ZFS#ZFS_0000040>
+      rdf:type owl:Class ;
+      rdfs:label "Larval:Days 14-20"@en ;
+      rdfs:subClassOf <http://purl.org/obo/owl/ZFS#ZFS_0100000> ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-STAGE-010723-48" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-STAGE-010723-48"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_stages" .
+
+<http://purl.org/obo/owl/ZFS#ZFS_0000041>
+      rdf:type owl:Class ;
+      rdfs:label "Larval:Days 21-29"@en ;
+      rdfs:subClassOf <http://purl.org/obo/owl/ZFS#ZFS_0100000> ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-STAGE-010723-49" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-STAGE-010723-49"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_stages" .
+
+<http://purl.org/obo/owl/ZFS#ZFS_0000042>
+      rdf:type owl:Class ;
+      rdfs:label "Juvenile:Days 30-44"@en ;
+      rdfs:subClassOf <http://purl.org/obo/owl/ZFS#ZFS_0100000> ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-STAGE-010723-51" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-STAGE-010723-51"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_stages" .
+
+<http://purl.org/obo/owl/ZFS#ZFS_0000043>
+      rdf:type owl:Class ;
+      rdfs:label "Juvenile:Days 45-89"@en ;
+      rdfs:subClassOf <http://purl.org/obo/owl/ZFS#ZFS_0100000> ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-STAGE-010723-52" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-STAGE-010723-52"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_stages" .
+
+<http://purl.org/obo/owl/ZFS#ZFS_0000044>
+      rdf:type owl:Class ;
+      rdfs:label "Adult"@en ;
+      rdfs:subClassOf <http://purl.org/obo/owl/ZFS#ZFS_0100000> ;
+      oboInOwl:hasDbXref
+              [ rdf:type oboInOwl:DbXref ;
+                rdfs:label "ZFIN:ZDB-STAGE-010723-39" ;
+                oboInOwl:hasURI "http://purl.org/obo/owl/ZFIN#ZFIN_ZDB-STAGE-010723-39"^^xsd:anyURI
+              ] ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_stages" .
+
+<http://purl.org/obo/owl/ZFS#ZFS_0100000>
+      rdf:type owl:Class ;
+      rdfs:label "Stages"@en ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_stages" .
+
+obo:develops_from
+      rdf:type owl:ObjectProperty , owl:TransitiveProperty ;
+      rdfs:label "develops from"@en ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomical_ontology" .
+
+obo:end
+      rdf:type owl:ObjectProperty ;
+      rdfs:label "end stage"@en ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomical_ontology" .
+
+obo:start
+      rdf:type owl:ObjectProperty ;
+      rdfs:label "start stage"@en ;
+      oboInOwl:hasOBONamespace
+              "zebrafish_anatomical_ontology" .
+
+oboContent:zebrafish_anatomy_subset
+      rdf:type owl:Ontology ;
+      rdfs:comment """
+          This is an OWL translation of an ontology whose native representational form is .obo. The translation was performed using the oboInOwl xslt library. For details, see http://www.berkeleybop.org/obo-conv.cgi
+        """ ;
+      rdfs:label "zebrafish_anatomical_ontology" ;
+      oboInOwl:hasDate "08:03:2011 14:02" ;
+      oboInOwl:hasDefaultNamespace
+              "zebrafish_anatomical_ontology" ;
+      oboInOwl:savedBy "Ceri" .
+
+:Individual_of_ZFA_0000228_1
+      rdf:type <http://purl.org/obo/owl/ZFA#ZFA_0000228> ;
+      a owl:NamedIndividual;
+      rdfs:label "lateral line primordium of Fish Nemo"^^xsd:string .
+
+:Individual_of_ZFA_0005115_1
+      rdf:type <http://purl.org/obo/owl/ZFA#ZFA_0005115> ;
+      a owl:NamedIndividual;
+      rdfs:label "primary posterior lateral line primordium of Fish Nemo"^^xsd:string .
+
+oboInOwl:DbXref
+      rdf:type owl:Class .
+
+oboInOwl:Definition
+      rdf:type owl:Class .
+
+oboInOwl:ObsoleteClass
+      rdf:type owl:Class .
+
+oboInOwl:ObsoleteProperty
+      rdf:type owl:ObjectProperty .
+
+oboInOwl:Subset
+      rdf:type owl:Class .
+
+oboInOwl:Synonym
+      rdf:type owl:Class .
+
+oboInOwl:SynonymType
+      rdf:type owl:Class .
+
+oboInOwl:consider
+      rdf:type owl:AnnotationProperty .
+
+oboInOwl:expandAssertionTo
+      rdf:type owl:AnnotationProperty .
+
+oboInOwl:expandExpressionTo
+      rdf:type owl:AnnotationProperty .
+
+oboInOwl:hasAlternativeId
+      rdf:type owl:AnnotationProperty .
+
+oboInOwl:hasBroadSynonym
+      rdf:type owl:AnnotationProperty .
+
+oboInOwl:hasDate
+      rdf:type owl:AnnotationProperty .
+
+oboInOwl:hasDbXref
+      rdf:type owl:AnnotationProperty .
+
+oboInOwl:hasDefaultNamespace
+      rdf:type owl:AnnotationProperty .
+
+oboInOwl:hasDefinition
+      rdf:type owl:AnnotationProperty .
+
+oboInOwl:hasExactSynonym
+      rdf:type owl:AnnotationProperty .
+
+oboInOwl:hasNarrowSynonym
+      rdf:type owl:AnnotationProperty .
+
+oboInOwl:hasOBONamespace
+      rdf:type owl:AnnotationProperty .
+
+oboInOwl:hasRelatedSynonym
+      rdf:type owl:AnnotationProperty .
+
+oboInOwl:hasSubset
+      rdf:type owl:AnnotationProperty .
+
+oboInOwl:hasSynonym
+      rdf:type owl:AnnotationProperty .
+
+oboInOwl:hasSynonymType
+      rdf:type owl:AnnotationProperty .
+
+oboInOwl:hasURI
+      rdf:type owl:AnnotationProperty .
+
+oboInOwl:hasVersion
+      rdf:type owl:AnnotationProperty .
+
+oboInOwl:inSubset
+      rdf:type owl:AnnotationProperty .
+
+oboInOwl:isCyclic
+      rdf:type owl:AnnotationProperty .
+
+oboInOwl:replacedBy
+      rdf:type owl:AnnotationProperty .
+
+oboInOwl:savedBy
+      rdf:type owl:AnnotationProperty .

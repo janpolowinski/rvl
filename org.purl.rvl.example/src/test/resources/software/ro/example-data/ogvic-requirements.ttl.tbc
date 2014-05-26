@@ -1,0 +1,38 @@
+# Saved by TopBraid on Fri Feb 10 13:57:11 CET 2012
+# baseURI: null
+
+@prefix composite:  <http://www.topbraid.org/2007/05/composite.owl#> .
+@prefix forms:   <http://www.topbraid.org/2007/01/forms.owl#> .
+@prefix inference:  <http://www.topbraid.org/2007/06/inference.owl#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix visual:  <http://topbraid.org/visual#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+<http://purl.org/ro/ont#Challenge>
+      forms:keyProperties (rdfs:label rdfs:comment <http://purl.org/dc/terms/description> <http://purl.org/ro/semvis-example/printOrder>) .
+
+<http://purl.org/ro/ont#FunctionalRequirement>
+      forms:keyProperties (rdfs:label rdfs:comment <http://purl.org/ro/ont#concernsPart>) .
+
+<http://purl.org/ro/semvis-example/DataRequirement>
+      forms:keyProperties (rdfs:label rdfs:comment <http://purl.org/ro/semvis-example/printOrder>) .
+
+<http://purl.org/ro/semvis-example/RVLRequirement>
+      forms:keyProperties (rdfs:label rdfs:comment <http://purl.org/ro/semvis-example/printOrder>) .
+
+<http://purl.org/ro/semvis-example/SemVisRequirement>
+      forms:keyProperties (rdfs:label rdfs:comment <http://purl.org/ro/semvis-example/printOrder>) .
+
+<http://purl.org/ro/semvis-example/ThesisContribution>
+      forms:keyProperties (rdfs:label rdfs:comment <http://purl.org/ro/semvis-example/printOrder>) .
+
+<http://purl.org/ro/semvis-example/VariabilityReuseAndComposabilityRequirement>
+      forms:keyProperties (rdfs:label rdfs:comment <http://purl.org/ro/semvis-example/printOrder>) .
+
+[]    rdf:type inference:Configuration ;
+      composite:child
+              [ rdf:type inference:SwiftOWLIMEngine ;
+                composite:index "0"^^xsd:int
+              ] .

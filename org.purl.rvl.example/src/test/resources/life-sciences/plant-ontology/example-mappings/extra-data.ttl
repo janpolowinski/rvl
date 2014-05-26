@@ -1,0 +1,11 @@
+@prefix :        <http://purl.org/viso/example/ro/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ro:      <http://purl.org/ro/ont#> .
+
+# should actually not be required when using an OW2 reasoner?!      
+owl:topObjectProperty a owl:ObjectProperty , rdf:Property.
+<http://purl.org/obo/owl/OBO_REL#part_of> rdfs:subPropertyOf owl:topObjectProperty .
+<http://purl.org/obo/owl/obo#develops_from> rdfs:subPropertyOf owl:topObjectProperty .
+rdfs:subClassOf rdfs:subPropertyOf owl:topObjectProperty .

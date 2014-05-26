@@ -1,0 +1,259 @@
+@prefix :        <http://purl.org/viso/example/ro/> .
+@prefix common-shapes:  <http://purl.org/viso/shape/commons/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ro:      <http://purl.org/ro/ont#> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix semvis-example:  <http://purl.org/ro/semvis-example/> .
+@prefix spin-constraints:  <http://purl.org/rvl/spin-constraints/> .
+@prefix viso-graphic:  <http://purl.org/viso/graphic/> .
+@prefix vg:  <http://purl.org/viso/graphic/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+
+:     rdf:type owl:Ontology ;
+      owl:imports spin-constraints: , semvis-example: , common-shapes: , <http://purl.org/ro/ont> , rvl: .
+
+
+:AnyPropertyToLinkingByConnectorMapping
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
+      rdfs:label "(Any) property to linking by connector mapping"^^xsd:string ;
+      rvl:sourceProperty owl:topObjectProperty ;
+      #rvl:invertSourceProperty "true"^^xsd:boolean;
+      #rvl:inheritedBy owl:someValuesFrom;
+      rvl:targetObjToObjRelation
+              <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+      rvl:subMapping [
+        a rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linking_connector;
+        rvl:subMapping-onTriplePart rdf:predicate;
+        rvl:subMapping-mapping :PMfromID2ColorNamed2;
+      ]
+      ,
+      [
+        a rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linkingDirected_startNode;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :ShapeMapping;
+      ]
+      ,
+      [
+        a rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linkingDirected_endNode;
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :ShapeMapping;
+      ],
+      [
+        a rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linkingDirected_startNode;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :TypeToLabelStyleMapping;
+      ],
+      [
+        a rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linkingDirected_endNode;
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :TypeToLabelStyleMapping;
+      ]
+      .
+
+
+             
+                 
+:PMfromID2ColorNamed
+      rdf:type rvl:PropertyMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
+      rdfs:label "PM from ID to color (usable as a submapping above)"^^xsd:string ;
+ 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:targetAttribute vg:color_named ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+		#rvl:sourceValue rdf:type;
+		rvl:sourceValue ro:isRefinementOf;
+		rvl:sourceValue ro:isDescribedByUseCase;
+		rvl:sourceValue ro:isAuthoredBy;
+		rvl:targetValue vg:Yellow;
+        rvl:targetValue vg:Green;
+        rvl:targetValue vg:Red;
+        rvl:targetValue vg:Blue;
+      ]
+      .  
+      
+# order a bit misused here, better use single vms
+:PMfromID2ColorNamed2
+      rdf:type rvl:PropertyMapping ;
+      rvl:disabled "true"^^xsd:boolean ;
+      rdfs:label "PM from ID to color 2 (used as a submapping above)"^^xsd:string ;
+ 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:targetAttribute vg:color_named ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:sourceValueOrderedSet (
+			ro:isRefinementOf ro:isDescribedByUseCase ro:isAuthoredBy
+		);
+		rvl:targetValueList (
+			vg:Red
+			vg:Green
+			vg:Blue
+		);
+      ]
+      . 
+
+            
+                 
+:RO-4b
+      rvl:disabled "true"^^xsd:boolean ;
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "RO-4b"^^xsd:string ;
+      rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
+      rvl:sourceProperty rdf:type ;
+      rvl:targetAttribute vg:color_hsl_lightness ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueOrderedSet (
+			ro:LowPriority
+			ro:MediumPriority
+			ro:HighPriority
+		);
+		rvl:discretize "true"^^xsd:boolean ;
+		rvl:targetValueInterval [
+        	a rvl:Interval;
+        	rvl:lowerBoundIncl "0";
+        	rvl:upperBoundIncl "100";
+        ];
+      ]
+      .     
+      
+      
+:RO-4b-Ampel
+      rvl:disabled "false"^^xsd:boolean ;
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "RO-4b-Ampel"^^xsd:string ;
+      rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
+      rvl:sourceProperty rdf:type ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueOrderedSet (
+			ro:LowPriority
+			ro:MediumPriority
+			ro:HighPriority
+		);
+		rvl:discretize "true"^^xsd:boolean ;
+		rvl:targetValueList (
+        	vg:Green vg:Yellow vg:Red
+        );
+      ]
+      . 
+      
+:ShapeMapping
+	  rvl:disabled "true";
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "Shape mapping"^^xsd:string ;
+      rvl:sourceProperty rdf:type ;
+      rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
+      rvl:targetAttribute
+              <http://purl.org/viso/graphic/shape_named> ;
+      rvl:valueMapping [
+      	a rvl:valueMapping;
+      	rvl:sourceValue ro:Requirement;
+      	rvl:targetValue common-shapes:Square;
+      ],
+      [
+      	a rvl:valueMapping;
+      	rvl:sourceValue ro:Stakeholder;
+      	rvl:targetValue common-shapes:EquiliteralTriangle;
+      ],
+      [
+      	a rvl:valueMapping;
+      	rvl:sourceValue ro:Goal;
+      	rvl:targetValue common-shapes:Cross;
+      ],
+      [
+      	a rvl:valueMapping;
+      	rvl:sourceValue ro:UseCase;
+      	rvl:targetValue common-shapes:EquiliteralTriangleDown;
+      ],
+      [
+      	a rvl:valueMapping;
+      	rvl:sourceValue ro:Scenario;
+      	rvl:targetValue common-shapes:Rhomb;
+      ] 
+        .
+      
+      
+      
+      
+      
+# ALTERNATIVE TO ANY-PROPERTY-MAPPING ABOVE:
+      
+:IsRefinementOfToLinkingDirected
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:disabled "true";
+      rdfs:label "PM from ro:isRefinementOf to Linking Directed"^^xsd:string ;
+      rvl:sourceProperty ro:isRefinementOf ;
+      rvl:targetObjToObjRelation viso-graphic:Linking_Directed_Relation ;
+      rvl:subMapping [
+        rdf:type rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linking_connector;
+        rvl:subMapping-onTriplePart rdf:predicate;
+        rvl:subMapping-mapping :PMfromID2ColorNamed2;
+      ]
+      . 
+      
+:IsAuthoredByToLinkingDirected
+	  rvl:disabled "true";
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rdfs:label "PM from ro:isAuthoredBy to Linking Directed"^^xsd:string ;
+      rvl:sourceProperty ro:isAuthoredBy ;
+      rvl:targetObjToObjRelation viso-graphic:Linking_Directed_Relation ;
+      rvl:subMapping [
+        rdf:type rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linking_connector;
+        rvl:subMapping-onTriplePart rdf:predicate;
+        rvl:subMapping-mapping :PMfromID2ColorNamed2;
+      ]
+      . 
+            
+:IsDescribedByUseCaseToLinkingDirected
+	  rvl:disabled "true";
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rdfs:label "PM from isDescribedByUseCase to Linking Directed"^^xsd:string ;
+      rvl:sourceProperty ro:isDescribedByUseCase ;
+      rvl:targetObjToObjRelation viso-graphic:Linking_Directed_Relation ;
+      rvl:subMapping [
+        rdf:type rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linking_connector;
+        rvl:subMapping-onTriplePart rdf:predicate;
+        rvl:subMapping-mapping :PMfromID2ColorNamed2;
+      ]
+      .   
+
+# END ALTERNATIVE    
+
+
+# TRIAL TEMP LABEL POSITIONING MAPPING
+
+:TypeToLabelStyleMapping
+	  rvl:disabled "true";
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "Label style mapping"^^xsd:string ;
+      rvl:sourceProperty rdf:type ;
+     # why did this work above in the shape mapping??? 
+      #rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
+      rvl:targetAttribute
+              vg:labeling_attachedBy ;
+      rvl:valueMapping [
+      	a rvl:valueMapping;
+      	rvl:sourceValue ro:Requirement;
+      	rvl:targetValue vg:Containment_Relation;
+      ],
+      [
+      	a rvl:valueMapping;
+      	rvl:sourceValue ro:Stakeholder;
+      	rvl:targetValue vg:Superimposition_Relation;
+      ]
+      .
+

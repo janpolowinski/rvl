@@ -1,0 +1,42 @@
+# Saved by TopBraid on Tue Aug 02 10:01:12 CEST 2011
+# baseURI: http://purl.org/viso/addon/shapes/bio/
+# imports: http://purl.org/viso/graphic/
+
+@prefix :        <http://purl.org/viso/addon/shapes/bio/> .
+@prefix anno:    <http://purl.org/viso/anno/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix viso-graphic:  <http://purl.org/viso/graphic/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+:     rdf:type owl:Ontology ;
+      owl:imports viso-graphic: ;
+      owl:versionInfo "Created with TopBraid Composer"^^xsd:string .
+
+:Aliphatic_Shape
+      rdf:type viso-graphic:Shape .
+
+:Aromatic_Shape
+      rdf:type viso-graphic:Shape .
+
+:Compass
+      rdf:type viso-graphic:Shape .
+
+:Minus
+      rdf:type viso-graphic:Shape .
+
+:Plus
+      rdf:type viso-graphic:Shape .
+
+:Raindrop_Broken_Heart
+      rdf:type viso-graphic:Shape .
+
+:Raindrop_Heart
+      rdf:type viso-graphic:Shape .
+
+:ThreeStepNegativeNeutralPositiveList
+      rdf:type viso-graphic:Visual_Value_List ;
+      rdf:first :Minus ;
+      rdf:rest (viso-graphic:NoShape :Plus) ;
+      rdfs:label "Three step negative neutral positive list"^^xsd:string .
