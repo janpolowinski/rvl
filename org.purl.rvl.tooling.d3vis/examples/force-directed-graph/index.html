@@ -268,10 +268,7 @@
 				 var 
 				 	addHTMLTextLabel = true,
 				 	addSVGTextLabel = true, 
-					addSVGIconLabel = false;		
-				 	
-				 var nodeShapeSize = 1000;//Math.sqrt(1500);  // TODO area set in symbol functions 
-				 var labelShapeSize = 20;
+					addSVGIconLabel = true;		
 				 
 				 var labelContainerContainer = d3.select("#labelContainerSpace")
 					.selectAll(".labelContainerContainer")
@@ -283,14 +280,14 @@
 				        		 		  	
 				// SVG icon label in html div 
 				if (addSVGIconLabel) {
-					labelContainerContainer.avmLabeledSVGIcon(labelShapeSize);
+					labelContainerContainer.avmLabeledSVGIcon();
 	 			}
 				        			
 				// SVG text label in html div (cropped in webkit, maybe create a much bigger SVG inside the div, or modify clipping) 
 				if (addSVGTextLabel) {
 					labelContainerContainer
 					.filter(function(d) { return d.label_position !== "centerCenter" ;})
-				    .avmLabeledSVG(labelShapeSize);
+				    .avmLabeledSVG();
 				}
 	
 				// HTML label  -> TODO only use this when label attachedBy containment (position = centerCenter)

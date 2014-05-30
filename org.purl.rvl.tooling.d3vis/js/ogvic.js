@@ -4,6 +4,10 @@
 
 var SYMBOL_WIDTH = 25; // width of the symbols in the Symbols.svg without scaling in px
 
+var NODE_SIZE; // TODO D3 symbol functions consider area using Math.sqrt(). Area of svg symbols in use elements is simply width*height
+var LABEL_ICON_SIZE_FACTOR = 0.333;
+var LABEL_ICON_SUPER_IMPOSITION_FAKTOR = LABEL_ICON_SIZE_FACTOR/5; // e.g. 2 : Overlap by 1/2 label icon size
+
 // canvas
 var width = 1400,
     height = 1200,
@@ -94,7 +98,6 @@ var width = 1400,
 			.style("text-align","center")
 			.style("height", function(d){return d.width + "px";})
 			.style("width", function(d){return d.width + "px";})
-			.style("background-color","yellow")
 			;
 		  
 		  containerDiv.append("div")
@@ -115,7 +118,7 @@ var width = 1400,
 	  };
 	  
 	  /* labeling with SVG text */
-	  d3.selection.prototype.avmLabeledSVG = function(labelShapeSize) {
+	  d3.selection.prototype.avmLabeledSVG = function() {
 		  
 		var containerDiv = this.avmLabelPositioning();
 			
@@ -123,37 +126,58 @@ var width = 1400,
 			.attr("class", "svgLabelText")
 			//.attr("width",100 +"px")
 			//.attr("height",25 +"px")
-			.attr("width",labelShapeSize +"px") // are these sizes sensible?
-			.attr("height",labelShapeSize +"px");
+			.attr("width", function(d){ return d.width*LABEL_ICON_SIZE_FACTOR + "px"; }) // are these sizes sensible?
+			.attr("height",function(d){ return d.width*LABEL_ICON_SIZE_FACTOR + "px"; });
 			//.style("margin-left",-100 + "px")
 			//.style("margin-bottom",-0.2*NODE_SIZE + "px");
 										
 			// The label and a copy of the label as shadow for better readability
-			labelContainerSVG.avmLabeledFDG2(labelShapeSize).attr("class", "nodeLabelShadow");
-			labelContainerSVG.avmLabeledFDG2(labelShapeSize);
+			labelContainerSVG.avmLabeledFDG2(function(d){ return d.width*LABEL_ICON_SIZE_FACTOR; }).attr("class", "nodeLabelShadow");
+			labelContainerSVG.avmLabeledFDG2(function(d){ return d.width*LABEL_ICON_SIZE_FACTOR; });
 		  
 		    return containerDiv;
 	  };
 	  
 	  /* labeling with SVG icon  */
-	  d3.selection.prototype.avmLabeledSVGIcon = function(labelShapeSize) {
+	  d3.selection.prototype.avmLabeledSVGIcon = function() {
 		  
 		var containerDiv = this.avmLabelPositioning();
 			
 		containerDiv.append("svg")
 			.attr("class", "svgLabelIcon")
-			.attr("width",labelShapeSize +"px")
-			.attr("height",labelShapeSize +"px")
-			.style("margin",-labelShapeSize/2.75 + "px")
-			//.avmLabeledWithCircle(labelShapeSize);
-			.append("path")
+			.attr("width",function(d){ return d.width*LABEL_ICON_SIZE_FACTOR + "px"; })
+			.attr("height",function(d){ return d.width*LABEL_ICON_SIZE_FACTOR + "px"; })
+			.style("margin",function(d){ return -1*d.width*LABEL_ICON_SUPER_IMPOSITION_FAKTOR + "px"; })
+			
+			.append("use")
+			  .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.label_shape_d3_name; })
+			  //.attr("xlink:href", function(d) { return "../../svg/symbols.svg#clock"; })
+	   	 	  .attr("class", function(d) { return "label svgSymbol"; })
+		      .style("fill", function(d) { return "darkred"; })
+		      .attr("transform", function(d) { return "scale(" + (d.width*LABEL_ICON_SIZE_FACTOR/SYMBOL_WIDTH) +  ")"; })
+			  ;
+			
+			/*.append("path")
 	  			.attr("class", "label")
 	 			.attr("d", avmDefaultSizeLabelSymbolFunction)
 	 			.style("fill", "red")
 				.attr("transform", function(d){ return "translate(" + labelShapeSize/2 + "," + labelShapeSize/2 + ")";});
+			*/
 		  
 		  return containerDiv;
 	  };
+	  
+	  /* setting the shape by reusing an SVG symbol */ // TODO: this also sets color and node-class at the moment
+	  /*d3.selection.prototype.avmShapedWithUseSVG = function() {
+		 	return this.append("use")
+			  .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.shape_d3_name; })
+			  //.attr("xlink:href", function(d) { return "../../svg/symbols.svg#clock"; })
+	   	 	  .attr("class", function(d) { return "node svgSymbol"; })
+		      .style("fill", function(d) { return d.color_rgb_hex_combined; })
+		      //.attr("width", "200 px").attr("height", "200 px") // does not seem to work (Firefox at least)
+		      .attr("transform", function(d) { return "scale(" + d.width/SYMBOL_WIDTH +  ")"; })
+		     ;
+	  };*/
 
 	   
 	  /* label aligned at the connector path */

@@ -278,7 +278,7 @@
  	  rvl:valueMapping [
         a rvl:ValueMapping ;
         rvl:sourceValue ro:Requirement;
-		rvl:targetValue "50"^^xsd:float; # create some space for contained labels
+		rvl:targetValue "100"^^xsd:float; # create some space for contained labels
       ]
       . 
       

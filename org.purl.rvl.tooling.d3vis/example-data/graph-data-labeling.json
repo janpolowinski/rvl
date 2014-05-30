@@ -32,6 +32,17 @@
         "color_rgb_hex_combined": "#ccdddd",
         "width": 50,
         "shape_d3_name": "square"
+    }, {
+        "uri": "http:\/\/purl.org\/rvl\/example-data\/Gelseenkirchen",
+        "label": "Gelsenkirchen",
+		"label_shape_d3_name": "square",
+		"label_position": "centerCenter",
+        "full_label": "Gelsenkirchen",
+        "color_rgb_hex": "#ddcccc",
+        "color_hsl_lightness": 50.0,
+        "color_rgb_hex_combined": "#ccdddd",
+        "width": 60,
+        "shape_d3_name": "circle"
     }
     ],
 
