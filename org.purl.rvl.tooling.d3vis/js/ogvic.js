@@ -1,4 +1,17 @@
 /*************************************************/
+/* SETTINGS       								 */
+/*************************************************/
+
+var SYMBOL_WIDTH = 25; // width of the symbols in the Symbols.svg without scaling in px
+
+// canvas
+var width = 1400,
+    height = 1200,
+    m = [20, 120, 20, 120]
+	;
+
+
+/*************************************************/
 /* own "plugins" to handle AVM based on D3       */
 /*************************************************/
     
