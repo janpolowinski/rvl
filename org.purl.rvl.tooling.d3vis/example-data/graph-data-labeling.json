@@ -1,0 +1,40 @@
+{
+    "nodes": [{
+        "uri": "http:\/\/purl.org\/rvl\/example-data\/Spain",
+        "label": "Spain",
+		"label_shape_d3_name": "circle",
+		"label_position": "bottomLeft",
+        "full_label": "Spain",
+        "color_rgb_hex": "#ffff00",
+        "color_hsl_lightness": 0.0,
+        "color_rgb_hex_combined": "#000000",
+        "width": 30,
+        "shape_d3_name": "circle"
+    }, {
+        "uri": "http:\/\/purl.org\/rvl\/example-data\/Gelsenkirchen",
+        "label": "Gelsenkirchen",
+		"label_shape_d3_name": "square",
+		"label_position": "centerCenter",
+        "full_label": "Gelsenkirchen",
+        "color_rgb_hex": "#cccccc",
+        "color_hsl_lightness": 50.0,
+        "color_rgb_hex_combined": "#dddddd",
+        "width": 100,
+        "shape_d3_name": "square"
+    }, {
+        "uri": "http:\/\/purl.org\/rvl\/example-data\/Gelseenkirchen",
+        "label": "Gelsenkirchen",
+		"label_shape_d3_name": "square",
+		"label_position": "centerCenter",
+        "full_label": "Gelsenkirchen",
+        "color_rgb_hex": "#ddcccc",
+        "color_hsl_lightness": 50.0,
+        "color_rgb_hex_combined": "#ccdddd",
+        "width": 50,
+        "shape_d3_name": "square"
+    }
+    ],
+
+    "links": [
+	]
+}
