@@ -14,7 +14,8 @@ var width = 1400,
 /*************************************************/
 /* own "plugins" to handle AVM based on D3       */
 /*************************************************/
-    
+
+
 (function() {
 	
 	 /* highlighting */
@@ -66,7 +67,7 @@ var width = 1400,
 	  d3.selection.prototype.avmLabeledFDG2 = function(labelShapeSize) {
 		  return this.append("svg:text").
 		  	attr("class", "nodeLabel") // TODO class was label ... clean up various label CSS classes
-			.attr("x", function(d){return labelShapeSize/2;})  // dx is relative positiong, x is absolute
+			.attr("x", function(d){return labelShapeSize/2;})  // dx is relative positioning, x is absolute
 			.attr("y", function(d){return labelShapeSize/2;})
 		    .text(function(d){return d.label; })
 			.style("text-anchor", 
@@ -84,37 +85,39 @@ var width = 1400,
 	  
 	  
 	  /* labeling with HTML text */
-	  d3.selection.prototype.avmLabeledHTML = function(nodeShapeSize) {
+	  d3.selection.prototype.avmLabeledHTML = function() {
 		  
 		  // TODO: reuse avmLabelPositioning
 		  var containerDiv =  this.append("div")
 		    //.attr("class","labelContainer topRight")
 			.attr("class", function(d){ return "labelContainer " + d.label_position;})
 			.style("text-align","center")
-			.style("height",nodeShapeSize +"px")
-			.style("width",nodeShapeSize +"px");
+			.style("height", function(d){return d.width + "px";})
+			.style("width", function(d){return d.width + "px";})
+			.style("background-color","yellow")
+			;
 		  
 		  containerDiv.append("div")
 		  			.attr("class", "htmlTextLabel")
-					//.style("width", nodeShapeSize + "px") // does only work well for xCenter position
+					//.style("width", NODE_SIZE + "px") // does only work well for xCenter position
 					.html(function(d){ return d.label;});
 		  
 		  return containerDiv;
 	  };
 	  
 	  /* add label positioning div */
-	  d3.selection.prototype.avmLabelPositioning = function(nodeShapeSize) {
+	  d3.selection.prototype.avmLabelPositioning = function() {
 		  
 		  return this.append("div")
 			.attr("class", function(d){ return "labelContainer " + d.label_position ;})
-			.style("height",nodeShapeSize +"px")
-			.style("width",nodeShapeSize +"px");
+			.style("height", function(d){return d.width + "px";})
+			.style("width", function(d){return d.width + "px";});
 	  };
 	  
 	  /* labeling with SVG text */
-	  d3.selection.prototype.avmLabeledSVG = function(nodeShapeSize,labelShapeSize) {
+	  d3.selection.prototype.avmLabeledSVG = function(labelShapeSize) {
 		  
-		var containerDiv = this.avmLabelPositioning(nodeShapeSize);
+		var containerDiv = this.avmLabelPositioning();
 			
 		var labelContainerSVG = containerDiv.append("svg")
 			.attr("class", "svgLabelText")
@@ -123,7 +126,7 @@ var width = 1400,
 			.attr("width",labelShapeSize +"px") // are these sizes sensible?
 			.attr("height",labelShapeSize +"px");
 			//.style("margin-left",-100 + "px")
-			//.style("margin-bottom",-0.2*nodeShapeSize + "px");
+			//.style("margin-bottom",-0.2*NODE_SIZE + "px");
 										
 			// The label and a copy of the label as shadow for better readability
 			labelContainerSVG.avmLabeledFDG2(labelShapeSize).attr("class", "nodeLabelShadow");
@@ -133,9 +136,9 @@ var width = 1400,
 	  };
 	  
 	  /* labeling with SVG icon  */
-	  d3.selection.prototype.avmLabeledSVGIcon = function(nodeShapeSize,labelShapeSize) {
+	  d3.selection.prototype.avmLabeledSVGIcon = function(labelShapeSize) {
 		  
-		var containerDiv = this.avmLabelPositioning(nodeShapeSize);
+		var containerDiv = this.avmLabelPositioning();
 			
 		containerDiv.append("svg")
 			.attr("class", "svgLabelIcon")
@@ -211,6 +214,8 @@ var width = 1400,
 			  //.attr("xlink:href", function(d) { return "../../svg/symbols.svg#clock"; })
 	   	 	  .attr("class", function(d) { return "node svgSymbol"; })
 		      .style("fill", function(d) { return d.color_rgb_hex_combined; })
+		      //.attr("width", "200 px").attr("height", "200 px") // does not seem to work (Firefox at least)
+		      .attr("transform", function(d) { return "scale(" + d.width/SYMBOL_WIDTH +  ")"; })
 		     ;
 	  };
 	  
@@ -256,7 +261,7 @@ var width = 1400,
 
 	  var defs = this.append("svg:defs");
 	  
-	  defs.append("svg:defs").selectAll("marker")
+	  defs.selectAll("marker")
 	      .data(["arrow", "uml_generalization_arrow", "arrow_small_triangle"])
 	      .enter().append("svg:marker")
 	      .attr("id", String)
@@ -421,9 +426,8 @@ function toggle(d) {
 	d3.selectAll(".link").classed("highlighted identical", false);
 	d3.selectAll(".node").classed("highlighted identical", false);
 	
-
-	// shorten labels // TODO: this is no highlighting stuff
-	d3.select(this).selectAll("text").
+	//shorten labels // TODO: this is no highlighting stuff
+	d3.selectAll(".node").selectAll("text").
 		text(function(d){return d.label;});
  }
  
