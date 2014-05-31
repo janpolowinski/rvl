@@ -23,6 +23,7 @@ import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
 import org.purl.rvl.java.gen.viso.graphic.Shape;
+import org.purl.rvl.java.gen.viso.graphic.Superimposition;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
 import org.purl.rvl.java.rvl.MappingX;
 import org.purl.rvl.java.rvl.PropertyMappingX;
@@ -98,8 +99,10 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			
 			
 			try {
-				
-				if (p2go2orm.getTargetGraphicRelation().equals(DirectedLinking.RDFS_CLASS) || p2go2orm.getTargetGraphicRelation().equals(UndirectedLinking.RDFS_CLASS)) {
+				if (p2go2orm.getTargetGraphicRelation().equals(Labeling.RDFS_CLASS)) {
+					interpretMappingToLabeling(p2go2orm);
+				}
+				else if (p2go2orm.getTargetGraphicRelation().equals(DirectedLinking.RDFS_CLASS) || p2go2orm.getTargetGraphicRelation().equals(UndirectedLinking.RDFS_CLASS)) {
 					interpretMappingToLinking(p2go2orm);
 				}
 //				else if (p2go2orm.getTargetGraphicRelation().equals(UndirectedLinking.RDFS_CLASS)) {
@@ -123,6 +126,64 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	}
 
 	
+	private void interpretMappingToLabeling(PropertyToGO2ORMappingX p2go2orm) throws InsufficientMappingSpecificationException {
+		
+		Iterator<Statement> stmtSetIterator = RVLUtils.findRelationsOnInstanceOrClassLevel(
+				modelSet,
+				OGVICProcess.GRAPH_DATA,
+				(PropertyMappingX) p2go2orm.castTo(PropertyMappingX.class),
+				true,
+				null,
+				null
+				).iterator();
+		
+		int processedGraphicRelations = 0;	
+		
+		if(null==stmtSetIterator) {
+			LOGGER.severe("Statement iterator was null, no labeling relations could be interpreted for " + p2go2orm.asURI());
+			return;
+		}		
+		
+		while (stmtSetIterator.hasNext() && processedGraphicRelations < OGVICProcess.MAX_GRAPHIC_RELATIONS_PER_MAPPING) {
+			
+			Statement statement = (Statement) stmtSetIterator.next();
+						
+			try {
+				Resource subject = statement.getSubject();
+				Resource object = statement.getObject().asResource();
+				
+				LOGGER.finest("Subject label " + AVMUtils.getGoodLabel(subject,modelAVM));
+				LOGGER.finest("Object label " + AVMUtils.getGoodLabel(object,modelAVM));
+	
+				LOGGER.fine("Statement to be mapped : " + statement);
+				
+				// For each statement, create a startNode GO representing the subject (if not exists)
+			    GraphicObjectX subjectNode = createOrGetGraphicObject(subject);
+		    	LOGGER.finest("Created GO for subject: " + subject.toString());
+				
+				// For each statement, create an endNode GO representing the object (if not exists)	
+				GraphicObjectX label = createOrGetGraphicObject(object);
+		    	LOGGER.finest("Created new Label-GO for object: " + object.toString());
+		    	
+		      	Labeling rel = new Labeling(modelAVM,"http://purl.org/rvl/example-avm/GR_" + random.nextInt(), true);
+		    	rel.setLabel(AVMUtils.getGoodLabel(p2go2orm.getTargetGraphicRelation(), modelAVM));
+
+		    	subjectNode.setLabeledwith(rel);
+		    	rel.setLabelinglabel(label);
+		    	rel.setLabelingattachedBy(Superimposition.RDFS_CLASS); // passing a node here
+		    	rel.setLabelingbase(subjectNode);
+		    	
+		    	// set default shape of directed connectors
+		    	label.setShapenamed(new ShapeX(modelAVM, "http://purl.org/viso/shape/commons/Clock", false));
+		    	
+				
+			} catch (Exception e) {
+				LOGGER.warning("Problem creating GOs: " + e.getMessage());
+			}
+		}
+
+	}
+
 	@SuppressWarnings("unused")
 	protected void interpretMappingToLinking(PropertyToGO2ORMappingX p2go2orm) throws InsufficientMappingSpecificationException {
 

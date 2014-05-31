@@ -19,9 +19,9 @@
     
 rexm:PMWithExplicitValueMappingsAsBlankNodes
       rvl:disabled "false"^^xsd:boolean ;
-      rdf:type rvl:PropertyMapping ;
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
       rvl:sourceProperty rexd:workingField ;
-      rvl:targetAttribute vg:Labeling_Relation ; 
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
       rvl:subMapping [
       	a rvl:SubMappingRelation ;
         rvl:subMapping-onRole vg:labeling_label;
