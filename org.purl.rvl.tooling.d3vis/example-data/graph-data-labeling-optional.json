@@ -47,6 +47,7 @@
         "uri": "http:\/\/purl.org\/rvl\/example-data\/Gelsenkirchen",
         "label": "center right",
 		"label_shape_d3_name": "clock",
+		        "display_label_icon": true ,
 		"label_position": "centerRight",
         "color_rgb_hex": "#cccccc",
         "color_hsl_lightness": 50.0,
@@ -68,6 +69,8 @@
     }, {
         "uri": "http:\/\/purl.org\/rvl\/example-data\/Gelsedenkirchen",
         "label": "center center 1",
+        "display_label_text": true ,
+        "display_label_icon": false ,
 		"label_shape_d3_name": "square",
 		"label_position": "centerCenter",
         "color_rgb_hex": "#ddcccc",
@@ -79,6 +82,8 @@
     }, {
         "uri": "http:\/\/purl.org\/rvl\/example-data\/Gelsedenkirchen",
         "label": "bottom center (same sizes)",
+        "display_label_text": true ,
+        "display_label_icon": true ,
 		"label_shape_d3_name": "square",
 		"label_position": "bottomCenter",
         "color_hsl_lightness": 50.0,
