@@ -37,6 +37,8 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 	
 	private final static Logger LOGGER = Logger.getLogger(D3GeneratorBase.class .getName()); 
 	static final String NL =  System.getProperty("line.separator");
+	private static final float DEFAULT_WITH = 20;
+	private static final float LABEL_ICON_SIZE_FACTOR = (float) 0.75;
 
 	
 	public D3GeneratorSimpleJSON() {
@@ -108,6 +110,9 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			// shape
 			String startNodeShapeD3Name = startNode.getShape();
 			
+			// width
+			float startNodeWidth = startNode.hasWidth()? startNode.getWidth() : DEFAULT_WITH;
+			
 			Map node = new LinkedHashMap();
 			node.put("uri", startNode.getRepresentedResource().toString());
 			node.put("label", D3Utils.shortenLabel(startNode.getLabel()));
@@ -115,11 +120,10 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			node.put("color_rgb_hex", startNodeColorRGBHex);
 			node.put("color_hsl_lightness", startNode.getColorHSLLightness());
 			node.put("color_rgb_hex_combined", startNode.getColorRGBHexCombinedWithHSLValues());
-			//node.put("width", 15);
-			//node.put("width", startNode.getColorHSLLightness()+5);
-			//node.put("heigth", startNode.getColorHSLLightness()+5);
 			node.put("shape_d3_name", startNodeShapeD3Name);
+			node.put("width", startNodeWidth);
 			node.put("label_shape_d3_name", startNodeShapeD3Name); /* temp, should be label.shape_d3_name*/
+			node.put("label_width", startNodeWidth*LABEL_ICON_SIZE_FACTOR);
 			
 			// temp label positioning using the attachedBy information
 			if (startNode.hasLabeledwith()){
@@ -131,7 +135,6 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				
 				if (attachementRelation.asURI().equals(Containment.RDFS_CLASS)) {
 					node.put("label_position", "centerCenter"); /* temp, should be label.shape_d3_name*/	
-					node.put("width", 30);
 				} else if (attachementRelation.asURI().equals(Superimposition.RDFS_CLASS)) {
 					node.put("label_position", "centerRight"); /* temp, should be label.shape_d3_name*/	
 					node.put("width", 30);
@@ -147,7 +150,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				
 				// default label positioning
 				node.put("label_position", "topLeft"); /* temp, should be label.shape_d3_name*/	
-				node.put("width", 15);
+				
 			}
 			
 			listOfNodes.add(node);

@@ -56,6 +56,18 @@
         rvl:subMapping-onRole vg:linkingDirected_endNode;
         rvl:subMapping-onTriplePart rdf:object;
         rvl:subMapping-mapping :TypeToLabelStyleMapping;
+      ],
+      [
+        a rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linkingDirected_startNode;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :PMfromType2Width;
+      ],
+      [
+        a rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linkingDirected_endNode;
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :PMfromType2Width;
       ]
       .
 
@@ -256,4 +268,18 @@
       	rvl:targetValue vg:Superimposition_Relation;
       ]
       .
+      
+:PMfromType2Width
+      rvl:disabled "true"^^xsd:boolean ;
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM from type to width (used as a submapping above)"^^xsd:string ;
+ 	  rvl:sourceProperty rdf:type ;
+ 	  rvl:targetAttribute vg:width ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:sourceValue ro:Requirement;
+		rvl:targetValue "100"^^xsd:float; # create some space for contained labels
+      ]
+      . 
+      
 
