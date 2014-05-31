@@ -38,6 +38,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 	private final static Logger LOGGER = Logger.getLogger(D3GeneratorBase.class .getName()); 
 	static final String NL =  System.getProperty("line.separator");
 	private static final float DEFAULT_WITH = 20;
+	private static final float LABEL_ICON_SIZE_FACTOR = (float) 0.75;
 
 	
 	public D3GeneratorSimpleJSON() {
@@ -122,6 +123,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			node.put("shape_d3_name", startNodeShapeD3Name);
 			node.put("width", startNodeWidth);
 			node.put("label_shape_d3_name", startNodeShapeD3Name); /* temp, should be label.shape_d3_name*/
+			node.put("label_width", startNodeWidth*LABEL_ICON_SIZE_FACTOR);
 			
 			// temp label positioning using the attachedBy information
 			if (startNode.hasLabeledwith()){
@@ -132,10 +134,8 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				
 				if (attachementRelation.asURI().equals(Containment.RDFS_CLASS)) {
 					node.put("label_position", "centerCenter"); /* temp, should be label.shape_d3_name*/	
-					node.put("label_width", startNodeWidth);
 				} else if (attachementRelation.asURI().equals(Superimposition.RDFS_CLASS)) {
 					node.put("label_position", "centerRight"); /* temp, should be label.shape_d3_name*/	
-					node.put("label_width", startNodeWidth);
 				}
 					
 				// ... other positions ...
@@ -144,7 +144,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				
 				// default label positioning
 				node.put("label_position", "topLeft"); /* temp, should be label.shape_d3_name*/	
-				node.put("label_width", startNodeWidth/2);
+				
 			}
 			
 			listOfNodes.add(node);

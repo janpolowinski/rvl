@@ -1,48 +1,102 @@
 {
     "nodes": [{
         "uri": "http:\/\/purl.org\/rvl\/example-data\/Spain",
-        "label": "Spain",
-		"label_shape_d3_name": "circle",
+        "label": "bottom left",
+		"label_shape_d3_name": "plus",
 		"label_position": "bottomLeft",
-        "full_label": "Spain",
         "color_rgb_hex": "#ffff00",
         "color_hsl_lightness": 0.0,
         "color_rgb_hex_combined": "#000000",
+        "width": 40,
+        "label_width": 30,
+        "shape_d3_name": "square"
+    }, {
+        "uri": "http:\/\/purl.org\/rvl\/example-data\/Spain",
+        "label": "top left",
+		"label_shape_d3_name": "square",
+		"label_position": "topLeft",
+        "color_rgb_hex": "#ffff00",
+        "color_hsl_lightness": 0.0,
+        "color_rgb_hex_combined": "#000000",
+        "width": 15,
+        "label_width": 5,
+        "shape_d3_name": "square"
+    }, {
+        "uri": "http:\/\/purl.org\/rvl\/example-data\/Spain",
+        "label": "bottom left",
+		"label_shape_d3_name": "square",
+		"label_position": "bottomLeft",
+        "color_rgb_hex": "#ffff00",
+        "color_hsl_lightness": 0.0,
+        "color_rgb_hex_combined": "#000000",
+        "width": 150,
+        "label_width": 20,
+        "shape_d3_name": "square"
+    }, {
+        "uri": "http:\/\/purl.org\/rvl\/example-data\/Gelsedenkirchen",
+        "label": "top center",
+		"label_shape_d3_name": "square",
+		"label_position": "topCenter",
+        "color_rgb_hex": "#ddcccc",
+        "color_hsl_lightness": 50.0,
+        "color_rgb_hex_combined": "purple",
         "width": 30,
-        "shape_d3_name": "circle"
+        "label_width": 15,
+        "shape_d3_name": "square"
     }, {
         "uri": "http:\/\/purl.org\/rvl\/example-data\/Gelsenkirchen",
-        "label": "Gelsenkirchen",
-		"label_shape_d3_name": "square",
-		"label_position": "centerCenter",
-        "full_label": "Gelsenkirchen",
+        "label": "center right",
+		"label_shape_d3_name": "clock",
+		"label_position": "centerRight",
         "color_rgb_hex": "#cccccc",
         "color_hsl_lightness": 50.0,
         "color_rgb_hex_combined": "#dddddd",
         "width": 100,
-        "shape_d3_name": "square"
-    }, {
-        "uri": "http:\/\/purl.org\/rvl\/example-data\/Gelseenkirchen",
-        "label": "Gelsenkirchen",
-		"label_shape_d3_name": "square",
-		"label_position": "centerCenter",
-        "full_label": "Gelsenkirchen",
-        "color_rgb_hex": "#ddcccc",
-        "color_hsl_lightness": 50.0,
-        "color_rgb_hex_combined": "#ccdddd",
-        "width": 50,
-        "shape_d3_name": "square"
-    }, {
-        "uri": "http:\/\/purl.org\/rvl\/example-data\/Gelseenkirchen",
-        "label": "Gelsenkirchen",
-		"label_shape_d3_name": "square",
-		"label_position": "centerCenter",
-        "full_label": "Gelsenkirchen",
-        "color_rgb_hex": "#ddcccc",
-        "color_hsl_lightness": 50.0,
-        "color_rgb_hex_combined": "#ccdddd",
-        "width": 60,
+        "label_width": 50,
         "shape_d3_name": "circle"
+    }, {
+        "uri": "http:\/\/purl.org\/rvl\/example-data\/Gelsenkirchen",
+        "label": "center left",
+		"label_shape_d3_name": "square",
+		"label_position": "centerLeft",
+        "color_rgb_hex": "#cccccc",
+        "color_hsl_lightness": 50.0,
+        "color_rgb_hex_combined": "#dddddd",
+        "width": 100,
+        "label_width": 50,
+        "shape_d3_name": "square"
+    }, {
+        "uri": "http:\/\/purl.org\/rvl\/example-data\/Gelsedenkirchen",
+        "label": "center center 1",
+		"label_shape_d3_name": "square",
+		"label_position": "centerCenter",
+        "color_rgb_hex": "#ddcccc",
+        "color_hsl_lightness": 50.0,
+        "color_rgb_hex_combined": "purple",
+        "width": 30,
+        "label_width": 15,
+        "shape_d3_name": "minus"
+    }, {
+        "uri": "http:\/\/purl.org\/rvl\/example-data\/Gelsedenkirchen",
+        "label": "bottom center (same sizes)",
+		"label_shape_d3_name": "square",
+		"label_position": "bottomCenter",
+        "color_hsl_lightness": 50.0,
+        "color_rgb_hex_combined": "orange",
+        "width": 100,
+        "label_width": 100,
+        "shape_d3_name": "square"
+    }, {
+        "uri": "http:\/\/purl.org\/rvl\/example-data\/Gelseenkirchen",
+        "label": "center center 2",
+		"label_shape_d3_name": "square",
+		"label_position": "centerCenter",
+        "color_rgb_hex": "#ddcccc",
+        "color_hsl_lightness": 50.0,
+        "color_rgb_hex_combined": "yellow",
+        "width": 60,
+        "label_width": 30,
+        "shape_d3_name": "square"
     }
     ],
 

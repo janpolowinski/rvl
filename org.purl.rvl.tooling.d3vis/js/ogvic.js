@@ -5,8 +5,7 @@
 var SYMBOL_WIDTH = 25; // width of the symbols in the Symbols.svg without scaling in px
 
 var NODE_SIZE; // TODO D3 symbol functions consider area using Math.sqrt(). Area of svg symbols in use elements is simply width*height
-var LABEL_ICON_SIZE_FACTOR = 0.333;
-var LABEL_ICON_SUPER_IMPOSITION_FAKTOR = LABEL_ICON_SIZE_FACTOR/5; // e.g. 2 : Overlap by 1/2 label icon size
+var LABEL_ICON_SUPER_IMPOSITION_FAKTOR = 1/1.3; // e.g. 1/2 : Overlap by 1/2 label icon size
 
 // canvas
 var width = 1400,
@@ -126,14 +125,14 @@ var width = 1400,
 			.attr("class", "svgLabelText")
 			//.attr("width",100 +"px")
 			//.attr("height",25 +"px")
-			.attr("width", function(d){ return d.width*LABEL_ICON_SIZE_FACTOR + "px"; }) // are these sizes sensible?
-			.attr("height",function(d){ return d.width*LABEL_ICON_SIZE_FACTOR + "px"; });
+			.attr("width", function(d){ return d.label_width + "px"; }) // are these sizes sensible?
+			.attr("height",function(d){ return d.label_width + "px"; });
 			//.style("margin-left",-100 + "px")
 			//.style("margin-bottom",-0.2*NODE_SIZE + "px");
 										
 			// The label and a copy of the label as shadow for better readability
-			labelContainerSVG.avmLabeledFDG2(function(d){ return d.width*LABEL_ICON_SIZE_FACTOR; }).attr("class", "nodeLabelShadow");
-			labelContainerSVG.avmLabeledFDG2(function(d){ return d.width*LABEL_ICON_SIZE_FACTOR; });
+			labelContainerSVG.avmLabeledFDG2(function(d){ return d.label_width; }).attr("class", "nodeLabelShadow");
+			labelContainerSVG.avmLabeledFDG2(function(d){ return d.label_width; });
 		  
 		    return containerDiv;
 	  };
@@ -145,18 +144,25 @@ var width = 1400,
 			
 		containerDiv.append("svg")
 			.attr("class", "svgLabelIcon")
-			.attr("width",function(d){ return d.width*LABEL_ICON_SIZE_FACTOR + "px"; })
-			.attr("height",function(d){ return d.width*LABEL_ICON_SIZE_FACTOR + "px"; })
-			.style("margin",function(d){ return -1*d.width*LABEL_ICON_SUPER_IMPOSITION_FAKTOR + "px"; })
+			.attr("width",function(d){ return d.label_width + "px"; })
+			.attr("height",function(d){ return d.label_width + "px"; })
+			.style("margin",function(d){ return -1*d.label_width*LABEL_ICON_SUPER_IMPOSITION_FAKTOR + "px"; })
+			//.style("margin","0px")
 			
+			.append("svg:g") // translating here allows for using transform two times (for scale, translate. alternative could be use of matrix)
+				.attr("transform", function(d){ return "translate(" + d.label_width/2 + "," + d.label_width/2 + ")";})
+				//.attr("x", function(d){ return (d.label_width)/2;}) // somehow offers other results than translate
+		        //.attr("y", function(d){ return (d.label_width)/2;})
+				
 			.append("use")
 			  .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.label_shape_d3_name; })
 			  //.attr("xlink:href", function(d) { return "../../svg/symbols.svg#clock"; })
 	   	 	  .attr("class", function(d) { return "label svgSymbol"; })
 		      .style("fill", function(d) { return "darkred"; })
-		      .attr("transform", function(d) { return "scale(" + (d.width*LABEL_ICON_SIZE_FACTOR/SYMBOL_WIDTH) +  ")"; })
+		      .attr("transform", function(d) { return "scale(" + (d.label_width/SYMBOL_WIDTH) +  ")"; })
 			  ;
 			
+			/* OLD: path instead of symbol. advantage: shape can be calculated on square-pixels (area) */
 			/*.append("path")
 	  			.attr("class", "label")
 	 			.attr("d", avmDefaultSizeLabelSymbolFunction)

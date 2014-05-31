@@ -30,6 +30,7 @@ div.labelContainer {
 
 .svgLabelIcon {
 	/*background-color: green;*/
+	/*opacity: 0.5;*/
 	top:0px;
 	left:0px;
 	overflow: visible; /* ignored by webkit, see this bug : https://bugs.webkit.org/show_bug.cgi?id=96163 ; leads to some cropping of the symbols */
