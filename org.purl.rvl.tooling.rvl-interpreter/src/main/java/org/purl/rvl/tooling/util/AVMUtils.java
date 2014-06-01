@@ -14,6 +14,7 @@ import org.ontoware.rdf2go.util.RDFTool;
 import org.ontoware.rdfreactor.schema.rdfs.Resource;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
+import org.purl.rvl.java.gen.viso.graphic.Labeling;
 import org.purl.rvl.java.viso.graphic.ColorX;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 
@@ -80,6 +81,26 @@ public class AVMUtils {
 	}
 	
 	/**
+	 * Get all the GraphicObjects including connectors, labels ...
+	 * 
+	 * @return a set of GraphicObjectX
+	 */
+	public Set<GraphicObjectX> getAllGraphicObjects(Model modelAVM){
+		
+		Set<GraphicObjectX> gos = new HashSet<GraphicObjectX>();
+		
+		org.purl.rvl.java.gen.viso.graphic.GraphicObject[] goArray = 
+				org.purl.rvl.java.gen.viso.graphic.GraphicObject.getAllInstances_as(modelAVM).asArray();
+		
+		for (int i = 0; i < goArray.length; i++) {
+			GraphicObjectX startNode = (GraphicObjectX) goArray[i].castTo(GraphicObjectX.class);
+			gos.add(startNode);
+		}
+		
+		return gos;
+	}
+	
+	/**
 	 * Get only the GraphicObjects that need to be displayed. Remove objects
 	 * playing the role of connectors for example.
 	 * 
@@ -95,7 +116,8 @@ public class AVMUtils {
 				"WHERE { " +
 				"	?go a " + GraphicObjectX.RDFS_CLASS.toSPARQL() + " ." +
 //				"	?someRelation " + DirectedLinking.STARTNODE.toSPARQL() + " ?go ." +
-				"	FILTER NOT EXISTS { ?someRelation " + DirectedLinking.LINKINGCONNECTOR .toSPARQL() + " ?go . }" +
+				"	FILTER NOT EXISTS { ?someRelation " + DirectedLinking.LINKINGCONNECTOR.toSPARQL() + " ?go . }" +
+				"	FILTER NOT EXISTS { ?someRelation " + Labeling.LABELINGLABEL.toSPARQL() + " ?go . }" +
 				"} ";
 		LOGGER.finest("query for relevant GOs: " + query);
 

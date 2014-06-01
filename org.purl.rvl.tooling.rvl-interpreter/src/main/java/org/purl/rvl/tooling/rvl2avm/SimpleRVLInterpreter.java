@@ -420,15 +420,9 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 
 			URI roleURI = smr.getOnRole().asURI();
 			URI triplePartURI = smr.getOnTriplePart().asURI();
-			
-			LOGGER.finer("Applying submapping to GO with the role " + roleURI + 
-					" based on triple part " + triplePartURI);
-			
+						
 			// modelAVM.findStatements(dlRel,role,Variable.ANY); does not work somehow -> Jena mapping problems
-
-			GraphicObjectX goToApplySubmapping = RVLUtils.getGOForRole(modelAVM, dlRel, roleURI); 
-			// TODO this is a simplification: multiple GOs may be affected, not only one
-				
+			
 			MappingX subMapping = smr.getSubMapping();
 			
 			if (subMapping.isDisabled()) {
@@ -446,10 +440,35 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			p2gam = p2gam.tryReplaceWithCashedInstanceForSameURI(p2gam);
 			
 			try {
-				applyMappingToGraphicObject(mainStatement, triplePartURI, goToApplySubmapping, p2gam);
-				// this does not use the cashed mappings somehow:
-				//goToApplySubmapping.setLabel(roleURI + " with an applied submapping: " + smr.toStringSummary());
 				
+				if (roleURI.toString().equals("http://purl.org/viso/graphic/this")) {
+					
+					// apply submapping to this relation itself?
+					//
+					// currently we also allow submapping on the relation itself to "parameterize" the n-ary relationship, 
+					// e.g. to set the attachment type for labeling relations
+					
+					LOGGER.finer("Applying submapping to the GR itself (role: " + roleURI + 
+							") based on triple part " + triplePartURI);
+					
+					applyMappingToNaryRelation(mainStatement, triplePartURI, dlRel, p2gam);
+					
+				} else {
+					
+					// otherwise apply it to a GO with the given role ...
+					
+					LOGGER.finer("Applying submapping to GO with the role " + roleURI + 
+							" based on triple part " + triplePartURI);
+	
+					GraphicObjectX goToApplySubmapping = RVLUtils.getGOForRole(modelAVM, dlRel, roleURI); 
+					// TODO this is a simplification: multiple GOs may be affected, not only one
+	
+					applyMappingToGraphicObject(mainStatement, triplePartURI, goToApplySubmapping, p2gam);
+					// this does not use the cashed mappings somehow:
+					//goToApplySubmapping.setLabel(roleURI + " with an applied submapping: " + smr.toStringSummary());
+						
+				}
+			
 			} catch (InsufficientMappingSpecificationException e) {
 				
 				LOGGER.warning("Submapping " + p2gam + " could not be applied. Reason: " + e.getMessage());
@@ -457,6 +476,77 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			
 		}
 		
+	}
+
+	/**
+	 * Hack: Copied from applyMappingToGraphicObject() to allow for "parameterizing" n-ary-relations by submappings. 
+	 * Incomplete. will only work when triple part is "object" and will always set setLabelingattachedBy
+	 * 
+	 * @param mainStatement
+	 * @param triplePartURI
+	 * @param rel
+	 * @param p2gam
+	 * @throws InsufficientMappingSpecificationException
+	 */
+	private void applyMappingToNaryRelation(Statement mainStatement, URI triplePartURI, Resource rel, PropertyToGraphicAttributeMappingX p2gam) throws InsufficientMappingSpecificationException {
+		//((Labeling)rel).setLabelingattachedBy(Containment.RDFS_CLASS);
+		//((Labeling)rel).setLabelingattachedBy(Superimposition.RDFS_CLASS);
+		
+		GraphicAttribute tga = p2gam.getTargetAttribute();
+		Property sp = p2gam.getSourceProperty();
+
+		// get the subproperties as subjects of the new mapping --> do this in the calculation of value mappings instead
+
+		if (null != tga && p2gam.hasValuemapping()) {
+		
+			Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
+			
+			if (null == svUriTVuriMap || svUriTVuriMap.isEmpty()) {
+				LOGGER.severe("Could not apply submappings since (explicit or calculated) value mappings were null");
+				return;
+			} else {
+				LOGGER.finer(p2gam.explicitlyMappedValuesToString());
+			}
+			
+			Node sv = null, tv = null;
+			
+			if (triplePartURI.toString().equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#object")){
+				if (sp.toString().equals(RVL.ID) || sp.toString().equals(RDF.ID) ) {
+					sv = mainStatement.getObject(); // TODO ID actually only fine when URIs!
+					tv = svUriTVuriMap.get(sv);
+				} else {
+					try {
+						//sv = RDFTool.getSingleValue(model, mainStatement.getObject().asResource(), sp.asURI());
+						
+						ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, mainStatement.getObject().asResource(), sp.asURI(), Variable.ANY);
+						while (it.hasNext()) {
+							sv = it.next().getObject();
+							if (svUriTVuriMap.containsKey(sv)) { 
+								tv = svUriTVuriMap.get(sv);
+								break;
+							}
+						}
+						
+					} catch (Exception e) {
+						LOGGER.severe("Could not get value for source property " + sp + "for object " + mainStatement.getObject() );
+						return;
+					}
+				}
+			} 
+			
+			// if we found a tv for the sv
+			if (null != tv) {
+				
+				((Labeling)rel).setLabelingattachedBy(tv); // TODO only works for this specific tga! 
+	    		
+			} else {
+				LOGGER.finest("Source or target value was null, couldn't apply value " + tv + " to the sv " + sv);
+			}
+				
+			
+		} else {
+			LOGGER.warning("P2GAM with no value mappings at all are not yet supported (defaults needs to be implemented).");
+		}
 	}
 
 	private void applyMappingToGraphicObject(

@@ -49,18 +49,6 @@
         a rvl:SubMappingRelation ;
         rvl:subMapping-onRole vg:linkingDirected_startNode;
         rvl:subMapping-onTriplePart rdf:subject;
-        rvl:subMapping-mapping :TypeToLabelStyleMapping;
-      ],
-      [
-        a rvl:SubMappingRelation ;
-        rvl:subMapping-onRole vg:linkingDirected_endNode;
-        rvl:subMapping-onTriplePart rdf:object;
-        rvl:subMapping-mapping :TypeToLabelStyleMapping;
-      ],
-      [
-        a rvl:SubMappingRelation ;
-        rvl:subMapping-onRole vg:linkingDirected_startNode;
-        rvl:subMapping-onTriplePart rdf:subject;
         rvl:subMapping-mapping :PMfromType2Width;
       ],
       [
@@ -70,7 +58,19 @@
         rvl:subMapping-mapping :PMfromType2Width;
       ]
       .
-
+      
+      
+:ShouldBecomeASubmappingWhenPossible
+      rvl:disabled "false"^^xsd:boolean ;
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:sourceProperty owl:topObjectProperty ;
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:subMapping [
+        rvl:subMapping-onRole vg:this;
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :TypeToLabelStyleMapping;
+      ]
+      .
 
              
                  

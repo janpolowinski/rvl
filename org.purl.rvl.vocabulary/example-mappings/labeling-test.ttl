@@ -23,10 +23,17 @@ rexm:PMWithExplicitValueMappingsAsBlankNodes
       rvl:sourceProperty rexd:workingField ;
       rvl:targetObjToObjRelation vg:Labeling_Relation ; 
       rvl:subMapping [
-      	a rvl:SubMappingRelation ;
         rvl:subMapping-onRole vg:labeling_label; # use role "this" to apply submappings to the n-ary relation itself?
         rvl:subMapping-onTriplePart rdf:object;
         rvl:subMapping-mapping :IconLabelShapeMapping;
+      ],[
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :IconLabelColorMapping;
+      ],[
+        rvl:subMapping-onRole vg:this;
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :TypeToLabelStyleMapping;
       ]
       .
       
@@ -38,13 +45,48 @@ rexm:IconLabelShapeMapping
       rvl:valueMapping [
         a rvl:ValueMapping ;
 		rvl:sourceValue rexd:Sci-Fi;
-        rvl:targetValue common-shapes:Rhomb;
+        rvl:targetValue common-shapes:Cross;
       ],[
         a rvl:ValueMapping ;
 		rvl:sourceValue rexd:Biography;
-        rvl:targetValue common-shapes:Square;
+        rvl:targetValue common-shapes:Clock;
       ]
       .   
+      
+      
+rexm:IconLabelColorMapping
+      rvl:disabled "true"^^xsd:boolean ;
+      rdf:type rvl:PropertyMapping ;
+      rvl:sourceProperty rvl:ID ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Sci-Fi;
+        rvl:targetValue vg:Orange;
+      ],[
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Biography;
+        rvl:targetValue vg:Green;
+      ]
+      .  
+      
+:TypeToLabelStyleMapping
+	  rvl:disabled "true";
+      rdf:type rvl:PropertyMapping ;
+      rvl:sourceProperty rvl:ID ;
+      rvl:targetAttribute
+              vg:labeling_attachedBy ;
+      rvl:valueMapping [
+      	a rvl:valueMapping;
+		rvl:sourceValue rexd:Sci-Fi;
+      	rvl:targetValue vg:Containment_Relation;
+      ],
+      [
+      	a rvl:valueMapping;
+      	rvl:sourceValue rexd:Biography;
+      	rvl:targetValue vg:Superimposition_Relation;
+      ]
+      .
     
  
 

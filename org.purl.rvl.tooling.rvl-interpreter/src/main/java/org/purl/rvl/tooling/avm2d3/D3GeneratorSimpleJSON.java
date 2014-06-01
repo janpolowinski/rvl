@@ -54,22 +54,6 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 	}
 	
 
-	// TODO move to some upper class or AVMUTils
-	private Set<GraphicObjectX> getAllGraphicObjects(){
-		
-		Set<GraphicObjectX> gos = new HashSet<GraphicObjectX>();
-		
-		org.purl.rvl.java.gen.viso.graphic.GraphicObject[] goArray = 
-				org.purl.rvl.java.gen.viso.graphic.GraphicObject.getAllInstances_as(modelAVM).asArray();
-		
-		for (int i = 0; i < goArray.length; i++) {
-			GraphicObjectX startNode = (GraphicObjectX) goArray[i].castTo(GraphicObjectX.class);
-			gos.add(startNode);
-		}
-		
-		return gos;
-	}
-
 	/**
 	 * Generates JSON using SimpleJSON (Jackson JSON-Binding-Version also exists)
 	 */
@@ -122,8 +106,6 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			node.put("color_rgb_hex_combined", startNode.getColorRGBHexCombinedWithHSLValues());
 			node.put("shape_d3_name", startNodeShapeD3Name);
 			node.put("width", startNodeWidth);
-			node.put("label_shape_d3_name", startNodeShapeD3Name); /* temp, should be label.shape_d3_name*/
-			node.put("label_width", startNodeWidth*LABEL_ICON_SIZE_FACTOR);
 			
 			// temp label positioning using the attachedBy information
 			if (startNode.hasLabeledwith()){
@@ -134,6 +116,8 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				GraphicObjectToObjectRelation attachementRelation = nAryLabeling.getAllLabelingattachedBy_as().firstValue();
 				
 				node.put("label_shape_d3_name", label.getShape());
+				node.put("label_color_rgb_hex_combined", label.getColorRGBHexCombinedWithHSLValues());
+				node.put("label_width", startNodeWidth*LABEL_ICON_SIZE_FACTOR);
 				
 				if (attachementRelation.asURI().equals(Containment.RDFS_CLASS)) {
 					node.put("label_position", "centerCenter"); /* temp, should be label.shape_d3_name*/	

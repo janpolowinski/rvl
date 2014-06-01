@@ -158,7 +158,7 @@ var width = 1400,
 			  .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.label_shape_d3_name; })
 			  //.attr("xlink:href", function(d) { return "../../svg/symbols.svg#clock"; })
 	   	 	  .attr("class", function(d) { return "label svgSymbol"; })
-		      .style("fill", function(d) { return "darkred"; })
+		      .style("fill", function(d) { return d.label_color_rgb_hex_combined; })
 		      .attr("transform", function(d) { return "scale(" + (d.label_width/SYMBOL_WIDTH) +  ")"; })
 			  ;
 			
