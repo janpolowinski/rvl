@@ -24,7 +24,7 @@ rexm:PMWithExplicitValueMappingsAsBlankNodes
       rvl:targetObjToObjRelation vg:Labeling_Relation ; 
       rvl:subMapping [
       	a rvl:SubMappingRelation ;
-        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onRole vg:labeling_label; # use role "this" to apply submappings to the n-ary relation itself?
         rvl:subMapping-onTriplePart rdf:object;
         rvl:subMapping-mapping :IconLabelShapeMapping;
       ]

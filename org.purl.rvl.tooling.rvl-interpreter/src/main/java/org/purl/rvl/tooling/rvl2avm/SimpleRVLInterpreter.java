@@ -173,9 +173,13 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		    	rel.setLabelingattachedBy(Superimposition.RDFS_CLASS); // passing a node here
 		    	rel.setLabelingbase(subjectNode);
 		    	
-		    	// set default shape of directed connectors
-		    	label.setShapenamed(new ShapeX(modelAVM, "http://purl.org/viso/shape/commons/Clock", false));
+		    	// set default shape of icon labels
+		    	label.setShapenamed(new ShapeX(modelAVM, "http://purl.org/viso/shape/commons/Circle", false));
 		    	
+		    	// submappings
+				if(p2go2orm.hasSub_mapping()){
+					applySubmappings(p2go2orm,statement,rel);
+				}
 				
 			} catch (Exception e) {
 				LOGGER.warning("Problem creating GOs: " + e.getMessage());

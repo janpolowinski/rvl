@@ -129,9 +129,11 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			if (startNode.hasLabeledwith()){
 				
 				Labeling nAryLabeling = startNode.getAllLabeledwith_as().firstValue(); // TODO only one label handled!
-				//GraphicObjectX label = (GraphicObjectX) nAryLabeling.getAllLabelinglabel_asNode_().firstValue(); 
+				GraphicObjectX label = (GraphicObjectX) nAryLabeling.getAllLabelinglabel_as().firstValue().castTo(GraphicObjectX.class);
 				
 				GraphicObjectToObjectRelation attachementRelation = nAryLabeling.getAllLabelingattachedBy_as().firstValue();
+				
+				node.put("label_shape_d3_name", label.getShape());
 				
 				if (attachementRelation.asURI().equals(Containment.RDFS_CLASS)) {
 					node.put("label_position", "centerCenter"); /* temp, should be label.shape_d3_name*/	
@@ -140,9 +142,6 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 					node.put("width", 30);
 					node.put("display_label_icon", true);
 				}
-				
-				//node.put("label_shape_d3_name", label.getShape();); /* temp, should be label.shape_d3_name*/
-				node.put("label_shape_d3_name", "plus"); /* temp, should be label.shape_d3_name*/
 					
 				// ... other positions ...
 				
