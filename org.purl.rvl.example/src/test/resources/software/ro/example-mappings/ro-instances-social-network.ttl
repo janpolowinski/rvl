@@ -18,7 +18,7 @@
 
 :AnyPropertyToLinkingByConnectorMapping
       a rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true"^^xsd:boolean ;
       rdfs:label "(Any) property to linking by connector mapping"^^xsd:string ;
       rvl:sourceProperty owl:topObjectProperty ;
       #rvl:invertSourceProperty "true"^^xsd:boolean;
@@ -63,7 +63,7 @@
 :ShouldBecomeASubmappingWhenPossible
       rvl:disabled "false"^^xsd:boolean ;
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:sourceProperty owl:topObjectProperty ;
+      rvl:sourceProperty owl:topObjectProperty ;  ## why does this not work?: ro:isAuthoredBy
       rvl:targetObjToObjRelation vg:Labeling_Relation ; 
       rvl:subMapping [
         rvl:subMapping-onRole vg:this;
