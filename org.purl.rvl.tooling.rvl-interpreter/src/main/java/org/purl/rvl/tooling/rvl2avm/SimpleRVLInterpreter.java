@@ -11,6 +11,7 @@ import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
+import org.ontoware.rdf2go.vocabulary.RDFS;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
@@ -441,7 +442,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			
 			try {
 				
-				if (roleURI.toString().equals("http://purl.org/viso/graphic/this")) {
+				if (roleURI.equals("http://purl.org/viso/graphic/this")) {
 					
 					// apply submapping to this relation itself?
 					//
@@ -478,6 +479,24 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		
 	}
 
+	private Tuple<Node,Node> lookUpTvForSv(ClosableIterator<Statement> it, Map<Node, Node> svUriTVuriMap){
+		
+		Tuple<Node,Node> svWithItsTv = null;
+		Node sv;
+		
+		// TODO: maybe not the most specific is mapped ...
+		
+		while (it.hasNext()) {
+			sv = it.next().getObject();
+			if (svUriTVuriMap.containsKey(sv)) { 
+				svWithItsTv = new Tuple<Node,Node>(sv, svUriTVuriMap.get(sv));
+				return svWithItsTv;
+			}
+		}
+		
+		return svWithItsTv;
+	}
+	
 	/**
 	 * Hack: Copied from applyMappingToGraphicObject() to allow for "parameterizing" n-ary-relations by submappings. 
 	 * Incomplete. will only work when triple part is "object" and will always set setLabelingattachedBy
@@ -489,17 +508,21 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	 * @throws InsufficientMappingSpecificationException
 	 */
 	private void applyMappingToNaryRelation(Statement mainStatement, URI triplePartURI, Resource rel, PropertyToGraphicAttributeMappingX p2gam) throws InsufficientMappingSpecificationException {
-		//((Labeling)rel).setLabelingattachedBy(Containment.RDFS_CLASS);
-		//((Labeling)rel).setLabelingattachedBy(Superimposition.RDFS_CLASS);
 		
 		GraphicAttribute tga = p2gam.getTargetAttribute();
 		Property sp = p2gam.getSourceProperty();
 
 		// get the subproperties as subjects of the new mapping --> do this in the calculation of value mappings instead
 
-		if (null != tga && p2gam.hasValuemapping()) {
+		if (null == tga) {
+			throw new InsufficientMappingSpecificationException("no target graphic attribute set");
+		}
 		
-			Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
+		if (!p2gam.hasValuemapping()) {
+			throw new InsufficientMappingSpecificationException("P2GAM with no value mappings at all are not yet supported (defaults needs to be implemented).");
+		}
+		
+			Map<Node,Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
 			
 			if (null == svUriTVuriMap || svUriTVuriMap.isEmpty()) {
 				LOGGER.severe("Could not apply submappings since (explicit or calculated) value mappings were null");
@@ -508,65 +531,51 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				LOGGER.finer(p2gam.explicitlyMappedValuesToString());
 			}
 			
-			Node sv = null, tv = null;
+			Node sv = null,
+				 tv = null;
 			
-			if (triplePartURI.toString().equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#object")){
-				if (sp.toString().equals(RVL.ID) || sp.toString().equals(RDF.ID) ) {
-					sv = mainStatement.getObject(); // TODO ID actually only fine when URIs!
-					tv = svUriTVuriMap.get(sv);
-				} else {
-					try {
-						//sv = RDFTool.getSingleValue(model, mainStatement.getObject().asResource(), sp.asURI());
-						
-						ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, mainStatement.getObject().asResource(), sp.asURI(), Variable.ANY);
-						while (it.hasNext()) {
-							sv = it.next().getObject();
-							if (svUriTVuriMap.containsKey(sv)) { 
-								tv = svUriTVuriMap.get(sv);
-								break;
-							}
-						}
-						
-					} catch (Exception e) {
-						LOGGER.severe("Could not get value for source property " + sp + "for object " + mainStatement.getObject() );
-						return;
-					}
-				}
-			} else if (triplePartURI.toString().equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#subject")){
-				if (sp.toString().equals(RVL.ID) || sp.toString().equals(RDF.ID) ) {
-					sv = mainStatement.getSubject();
-					tv = svUriTVuriMap.get(sv);
-				} else {
-					// TODO: maybe not the most specific is mapped ...
-					//sv = RDFTool.getSingleValue(model, mainStatement.getSubject().asResource(), sp.asURI());
-					
-					ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, mainStatement.getSubject().asResource(), sp.asURI(), Variable.ANY);
-					while (it.hasNext()) {
-						sv = it.next().getObject();
-						if (svUriTVuriMap.containsKey(sv)) { 
-							tv = svUriTVuriMap.get(sv);
-							break;
-						}
-					}
-				}
+			if (sp.equals(RDF.ID) ) { // special treatment of rdf:ID
 				
-			} else {
-				if (sp.toString().equals(RVL.ID) || sp.toString().equals(RDF.ID) ) {
+				if (triplePartURI.equals(RDF.subject)) {
+					sv = mainStatement.getSubject(); // TODO ID actually only fine when URIs!
+				}
+				else if (triplePartURI.equals(RDF.predicate)) {
 					sv = mainStatement.getPredicate();
-					tv = svUriTVuriMap.get(sv);
+				}
+				else if (triplePartURI.equals(RDF.object)) {
+					sv = mainStatement.getObject();
 				} else {
-					//sv = RDFTool.getSingleValue(model, mainStatement.getPredicate().asResource(), sp.asURI());
-					
-					ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, mainStatement.getPredicate().asResource(), sp.asURI(), Variable.ANY);
-					while (it.hasNext()) {
-						sv = it.next().getObject();
-						if (svUriTVuriMap.containsKey(sv)) { 
-							tv = svUriTVuriMap.get(sv);
-							break;
-						}
-					}
+					throw new InsufficientMappingSpecificationException("only subject/predicate/object allowed");
+				}
+
+				tv = svUriTVuriMap.get(sv);
+				
+			} else { // other source properties than rdf:ID ...
+				
+				Tuple<Node,Node> svWithItsTv;
+				ClosableIterator<Statement> it;
+				
+				if (triplePartURI.equals(RDF.subject)) {
+					it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, mainStatement.getSubject().asResource(), sp.asURI(), Variable.ANY);	
+				} else if (triplePartURI.equals(RDF.object)) {
+					it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, mainStatement.getObject().asResource(), sp.asURI(), Variable.ANY);						
+				} else if (triplePartURI.equals(RDF.predicate)) {
+					it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, mainStatement.getPredicate().asResource(), sp.asURI(), Variable.ANY);	
+				} else {
+					throw new InsufficientMappingSpecificationException("only subject/predicate/object allowed");
 				}
 				
+				try {
+					
+					svWithItsTv = lookUpTvForSv(it, svUriTVuriMap);
+					sv = svWithItsTv.x;
+					tv = svWithItsTv.y;
+					
+				} catch (Exception e) {
+					LOGGER.severe("Could not get value for source property " + sp + "for object " + mainStatement.getObject() );
+					return;
+				}
+
 			}
 			
 			// if we found a tv for the sv
@@ -577,11 +586,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			} else {
 				LOGGER.finest("Source or target value was null, couldn't apply value " + tv + " to the sv " + sv);
 			}
-				
-			
-		} else {
-			LOGGER.warning("P2GAM with no value mappings at all are not yet supported (defaults needs to be implemented).");
-		}
+
 	}
 
 	private void applyMappingToGraphicObject(
@@ -610,7 +615,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			Node sv = null, tv = null;
 			
 			if (triplePartURI.toString().equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#subject")){
-				if (sp.toString().equals(RVL.ID) || sp.toString().equals(RDF.ID) ) {
+				if (sp.equals(RDF.ID) ) {
 					sv = mainStatement.getSubject();
 					tv = svUriTVuriMap.get(sv);
 				} else {
@@ -630,7 +635,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				}
 					
 			} else if (triplePartURI.toString().equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#object")){
-				if (sp.toString().equals(RVL.ID) || sp.toString().equals(RDF.ID) ) {
+				if (sp.equals(RDF.ID) ) {
 					sv = mainStatement.getObject(); // TODO ID actually only fine when URIs!
 					tv = svUriTVuriMap.get(sv);
 				} else {
@@ -652,7 +657,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					}
 				}
 			} else {
-				if (sp.toString().equals(RVL.ID) || sp.toString().equals(RDF.ID) ) {
+				if (sp.equals(RDF.ID) ) {
 					sv = mainStatement.getPredicate();
 					tv = svUriTVuriMap.get(sv);
 				} else {
@@ -957,6 +962,15 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			
 		}
 	}
+	
+	public class Tuple<X, Y> { 
+		  public final X x; 
+		  public final Y y; 
+		  public Tuple(X x, Y y) { 
+		    this.x = x; 
+		    this.y = y; 
+		  } 
+		} 
 	
 
 }
