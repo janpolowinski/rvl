@@ -532,7 +532,42 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 						return;
 					}
 				}
-			} 
+			} else if (triplePartURI.toString().equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#subject")){
+				if (sp.toString().equals(RVL.ID) || sp.toString().equals(RDF.ID) ) {
+					sv = mainStatement.getSubject();
+					tv = svUriTVuriMap.get(sv);
+				} else {
+					// TODO: maybe not the most specific is mapped ...
+					//sv = RDFTool.getSingleValue(model, mainStatement.getSubject().asResource(), sp.asURI());
+					
+					ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, mainStatement.getSubject().asResource(), sp.asURI(), Variable.ANY);
+					while (it.hasNext()) {
+						sv = it.next().getObject();
+						if (svUriTVuriMap.containsKey(sv)) { 
+							tv = svUriTVuriMap.get(sv);
+							break;
+						}
+					}
+				}
+				
+			} else {
+				if (sp.toString().equals(RVL.ID) || sp.toString().equals(RDF.ID) ) {
+					sv = mainStatement.getPredicate();
+					tv = svUriTVuriMap.get(sv);
+				} else {
+					//sv = RDFTool.getSingleValue(model, mainStatement.getPredicate().asResource(), sp.asURI());
+					
+					ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, mainStatement.getPredicate().asResource(), sp.asURI(), Variable.ANY);
+					while (it.hasNext()) {
+						sv = it.next().getObject();
+						if (svUriTVuriMap.containsKey(sv)) { 
+							tv = svUriTVuriMap.get(sv);
+							break;
+						}
+					}
+				}
+				
+			}
 			
 			// if we found a tv for the sv
 			if (null != tv) {
