@@ -94,7 +94,7 @@ rvl:valueMapping
 :PMfromID2ColorNamed
       rdf:type rvl:PropertyMapping ;
       rdfs:label "PM from ID to color 2 (used as a submapping above)"^^xsd:string ;
- 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:sourceProperty rdf:ID ;
  	  rvl:targetAttribute vg:color_named ;
  	  rvl:valueMapping [
         a rvl:ValueMapping ;
@@ -113,7 +113,7 @@ rvl:valueMapping
 :PMfromID2ShapeNamed
       rdf:type rvl:PropertyMapping ;
       rdfs:label "PM from ID to shape (used as a submapping above)"^^xsd:string ;
- 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:sourceProperty rdf:ID ;
  	  rvl:targetAttribute vg:shape_named ;
  	  rvl:valueMapping [
         a rvl:ValueMapping ;

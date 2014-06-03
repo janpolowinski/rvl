@@ -43,7 +43,7 @@
       rdf:type rvl:PropertyMapping ;
       rvl:disabled "true"^^xsd:boolean ;
       rdfs:label "Property type to color helper mapping"^^xsd:string ;
-      rvl:sourceProperty rvl:ID ;
+      rvl:sourceProperty rdf:ID ;
       rvl:targetAttribute
               vg:color_named ;
       rvl:valueMapping [

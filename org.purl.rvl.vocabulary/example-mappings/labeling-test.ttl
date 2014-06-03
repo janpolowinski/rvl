@@ -40,7 +40,7 @@ rexm:PMWithExplicitValueMappingsAsBlankNodes
 rexm:IconLabelShapeMapping
       rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
-      rvl:sourceProperty rvl:ID ;
+      rvl:sourceProperty rdf:ID ;
       rvl:targetAttribute vg:shape_named ; 
       rvl:valueMapping [
         a rvl:ValueMapping ;
@@ -57,7 +57,7 @@ rexm:IconLabelShapeMapping
 rexm:IconLabelColorMapping
       rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
-      rvl:sourceProperty rvl:ID ;
+      rvl:sourceProperty rdf:ID ;
       rvl:targetAttribute vg:color_named ; 
       rvl:valueMapping [
         a rvl:ValueMapping ;
@@ -73,7 +73,7 @@ rexm:IconLabelColorMapping
 :TypeToLabelStyleMapping
 	  rvl:disabled "true";
       rdf:type rvl:PropertyMapping ;
-      rvl:sourceProperty rvl:ID ;
+      rvl:sourceProperty rdf:ID ;
       rvl:targetAttribute
               vg:labeling_attachedBy ;
       rvl:valueMapping [

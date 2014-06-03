@@ -477,7 +477,7 @@ rexm:PMwithAnonSubmappingOnConnectorNotYetSupported
         rvl:subMapping-onTriplePart rdf:predicate;
         rvl:subMapping-mapping [
 			a rvl:PropertyMapping ;
- 			rvl:sourceProperty rvl:ID ;
+ 			rvl:sourceProperty rdf:ID ;
  			rvl:targetAttribute vg:color_named ;
  			
  			# some value mapping needs to be set, since we do not yet support defaults here!
@@ -505,7 +505,7 @@ rexm:PMfromID2ColorNamed
       rdf:type rvl:PropertyMapping ;
       rvl:disabled "false"^^xsd:boolean ;
       rdfs:label "PM from ID to color (used as a submapping)"^^xsd:string ;
- 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:sourceProperty rdf:ID ;
  	  rvl:targetAttribute vg:color_named ;
  	  rvl:valueMapping [
         a rvl:ValueMapping ;
@@ -526,7 +526,7 @@ rexm:PMfromID2ColorNamedAutomaticUnordered
       rdf:type rvl:PropertyMapping ;
       rvl:disabled "false"^^xsd:boolean ;
       rdfs:label "Automatic PM from ID to color unordered (used as a submapping above)"^^xsd:string ;
- 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:sourceProperty rdf:ID ;
  	  rvl:targetAttribute vg:color_named ;
  	  rvl:valueMapping [
         a rvl:ValueMapping ;
@@ -543,7 +543,7 @@ rexm:PMfromID2ColorNamedAutomaticOrdered
       rdf:type rvl:PropertyMapping ;
       rvl:disabled "false"^^xsd:boolean ;
       rdfs:label "Automatic PM from ID to color ordered (used as a submapping above)"^^xsd:string ;
- 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:sourceProperty rdf:ID ;
  	  rvl:targetAttribute vg:color_named ;
  	  rvl:valueMapping [
         a rvl:ValueMapping ;
@@ -565,7 +565,7 @@ rexm:PMfromID2ColorNamedAutomaticContinuous
       rdf:type rvl:PropertyMapping ;
       rvl:disabled "false"^^xsd:boolean ;
       rdfs:label "Automatic PM from ID to color continuous (used as a submapping above)"^^xsd:string ;
- 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:sourceProperty rdf:ID ;
  	  rvl:targetAttribute vg:color_hsl_lightness ;
 	  rvl:valueMapping [
         a rvl:ValueMapping ;
@@ -587,7 +587,7 @@ rexm:ShapeMappingToBeUsedAsSubmapping
       rvl:disabled "false"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rdfs:label "ShapeMappingToBeUsedAsSubmapping"^^xsd:string ;
-      rvl:sourceProperty rvl:ID ;
+      rvl:sourceProperty rdf:ID ;
       rvl:targetAttribute vg:shape_named ; 
       rvl:valueMapping [
         a rvl:ValueMapping ;

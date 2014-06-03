@@ -79,7 +79,7 @@
       rdf:type rvl:PropertyMapping ;
       rvl:disabled "true"^^xsd:boolean ;
       rdfs:label "PM from ID to color (usable as a submapping above)"^^xsd:string ;
- 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:sourceProperty rdf:ID ;
  	  rvl:targetAttribute vg:color_named ;
  	  rvl:valueMapping [
         a rvl:ValueMapping ;
@@ -99,7 +99,7 @@
       rdf:type rvl:PropertyMapping ;
       rvl:disabled "true"^^xsd:boolean ;
       rdfs:label "PM from ID to color 2 (used as a submapping above)"^^xsd:string ;
- 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:sourceProperty rdf:ID ;
  	  rvl:targetAttribute vg:color_named ;
  	  rvl:valueMapping [
         a rvl:ValueMapping ;
