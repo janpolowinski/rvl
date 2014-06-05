@@ -111,20 +111,30 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			if (startNode.hasLabeledwith()){
 				
 				Labeling nAryLabeling = startNode.getAllLabeledwith_as().firstValue(); // TODO only one label handled!
-				GraphicObjectX label = (GraphicObjectX) nAryLabeling.getAllLabelinglabel_as().firstValue().castTo(GraphicObjectX.class);
+
+				try {
+					
+					GraphicObjectX label = (GraphicObjectX) nAryLabeling.getAllLabelinglabel_as().firstValue().castTo(GraphicObjectX.class);
+					
+					GraphicObjectToObjectRelation attachementRelation = nAryLabeling.getAllLabelingattachedBy_as().firstValue();
+					
+					node.put("label_shape_d3_name", label.getShape());
+					node.put("label_color_rgb_hex_combined", label.getColorRGBHexCombinedWithHSLValues());
+					node.put("label_width", startNodeWidth*LABEL_ICON_SIZE_FACTOR);
+					
+					if (attachementRelation.asURI().equals(Containment.RDFS_CLASS)) {
+						node.put("label_position", "centerCenter"); /* temp, should be label.shape_d3_name*/	
+					} else if (attachementRelation.asURI().equals(Superimposition.RDFS_CLASS)) {
+						node.put("label_position", "centerRight"); /* temp, should be label.shape_d3_name*/	
+						node.put("width", 30);
+						node.put("display_label_icon", true);
+					}
 				
-				GraphicObjectToObjectRelation attachementRelation = nAryLabeling.getAllLabelingattachedBy_as().firstValue();
-				
-				node.put("label_shape_d3_name", label.getShape());
-				node.put("label_color_rgb_hex_combined", label.getColorRGBHexCombinedWithHSLValues());
-				node.put("label_width", startNodeWidth*LABEL_ICON_SIZE_FACTOR);
-				
-				if (attachementRelation.asURI().equals(Containment.RDFS_CLASS)) {
-					node.put("label_position", "centerCenter"); /* temp, should be label.shape_d3_name*/	
-				} else if (attachementRelation.asURI().equals(Superimposition.RDFS_CLASS)) {
-					node.put("label_position", "centerRight"); /* temp, should be label.shape_d3_name*/	
-					node.put("width", 30);
-					node.put("display_label_icon", true);
+				}
+				catch (NullPointerException e ){
+					
+					LOGGER.severe("Problem getting label from labeling relation, labeling " + nAryLabeling + " will be ignored.");
+					
 				}
 					
 				// ... other positions ...
