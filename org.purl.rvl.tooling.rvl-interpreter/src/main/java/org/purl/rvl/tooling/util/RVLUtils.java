@@ -22,6 +22,9 @@ import org.purl.rvl.java.RVL;
 import org.purl.rvl.java.rvl.MappingX;
 import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.tooling.process.OGVICProcess;
+import org.purl.rvl.tooling.query.AllSomeValuesFromSPARQLQueryBuilder;
+import org.purl.rvl.tooling.query.DomainRangeSPARQLQueryBuilder;
+import org.purl.rvl.tooling.query.SPARQLQueryBuilder;
 
 /**
  * @author Jan Polowinski
@@ -291,8 +294,17 @@ public class RVLUtils {
 	}
 
 	
-	public static Set<Resource> getRelatedResources(Sparqlable modelOrModelSet, Resource subject,
-			Property inheritedBy) {
+	/**
+	 * Returns all resources from the data graph 
+	 * related to the baseResource via the property relation.
+	 * 
+	 * @param modelOrModelSet
+	 * @param baseResource
+	 * @param relation - a Property
+	 * @return a set of related resources
+	 */
+	public static Set<Resource> getRelatedResources(Sparqlable modelOrModelSet, Resource baseResource,
+			Property relation) {
 		
 		Set<Resource> resourceSet = new HashSet<Resource>();
 
@@ -303,7 +315,7 @@ public class RVLUtils {
 					" WHERE { " +
 					" GRAPH " + OGVICProcess.GRAPH_DATA.toSPARQL() + " { " +
 					//" ?r " + inheritedBy.toSPARQL()+"* " + subject.toSPARQL() + " . " +  TODO: overwrites everything when owl:Class is mapped
-					" ?r " + inheritedBy.toSPARQL()+" " + subject.toSPARQL()  + 
+					" ?r " + relation.toSPARQL()+" " + baseResource.toSPARQL()  + 
 					" } " +
 					" }";
 			

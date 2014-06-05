@@ -1,4 +1,4 @@
-package org.purl.rvl.tooling.util;
+package org.purl.rvl.tooling.query;
 
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.schema.rdfs.Property;

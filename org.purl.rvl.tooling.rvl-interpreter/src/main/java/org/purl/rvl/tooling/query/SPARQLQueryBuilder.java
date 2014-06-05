@@ -1,4 +1,4 @@
-package org.purl.rvl.tooling.util;
+package org.purl.rvl.tooling.query;
 
 import java.util.Map.Entry;
 import java.util.Set;

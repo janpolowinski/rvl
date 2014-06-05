@@ -7,3 +7,5 @@
 
 .classpath
 *.prefs
+
+*.checkstyle
