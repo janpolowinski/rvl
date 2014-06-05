@@ -99,6 +99,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			
 			Map node = new LinkedHashMap();
 			node.put("uri", startNode.getRepresentedResource().toString());
+			node.put("display_label_text", true);
 			node.put("label", D3Utils.shortenLabel(startNode.getLabel()));
 			node.put("full_label", startNode.getLabel() + " (ID: " + startNode.getRepresentedResource() + ")");
 			node.put("color_rgb_hex", startNodeColorRGBHex);
@@ -136,7 +137,6 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				catch (NullPointerException e ){
 					
 					LOGGER.severe("Problem getting label from labeling relation, labeling " + nAryLabeling + " will be ignored.");
-					
 				}
 					
 				// ... other positions ...
@@ -144,7 +144,6 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			} else {
 				
 				// default label positioning
-				node.put("display_label_text", true);
 				node.put("label_position", "topLeft"); /* temp, should be label.shape_d3_name*/	
 				
 			}
