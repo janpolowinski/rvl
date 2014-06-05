@@ -15,7 +15,6 @@ import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
 import org.purl.rvl.java.gen.rvl.Sub_mappingrelation;
-import org.purl.rvl.tooling.util.PrintUtils;
 
 /**
  * @author Jan Polowinski
@@ -90,7 +89,7 @@ public class PropertyToGO2ORMappingX extends
 				s += "          ... to mapping: " + mapping + NL ; // wrong return type and wrong methode name, but seems to work
 				s += "              ... Sub-Mapping-Details: " + NL;
 				s += NL;
-				s += PrintUtils.mappingToStringAsSpecificAsPossible((MappingX)mapping.castTo(MappingX.class)) + NL ;
+				s += ((MappingX)mapping.castTo(MappingX.class)).toStringAsSpecificAsPossible() + NL ;
 			}
 	
 		}

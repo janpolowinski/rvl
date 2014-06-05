@@ -39,7 +39,7 @@ public class PrintUtils {
 			System.out.println("");
 			
 		  	org.purl.rvl.java.gen.rvl.Mapping mapping = MappingX.getInstance(model, new URIImpl(uriString));
-		  	System.out.println(PrintUtils.mappingToStringAsSpecificAsPossible((MappingX) mapping.castTo(MappingX.class)));
+		  	System.out.println(((MappingX) mapping.castTo(MappingX.class)).toStringAsSpecificAsPossible());
 	  }
 
 	public static void printMapping(org.purl.rvl.java.gen.rvl.Mapping mapping){  
@@ -52,7 +52,7 @@ public class PrintUtils {
 			System.out.println("Mapping details: ");
 			System.out.println("");
 			
-			System.out.println(PrintUtils.mappingToStringAsSpecificAsPossible((MappingX) mapping.castTo(MappingX.class)));
+		  	System.out.println(((MappingX) mapping.castTo(MappingX.class)).toStringAsSpecificAsPossible());
 	  }
 
 	public static void listAllMappings(Model model) {
@@ -74,38 +74,11 @@ public class PrintUtils {
 			mapping = (MappingX) mappingIterator.next().castTo(MappingX.class);
 			if(!mapping.isDisabled()) {
 				//mappingToStringAsSpecificAsPossible(mapping);
-				System.out.println(mappingToStringAsSpecificAsPossible(mapping)); // TODO causes exception
+				System.out.println(mapping.toStringAsSpecificAsPossible()); // TODO causes exception
 				//System.out.println(mapping.toString());
 			}
 		}
 	}
-
-	public static String mappingToStringAsSpecificAsPossible(MappingX mapping){
-		
-		 String s = "";
-		  
-		// print as P2GAM (value mappings ... )
-		if(mapping.isInstanceof(org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX.RDFS_CLASS)) {
-			org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX p2gam = 
-					(org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX) mapping.castTo(
-							org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX.class);
-			s += p2gam.toStringDetailed();
-		}
-		// print as P2GO2ORM (submappings ... )
-		else if(mapping.isInstanceof(org.purl.rvl.java.rvl.PropertyToGO2ORMappingX.RDFS_CLASS)) {
-			org.purl.rvl.java.rvl.PropertyToGO2ORMappingX p2go2orm = 
-					(org.purl.rvl.java.rvl.PropertyToGO2ORMappingX) mapping.castTo(
-							org.purl.rvl.java.rvl.PropertyToGO2ORMappingX.class);
-			s += p2go2orm.toStringDetailed();
-		}
-		// print as general mapping
-		else {
-			s += mapping.toStringDetailed();
-		}
-		
-		return s;
-		
-	  }
 
 	public static void listAllColors(Model model) {
 		System.out.println("List of all colors in the model:");

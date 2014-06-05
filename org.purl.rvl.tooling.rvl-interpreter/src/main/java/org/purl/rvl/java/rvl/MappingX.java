@@ -74,4 +74,31 @@ public class MappingX extends org.purl.rvl.java.gen.rvl.Mapping implements Mappi
 		} else return false;
 	}
 
+	public String toStringAsSpecificAsPossible(){
+		
+		 String s = "";
+		  
+		// print as P2GAM (value mappings ... )
+		if(this.isInstanceof(org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX.RDFS_CLASS)) {
+			org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX p2gam = 
+					(org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX) this.castTo(
+							org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX.class);
+			s += p2gam.toStringDetailed();
+		}
+		// print as P2GO2ORM (submappings ... )
+		else if(this.isInstanceof(org.purl.rvl.java.rvl.PropertyToGO2ORMappingX.RDFS_CLASS)) {
+			org.purl.rvl.java.rvl.PropertyToGO2ORMappingX p2go2orm = 
+					(org.purl.rvl.java.rvl.PropertyToGO2ORMappingX) this.castTo(
+							org.purl.rvl.java.rvl.PropertyToGO2ORMappingX.class);
+			s += p2go2orm.toStringDetailed();
+		}
+		// print as general mapping
+		else {
+			s += this.toStringDetailed();
+		}
+		
+		return s;
+		
+	  }
+
 }
