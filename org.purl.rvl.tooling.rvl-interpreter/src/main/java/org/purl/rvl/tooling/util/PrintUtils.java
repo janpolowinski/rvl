@@ -1,6 +1,7 @@
 package org.purl.rvl.tooling.util;
 
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
@@ -19,6 +20,8 @@ import org.purl.rvl.java.viso.graphic.ColorX;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 
 public class PrintUtils {
+	
+	final static Logger LOGGER = Logger.getLogger(PrintUtils.class.getName()); 
 	
 	static final String NL =  System.getProperty("line.separator");
 	
@@ -116,7 +119,7 @@ public class PrintUtils {
 				Color.getAllInstances_as(model).asClosableIterator();
 		while (goIt.hasNext()) {
 			final ColorX color = (ColorX) goIt.next().castTo(ColorX.class);
-			AVMUtils.LOGGER.info(color.toString());
+			LOGGER.info(color.toString());
 		}	
 	}
 
@@ -149,14 +152,14 @@ public class PrintUtils {
 		while (resIt.hasNext()) {
 			Resource res = (Resource) resIt.next();
 	
-			AVMUtils.LOGGER.info(res.toString());
+			LOGGER.info(res.toString());
 			//LOGGER.info("Types:" + go.getAllType_as().asArray()[0].asURI());
 			
 			for (org.ontoware.rdfreactor.schema.rdfs.Class type : res.getAllType_as().asList()) {
 				try {
-					AVMUtils.LOGGER.info("T: " + type.asURI());
+					LOGGER.info("T: " + type.asURI());
 				} catch (ClassCastException e) {
-					AVMUtils.LOGGER.severe("evtl. blanknote");
+					LOGGER.severe("evtl. blanknote");
 				}
 			}
 		}		

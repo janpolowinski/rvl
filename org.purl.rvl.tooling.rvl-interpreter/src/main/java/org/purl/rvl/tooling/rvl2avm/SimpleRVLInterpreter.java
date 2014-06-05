@@ -46,10 +46,6 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 
 	
 	private final static Logger LOGGER = Logger.getLogger(SimpleRVLInterpreter.class .getName()); 
-
-	public SimpleRVLInterpreter() {
-		super();
-	}
 	
 	/* (non-Javadoc)
 	 * @see org.purl.rvl.tooling.rvl2avm.RVLInterpreterBase#interpretMappings()
@@ -609,10 +605,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			} else {
 				// we found a tv for the sv
 				((Labeling)rel).setLabelingattachedBy(tv); // TODO only works for this specific tga! 
-			}
-			
-			return; 
-
+			}	
 	}
 
 	private void applyMappingToGraphicObject(
