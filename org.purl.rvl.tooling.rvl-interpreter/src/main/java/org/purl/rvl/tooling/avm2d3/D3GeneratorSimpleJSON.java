@@ -37,6 +37,8 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 	
 	private final static Logger LOGGER = Logger.getLogger(D3GeneratorBase.class .getName()); 
 	static final String NL =  System.getProperty("line.separator");
+	private static final float DEFAULT_WITH = 20;
+	private static final float LABEL_ICON_SIZE_FACTOR = (float) 0.75;
 
 	
 	public D3GeneratorSimpleJSON() {
@@ -51,22 +53,6 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 		super(model, modelVISO);
 	}
 	
-
-	// TODO move to some upper class or AVMUTils
-	private Set<GraphicObjectX> getAllGraphicObjects(){
-		
-		Set<GraphicObjectX> gos = new HashSet<GraphicObjectX>();
-		
-		org.purl.rvl.java.gen.viso.graphic.GraphicObject[] goArray = 
-				org.purl.rvl.java.gen.viso.graphic.GraphicObject.getAllInstances_as(modelAVM).asArray();
-		
-		for (int i = 0; i < goArray.length; i++) {
-			GraphicObjectX startNode = (GraphicObjectX) goArray[i].castTo(GraphicObjectX.class);
-			gos.add(startNode);
-		}
-		
-		return gos;
-	}
 
 	/**
 	 * Generates JSON using SimpleJSON (Jackson JSON-Binding-Version also exists)
@@ -108,6 +94,9 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			// shape
 			String startNodeShapeD3Name = startNode.getShape();
 			
+			// width
+			float startNodeWidth = startNode.hasWidth()? startNode.getWidth() : DEFAULT_WITH;
+			
 			Map node = new LinkedHashMap();
 			node.put("uri", startNode.getRepresentedResource().toString());
 			node.put("label", D3Utils.shortenLabel(startNode.getLabel()));
@@ -115,25 +104,39 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			node.put("color_rgb_hex", startNodeColorRGBHex);
 			node.put("color_hsl_lightness", startNode.getColorHSLLightness());
 			node.put("color_rgb_hex_combined", startNode.getColorRGBHexCombinedWithHSLValues());
-			//node.put("width", 15);
-			//node.put("width", startNode.getColorHSLLightness()+5);
-			//node.put("heigth", startNode.getColorHSLLightness()+5);
 			node.put("shape_d3_name", startNodeShapeD3Name);
-			node.put("label_shape_d3_name", startNodeShapeD3Name); /* temp, should be label.shape_d3_name*/
+			node.put("width", startNodeWidth);
 			
 			// temp label positioning using the attachedBy information
 			if (startNode.hasLabeledwith()){
 				
 				Labeling nAryLabeling = startNode.getAllLabeledwith_as().firstValue(); // TODO only one label handled!
+
+				try {
+					
+					GraphicObjectX label = (GraphicObjectX) nAryLabeling.getAllLabelinglabel_as().firstValue().castTo(GraphicObjectX.class);
+					
+					GraphicObjectToObjectRelation attachementRelation = nAryLabeling.getAllLabelingattachedBy_as().firstValue();
+					
+					node.put("label_shape_d3_name", label.getShape());
+					node.put("label_color_rgb_hex_combined", label.getColorRGBHexCombinedWithHSLValues());
+					node.put("label_width", startNodeWidth*LABEL_ICON_SIZE_FACTOR);
+					
+					if (attachementRelation.asURI().equals(Containment.RDFS_CLASS)) {
+						node.put("display_label_text", true);
+						node.put("label_position", "centerCenter"); /* temp, should be label.shape_d3_name*/	
+					} else if (attachementRelation.asURI().equals(Superimposition.RDFS_CLASS)) {
+						node.put("display_label_icon", true);
+						node.put("label_position", "centerRight"); /* temp, should be label.shape_d3_name*/	
+						node.put("width", 30);
+						
+					}
 				
-				GraphicObjectToObjectRelation attachementRelation = nAryLabeling.getAllLabelingattachedBy_as().firstValue();
-				
-				if (attachementRelation.asURI().equals(Containment.RDFS_CLASS)) {
-					node.put("label_position", "centerCenter"); /* temp, should be label.shape_d3_name*/	
-					node.put("width", 30);
-				} else if (attachementRelation.asURI().equals(Superimposition.RDFS_CLASS)) {
-					node.put("label_position", "centerRight"); /* temp, should be label.shape_d3_name*/	
-					node.put("width", 30);
+				}
+				catch (NullPointerException e ){
+					
+					LOGGER.severe("Problem getting label from labeling relation, labeling " + nAryLabeling + " will be ignored.");
+					
 				}
 					
 				// ... other positions ...
@@ -141,8 +144,9 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			} else {
 				
 				// default label positioning
+				node.put("display_label_text", true);
 				node.put("label_position", "topLeft"); /* temp, should be label.shape_d3_name*/	
-				node.put("width", 15);
+				
 			}
 			
 			listOfNodes.add(node);

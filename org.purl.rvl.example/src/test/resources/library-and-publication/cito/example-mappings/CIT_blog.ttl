@@ -24,7 +24,7 @@
 	 
 :PredicateID2Color
       #a rvl:PropertyMapping ;
- 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:sourceProperty rdf:ID ;
  	  rvl:targetAttribute vg:color_named ;
  	  rvl:valueMapping [
         #a rvl:ValueMapping ;

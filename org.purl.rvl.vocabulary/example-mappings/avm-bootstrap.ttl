@@ -100,7 +100,7 @@ rexm:SubPropertyOfToLinkingDirected
       rdf:type rvl:PropertyMapping ;
       rvl:disabled "false"^^xsd:boolean ;
       rdfs:label "PM from ID to color (used as a submapping above)"^^xsd:string ;
- 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:sourceProperty rdf:ID ;
  	  rvl:targetAttribute vg:color_named ;
  	  rvl:valueMapping [
         a rvl:ValueMapping ;
@@ -141,7 +141,7 @@ rexm:SubPropertyOfToLinkingDirected
       rdf:type rvl:PropertyMapping ;
       rvl:disabled "false"^^xsd:boolean ;
       rdfs:label "PM from ID to shape (used as a submapping above)"^^xsd:string ;
- 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:sourceProperty rdf:ID ;
  	  rvl:targetAttribute vg:shape_named ;
  	  rvl:valueMapping [
         a rvl:ValueMapping ;
@@ -182,7 +182,7 @@ rexm:SubPropertyOfToLinkingDirected
       rdf:type rvl:PropertyMapping ;
       rvl:disabled "false"^^xsd:boolean ;
       rdfs:label "PM from ID to color"^^xsd:string ;
- 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:sourceProperty rdf:ID ;
  	  rvl:targetAttribute vg:color_named ;
  	  rvl:valueMapping [
         a rvl:ValueMapping ;

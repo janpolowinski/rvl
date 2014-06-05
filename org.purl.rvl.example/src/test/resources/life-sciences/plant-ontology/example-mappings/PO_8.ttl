@@ -49,7 +49,7 @@
       rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rdfs:label "Property type to shape helper mapping"^^xsd:string ;
-      rvl:sourceProperty rvl:ID ;
+      rvl:sourceProperty rdf:ID ;
       rvl:targetAttribute
               vg:shape_named ;
       rvl:valueMapping [

@@ -28,7 +28,7 @@ body {
 .node.highlighted path,
 .node.highlighted circle {
 	stroke: yellow;
-	stroke-width: 10px;
+	stroke-width: 6px;
 	/*filter:url(#blur-effect-2);*/ /* problems in firefox, when not in one html page? */
 	stroke-opacity:1;
 }
@@ -50,6 +50,17 @@ body {
 	stroke: yellow;
 }
 */
+
+.dragged text, .dragged path { 
+	cursor: move !important; 
+	font-size: 20px; /* seems to have no effect ?! */
+}
+
+.dragged text.nodeLabelShadow, .dragged text.nodeLabel { 
+	/*display:none;*/
+	fill-opacity: 0.1;
+	stroke-opacity: 0.1 !important;
+}
 
 .node--root {
   fill: black;

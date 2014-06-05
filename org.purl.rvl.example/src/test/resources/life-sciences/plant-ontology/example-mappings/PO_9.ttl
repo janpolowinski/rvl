@@ -58,7 +58,7 @@
       rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rdfs:label "PM from ID to shape (used as a submapping above)"^^xsd:string ;
- 	  rvl:sourceProperty rvl:ID ;
+ 	  rvl:sourceProperty rdf:ID ;
  	  rvl:targetAttribute vg:width ;
  	  rvl:valueMapping [
         a rvl:ValueMapping ;
@@ -71,7 +71,7 @@
       rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rdfs:label "Property type to shape helper mapping"^^xsd:string ;
-      rvl:sourceProperty rvl:ID ;
+      rvl:sourceProperty rdf:ID ;
       rvl:targetAttribute
               vg:shape_named ;
       rvl:valueMapping [
