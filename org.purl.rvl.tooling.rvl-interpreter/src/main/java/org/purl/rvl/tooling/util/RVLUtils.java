@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.QueryResultTable;
 import org.ontoware.rdf2go.model.QueryRow;
@@ -18,17 +17,12 @@ import org.ontoware.rdf2go.model.impl.StatementImpl;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
-import org.ontoware.rdf2go.model.node.impl.URIImpl;
-import org.ontoware.rdfreactor.runtime.ReactorResult;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
-import org.purl.rvl.exception.UnsupportedSelectorTypeException;
 import org.purl.rvl.java.RVL;
 import org.purl.rvl.java.rvl.MappingX;
 import org.purl.rvl.java.rvl.PropertyMappingX;
-import org.purl.rvl.java.rvl.filter.SubjectFilter;
-import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 
 /**
@@ -38,82 +32,6 @@ import org.purl.rvl.tooling.process.OGVICProcess;
 public class RVLUtils {
 	
 	private final static Logger LOGGER = Logger.getLogger(RVLUtils.class.getName()); 
-	
-	public static void listAllMappings(Model model) {
-
-		System.out.println("");
-		System.out.println("List of all mappings in the model" +
-				" (including subclasses when reasoning is on):");
-		System.out.println("");
-
-		// get references for all objects of the MappingX class
-		ReactorResult<? extends org.purl.rvl.java.gen.rvl.Mapping> rrMappings = MappingX
-				.getAllInstances_as(model);
-
-		// get and print all mapping instances
-		ClosableIterator<? extends org.purl.rvl.java.gen.rvl.Mapping> mappingIterator = rrMappings
-				.asClosableIterator();
-		MappingX mapping;
-		while (mappingIterator.hasNext()) {
-			mapping = (MappingX) mappingIterator.next().castTo(MappingX.class);
-			if(!mapping.isDisabled()) {
-				//mappingToStringAsSpecificAsPossible(mapping);
-				System.out.println(mappingToStringAsSpecificAsPossible(mapping)); // TODO causes exception
-				//System.out.println(mapping.toString());
-			}
-		}
-	}
-
-	  public static void printMappingWithURI(Model model, String uriString){
-		  
-			System.out.println("");
-			System.out.println("Trying to get and print mapping with the URI " + uriString + ":");
-			System.out.println("");
-			
-		  	org.purl.rvl.java.gen.rvl.Mapping mapping = MappingX.getInstance(model, new URIImpl(uriString));
-		  	System.out.println(mappingToStringAsSpecificAsPossible((MappingX) mapping.castTo(MappingX.class)));
-	  }
-	  
-	  public static void printMapping(org.purl.rvl.java.gen.rvl.Mapping mapping){  
-		  printMapping((MappingX)mapping.castTo(MappingX.class));
-	  }
-	  
-	  
-	  public static void printMapping(MappingX mapping){
-		  
-			System.out.println("");
-			System.out.println("Mapping details: ");
-			System.out.println("");
-			
-			System.out.println(mappingToStringAsSpecificAsPossible((MappingX) mapping.castTo(MappingX.class)));
-	  }
-	  
-	  public static String mappingToStringAsSpecificAsPossible(MappingX mapping){
-		
-		 String s = "";
-		  
-		// print as P2GAM (value mappings ... )
-		if(mapping.isInstanceof(org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX.RDFS_CLASS)) {
-			org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX p2gam = 
-					(org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX) mapping.castTo(
-							org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX.class);
-			s += p2gam.toStringDetailed();
-		}
-		// print as P2GO2ORM (submappings ... )
-		else if(mapping.isInstanceof(org.purl.rvl.java.rvl.PropertyToGO2ORMappingX.RDFS_CLASS)) {
-			org.purl.rvl.java.rvl.PropertyToGO2ORMappingX p2go2orm = 
-					(org.purl.rvl.java.rvl.PropertyToGO2ORMappingX) mapping.castTo(
-							org.purl.rvl.java.rvl.PropertyToGO2ORMappingX.class);
-			s += p2go2orm.toStringDetailed();
-		}
-		// print as general mapping
-		else {
-			s += mapping.toStringDetailed();
-		}
-		
-		return s;
-		
-	  }
 	
 	public static Set<Statement> findStatementsPreferingThoseUsingASubProperty(
 			Sparqlable modelOrModelSet,
@@ -290,7 +208,7 @@ public class RVLUtils {
 			
 			if(pm.hasSubjectfilter()) {
 				
-				selectorSPARQLString = getSubjectFilterString(pm);
+				selectorSPARQLString = pm.getSubjectFilterString();
 			
 			}
 			
@@ -343,87 +261,6 @@ public class RVLUtils {
 			} 
 			
 			return statementSet;
-	}
-
-	/**
-	 * @param pm - a PropertyMapping with a filter
-	 * @return the filter string for the subject in SPARQL
-	 */
-	protected static String getSubjectFilterString(PropertyMappingX pm) {
-		
-		try {
-			return new SubjectFilter(pm).getFilterString();
-		} catch (UnsupportedSelectorTypeException e) {
-			LOGGER.severe("Will ignore filter. Reason: " + e.getMessage());
-			return "";
-		}
-	}
-
-	/**
-	 * Currently not in use! old code for getting statements directly with the
-	 * API without SPARQL. maybe reuse later, when performance should matter not
-	 * usable in most cases, since many filter and restrictions usually apply
-	 * for statement selection
-	 * 
-	 * @param modelOrModelSet
-	 * @param subject
-	 * @param object
-	 * @param spURI
-	 * @param classSelector
-	 * @return
-	 */
-	/*
-	protected static Collection<? extends Statement> findStatementsIncludingSubPropertyStatementsWithoutSPARQL(
-			Sparqlable modelOrModelSet,
-			org.ontoware.rdf2go.model.node.Resource subject,
-			org.ontoware.rdf2go.model.node.Node object, URI spURI,
-			org.ontoware.rdf2go.model.node.Resource classSelector) {
-		
-		Set<Statement> statementSet = new HashSet<Statement>();
-
-		Model dataModel;
-		try {
-			ModelSet modelSet = (ModelSet) modelOrModelSet;
-			dataModel = modelSet.getModel(OGVICProcess.GRAPH_DATA);
-		} catch (Exception e) {
-			LOGGER.severe("Could not get data model from modelOrModelSet, " +
-					"will use modelOrModelSet as if is was the data graph (model)");
-			dataModel = (Model) modelOrModelSet;
-		}
-
-		ClosableIterator<Statement> it = dataModel.findStatements(
-				null == subject ? Variable.ANY : subject, spURI,
-				null == object ? Variable.ANY : object);
-
-		while (it.hasNext()) {
-
-			Statement statement = it.next();
-
-			// check starts with constraint (workaround) and subjectFilter
-			if ((null == classSelector || RVLUtils.hasType(dataModel,
-					statement.getSubject(), classSelector))) {
-				statementSet.add(statement);
-				LOGGER.finest("added Statement (matching subfilter): "
-						+ statement.toString());
-			} else {
-				LOGGER.finest("skipped Statement (not matching subfilter): "
-						+ statement.toString());
-			}
-
-		}
-		
-		return statementSet;
-	}*/
-
-	
-
-
-	public static boolean hasType(
-			Model model, org.ontoware.rdf2go.model.node.Resource resource,
-			org.ontoware.rdf2go.model.node.Resource type) {
-
-			return model.contains(resource, new URIImpl("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), type);
-		
 	}
 
 	public static List<Node> rdfs2JavaList(org.ontoware.rdfreactor.schema.rdfs.List rdfsList) {
@@ -492,21 +329,6 @@ public class RVLUtils {
 		return stmtList;
 	}
 	
-	public static GraphicObjectX getGOForRole(
-			Model modelAVM, Node rel, URI roleURI) {
-		
-			List<Statement> stmtList = getRolesAndGOsFor(modelAVM,rel,roleURI);
-			
-			Node goNode = stmtList.get(0).getObject();
-			
-			org.purl.rvl.java.gen.viso.graphic.GraphicObject goGen = GraphicObjectX.getInstance(modelAVM, goNode.asResource());
-			
-			GraphicObjectX go = (GraphicObjectX) goGen.castTo(GraphicObjectX.class);
-			
-			return go;
-
-	}
-
 	public static Set<Resource> getRelatedResources(Sparqlable modelOrModelSet, Resource subject,
 			Property inheritedBy) {
 		

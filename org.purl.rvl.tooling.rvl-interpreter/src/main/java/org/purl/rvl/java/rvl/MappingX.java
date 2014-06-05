@@ -5,6 +5,9 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
+import org.purl.rvl.exception.UnsupportedSelectorTypeException;
+import org.purl.rvl.java.rvl.filter.SubjectFilter;
+import org.purl.rvl.tooling.util.RVLUtils;
 
 /**
  * @author Jan Polowinski

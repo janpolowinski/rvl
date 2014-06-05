@@ -2,6 +2,7 @@ package org.purl.rvl.tooling.util;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -9,11 +10,14 @@ import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.QueryResultTable;
 import org.ontoware.rdf2go.model.QueryRow;
+import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.Node;
+import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.util.RDFTool;
 import org.ontoware.rdfreactor.schema.rdfs.Resource;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
+import org.purl.rvl.java.gen.viso.graphic.GraphicObject;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
 import org.purl.rvl.java.viso.graphic.ColorX;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
@@ -100,6 +104,21 @@ public class AVMUtils {
 		return gos;
 	}
 	
+	public static GraphicObjectX getGOForRole(
+			Model modelAVM, Node rel, URI roleURI) {
+		
+			List<Statement> stmtList = RVLUtils.getRolesAndGOsFor(modelAVM,rel,roleURI);
+			
+			Node goNode = stmtList.get(0).getObject();
+			
+			org.purl.rvl.java.gen.viso.graphic.GraphicObject goGen = GraphicObjectX.getInstance(modelAVM, goNode.asResource());
+			
+			GraphicObjectX go = (GraphicObjectX) goGen.castTo(GraphicObjectX.class);
+			
+			return go;
+	
+	}
+
 	/**
 	 * Get only the GraphicObjects that need to be displayed. Remove objects
 	 * playing the role of connectors for example.

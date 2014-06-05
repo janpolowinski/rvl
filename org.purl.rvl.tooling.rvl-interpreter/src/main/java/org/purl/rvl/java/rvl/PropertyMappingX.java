@@ -10,7 +10,10 @@ import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.exception.UnsupportedSelectorTypeException;
+import org.purl.rvl.java.rvl.filter.SubjectFilter;
 import org.purl.rvl.tooling.util.AVMUtils;
+import org.purl.rvl.tooling.util.RVLUtils;
 
 /**
  * @author Jan Polowinski
@@ -236,5 +239,21 @@ static final String NL =  System.getProperty("line.separator");
 //		// TODO Auto-generated method stub
 //		return null;
 //	}
+	
+	/**
+	 * @return the filter string for the subject in SPARQL
+	 */
+	public String getSubjectFilterString() {
+		
+		try {
+			
+			return new SubjectFilter(this).getFilterString();
+			
+		} catch (UnsupportedSelectorTypeException e) {
+			
+			LOGGER.severe("Will ignore filter. Reason: " + e.getMessage());
+			return "";
+		}
+	}
 
 }

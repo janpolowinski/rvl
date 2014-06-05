@@ -462,7 +462,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					LOGGER.finer("Applying submapping to GO with the role " + roleURI + 
 							" based on triple part " + triplePartURI);
 	
-					GraphicObjectX goToApplySubmapping = RVLUtils.getGOForRole(modelAVM, dlRel, roleURI); 
+					GraphicObjectX goToApplySubmapping = AVMUtils.getGOForRole(modelAVM, dlRel, roleURI); 
 					// TODO this is a simplification: multiple GOs may be affected, not only one
 	
 					applyMappingToGraphicObject(mainStatement, triplePartURI, goToApplySubmapping, p2gam);
