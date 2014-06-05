@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.model.Model;
+import org.purl.rvl.java.RVL;
+import org.purl.rvl.java.VISOGRAPHIC;
+import org.purl.rvl.java.gen.rvl.Thing1;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 
@@ -23,7 +26,8 @@ public abstract class D3GeneratorBase implements D3Generator {
 
 	static final String NL = System.getProperty("line.separator");
 
-	protected static final float DEFAULT_WITH = 20;
+	protected static final float DEFAULT_WITH_NODES = 20;
+	protected static final float DEFAULT_WITH_CONNECTORS = 7;
 
 	protected static final float LABEL_ICON_SIZE_FACTOR = (float) 0.75; 
 	
@@ -107,8 +111,21 @@ public abstract class D3GeneratorBase implements D3Generator {
 		map.put("shape_d3_name", endNodeShapeD3Name);
 		
 		// dimensions
-		final float width = graphicObject.hasWidth()? graphicObject.getWidth() : DEFAULT_WITH;
-		
+		final float width;
+		if (graphicObject.hasWidth()) {
+			width = graphicObject.getWidth();
+		} else {
+			width = graphicObject.hasRole(VISOGRAPHIC.ROLE_LINKING_CONNECTOR)? getDefaultWidthConnectors() : getDefaultWidthNodes();
+		}
+
 		map.put("width", width);
+	}
+	
+	protected float getDefaultWidthNodes(){
+		return DEFAULT_WITH_NODES;
+	}
+	
+	protected float getDefaultWidthConnectors(){
+		return DEFAULT_WITH_CONNECTORS;
 	}
 }

@@ -37,8 +37,6 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 	
 	private final static Logger LOGGER = Logger.getLogger(D3GeneratorSimpleJSON.class .getName()); 
 	
-	protected static final float DEFAULT_WITH = 2;
-	
 	public D3GeneratorSimpleJSON() {
 		super();
 	}
@@ -88,7 +86,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			startNode = startNode.tryReplaceWithCashedInstanceForSameURI(startNode);
 			
 			// width (used for calculating label size)
-			float startNodeWidth = startNode.hasWidth()? startNode.getWidth() : DEFAULT_WITH;
+			float startNodeWidth = startNode.hasWidth()? startNode.getWidth() : getDefaultWidthNodes();
 			
 			Map node = new LinkedHashMap();
 			putGraphicAttributes(node, startNode);
