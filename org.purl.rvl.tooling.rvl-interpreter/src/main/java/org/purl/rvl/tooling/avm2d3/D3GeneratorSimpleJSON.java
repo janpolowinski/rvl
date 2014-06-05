@@ -4,7 +4,6 @@
 package org.purl.rvl.tooling.avm2d3;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;

@@ -13,7 +13,6 @@ import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.UnsupportedSelectorTypeException;
 import org.purl.rvl.java.rvl.filter.SubjectFilter;
 import org.purl.rvl.tooling.util.AVMUtils;
-import org.purl.rvl.tooling.util.RVLUtils;
 
 /**
  * @author Jan Polowinski

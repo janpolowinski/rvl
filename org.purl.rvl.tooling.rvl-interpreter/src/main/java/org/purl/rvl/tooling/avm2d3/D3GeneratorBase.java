@@ -6,9 +6,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.model.Model;
-import org.purl.rvl.java.RVL;
 import org.purl.rvl.java.VISOGRAPHIC;
-import org.purl.rvl.java.gen.rvl.Thing1;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 

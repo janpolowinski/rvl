@@ -8,14 +8,10 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.ontoware.rdfreactor.runtime.ReactorResult;
-import org.ontoware.rdfreactor.schema.rdfs.Class;
 import org.ontoware.rdfreactor.schema.rdfs.Resource;
-import org.purl.rvl.java.gen.rvl.Mapping;
 import org.purl.rvl.java.gen.viso.graphic.Color;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObject;
 import org.purl.rvl.java.rvl.MappingX;
-import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
-import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
 import org.purl.rvl.java.viso.graphic.ColorX;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 
