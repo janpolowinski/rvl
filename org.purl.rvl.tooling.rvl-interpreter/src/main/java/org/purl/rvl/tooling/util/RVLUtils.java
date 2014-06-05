@@ -1,6 +1,5 @@
 package org.purl.rvl.tooling.util;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -8,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.QueryResultTable;
 import org.ontoware.rdf2go.model.QueryRow;
 import org.ontoware.rdf2go.model.Sparqlable;
@@ -31,7 +29,7 @@ import org.purl.rvl.tooling.process.OGVICProcess;
  */
 public class RVLUtils {
 	
-	private final static Logger LOGGER = Logger.getLogger(RVLUtils.class.getName()); 
+	final static Logger LOGGER = Logger.getLogger(RVLUtils.class.getName()); 
 	
 	public static Set<Statement> findStatementsPreferingThoseUsingASubProperty(
 			Sparqlable modelOrModelSet,
@@ -292,42 +290,6 @@ public class RVLUtils {
 		
 	}
 
-	
-	public static List<Statement> getRolesAndGOsFor(
-			Model modelAVM, Node rel, URI roleURI) {
-		
-			List<Statement> stmtList = new ArrayList<Statement>();
-		
-		try {
-	
-			String query = "" + 
-					" SELECT DISTINCT ?s ?p ?o " + 
-					" WHERE { " +
-					" ?s ?p ?o . " + 
-					" " + rel.toSPARQL() + " " + roleURI.toSPARQL() + " ?o " +
-					" } ";
-			
-
-			QueryResultTable explMapResults = modelAVM.sparqlSelect(query);
-			
-			for (QueryRow row : explMapResults) {
-				//LOGGER.finest("fetched SPARQL result row: " + row);
-				try {
-					Statement stmt = new StatementImpl(null, row.getValue("s").asURI(), row.getValue("p").asURI(), row.getValue("o"));
-					LOGGER.finest("build Statement: " + stmt.toString());
-					stmtList.add(stmt);
-				} catch (ClassCastException e){
-					LOGGER.finer("Skipped statement (blank node casting to URI?): " + e.getMessage());
-				}
-			}
-		
-		} catch (UnsupportedOperationException e){
-			System.out.println("test");
-			LOGGER.warning("Problem with query to get statements: " + e.getMessage());
-		} 
-		
-		return stmtList;
-	}
 	
 	public static Set<Resource> getRelatedResources(Sparqlable modelOrModelSet, Resource subject,
 			Property inheritedBy) {

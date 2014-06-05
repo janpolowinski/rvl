@@ -1,5 +1,6 @@
 package org.purl.rvl.tooling.util;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -11,6 +12,7 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.QueryResultTable;
 import org.ontoware.rdf2go.model.QueryRow;
 import org.ontoware.rdf2go.model.Statement;
+import org.ontoware.rdf2go.model.impl.StatementImpl;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.util.RDFTool;
@@ -104,10 +106,54 @@ public class AVMUtils {
 		return gos;
 	}
 	
+	/**
+	 * For a given n-ary graphic relation rel and role (URI) roleURI return all graphic 
+	 * objects.
+	 * 
+	 * @param modelAVM
+	 * @param rel
+	 * @param roleURI
+	 * @return list of triples as statements (rel, role, graphicObject)
+	 */
+	public static List<Statement> getRolesAndGOsFor(
+			Model modelAVM, Node rel, URI roleURI) {
+		
+			List<Statement> stmtList = new ArrayList<Statement>();
+		
+		try {
+	
+			String query = "" + 
+					" SELECT DISTINCT ?s ?p ?o " + 
+					" WHERE { " +
+					" ?s ?p ?o . " + 
+					" " + rel.toSPARQL() + " " + roleURI.toSPARQL() + " ?o " +
+					" } ";
+			
+	
+			QueryResultTable explMapResults = modelAVM.sparqlSelect(query);
+			
+			for (QueryRow row : explMapResults) {
+				//LOGGER.finest("fetched SPARQL result row: " + row);
+				try {
+					Statement stmt = new StatementImpl(null, row.getValue("s").asURI(), row.getValue("p").asURI(), row.getValue("o"));
+					RVLUtils.LOGGER.finest("build Statement: " + stmt.toString());
+					stmtList.add(stmt);
+				} catch (ClassCastException e){
+					RVLUtils.LOGGER.finer("Skipped statement (blank node casting to URI?): " + e.getMessage());
+				}
+			}
+		
+		} catch (UnsupportedOperationException e){
+			RVLUtils.LOGGER.warning("Problem with query to get statements: " + e.getMessage());
+		} 
+		
+		return stmtList;
+	}
+
 	public static GraphicObjectX getGOForRole(
 			Model modelAVM, Node rel, URI roleURI) {
 		
-			List<Statement> stmtList = RVLUtils.getRolesAndGOsFor(modelAVM,rel,roleURI);
+			List<Statement> stmtList = AVMUtils.getRolesAndGOsFor(modelAVM,rel,roleURI);
 			
 			Node goNode = stmtList.get(0).getObject();
 			
