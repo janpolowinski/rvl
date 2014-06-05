@@ -123,11 +123,13 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 					node.put("label_width", startNodeWidth*LABEL_ICON_SIZE_FACTOR);
 					
 					if (attachementRelation.asURI().equals(Containment.RDFS_CLASS)) {
+						node.put("display_label_text", true);
 						node.put("label_position", "centerCenter"); /* temp, should be label.shape_d3_name*/	
 					} else if (attachementRelation.asURI().equals(Superimposition.RDFS_CLASS)) {
+						node.put("display_label_icon", true);
 						node.put("label_position", "centerRight"); /* temp, should be label.shape_d3_name*/	
 						node.put("width", 30);
-						node.put("display_label_icon", true);
+						
 					}
 				
 				}
@@ -142,6 +144,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			} else {
 				
 				// default label positioning
+				node.put("display_label_text", true);
 				node.put("label_position", "topLeft"); /* temp, should be label.shape_d3_name*/	
 				
 			}
