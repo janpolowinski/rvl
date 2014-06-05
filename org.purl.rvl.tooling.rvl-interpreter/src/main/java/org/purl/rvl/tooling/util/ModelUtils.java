@@ -199,65 +199,6 @@ public class ModelUtils {
 		}
 	}
 
-	/**
-	 * Currently not in use! old code for getting statements directly with the
-	 * API without SPARQL. maybe reuse later, when performance should matter not
-	 * usable in most cases, since many filter and restrictions usually apply
-	 * for statement selection
-	 * 
-	 * @param modelOrModelSet
-	 * @param subject
-	 * @param object
-	 * @param spURI
-	 * @param classSelector
-	 * @return
-	 */
-	/*
-	protected static Collection<? extends Statement> findStatementsIncludingSubPropertyStatementsWithoutSPARQL(
-			Sparqlable modelOrModelSet,
-			org.ontoware.rdf2go.model.node.Resource subject,
-			org.ontoware.rdf2go.model.node.Node object, URI spURI,
-			org.ontoware.rdf2go.model.node.Resource classSelector) {
-		
-		Set<Statement> statementSet = new HashSet<Statement>();
-	
-		Model dataModel;
-		try {
-			ModelSet modelSet = (ModelSet) modelOrModelSet;
-			dataModel = modelSet.getModel(OGVICProcess.GRAPH_DATA);
-		} catch (Exception e) {
-			LOGGER.severe("Could not get data model from modelOrModelSet, " +
-					"will use modelOrModelSet as if is was the data graph (model)");
-			dataModel = (Model) modelOrModelSet;
-		}
-	
-		ClosableIterator<Statement> it = dataModel.findStatements(
-				null == subject ? Variable.ANY : subject, spURI,
-				null == object ? Variable.ANY : object);
-	
-		while (it.hasNext()) {
-	
-			Statement statement = it.next();
-	
-			// check starts with constraint (workaround) and subjectFilter
-			if ((null == classSelector || RVLUtils.hasType(dataModel,
-					statement.getSubject(), classSelector))) {
-				statementSet.add(statement);
-				LOGGER.finest("added Statement (matching subfilter): "
-						+ statement.toString());
-			} else {
-				LOGGER.finest("skipped Statement (not matching subfilter): "
-						+ statement.toString());
-			}
-	
-		}
-		
-		return statementSet;
-	}*/
-	
-	
-	
-	
 	public static boolean hasType(
 			Model model, org.ontoware.rdf2go.model.node.Resource resource,
 			org.ontoware.rdf2go.model.node.Resource type) {
