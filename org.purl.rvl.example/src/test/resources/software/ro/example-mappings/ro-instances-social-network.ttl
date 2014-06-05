@@ -16,9 +16,54 @@
       owl:imports spin-constraints: , semvis-example: , common-shapes: , <http://purl.org/ro/ont> , rvl: .
 
 
-:AnyPropertyToLinkingByConnectorMapping
+:AnyPropertyToLinkingByConnectorMappingTrials
       a rvl:PropertyToGraphicObjToObjRelationMapping ;
       rvl:disabled "true"^^xsd:boolean ;
+      rdfs:label "(Any) property to linking by connector mapping"^^xsd:string ;
+      rvl:sourceProperty owl:topObjectProperty ;
+      #rvl:sourceProperty ro:isAuthoredBy ;
+      #rvl:invertSourceProperty "true"^^xsd:boolean;
+      #rvl:inheritedBy owl:someValuesFrom;
+      rvl:targetObjToObjRelation
+              <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+      #rvl:subMapping 
+      #[
+      #  a rvl:SubMappingRelation ;
+      #  rvl:subMapping-onRole vg:linking_connector;
+      #  rvl:subMapping-onTriplePart rdf:predicate;
+      #  rvl:subMapping-mapping :PMfromID2ColorNamed2;
+      #]
+      #,
+      #[
+      #  a rvl:SubMappingRelation ;
+      #  rvl:subMapping-onRole vg:linkingDirected_startNode;
+      #  rvl:subMapping-onTriplePart rdf:subject;
+      #  rvl:subMapping-mapping :ShapeMapping;
+      #]
+      #,
+      #[
+      #  a rvl:SubMappingRelation ;
+      #  rvl:subMapping-onRole vg:linkingDirected_endNode;
+      #  rvl:subMapping-onTriplePart rdf:object;
+      #  rvl:subMapping-mapping :ShapeMapping;
+      #],
+      #[
+      #  a rvl:SubMappingRelation ;
+      #  rvl:subMapping-onRole vg:linkingDirected_startNode;
+      #  rvl:subMapping-onTriplePart rdf:subject;
+      #  rvl:subMapping-mapping :PMfromType2Width;
+      #],
+      #[
+      #  a rvl:SubMappingRelation ;
+      #  rvl:subMapping-onRole vg:linkingDirected_endNode;
+      #  rvl:subMapping-onTriplePart rdf:object;
+      #  rvl:subMapping-mapping :PMfromType2Width;
+      #]
+      .
+      
+:AnyPropertyToLinkingByConnectorMapping
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
       rdfs:label "(Any) property to linking by connector mapping"^^xsd:string ;
       rvl:sourceProperty owl:topObjectProperty ;
       #rvl:invertSourceProperty "true"^^xsd:boolean;
@@ -63,8 +108,8 @@
 :ShouldBecomeASubmappingWhenPossible
       rvl:disabled "false"^^xsd:boolean ;
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:sourceProperty owl:topObjectProperty ;
-      #rvl:sourceProperty ro:isAuthoredBy ;
+      #rvl:sourceProperty owl:topObjectProperty ;
+      rvl:sourceProperty ro:isAuthoredBy ;
       rvl:targetObjToObjRelation vg:Labeling_Relation ; 
       rvl:subMapping [
         rvl:subMapping-onRole vg:this;
@@ -162,7 +207,7 @@
       . 
       
 :ShapeMapping
-	  rvl:disabled "false";
+	  rvl:disabled "true";
       rdf:type rvl:PropertyMapping ;
       rdfs:label "Shape mapping"^^xsd:string ;
       rvl:sourceProperty rdf:type ;
@@ -271,7 +316,7 @@
       .
       
 :PMfromType2Width
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rdfs:label "PM from type to width (used as a submapping above)"^^xsd:string ;
  	  rvl:sourceProperty rdf:type ;

@@ -11,10 +11,10 @@ import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
-import org.ontoware.rdf2go.vocabulary.RDFS;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.exception.UnsupportedMappingParameterValueException;
 import org.purl.rvl.java.RDF;
 import org.purl.rvl.java.RVL;
 import org.purl.rvl.java.gen.rvl.GraphicAttribute;
@@ -163,7 +163,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		    	LOGGER.finest("Created GO for subject: " + subject.toString());
 				
 				// For each statement, create an endNode GO representing the object (if not exists)	
-				GraphicObjectX label = createOrGetGraphicObject(object);
+				GraphicObjectX label = new GraphicObjectX(modelAVM, false); // create an additional object here, don't reuse existing ones!
 		    	LOGGER.finest("Created new Label-GO for object: " + object.toString());
 		    	
 		      	Labeling rel = new Labeling(modelAVM,"http://purl.org/rvl/example-avm/GR_" + random.nextInt(), true);
@@ -407,6 +407,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	 * @param p2go2orm
 	 * @param mainStatement
 	 * @param dlRel
+	 * @throws  
 	 */
 	protected void applySubmappings(PropertyToGO2ORMappingX p2go2orm, Statement mainStatement, Resource dlRel) {
 		
@@ -442,7 +443,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			
 			try {
 				
-				if (roleURI.equals("http://purl.org/viso/graphic/this")) {
+				if (roleURI.toString().equals("http://purl.org/viso/graphic/this")) {
 					
 					// apply submapping to this relation itself?
 					//
@@ -473,6 +474,10 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			} catch (InsufficientMappingSpecificationException e) {
 				
 				LOGGER.warning("Submapping " + p2gam + " could not be applied. Reason: " + e.getMessage());
+				
+			} catch (UnsupportedMappingParameterValueException e) {
+				
+				LOGGER.warning("Submapping " + p2gam + " could not be applied. Reason: " + e.getMessage());
 			}
 			
 		}
@@ -481,7 +486,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 
 	/**
 	 * Iterates through statement objects and returns a tuple 
-	 * consisting of the source value and the corresponding target 
+	 * consisting of the source value and a corresponding target 
 	 * value or null when none of the objects matched a source value 
 	 * in the map.
 	 * 
@@ -494,7 +499,13 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		Tuple<Node,Node> svWithItsTv = null;
 		Node sv;
 		
-		// TODO: maybe not the most specific is mapped ...
+		// TODO Multiple objects may match a mapped target value. For now only the first match will win!
+		// TODO: maybe not the most specific is mapped, therefore, 
+		// we cannot simply check the map for the most specific results.
+		// e.g. Europe could be mapped, but Germany not, still the mapping for
+		// Europe should be applied (partOf). Or Animal may be mapped but not Cat.
+		// TODO: It may also be the case that two most specific values exist, e.g. 
+		// two classes as types, where one is not a subclass of the other!
 		
 		while (it.hasNext()) {
 			sv = it.next().getObject();
@@ -516,8 +527,9 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	 * @param rel
 	 * @param p2gam
 	 * @throws InsufficientMappingSpecificationException
+	 * @throws UnsupportedMappingParameterValueException 
 	 */
-	private void applyMappingToNaryRelation(Statement mainStatement, URI triplePartURI, Resource rel, PropertyToGraphicAttributeMappingX p2gam) throws InsufficientMappingSpecificationException {
+	private void applyMappingToNaryRelation(Statement mainStatement, URI triplePartURI, Resource rel, PropertyToGraphicAttributeMappingX p2gam) throws InsufficientMappingSpecificationException, UnsupportedMappingParameterValueException {
 		
 		GraphicAttribute tga = p2gam.getTargetAttribute();
 		Property sp = p2gam.getSourceProperty();
@@ -562,41 +574,44 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				
 			} else { // other source properties than rdf:ID ...
 				
+				Resource superResource;
 				Tuple<Node,Node> svWithItsTv;
-				ClosableIterator<Statement> it;
-				
+
 				if (triplePartURI.equals(RDF.subject)) {
-					it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, mainStatement.getSubject().asResource(), sp.asURI(), Variable.ANY);	
-				} else if (triplePartURI.equals(RDF.object)) {
-					it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, mainStatement.getObject().asResource(), sp.asURI(), Variable.ANY);						
+					superResource = mainStatement.getSubject();
 				} else if (triplePartURI.equals(RDF.predicate)) {
-					it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, mainStatement.getPredicate().asResource(), sp.asURI(), Variable.ANY);	
+					superResource = mainStatement.getPredicate();					
+				} else if (triplePartURI.equals(RDF.object)) {
+					try { 
+						// object could also be a literal
+						superResource = (Resource) mainStatement.getObject().asResource();
+					} catch (ClassCastException e) {
+						throw new UnsupportedMappingParameterValueException("Cannot cast the object of the super-statement (" + mainStatement.getObject() + ") to a resource. Skipping query generation for sub-mapping. ");
+					}
 				} else {
 					throw new InsufficientMappingSpecificationException("only subject/predicate/object allowed");
 				}
-				
-				try {
-					
-					// TODO Multiple objects may match a mapped target value. For now only the first match will win!
-					svWithItsTv = lookUpTvForSv(it, svUriTVuriMap);
-					sv = svWithItsTv.sourceValue;
-					tv = svWithItsTv.targetValue;
-					
-				} catch (Exception e) {
-					LOGGER.severe("Could not get value for source property " + sp + "for object " + mainStatement.getObject() );
-					return;
-				}
+				ClosableIterator<Statement> stmtIterator = modelSet.findStatements(OGVICProcess.GRAPH_DATA, superResource.asResource(), sp.asURI(), Variable.ANY);		
+						
+				svWithItsTv = lookUpTvForSv(stmtIterator, svUriTVuriMap);
 
+				if (null == svWithItsTv) {
+					LOGGER.info("No target value mapped to the object values matching " + superResource + " --" + sp + "--> ?object ." + NL);
+					return;
+				} 
+
+				sv = svWithItsTv.sourceValue;
+				tv = svWithItsTv.targetValue; 
+			}
+
+			if (null == tv) {
+				LOGGER.info("No target value found, parameter sub-mapping cannot be applied.");
+			} else {
+				// we found a tv for the sv
+				((Labeling)rel).setLabelingattachedBy(tv); // TODO only works for this specific tga! 
 			}
 			
-			// if we found a tv for the sv
-			if (null != tv) {
-				
-				((Labeling)rel).setLabelingattachedBy(tv); // TODO only works for this specific tga! 
-	    		
-			} else {
-				LOGGER.finest("Source or target value was null, couldn't apply value " + tv + " to the sv " + sv);
-			}
+			return; 
 
 	}
 
