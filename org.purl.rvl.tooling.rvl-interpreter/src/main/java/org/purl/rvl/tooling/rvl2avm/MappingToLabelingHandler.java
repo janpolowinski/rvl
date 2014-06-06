@@ -25,7 +25,7 @@ import org.purl.rvl.tooling.util.RVLUtils;
  * @author Jan Polowinski
  *
  */
-public class MappingToLabelingHandler extends MappingHandler {
+public class MappingToLabelingHandler extends MappingHandlerBase {
 	
 	public MappingToLabelingHandler(ModelSet modelSet, RVLInterpreter rvlInterpreter, Model modelAVM) {
 		super(modelSet,rvlInterpreter,modelAVM);
@@ -33,7 +33,7 @@ public class MappingToLabelingHandler extends MappingHandler {
 
 	private final static Logger LOGGER = Logger.getLogger(MappingToLabelingHandler.class .getName()); 
 
-	public void interpretMappingToLabeling(
+	public void handleP2GOTORMapping(
 			PropertyToGO2ORMappingX p2go2orm)
 			throws InsufficientMappingSpecificationException {
 		
