@@ -24,8 +24,8 @@ public abstract class D3GeneratorBase implements D3Generator {
 
 	static final String NL = System.getProperty("line.separator");
 
-	protected static final float DEFAULT_WITH_NODES = 20;
-	protected static final float DEFAULT_WITH_CONNECTORS = 7;
+	protected static final float DEFAULT_WIDTH_NODES = 17;
+	protected static final float DEFAULT_WIDTH_CONNECTORS = 17;
 
 	protected static final float LABEL_ICON_SIZE_FACTOR = (float) 0.75; 
 	
@@ -120,10 +120,10 @@ public abstract class D3GeneratorBase implements D3Generator {
 	}
 	
 	protected float getDefaultWidthNodes(){
-		return DEFAULT_WITH_NODES;
+		return DEFAULT_WIDTH_NODES;
 	}
 	
 	protected float getDefaultWidthConnectors(){
-		return DEFAULT_WITH_CONNECTORS;
+		return DEFAULT_WIDTH_CONNECTORS;
 	}
 }
