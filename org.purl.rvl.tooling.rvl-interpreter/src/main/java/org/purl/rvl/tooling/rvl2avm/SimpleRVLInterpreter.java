@@ -33,7 +33,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 
 	
 	final static Logger LOGGER = Logger.getLogger(SimpleRVLInterpreter.class .getName()); 
-	
+
 	/* (non-Javadoc)
 	 * @see org.purl.rvl.tooling.rvl2avm.RVLInterpreterBase#interpretMappings()
 	 */

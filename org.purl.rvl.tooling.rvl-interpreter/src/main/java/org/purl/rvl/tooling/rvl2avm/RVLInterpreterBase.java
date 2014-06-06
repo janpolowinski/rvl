@@ -49,18 +49,12 @@ import org.purl.rvl.tooling.util.RVLUtils;
  */
 public abstract class RVLInterpreterBase implements RVLInterpreter {
 	
-	@Override
-	public String createNewInternalID() {
-		return random.nextInt()+"";
-	}
-
-
 	protected Model modelAVM;
 	protected ModelSet modelSet;
 	protected Model modelData;
 	protected Model modelMappings;
 	protected Model modelVISO;
-	protected Map<org.ontoware.rdf2go.model.node.Resource,GraphicObjectX> resourceGraphicObjectMap; 
+	protected Map<Resource,GraphicObjectX> resourceGraphicObjectMap; 
 	protected Random random;
 	
 	protected OGVICProcess ogvicProcess = OGVICProcess.getInstance();
@@ -130,6 +124,12 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			return go;
 		}
 	}
+
+	@Override
+	public String createNewInternalID() {
+		return random.nextInt()+"";
+	}
+
 
 	/**
 	 * Get all the mappings that require no calculation, because they only have explicit 1-1-value-mappings

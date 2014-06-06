@@ -227,7 +227,7 @@ public class OGVICProcess {
 		if (null == rvlInterpreter) {
 			LOGGER.warning("RVL interpreter was not set, using default one.");
 			// rvlInterpreter = new FakeRVLInterpreter();
-			rvlInterpreter = new SimpleRVLInterpreter();
+			rvlInterpreter = new SimpleRVLInterpreter(getModelAVM(), getModelSet());
 		}
 		
 		// try to get generator from project
@@ -277,7 +277,6 @@ public class OGVICProcess {
 	}
 
 	private void interpreteRVL2AVM() {
-		rvlInterpreter.init(getModelAVM(), getModelSet());
 		rvlInterpreter.interpretMappings();
 	}
 
