@@ -10,6 +10,7 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.exception.MappingException;
 import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
 import org.purl.rvl.tooling.process.OGVICProcess;
@@ -32,15 +33,23 @@ public abstract class MappingToP2GOTORHandler extends MappingHandlerBase {
 		super(modelSet, rvlInterpreter, modelAvm);
 	}
 
-	public void handleP2GOTORMapping(PropertyToGO2ORMappingX mapping)
-			throws InsufficientMappingSpecificationException {
-
+	public void handleP2GOTORMapping(PropertyToGO2ORMappingX mapping) throws MappingException
+		{
+		
 		this.mapping = mapping;
+		
+		try {
+			stmtSetIterator = RVLUtils.findRelationsOnInstanceOrClassLevel(
+					modelSet, OGVICProcess.GRAPH_DATA,
+					(PropertyMappingX) mapping.castTo(PropertyMappingX.class),
+					true, null, null).iterator();
+			
+		} catch (InsufficientMappingSpecificationException e) {
+			throw new MappingException("Problem getting P2GOTOR-mapping-statements " +
+					"for " + mapping.asURI() + ": " + e.getMessage());
+		}
 
-		stmtSetIterator = RVLUtils.findRelationsOnInstanceOrClassLevel(
-				modelSet, OGVICProcess.GRAPH_DATA,
-				(PropertyMappingX) mapping.castTo(PropertyMappingX.class),
-				true, null, null).iterator();
+		
 
 		if (null == stmtSetIterator) {
 			LOGGER.severe("Statement iterator was null, no relations could be interpreted for "
@@ -55,13 +64,12 @@ public abstract class MappingToP2GOTORHandler extends MappingHandlerBase {
 
 				Statement statement = (Statement) stmtSetIterator.next();
 
-				try {
-
-					encodeStatement(statement);
-
-				} catch (Exception e) {
-					LOGGER.warning("Problem creating GOs: " + e.getMessage());
-				}
+					try {
+						encodeStatement(statement);
+					} catch (InsufficientMappingSpecificationException e) {
+						throw new MappingException("Problem encoding statement " 
+							+ statement.toString() + ": " + e.getMessage());
+					}
 
 				processedGraphicRelations++;
 

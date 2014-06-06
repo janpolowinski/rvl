@@ -9,6 +9,7 @@ import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.exception.MappingException;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
@@ -85,7 +86,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				if (p2go2orm.getTargetGraphicRelation().equals(Labeling.RDFS_CLASS)) {
 					new MappingToLabelingHandler(modelSet, this, modelAVM).handleP2GOTORMapping(p2go2orm);
 				}
-				else if (p2go2orm.getTargetGraphicRelation().equals(DirectedLinking.RDFS_CLASS) || p2go2orm.getTargetGraphicRelation().equals(UndirectedLinking.RDFS_CLASS)) {
+				else if (p2go2orm.getTargetGraphicRelation().equals(DirectedLinking.RDFS_CLASS)
+						|| p2go2orm.getTargetGraphicRelation().equals(UndirectedLinking.RDFS_CLASS)) {
 					new MappingToLinkingHandler(modelSet, this, modelAVM).handleP2GOTORMapping(p2go2orm);
 				}
 //				else if (p2go2orm.getTargetGraphicRelation().equals(UndirectedLinking.RDFS_CLASS)) {
@@ -96,11 +98,17 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					//LOGGER.info("Ignored Mapping to Containment. Containment not yet implemented");
 				}
 				else  {
-					LOGGER.info("Ignored mapping to " + p2go2orm.getTargetGraphicRelation() + ". Graphic relation not yet implemented");
+					try {
+						LOGGER.info("Ignored mapping to " + p2go2orm.getTargetGraphicRelation() + ". Graphic relation not yet implemented");
+					} catch (InsufficientMappingSpecificationException e) {
+						LOGGER.severe("Ignored mapping. Graphic relation not yet implemented.");
+					}
 				}
 				
+			} catch (MappingException e) {
+				LOGGER.severe(e.getMessage());
 			} catch (InsufficientMappingSpecificationException e) {
-				LOGGER.severe("Could not interpret P2GOTOR mapping " +  p2go2orm.asURI() + ". " + e.getMessage());
+				LOGGER.severe("Could not start mapping interpretation: " + e.getMessage());
 			}
 
 		}
