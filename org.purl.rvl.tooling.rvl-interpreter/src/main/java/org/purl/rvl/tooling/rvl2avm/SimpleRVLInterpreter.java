@@ -83,16 +83,16 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			
 			try {
 				if (p2go2orm.getTargetGraphicRelation().equals(Labeling.RDFS_CLASS)) {
-					new MappingToLabelingHandler(modelSet, this,modelAVM).handleP2GOTORMapping(p2go2orm);
+					new MappingToLabelingHandler(modelSet, this, modelAVM).handleP2GOTORMapping(p2go2orm);
 				}
 				else if (p2go2orm.getTargetGraphicRelation().equals(DirectedLinking.RDFS_CLASS) || p2go2orm.getTargetGraphicRelation().equals(UndirectedLinking.RDFS_CLASS)) {
-					new MappingToLinkingHandler(modelSet, this,modelAVM).handleP2GOTORMapping(p2go2orm);
+					new MappingToLinkingHandler(modelSet, this, modelAVM).handleP2GOTORMapping(p2go2orm);
 				}
 //				else if (p2go2orm.getTargetGraphicRelation().equals(UndirectedLinking.RDFS_CLASS)) {
 //					LOGGER.info("Ignored Mapping to Undirected Linking. Undirected Linking not yet implemented");
 //				}
 				else if (p2go2orm.getTargetGraphicRelation().equals(Containment.RDFS_CLASS)) {
-					new MappingToContainmentHandler(modelSet, this,modelAVM).handleP2GOTORMapping(p2go2orm);
+					new MappingToContainmentHandler(modelSet, this, modelAVM).handleP2GOTORMapping(p2go2orm);
 					//LOGGER.info("Ignored Mapping to Containment. Containment not yet implemented");
 				}
 				else  {

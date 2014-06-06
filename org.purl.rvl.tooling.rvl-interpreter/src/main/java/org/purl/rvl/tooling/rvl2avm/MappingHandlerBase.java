@@ -23,6 +23,8 @@ public abstract class MappingHandlerBase implements MappingHandler  {
 	
 	protected RVLInterpreter rvlInterpreter;
 	
+	int processedGraphicRelations = 0;
+	
 	public MappingHandlerBase(ModelSet modelSet, RVLInterpreter rvlInterpreter, Model modelAvm) {
 		super();
 		this.modelSet = modelSet;
@@ -38,9 +40,7 @@ public abstract class MappingHandlerBase implements MappingHandler  {
 			this.modelVISO = modelSet.getModel(OGVICProcess.GRAPH_VISO);
 		}
 
-	@Override
-	public abstract void handleP2GOTORMapping(PropertyToGO2ORMappingX p2go2orm)
-			throws InsufficientMappingSpecificationException;
+
 
 
 }
