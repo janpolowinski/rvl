@@ -92,7 +92,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 //					LOGGER.info("Ignored Mapping to Undirected Linking. Undirected Linking not yet implemented");
 //				}
 				else if (p2go2orm.getTargetGraphicRelation().equals(Containment.RDFS_CLASS)) {
-					interpretMappingToContainment(p2go2orm);
+					new MappingToContainmentHandler(modelSet, this,modelAVM).handleP2GOTORMapping(p2go2orm);
 					//LOGGER.info("Ignored Mapping to Containment. Containment not yet implemented");
 				}
 				else  {
@@ -107,93 +107,6 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		
 		LOGGER.fine("The size of the Resource-to-GraphicObjectX map is " + resourceGraphicObjectMap.size()+".");
 	}
-	
-	// cloned from linking, much duplicated code
-	@SuppressWarnings("unused")
-	protected void interpretMappingToContainment(PropertyToGO2ORMappingX p2go2orm) throws InsufficientMappingSpecificationException {
-
-		Iterator<Statement> stmtSetIterator = RVLUtils.findRelationsOnInstanceOrClassLevel(
-				modelSet,
-				OGVICProcess.GRAPH_DATA,
-				(PropertyMappingX) p2go2orm.castTo(PropertyMappingX.class),
-				true,
-				null,
-				null
-				).iterator();
-		
-		int processedGraphicRelations = 0;	
-		
-		if(null==stmtSetIterator) {
-			LOGGER.severe("Statement iterator was null, no containment relations could be interpreted for " + p2go2orm.asURI());
-			return;
-		}
-		
-		while (stmtSetIterator.hasNext() && processedGraphicRelations < OGVICProcess.MAX_GRAPHIC_RELATIONS_PER_MAPPING) {
-			
-			Statement statement = (Statement) stmtSetIterator.next();
-						
-			try {
-				Resource subject = statement.getSubject();
-				Resource object = statement.getObject().asResource();
-				//Node object = statement.getObject();
-				
-				LOGGER.finest("Subject label " + AVMUtils.getGoodLabel(subject,modelAVM));
-				LOGGER.finest("Object label " + AVMUtils.getGoodLabel(object,modelAVM));
-				LOGGER.fine("Statement to be mapped : " + statement);
-
-				// For each statement, create a container GO representing the subject (if not exists)
-			    GraphicObjectX subjectContainer = createOrGetGraphicObject(subject);
-
-				// For each statement, create a containee GO representing the object (if not exists)
-				GraphicObjectX objectContainee = createOrGetGraphicObject(object);
-				
-		    	LOGGER.finest("Created GO for subject: " + subject.toString());
-		    	LOGGER.finest("Created GO for object: " + object.toString());
-
-				// generic graphic relation needed for submappings 
-				// (could also be some super class of containment ,...)
-				Resource rel = null;
-									
-		    	// create the containment relation
-		    	//Containment dlRel = new Containment(modelAVM, true);
-		    	Containment containmentRel = new Containment(modelAVM,"http://purl.org/rvl/example-avm/GR_" + random.nextInt(), true);
-		    	containmentRel.setLabel(AVMUtils.getGoodLabel(p2go2orm.getTargetGraphicRelation(), modelAVM));
-		    	
-				// configure the relation
-				if(!p2go2orm.isInvertSourceProperty()) {
-					containmentRel.setContainmentcontainer(subjectContainer);
-					containmentRel.setContainmentcontainee(objectContainee);
-					subjectContainer.addContains(containmentRel);
-					objectContainee.addContainedby(containmentRel);
-				} else {
-					containmentRel.setContainmentcontainee(subjectContainer);
-					containmentRel.setContainmentcontainer(objectContainee);
-					subjectContainer.addContainedby(containmentRel);
-					objectContainee.addContains(containmentRel);
-				}
-				
-				rel=containmentRel;
-					
-				// submappings
-				if(p2go2orm.hasSub_mapping()){
-					
-					if(null != rel) {
-						applySubmappings(p2go2orm,statement,rel); // Containment etc need to be subclasses of (n-ary) GraphicRelation
-					} else {
-						LOGGER.warning("Submapping existed, but could not be applied, since no parent graphic relation was provided.");
-					}
-				}
-				
-			}
-			catch (Exception e) {
-				LOGGER.warning("Problem creating GOs: " + e.getMessage());
-			}
-			
-			processedGraphicRelations++;	
-		}
-		
-	}
-
 
 
 	/**
