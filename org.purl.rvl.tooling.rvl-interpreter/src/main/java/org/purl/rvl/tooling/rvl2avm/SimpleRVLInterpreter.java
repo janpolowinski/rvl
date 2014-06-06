@@ -20,7 +20,7 @@ import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
-import org.purl.rvl.tooling.query.MappingQuery;
+import org.purl.rvl.tooling.query.mapping.MappingQuery;
 import org.purl.rvl.tooling.util.RVLUtils;
 
 /**

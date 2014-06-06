@@ -1,4 +1,4 @@
-package org.purl.rvl.tooling.query;
+package org.purl.rvl.tooling.query.data;
 
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
@@ -7,7 +7,7 @@ import org.ontoware.rdfreactor.schema.rdfs.Property;
  * @author Jan Polowinski
  *
  */
-public class DomainRangeSPARQLQueryBuilder extends SPARQLQueryBuilder {
+public class DomainRangeSPARQLQueryBuilder extends DataQueryBuilder {
 
 	public DomainRangeSPARQLQueryBuilder(URI spURI) {
 		super(spURI);

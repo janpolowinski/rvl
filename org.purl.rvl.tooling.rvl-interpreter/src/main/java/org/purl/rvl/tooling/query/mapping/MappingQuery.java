@@ -1,4 +1,4 @@
-package org.purl.rvl.tooling.query;
+package org.purl.rvl.tooling.query.mapping;
 
 import java.util.HashSet;
 import java.util.Set;

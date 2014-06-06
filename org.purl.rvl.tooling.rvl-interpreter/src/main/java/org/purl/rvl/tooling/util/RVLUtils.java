@@ -21,9 +21,9 @@ import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.RVL;
 import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.tooling.process.OGVICProcess;
-import org.purl.rvl.tooling.query.AllSomeValuesFromSPARQLQueryBuilder;
-import org.purl.rvl.tooling.query.DomainRangeSPARQLQueryBuilder;
-import org.purl.rvl.tooling.query.SPARQLQueryBuilder;
+import org.purl.rvl.tooling.query.data.AllSomeValuesFromSPARQLQueryBuilder;
+import org.purl.rvl.tooling.query.data.DataQueryBuilder;
+import org.purl.rvl.tooling.query.data.DomainRangeSPARQLQueryBuilder;
 
 /**
  * @author Jan Polowinski
@@ -44,7 +44,7 @@ public class RVLUtils {
 
 		try {
 			
-			SPARQLQueryBuilder queryBuilder = new SPARQLQueryBuilder(spURI);
+			DataQueryBuilder queryBuilder = new DataQueryBuilder(spURI);
 			queryBuilder.constrainToGraph(fromGraph);
 			queryBuilder.constrainToSubjectBySelector(selectorSPARQLString);
 			String queryString = queryBuilder.buildQuery();
@@ -117,7 +117,7 @@ public class RVLUtils {
 			return stmtSet;
 		}
 
-		SPARQLQueryBuilder queryBuilder;
+		DataQueryBuilder queryBuilder;
 		
 		if (inheritedBy.toString().equals(RVL.TBOX_DOMAIN_RANGE)) {
 			

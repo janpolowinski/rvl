@@ -1,4 +1,4 @@
-package org.purl.rvl.tooling.query;
+package org.purl.rvl.tooling.query.data;
 
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
@@ -10,7 +10,7 @@ import org.ontoware.rdfreactor.schema.rdfs.Property;
  * TODO: not in use. Decide if still needed
  *
  */
-public class InheritedByAnyPropertySPARQLQueryBuilder extends SPARQLQueryBuilder {
+public class InheritedByAnyPropertySPARQLQueryBuilder extends DataQueryBuilder {
 
 	private Property inheritedBy;
 
