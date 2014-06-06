@@ -21,7 +21,7 @@ import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.util.RDFTool;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
-import org.purl.rvl.java.gen.rvl.GraphicAttribute;
+import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Valuemapping;
 import org.purl.rvl.java.rvl.mapping.CalculatedValueMapping;
@@ -234,7 +234,7 @@ public class PropertyToGraphicAttributeMappingX extends
 		s += pm.toStringDetailed();
 		
 		//targetAttribute is specific to P2GAM
-		GraphicAttribute tga = this.getAllTargetattribute_as().firstValue();
+		GraphicAttribute tga = (GraphicAttribute) this.getAllTargetattribute_as().firstValue().castTo(GraphicAttribute.class);
 		String tgaString = tga.getAllLabel_as().count()>0 ? tga.getAllLabel_as().firstValue() : tga.toString();
 		s += "     Target graphic attribute: " + tgaString + NL ;
 		
@@ -282,7 +282,7 @@ public class PropertyToGraphicAttributeMappingX extends
 
 	public GraphicAttribute getTargetAttribute() throws InsufficientMappingSpecificationException {
 		if (hasTargetattribute()) {
-			return this.getAllTargetattribute_as().firstValue();
+			return (GraphicAttribute) this.getAllTargetattribute_as().firstValue().castTo(GraphicAttribute.class);
 		} else 
 			throw new InsufficientMappingSpecificationException();
 	}
