@@ -10,18 +10,17 @@ import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.MappingException;
-import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
+import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
 import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
-import org.purl.rvl.java.viso.graphic.ShapeX;
 import org.purl.rvl.tooling.process.OGVICProcess;
-import org.purl.rvl.tooling.util.AVMUtils;
+import org.purl.rvl.tooling.query.MappingQuery;
 import org.purl.rvl.tooling.util.RVLUtils;
 
 /**
@@ -60,7 +59,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		// get all P2GO2OR mappings to linking and create n-ary linking relations
 		//Set<PropertyToGO2ORMappingX> setOfMappingsToLinking = getAllP2GOTORMappingsTo(DirectedLinking.RDFS_CLASS); // 
 		
-		Set<PropertyToGO2ORMappingX> mappings = getAllP2GOTORMappings();
+		Set<PropertyToGO2ORMappingX> mappings = MappingQuery.getAllP2GOTORMappings(modelMappings);
 		
 		LOGGER.info(NL + "Found " + mappings.size() + " PGOTOR mappings (enabled and disabled mappings).");
 		
@@ -123,7 +122,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	 */
 	protected void interpretNormalP2GArvlMappings() {
 		
-		Set<PropertyToGraphicAttributeMappingX> setOfP2GAMappings = getAllP2GAMappingsWithSomeValueMappings();
+		Set<PropertyToGraphicAttributeMappingX> setOfP2GAMappings = MappingQuery.getAllP2GAMappingsWithSomeValueMappings(modelMappings);
 		
 		LOGGER.info(NL + "Found " +setOfP2GAMappings.size()+ " normal P2GA mappings.");
 		
@@ -216,7 +215,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	 */
 	protected void interpretSimpleP2GArvlMappings() {
 		
-		Set<PropertyToGraphicAttributeMappingX> setOfSimpleP2GAMappings = getAllP2GAMappingsWithExplicitMappings();
+		Set<PropertyToGraphicAttributeMappingX> setOfSimpleP2GAMappings = MappingQuery.getAllP2GAMappingsWithExplicitMappings(modelMappings);
 		
 		LOGGER.info(NL + "Found " +setOfSimpleP2GAMappings.size()+ " simple P2GA mappings.");
 		
