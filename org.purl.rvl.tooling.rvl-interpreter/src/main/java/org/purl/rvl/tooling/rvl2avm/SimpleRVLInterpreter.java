@@ -20,8 +20,8 @@ import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
+import org.purl.rvl.tooling.query.data.DataQuery;
 import org.purl.rvl.tooling.query.mapping.MappingQuery;
-import org.purl.rvl.tooling.util.RVLUtils;
 
 /**
  * @author Jan Polowinski
@@ -164,7 +164,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			GraphicAttribute tga = p2gam.getTargetAttribute();
 
 		    // get a statement set 
-		    Set<Statement> stmtSet = RVLUtils.findRelationsOnInstanceOrClassLevel(
+		    Set<Statement> stmtSet = DataQuery.findRelationsOnInstanceOrClassLevel(
 		    		modelSet,
 		    		OGVICProcess.GRAPH_DATA,
 		    		(PropertyMappingX) p2gam.castTo(PropertyMappingX.class),
@@ -241,7 +241,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			try {
 				GraphicAttribute tga = p2gam.getTargetAttribute();
 	
-			    Set<Statement> theStatementWithOurObject = RVLUtils.findRelationsOnInstanceOrClassLevel(
+			    Set<Statement> theStatementWithOurObject = DataQuery.findRelationsOnInstanceOrClassLevel(
 			    		modelSet,
 			    		OGVICProcess.GRAPH_DATA,
 			    		(PropertyMappingX) p2gam.castTo(PropertyMappingX.class),

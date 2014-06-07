@@ -35,8 +35,8 @@ import org.purl.rvl.java.rvl.mapping.TupleSourceValueTargetValue;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.java.viso.graphic.ShapeX;
 import org.purl.rvl.tooling.process.OGVICProcess;
+import org.purl.rvl.tooling.query.data.DataQuery;
 import org.purl.rvl.tooling.util.AVMUtils;
-import org.purl.rvl.tooling.util.RVLUtils;
 
 /**
  * @author Jan Polowinski
@@ -344,7 +344,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	public void applyGraphicValueToGOsRepresentingNodesRelatedVia(
 			GraphicAttribute tga, Node tv, Resource mappedNode, Property inheritedBy) {
 				
-					Set<Resource> relatedResources = RVLUtils.getRelatedResources(modelSet, mappedNode, inheritedBy);
+					Set<Resource> relatedResources = DataQuery.getRelatedResources(modelSet, mappedNode, inheritedBy);
 					
 					LOGGER.finest("related resources " + relatedResources.toString() + " will receive same tv (" + tv + ")");
 					

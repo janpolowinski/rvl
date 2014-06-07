@@ -3,7 +3,6 @@
  */
 package org.purl.rvl.tooling.rvl2avm;
 
-import java.util.Iterator;
 import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.model.Model;
@@ -14,7 +13,7 @@ import org.purl.rvl.exception.MappingException;
 import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
 import org.purl.rvl.tooling.process.OGVICProcess;
-import org.purl.rvl.tooling.util.RVLUtils;
+import org.purl.rvl.tooling.query.data.DataQuery;
 
 /**
  * @author Jan Polowinski
@@ -26,8 +25,6 @@ public abstract class MappingToP2GOTORHandler extends MappingHandlerBase {
 			.getLogger(MappingToP2GOTORHandler.class.getName());
 
 	protected PropertyToGO2ORMappingX mapping;
-	Iterator<Statement> stmtSetIterator;
-
 	public MappingToP2GOTORHandler(ModelSet modelSet,
 			RVLInterpreter rvlInterpreter, Model modelAvm) {
 		super(modelSet, rvlInterpreter, modelAvm);
@@ -39,7 +36,7 @@ public abstract class MappingToP2GOTORHandler extends MappingHandlerBase {
 		this.mapping = mapping;
 		
 		try {
-			stmtSetIterator = RVLUtils.findRelationsOnInstanceOrClassLevel(
+			stmtSetIterator = DataQuery.findRelationsOnInstanceOrClassLevel(
 					modelSet, OGVICProcess.GRAPH_DATA,
 					(PropertyMappingX) mapping.castTo(PropertyMappingX.class),
 					true, null, null).iterator();
@@ -78,7 +75,5 @@ public abstract class MappingToP2GOTORHandler extends MappingHandlerBase {
 		}
 
 	}
-
-	protected abstract void encodeStatement(Statement statement) throws InsufficientMappingSpecificationException;
 
 }
