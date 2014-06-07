@@ -289,7 +289,6 @@
 				if (addSVGTextLabel) {
 					labelContainerContainer
 					.filter(function(d) { return d.display_label_text === true ;})
-					.filter(function(d) { return d.display_label_text !== false ;})
 					.filter(function(d) { return d.label_position !== "centerCenter" ;})
 				    .avmLabeledSVG();
 				}
@@ -298,7 +297,6 @@
 				if (addHTMLTextLabel) {
 					labelContainerContainer
 					.filter(function(d) { return d.display_label_text === true ;})
-					.filter(function(d) { return d.display_label_text !== false ;})
 					.filter(function(d) { return d.label_position === "centerCenter" ;})
 					.avmLabeledHTML();
 				}

@@ -760,7 +760,8 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 		}
 		
 		// TODO check for discrete step count here
-		discreteStepCount = numberOfTv = numberOfSv;
+		numberOfTv = numberOfSv;
+		discreteStepCount = numberOfTv;
 		LOGGER.finest("discrete step count: " + discreteStepCount );
 
 		try {
