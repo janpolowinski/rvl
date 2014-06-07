@@ -20,6 +20,7 @@ import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.Syntax;
 import org.ontoware.rdf2go.model.node.Variable;
+import org.ontoware.rdf2go.vocabulary.RDF;
 
 /**
  * @author Jan Polowinski
@@ -194,6 +195,14 @@ public class ModelUtils {
 				i++;
 			}
 		}
+	}
+
+	public static boolean hasType(
+			Model model, org.ontoware.rdf2go.model.node.Resource resource,
+			org.ontoware.rdf2go.model.node.Resource type) {
+	
+			return model.contains(resource, RDF.type, type);
+		
 	}
 	
 }

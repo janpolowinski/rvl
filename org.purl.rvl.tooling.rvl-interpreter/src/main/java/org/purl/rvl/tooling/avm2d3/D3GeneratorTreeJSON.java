@@ -27,9 +27,7 @@ import org.purl.rvl.tooling.util.D3Utils;
 public class D3GeneratorTreeJSON extends D3GeneratorBase {
 	
 	
-	private final static Logger LOGGER = Logger.getLogger(D3GeneratorBase.class .getName()); 
-	static final String NL =  System.getProperty("line.separator");
-
+	private final static Logger LOGGER = Logger.getLogger(D3GeneratorTreeJSON.class .getName()); 
 	static final int MAX_DEPTH = 5;	
 	
 	private int currentDepth = 0;
@@ -91,20 +89,11 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 				// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
 				actualRootNode = actualRootNode.tryReplaceWithCashedInstanceForSameURI(actualRootNode);
 
-				//color
-				String endNodeColorRGBHex = actualRootNode.getColorHex();
-				// shape
-				String endNodeShapeD3Name = actualRootNode.getShape();
-				//connector color
-				//String connectorColorRGBHex = actualRootNode.getColorHex();
-				
 				Map actualRootNodeObject = new LinkedHashMap();
 				actualRootNodeObject.put("uri", actualRootNode.getRepresentedResource().toString());
 				actualRootNodeObject.put("label",D3Utils.shortenLabel(actualRootNode.getLabel()));
 				actualRootNodeObject.put("full_label",actualRootNode.getLabel() + " (ID: " + actualRootNode.getRepresentedResource() + ")");
-				actualRootNodeObject.put("color_rgb_hex", endNodeColorRGBHex);
-				actualRootNodeObject.put("color_rgb_hex_combined", actualRootNode.getColorRGBHexCombinedWithHSLValues());
-				actualRootNodeObject.put("shape_d3_name", endNodeShapeD3Name);
+				putGraphicAttributes(actualRootNodeObject,actualRootNode);
 				actualRootNodeObject.put("connector_label", actualRootNode.getLabel());
 			//	actualRootNodeObject.put("connector_arrow_type", connector.getShape());
 			//	actualRootNodeObject.put("connector_color_rgb_hex", connectorColorRGBHex);
@@ -199,10 +188,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		endNode = endNode.tryReplaceWithCashedInstanceForSameURI(endNode);
 		
 		
-		//color
-		String endNodeColorRGBHex = endNode.getColorHex();
-		// shape
-		String endNodeShapeD3Name = endNode.getShape();
+
 		//connector color
 		String connectorColorRGBHex = connector.getColorHex();
 
@@ -210,9 +196,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		child.put("uri", endNode.getRepresentedResource().toString());
 		child.put("label",D3Utils.shortenLabel(endNode.getLabel()));
 		child.put("full_label",endNode.getLabel() + " (ID: " + endNode.getRepresentedResource() + ")");
-		child.put("color_rgb_hex", endNodeColorRGBHex);
-		child.put("color_rgb_hex_combined", endNode.getColorRGBHexCombinedWithHSLValues());
-		child.put("shape_d3_name", endNodeShapeD3Name);
+		putGraphicAttributes(child,endNode);
 		child.put("connector_label", connector.getLabel());
 		child.put("connector_full_label", connector.getLabel() + " (ID: " + connector.getRepresentedResource() + ")");
 		child.put("connector_arrow_type", connector.getShape());
@@ -228,9 +212,8 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		
 		return child;
 	}
-	
-	
-// cloned from linking, much redundant, similar code
+
+	// cloned from linking, much redundant, similar code
 private Map generateObjectFor(Containment rel) {
 		
 		GraphicObjectX containee = (GraphicObjectX) rel.getAllContainmentcontainee_as().firstValue().castTo(GraphicObjectX.class);
@@ -238,19 +221,14 @@ private Map generateObjectFor(Containment rel) {
 		// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
 		containee = containee.tryReplaceWithCashedInstanceForSameURI(containee);
 		
-		
-		//color
-		String endNodeColorRGBHex = containee.getColorHex();
-		// shape
-		String endNodeShapeD3Name = containee.getShape();
-
-
+	
 		Map child = new LinkedHashMap();
 		child.put("uri", containee.getRepresentedResource().toString());
 		child.put("label",D3Utils.shortenLabel(containee.getLabel()));
 		child.put("full_label",containee.getLabel() + " (ID: " + containee.getRepresentedResource() + ")");
-		child.put("color_rgb_hex", endNodeColorRGBHex);
-		child.put("shape_d3_name", endNodeShapeD3Name);
+
+		putGraphicAttributes(child,containee);
+		
 		child.put("connector_arrow_type", "uml_generalization_arrow");
 		child.put("connector_color_rgb_hex", "#ccc");
 		

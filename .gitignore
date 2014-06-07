@@ -7,3 +7,7 @@
 
 .classpath
 *.prefs
+
+*.checkstyle
+
+*.pmd

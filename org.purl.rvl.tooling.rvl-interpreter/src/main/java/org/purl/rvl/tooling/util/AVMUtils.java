@@ -1,21 +1,24 @@
 package org.purl.rvl.tooling.util;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.QueryResultTable;
 import org.ontoware.rdf2go.model.QueryRow;
+import org.ontoware.rdf2go.model.Statement;
+import org.ontoware.rdf2go.model.impl.StatementImpl;
 import org.ontoware.rdf2go.model.node.Node;
+import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.util.RDFTool;
-import org.ontoware.rdfreactor.schema.rdfs.Resource;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
+import org.purl.rvl.java.gen.viso.graphic.GraphicObject;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
-import org.purl.rvl.java.viso.graphic.ColorX;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 
 /**
@@ -26,60 +29,6 @@ public class AVMUtils {
 	
 	private final static Logger LOGGER = Logger.getLogger(AVMUtils.class.getName()); 
 	
-	public static void listAllColors(Model model) {
-		System.out.println("List of all colors in the model:");
-		System.out.println();
-		
-		ClosableIterator<? extends org.purl.rvl.java.gen.viso.graphic.Color> goIt = 
-				org.purl.rvl.java.gen.viso.graphic.Color.getAllInstances_as(model).asClosableIterator();
-		while (goIt.hasNext()) {
-			ColorX color = (ColorX) goIt.next().castTo(ColorX.class);
-			LOGGER.info(color.toString());
-		}	
-	}
-	
-	/**
-	 * List all Graphic Objects in the model
-	 */
-	static void listAllGOs(Model model) {	
-		
-		System.out.println("List of all Graphic Objects in the model:");
-		System.out.println();
-		
-		ClosableIterator<? extends org.purl.rvl.java.gen.viso.graphic.GraphicObject> goIt = 
-				org.purl.rvl.java.gen.viso.graphic.GraphicObject.getAllInstances_as(model).asClosableIterator();
-		while (goIt.hasNext()) {
-			GraphicObjectX go = (GraphicObjectX) goIt.next().castTo(GraphicObjectX.class);
-			System.out.println(go);
-		}		
-	}
-	
-	/**
-	 * List all Resources in the model
-	 */
-	static void listAllResourcesWithTheirTypes(Model model){	
-		
-		System.out.println("List of all rdfreactor ... Resources in the model:");
-		System.out.println();
-		
-		ClosableIterator<? extends Resource> resIt = 
-			Resource.getAllInstance_as(model).asClosableIterator();
-		while (resIt.hasNext()) {
-			Resource res = (Resource) resIt.next();
-	
-			LOGGER.info(res.toString());
-			//LOGGER.info("Types:" + go.getAllType_as().asArray()[0].asURI());
-			
-			for (org.ontoware.rdfreactor.schema.rdfs.Class type : res.getAllType_as().asList()) {
-				try {
-					LOGGER.info("T: " + type.asURI());
-				} catch (ClassCastException e) {
-					LOGGER.severe("evtl. blanknote");
-				}
-			}
-		}		
-	}
-	
 	/**
 	 * Get all the GraphicObjects including connectors, labels ...
 	 * 
@@ -89,8 +38,8 @@ public class AVMUtils {
 		
 		Set<GraphicObjectX> gos = new HashSet<GraphicObjectX>();
 		
-		org.purl.rvl.java.gen.viso.graphic.GraphicObject[] goArray = 
-				org.purl.rvl.java.gen.viso.graphic.GraphicObject.getAllInstances_as(modelAVM).asArray();
+		GraphicObject[] goArray = 
+				GraphicObject.getAllInstances_as(modelAVM).asArray();
 		
 		for (int i = 0; i < goArray.length; i++) {
 			GraphicObjectX startNode = (GraphicObjectX) goArray[i].castTo(GraphicObjectX.class);
@@ -100,6 +49,65 @@ public class AVMUtils {
 		return gos;
 	}
 	
+	/**
+	 * For a given n-ary graphic relation rel and role (URI) roleURI return all graphic 
+	 * objects.
+	 * 
+	 * @param modelAVM
+	 * @param rel
+	 * @param roleURI
+	 * @return list of triples as statements (rel, role, graphicObject)
+	 */
+	public static List<Statement> getRolesAndGOsFor(
+			Model modelAVM, Node rel, URI roleURI) {
+		
+			List<Statement> stmtList = new ArrayList<Statement>();
+		
+		try {
+	
+			String query = "" + 
+					" SELECT DISTINCT ?s ?p ?o " + 
+					" WHERE { " +
+					" ?s ?p ?o . " + 
+					" " + rel.toSPARQL() + " " + roleURI.toSPARQL() + " ?o " +
+					" } ";
+			
+	
+			QueryResultTable explMapResults = modelAVM.sparqlSelect(query);
+			
+			for (QueryRow row : explMapResults) {
+				//LOGGER.finest("fetched SPARQL result row: " + row);
+				try {
+					Statement stmt = new StatementImpl(null, row.getValue("s").asURI(), row.getValue("p").asURI(), row.getValue("o"));
+					RVLUtils.LOGGER.finest("build Statement: " + stmt.toString());
+					stmtList.add(stmt);
+				} catch (ClassCastException e){
+					RVLUtils.LOGGER.finer("Skipped statement (blank node casting to URI?): " + e.getMessage());
+				}
+			}
+		
+		} catch (UnsupportedOperationException e){
+			RVLUtils.LOGGER.warning("Problem with query to get statements: " + e.getMessage());
+		} 
+		
+		return stmtList;
+	}
+
+	public static GraphicObjectX getGOForRole(
+			Model modelAVM, Node rel, URI roleURI) {
+		
+			List<Statement> stmtList = AVMUtils.getRolesAndGOsFor(modelAVM,rel,roleURI);
+			
+			Node goNode = stmtList.get(0).getObject();
+			
+			org.purl.rvl.java.gen.viso.graphic.GraphicObject goGen = GraphicObjectX.getInstance(modelAVM, goNode.asResource());
+			
+			GraphicObjectX go = (GraphicObjectX) goGen.castTo(GraphicObjectX.class);
+			
+			return go;
+	
+	}
+
 	/**
 	 * Get only the GraphicObjects that need to be displayed. Remove objects
 	 * playing the role of connectors for example.

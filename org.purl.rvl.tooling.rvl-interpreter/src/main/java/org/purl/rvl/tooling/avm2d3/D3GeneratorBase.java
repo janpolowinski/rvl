@@ -2,9 +2,12 @@ package org.purl.rvl.tooling.avm2d3;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.model.Model;
+import org.purl.rvl.java.VISOGRAPHIC;
+import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 
 
@@ -14,12 +17,17 @@ import org.purl.rvl.tooling.process.OGVICProcess;
  */
 public abstract class D3GeneratorBase implements D3Generator {
 	
-	protected static final String NL = System.getProperty("line.separator");
-
 	protected Model modelAVM;
 	protected Model modelVISO;
 	
-	private final static Logger LOGGER = Logger.getLogger(D3GeneratorBase.class .getName()); 
+	private final static Logger LOGGER = Logger.getLogger(D3GeneratorBase.class .getName());
+
+	static final String NL = System.getProperty("line.separator");
+
+	protected static final float DEFAULT_WIDTH_NODES = 17;
+	protected static final float DEFAULT_WIDTH_CONNECTORS = 17;
+
+	protected static final float LABEL_ICON_SIZE_FACTOR = (float) 0.75; 
 	
 	
 	public D3GeneratorBase() {
@@ -79,4 +87,43 @@ public abstract class D3GeneratorBase implements D3Generator {
 	 * @see org.purl.rvl.tooling.avm2d3.D3Generator#getDefaultD3GraphicFile()
 	 */
 	public abstract String getDefaultD3GraphicFile();
+
+
+	/**
+	 * @param graphicObject
+	 * @param endNodeColorRGBHex
+	 * @param endNodeShapeD3Name
+	 * @param map
+	 */
+	protected void putGraphicAttributes(Map map, GraphicObjectX graphicObject) {
+		
+		//color
+		String endNodeColorRGBHex = graphicObject.getColorHex();
+		
+		map.put("color_rgb_hex", endNodeColorRGBHex);
+		map.put("color_rgb_hex_combined", graphicObject.getColorRGBHexCombinedWithHSLValues());
+		
+		// shape
+		String endNodeShapeD3Name = graphicObject.getShape();
+	
+		map.put("shape_d3_name", endNodeShapeD3Name);
+		
+		// dimensions
+		final float width;
+		if (graphicObject.hasWidth()) {
+			width = graphicObject.getWidth();
+		} else {
+			width = graphicObject.hasRole(VISOGRAPHIC.ROLE_LINKING_CONNECTOR)? getDefaultWidthConnectors() : getDefaultWidthNodes();
+		}
+
+		map.put("width", width);
+	}
+	
+	protected float getDefaultWidthNodes(){
+		return DEFAULT_WIDTH_NODES;
+	}
+	
+	protected float getDefaultWidthConnectors(){
+		return DEFAULT_WIDTH_CONNECTORS;
+	}
 }

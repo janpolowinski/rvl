@@ -8,6 +8,7 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
+import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.purl.rvl.exception.IncompleteColorValuesException;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.tooling.process.OGVICProcess;
@@ -265,6 +266,10 @@ public class GraphicObjectX extends
 		}
 		else 
 			return null;
+	}
+
+	public boolean hasRole(URIImpl roleURI) {
+		return model.sparqlAsk("ASK WHERE { ?someOtherGO " + roleURI.toSPARQL() + " " + this.toSPARQL() + " . }" );
 	}
 
 

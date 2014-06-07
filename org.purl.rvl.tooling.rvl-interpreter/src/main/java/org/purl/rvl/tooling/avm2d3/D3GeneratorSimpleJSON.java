@@ -4,7 +4,6 @@
 package org.purl.rvl.tooling.avm2d3;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -35,11 +34,7 @@ import org.purl.rvl.tooling.util.D3Utils;
 public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 	
 	
-	private final static Logger LOGGER = Logger.getLogger(D3GeneratorBase.class .getName()); 
-	static final String NL =  System.getProperty("line.separator");
-	private static final float DEFAULT_WITH = 20;
-	private static final float LABEL_ICON_SIZE_FACTOR = (float) 0.75;
-
+	private final static Logger LOGGER = Logger.getLogger(D3GeneratorSimpleJSON.class .getName()); 
 	
 	public D3GeneratorSimpleJSON() {
 		super();
@@ -89,24 +84,15 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
 			startNode = startNode.tryReplaceWithCashedInstanceForSameURI(startNode);
 			
-			//color
-			String startNodeColorRGBHex = startNode.getColorHex();
-			// shape
-			String startNodeShapeD3Name = startNode.getShape();
-			
-			// width
-			float startNodeWidth = startNode.hasWidth()? startNode.getWidth() : DEFAULT_WITH;
+			// width (used for calculating label size)
+			float startNodeWidth = startNode.hasWidth()? startNode.getWidth() : getDefaultWidthNodes();
 			
 			Map node = new LinkedHashMap();
+			putGraphicAttributes(node, startNode);
 			node.put("uri", startNode.getRepresentedResource().toString());
 			node.put("display_label_text", true);
 			node.put("label", D3Utils.shortenLabel(startNode.getLabel()));
 			node.put("full_label", startNode.getLabel() + " (ID: " + startNode.getRepresentedResource() + ")");
-			node.put("color_rgb_hex", startNodeColorRGBHex);
-			node.put("color_hsl_lightness", startNode.getColorHSLLightness());
-			node.put("color_rgb_hex_combined", startNode.getColorRGBHexCombinedWithHSLValues());
-			node.put("shape_d3_name", startNodeShapeD3Name);
-			node.put("width", startNodeWidth);
 			
 			// temp label positioning using the attachedBy information
 			if (startNode.hasLabeledwith()){
@@ -192,6 +178,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				GraphicObjectX connector = (GraphicObjectX) dlRel.getAllLinkingconnector_as().firstValue().castTo(GraphicObjectX.class);
 				// get index of the endNode in the above generated Map
 				Map link = new LinkedHashMap();
+				putGraphicAttributes(link,connector);
 				link.put("type", "Directed");
 				link.put("arrow_type", connector.getShape());
 				//link.put("type", dlRel.getRDFSClassURI().toString());
@@ -200,11 +187,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				link.put("value", "1");
 				link.put("label", D3Utils.shortenLabel(connector.getLabel()));
 				link.put("full_label", connector.getLabel() + " (ID: " + connector.getRepresentedResource() + ")");
-				link.put("color_hsl_lightness", connector.getColorHSLLightness());
-				//link.put("color_rgb_hex", connector.getColorHex());
-				link.put("color_rgb_hex_combined", connector.getColorRGBHexCombinedWithHSLValues());
-				link.put("shape_d3_name", connector.getShape()); // TODO simplification. should use extra label GO
-				link.put("width", connector.getWidth());
+				
 				listOfLinks.add(link);
 				LOGGER.finer("Generated JSON link for " + dlRel + " (" + startNode.getLabel() + " --> " + endNode.getLabel() +")" );
 				}
@@ -238,14 +221,14 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				GraphicObjectX connector = (GraphicObjectX) rel.getAllLinkingconnector_as().firstValue().castTo(GraphicObjectX.class);
 				// get index of the endNode in the above generated Map
 				Map link = new LinkedHashMap();
+				putGraphicAttributes(link,connector);
 				//link.put("type", rel.getRDFSClassURI().toString());
 				link.put("type", "Undirected");
 				link.put("source", goMap.get(node1));
 				link.put("target", goMap.get(node2));
 				link.put("value", "1");
 				link.put("label", connector.getLabel());
-				//link.put("color_rgb_hex", connector.getColorHex());
-				link.put("color_rgb_hex_combined", connector.getColorRGBHexCombinedWithHSLValues());
+				
 				listOfLinks.add(link);
 				LOGGER.finer("Generated JSON link for " + rel + " (" + node1.getLabel() + " --> " + node2.getLabel() +")" );
 				}
@@ -270,14 +253,14 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 
 				// get index of the endNode in the above generated Map
 				Map link = new LinkedHashMap();
+				putGraphicAttributes(link,containee);
 				//link.put("type", rel.getRDFSClassURI().toString());
 				link.put("type", "Containment");
 				link.put("source", goMap.get(container));
 				link.put("target", goMap.get(containee));
 				link.put("value", "1");
 				link.put("label", "contains");
-				link.put("color_rgb_hex", "#ccc");
-				//link.put("color_rgb_hex_combined", "#ccc");
+
 				listOfLinks.add(link);
 				LOGGER.finer("Generated JSON link for " + rel + " (" + container.getLabel() + " contains " + containee.getLabel() +")" );
 				}
