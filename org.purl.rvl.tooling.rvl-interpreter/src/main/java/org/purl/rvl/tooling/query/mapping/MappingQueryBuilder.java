@@ -4,6 +4,8 @@
 package org.purl.rvl.tooling.query.mapping;
 
 import org.ontoware.rdf2go.model.node.URI;
+import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
+import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.query.SPARQLQueryBuilder;
 
 /**
@@ -13,6 +15,7 @@ import org.purl.rvl.tooling.query.SPARQLQueryBuilder;
 public class MappingQueryBuilder extends SPARQLQueryBuilder {
 	
 	URI mappingTypeURI;
+	URI targetGraphicRelation;
 
 	/* (non-Javadoc)
 	 * @see org.purl.rvl.tooling.query.SPARQLQueryBuilder#startQuerySPARQL()
@@ -27,8 +30,22 @@ public class MappingQueryBuilder extends SPARQLQueryBuilder {
 		this.mappingTypeURI = rdfsClassURI;
 	}
 	
+	public void constrainToTargetGR(URI targetGraphicRelation){
+		this.targetGraphicRelation = targetGraphicRelation;
+	}
+	
 	protected void constrainToTypeSPARQL(){
-		query.append(" ?mapping a <" + mappingTypeURI + "> . ");
+		query.append(" ?mapping a " + mappingTypeURI.toSPARQL() + " . ");
+	}
+
+	protected void constrainToTargetGRsparql(){
+		query.append(" ?mapping " 
+			+ PropertyToGO2ORMappingX.TARGETOBJECT_TO_OBJECTRELATION.toSPARQL() 
+			+ targetGraphicRelation.toSPARQL() + " . ");
+	}
+	
+	protected void limitSPARQL(){
+		//query.append(" LIMIT " + OGVICProcess.MAX_GRAPHIC_RELATIONS_PER_MAPPING + " ");
 	}
 	
 
@@ -40,18 +57,18 @@ public class MappingQueryBuilder extends SPARQLQueryBuilder {
 		
 		query = new SPARQLStringBuilder();
 		
-								//addCommonPrefixes();
-								addPrefixesFromDataModel();
+									//addCommonPrefixes();
+									addPrefixesFromDataModel();
 
 									startQuerySPARQL();
-		if (null!=graphURI) 		constrainToGraphSPARQL(graphURI);
-									constrainToTypeSPARQL();
-									//spoVarTripleSPARQL();
-									//statementSPARQL(spURI);
-									//filterOnlyIRIsForSubjectAndObjectSPARQL();
-		if (null!=graphURI) 		closeGraphSPARQL();
-								endQuerySPARQL();
-								limitSPARQL();
+		if (null!=graphURI) 			constrainToGraphSPARQL(graphURI);
+		if (null!=mappingTypeURI) 			constrainToTypeSPARQL();
+		if (null!=targetGraphicRelation) 	constrainToTargetGRsparql();
+											//statementSPARQL(spURI);
+											//filterOnlyIRIsForSubjectAndObjectSPARQL();
+		if (null!=graphURI) 			closeGraphSPARQL();
+									endQuerySPARQL();
+									limitSPARQL();
 		
 		return query.toString();
 	}

@@ -14,6 +14,8 @@ import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
+import org.purl.rvl.tooling.process.OGVICProcess;
+import org.purl.rvl.tooling.query.data.DataQueryBuilder;
 
 /**
  * @author Jan Polowinski
@@ -30,21 +32,21 @@ public class MappingQuery {
 		 */
 		public static Set<PropertyToGraphicAttributeMappingX> getAllP2GAMappingsWithExplicitMappings(Model modelMappings){
 	
-			String queryString = "" +
-					"SELECT DISTINCT ?mapping " +
-					"WHERE { " +
-					"    ?mapping a <" + PropertyToGraphicAttributeMappingX.RDFS_CLASS + "> . " +
-					"    ?mapping <" + PropertyToGraphicAttributeMappingX.VALUEMAPPING + "> ?vm . " +
-					"	{ " +
-					"	SELECT ?vm  (COUNT(?sv) AS ?svCount) " +
-					"       WHERE " +
-					"       { " +
-					"	 		  ?vm <" + PropertyToGraphicAttributeMappingX.SOURCEVALUE + "> ?sv  " +
-					"       } " +
-					"        GROUP BY ?vm " +
-					"	} " +
-					"    FILTER (?svCount = 1 ) " +
-					"} " ;
+			String queryString = "" + NL + 
+					"SELECT DISTINCT ?mapping " + NL + 
+					"WHERE { " + NL + 
+					"    ?mapping a <" + PropertyToGraphicAttributeMappingX.RDFS_CLASS + "> . " + NL + 
+					"    ?mapping <" + PropertyToGraphicAttributeMappingX.VALUEMAPPING + "> ?vm . " + NL + 
+					"	{ " + NL + 
+					"	SELECT ?vm  (COUNT(?sv) AS ?svCount) " + NL + 
+					"       WHERE " + NL + 
+					"       { " + NL + 
+					"	 		  ?vm <" + PropertyToGraphicAttributeMappingX.SOURCEVALUE + "> ?sv  " + NL + 
+					"       } " + NL + 
+					"        GROUP BY ?vm " + NL + 
+					"	} " + NL + 
+					"    FILTER (?svCount = 1 ) " + NL + 
+					"} " + NL ;
 
 			return getP2GAMappings(modelMappings, queryString);
 		}
@@ -57,10 +59,10 @@ public class MappingQuery {
 		public static Set<PropertyToGraphicAttributeMappingX> getAllP2GAMappingsWithSomeValueMappings(Model modelMappings){
 	
 			String queryString = "" +
-					"SELECT DISTINCT ?mapping " +
-					"WHERE { " +
-					"    ?mapping a <" + PropertyToGraphicAttributeMappingX.RDFS_CLASS + "> . " +
-					"    ?mapping <" + PropertyToGraphicAttributeMappingX.VALUEMAPPING + "> ?vm . " +
+					"SELECT DISTINCT ?mapping " + NL + 
+					"WHERE { " + NL + 
+					"    ?mapping a <" + PropertyToGraphicAttributeMappingX.RDFS_CLASS + "> . " + NL + 
+					"    ?mapping <" + PropertyToGraphicAttributeMappingX.VALUEMAPPING + "> ?vm . " + NL + 
 	//				"	{ " +
 	//				"	SELECT ?vm  (COUNT(?sv) AS ?svCount) " +
 	//				"       WHERE " +
@@ -70,31 +72,20 @@ public class MappingQuery {
 	//				"        GROUP BY ?vm " +
 	//				"	} " +
 	//				"    FILTER (!(?svCount = 1 )) " +
-					"} " ;
+					"} " + NL ;
 			
 			
 			return getP2GAMappings(modelMappings, queryString);
 		}
 	
 	public static Set<PropertyToGO2ORMappingX> getAllP2GOTORMappingsTo(Model modelMappings, URI gotor) {
-
-		// constraining target GOTOR is optional
-		String gotorString;
-		if (null == gotor) {
-			gotorString = " ?tgotor ";
-		} else {
-			gotorString = gotor.toSPARQL();
-		}
-	
-		String queryString = "" +
-				"SELECT DISTINCT ?mapping " +
-				"WHERE { " +
-				"    ?mapping a <" + PropertyToGO2ORMappingX.RDFS_CLASS + "> . " +
-				"    ?mapping " + PropertyToGO2ORMappingX.TARGETOBJECT_TO_OBJECTRELATION.toSPARQL() + " " + gotorString + " . " +
-				"} " ;
 		
-		LOGGER.finer("SPARQL: query all mappings to " + gotorString + ":" + NL + 
-				     queryString);
+		MappingQueryBuilder queryBuilder = new MappingQueryBuilder();
+		//queryBuilder.constrainToGraph(OGVICProcess.GRAPH_MAPPING);
+		queryBuilder.constrainToType(PropertyToGO2ORMappingX.RDFS_CLASS);
+		// constraining target GOTOR is optional
+		if (null != gotor) queryBuilder.constrainToTargetGR(gotor);
+		String queryString = queryBuilder.buildQuery();
 		
 		return getP2GOTORMappings(modelMappings, queryString);
 	}
@@ -122,13 +113,10 @@ public class MappingQuery {
 		QueryResultTable results = modelMappings.sparqlSelect(queryString);
 		
 		for (QueryRow row : results) {
-			//try {
 				Property_to_Graphic_AttributeMapping mapping = Property_to_Graphic_AttributeMapping.getInstance(modelMappings, row.getValue("mapping").asResource());
 				mappingSet.add((PropertyToGraphicAttributeMappingX)mapping.castTo(PropertyToGraphicAttributeMappingX.class));
-			//} catch (Exception e) {
 				LOGGER.warning("P2GAM could not be added to the mapping set.");
 				continue;
-			//}
 		}
 		
 		return mappingSet;
