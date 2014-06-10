@@ -215,7 +215,7 @@ public class DataQueryBuilder extends SPARQLQueryBuilder {
 		if (null!=object) 				constrainToObjectSPARQL(object);
 		if (null!=subject) 				constrainToSubjectSPARQL(subject);
 										filterNoReflexiveStatementsSPARQL();
-										filterOnlyIRIsForSubjectAndObjectSPARQL();
+										//filterOnlyIRIsForSubjectAndObjectSPARQL();
 		if (null!=graphURI) 		closeGraphSPARQL();
 								endQuerySPARQL();
 								limitSPARQL();

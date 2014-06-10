@@ -26,6 +26,7 @@ public class DataQuery {
 
 	final static Logger LOGGER = Logger.getLogger(DataQuery.class.getName());
 	static final String NL =  System.getProperty("line.separator");
+	
 	public static Set<Statement> findStatementsPreferingThoseUsingASubProperty(
 			Sparqlable modelOrModelSet,
 			URI fromGraph,

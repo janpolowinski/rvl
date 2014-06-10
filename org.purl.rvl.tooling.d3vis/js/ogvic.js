@@ -259,6 +259,17 @@ var width = 1400,
 		     ;
 	  };
 	  
+	  /* setting the shape as a text based on text_value */
+	  d3.selection.prototype.avmShapedWithText = function() { 	
+		 	return this.append("svg:text")
+			.attr("class", "textNode")
+	 		.attr("dx", 10)
+	     	.attr("dy", 0)
+		    .text(function(d) { return d.shape_text_value; })
+		    //.style("fill", function(d) { return d.color_rgb_hex_combined; })
+			;
+	  };
+	  
 	  /* setting the shape by a path object */ // TODO: this also sets color and class node at the moment ; seems broken
 	  d3.selection.prototype.avmShapedWithPath = function(symbolFunction) {
 		 	return this.append("path")

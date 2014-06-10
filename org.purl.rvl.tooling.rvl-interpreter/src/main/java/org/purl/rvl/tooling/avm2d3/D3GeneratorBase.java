@@ -105,8 +105,11 @@ public abstract class D3GeneratorBase implements D3Generator {
 		
 		// shape
 		String endNodeShapeD3Name = graphicObject.getShape();
+		String shapeTextValue = graphicObject.getAllTextvalue_as().firstValue();
+		
 	
 		map.put("shape_d3_name", endNodeShapeD3Name);
+		map.put("shape_text_value", shapeTextValue);
 		
 		// dimensions
 		final float width;

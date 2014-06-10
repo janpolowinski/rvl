@@ -15,6 +15,7 @@ import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
+import org.purl.rvl.java.rvl.IdentityMappingX;
 import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
@@ -47,7 +48,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		interpretSimpleP2GArvlMappings();
 		interpretNormalP2GArvlMappings(); 
 		interpretP2GO2ORMappings();
-		interpretResourceLabelAsGOLabelForAllCreatedResources();
+		//interpretResourceLabelAsGOLabelForAllCreatedResources();
+		interpretIdentityMappings();
 	}
 
 	/**
@@ -105,7 +107,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				}
 				
 			} catch (MappingException e) {
-				LOGGER.severe(e.getMessage());
+				LOGGER.severe("P2GOTOR mappings could not be interpreted: " + e.getMessage());
 			} catch (InsufficientMappingSpecificationException e) {
 				LOGGER.severe("Could not start mapping interpretation: " + e.getMessage());
 			}
@@ -280,6 +282,46 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			
 		}
 	} 
+	
+	/**
+	 * Interprets IdentityMappings, i.e. mappings where the source value will be
+	 * passed through to the target attribute without changing it.
+	 * @throws MappingException 
+	 */
+	protected void interpretIdentityMappings() {
+
+		Set<IdentityMappingX> mappingSet = MappingQuery
+				.getAllIdentityMappings(modelMappings);
+
+		LOGGER.info(NL + "Found " + mappingSet.size()
+				+ " identity mappings.");
+
+		// for each normal P2GA mapping
+		for (Iterator<IdentityMappingX> iterator = mappingSet.iterator(); iterator.hasNext();) {
+
+			IdentityMappingX mapping =  (IdentityMappingX) iterator.next();
+
+			// caching
+			mapping = mapping.tryReplaceWithCashedInstanceForSameURI(mapping);
+
+			if (mapping.isDisabled()) {
+				LOGGER.info("Ignored disabled mapping "
+						+ mapping.toStringSummary());
+				continue;
+			}
+
+			try {
+				new IdentityMappingHandler(modelSet, this, modelAVM).handleIdentityMapping(mapping);
+			} catch (MappingException e) {
+				LOGGER.severe("Identity mapping could not be interpreted: " + e.getMessage());
+			}
+		}
+
+		LOGGER.fine("The size of the Resource-to-GraphicObjectX map is "
+				+ resourceGraphicObjectMap.size() + ".");
+
+	}
+
 	
 
 }

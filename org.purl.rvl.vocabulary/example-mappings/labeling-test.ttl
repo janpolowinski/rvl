@@ -18,7 +18,7 @@
       
     
 rexm:PMWithExplicitValueMappingsAsBlankNodes
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
       rvl:sourceProperty rexd:workingField ;
       rvl:targetObjToObjRelation vg:Labeling_Relation ; 
@@ -88,6 +88,15 @@ rexm:IconLabelColorMapping
       ]
       .
     
+    
+:TextIdentityMapping
+	  rvl:disabled "false";
+      rdf:type rvl:IdentityMapping ;
+      rvl:sourceProperty rdfs:label ;
+      #rvl:sourceProperty rdf:ID ;
+      rvl:targetAttribute
+              vg:text_value ;
+      .
  
 
               

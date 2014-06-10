@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.purl.rvl.tooling.rvl2avm;
 
 import java.util.logging.Logger;
@@ -8,32 +5,55 @@ import java.util.logging.Logger;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
+import org.ontoware.rdf2go.model.node.Node;
+import org.ontoware.rdf2go.model.node.Resource;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.MappingException;
+import org.purl.rvl.java.rvl.IdentityMappingX;
 import org.purl.rvl.java.rvl.PropertyMappingX;
-import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
+import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.query.data.DataQuery;
+import org.purl.rvl.tooling.util.AVMUtils;
 
-/**
- * @author Jan Polowinski
- * 
- */
-public abstract class MappingToP2GOTORHandler extends MappingHandlerBase {
-
-	private final static Logger LOGGER = Logger
-			.getLogger(MappingToP2GOTORHandler.class.getName());
-
-	protected PropertyToGO2ORMappingX mapping;
+public class IdentityMappingHandler extends MappingHandlerBase {
 	
-	public MappingToP2GOTORHandler(ModelSet modelSet,
+	private final static Logger LOGGER = Logger
+			.getLogger(IdentityMappingHandler.class.getName());
+	
+	protected IdentityMappingX mapping;
+
+	public IdentityMappingHandler(ModelSet modelSet,
 			RVLInterpreter rvlInterpreter, Model modelAvm) {
 		super(modelSet, rvlInterpreter, modelAvm);
 	}
 
-	public void handleP2GOTORMapping(PropertyToGO2ORMappingX mapping) throws MappingException
-		{
+	@Override
+	protected void encodeStatement(Statement statement)
+			throws InsufficientMappingSpecificationException {
 		
+
+		Resource subject = statement.getSubject();
+		Node object = statement.getObject();
+
+		LOGGER.finest("Subject label "
+				+ AVMUtils.getGoodLabel(subject, modelAVM));
+		LOGGER.finest("Object label " + AVMUtils.getGoodLabel(object, modelAVM));
+
+		LOGGER.fine("Statement to be mapped : " + statement);
+		
+		// For each statement, create a startNode GO representing the subject
+		// (if not exists)
+		GraphicObjectX subjectNode = rvlInterpreter
+				.createOrGetGraphicObject(subject);
+		LOGGER.finest("Created GO for subject: " + subject.toString());
+		
+		subjectNode.setTextvalue(object.toString());
+		
+	}
+
+	public void handleIdentityMapping(IdentityMappingX mapping) throws MappingException {
+
 		this.mapping = mapping;
 		
 		try {
@@ -43,11 +63,10 @@ public abstract class MappingToP2GOTORHandler extends MappingHandlerBase {
 					true, null, null).iterator();
 			
 		} catch (InsufficientMappingSpecificationException e) {
-			throw new MappingException("Problem getting P2GOTOR-mapping-statements " +
+			throw new MappingException("Problem getting Identity-mapping-statements " +
 					"for " + mapping.asURI() + ": " + e.getMessage());
 		}
 
-		
 
 		if (null == stmtSetIterator) {
 			LOGGER.severe("Statement iterator was null, no relations could be interpreted for "
@@ -74,7 +93,8 @@ public abstract class MappingToP2GOTORHandler extends MappingHandlerBase {
 			}
 
 		}
-
+		
 	}
+
 
 }
