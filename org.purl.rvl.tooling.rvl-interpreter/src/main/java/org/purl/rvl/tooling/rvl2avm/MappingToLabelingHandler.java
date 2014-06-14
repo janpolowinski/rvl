@@ -69,7 +69,7 @@ public class MappingToLabelingHandler extends MappingToP2GOTORHandler {
 
 		// set default shape of icon labels
 		label.setShapenamed(new ShapeX(modelAVM,
-				"http://purl.org/viso/shape/commons/Circle", false));
+				"http://purl.org/viso/shape/commons/Square", false));
 
 		// submappings
 		if (mapping.hasSub_mapping()) {

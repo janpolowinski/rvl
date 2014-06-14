@@ -98,19 +98,21 @@ public abstract class D3GeneratorBase implements D3Generator {
 	protected void putGraphicAttributes(Map map, GraphicObjectX graphicObject) {
 		
 		//color
-		String endNodeColorRGBHex = graphicObject.getColorHex();
+		String colorRGBHex = graphicObject.getColorHex();
 		
-		map.put("color_rgb_hex", endNodeColorRGBHex);
+		map.put("color_rgb_hex", colorRGBHex);
 		map.put("color_rgb_hex_combined", graphicObject.getColorRGBHexCombinedWithHSLValues());
 		
 		// shape
-		String endNodeShapeD3Name = graphicObject.getShape();
-		String shapeTextValue = graphicObject.getAllTextvalue_as().firstValue();
+		//String shapeD3Name = graphicObject.getShape();
+		//String shapeTextValue = graphicObject.getTextValue();
 		
-	
-		map.put("shape_d3_name", endNodeShapeD3Name);
-		map.put("shape_text_value", shapeTextValue);
-		
+		if(graphicObject.hasTextvalue()){
+			map.put("shape_text_value", graphicObject.getTextValue());
+		} else {
+			map.put("shape_d3_name", graphicObject.getShape());
+		}
+				
 		// dimensions
 		final float width;
 		if (graphicObject.hasWidth()) {

@@ -49,6 +49,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		interpretNormalP2GArvlMappings(); 
 		interpretP2GO2ORMappings();
 		//interpretResourceLabelAsGOLabelForAllCreatedResources();
+		interpretResourceLabelAsLabelForAllGOs();
 		interpretIdentityMappings();
 	}
 

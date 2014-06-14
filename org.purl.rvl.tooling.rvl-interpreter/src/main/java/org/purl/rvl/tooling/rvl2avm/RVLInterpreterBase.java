@@ -26,6 +26,7 @@ import org.purl.rvl.java.gen.viso.graphic.Color;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
 import org.purl.rvl.java.gen.viso.graphic.Shape;
+import org.purl.rvl.java.gen.viso.graphic.Superimposition;
 import org.purl.rvl.java.rvl.MappingX;
 import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
@@ -74,7 +75,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 		this.modelMappings = modelSet.getModel(OGVICProcess.GRAPH_MAPPING);
 		this.modelVISO = modelSet.getModel(OGVICProcess.GRAPH_VISO);
 		this.random = new Random();
-		this.resourceGraphicObjectMap = new HashMap<org.ontoware.rdf2go.model.node.Resource, GraphicObjectX>();
+		this.resourceGraphicObjectMap = new HashMap<Resource, GraphicObjectX>();
 	}
 
 
@@ -96,7 +97,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	 * @return the GraphicObjectX representing the resource
 	 */
 	@Override
-	public GraphicObjectX createOrGetGraphicObject(org.ontoware.rdf2go.model.node.Resource resource) {
+	public GraphicObjectX createOrGetGraphicObject(Resource resource) {
 		
 		if (resourceGraphicObjectMap.containsKey(resource)) {
 			
@@ -111,6 +112,12 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			go = go.tryReplaceWithCashedInstanceForSameURI(go);
 			
 			go.setRepresents(resource);
+			
+			// set default shape here hardcoded to circles // TODO: make more flexible
+			// the default shape will be removed, when a text-value is set by another mapping, 
+			// since in this case the text determines the shape
+			go.setShapenamed(new ShapeX(modelAVM,
+					"http://purl.org/viso/shape/commons/Circle", false));
 			
 			resourceGraphicObjectMap.put(resource, go);
 			
@@ -162,26 +169,61 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	 * Iterates through all GOs in the GO map and performs a default label mapping on them
 	 */
 	protected void interpretResourceLabelAsGOLabelForAllCreatedResources(){
-		for (Map.Entry<org.ontoware.rdf2go.model.node.Resource,GraphicObjectX> entry : resourceGraphicObjectMap.entrySet()) {
+		for (Map.Entry<Resource,GraphicObjectX> entry : resourceGraphicObjectMap.entrySet()) {
 			//LOGGER.info(entry.getKey() + " with value " + entry.getValue());
 			// perform the default label mapping, when not already set
 		    // TODO this is simply using rdfs:label of the GOs now, not the n-ary graphic labeling!
 		    // only rdfreactor resources have labels ...
 			GraphicObjectX go = entry.getValue();
-			org.ontoware.rdf2go.model.node.Resource resource = entry.getKey();
+			Resource resource = entry.getKey();
 			if(!go.hasLabels()) {
-				performDefaultLabelMapping(go,resource);
+				performDefaultLabelMappingOld(go,resource);
 			}
 		}
 	}
 	
+	protected void interpretResourceLabelAsLabelForAllGOs() {
+		for (Map.Entry<Resource,GraphicObjectX> entry : resourceGraphicObjectMap.entrySet()) {
+			//LOGGER.info(entry.getKey() + " with value " + entry.getValue());
+			// perform the default label mapping, when not already set
+		    // TODO this is simply using rdfs:label of the GOs now, not the n-ary graphic labeling!
+		    // only rdfreactor resources have labels ...
+			GraphicObjectX go = entry.getValue();
+			Resource resource = entry.getKey();
+			if(!go.hasLabels()) {
+				performDefaultLabelMapping(go,resource);
+			}
+		}		
+	}
+	
+	private void performDefaultLabelMapping(GraphicObjectX go,
+			Resource resource) {
+		
+			// create an additional object here, don't reuse existing ones!
+			GraphicObjectX label = new GraphicObjectX(modelAVM, false); 
+			label.setTextvalue(AVMUtils.getOrGenerateDefaultLabelString(modelData, resource));
+			LOGGER.finest("Created new Label-GO for resource: " + resource.toString());
+
+			Labeling rel = new Labeling(modelAVM,
+					"http://purl.org/rvl/example-avm/Labeling_Relation_"
+							+ createNewInternalID(), true);
+			rel.setLabel("Labeling Relation");
+
+			go.setLabeledwith(rel);
+			rel.setLabelinglabel(label);
+			rel.setLabelingattachedBy(Superimposition.RDFS_CLASS);
+			rel.setLabelingbase(go);
+
+	}
+
+
 	/**
 	 * Sets the label of a GO to the resources (first) label
 	 * @param go
 	 * @param resource
 	 */
-	private void performDefaultLabelMapping(GraphicObjectX go,
-			org.ontoware.rdf2go.model.node.Resource resource) {
+	private void performDefaultLabelMappingOld(GraphicObjectX go,
+			Resource resource) {
 		
 		//LOGGER.finest("Problems getting represented resource, no label generated for GO " + this.asURI());
 

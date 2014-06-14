@@ -272,5 +272,13 @@ public class GraphicObjectX extends
 		return model.sparqlAsk("ASK WHERE { ?someOtherGO " + roleURI.toSPARQL() + " " + this.toSPARQL() + " . }" );
 	}
 
+	public String getTextValue() {
+		if (hasTextvalue()) {
+			return getAllTextvalue_as().firstValue();
+		}
+		else 
+			return null;
+	}
+
 
 }

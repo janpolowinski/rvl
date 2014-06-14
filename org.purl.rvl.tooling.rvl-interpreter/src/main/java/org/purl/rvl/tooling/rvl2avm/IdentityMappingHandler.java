@@ -50,6 +50,9 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 		
 		subjectNode.setTextvalue(object.toString());
 		
+		// remove existing shapes (incl. default shape) - these are now overridden by the text-shape
+		subjectNode.removeAllShapenamed();
+		
 	}
 
 	public void handleIdentityMapping(IdentityMappingX mapping) throws MappingException {

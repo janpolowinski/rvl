@@ -91,8 +91,10 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			putGraphicAttributes(node, startNode);
 			node.put("uri", startNode.getRepresentedResource().toString());
 			node.put("display_label_text", true);
-			node.put("label", D3Utils.shortenLabel(startNode.getLabel()));
-			node.put("full_label", startNode.getLabel() + " (ID: " + startNode.getRepresentedResource() + ")");
+			
+			// old labeling ignoring n-ary labels
+			//node.put("label", D3Utils.shortenLabel(startNode.getLabel()));
+			//node.put("full_label", startNode.getLabel() + " (ID: " + startNode.getRepresentedResource() + ")");
 			
 			// temp label positioning using the attachedBy information
 			if (startNode.hasLabeledwith()){
@@ -102,6 +104,11 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				try {
 					
 					GraphicObjectX label = (GraphicObjectX) nAryLabeling.getAllLabelinglabel_as().firstValue().castTo(GraphicObjectX.class);
+					
+					String labelTextValue = label.getAllTextvalue_as().firstValue();
+					
+					node.put("label", D3Utils.shortenLabel(labelTextValue));
+					node.put("full_label", labelTextValue + " (ID: " + startNode.getRepresentedResource() + ")");
 					
 					GraphicObjectToObjectRelation attachementRelation = nAryLabeling.getAllLabelingattachedBy_as().firstValue();
 					
