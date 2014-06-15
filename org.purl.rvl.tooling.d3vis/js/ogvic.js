@@ -234,7 +234,7 @@ var width = 1400,
 			.attr("r", labelShapeSize/2)
 			.attr("cx",labelShapeSize/2)
 			.attr("cy",labelShapeSize/2)
-			.style("fill", function(d) { return d.color_rgb_hex_combined; });
+			.applyGraphicAttributesNonSpatial2SVG()
 	  };
 	  
 	  /* setting the shape by reusing an SVG symbol */ // TODO: this also sets color and node-class at the moment
@@ -243,7 +243,7 @@ var width = 1400,
 			  .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.shape_d3_name; })
 			  //.attr("xlink:href", function(d) { return "../../svg/symbols.svg#clock"; })
 	   	 	  .attr("class", function(d) { return "node svgSymbol"; })
-		      .style("fill", function(d) { return d.color_rgb_hex_combined; })
+		      .applyGraphicAttributesNonSpatial2SVG()
 		      //.attr("width", "200 px").attr("height", "200 px") // does not seem to work (Firefox at least)
 		      .attr("transform", function(d) { return "scale(" + d.width/SYMBOL_WIDTH +  ")"; })
 		     ;
@@ -255,7 +255,7 @@ var width = 1400,
 			  .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.shape_d3_name; })
 			  //.attr("xlink:href", function(d) { return "../../svg/symbols.svg#clock"; })
 	   	 	  .attr("class", "svgSymbol")
-		      .style("fill", function(d) { return d.color_rgb_hex_combined; })
+		      .applyGraphicAttributesNonSpatial2SVG()
 		     ;
 	  };
 	  
@@ -266,7 +266,7 @@ var width = 1400,
 	 		.attr("dx", 10)
 	     	.attr("dy", 0)
 		    .text(function(d) { return d.shape_text_value; })
-		    .style("fill", function(d) { return d.color_rgb_hex_combined; })
+			.applyGraphicAttributesNonSpatial2SVG()
 			;
 	  };
 	  
@@ -277,6 +277,13 @@ var width = 1400,
 		 		//.attr("d", d3.svg.symbol());
 			   .attr("class", function(d) { return "node";})
     		   .attr("d", symbolFunction)
+			   .applyGraphicAttributesNonSpatial2SVG()
+		     ;
+	  };
+	  
+	  /* setting graphic attributes on SVG (except position, dimensions ... */
+	  d3.selection.prototype.applyGraphicAttributesNonSpatial2SVG = function() {
+		 	return this
     		   .style("fill", function(d) { return d.color_rgb_hex_combined; })
 		     ;
 	  };
