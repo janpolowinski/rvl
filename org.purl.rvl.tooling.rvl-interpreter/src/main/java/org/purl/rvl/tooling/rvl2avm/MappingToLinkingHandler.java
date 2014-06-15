@@ -38,8 +38,8 @@ public class MappingToLinkingHandler extends MappingToP2GOTORHandler {
 		Resource object = statement.getObject().asResource();
 
 		LOGGER.finest("Subject label "
-				+ AVMUtils.getGoodLabel(subject, modelAVM));
-		LOGGER.finest("Object label " + AVMUtils.getGoodLabel(object, modelAVM));
+				+ AVMUtils.getGoodNodeLabel(subject, modelAVM));
+		LOGGER.finest("Object label " + AVMUtils.getGoodNodeLabel(object, modelAVM));
 
 		LOGGER.fine("Statement to be mapped : " + statement);
 
@@ -63,7 +63,7 @@ public class MappingToLinkingHandler extends MappingToP2GOTORHandler {
 				"http://purl.org/rvl/example-avm/GO_Connector_"
 						+ rvlInterpreter.createNewInternalID(), true);
 		// connector.setLabel(statement.getPredicate());
-		connector.setLabel(AVMUtils.getGoodLabel(statement.getPredicate(),
+		connector.setLabel(AVMUtils.getGoodNodeLabel(statement.getPredicate(),
 				modelAVM)); // TODO: actually the label of the connector
 							// representing this ; statement contains evtl. used
 							// subproperty
@@ -82,7 +82,7 @@ public class MappingToLinkingHandler extends MappingToP2GOTORHandler {
 			DirectedLinking dlRel = new DirectedLinking(modelAVM,
 					"http://purl.org/rvl/example-avm/GR_"
 							+ rvlInterpreter.createNewInternalID(), true);
-			dlRel.setLabel(AVMUtils.getGoodLabel(
+			dlRel.setLabel(AVMUtils.getGoodNodeLabel(
 					mapping.getTargetGraphicRelation(), modelAVM));
 
 			// configure the relation
@@ -115,7 +115,7 @@ public class MappingToLinkingHandler extends MappingToP2GOTORHandler {
 			UndirectedLinking udlRel = new UndirectedLinking(modelAVM,
 					"http://purl.org/rvl/example-avm/GR_"
 							+ rvlInterpreter.createNewInternalID(), true);
-			udlRel.setLabel(AVMUtils.getGoodLabel(
+			udlRel.setLabel(AVMUtils.getGoodNodeLabel(
 					mapping.getTargetGraphicRelation(), modelAVM));
 
 			// configure the relation

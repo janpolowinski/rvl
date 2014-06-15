@@ -317,7 +317,7 @@ public class PropertyToGraphicAttributeMappingX extends
 	}
 
 	public String toStringSummary() {
-		return AVMUtils.getGoodLabel(this, model);
+		return AVMUtils.getGoodNodeLabel(this, model);
 	}
 
 	

@@ -607,7 +607,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 						|| inheritedBy.toString().equals(RVL.TBOX_DOMAIN_RANGE)	
 						)) {
 					LOGGER.fine("Mapped value " + tv + " will be inherited to GOs representing nodes related to " + 
-						baseResource + "("+ AVMUtils.getGoodLabel(baseResource, modelSet.getModel(OGVICProcess.GRAPH_DATA)) +") via " + inheritedBy);
+						baseResource + "("+ AVMUtils.getGoodNodeLabel(baseResource, modelSet.getModel(OGVICProcess.GRAPH_DATA)) +") via " + inheritedBy);
 				
 					GraphicAttribute tga = p2gam.getTargetAttribute();
 					applyGraphicValueToGOsRepresentingNodesRelatedVia(tga, tv, baseResource, inheritedBy);

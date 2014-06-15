@@ -266,7 +266,7 @@ var width = 1400,
 	 		.attr("dx", 10)
 	     	.attr("dy", 0)
 		    .text(function(d) { return d.shape_text_value; })
-		    //.style("fill", function(d) { return d.color_rgb_hex_combined; })
+		    .style("fill", function(d) { return d.color_rgb_hex_combined; })
 			;
 	  };
 	  
@@ -277,7 +277,7 @@ var width = 1400,
 		 		//.attr("d", d3.svg.symbol());
 			   .attr("class", function(d) { return "node";})
     		   .attr("d", symbolFunction)
-    		    .style("fill", function(d) { return d.color_rgb_hex_combined; })
+    		   .style("fill", function(d) { return d.color_rgb_hex_combined; })
 		     ;
 	  };
 	  
@@ -468,7 +468,7 @@ function toggle(d) {
 	d3.selectAll(".node").classed("highlighted identical", false);
 	
 	//shorten labels // TODO: this is no highlighting stuff
-	d3.selectAll(".node").selectAll("text").
+	d3.selectAll(".node").selectAll("text.nodeLabel").
 		text(function(d){return d.label;});
  }
  

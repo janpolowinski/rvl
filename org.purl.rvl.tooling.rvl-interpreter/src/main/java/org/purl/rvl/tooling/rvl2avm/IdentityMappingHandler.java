@@ -37,8 +37,8 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 		Node object = statement.getObject();
 
 		LOGGER.finest("Subject label "
-				+ AVMUtils.getGoodLabel(subject, modelAVM));
-		LOGGER.finest("Object label " + AVMUtils.getGoodLabel(object, modelAVM));
+				+ AVMUtils.getGoodNodeLabel(subject, modelAVM));
+		LOGGER.finest("Object label " + AVMUtils.getGoodNodeLabel(object, modelAVM));
 
 		LOGGER.fine("Statement to be mapped : " + statement);
 		
@@ -48,7 +48,11 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 				.createOrGetGraphicObject(subject);
 		LOGGER.finest("Created GO for subject: " + subject.toString());
 		
-		subjectNode.setTextvalue(object.toString());
+		// TODO hack: we are always settings textvalue here
+		// (as will be the case in 99%), 
+		// while also color values may have been passed!
+		// TODO handle language tags 
+		subjectNode.setTextvalue(object.asLiteral().getValue()); 
 		
 		// remove existing shapes (incl. default shape) - these are now overridden by the text-shape
 		subjectNode.removeAllShapenamed();

@@ -97,6 +97,13 @@ text.nodeLabel, text.nodeLabelShadow {
 	cursor: pointer;
 }
 
+text.textNode {
+	font-size: 24px;
+	fill: lightgrey;
+	font-family: Georgia, Arial, Verdana;
+	cursor: pointer;
+}
+
 .node text.nodeLabelShadow {
     stroke: white;
     stroke-width: 4px;

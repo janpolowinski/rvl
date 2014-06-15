@@ -12,7 +12,7 @@
 
 :Alice
       rdf:type :Author ;
-      rdfs:label "Bob"^^xsd:string ;
+      rdfs:label "Alice"^^xsd:string ;
       :workingField :Biography .
 
 :America
@@ -21,7 +21,9 @@
 
 :Asia
       rdf:type :Place ;
-      :partOf :World .
+      :partOf :World ;
+      rdfs:label "Asia";
+      .
 
 :Australia
       rdf:type :Place ;
@@ -39,7 +41,9 @@
 
 :Bob  rdf:type :Author ;
       rdfs:label "Bob"^^xsd:string ;
-      :workingField :Science .
+      :workingField :Science ;
+      :partOf :America;
+      .
 
 :Book
       rdf:type owl:Class ;

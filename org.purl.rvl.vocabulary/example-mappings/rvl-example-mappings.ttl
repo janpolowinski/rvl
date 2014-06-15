@@ -612,4 +612,15 @@ rexm:ExampleNamedSourceValueList
       rdfs:label "Example named source value set"^^xsd:string ;
       rdf:first rexd:Fiction ;
       rdf:rest (rexd:Science  rexd:Spirituality) .  
+      
+      
+:TextIdentityMapping
+	  rvl:disabled "true"^^xsd:boolean ;
+      rdf:type rvl:IdentityMapping ;
+      rvl:sourceProperty rdfs:label ;
+      #rvl:sourceProperty rdf:ID ;
+      rvl:targetAttribute
+              vg:text_value ;
+      .
+ 
               

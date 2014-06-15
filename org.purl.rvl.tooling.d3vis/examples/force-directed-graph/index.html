@@ -236,8 +236,8 @@
 				// highlighting of identical resources (same URI)
 				allNodes.avmHighlightIdentical(d.uri);
 				
-				// extend label to full label
-				thisNode.selectAll("text").text(function(d){return d.full_label});			
+				// extend label to full label // TODO distinguish text_value and label!!!-> move to label mouse-over?
+				thisNode.selectAll("text.nodeLabel").text(function(d){return d.full_label});			
 
 			}
 		    
@@ -260,7 +260,7 @@
 				.filter(function(d) { return d.shape_d3_name != null ;})
 				.avmShapedWithUseSVG();
 			
-        	/* node shape as reuse svg symbol */
+        	/* node shape as text */
         	var textAsShape = nodeEnter
 				.filter(function(d) { return d.shape_text_value != null ;})
 				.avmShapedWithText();
@@ -274,7 +274,7 @@
 		 
 				 var 
 				 	addHTMLTextLabel = false,
-				 	addSVGTextLabel = false, 
+				 	addSVGTextLabel = true, 
 					addSVGIconLabel = false;		
 				 
 				 var labelContainerContainer = d3.select("#labelContainerSpace")

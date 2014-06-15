@@ -90,7 +90,7 @@ rexm:IconLabelColorMapping
     
     
 :TextIdentityMapping
-	  rvl:disabled "false";
+	  rvl:disabled "false"^^xsd:boolean ;
       rdf:type rvl:IdentityMapping ;
       rvl:sourceProperty rdfs:label ;
       #rvl:sourceProperty rdf:ID ;
@@ -98,5 +98,28 @@ rexm:IconLabelColorMapping
               vg:text_value ;
       .
  
+ 
+ :PartOf2Linking
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:disabled "true"^^xsd:boolean ;
+      rvl:sourceProperty rexd:partOf ;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
+      .
 
+
+:PMWithExplicitValueMappingsAsBlankNodesToColorNamed
+      rvl:disabled "false"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Sci-Fi;
+        rvl:targetValue vg:Red;
+      ],[
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Biography;
+        rvl:targetValue vg:Green;
+      ]
+      . 
               

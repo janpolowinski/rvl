@@ -38,8 +38,8 @@ public class MappingToLabelingHandler extends MappingToP2GOTORHandler {
 		Resource object = statement.getObject().asResource();
 
 		LOGGER.finest("Subject label "
-				+ AVMUtils.getGoodLabel(subject, modelAVM));
-		LOGGER.finest("Object label " + AVMUtils.getGoodLabel(object, modelAVM));
+				+ AVMUtils.getGoodNodeLabel(subject, modelAVM));
+		LOGGER.finest("Object label " + AVMUtils.getGoodNodeLabel(object, modelAVM));
 
 		LOGGER.fine("Statement to be mapped : " + statement);
 
@@ -58,7 +58,7 @@ public class MappingToLabelingHandler extends MappingToP2GOTORHandler {
 		Labeling rel = new Labeling(modelAVM,
 				"http://purl.org/rvl/example-avm/GR_"
 						+ rvlInterpreter.createNewInternalID(), true);
-		rel.setLabel(AVMUtils.getGoodLabel(mapping.getTargetGraphicRelation(),
+		rel.setLabel(AVMUtils.getGoodNodeLabel(mapping.getTargetGraphicRelation(),
 				modelAVM));
 
 		subjectNode.setLabeledwith(rel);

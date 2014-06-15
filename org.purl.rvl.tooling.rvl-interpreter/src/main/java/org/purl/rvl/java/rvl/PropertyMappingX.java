@@ -231,7 +231,7 @@ static final String NL =  System.getProperty("line.separator");
 	}
 
 	public String toStringSummary() {
-		return AVMUtils.getGoodLabel(this, model);
+		return AVMUtils.getGoodNodeLabel(this, model);
 	}
 
 //	public PropertyMappingX tryReplaceWithCashedInstanceForSameURI(MappingIF mapping) {
