@@ -48,8 +48,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		interpretSimpleP2GArvlMappings();
 		interpretNormalP2GArvlMappings(); 
 		interpretP2GO2ORMappings();
-		//interpretResourceLabelAsGOLabelForAllCreatedResources();
-		interpretResourceLabelAsLabelForAllGOs();
+		//performDefaultLabelMappingForAllGOs();
 		interpretIdentityMappings();
 	}
 
@@ -297,7 +296,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		LOGGER.info(NL + "Found " + mappingSet.size()
 				+ " identity mappings.");
 
-		// for each normal P2GA mapping
+		// for each identity mapping
 		for (Iterator<IdentityMappingX> iterator = mappingSet.iterator(); iterator.hasNext();) {
 
 			IdentityMappingX mapping =  (IdentityMappingX) iterator.next();

@@ -13,6 +13,7 @@ import org.ontoware.rdf2go.model.QueryRow;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.impl.StatementImpl;
 import org.ontoware.rdf2go.model.node.Node;
+import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.util.RDFTool;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
@@ -255,13 +256,6 @@ public class AVMUtils {
 		
 		return relFromHere;
 
-	}
-
-	public static String getOrGenerateDefaultLabelString(Model model, org.ontoware.rdf2go.model.node.Resource resource){
-		
-		String genLabel = getGoodNodeLabel(resource,model);
-
-		return genLabel;
 	}
 	
 	public static String getGoodNodeLabel(Node node, Model model){

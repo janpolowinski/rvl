@@ -12,6 +12,7 @@ import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.UnsupportedSelectorTypeException;
 import org.purl.rvl.java.rvl.filter.SubjectFilter;
+import org.purl.rvl.tooling.process.ResourcesCache;
 import org.purl.rvl.tooling.util.AVMUtils;
 
 /**
@@ -253,6 +254,11 @@ static final String NL =  System.getProperty("line.separator");
 			LOGGER.severe("Will ignore filter. Reason: " + e.getMessage());
 			return "";
 		}
+	}
+
+	public PropertyMappingX tryReplaceWithCashedInstanceForSameURI(
+			PropertyMappingX mapping) {
+		return (PropertyMappingX) ResourcesCache.getInstance().tryReplaceOrCache(mapping);
 	}
 
 }

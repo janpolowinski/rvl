@@ -92,53 +92,65 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			node.put("uri", startNode.getRepresentedResource().toString());
 			node.put("display_label_text", true);
 			
+			// default label position //TODO hardcoded
+			node.put("label_position", "topLeft"); /* temp, should be label.shape_d3_name*/	
+
+			
 			// old labeling ignoring n-ary labels
 			//node.put("label", D3Utils.shortenLabel(startNode.getLabel()));
 			//node.put("full_label", startNode.getLabel() + " (ID: " + startNode.getRepresentedResource() + ")");
 			
 			// temp label positioning using the attachedBy information
-			if (startNode.hasLabeledwith()){
+			if (startNode.hasLabeledwith()) {
 				
 				Labeling nAryLabeling = startNode.getAllLabeledwith_as().firstValue(); // TODO only one label handled!
-
+			
 				try {
 					
-					GraphicObjectX label = (GraphicObjectX) nAryLabeling.getAllLabelinglabel_as().firstValue().castTo(GraphicObjectX.class);
+					GraphicObjectX label = (GraphicObjectX) nAryLabeling
+							.getAllLabelinglabel_as().firstValue()
+							.castTo(GraphicObjectX.class);
 					
-					String labelTextValue = label.getAllTextvalue_as().firstValue();
+					String labelTextValue = label.getTextValue();
 					
-					node.put("label", D3Utils.shortenLabel(labelTextValue));
-					node.put("full_label", labelTextValue + " (ID: " + startNode.getRepresentedResource() + ")");
+					if (null != labelTextValue) {
+						
+						// create text label
+						
+						node.put("display_label_text", true);
+						node.put("label", D3Utils.shortenLabel(labelTextValue));
+						//node.put("full_label", labelTextValue + " (ID: " + startNode.getRepresentedResource() + ")");
+						node.put("full_label", labelTextValue);
+						
+					} else {
+						
+						// create icon label
+						
+						node.put("display_label_icon", true);
+						node.put("label_shape_d3_name", label.getShape());
+						node.put("label_color_rgb_hex_combined", label.getColorRGBHexCombinedWithHSLValues());
+						node.put("label_width", startNodeWidth*LABEL_ICON_SIZE_FACTOR);
+					}
 					
 					GraphicObjectToObjectRelation attachementRelation = nAryLabeling.getAllLabelingattachedBy_as().firstValue();
 					
-					node.put("label_shape_d3_name", label.getShape());
-					node.put("label_color_rgb_hex_combined", label.getColorRGBHexCombinedWithHSLValues());
-					node.put("label_width", startNodeWidth*LABEL_ICON_SIZE_FACTOR);
-					
 					if (attachementRelation.asURI().equals(Containment.RDFS_CLASS)) {
-						node.put("display_label_text", true);
-						node.put("label_position", "centerCenter"); /* temp, should be label.shape_d3_name*/	
+						node.put("label_position", "centerCenter"); /* temp, should be label.shape_d3_name*/
+						//node.put("width", 30);
 					} else if (attachementRelation.asURI().equals(Superimposition.RDFS_CLASS)) {
-						node.put("display_label_icon", true);
 						node.put("label_position", "centerRight"); /* temp, should be label.shape_d3_name*/	
-						node.put("width", 30);
-						
+					} else {
+						// default label positioning
+						node.put("label_position", "topLeft"); /* temp, should be label.shape_d3_name*/	
 					}
+					
+					// ... other positions ...
 				
 				}
 				catch (NullPointerException e ){
 					
 					LOGGER.severe("Problem getting label from labeling relation, labeling " + nAryLabeling + " will be ignored.");
 				}
-					
-				// ... other positions ...
-				
-			} else {
-				
-				// default label positioning
-				node.put("label_position", "topLeft"); /* temp, should be label.shape_d3_name*/	
-				
 			}
 			
 			listOfNodes.add(node);

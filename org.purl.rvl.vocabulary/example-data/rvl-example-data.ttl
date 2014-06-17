@@ -22,7 +22,7 @@
 :Asia
       rdf:type :Place ;
       :partOf :World ;
-      rdfs:label "Asia";
+      rdfs:label "Asia"^^xsd:string ;
       .
 
 :Australia

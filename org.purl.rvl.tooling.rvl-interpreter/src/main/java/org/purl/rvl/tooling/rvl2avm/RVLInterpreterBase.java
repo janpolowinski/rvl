@@ -165,34 +165,11 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	
 	*/
 	
-	/**
-	 * Iterates through all GOs in the GO map and performs a default label mapping on them
-	 */
-	protected void interpretResourceLabelAsGOLabelForAllCreatedResources(){
+	protected void performDefaultLabelMappingForAllGOs() {
 		for (Map.Entry<Resource,GraphicObjectX> entry : resourceGraphicObjectMap.entrySet()) {
-			//LOGGER.info(entry.getKey() + " with value " + entry.getValue());
-			// perform the default label mapping, when not already set
-		    // TODO this is simply using rdfs:label of the GOs now, not the n-ary graphic labeling!
-		    // only rdfreactor resources have labels ...
 			GraphicObjectX go = entry.getValue();
 			Resource resource = entry.getKey();
-			if(!go.hasLabels()) {
-				performDefaultLabelMappingOld(go,resource);
-			}
-		}
-	}
-	
-	protected void interpretResourceLabelAsLabelForAllGOs() {
-		for (Map.Entry<Resource,GraphicObjectX> entry : resourceGraphicObjectMap.entrySet()) {
-			//LOGGER.info(entry.getKey() + " with value " + entry.getValue());
-			// perform the default label mapping, when not already set
-		    // TODO this is simply using rdfs:label of the GOs now, not the n-ary graphic labeling!
-		    // only rdfreactor resources have labels ...
-			GraphicObjectX go = entry.getValue();
-			Resource resource = entry.getKey();
-			if(!go.hasLabels()) {
-				performDefaultLabelMapping(go,resource);
-			}
+			performDefaultLabelMapping(go,resource);
 		}		
 	}
 	
@@ -201,7 +178,8 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 		
 			// create an additional object here, don't reuse existing ones!
 			GraphicObjectX label = new GraphicObjectX(modelAVM, false); 
-			label.setTextvalue(AVMUtils.getOrGenerateDefaultLabelString(modelData, resource));
+			label.setTextvalue(AVMUtils.getGoodNodeLabel(resource, modelData));
+			
 			LOGGER.finest("Created new Label-GO for resource: " + resource.toString());
 
 			Labeling rel = new Labeling(modelAVM,
@@ -214,25 +192,6 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			rel.setLabelingattachedBy(Superimposition.RDFS_CLASS);
 			rel.setLabelingbase(go);
 
-	}
-
-
-	/**
-	 * Sets the label of a GO to the resources (first) label
-	 * @param go
-	 * @param resource
-	 */
-	private void performDefaultLabelMappingOld(GraphicObjectX go,
-			Resource resource) {
-		
-		//LOGGER.finest("Problems getting represented resource, no label generated for GO " + this.asURI());
-
-		try {
-			go.setLabel(AVMUtils.getOrGenerateDefaultLabelString(modelData, resource));
-		} catch (Exception e) {
-			LOGGER.finest("No label could be assigned for resource " + resource + " to GO " + go.asURI().toString() + e.getMessage());
-			e.printStackTrace();
-		}
 	}
 
 
@@ -274,9 +233,9 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 				//continue;
 			}
 	
-			// TODO can also be another P2GO2OR-mapping
-			PropertyToGraphicAttributeMappingX p2gam = 
-					(PropertyToGraphicAttributeMappingX) subMapping.castTo(PropertyToGraphicAttributeMappingX.class);
+			// TODO can also be another P2GO2OR-mapping, TODO CAN ALSO BE AN IDENTITY MAPPING!! This crashes!
+			PropertyMappingX p2gam = 
+					(PropertyMappingX) subMapping.castTo(PropertyMappingX.class);
 			
 			// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
 			p2gam = p2gam.tryReplaceWithCashedInstanceForSameURI(p2gam);
