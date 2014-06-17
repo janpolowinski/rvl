@@ -55,11 +55,4 @@ public class IdentityMappingX extends Identitymapping {
 		return "Identity Mapping " + this.toString();
 	}
 
-	public IdentityMappingX tryReplaceWithCashedInstanceForSameURI(
-			IdentityMappingX mapping) {
-		return (IdentityMappingX) ResourcesCache.getInstance().tryReplaceOrCache(mapping);
-	}
-	
-	
-
 }

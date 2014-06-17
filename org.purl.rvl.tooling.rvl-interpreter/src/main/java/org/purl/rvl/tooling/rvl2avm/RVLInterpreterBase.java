@@ -27,6 +27,7 @@ import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
 import org.purl.rvl.java.gen.viso.graphic.Shape;
 import org.purl.rvl.java.gen.viso.graphic.Superimposition;
+import org.purl.rvl.java.rvl.IdentityMappingX;
 import org.purl.rvl.java.rvl.MappingX;
 import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
@@ -38,6 +39,7 @@ import org.purl.rvl.java.viso.graphic.ShapeX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.query.data.DataQuery;
 import org.purl.rvl.tooling.util.AVMUtils;
+import org.purl.rvl.tooling.util.RVLUtils;
 
 /**
  * @author Jan Polowinski
@@ -109,7 +111,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			GraphicObjectX go = new GraphicObjectX(modelAVM,"http://purl.org/rvl/example-avm/GO_" + random.nextInt(), true);
 			
 			// add to cache
-			go = go.tryReplaceWithCashedInstanceForSameURI(go);
+			go = RVLUtils.tryReplaceWithCashedInstanceForSameURI_for_VISO_Resources(go, GraphicObjectX.class);
 			
 			go.setRepresents(resource);
 			
@@ -233,12 +235,16 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 				//continue;
 			}
 	
-			// TODO can also be another P2GO2OR-mapping, TODO CAN ALSO BE AN IDENTITY MAPPING!! This crashes!
-			PropertyMappingX p2gam = 
+			// TODO can also be another P2GO2OR-mapping, TODO CAN ALSO BE AN IDENTITY MAPPING!! This crashes when "subclasses" of 
+			// PM are stored in the cash, since they cannot automatically be casted to PM, because the JAVA-Class hierarchy does not reflect the
+			// subclass-hierarchy (wrappers inherit from generated classes instead!)
+			// short time solution: only store PM to cash, not subclasses
+			// long term solution restructure subclass-hierarchy. all wrappers use delegation instead of inheritance
+			PropertyMappingX mapping = 
 					(PropertyMappingX) subMapping.castTo(PropertyMappingX.class);
 			
 			// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
-			p2gam = p2gam.tryReplaceWithCashedInstanceForSameURI(p2gam);
+			mapping = RVLUtils.tryReplaceWithCashedInstanceForSameURI(mapping,PropertyMappingX.class);
 			
 			try {
 				
@@ -252,7 +258,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 					LOGGER.finer("Applying submapping to the GR itself (role: " + roleURI + 
 							") based on triple part " + triplePartURI);
 					
-					applyMappingToNaryRelation(mainStatement, triplePartURI, dlRel, p2gam);
+					applyMappingToNaryRelation(mainStatement, triplePartURI, dlRel, mapping);
 					
 				} else {
 					
@@ -264,7 +270,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 					GraphicObjectX goToApplySubmapping = AVMUtils.getGOForRole(modelAVM, dlRel, roleURI); 
 					// TODO this is a simplification: multiple GOs may be affected, not only one
 	
-					applyMappingToGraphicObject(mainStatement, triplePartURI, goToApplySubmapping, p2gam);
+					applyMappingToGraphicObject(mainStatement, triplePartURI, goToApplySubmapping, mapping);
 					// this does not use the cashed mappings somehow:
 					//goToApplySubmapping.setLabel(roleURI + " with an applied submapping: " + smr.toStringSummary());
 						
@@ -272,11 +278,11 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			
 			} catch (InsufficientMappingSpecificationException e) {
 				
-				LOGGER.warning("Submapping " + p2gam + " could not be applied. Reason: " + e.getMessage());
+				LOGGER.warning("Submapping " + mapping + " could not be applied. Reason: " + e.getMessage());
 				
 			} catch (UnsupportedMappingParameterValueException e) {
 				
-				LOGGER.warning("Submapping " + p2gam + " could not be applied. Reason: " + e.getMessage());
+				LOGGER.warning("Submapping " + mapping + " could not be applied. Reason: " + e.getMessage());
 			}
 			
 		}
@@ -362,14 +368,18 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	 * @param mainStatement
 	 * @param triplePartURI
 	 * @param rel
-	 * @param p2gam
+	 * @param mapping
 	 * @throws InsufficientMappingSpecificationException
 	 * @throws UnsupportedMappingParameterValueException 
 	 */
 	public void applyMappingToNaryRelation(Statement mainStatement, URI triplePartURI,
-			Resource rel, PropertyToGraphicAttributeMappingX p2gam)
+			Resource rel, PropertyMappingX mapping)
 			throws InsufficientMappingSpecificationException,
 			UnsupportedMappingParameterValueException {
+		
+		if (mapping.isInstanceof(PropertyToGraphicAttributeMappingX.RDFS_CLASS)) {
+			
+			 PropertyToGraphicAttributeMappingX p2gam = (PropertyToGraphicAttributeMappingX) mapping.castTo(PropertyToGraphicAttributeMappingX.class);
 				
 				GraphicAttribute tga = p2gam.getTargetAttribute();
 				Property sp = p2gam.getSourceProperty();
@@ -426,7 +436,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 								// object could also be a literal
 								superResource = (Resource) mainStatement.getObject().asResource();
 							} catch (ClassCastException e) {
-								throw new UnsupportedMappingParameterValueException("Cannot cast the object of the super-statement (" + mainStatement.getObject() + ") to a resource. Skipping query generation for sub-mapping. ");
+								throw new UnsupportedMappingParameterValueException("Cannot cast the object of the super-statement (" + mainStatement.getObject() + ") to a resource.");
 							}
 						} else {
 							throw new InsufficientMappingSpecificationException("only subject/predicate/object allowed");
@@ -450,12 +460,45 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 						// we found a tv for the sv
 						((Labeling)rel).setLabelingattachedBy(tv); // TODO only works for this specific tga! 
 					}	
+					
+				} // end if P2GAM
 			}
 
 
+	/**
+	 * Needs to properly handle other than P2GAMs. 
+	 * Case for IdentityMappings quickly hacked and added already.
+	 * Also P2GOTORs must be handled!
+	 * 
+	 * @param mainStatement
+	 * @param triplePartURI
+	 * @param goToApplySubmapping
+	 * @param mapping
+	 * @throws InsufficientMappingSpecificationException
+	 */
 	public void applyMappingToGraphicObject(Statement mainStatement, URI triplePartURI,
-			GraphicObjectX goToApplySubmapping, PropertyToGraphicAttributeMappingX p2gam)
+			GraphicObjectX goToApplySubmapping, PropertyMappingX mapping)
 			throws InsufficientMappingSpecificationException {
+		
+		
+		Node triplePart;
+		
+		if (triplePartURI.equals(RDF.subject)) {
+			triplePart = mainStatement.getSubject(); // TODO ID actually only fine when URIs!
+		}
+		else if (triplePartURI.equals(RDF.predicate)) {
+			triplePart = mainStatement.getPredicate();
+		}
+		else if (triplePartURI.equals(RDF.object)) {
+			triplePart = mainStatement.getObject();
+		} else {
+			throw new InsufficientMappingSpecificationException("Only RDF subject/predicate/object allowed as triple part URI.");
+		}
+
+		
+		if (mapping.isInstanceof(PropertyToGraphicAttributeMappingX.RDFS_CLASS)) {
+			
+			 PropertyToGraphicAttributeMappingX p2gam = (PropertyToGraphicAttributeMappingX) mapping.castTo(PropertyToGraphicAttributeMappingX.class);
 				
 				GraphicAttribute tga = p2gam.getTargetAttribute();
 				Property sp = p2gam.getSourceProperty();
@@ -485,34 +528,18 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 				
 				if (sp.asURI().equals(RDF.ID)) { // special treatment of rdf:ID
 					
-					if (triplePartURI.equals(RDF.subject)) {
-						sv = mainStatement.getSubject(); // TODO ID actually only fine when URIs!
-					}
-					else if (triplePartURI.equals(RDF.predicate)) {
-						sv = mainStatement.getPredicate();
-					}
-					else if (triplePartURI.equals(RDF.object)) {
-						sv = mainStatement.getObject();
-					} else {
-						throw new InsufficientMappingSpecificationException("only subject/predicate/object allowed");
-					}
-			
+					sv = triplePart; // TODO ID actually only fine when URIs!
 					tv = svUriTVuriMap.get(sv);
 					
 				} else { // other source properties than rdf:ID ...
 					
 					TupleSourceValueTargetValue<Node,Node> svWithItsTv;
 					ClosableIterator<Statement> it;
+					Resource newSubjectResource;
 					
-					if (triplePartURI.equals(RDF.subject)) {
-						it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, mainStatement.getSubject().asResource(), sp.asURI(), Variable.ANY);	
-					} else if (triplePartURI.equals(RDF.object)) {
-						it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, mainStatement.getObject().asResource(), sp.asURI(), Variable.ANY);						
-					} else if (triplePartURI.equals(RDF.predicate)) {
-						it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, mainStatement.getPredicate().asResource(), sp.asURI(), Variable.ANY);	
-					} else {
-						throw new InsufficientMappingSpecificationException("only subject/predicate/object allowed");
-					}
+					newSubjectResource = triplePart.asResource();
+
+					it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, newSubjectResource, sp.asURI(), Variable.ANY);	
 			
 					try {
 						
@@ -526,21 +553,23 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 						return;
 					}				
 					
-			}
-			
+				}
 				
 				// if we found a tv for the sv
 				if (null != tv && null != sv) {
 					
 					applyGraphicValueToGO(tga, tv, sv, goToApplySubmapping);
-					
 					applyInheritanceOfTargetValue(p2gam, mainStatement.getSubject(), tv); 
 					
 				} else {
 					LOGGER.finest("Source or target value was null, couldn't apply graphic value " + tv + " to the sv " + sv);
 				}
+				
+		// end if P2GAM
+		} else if (mapping.isInstanceof(IdentityMappingX.RDFS_CLASS)) {
 			
-			}
+		}
+	}
 
 
 	/**

@@ -235,11 +235,6 @@ static final String NL =  System.getProperty("line.separator");
 		return AVMUtils.getGoodNodeLabel(this, model);
 	}
 
-//	public PropertyMappingX tryReplaceWithCashedInstanceForSameURI(MappingIF mapping) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-	
 	/**
 	 * @return the filter string for the subject in SPARQL
 	 */
@@ -254,11 +249,6 @@ static final String NL =  System.getProperty("line.separator");
 			LOGGER.severe("Will ignore filter. Reason: " + e.getMessage());
 			return "";
 		}
-	}
-
-	public PropertyMappingX tryReplaceWithCashedInstanceForSameURI(
-			PropertyMappingX mapping) {
-		return (PropertyMappingX) ResourcesCache.getInstance().tryReplaceOrCache(mapping);
 	}
 
 }

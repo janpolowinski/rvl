@@ -18,6 +18,7 @@ import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.D3Utils;
+import org.purl.rvl.tooling.util.RVLUtils;
 
 
 /**
@@ -87,7 +88,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 				GraphicObjectX actualRootNode = (GraphicObjectX) iterator.next();
 				
 				// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
-				actualRootNode = actualRootNode.tryReplaceWithCashedInstanceForSameURI(actualRootNode);
+				actualRootNode = RVLUtils.tryReplaceWithCashedInstanceForSameURI_for_VISO_Resources(actualRootNode, GraphicObjectX.class);
 
 				Map actualRootNodeObject = new LinkedHashMap();
 				actualRootNodeObject.put("uri", actualRootNode.getRepresentedResource().toString());
@@ -185,7 +186,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		GraphicObjectX connector = (GraphicObjectX) directedLinking.getAllLinkingconnector_as().firstValue().castTo(GraphicObjectX.class);
 		
 		// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
-		endNode = endNode.tryReplaceWithCashedInstanceForSameURI(endNode);
+		endNode = RVLUtils.tryReplaceWithCashedInstanceForSameURI_for_VISO_Resources(endNode, GraphicObjectX.class);
 		
 		
 
@@ -219,7 +220,7 @@ private Map generateObjectFor(Containment rel) {
 		GraphicObjectX containee = (GraphicObjectX) rel.getAllContainmentcontainee_as().firstValue().castTo(GraphicObjectX.class);
 		
 		// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
-		containee = containee.tryReplaceWithCashedInstanceForSameURI(containee);
+		containee = RVLUtils.tryReplaceWithCashedInstanceForSameURI_for_VISO_Resources(containee, GraphicObjectX.class);
 		
 	
 		Map child = new LinkedHashMap();

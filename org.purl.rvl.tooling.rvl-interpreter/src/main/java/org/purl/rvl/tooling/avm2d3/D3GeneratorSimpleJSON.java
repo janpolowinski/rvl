@@ -25,6 +25,7 @@ import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.D3Utils;
+import org.purl.rvl.tooling.util.RVLUtils;
 
 
 /**
@@ -82,7 +83,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			GraphicObjectX startNode = goArray[i];
 			
 			// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
-			startNode = startNode.tryReplaceWithCashedInstanceForSameURI(startNode);
+			startNode = RVLUtils.tryReplaceWithCashedInstanceForSameURI_for_VISO_Resources(startNode, GraphicObjectX.class);
 			
 			// width (used for calculating label size)
 			float startNodeWidth = startNode.hasWidth()? startNode.getWidth() : getDefaultWidthNodes();

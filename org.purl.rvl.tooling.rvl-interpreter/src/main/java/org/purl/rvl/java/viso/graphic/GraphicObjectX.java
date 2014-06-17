@@ -15,6 +15,7 @@ import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.process.ResourcesCache;
 import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.ColorUtils;
+import org.purl.rvl.tooling.util.RVLUtils;
 
 /**
  * @author Jan Polowinski
@@ -159,7 +160,7 @@ public class GraphicObjectX extends
 			ColorX colorInVISO = (ColorX)ColorX.getInstance(modelVISO, colorInCurrentModel.asURI()).castTo(ColorX.class);
 			
 			// get cached named color
-			colorInVISO = colorInVISO.tryReplaceWithCashedInstanceForSameURI(colorInVISO);
+			colorInVISO = RVLUtils.tryReplaceWithCashedInstanceForSameURI_for_VISO_Resources(colorInVISO,ColorX.class);
 
 			return colorInVISO;
 		}
@@ -253,11 +254,6 @@ public class GraphicObjectX extends
 		//LOGGER.finest("end getting combined color ");
 		
 		return colorHexString;
-	}
-
-	public GraphicObjectX tryReplaceWithCashedInstanceForSameURI(
-			GraphicObjectX go) {
-		return (GraphicObjectX ) ResourcesCache.getInstance().tryReplaceOrCache(go);
 	}
 
 	public Float getWidth() {

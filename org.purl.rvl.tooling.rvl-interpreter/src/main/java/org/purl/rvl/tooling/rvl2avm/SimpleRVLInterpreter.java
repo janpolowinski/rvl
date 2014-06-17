@@ -23,6 +23,7 @@ import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.query.data.DataQuery;
 import org.purl.rvl.tooling.query.mapping.MappingQuery;
+import org.purl.rvl.tooling.util.RVLUtils;
 
 /**
  * @author Jan Polowinski
@@ -135,7 +136,9 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			PropertyToGraphicAttributeMappingX p2gam = (PropertyToGraphicAttributeMappingX) iterator.next();
 			
 			// caching
-			p2gam = p2gam.tryReplaceWithCashedInstanceForSameURI(p2gam);
+			p2gam = (PropertyToGraphicAttributeMappingX) 
+					RVLUtils.tryReplaceWithCashedInstanceForSameURI(p2gam, PropertyMappingX.class)
+					.castTo(PropertyToGraphicAttributeMappingX.class);
 			
 			if (p2gam.isDisabled()) {
 				LOGGER.info("Ignored disabled normal P2GAM mapping " + p2gam.toStringSummary() );
@@ -228,7 +231,9 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			PropertyToGraphicAttributeMappingX p2gam = (PropertyToGraphicAttributeMappingX) iterator.next();
 			
 			// caching
-			p2gam = p2gam.tryReplaceWithCashedInstanceForSameURI(p2gam);
+			p2gam = (PropertyToGraphicAttributeMappingX) 
+					RVLUtils.tryReplaceWithCashedInstanceForSameURI(p2gam, PropertyMappingX.class)
+					.castTo(PropertyToGraphicAttributeMappingX.class);
 			
 			if (p2gam.isDisabled()) {
 				LOGGER.info("Ignored disabled simple P2GAM mapping " + p2gam );
@@ -302,7 +307,9 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			IdentityMappingX mapping =  (IdentityMappingX) iterator.next();
 
 			// caching
-			mapping = mapping.tryReplaceWithCashedInstanceForSameURI(mapping);
+			mapping = (IdentityMappingX) 
+					RVLUtils.tryReplaceWithCashedInstanceForSameURI(mapping, PropertyMappingX.class)
+					.castTo(IdentityMappingX.class);
 
 			if (mapping.isDisabled()) {
 				LOGGER.info("Ignored disabled mapping "

@@ -6,6 +6,12 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.model.node.Node;
+import org.ontoware.rdf2go.model.node.Resource;
+import org.purl.rvl.java.gen.rvl.Thing1;
+import org.purl.rvl.java.rvl.IdentityMappingX;
+import org.purl.rvl.java.rvl.PropertyMappingX;
+import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
+import org.purl.rvl.tooling.process.ResourcesCache;
 
 /**
  * @author Jan Polowinski
@@ -55,6 +61,20 @@ public class RVLUtils {
 //		LOGGER.finest("Java list of nodes: " + javaList);
 		return javaList;
 		
+	}
+	
+	public static <T extends Thing1> T tryReplaceWithCashedInstanceForSameURI(Thing1 instance, Class<T> clasz) {
+		
+		T castedInstance = (T) instance.castTo(clasz);
+		
+		return (T) ResourcesCache.getInstance().tryReplaceOrCache(castedInstance);
+	}
+	
+	public static <T extends org.purl.rvl.java.gen.viso.graphic.Thing1> T tryReplaceWithCashedInstanceForSameURI_for_VISO_Resources(org.purl.rvl.java.gen.viso.graphic.Thing1 instance, Class<T> clasz) {
+		
+		T castedInstance = (T) instance.castTo(clasz);
+		
+		return (T) ResourcesCache.getInstance().tryReplaceOrCache(castedInstance);
 	}
 
 }

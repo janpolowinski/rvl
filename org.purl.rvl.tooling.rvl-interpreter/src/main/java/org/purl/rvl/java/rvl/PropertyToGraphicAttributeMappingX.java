@@ -23,6 +23,7 @@ import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
+import org.purl.rvl.java.gen.rvl.Thing1;
 import org.purl.rvl.java.gen.rvl.Valuemapping;
 import org.purl.rvl.java.rvl.mapping.CalculatedValueMapping;
 import org.purl.rvl.tooling.process.ResourcesCache;
@@ -320,8 +321,4 @@ public class PropertyToGraphicAttributeMappingX extends
 		return AVMUtils.getGoodNodeLabel(this, model);
 	}
 
-	
-	public PropertyToGraphicAttributeMappingX tryReplaceWithCashedInstanceForSameURI(PropertyToGraphicAttributeMappingX mapping) {
-		return (PropertyToGraphicAttributeMappingX) ResourcesCache.getInstance().tryReplaceOrCache(mapping);
-	}
 }
