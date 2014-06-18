@@ -83,6 +83,9 @@ var width = 1400,
 					}
 					else return "middle" ;
 				})
+			.style("fill", function(d){
+				return d.label_color_rgb_hex_combined;
+				})
 			;
 	  };
 	  
@@ -101,6 +104,7 @@ var width = 1400,
 		  
 		  containerDiv.append("div")
 		  			.attr("class", "htmlTextLabel")
+		  			.style("color", function(d){return d.label_color_rgb_hex_combined;})
 					//.style("width", NODE_SIZE + "px") // does only work well for xCenter position
 					.html(function(d){ return d.label;});
 		  

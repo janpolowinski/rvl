@@ -23,14 +23,16 @@ rexm:PMWithExplicitValueMappingsAsBlankNodes
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
       rvl:sourceProperty rexd:workingField ;
       rvl:targetObjToObjRelation vg:Labeling_Relation ; 
-      rvl:subMapping [
-        rvl:subMapping-onRole vg:labeling_label; 
-        rvl:subMapping-onTriplePart rdf:object;
-        rvl:subMapping-mapping :IconLabelShapeMapping;
-      ],[
+      rvl:subMapping 
+     # [
+     #   rvl:subMapping-onRole vg:labeling_label; 
+     #   rvl:subMapping-onTriplePart rdf:object;
+     #   rvl:subMapping-mapping :IconLabelShapeMapping;
+     # ],
+      [
         rvl:subMapping-onRole vg:labeling_label;
         rvl:subMapping-onTriplePart rdf:object;
-        rvl:subMapping-mapping :IconLabelColorMapping;
+        rvl:subMapping-mapping :LabelColorMapping;
       ],[
         rvl:subMapping-onRole vg:this; # use role "this" to apply submappings to the n-ary relation itself (not yet part of RVL spec!)
         rvl:subMapping-onTriplePart rdf:object;
@@ -59,7 +61,7 @@ rexm:IconLabelShapeMapping
       .   
       
       
-rexm:IconLabelColorMapping
+rexm:LabelColorMapping
       rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rvl:sourceProperty rdf:ID ;
