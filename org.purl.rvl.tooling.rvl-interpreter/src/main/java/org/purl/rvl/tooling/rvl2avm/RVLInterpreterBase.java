@@ -15,6 +15,7 @@ import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
+import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
@@ -23,6 +24,7 @@ import org.purl.rvl.java.RDF;
 import org.purl.rvl.java.RVL;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.gen.viso.graphic.Color;
+import org.purl.rvl.java.gen.viso.graphic.GraphicObject;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
 import org.purl.rvl.java.gen.viso.graphic.Shape;
@@ -480,7 +482,8 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			GraphicObjectX goToApplySubmapping, PropertyMappingX mapping)
 			throws InsufficientMappingSpecificationException {
 		
-		
+		Node sv = null,
+			 tv = null;
 		Node triplePart;
 		
 		if (triplePartURI.equals(RDF.subject)) {
@@ -494,20 +497,38 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 		} else {
 			throw new InsufficientMappingSpecificationException("Only RDF subject/predicate/object allowed as triple part URI.");
 		}
-
 		
-		if (mapping.isInstanceof(PropertyToGraphicAttributeMappingX.RDFS_CLASS)) {
+		Resource newSubjectResource =  triplePart.asResource();
+		GraphicAttribute tga = null;
+		Property sp = mapping.getSourceProperty();
+
+		if (mapping.isInstanceof(IdentityMappingX.RDFS_CLASS)) { // TODO why are identity mappings also PGAMs??? that means checking for ID mappings after P2GAMs won't work!!
+			
+			//IdentityMappingX idMapping = (IdentityMappingX) mapping.castTo(IdentityMappingX.class);
+			newSubjectResource = triplePart.asResource();
+			
+		 	tga = GraphicAttribute.getInstance(OGVICProcess.getInstance().getModelAVM(), GraphicObject.TEXTVALUE);
+		 	
+		 	ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, newSubjectResource, sp.asURI(), Variable.ANY);	
+		 	
+		 	sv = it.next().getObject();
+		 	
+		 	try {
+		 		goToApplySubmapping.setTextvalue(sv.asLiteral().getValue()); // TODO text value hardcoded here
+		 	} catch (Exception e) {
+		 		LOGGER.warning("Identity mapping could not assign value" + sv + " to graphic attribute " + tga );
+		 	}
+		
+		// end if ID mapping
+		}
+		else if (mapping.isInstanceof(PropertyToGraphicAttributeMappingX.RDFS_CLASS)) { 
 			
 			 PropertyToGraphicAttributeMappingX p2gam = (PropertyToGraphicAttributeMappingX) mapping.castTo(PropertyToGraphicAttributeMappingX.class);
-				
-				GraphicAttribute tga = p2gam.getTargetAttribute();
-				Property sp = p2gam.getSourceProperty();
+			 
+			 	tga = p2gam.getTargetAttribute();
 			
 				// get the subproperties as subjects of the new mapping --> do this in the calculation of value mappings instead
 				
-				if (null == tga) {
-					throw new InsufficientMappingSpecificationException("no target graphic attribute set");
-				}
 				
 				if (!p2gam.hasValuemapping()) {
 					throw new InsufficientMappingSpecificationException("Parameter mappings with no value mappings at all are not supported.");
@@ -523,8 +544,6 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 					LOGGER.finer(p2gam.explicitlyMappedValuesToString());
 				}
 			
-				Node sv = null,
-				     tv = null;
 				
 				if (sp.asURI().equals(RDF.ID)) { // special treatment of rdf:ID
 					
@@ -534,12 +553,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 				} else { // other source properties than rdf:ID ...
 					
 					TupleSourceValueTargetValue<Node,Node> svWithItsTv;
-					ClosableIterator<Statement> it;
-					Resource newSubjectResource;
-					
-					newSubjectResource = triplePart.asResource();
-
-					it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, newSubjectResource, sp.asURI(), Variable.ANY);	
+					ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, newSubjectResource, sp.asURI(), Variable.ANY);	
 			
 					try {
 						
@@ -555,19 +569,23 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 					
 				}
 				
-				// if we found a tv for the sv
-				if (null != tv && null != sv) {
-					
-					applyGraphicValueToGO(tga, tv, sv, goToApplySubmapping);
-					applyInheritanceOfTargetValue(p2gam, mainStatement.getSubject(), tv); 
-					
-				} else {
-					LOGGER.finest("Source or target value was null, couldn't apply graphic value " + tv + " to the sv " + sv);
-				}
+				
 				
 		// end if P2GAM
-		} else if (mapping.isInstanceof(IdentityMappingX.RDFS_CLASS)) {
+		}
+		
+		if (null == tga) {
+			throw new InsufficientMappingSpecificationException("no target graphic attribute set");
+		}
+		
+		// if we found a tv for the sv
+		if (null != tv && null != sv) {
 			
+			applyGraphicValueToGO(tga, tv, sv, goToApplySubmapping);
+			// TODO enable again : applyInheritanceOfTargetValue(mapping, mainStatement.getSubject(), tv); 
+			
+		} else {
+			LOGGER.finest("Graphic attribute , source or target value was null, couldn't apply graphic value " + tv + " to the sv " + sv);
 		}
 	}
 
