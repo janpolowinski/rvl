@@ -313,11 +313,23 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 				    	LOGGER.finer("Set color hsl lightness to " + tv.toString() + " for sv " + sv);
 				    }
 				    
-					// if we are mapping to named shapes
+					// if we are mapping to named shapes (will override text shapes)
 				    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/shape_named")) {
 				    	Shape shape = ShapeX.getInstance(modelVISO, tv.asURI());
 				    	go.setShapenamed(shape);
-				    	LOGGER.finer("Set shape to " + shape + " for sv " + sv + NL);
+						// remove existing text shapes
+						go.removeAllTextvalue();
+				    	LOGGER.finer("Set shape to " + shape + " for sv " + sv + " and removed all other shapes." + NL);
+				    }
+				    
+					// if we are mapping to text shape (will override named shapes)
+					// TODO handle language tags 
+				    if(tga.asURI().toString().equals("http://purl.org/viso/graphic/text_value")) { // GraphicObject.TEXTVALUE
+				    	String textValue = tv.asLiteral().getValue();
+				    	go.setTextvalue(textValue);
+						// remove existing named shapes (incl. the eventually set default shape)
+						go.removeAllShapenamed();
+				    	LOGGER.finer("Set shape to " + textValue + " for sv " + sv + " and removed all other shapes." + NL);
 				    }
 				    
 					// if we are mapping to width
@@ -353,14 +365,14 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	public void applyGraphicValueToGOsRepresentingNodesRelatedVia(
 			GraphicAttribute tga, Node tv, Resource mappedNode, Property inheritedBy) {
 				
-					Set<Resource> relatedResources = DataQuery.getRelatedResources(modelSet, mappedNode, inheritedBy);
-					
-					LOGGER.finest("related resources " + relatedResources.toString() + " will receive same tv (" + tv + ")");
-					
-					for (Resource resource : relatedResources) {
-						applyGraphicValueToGO(tga, tv, mappedNode, createOrGetGraphicObject(resource));
-					}
+			Set<Resource> relatedResources = DataQuery.getRelatedResources(modelSet, mappedNode, inheritedBy);
+			
+			LOGGER.finest("related resources " + relatedResources.toString() + " will receive same tv (" + tv + ")");
+			
+			for (Resource resource : relatedResources) {
+				applyGraphicValueToGO(tga, tv, mappedNode, createOrGetGraphicObject(resource));
 			}
+	}
 
 
 	/**
@@ -511,13 +523,13 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 		 	
 		 	ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, newSubjectResource, sp.asURI(), Variable.ANY);	
 		 	
-		 	sv = it.next().getObject();
+		 	tv = sv = it.next().getObject();
 		 	
-		 	try {
+		 	/*try {
 		 		goToApplySubmapping.setTextvalue(sv.asLiteral().getValue()); // TODO text value hardcoded here
 		 	} catch (Exception e) {
 		 		LOGGER.warning("Identity mapping could not assign value" + sv + " to graphic attribute " + tga );
-		 	}
+		 	}*/
 		
 		// end if ID mapping
 		}
@@ -567,9 +579,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 						return;
 					}				
 					
-				}
-				
-				
+				}	
 				
 		// end if P2GAM
 		}

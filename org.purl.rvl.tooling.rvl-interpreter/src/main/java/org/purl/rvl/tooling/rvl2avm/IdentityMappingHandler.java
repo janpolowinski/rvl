@@ -9,6 +9,8 @@ import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.MappingException;
+import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
+import org.purl.rvl.java.gen.viso.graphic.GraphicObject;
 import org.purl.rvl.java.rvl.IdentityMappingX;
 import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
@@ -51,8 +53,11 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 		// TODO hack: we are always settings textvalue here
 		// (as will be the case in 99%), 
 		// while also color values may have been passed!
-		// TODO handle language tags 
-		subjectNode.setTextvalue(object.asLiteral().getValue()); 
+		
+		Node sv = object.asLiteral();
+		Node tv = sv;
+		GraphicAttribute tga = GraphicAttribute.getInstance(OGVICProcess.getInstance().getModelAVM(), GraphicObject.TEXTVALUE);
+		rvlInterpreter.applyGraphicValueToGO(tga, tv, sv, subjectNode);
 		
 		// remove existing shapes (incl. default shape) - these are now overridden by the text-shape
 		subjectNode.removeAllShapenamed();
