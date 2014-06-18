@@ -41,8 +41,13 @@ rexm:PMWithExplicitValueMappingsAsBlankNodes
         rvl:subMapping-onRole vg:labeling_label;
         rvl:subMapping-onTriplePart rdf:subject;
         rvl:subMapping-mapping :TextIdentityMapping;
+      ],[
+        rvl:subMapping-onRole vg:labeling_base;
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :ShapeMappingToBeUsedAsSubmapping;
       ]
       .
+
       
 rexm:IconLabelShapeMapping
       rvl:disabled "true"^^xsd:boolean ;
@@ -73,7 +78,7 @@ rexm:LabelColorMapping
       ],[
         a rvl:ValueMapping ;
 		rvl:sourceValue rexd:Biography;
-        rvl:targetValue vg:Green;
+        rvl:targetValue vg:Blue;
       ]
       .  
       
@@ -129,4 +134,22 @@ rexm:LabelColorMapping
         rvl:targetValue vg:Green;
       ]
       . 
+      
+      
+:ShapeMappingToBeUsedAsSubmapping
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rdf:ID ;
+      rvl:targetAttribute vg:shape_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Sci-Fi;
+        rvl:targetValue common-shapes:Rhomb;
+      ],[
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Biography ;
+        rvl:targetValue common-shapes:Heart;
+      ]
+      .
+      
               
