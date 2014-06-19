@@ -57,4 +57,59 @@ rvl:valueMapping
       .
 
 
+#### Labeling could become a default .... ####     
+      
+:LabelMapping
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:sourceProperty rdf:type ;
+      rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:subMapping [
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :LabelTextIdentityMapping;
+      ],[
+        rvl:subMapping-onRole vg:this;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :TypeToLabelStyleMapping;
+      ],[
+        rvl:subMapping-onRole vg:labeling_base;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :PMfromType2Width;
+      ]
+      .
+      
+:LabelTextIdentityMapping
+	  rvl:disabled "true"^^xsd:boolean ;
+      a rvl:IdentityMapping ;
+      rvl:sourceProperty rvl:label ;
+      rvl:targetAttribute
+              vg:text_value ;
+      . 
+      
+:TypeToLabelStyleMapping
+	  rvl:disabled "true";
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rdf:type ;
+      rvl:targetAttribute
+              vg:labeling_attachedBy ;
+      rvl:valueMapping [
+      	a rvl:valueMapping;
+      	rvl:sourceValue ro:Requirement;
+      	rvl:targetValue vg:Containment_Relation;
+      ]
+      .
 
+      
+:PMfromType2Width
+      rvl:disabled "true"^^xsd:boolean ;
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM from type to width (used as a submapping above)"^^xsd:string ;
+ 	  rvl:sourceProperty rdf:type ;
+ 	  rvl:targetAttribute vg:width ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:sourceValue ro:Requirement;
+		rvl:targetValue "100"^^xsd:float; # create some space for contained labels
+      ]
+      . 

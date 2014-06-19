@@ -67,3 +67,26 @@
 		);
       ]
       . 
+      
+      
+#### Labeling could become a default .... ####     
+      
+:LabelMapping
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:sourceProperty cito:cites ;
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:subMapping [
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :LabelTextIdentityMapping;
+      ]
+      .
+      
+:LabelTextIdentityMapping
+	  rvl:disabled "true"^^xsd:boolean ;
+      a rvl:IdentityMapping ;
+      #rvl:sourceProperty rvl:label ;
+      rvl:sourceProperty rvl:label ;
+      rvl:targetAttribute
+              vg:text_value ;
+      . 

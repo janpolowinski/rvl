@@ -533,12 +533,16 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 		 		String types = "";
 		 		Set<Resource> typesSet = ModelUtils.getTypes(modelData, newSubjectResource);
 		 		
-		 		for (Resource resource : typesSet) {
-					types += AVMUtils.getGoodNodeLabel(resource, modelData) + " / ";
-				}
+		 		if (typesSet.isEmpty()) {
+		 			types = " (untyped)";
+		 		} else {
+			 		for (Resource resource : typesSet) {
+						types +=  " : " + AVMUtils.getGoodNodeLabel(resource, modelData);
+					}
+		 		}
 		 		
 		 		// special treatment of the source property rvl:IDandTypes
-			 	tv = sv = new PlainLiteralImpl(AVMUtils.getGoodNodeLabel(newSubjectResource, modelData) + " : " + types);
+			 	tv = sv = new PlainLiteralImpl(AVMUtils.getGoodNodeLabel(newSubjectResource, modelData) + types);
 		 		
 		 	} else {
 		 		
