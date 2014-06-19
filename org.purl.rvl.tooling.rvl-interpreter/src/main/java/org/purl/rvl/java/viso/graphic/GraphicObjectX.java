@@ -55,7 +55,7 @@ public class GraphicObjectX extends
 
 	public GraphicObjectX(Model model, boolean write) {
 		super(model, write);
-		this.setColornamed(ColorX.getDefaultColor(OGVICProcess.getInstance().getModelVISO()));
+		//this.setColornamed(ColorX.getDefaultColor(OGVICProcess.getInstance().getModelVISO()));
 	}
 
 	
@@ -112,13 +112,17 @@ public class GraphicObjectX extends
 			try {
 				colorHex = colorNamed.toHexString();
 			} catch (Exception e) {
-				LOGGER.finest("Couldn't get color value(s) for " + colorNamed.asURI()  + " (" +  e.getMessage() + ") . Default will be used.");
+				//LOGGER.finest("Couldn't get color value(s) for " + colorNamed.asURI()  + " (" +  e.getMessage() + ") . Default will be used.");
+				LOGGER.finest("Couldn't get color value(s) for " + colorNamed.asURI()  + " (" +  e.getMessage() + ") . " +
+						"No color value will be set, eventually existing CSS style will define the color.");
 			}
 		}
 		
-		if (colorHex.equals("")) {
-			colorHex = org.purl.rvl.java.viso.graphic.ColorX.getDefaultColorHex();
-		}
+		// don't use a default color on the AVM level at the moment. default colors are defined in CSS styles for now.
+		// the problem was that otherwise we had to distinguish defaults for normal shapes and text values
+		//if (colorHex.equals("")) {
+		//	colorHex = org.purl.rvl.java.viso.graphic.ColorX.getDefaultColorHex();
+		//}
 		return colorHex;
 	}
 	
@@ -182,6 +186,10 @@ public class GraphicObjectX extends
 		}
 	}
 
+	/**
+	 * Will return the hex value of a combined color from all color settings or null if no color settings could be found.
+	 * @return
+	 */
 	public String getColorRGBHexCombinedWithHSLValues() {
 		
 		ColorX baseColor;
@@ -191,6 +199,10 @@ public class GraphicObjectX extends
 		
 		//LOGGER.finest("start getting combined color ");
 		
+		// if no supported color settings at all, set no color but return null
+		if (!(hasColornamed() || hasColorhsllightness())){
+			return null;
+		}
 		
 		// get the base color from a named color (if there is one) or the default color otherwise
 		if (hasColornamed()) {

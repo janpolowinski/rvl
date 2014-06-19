@@ -64,6 +64,12 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 		
 	}
 
+	/**
+	 * // TODO implement special treatment of rvl:label here (for now only implemented when used in a sub-mapping!)
+	 * 
+	 * @param mapping
+	 * @throws MappingException
+	 */
 	public void handleIdentityMapping(IdentityMappingX mapping) throws MappingException {
 
 		this.mapping = mapping;

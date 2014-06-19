@@ -109,16 +109,35 @@
       rvl:disabled "false"^^xsd:boolean ;
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
       #rvl:sourceProperty owl:topObjectProperty ;
-      rvl:sourceProperty ro:isAuthoredBy ;
+      rvl:sourceProperty rdf:type ;
+      #rvl:subjectFilter "http://purl.org/ro/ont#RequirementArtifact"^^rvl:classSelector;
+      rvl:subjectFilter "http://www.w3.org/2002/07/owl#Thing"^^rvl:classSelector;
+      #rvl:subjectFilter " FILTER NOT EXISTS { ?s rdfs:subClassOf oboInOwl:ObsoleteClass . } "^^rvl:sparqlSelector;
       rvl:targetObjToObjRelation vg:Labeling_Relation ; 
       rvl:subMapping [
         rvl:subMapping-onRole vg:this;
         rvl:subMapping-onTriplePart rdf:subject;
         rvl:subMapping-mapping :TypeToLabelStyleMapping;
+      ],[
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :LabelTextIdentityMapping;
       ]
       .
+      
+# How to set labels once and refine things like label style for some resources only?
+# -> should filters be allowed on sub-mappings?     
+ 
 
-             
+      
+:LabelTextIdentityMapping
+	  rvl:disabled "true"^^xsd:boolean ;
+      a rvl:IdentityMapping ;
+      #rvl:sourceProperty rdfs:label ;
+      rvl:sourceProperty rvl:label ;
+      rvl:targetAttribute
+              vg:text_value ;
+      .         
                  
 :PMfromID2ColorNamed
       rdf:type rvl:PropertyMapping ;

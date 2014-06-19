@@ -13,13 +13,15 @@ body {
     stroke-width: 1.5px;
     stroke-opacity: 1;
 	fill-opacity: 1; /* settings this here works */
+	fill: #ccc;
 }
 
 /* nodes */
 
 .node circle, .node path {
-  /*fill: #fff;*/ /* warning firefox-bug?!: cannot be overridden by Firefox in SVGs, when using a symbol as use-element */
-  /*stroke: #ccc;*/ /* same problem as above, firefox still shows this settings although overridden 	*/
+  /*fill: #ccc; */ /* firefox+webkit-bug?!: cannot be overridden by Firefox/webkit in SVGs, */
+  /* when using a symbol as use-element -> workaround: set this in parent SVG svgSymbol */
+  /*stroke: #ccc;*/ /* same problem as above, browser still shows this settings although overridden 	*/
   stroke-width: 1.5px;
   cursor: pointer;
 }

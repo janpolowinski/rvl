@@ -15,15 +15,16 @@ import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
-import org.ontoware.rdf2go.model.node.impl.URIImpl;
+import org.ontoware.rdf2go.model.node.impl.PlainLiteralImpl;
+import org.ontoware.rdf2go.vocabulary.RDFS;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.UnsupportedMappingParameterValueException;
 import org.purl.rvl.java.RDF;
 import org.purl.rvl.java.RVL;
-import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.gen.viso.graphic.Color;
+import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObject;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
@@ -41,6 +42,7 @@ import org.purl.rvl.java.viso.graphic.ShapeX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.query.data.DataQuery;
 import org.purl.rvl.tooling.util.AVMUtils;
+import org.purl.rvl.tooling.util.ModelUtils;
 import org.purl.rvl.tooling.util.RVLUtils;
 
 /**
@@ -521,16 +523,36 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			
 		 	tga = GraphicAttribute.getInstance(OGVICProcess.getInstance().getModelAVM(), GraphicObject.TEXTVALUE);
 		 	
-		 	ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, newSubjectResource, sp.asURI(), Variable.ANY);	
+		 	if (sp.asURI().toString().equals(RVL.LABEL)) {
+		 		
+		 		// special treatment of the source property rvl:label (will use rdfs:label or use the local name for URIs instead)
+			 	tv = sv = new PlainLiteralImpl(AVMUtils.getGoodNodeLabel(newSubjectResource, modelData));
+		 		
+		 	} else if (sp.asURI().toString().equals(RVL.ID_AND_TYPES)) {
+		 		
+		 		String types = "";
+		 		Set<Resource> typesSet = ModelUtils.getTypes(modelData, newSubjectResource);
+		 		
+		 		for (Resource resource : typesSet) {
+					types += AVMUtils.getGoodNodeLabel(resource, modelData) + " / ";
+				}
+		 		
+		 		// special treatment of the source property rvl:IDandTypes
+			 	tv = sv = new PlainLiteralImpl(AVMUtils.getGoodNodeLabel(newSubjectResource, modelData) + " : " + types);
+		 		
+		 	} else {
+		 		
+		 		// for all other source properties
+		 		
+		 		ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, newSubjectResource, sp.asURI(), Variable.ANY);	
+			 	
+			 	if (it.hasNext()) {
+			 		tv = sv = it.next().getObject();
+			 	}
+		 	}
 		 	
-		 	tv = sv = it.next().getObject();
 		 	
-		 	/*try {
-		 		goToApplySubmapping.setTextvalue(sv.asLiteral().getValue()); // TODO text value hardcoded here
-		 	} catch (Exception e) {
-		 		LOGGER.warning("Identity mapping could not assign value" + sv + " to graphic attribute " + tga );
-		 	}*/
-		
+		 		
 		// end if ID mapping
 		}
 		else if (mapping.isInstanceof(PropertyToGraphicAttributeMappingX.RDFS_CLASS)) { 

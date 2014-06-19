@@ -114,6 +114,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 					
 					// setting graphic attributes that are valid for any kind of label
 					node.put("label_color_rgb_hex_combined", label.getColorRGBHexCombinedWithHSLValues());
+					node.put("label_width", startNodeWidth*LABEL_ICON_SIZE_FACTOR); // TODO text label width should not be the same as for icon labels
 					
 					String labelTextValue = label.getTextValue();
 					
@@ -132,7 +133,6 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 						
 						node.put("display_label_icon", true);
 						node.put("label_shape_d3_name", label.getShape());
-						node.put("label_width", startNodeWidth*LABEL_ICON_SIZE_FACTOR);
 					}
 					
 					GraphicObjectToObjectRelation attachementRelation = nAryLabeling.getAllLabelingattachedBy_as().firstValue();

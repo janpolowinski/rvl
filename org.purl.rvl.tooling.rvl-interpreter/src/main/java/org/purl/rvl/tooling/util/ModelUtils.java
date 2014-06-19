@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.apache.commons.io.FilenameUtils;
@@ -19,6 +21,7 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.Syntax;
+import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.vocabulary.RDF;
 
@@ -203,6 +206,26 @@ public class ModelUtils {
 	
 			return model.contains(resource, RDF.type, type);
 		
+	}
+
+	/**
+	 * Get all types as a set of resources.
+	 * 
+	 * @param modelData
+	 * @param instance
+	 * @return - all types of instance as a set of resources
+	 */
+	public static Set<Resource> getTypes(Model modelData, Resource instance) {
+		
+		Set<Resource> types = new HashSet<Resource>();
+		
+		ClosableIterator<Statement> it =  modelData.findStatements(instance, RDF.type, Variable.ANY);
+		
+		while (it.hasNext()) {
+			types.add(it.next().getObject().asResource());
+		}
+		
+		return types;
 	}
 	
 }
