@@ -127,23 +127,52 @@ rvl:valueMapping
 		);
       ]
       . 
-     
-#### Labeling could become a default .... ####     
       
-:LabelMapping
+:LabelMappingForHasResponseTime
       a rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:sourceProperty rdf:type ;
-      rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
+      rvl:sourceProperty ro:hasResponseTime ;
+      #rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
       rvl:targetObjToObjRelation vg:Labeling_Relation ; 
       rvl:subMapping [
         rvl:subMapping-onRole vg:labeling_label;
         rvl:subMapping-onTriplePart rdf:subject;
-        rvl:subMapping-mapping :LabelTextIdentityMapping;
-      ],[
-        rvl:subMapping-onRole vg:this;
+        rvl:subMapping-mapping :IconShapeMapping;
+      ]
+      .
+      
+:IconShapeMapping
+      a rvl:PropertyMapping ;
+      rvl:disabled "true";
+      rvl:sourceProperty rdf:type ;
+      rvl:targetAttribute
+              <http://purl.org/viso/graphic/shape_named> ;
+      rvl:valueMapping [
+      	a rvl:valueMapping;
+      	rvl:sourceValue ro:Requirement;
+      	rvl:targetValue common-shapes:Clock;
+      ]
+      .
+     
+#### Labeling could become a default .... ####     
+      
+:LabelMapping
+	  rvl:disabled "false"^^xsd:boolean ;
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:sourceProperty rdf:type ;
+      rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:subMapping
+       [
+        rvl:subMapping-onRole vg:labeling_label;
         rvl:subMapping-onTriplePart rdf:subject;
-        rvl:subMapping-mapping :TypeToLabelStyleMapping;
-      ],[
+        rvl:subMapping-mapping :LabelTextIdentityMapping;
+      ],
+      #[
+      #  rvl:subMapping-onRole vg:this;
+      #  rvl:subMapping-onTriplePart rdf:subject;
+      #  rvl:subMapping-mapping :TypeToLabelStyleMapping;
+      #],
+      [
         rvl:subMapping-onRole vg:labeling_base;
         rvl:subMapping-onTriplePart rdf:subject;
         rvl:subMapping-mapping :PMfromType2Width;

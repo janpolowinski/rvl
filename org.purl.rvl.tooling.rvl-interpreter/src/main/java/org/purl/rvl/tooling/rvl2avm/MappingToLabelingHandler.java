@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
+import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
@@ -35,7 +36,7 @@ public class MappingToLabelingHandler extends MappingToP2GOTORHandler {
 			throws InsufficientMappingSpecificationException {
 
 		Resource subject = statement.getSubject();
-		Resource object = statement.getObject().asResource();
+		Node object = statement.getObject();
 
 		LOGGER.finest("Subject label "
 				+ AVMUtils.getGoodNodeLabel(subject, modelAVM));
@@ -61,7 +62,7 @@ public class MappingToLabelingHandler extends MappingToP2GOTORHandler {
 		rel.setLabel(AVMUtils.getGoodNodeLabel(mapping.getTargetGraphicRelation(),
 				modelAVM));
 
-		subjectNode.setLabeledwith(rel);
+		subjectNode.addLabeledwith(rel);
 		rel.setLabelinglabel(label);
 		rel.setLabelingattachedBy(Superimposition.RDFS_CLASS); // passing a node
 																// here

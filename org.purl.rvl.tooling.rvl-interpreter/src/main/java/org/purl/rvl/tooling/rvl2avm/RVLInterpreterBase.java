@@ -346,7 +346,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 				    	GraphicObjectToObjectRelation attachementRelation = GraphicObjectToObjectRelation.getInstance(modelVISO, tv.asURI());
 				    	Labeling nAryLabeling = new Labeling(modelAVM, true);
 				    	nAryLabeling.setLabelingattachedBy(attachementRelation);
-				    	go.setLabeledwith(nAryLabeling);
+				    	go.addLabeledwith(nAryLabeling);
 				    	LOGGER.finer("Set labeling attachment to " + attachementRelation + " for sv " + sv + NL);
 				    }
 				}
