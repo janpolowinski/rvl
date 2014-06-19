@@ -6,6 +6,8 @@ package org.purl.rvl.tooling.query.data;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.vocabulary.OWL;
+import org.ontoware.rdf2go.vocabulary.RDF;
+import org.ontoware.rdf2go.vocabulary.RDFS;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.tooling.query.SPARQLQueryBuilder;
 
@@ -95,8 +97,16 @@ public class DataQueryBuilder extends SPARQLQueryBuilder {
 			.append(" FILTER(?intermediateNode != ?o) ")
 			.append(" } ")
 			
-			// exclude additional types assigned by subclass-reasoning 
-			
+			// exclude implicit types assigned by subclass-reasoning, keep only the most specific type(s) 
+			// - there may still be more than one!
+			.append(" FILTER NOT EXISTS { ")
+			.append(" BIND (" + RDF.type.toSPARQL() + " AS ?p) ") 
+			.append(" ?s ?p ?intermediateType . ")
+			.append(" ?intermediateType " + RDFS.subClassOf.toSPARQL() + "+ ?o . ") // TODO: how to use a variable here? actually p should be used here!!
+			.append(" FILTER(?s != ?intermediateType) ")
+			.append(" FILTER(?intermediateType != ?o) ")
+			.append(" } ")
+
 			;
 	}
 	
