@@ -74,34 +74,54 @@ var width = 1400,
 		  
 		 var 
 			addHTMLTextLabel = true,
-			addSVGTextLabel = true, 
+			addSVGTextLabel = false, 
 			addSVGIconLabel = true;	
 		  
 		// SVG icon label in html div 
 			if (addSVGIconLabel) {
+				
 				this
+					.selectAll(".iconLabelContainer")
+					.data(function(d) { return d.labels ; }).enter()
+					.avmLabeledSVGIcon2();
+				
+				/*this
 				.filter(function(d) { return d.type === "icon_label" ;})
-				.avmLabeledSVGIcon();
+				.avmLabeledSVGIcon();*/
+				
 			}
+
 			        
-			/*
 			// SVG text label in html div (cropped in webkit, maybe create a much bigger SVG inside the div, or modify clipping) 
 			if (addSVGTextLabel) {
+			
+				/*
 				labelContainerContainer
 				.filter(function(d) { return d.type === "text_label" ;})
 				.filter(function(d) { return d.position !== "centerCenter" ;})
-			    .avmLabeledSVG();
+			    .avmLabeledSVG();*/
+			    
+			    this
+					.selectAll(".textLabelContainer")
+					.data(function(d) { return d.labels ; }).enter()
+					.avmLabeledSVG2();
 			}
 
 			// HTML label  -> TODO only use this when label attachedBy containment (position = centerCenter)
 			if (addHTMLTextLabel) {
-				labelContainerContainer
+				
+				this
+					.selectAll(".textLabelContainer")
+					.data(function(d) { return d.labels ; }).enter()
+					.avmLabeledHTML2();
+				
+				/*labelContainerContainer
 				.filter(function(d) { return d.type === "text_label" ;})
 				.filter(function(d) { return d.position === "centerCenter" ;})
-				.avmLabeledHTML();
+				.avmLabeledHTML();*/
 			}
 			
-			*/
+			
 		  
 		  return this;
 	  };
@@ -151,8 +171,32 @@ var width = 1400,
 		  return containerDiv;
 	  };
 	  
+	  /* labeling with HTML text */
+	  d3.selection.enter.prototype.avmLabeledHTML2 = function() {
+		  
+		  // TODO: reuse avmLabelPositioning
+		  var containerDiv =  this
+		  	.append("div")
+		    //.attr("class","labelContainer topRight")
+			.filter(function(d) { return d.type === "text_label" ;})
+			.filter(function(d) { return d.position === "centerCenter" ;})
+			.attr("class", function(d){ return "labelContainer textLabelContainer " + " " + d.position;})
+			.style("text-align","center")
+			.style("height", function(d){return d.width + "px";})
+			.style("width", function(d){return d.width + "px";})
+			;
+		  
+		  containerDiv.append("div")
+		  			.attr("class", "htmlTextLabel")
+		  			.style("color", function(d){return d.color_rgb_hex_combined;})
+					//.style("width", NODE_SIZE + "px") // does only work well for xCenter position
+					.html(function(d){ return d.text_value;});
+		  
+		  return containerDiv;
+	  };
+	  
 	  /* add label positioning div */
-	  d3.selection.prototype.avmLabelPositioning = function() {
+	  d3.selection.enter.prototype.avmLabelPositioning = function() {
 		  
 		  return this.append("div")
 			.attr("class", function(d){ return "labelContainer " + d.position ;})
@@ -179,6 +223,66 @@ var width = 1400,
 			labelContainerSVG.avmLabeledFDG2(function(d){ return d.width; });
 		  
 		    return containerDiv;
+	  };
+	  
+	  /* labeling with SVG2 text (enter) */
+	  d3.selection.enter.prototype.avmLabeledSVG2 = function() {
+		  
+		var containerDiv = this
+			.avmLabelPositioning()
+			.classed("textLabelContainer",true);
+			
+		var labelContainerSVG = containerDiv
+			.filter(function(d) { return d.type === "text_label" ;})
+			.filter(function(d) { return d.position !== "centerCenter" ;})
+			.append("svg")
+			.attr("class", "svgLabelText")
+			//.attr("width",100 +"px")
+			//.attr("height",25 +"px")
+			.attr("width", function(d){ return d.width + "px"; }) // are these sizes sensible?
+			.attr("height",function(d){ return d.width + "px"; });
+			//.style("margin-left",-100 + "px")
+			//.style("margin-bottom",-0.2*NODE_SIZE + "px");
+										
+			// The label and a copy of the label as shadow for better readability
+			labelContainerSVG.avmLabeledFDG2(function(d){ return d.width; }).attr("class", "nodeLabelShadow");
+			labelContainerSVG.avmLabeledFDG2(function(d){ return d.width; });
+		  
+		    return containerDiv;
+	  };
+	  
+	  /* labeling with SVG icon (enter)  */
+	  d3.selection.enter.prototype.avmLabeledSVGIcon2 = function() {
+		  
+		var containerDiv = this
+				.avmLabelPositioning()
+				.classed("iconLabelContainer",true);
+			
+		containerDiv
+			.filter(function(d) { return d.type === "icon_label" ;})
+			.append("svg")
+			.attr("class", "svgLabelIcon")
+			.attr("width",function(d){ return d.width + "px"; })
+			.attr("height",function(d){ return d.width + "px"; })
+			.style("margin",function(d){ return -1*d.width*LABEL_ICON_SUPER_IMPOSITION_FAKTOR + "px"; })
+			//.style("margin","0px")
+			
+			.append("svg:g") // translating here allows for using transform two times (for scale, translate. alternative could be use of matrix)
+				.attr("transform", function(d){ return "translate(" + d.width/2 + "," + d.width/2 + ")";})
+				//.attr("x", function(d){ return (d.width)/2;}) // somehow offers other results than translate
+		        //.attr("y", function(d){ return (d.width)/2;})
+				
+			.append("use")
+			  .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.shape_d3_name; })
+			  //.attr("xlink:href", function(d) { return "../../svg/symbols.svg#clock"; })
+	   	 	  .attr("class", function(d) { return "label svgSymbol"; })
+		      .style("fill", function(d) { return d.color_rgb_hex_combined; })
+		      .attr("transform", function(d) { return "scale(" + (d.width/SYMBOL_WIDTH) +  ")"; })
+			  ;
+			
+			
+		  
+		  return containerDiv;
 	  };
 	  
 	  /* labeling with SVG icon  */

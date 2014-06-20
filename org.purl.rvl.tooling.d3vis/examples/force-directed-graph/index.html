@@ -270,18 +270,17 @@
  
 	 		if (complexLabeling) {
 	 
-	 			 /* complex labeling */
-				 
-				 var labelContainerContainer = d3.select("#labelContainerSpace")
-					.selectAll(".labelContainerContainer")
-					.data(graph.nodes).enter()
-					.append("div")
-					.attr("class","labelContainerContainer")
-					.style("height", function(d) { return d.width + "px";})
-					.style("width", function(d) { return d.width + "px";}); // TODO height
-				        		 		  	
-				labelContainerContainer.
-					.avmLabeledComplexFDG();
+ 			 /* complex labeling */
+			 
+			 var labelContainerContainer = d3.select("#labelContainerSpace")
+				.selectAll(".labelContainerContainer")
+				.data(graph.nodes).enter()
+				.append("div")
+				.attr("class","labelContainerContainer")
+				.style("height", function(d) { return d.width + "px";})
+				.style("width", function(d) { return d.width + "px";}); // TODO height
+			        		 		  	
+				labelContainerContainer.avmLabeledComplexFDG();
 				
 	 		} else {
 			
@@ -300,7 +299,7 @@
 			}
 	 		
             // tooltip
-        	nodeEnter.avmTitled();
+        	//nodeEnter.avmTitled();
 
         	  
         	// Use elliptical arc path segments to doubly-encode directionality.
