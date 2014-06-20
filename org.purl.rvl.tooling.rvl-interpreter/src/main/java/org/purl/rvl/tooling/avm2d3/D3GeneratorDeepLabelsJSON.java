@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import org.json.simple.JSONObject;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
+import org.ontoware.rdfreactor.runtime.ReactorResult;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
@@ -32,12 +33,12 @@ import org.purl.rvl.tooling.util.RVLUtils;
  * @author Jan Polowinski
  *
  */
-public class D3GeneratorSimpleJSON extends D3GeneratorBase {
+public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 	
 	
-	private final static Logger LOGGER = Logger.getLogger(D3GeneratorSimpleJSON.class .getName()); 
+	private final static Logger LOGGER = Logger.getLogger(D3GeneratorDeepLabelsJSON.class .getName()); 
 	
-	public D3GeneratorSimpleJSON() {
+	public D3GeneratorDeepLabelsJSON() {
 		super();
 	}
 	
@@ -45,7 +46,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 	 * @param modelAVM
 	 * @param modelVISO
 	 */
-	public D3GeneratorSimpleJSON(Model model, Model modelVISO) {
+	public D3GeneratorDeepLabelsJSON(Model model, Model modelVISO) {
 		super(model, modelVISO);
 	}
 	
@@ -62,7 +63,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 		// we need an array, not a set below ...
 		int j = 0;
 		for (Iterator<GraphicObjectX> iterator = goSet.iterator(); iterator.hasNext();) {
-			GraphicObjectX graphicObject = (GraphicObjectX) iterator.next();
+			GraphicObjectX graphicObject = iterator.next();
 			goArray[j] = graphicObject;
 			j++;
 		}
@@ -73,9 +74,9 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			goMap.put(startNode,i);
 		}
 		
-		JSONObject d3data=new JSONObject();
-		List listOfNodes = new LinkedList();
-		List listOfLinks = new LinkedList();
+		JSONObject d3data = new JSONObject();
+		List<Map<String,Object>> listOfNodes = new LinkedList<Map<String,Object>>();
+		List<Map<String,Object>> listOfLinks = new LinkedList<Map<String,Object>>();
 		
 		// generate JSON node entries
 		for (int i = 0; i < goArray.length; i++) {
@@ -88,72 +89,34 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			// width (used for calculating label size)
 			float startNodeWidth = startNode.hasWidth()? startNode.getWidth() : getDefaultWidthNodes();
 			
-			Map node = new LinkedHashMap();
+			Map<String,Object> node = new LinkedHashMap<String,Object>();
 			putGraphicAttributes(node, startNode);
 			node.put("uri", startNode.getRepresentedResource().toString());
-			node.put("display_label_text", true);
-			
-			// default label position //TODO hardcoded
-			node.put("label_position", "topLeft"); /* temp, should be label.shape_d3_name*/	
 
-			
-			// old labeling ignoring n-ary labels
-			//node.put("label", D3Utils.shortenLabel(startNode.getLabel()));
-			//node.put("full_label", startNode.getLabel() + " (ID: " + startNode.getRepresentedResource() + ")");
-			
-			// temp label positioning using the attachedBy information
 			if (startNode.hasLabeledwith()) {
 				
-				Labeling nAryLabeling = startNode.getAllLabeledwith_as().firstValue(); // TODO only one label handled!
-			
-				try {
-					
-					GraphicObjectX label = (GraphicObjectX) nAryLabeling
-							.getAllLabelinglabel_as().firstValue()
-							.castTo(GraphicObjectX.class);
-					
-					// setting graphic attributes that are valid for any kind of label
-					node.put("label_color_rgb_hex_combined", label.getColorRGBHexCombinedWithHSLValues());
-					node.put("label_width", startNodeWidth*LABEL_ICON_SIZE_FACTOR); // TODO text label width should not be the same as for icon labels
-					
-					String labelTextValue = label.getTextValue();
-					
-					if (null != labelTextValue) {
-						
-						// create text label
-						
-						node.put("display_label_text", true);
-						node.put("label", D3Utils.shortenLabel(labelTextValue));
-						//node.put("full_label", labelTextValue + " (ID: " + startNode.getRepresentedResource() + ")");
-						node.put("full_label", labelTextValue);
-						
-					} else {
-						
-						// create icon label
-						
-						node.put("display_label_icon", true);
-						node.put("label_shape_d3_name", label.getShape());
-					}
-					
-					GraphicObjectToObjectRelation attachementRelation = nAryLabeling.getAllLabelingattachedBy_as().firstValue();
-					
-					if (attachementRelation.asURI().equals(Containment.RDFS_CLASS)) {
-						node.put("label_position", "centerCenter"); /* temp, should be label.shape_d3_name*/
-						//node.put("width", 30);
-					} else if (attachementRelation.asURI().equals(Superimposition.RDFS_CLASS)) {
-						node.put("label_position", "centerRight"); /* temp, should be label.shape_d3_name*/	
-					} else {
-						// default label positioning
-						node.put("label_position", "topLeft"); /* temp, should be label.shape_d3_name*/	
-					}
-					
-					// ... other positions ...
+				// label objects
 				
-				}
-				catch (NullPointerException e ){
+				List<Map<String,Object>> labels = new LinkedList<Map<String,Object>>();
+				node.put("labels", labels);
+		
+				ClosableIterator<Labeling> nAryLabelings = startNode.getAllLabeledwith_as().asClosableIterator();
+				
+				// for each labeling relation
+				
+				while (nAryLabelings.hasNext()) {
 					
-					LOGGER.severe("Problem getting label from labeling relation, labeling " + nAryLabeling + " will be ignored.");
+					Labeling nAryLabeling = (Labeling) nAryLabelings.next();
+					
+					try {
+						Map<String,Object> newLabel = generateLabel(startNodeWidth, nAryLabeling);
+						labels.add(newLabel);
+					} catch (Exception e){
+						LOGGER.severe("Problem creating JSON label for labeling relation. Labeling " + nAryLabeling + " will be ignored: " + e.getMessage());
+					}
+					
 				}
+
 			}
 			
 			listOfNodes.add(node);
@@ -199,7 +162,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				GraphicObjectX endNode = (GraphicObjectX) dlRel.getAllEndnode_as().firstValue().castTo(GraphicObjectX.class);
 				GraphicObjectX connector = (GraphicObjectX) dlRel.getAllLinkingconnector_as().firstValue().castTo(GraphicObjectX.class);
 				// get index of the endNode in the above generated Map
-				Map link = new LinkedHashMap();
+				Map<String,Object> link = new LinkedHashMap<String,Object>();
 				putGraphicAttributes(link,connector);
 				link.put("type", "Directed");
 				link.put("arrow_type", connector.getShape());
@@ -242,7 +205,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				
 				GraphicObjectX connector = (GraphicObjectX) rel.getAllLinkingconnector_as().firstValue().castTo(GraphicObjectX.class);
 				// get index of the endNode in the above generated Map
-				Map link = new LinkedHashMap();
+				Map<String,Object> link = new LinkedHashMap<String,Object>();
 				putGraphicAttributes(link,connector);
 				//link.put("type", rel.getRDFSClassURI().toString());
 				link.put("type", "Undirected");
@@ -274,7 +237,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				GraphicObjectX containee = (GraphicObjectX) rel.getAllContainmentcontainee_as().firstValue().castTo(GraphicObjectX.class);
 
 				// get index of the endNode in the above generated Map
-				Map link = new LinkedHashMap();
+				Map<String,Object> link = new LinkedHashMap<String,Object>();
 				putGraphicAttributes(link,containee);
 				//link.put("type", rel.getRDFSClassURI().toString());
 				link.put("type", "Containment");
@@ -294,6 +257,73 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 		d3data.put("links", listOfLinks);
 		
 		return d3data.toJSONString();
+	}
+
+	/**
+	 * @param startNodeWidth
+	 * @param labels
+	 * @param nAryLabeling
+	 * @return 
+	 */
+	protected Map<String, Object> generateLabel(float startNodeWidth, Labeling nAryLabeling) {
+		
+		Map<String,Object> labelJSON = new HashMap<String, Object>();
+		
+			
+			// defaults
+			
+			String defaultLabelPosition = "topLeft";
+			
+			final GraphicObjectX label = (GraphicObjectX) nAryLabeling
+					.getAllLabelinglabel_as().firstValue()
+					.castTo(GraphicObjectX.class);
+
+			// setting graphic attributes that are valid for any kind of label
+			
+			labelJSON.put("color_rgb_hex_combined", label.getColorRGBHexCombinedWithHSLValues());
+			labelJSON.put("width", startNodeWidth*LABEL_ICON_SIZE_FACTOR+""); // TODO text label width should not be the same as for icon labels
+			
+			// text label or icon label?
+			
+			String labelTextValue = label.getTextValue();
+			
+			if (null != labelTextValue) {
+				
+				// create text label
+				labelJSON.put("type", "text_label");
+				labelJSON.put("text_value", D3Utils.shortenLabel(labelTextValue));
+				//label1.put("text_value_full", labelTextValue + " (ID: " + startNode.getRepresentedResource() + ")");
+				labelJSON.put("text_value_full", labelTextValue);
+				
+			} else {
+				
+				// create icon label
+				labelJSON.put("type", "icon_label");
+				labelJSON.put("shape_d3_name", label.getShape());
+			}
+			
+			GraphicObjectToObjectRelation attachementRelation = nAryLabeling.getAllLabelingattachedBy_as().firstValue();
+			
+			if (null!=attachementRelation) {
+			
+				if (attachementRelation.asURI().equals(Containment.RDFS_CLASS)) {
+					labelJSON.put("position", "centerCenter");
+					//label1.put("width", 30);
+				} else if (attachementRelation.asURI().equals(Superimposition.RDFS_CLASS)) {
+					labelJSON.put("position", "centerRight");
+				} else {
+					// default label positioning
+					labelJSON.put("position", defaultLabelPosition);	
+				}
+			} else {
+				// default label positioning
+				labelJSON.put("position", defaultLabelPosition);	
+			}
+			
+			// ... other positions ...
+		
+		
+		return labelJSON;
 	}
 
 	@Override

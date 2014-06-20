@@ -237,7 +237,7 @@
 				allNodes.avmHighlightIdentical(d.uri);
 				
 				// extend label to full label // TODO distinguish text_value and label!!!-> move to label mouse-over?
-				thisNode.selectAll("text.nodeLabel").text(function(d){return d.full_label});			
+				thisNode.selectAll("text.nodeLabel").text(function(d){return d.text_value_full});			
 
 			}
 		    
@@ -271,11 +271,6 @@
 	 		if (complexLabeling) {
 	 
 	 			 /* complex labeling */
-		 
-				 var 
-				 	addHTMLTextLabel = true,
-				 	addSVGTextLabel = true, 
-					addSVGIconLabel = true;		
 				 
 				 var labelContainerContainer = d3.select("#labelContainerSpace")
 					.selectAll(".labelContainerContainer")
@@ -285,37 +280,23 @@
 					.style("height", function(d) { return d.width + "px";})
 					.style("width", function(d) { return d.width + "px";}); // TODO height
 				        		 		  	
-				// SVG icon label in html div 
-				if (addSVGIconLabel) {
-					labelContainerContainer
-					.filter(function(d) { return d.display_label_icon === true ;})
-					.avmLabeledSVGIcon();
-	 			}
-				        			
-				// SVG text label in html div (cropped in webkit, maybe create a much bigger SVG inside the div, or modify clipping) 
-				if (addSVGTextLabel) {
-					labelContainerContainer
-					.filter(function(d) { return d.display_label_text === true ;})
-					.filter(function(d) { return d.label_position !== "centerCenter" ;})
-				    .avmLabeledSVG();
-				}
-	
-				// HTML label  -> TODO only use this when label attachedBy containment (position = centerCenter)
-				if (addHTMLTextLabel) {
-					labelContainerContainer
-					.filter(function(d) { return d.display_label_text === true ;})
-					.filter(function(d) { return d.label_position === "centerCenter" ;})
-					.avmLabeledHTML();
-				}
+				labelContainerContainer.
+					.avmLabeledComplexFDG();
 				
 	 		} else {
 			
 	        	/* simple node labeling and tooltips */
 	
 	        	// The label and a copy of the label as shadow for better readability
-				nodeEnter.avmLabeledFDG().attr("class", "nodeLabelShadow");
-				nodeEnter.avmLabeledFDG();
-	            
+
+				nodeEnter.selectAll(".nodeLabelShadow")
+				.data(function(d) { return d.labels }).enter()
+				.avmLabeledFDG().classed("nodeLabelShadow", true);
+	        	
+				nodeEnter.selectAll(".nodeLabelText")
+				.data(function(d) { return d.labels }).enter()
+				.avmLabeledFDG().classed("nodeLabelText", true);
+				
 			}
 	 		
             // tooltip

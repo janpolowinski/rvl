@@ -21,7 +21,7 @@ import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.purl.rvl.tooling.ModelBuilder;
 import org.purl.rvl.tooling.avm2d3.D3Generator;
-import org.purl.rvl.tooling.avm2d3.D3GeneratorSimpleJSON;
+import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
 import org.purl.rvl.tooling.rvl2avm.RVLInterpreter;
 import org.purl.rvl.tooling.rvl2avm.SimpleRVLInterpreter;
 import org.purl.rvl.tooling.util.CustomRecordFormatter;
@@ -238,7 +238,7 @@ public class OGVICProcess {
 		// create and set a generator, if not already set
 		if (null == d3Generator) {
 			LOGGER.warning("JSON generator was not set, using default one.");
-			setD3Generator(new D3GeneratorSimpleJSON());
+			setD3Generator(new D3GeneratorDeepLabelsJSON());
 		}
 	}
 
