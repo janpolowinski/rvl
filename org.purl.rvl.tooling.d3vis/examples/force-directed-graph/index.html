@@ -28,7 +28,8 @@
 		
 		// OGVIC
         var drawLinks = true; // choose whether only nodes should be drawn and layouted
-        var complexLabeling = true;
+        var complexLabeling = false;
+        var simpleLabeling = false;
 
         // force-directed-graph
         var lineWidth = 7,
@@ -163,7 +164,7 @@
         		.attr("class", "label")
         	    //.attr("dx", function(d){return 100})
         		//.attr("dy", function(d){return 100})
-        	    .text(function(d){return d.label + " (" + d.type + ")" })
+        	    .text(function(d){return d.text_value + " (" + d.type + ")" })
         		;
         		
 			/* alternative : very simple labeling of connectors by title-tag */	
@@ -270,10 +271,11 @@
  
 	 		if (complexLabeling) {
 	 
- 			 /* complex labeling */
+ 			 // complex labeling
 			 
 			 var labelContainerContainer = d3.select("#labelContainerSpace")
 				.selectAll(".labelContainerContainer")
+				.filter(function(d) { return d.labels != null ;})
 				.data(graph.nodes).enter()
 				.append("div")
 				.attr("class","labelContainerContainer")
@@ -281,18 +283,21 @@
 				.style("width", function(d) { return d.width + "px";}); // TODO height
 			        		 		  	
 				labelContainerContainer.avmLabeledComplexFDG();
+	 		}
 				
-	 		} else {
+			if (simpleLabeling) {
 			
-	        	/* simple node labeling and tooltips */
+	        	// simple node labeling and tooltips 
 	
 	        	// The label and a copy of the label as shadow for better readability
 
 				nodeEnter.selectAll(".nodeLabelShadow")
+				.filter(function(d) { return d.labels != null ;})
 				.data(function(d) { return d.labels }).enter()
 				.avmLabeledFDG().classed("nodeLabelShadow", true);
 	        	
 				nodeEnter.selectAll(".nodeLabelText")
+				.filter(function(d) { return d.labels != null ;})
 				.data(function(d) { return d.labels }).enter()
 				.avmLabeledFDG().classed("nodeLabelText", true);
 				

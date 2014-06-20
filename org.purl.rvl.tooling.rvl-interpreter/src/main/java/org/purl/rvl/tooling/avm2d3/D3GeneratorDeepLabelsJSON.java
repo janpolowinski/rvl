@@ -170,8 +170,8 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 				link.put("source", goMap.get(startNode));
 				link.put("target", goMap.get(endNode));
 				link.put("value", "1");
-				link.put("label", D3Utils.shortenLabel(connector.getLabel()));
-				link.put("full_label", connector.getLabel() + " (ID: " + connector.getRepresentedResource() + ")");
+				link.put("text_value", D3Utils.shortenLabel(connector.getLabel()));
+				link.put("text_value_full", connector.getLabel() + " (ID: " + connector.getRepresentedResource() + ")");
 				
 				listOfLinks.add(link);
 				LOGGER.finer("Generated JSON link for " + dlRel + " (" + startNode.getLabel() + " --> " + endNode.getLabel() +")" );
@@ -212,7 +212,7 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 				link.put("source", goMap.get(node1));
 				link.put("target", goMap.get(node2));
 				link.put("value", "1");
-				link.put("label", connector.getLabel());
+				link.put("text_value", connector.getLabel());
 				
 				listOfLinks.add(link);
 				LOGGER.finer("Generated JSON link for " + rel + " (" + node1.getLabel() + " --> " + node2.getLabel() +")" );
@@ -244,7 +244,7 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 				link.put("source", goMap.get(container));
 				link.put("target", goMap.get(containee));
 				link.put("value", "1");
-				link.put("label", "contains");
+				link.put("text_value", "contains");
 
 				listOfLinks.add(link);
 				LOGGER.finer("Generated JSON link for " + rel + " (" + container.getLabel() + " contains " + containee.getLabel() +")" );
