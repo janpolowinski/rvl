@@ -8,6 +8,8 @@ import java.util.logging.Logger;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
+import org.ontoware.rdf2go.vocabulary.RDFS;
+import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.MappingException;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
@@ -243,7 +245,11 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			LOGGER.info("Interpret simple P2GAM mapping " + p2gam );
 			
 			// get the mapping table SV->TV
-			Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
+			//Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
+			
+			// get the extended mapping table offering also tv for subclasses of the sv 
+			// TODO generalize this to other transitive properties
+			Map<Node, Node> svUriTVuriMap = RVLUtils.extendMappingTable(modelSet, p2gam.getExplicitlyMappedValues(), new Property(modelData, RDFS.subClassOf, false) );	
 			
 			try {
 				GraphicAttribute tga = p2gam.getTargetAttribute();
@@ -287,7 +293,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			
 		}
 	} 
-	
+
 	/**
 	 * Interprets IdentityMappings, i.e. mappings where the source value will be
 	 * passed through to the target attribute without changing it.

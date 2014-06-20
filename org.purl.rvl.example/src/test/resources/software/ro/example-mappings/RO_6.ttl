@@ -167,11 +167,11 @@ rvl:valueMapping
         rvl:subMapping-onTriplePart rdf:subject;
         rvl:subMapping-mapping :LabelTextIdentityMapping;
       ],
-      #[
-      #  rvl:subMapping-onRole vg:this;
-      #  rvl:subMapping-onTriplePart rdf:subject;
-      #  rvl:subMapping-mapping :TypeToLabelStyleMapping;
-      #],
+      [
+        rvl:subMapping-onRole vg:this;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :TypeToLabelStyleMapping;
+      ],
       [
         rvl:subMapping-onRole vg:labeling_base;
         rvl:subMapping-onTriplePart rdf:subject;
