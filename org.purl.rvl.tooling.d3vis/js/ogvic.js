@@ -74,7 +74,7 @@ var width = 1400,
 		  
 		 var 
 			addHTMLTextLabel = true,
-			addSVGTextLabel = false, 
+			addSVGTextLabel = true, 
 			addSVGIconLabel = true;	
 		  
 		// SVG icon label in html div 
@@ -102,7 +102,7 @@ var width = 1400,
 			    .avmLabeledSVG();*/
 			    
 			    this
-					.selectAll(".textLabelContainer")
+					.selectAll(".textSVGLabelContainer")
 					.data(function(d) { return d.labels ; }).enter()
 					.avmLabeledSVG2();
 			}
@@ -111,7 +111,7 @@ var width = 1400,
 			if (addHTMLTextLabel) {
 				
 				this
-					.selectAll(".textLabelContainer")
+					.selectAll(".textHTMLLabelContainer")
 					.data(function(d) { return d.labels ; }).enter()
 					.avmLabeledHTML2();
 				
@@ -178,9 +178,9 @@ var width = 1400,
 		  var containerDiv =  this
 		  	.append("div")
 		    //.attr("class","labelContainer topRight")
-			.filter(function(d) { return d.type === "text_label" ;})
-			.filter(function(d) { return d.position === "centerCenter" ;})
-			.attr("class", function(d){ return "labelContainer textLabelContainer " + " " + d.position;})
+			.filter(function(d) { return d.type == "text_label" ;})
+			.filter(function(d) { return d.position == "centerCenter" ;})
+			.attr("class", function(d){ return "labelContainer textHTMLLabelContainer " + " " + d.position;})
 			.style("text-align","center")
 			.style("height", function(d){return d.width + "px";})
 			.style("width", function(d){return d.width + "px";})
@@ -230,11 +230,11 @@ var width = 1400,
 		  
 		var containerDiv = this
 			.avmLabelPositioning()
-			.classed("textLabelContainer",true);
+			.classed("textSVGLabelContainer",true);
 			
 		var labelContainerSVG = containerDiv
-			.filter(function(d) { return d.type === "text_label" ;})
-			.filter(function(d) { return d.position !== "centerCenter" ;})
+			.filter(function(d) { return d.type == "text_label" ;})
+			.filter(function(d) { return d.position != "centerCenter" ;})
 			.append("svg")
 			.attr("class", "svgLabelText")
 			//.attr("width",100 +"px")
