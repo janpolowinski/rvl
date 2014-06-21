@@ -17,7 +17,6 @@ import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.util.AVMUtils;
-import org.purl.rvl.tooling.util.D3Utils;
 import org.purl.rvl.tooling.util.RVLUtils;
 
 
@@ -81,7 +80,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		Set<GraphicObjectX> rootNodeSet = AVMUtils.getRootNodesGraphicObject(modelAVM); // TODO SEVERE: only linking considered here!!!
 		if (null!=rootNodeSet && !rootNodeSet.isEmpty()) {
 			
-			List listOfRootNodes = new LinkedList();
+			List<Map<String,Object>> listOfRootNodes = new LinkedList<Map<String,Object>>();
 			
 			for (Iterator<GraphicObjectX> iterator = rootNodeSet.iterator(); iterator.hasNext();) {
 				
@@ -90,11 +89,13 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 				// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
 				actualRootNode = RVLUtils.tryReplaceWithCashedInstanceForSameURI_for_VISO_Resources(actualRootNode, GraphicObjectX.class);
 
-				Map actualRootNodeObject = new LinkedHashMap();
+				Map<String,Object> actualRootNodeObject = new LinkedHashMap<String,Object>();
+				
 				actualRootNodeObject.put("uri", actualRootNode.getRepresentedResource().toString());
-				actualRootNodeObject.put("label",D3Utils.shortenLabel(actualRootNode.getLabel()));
-				actualRootNodeObject.put("full_label",actualRootNode.getLabel() + " (ID: " + actualRootNode.getRepresentedResource() + ")");
+				
 				putGraphicAttributes(actualRootNodeObject,actualRootNode);
+				putLabels(actualRootNode, getDefaultWidthNodes(), actualRootNodeObject); // TODO width OK?
+				
 				actualRootNodeObject.put("connector_label", actualRootNode.getLabel());
 			//	actualRootNodeObject.put("connector_arrow_type", connector.getShape());
 			//	actualRootNodeObject.put("connector_color_rgb_hex", connectorColorRGBHex);
@@ -156,7 +157,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 	}
 	
 	// cloned from linking, much redundant, similar code	
-	private List generateChildrenListFor4Containment(GraphicObjectX parentGO) {
+	private List<Object> generateChildrenListFor4Containment(GraphicObjectX parentGO) {
 		
 		List listOfChildren = new LinkedList();
 		
@@ -193,11 +194,18 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		//connector color
 		String connectorColorRGBHex = connector.getColorHex();
 
-		Map child = new LinkedHashMap();
+		Map<String,Object> child = new LinkedHashMap<String,Object>();
 		child.put("uri", endNode.getRepresentedResource().toString());
+		
+		putLabels(endNode, getDefaultWidthNodes(), child); // TODO width OK?
+		
+		/*
 		child.put("label",D3Utils.shortenLabel(endNode.getLabel()));
 		child.put("full_label",endNode.getLabel() + " (ID: " + endNode.getRepresentedResource() + ")");
+		*/
+		
 		putGraphicAttributes(child,endNode);
+		
 		child.put("connector_label", connector.getLabel());
 		child.put("connector_full_label", connector.getLabel() + " (ID: " + connector.getRepresentedResource() + ")");
 		child.put("connector_arrow_type", connector.getShape());
@@ -223,10 +231,11 @@ private Map generateObjectFor(Containment rel) {
 		containee = RVLUtils.tryReplaceWithCashedInstanceForSameURI_for_VISO_Resources(containee, GraphicObjectX.class);
 		
 	
-		Map child = new LinkedHashMap();
+		Map<String,Object> child = new LinkedHashMap<String,Object>();
 		child.put("uri", containee.getRepresentedResource().toString());
-		child.put("label",D3Utils.shortenLabel(containee.getLabel()));
-		child.put("full_label",containee.getLabel() + " (ID: " + containee.getRepresentedResource() + ")");
+
+
+		putLabels(containee, getDefaultWidthNodes(), child); // TODO width OK?
 
 		putGraphicAttributes(child,containee);
 		
@@ -234,7 +243,7 @@ private Map generateObjectFor(Containment rel) {
 		child.put("connector_color_rgb_hex", "#ccc");
 		
 		// break possible circles
-		List childrenList = generateChildrenListFor4Containment(containee);
+		List<Object> childrenList = generateChildrenListFor4Containment(containee);
 		if (!childrenList.isEmpty()) {
 			child.put("children", childrenList);
 		}

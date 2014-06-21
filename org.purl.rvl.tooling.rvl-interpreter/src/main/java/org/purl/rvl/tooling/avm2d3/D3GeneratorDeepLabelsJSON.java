@@ -18,9 +18,6 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdfreactor.runtime.ReactorResult;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
-import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
-import org.purl.rvl.java.gen.viso.graphic.Labeling;
-import org.purl.rvl.java.gen.viso.graphic.Superimposition;
 import org.purl.rvl.java.gen.viso.graphic.Thing1;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
@@ -36,7 +33,7 @@ import org.purl.rvl.tooling.util.RVLUtils;
 public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 	
 	
-	private final static Logger LOGGER = Logger.getLogger(D3GeneratorDeepLabelsJSON.class .getName()); 
+	final static Logger LOGGER = Logger.getLogger(D3GeneratorDeepLabelsJSON.class .getName()); 
 	
 	public D3GeneratorDeepLabelsJSON() {
 		super();
@@ -93,31 +90,7 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 			putGraphicAttributes(node, startNode);
 			node.put("uri", startNode.getRepresentedResource().toString());
 
-			if (startNode.hasLabeledwith()) {
-				
-				// label objects
-				
-				List<Map<String,Object>> labels = new LinkedList<Map<String,Object>>();
-				node.put("labels", labels);
-		
-				ClosableIterator<Labeling> nAryLabelings = startNode.getAllLabeledwith_as().asClosableIterator();
-				
-				// for each labeling relation
-				
-				while (nAryLabelings.hasNext()) {
-					
-					Labeling nAryLabeling = (Labeling) nAryLabelings.next();
-					
-					try {
-						Map<String,Object> newLabel = generateLabel(startNodeWidth, nAryLabeling);
-						labels.add(newLabel);
-					} catch (Exception e){
-						LOGGER.severe("Problem creating JSON label for labeling relation. Labeling " + nAryLabeling + " will be ignored: " + e.getMessage());
-					}
-					
-				}
-
-			}
+			putLabels(startNode, startNodeWidth, node);
 			
 			listOfNodes.add(node);
 		}
@@ -257,73 +230,6 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 		d3data.put("links", listOfLinks);
 		
 		return d3data.toJSONString();
-	}
-
-	/**
-	 * @param startNodeWidth
-	 * @param labels
-	 * @param nAryLabeling
-	 * @return 
-	 */
-	protected Map<String, Object> generateLabel(float startNodeWidth, Labeling nAryLabeling) {
-		
-		Map<String,Object> labelJSON = new HashMap<String, Object>();
-		
-			
-			// defaults
-			
-			String defaultLabelPosition = "topLeft";
-			
-			final GraphicObjectX label = (GraphicObjectX) nAryLabeling
-					.getAllLabelinglabel_as().firstValue()
-					.castTo(GraphicObjectX.class);
-
-			// setting graphic attributes that are valid for any kind of label
-			
-			labelJSON.put("color_rgb_hex_combined", label.getColorRGBHexCombinedWithHSLValues());
-			labelJSON.put("width", startNodeWidth*LABEL_ICON_SIZE_FACTOR+""); // TODO text label width should not be the same as for icon labels
-			
-			// text label or icon label?
-			
-			String labelTextValue = label.getTextValue();
-			
-			if (null != labelTextValue) {
-				
-				// create text label
-				labelJSON.put("type", "text_label");
-				labelJSON.put("text_value", D3Utils.shortenLabel(labelTextValue));
-				//label1.put("text_value_full", labelTextValue + " (ID: " + startNode.getRepresentedResource() + ")");
-				labelJSON.put("text_value_full", labelTextValue);
-				
-			} else {
-				
-				// create icon label
-				labelJSON.put("type", "icon_label");
-				labelJSON.put("shape_d3_name", label.getShape());
-			}
-			
-			GraphicObjectToObjectRelation attachementRelation = nAryLabeling.getAllLabelingattachedBy_as().firstValue();
-			
-			if (null!=attachementRelation) {
-			
-				if (attachementRelation.asURI().equals(Containment.RDFS_CLASS)) {
-					labelJSON.put("position", "centerCenter");
-					//label1.put("width", 30);
-				} else if (attachementRelation.asURI().equals(Superimposition.RDFS_CLASS)) {
-					labelJSON.put("position", "centerRight");
-				} else {
-					// default label positioning
-					labelJSON.put("position", defaultLabelPosition);	
-				}
-			} else {
-				// default label positioning
-				labelJSON.put("position", defaultLabelPosition);	
-			}
-			
-			// ... other positions ...
-		
-		
-		return labelJSON;
 	}
 
 	@Override

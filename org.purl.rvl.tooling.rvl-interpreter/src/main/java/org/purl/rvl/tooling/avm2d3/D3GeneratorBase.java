@@ -2,13 +2,22 @@ package org.purl.rvl.tooling.avm2d3;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.purl.rvl.java.VISOGRAPHIC;
+import org.purl.rvl.java.gen.viso.graphic.Containment;
+import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
+import org.purl.rvl.java.gen.viso.graphic.Labeling;
+import org.purl.rvl.java.gen.viso.graphic.Superimposition;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
+import org.purl.rvl.tooling.util.D3Utils;
 
 
 /**
@@ -130,5 +139,107 @@ public abstract class D3GeneratorBase implements D3Generator {
 	
 	protected float getDefaultWidthConnectors(){
 		return DEFAULT_WIDTH_CONNECTORS;
+	}
+
+
+	/**
+	 * @param startNodeWidth
+	 * @param labels
+	 * @param nAryLabeling
+	 * @return 
+	 */
+	protected Map<String, Object> generateLabel(float startNodeWidth, Labeling nAryLabeling) {
+		
+		Map<String,Object> labelJSON = new HashMap<String, Object>();
+		
+			
+			// defaults
+			
+			String defaultLabelPosition = "topLeft";
+			
+			final GraphicObjectX label = (GraphicObjectX) nAryLabeling
+					.getAllLabelinglabel_as().firstValue()
+					.castTo(GraphicObjectX.class);
+	
+			// setting graphic attributes that are valid for any kind of label
+			
+			labelJSON.put("color_rgb_hex_combined", label.getColorRGBHexCombinedWithHSLValues());
+			labelJSON.put("width", startNodeWidth*LABEL_ICON_SIZE_FACTOR+""); // TODO text label width should not be the same as for icon labels
+			
+			// text label or icon label?
+			
+			String labelTextValue = label.getTextValue();
+			
+			if (null != labelTextValue) {
+				
+				// create text label
+				labelJSON.put("type", "text_label");
+				labelJSON.put("text_value", D3Utils.shortenLabel(labelTextValue));
+				//label1.put("text_value_full", labelTextValue + " (ID: " + startNode.getRepresentedResource() + ")");
+				labelJSON.put("text_value_full", labelTextValue);
+				
+			} else {
+				
+				// create icon label
+				labelJSON.put("type", "icon_label");
+				labelJSON.put("shape_d3_name", label.getShape());
+			}
+			
+			GraphicObjectToObjectRelation attachementRelation = nAryLabeling.getAllLabelingattachedBy_as().firstValue();
+			
+			if (null!=attachementRelation) {
+			
+				if (attachementRelation.asURI().equals(Containment.RDFS_CLASS)) {
+					labelJSON.put("position", "centerCenter");
+					//label1.put("width", 30);
+				} else if (attachementRelation.asURI().equals(Superimposition.RDFS_CLASS)) {
+					labelJSON.put("position", "centerRight");
+				} else {
+					// default label positioning
+					labelJSON.put("position", defaultLabelPosition);	
+				}
+			} else {
+				// default label positioning
+				labelJSON.put("position", defaultLabelPosition);	
+			}
+			
+			// ... other positions ...
+		
+		
+		return labelJSON;
+	}
+
+
+	/**
+	 * @param labelingBase
+	 * @param labelingBaseWidth
+	 * @param labelingBaseJSONnode
+	 */
+	protected void putLabels(GraphicObjectX labelingBase, float labelingBaseWidth, Map<String, Object> labelingBaseJSONnode) {
+		if (labelingBase.hasLabeledwith()) {
+			
+			// label objects
+			
+			List<Map<String,Object>> labels = new LinkedList<Map<String,Object>>();
+			labelingBaseJSONnode.put("labels", labels);
+	
+			ClosableIterator<Labeling> nAryLabelings = labelingBase.getAllLabeledwith_as().asClosableIterator();
+			
+			// for each labeling relation
+			
+			while (nAryLabelings.hasNext()) {
+				
+				Labeling nAryLabeling = (Labeling) nAryLabelings.next();
+				
+				try {
+					Map<String,Object> newLabel = generateLabel(labelingBaseWidth, nAryLabeling);
+					labels.add(newLabel);
+				} catch (Exception e){
+					LOGGER.severe("Problem creating JSON label for labeling relation. Labeling " + nAryLabeling + " will be ignored: " + e.getMessage());
+				}
+				
+			}
+	
+		}
 	}
 }
