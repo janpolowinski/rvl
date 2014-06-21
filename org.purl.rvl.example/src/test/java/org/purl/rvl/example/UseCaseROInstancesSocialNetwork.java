@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import org.junit.Test;
 import org.ontoware.rdf2go.Reasoning;
 import org.purl.rvl.interpreter.test.TestOGVICProcess;
+import org.purl.rvl.tooling.avm2d3.D3GeneratorTreeJSON;
 
 public class UseCaseROInstancesSocialNetwork extends TestOGVICProcess {
 	
@@ -21,7 +22,8 @@ public class UseCaseROInstancesSocialNetwork extends TestOGVICProcess {
 
 		//project.setRvlInterpreter(new SimpleRVLInterpreter());
 
-		//process.setD3Generator(new D3GeneratorTreeJSON());
+		process.setD3Generator(new D3GeneratorTreeJSON());
+		//process.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		
 		loadProjectAndRunProcess();
 		

@@ -38,8 +38,11 @@ var width = 1400,
 	  };
 	  
 	  /* labeling with title-tag (tooltip) */
+	  // TODO so far the first text label is used when it is a text label, however when it's an icon label, this will fail
 	  d3.selection.prototype.avmTitled = function() {
-		  return this.append("svg:title").text(function(d) { return d.text_value_full; });
+		  return this
+		  .filter(function(d) { return d.labels != null && d.labels[0].type == "text_label" ; })
+		  .append("svg:title").text(function(d) { return d.labels[0].text_value_full; });
 	  };
 		    
 	  /* labeling with SVG text CT */

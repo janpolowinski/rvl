@@ -39,6 +39,7 @@
       
 #### Labeling could become a default .... ####     
       
+# TODO the following mapping will not assign labels to all rdf nodes! only to those nodes being subject in a cites relation     
 :LabelMapping
       a rvl:PropertyToGraphicObjToObjRelationMapping ;
       rvl:sourceProperty cito:cites ;
