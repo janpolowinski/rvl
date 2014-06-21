@@ -16,22 +16,23 @@
       dct:description "Colored arrows represent different citation relations ; Map cites to linking by connector, color the connector depending on which subproperty of this relation is used from green (rather positive citation) to red (rather negative citation)."^^xsd:string ;
       rvl:sourceProperty cito:cites ;
       rvl:targetObjToObjRelation vg:Linking_Directed_Relation ;
-      rvl:subMapping [
-        rdf:type rvl:SubMappingRelation ;
+      rvl:subMapping 
+      #[
+      #  rvl:subMapping-onRole vg:linking_connector;
+      #  rvl:subMapping-onTriplePart rdf:predicate;
+      #  rvl:subMapping-mapping :PMfromID2ShapeNamed;
+      #],
+      [
         rvl:subMapping-onRole vg:linking_connector;
         rvl:subMapping-onTriplePart rdf:predicate;
-        rvl:subMapping-mapping :PMfromID2ShapeNamed;
-      ],[
-        rdf:type rvl:SubMappingRelation ;
-        rvl:subMapping-onRole vg:linking_connector;
-        rvl:subMapping-onTriplePart rdf:predicate;
-        rvl:subMapping-mapping :PMfromID2ColorNamed;
+        rvl:subMapping-mapping :IconLabelMapping;
       ]
    	 .
 	 
-      
+# todo can be deleted when icons work      
 # order a bit misused here, better use single vms
 :PMfromID2ShapeNamed
+	  rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rdfs:label "PM from ID to shape (used as a submapping above)"^^xsd:string ;
  	  rvl:sourceProperty rdf:ID ;
@@ -41,7 +42,36 @@
         rvl:sourceValueOrderedSet (
 			cito:critiques
 			cito:confirms
-
+		);
+		rvl:targetValueList (
+			common-shapes:XMark
+			common-shapes:Star18
+		);
+      ]
+      . 
+      
+      
+:IconLabelMapping
+	  rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:sourceProperty rdf:ID ;
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:subMapping [
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:predicate;
+        rvl:subMapping-mapping :IconLabelShapeMapping;
+      ]
+      .
+      
+:IconLabelShapeMapping
+      a rvl:PropertyMapping ;
+ 	  rvl:sourceProperty rdf:ID ;
+ 	  rvl:targetAttribute vg:shape_named ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:sourceValueOrderedSet (
+			cito:critiques
+			cito:confirms
 		);
 		rvl:targetValueList (
 			common-shapes:XMark
@@ -55,8 +85,9 @@
  
  # order a bit misused here, better use single vms
 :PMfromID2ColorNamed
+	  rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
-      rdfs:label "PM from ID to color 2 (used as a submapping above)"^^xsd:string ;
+      rdfs:label "PM from ID to color"^^xsd:string ;
  	  rvl:sourceProperty rdf:ID ;
  	  rvl:targetAttribute vg:color_named ;
  	  rvl:valueMapping [
@@ -75,16 +106,17 @@
       
 #### Labeling could become a default .... ####     
       
-:LabelMapping
-      a rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:sourceProperty cito:cites ;
-      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
-      rvl:subMapping [
-        rvl:subMapping-onRole vg:labeling_label;
-        rvl:subMapping-onTriplePart rdf:subject;
-        rvl:subMapping-mapping :LabelTextIdentityMapping;
-      ]
-      .
+#:LabelMapping
+#	  rvl:disabled "true"^^xsd:boolean ;
+#      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+#      rvl:sourceProperty cito:cites ;
+#      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+#      rvl:subMapping [
+#        rvl:subMapping-onRole vg:labeling_label;
+#        rvl:subMapping-onTriplePart rdf:subject;
+#        rvl:subMapping-mapping :LabelTextIdentityMapping;
+#      ]
+#      .
       
 :LabelTextIdentityMapping
 	  rvl:disabled "true"^^xsd:boolean ;
@@ -93,4 +125,6 @@
       rvl:sourceProperty rvl:label ;
       rvl:targetAttribute
               vg:text_value ;
-      .     
+      .   
+      
+        

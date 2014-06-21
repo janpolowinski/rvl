@@ -431,7 +431,7 @@ var width = 1400,
 			.applyGraphicAttributesNonSpatial2SVG();
 	  };
 	  
-	  /* setting the shape by reusing an SVG symbol */ // TODO: this also sets color and node-class at the moment
+	  /* setting the shape by reusing an SVG symbol */
 	  d3.selection.prototype.avmShapedWithUseSVG = function() {
 		 	return this.append("use")
 			  .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.shape_d3_name; })
@@ -443,7 +443,7 @@ var width = 1400,
 		     ;
 	  };
 	  
-	  /* setting the shape by reusing an SVG symbol */ // TODO: this also sets color at the moment; merge with above
+	  /* setting the shape by reusing an SVG symbol */ // TODO:  merge with above and move class attribute assignment outside
 	  d3.selection.prototype.avmShapedWithUseSVGPure = function() {
 		 	return this.append("use")
 			  .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.shape_d3_name; })

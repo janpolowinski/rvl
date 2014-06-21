@@ -20,6 +20,7 @@ import org.ontoware.rdf2go.vocabulary.RDFS;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.exception.MappingException;
 import org.purl.rvl.exception.UnsupportedMappingParameterValueException;
 import org.purl.rvl.java.RDF;
 import org.purl.rvl.java.RVL;
@@ -287,6 +288,10 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			} catch (UnsupportedMappingParameterValueException e) {
 				
 				LOGGER.warning("Submapping " + mapping + " could not be applied. Reason: " + e.getMessage());
+				
+			} catch (MappingException e) {
+				
+				LOGGER.warning("Submapping " + mapping + " could not be applied. Reason: " + e.getMessage());
 			}
 			
 		}
@@ -491,10 +496,11 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	 * @param goToApplySubmapping
 	 * @param mapping
 	 * @throws InsufficientMappingSpecificationException
+	 * @throws MappingException 
 	 */
 	public void applyMappingToGraphicObject(Statement mainStatement, URI triplePartURI,
 			GraphicObjectX goToApplySubmapping, PropertyMappingX mapping)
-			throws InsufficientMappingSpecificationException {
+			throws InsufficientMappingSpecificationException, MappingException {
 		
 		Node sv = null,
 			 tv = null;
@@ -608,6 +614,8 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 				}	
 				
 		// end if P2GAM
+		} else {
+			throw new MappingException("Submappings other than P2GAM or Identitymappings not yet supported.");
 		}
 		
 		if (null == tga) {
