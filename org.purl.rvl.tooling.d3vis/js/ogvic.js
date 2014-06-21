@@ -46,15 +46,19 @@ var width = 1400,
 	  };
 		    
 	  /* labeling with SVG text CT */
-	  d3.selection.prototype.avmLabeledCT = function() {
-		  return this.append("svg:text")
+	  d3.selection.enter.prototype.avmLabeledCT = function(hasChildren) {
+
+		  var text =  this
+		  	.append("svg:text")
 			.attr("class", "nodeLabel")
-	 		.attr("x", function(d) { return d.children || d._children ? -10 : 10; })
+	 		.attr("x", function() { return hasChildren ? -10 : 10; })
 	     	.attr("dy", ".35em")
-			.attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+			.attr("text-anchor", function() { return hasChildren ? "end" : "start"; })
 		    .text(function(d) { return d.text_value; })
 			.style("visibility", "hidden")
 			;
+
+		  return text;
 	  };
 	  
 	  /* labeling with SVG text FDG */
@@ -126,6 +130,46 @@ var width = 1400,
 			}
 			
 			
+		  
+		  return this;
+	  };
+	  
+	  /* labeling with SVG text FDG */
+	  d3.selection.prototype.avmLabeledComplexCT = function() {
+		  
+		 var 
+			addHTMLTextLabel = false,
+			addSVGTextLabel = true, 
+			addSVGIconLabel = true;	
+		  
+		// SVG icon label in html div 
+			if (addSVGIconLabel) {
+				
+				this
+					.selectAll(".iconLabelContainer")
+					.data(function(d) { return d.labels ; }).enter()
+					.avmLabeledSVGIcon2();
+			}
+
+			        
+			// SVG text label in html div (cropped in webkit, maybe create a much bigger SVG inside the div, or modify clipping) 
+			if (addSVGTextLabel) {
+			    
+			    this
+					.selectAll(".textSVGLabelContainer")
+					.data(function(d) { return d.labels ; }).enter()
+					.avmLabeledSVG2();
+			}
+
+			// HTML label  -> TODO only use this when label attachedBy containment (position = centerCenter)
+			if (addHTMLTextLabel) {
+				
+				this
+					.selectAll(".textHTMLLabelContainer")
+					.data(function(d) { return d.labels ; }).enter()
+					.avmLabeledHTML2();
+
+			}
 		  
 		  return this;
 	  };
@@ -283,9 +327,7 @@ var width = 1400,
 		      .style("fill", function(d) { return d.color_rgb_hex_combined; })
 		      .attr("transform", function(d) { return "scale(" + (d.width/SYMBOL_WIDTH) +  ")"; })
 			  ;
-			
-			
-		  
+
 		  return containerDiv;
 	  };
 	  
@@ -380,13 +422,13 @@ var width = 1400,
 		  return text;
 	  };
 	  
-	  /* setting the icon label as a circle */
+	  /* setting the icon label as a circle */ // does this actually work? not in use at the moment!
 	  d3.selection.prototype.avmLabeledWithCircle = function(labelShapeSize) {
 		 	return this.append("svg:circle")
 			.attr("r", labelShapeSize/2)
 			.attr("cx",labelShapeSize/2)
 			.attr("cy",labelShapeSize/2)
-			.applyGraphicAttributesNonSpatial2SVG()
+			.applyGraphicAttributesNonSpatial2SVG();
 	  };
 	  
 	  /* setting the shape by reusing an SVG symbol */ // TODO: this also sets color and node-class at the moment

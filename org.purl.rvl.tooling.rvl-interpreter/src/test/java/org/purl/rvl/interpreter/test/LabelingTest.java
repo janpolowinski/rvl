@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 
 import org.junit.Test;
 import org.ontoware.rdf2go.Reasoning;
+import org.purl.rvl.tooling.avm2d3.D3GeneratorTreeJSON;
 import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
 
@@ -21,7 +22,7 @@ public class LabelingTest extends TestOGVICProcess {
 		
 		//project.setRvlInterpreter(new SimpleRVLInterpreter());
 		
-		//project.setD3Generator(new D3GeneratorTreeJSON());
+		project.setD3Generator(new D3GeneratorTreeJSON());
 		
 		loadProjectAndRunProcess();
 	}

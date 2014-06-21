@@ -34,6 +34,9 @@ var w = width - m[1] - m[3],
     root
     ;
     
+var complexLabeling = false; // not yet fully implemented
+var simpleLabeling = true;
+    
 //force-directed-graph
 var lineWidth = 7,
 	markerWidth = 3,
@@ -177,11 +180,46 @@ function update(source) {
 		// shapes as reused svg-groups
 		var symbol = nodeEnter.avmShapedWithUseSVG();
 		//var symbol = nodeEnter.avmShapedWithPath(avmDefaultSizeSymbolFunction);
+		
+		if (complexLabeling) {
+	 
+ 			 // complex labeling
+			 
+			 var labelContainerContainer = d3
+				.select("#labelContainerSpace")
+				.selectAll(".labelContainerContainer")
+				.data(nodes).enter()
+				.append("div")
+				.filter(function(d) { return d.labels != null ;})
+				.attr("class","labelContainerContainer")
+				.style("height", function(d) { return d.width + "px";})
+				.style("width", function(d) { return d.width + "px";}); // TODO height
+			        		 		  	
+				labelContainerContainer.avmLabeledComplexCT();
+	 		}
 
-		// The label and a copy of the label as shadow for better readability
-		nodeEnter.avmLabeledCT().attr("class", "nodeLabelShadow");
-		nodeEnter.avmLabeledCT();
+		if (simpleLabeling) {
+			
+			// simple labeling
+			
+			// The label and a copy of the label as shadow for better readability
+			
+			nodeEnter
+				.filter(function(d) { return d.labels != null ;})
+				.selectAll(".nodeLabelShadow")
+				.data(function(d) { return d.labels }).enter()
+				.avmLabeledCT(true) // TODO make dependent on whether d has children, e.g.: function(d) { return d.children || d._children ; } , however here we are alread in d.labels!
+				.classed("nodeLabelShadow", true);
+				
+			nodeEnter
+				.filter(function(d) { return d.labels != null ;})
+				.selectAll(".nodeLabelText")
+				.data(function(d) { return d.labels }).enter()
+				.avmLabeledCT(true) // TODO make dependent on whether d has children, e.g.: function(d) { return d.children || d._children ; } , however here we are alread in d.labels!
+				.classed("nodeLabelText", true);
 
+		}
+		
 		// tooltip
 		nodeEnter.avmTitled();
 
@@ -267,6 +305,17 @@ function update(source) {
 		nodes.forEach(function(d) {
 			d.x0 = d.x;
 			d.y0 = d.y;
+			
+			/* position complex labels */ // TODO not the best place for this! will not be correctly updated
+			if(complexLabeling) {
+		        labelContainerContainer
+				.style("top", function(d){
+					return d.x + "px";
+				})
+				.style("left", function(d){
+					return d.y + "px";
+				});
+			}
 		});
 		
 		
@@ -275,6 +324,8 @@ function update(source) {
 	 		.selectAll(".path_label")
 			.data(tree.links(nodes)).enter().avmLabeledConnectorAligned2();*/
 		
+			
+
 	}
 	
 </script>
