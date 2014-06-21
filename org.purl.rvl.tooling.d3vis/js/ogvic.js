@@ -59,6 +59,7 @@ var width = 1400,
 	  
 	  /* labeling with SVG text FDG */
 	  d3.selection.enter.prototype.avmLabeledFDG = function() {
+		  
 		  var text = this
 		  	.append("svg:text")
 			.attr("class", "nodeLabel")

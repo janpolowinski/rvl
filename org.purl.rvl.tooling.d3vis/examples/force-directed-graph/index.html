@@ -28,7 +28,7 @@
 		
 		// OGVIC
         var drawLinks = true; // choose whether only nodes should be drawn and layouted
-        var complexLabeling = false;
+        var complexLabeling = true;
         var simpleLabeling = false;
 
         // force-directed-graph
@@ -273,11 +273,12 @@
 	 
  			 // complex labeling
 			 
-			 var labelContainerContainer = d3.select("#labelContainerSpace")
+			 var labelContainerContainer = d3
+				.select("#labelContainerSpace")
 				.selectAll(".labelContainerContainer")
-				.filter(function(d) { return d.labels != null ;})
 				.data(graph.nodes).enter()
 				.append("div")
+				.filter(function(d) { return d.labels != null ;})
 				.attr("class","labelContainerContainer")
 				.style("height", function(d) { return d.width + "px";})
 				.style("width", function(d) { return d.width + "px";}); // TODO height
@@ -291,13 +292,15 @@
 	
 	        	// The label and a copy of the label as shadow for better readability
 
-				nodeEnter.selectAll(".nodeLabelShadow")
+				nodeEnter
 				.filter(function(d) { return d.labels != null ;})
+				.selectAll(".nodeLabelShadow")
 				.data(function(d) { return d.labels }).enter()
 				.avmLabeledFDG().classed("nodeLabelShadow", true);
 	        	
-				nodeEnter.selectAll(".nodeLabelText")
+				nodeEnter
 				.filter(function(d) { return d.labels != null ;})
+				.selectAll(".nodeLabelText")
 				.data(function(d) { return d.labels }).enter()
 				.avmLabeledFDG().classed("nodeLabelText", true);
 				
