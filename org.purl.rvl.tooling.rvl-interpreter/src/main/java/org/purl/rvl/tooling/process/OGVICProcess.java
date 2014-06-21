@@ -26,6 +26,8 @@ import org.purl.rvl.tooling.rvl2avm.RVLInterpreter;
 import org.purl.rvl.tooling.rvl2avm.SimpleRVLInterpreter;
 import org.purl.rvl.tooling.util.CustomRecordFormatter;
 
+import com.cedarsoftware.util.io.JsonWriter;
+
 
 /**
  * @author Jan Polowinski
@@ -284,6 +286,11 @@ public class OGVICProcess {
 	private void transformAVMToD3() {
 		d3Generator.init(getModelAVM());
 		String json = d3Generator.generateJSONforD3();
+		try {
+			json = JsonWriter.formatJson(json);
+		} catch (IOException e) {
+			LOGGER.warning("problem with pretty printing JSON (skipped) : " + e.getMessage());
+		}
 		LOGGER.info("JSON data is: " + NL +  json);
 		d3Generator.writeJSONToFile(json);
 	}
