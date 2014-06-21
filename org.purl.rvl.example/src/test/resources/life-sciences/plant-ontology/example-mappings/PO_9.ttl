@@ -63,7 +63,7 @@
  	  rvl:valueMapping [
         a rvl:ValueMapping ;
         rvl:sourceValue <http://purl.org/obo/owl/obo#develops_from> ;
-		rvl:targetValue "34"^^xsd:float ; # TODO: manual settings for now. 34 is the height of the flow-arrow symbol
+		rvl:targetValue "23"^^xsd:float ; # TODO: manual settings for now. 23 is the height of the flow-arrow symbol
       ]
       . 
       
