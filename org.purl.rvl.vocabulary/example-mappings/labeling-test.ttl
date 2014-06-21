@@ -24,11 +24,11 @@ rexm:PMWithExplicitValueMappingsAsBlankNodes
       rvl:sourceProperty rexd:workingField ;
       rvl:targetObjToObjRelation vg:Labeling_Relation ; 
       rvl:subMapping 
-     # [
-     #   rvl:subMapping-onRole vg:labeling_label; 
-     #   rvl:subMapping-onTriplePart rdf:object;
-     #   rvl:subMapping-mapping :IconLabelShapeMapping;
-     # ],
+      [
+        rvl:subMapping-onRole vg:labeling_label; 
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :IconLabelShapeMapping;
+      ],
       [
         rvl:subMapping-onRole vg:labeling_label;
         rvl:subMapping-onTriplePart rdf:object;
@@ -49,9 +49,9 @@ rexm:PMWithExplicitValueMappingsAsBlankNodes
       .
 
       
-rexm:IconLabelShapeMapping
+:IconLabelShapeMapping
       rvl:disabled "true"^^xsd:boolean ;
-      rdf:type rvl:PropertyMapping ;
+      a rvl:PropertyMapping ;
       rvl:sourceProperty rdf:ID ;
       rvl:targetAttribute vg:shape_named ; 
       rvl:valueMapping [
@@ -62,6 +62,10 @@ rexm:IconLabelShapeMapping
         a rvl:ValueMapping ;
 		rvl:sourceValue rexd:Biography;
         rvl:targetValue common-shapes:Clock;
+      ],[
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Science;
+        rvl:targetValue common-shapes:Heart;
       ]
       .   
       
@@ -113,10 +117,10 @@ rexm:LabelColorMapping
       .
  
  
- :PartOf2Linking
+ :Knows2Linking
       a rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:disabled "true"^^xsd:boolean ;
-      rvl:sourceProperty rexd:partOf ;
+      rvl:disabled "false"^^xsd:boolean ;
+      rvl:sourceProperty rexd:knows ;
       rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
       .
 
@@ -150,8 +154,6 @@ rexm:LabelColorMapping
       ],[
         a rvl:ValueMapping ;
 		rvl:sourceValue rexd:Biography ;
-        rvl:targetValue common-shapes:Heart;
+        rvl:targetValue common-shapes:Cross;
       ]
-      .
-      
-              
+      . 

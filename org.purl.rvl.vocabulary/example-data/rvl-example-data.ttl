@@ -99,7 +99,9 @@
 
 :Jan  rdf:type :Person ;
       rdfs:label "Jan"^^xsd:string ;
-      :workingField :InfoVis .
+      :workingField :InfoVis ;
+      :knows :Lina , :Luisa ;
+      .
 
 :John
       rdf:type :Author ;
@@ -109,7 +111,9 @@
 :Lina
       rdf:type :Author ;
       rdfs:label "Lina"^^xsd:string ;
-      :workingField :Biography .
+      :workingField :Biography ;
+      :knows :John ;
+      .
 
 :Luisa
       rdf:type :Author ;
@@ -181,6 +185,10 @@
 :partOf
       rdf:type rdf:Property , owl:ObjectProperty , owl:TransitiveProperty ;
       rdfs:range :Place ;
+      rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value .
+      
+:knows
+      rdf:type rdf:Property , owl:ObjectProperty ;
       rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value .
 
 :population
