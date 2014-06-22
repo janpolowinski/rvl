@@ -154,8 +154,13 @@
 				.attr("class", function(d) { return "connectorLabelGroup" })
         		.attr("class", "label");
         
-			// shapes as reused svg-groups
-			var connectorLabelSymbol = connectorLabelGroup.avmShapedWithUseSVGPure();
+			var connectorLabelSymbol = connectorLabelGroup
+			  .filter(function(d) { return d.labels != null ;})
+ 			  .selectAll(".iconLabelNew")
+ 			  .data(function(d) { return d.labels }).enter()
+			  .avmShapedWithUseSVGPureEnter()
+			  .classed("iconLabelNew", true)
+			  ;
 				
 			// broken? shapes as paths
 			// var connectorLabelSymbol = connectorLabelGroup.avmShapedWithPath();

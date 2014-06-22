@@ -453,6 +453,15 @@ var width = 1400,
 		     ;
 	  };
 	  
+	  d3.selection.enter.prototype.avmShapedWithUseSVGPureEnter = function() {
+		 	return this.append("use")
+			  .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.shape_d3_name; })
+			  //.attr("xlink:href", function(d) { return "../../svg/symbols.svg#clock"; })
+	   	 	  .attr("class", "svgSymbol")
+		      .applyGraphicAttributesNonSpatial2SVG()
+		     ;
+	  };
+	  
 	  /* setting the shape as a text based on text_value */
 	  d3.selection.prototype.avmShapedWithText = function() { 	
 		 	return this.append("svg:text")
