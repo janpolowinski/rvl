@@ -16,7 +16,6 @@ import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.model.node.impl.PlainLiteralImpl;
-import org.ontoware.rdf2go.vocabulary.RDFS;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
@@ -25,12 +24,15 @@ import org.purl.rvl.exception.UnsupportedMappingParameterValueException;
 import org.purl.rvl.java.RDF;
 import org.purl.rvl.java.RVL;
 import org.purl.rvl.java.gen.viso.graphic.Color;
+import org.purl.rvl.java.gen.viso.graphic.Containment;
+import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObject;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
 import org.purl.rvl.java.gen.viso.graphic.Shape;
 import org.purl.rvl.java.gen.viso.graphic.Superimposition;
+import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
 import org.purl.rvl.java.rvl.IdentityMappingX;
 import org.purl.rvl.java.rvl.MappingX;
 import org.purl.rvl.java.rvl.PropertyMappingX;
@@ -565,7 +567,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 		 		
 		// end if ID mapping
 		}
-		else if (mapping.isInstanceof(PropertyToGraphicAttributeMappingX.RDFS_CLASS)) { 
+		else if (mapping.isInstanceof(PropertyToGraphicAttributeMappingX.RDFS_CLASS)) {
 			
 			 PropertyToGraphicAttributeMappingX p2gam = (PropertyToGraphicAttributeMappingX) mapping.castTo(PropertyToGraphicAttributeMappingX.class);
 			 
@@ -614,8 +616,108 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 				}	
 				
 		// end if P2GAM
+		} else if (mapping.isInstanceof(PropertyToGO2ORMappingX.RDFS_CLASS)) {
+			
+			PropertyToGO2ORMappingX p2go2orm = (PropertyToGO2ORMappingX) mapping.castTo(PropertyToGO2ORMappingX.class);
+			
+			//org.purl.rvl.java.gen.rvl.GraphicObjectToObjectRelation tgr = p2go2orm.getTargetGraphicRelation();
+			
+			try {
+				if (p2go2orm.getTargetGraphicRelation().equals(Labeling.RDFS_CLASS)) {
+					
+					if (sp.asURI().equals(RDF.ID)) { // special treatment of rdf:ID
+						
+						sv = triplePart; // TODO ID actually only fine when URIs!
+						//tv = svUriTVuriMap.get(sv);
+						
+						
+						
+						
+						
+						// create the label
+						
+						// call the submapping method with the same unchanged statement to set label text_value or icon_shape etc ...
+						
+						// duplicated code ....
+						
+										Statement statement = mainStatement;
+										
+										//Resource subject = statement.getSubject();
+										Node object = statement.getObject();
+				
+										/*
+										LOGGER.finest("Subject label "
+												+ AVMUtils.getGoodNodeLabel(subject, modelAVM));
+										LOGGER.finest("Object label " + AVMUtils.getGoodNodeLabel(object, modelAVM));
+				*/
+										LOGGER.fine("Statement to be mapped : " + statement);
+				
+										/*
+										// For each statement, create a startNode GO representing the subject
+										// (if not exists)
+										GraphicObjectX subjectNode = this
+												.createOrGetGraphicObject(subject);
+										LOGGER.finest("Created GO for subject: " + subject.toString());
+										
+										*/
+				
+										// For each statement, create an endNode GO representing the object (if
+										// not exists)
+										// create an additional object here, don't reuse existing ones!
+										GraphicObjectX label = new GraphicObjectX(modelAVM, false); 
+										LOGGER.finest("Created new Label-GO for object: " + object.toString());
+										// TODO not created for object in all cases?!
+				
+										Labeling rel = new Labeling(modelAVM,
+												"http://purl.org/rvl/example-avm/GR_"
+														+ this.createNewInternalID(), true);
+										rel.setLabel(AVMUtils.getGoodNodeLabel(mapping.getTargetGraphicRelation(),
+												modelAVM));
+				
+										//subjectNode.addLabeledwith(rel);
+										goToApplySubmapping.addLabeledwith(rel);
+										rel.setLabelinglabel(label);
+										rel.setLabelingattachedBy(Superimposition.RDFS_CLASS); // passing a node
+																								// here
+										//rel.setLabelingbase(subjectNode);
+										rel.setLabelingbase(goToApplySubmapping);
+				
+										// set default shape of icon labels
+										label.setShapenamed(new ShapeX(modelAVM,
+												"http://purl.org/viso/shape/commons/Square", false));
+				
+										// submappings
+										if (mapping.hasSub_mapping()) {
+											this.applySubmappings(p2go2orm, statement, rel);
+										}
+						
+						// ... end duplicated code
+						
+						
+						
+						
+						
+						
+					} else {
+						throw new MappingException("P2GORM-Submappings other than mappings with source property rdf:ID not yet supported.");
+					}
+					
+					
+					// recursive does not yet work (no specific treatment of RDF:ID as a source property!)
+					//new MappingToLabelingHandler(modelSet, this, modelAVM).handleP2GOTORMapping(p2go2orm);
+					
+				}
+				else  {
+					throw new MappingException("P2GORM-Submappings other than mappings to Labeling not yet supported.");
+				}
+				
+			} catch (InsufficientMappingSpecificationException e) {
+				throw new MappingException("Problem interpreting submapping " + p2go2orm);
+			}
+			
+			// end if P2GORM (e.g. labeling!)
 		} else {
-			throw new MappingException("Submappings other than P2GAM or Identitymappings not yet supported.");
+			throw new MappingException("Submappings other than P2GAM, P2GORM or Identitymappings not yet supported.");
 		}
 		
 		if (null == tga) {
