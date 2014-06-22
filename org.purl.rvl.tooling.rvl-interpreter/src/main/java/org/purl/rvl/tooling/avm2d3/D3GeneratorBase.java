@@ -123,14 +123,12 @@ public abstract class D3GeneratorBase implements D3Generator {
 		}
 				
 		// dimensions
-		final float width;
 		if (graphicObject.hasWidth()) {
-			width = graphicObject.getWidth();
-		} else {
-			width = graphicObject.hasRole(VISOGRAPHIC.ROLE_LINKING_CONNECTOR)? getDefaultWidthConnectors() : getDefaultWidthNodes();
+			map.put("width", graphicObject.getWidth());
+		} else if (!graphicObject.hasRole(VISOGRAPHIC.ROLE_LINKING_CONNECTOR)){
+			map.put("width", getDefaultWidthNodes());
 		}
 
-		map.put("width", width);
 	}
 	
 	protected float getDefaultWidthNodes(){
