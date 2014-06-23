@@ -1743,6 +1743,7 @@ The use case should contain all system activities that have significance to the 
         <rdf:type rdf:resource="&owl;Thing"/>
         <refinesTo rdf:resource="#AdvertisementOnProfilePage"/>
         <isAuthoredBy rdf:resource="#PersonC"/>
+        <hasResponseTime rdf:datatype="&xsd;integer">99</hasResponseTime>
     </HighPriority>
     
 
