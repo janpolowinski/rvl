@@ -128,12 +128,12 @@
     		;
     		
             var path = connectorGroup.append("svg:path")
-            .attr("class", function (d) { return "link link" + d.type + " " +  d.arrow_type; })  
+            .attr("class", function (d) { return "link link" + d.type + " " +  d.shape_d3_name; })  
     		//.style("stroke", function(d) { return d.color_rgb_hex; })
     		.style("stroke", function(d) { return d.color_rgb_hex_combined; })
     		.style("stroke-width", function(d) { return d.width })
     		.attr("marker-end", function (d) {
-            	return "url(#" + d.arrow_type + ")";
+            	return "url(#" + d.shape_d3_name + ")";
         	})
         	// approach using mid-markers did not suceed -> a marker on each path-node is not desirable
 			/*.attr("marker-mid", function (d) {

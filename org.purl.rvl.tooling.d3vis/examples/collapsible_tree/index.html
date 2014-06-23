@@ -272,7 +272,7 @@ function update(source) {
         	return createIDForLink2(d);
     	})
     	.attr("marker-end", function (d) {
-    			if(d.target.connector_arrow_type == "line" || d.target.connector_arrow_type == "circle") // TODO: hack. should at least be "default". don't draw marker in this case at all
+    			if(d.target.shape_d3_name == "line" || d.target.shape_d3_name == "circle") // TODO: hack. should at least be "default". don't draw marker in this case at all
             		return "url()";
     			else 
     				return "url(#" + d.target.connector_arrow_type + ")";

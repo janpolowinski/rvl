@@ -138,7 +138,6 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 				Map<String,Object> link = new LinkedHashMap<String,Object>();
 				putGraphicAttributes(link,connector);
 				link.put("type", "Directed");
-				link.put("arrow_type", connector.getShape());
 				//link.put("type", dlRel.getRDFSClassURI().toString());
 				link.put("source", goMap.get(startNode));
 				link.put("target", goMap.get(endNode));
