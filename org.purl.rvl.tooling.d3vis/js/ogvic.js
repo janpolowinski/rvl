@@ -458,6 +458,7 @@ var width = 1400,
 			  .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.shape_d3_name; })
 			  //.attr("xlink:href", function(d) { return "../../svg/symbols.svg#clock"; })
 	   	 	  .attr("class", "svgSymbol")
+	   	 	  .attr("transform", "scale(1.5)")
 		      .applyGraphicAttributesNonSpatial2SVG()
 		     ;
 	  };
