@@ -30,7 +30,8 @@ body {
 .node.highlighted path,
 .node.highlighted circle {
 	stroke: yellow;
-	stroke-width: 6px;
+	stroke-width: 4px;
+	vector-effect: non-scaling-stroke;
 	/*filter:url(#blur-effect-2);*/ /* problems in firefox, when not in one html page? */
 	stroke-opacity:1;
 }
