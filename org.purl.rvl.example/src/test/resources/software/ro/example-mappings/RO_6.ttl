@@ -59,12 +59,10 @@ rvl:valueMapping
       rvl:sourceProperty ro:isRefinementOf ;
       rvl:targetObjToObjRelation viso-graphic:Linking_Directed_Relation ;
       rvl:subMapping [
-        rdf:type rvl:SubMappingRelation ;
         rvl:subMapping-onRole vg:linking_connector;
         rvl:subMapping-onTriplePart rdf:predicate;
         rvl:subMapping-mapping :PMfromID2ColorNamed;
       ],[
-        rdf:type rvl:SubMappingRelation ;
         rvl:subMapping-onRole vg:linking_connector;
         rvl:subMapping-onTriplePart rdf:predicate;
         rvl:subMapping-mapping :PMfromID2ShapeNamed;
@@ -77,12 +75,10 @@ rvl:valueMapping
       rvl:sourceProperty ro:isInConflictWith ;
       rvl:targetObjToObjRelation viso-graphic:Linking_Directed_Relation ;
       rvl:subMapping [
-        rdf:type rvl:SubMappingRelation ;
         rvl:subMapping-onRole vg:linking_connector;
         rvl:subMapping-onTriplePart rdf:predicate;
         rvl:subMapping-mapping :PMfromID2ColorNamed;
       ],[ 
-        rdf:type rvl:SubMappingRelation ;
         rvl:subMapping-onRole vg:linking_connector;
         rvl:subMapping-onTriplePart rdf:predicate;
         rvl:subMapping-mapping :PMfromID2ShapeNamed;
@@ -112,6 +108,7 @@ rvl:valueMapping
 # order a bit misused here, better use single vms
 :PMfromID2ShapeNamed
       rdf:type rvl:PropertyMapping ;
+      rvl:disabled "true"^^xsd:boolean ;
       rdfs:label "PM from ID to shape (used as a submapping above)"^^xsd:string ;
  	  rvl:sourceProperty rdf:ID ;
  	  rvl:targetAttribute vg:shape_named ;
