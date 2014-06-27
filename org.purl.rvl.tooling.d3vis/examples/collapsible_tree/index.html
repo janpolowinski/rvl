@@ -258,10 +258,10 @@ function update(source) {
 		var linkEnter = link.enter().insert("svg:path", "g")
 			.attr("class","link")
 			.style("stroke", function(d) {
-				return d.target.connector_color_rgb_hex_combined
+				return d.target.connector.color_rgb_hex_combined
 			}) // works -> get the link color from the endNode (target)
 			.style("stroke-width", function(d) {
-				return d.target.connector_width
+				return d.target.connector.width
 			})
 			.attr("d", function(d) {
 				var o = {
@@ -280,17 +280,24 @@ function update(source) {
     			if(d.target.shape_d3_name == "line" || d.target.shape_d3_name == "circle") // TODO: hack. should at least be "default". don't draw marker in this case at all
             		return "url()";
     			else 
-    				return "url(#" + d.target.connector_arrow_type + ")";
+    				return "url(#" + d.target.connector.arrow_type + ")";
             	//return "url(#" + "uml_generalization_arrow" + ")";
         })
         ;
 
 		linkEnter.transition().duration(duration).attr("d", diagonal);
 
-		linkEnter.append("svg:title").text(function(d) {
-			return d.target.connector_label;
-		});
-
+		// TODO sets multiple title tags, but only one can be displayed, pick first one? merge with similar functions
+		linkEnter
+		  .filter(function(d) { return null != d.target.connector && null != d.target.connector.labels ;})
+		  .selectAll(".titleLabelNew")
+		  .data(function(d) { return d.target.connector.labels }).enter()
+		  .append("svg:title")
+		  .filter(function(d) { return d.type == "text_label" ;})
+		  .classed("titleLabelNew", true)
+		  .text(function(d){return d.text_value_full ; })
+		  ;
+		
 		// Transition links to their new position.
 		link.transition().duration(duration).attr("d", diagonal);
 
@@ -332,7 +339,8 @@ function update(source) {
 				.data(tree.links(nodes)).enter()
 				.avmLabeledConnectorAligned(
 					function (d) {
-		          		 return d.target.connector_label;
+		          		 //return d.target.connector.labels[0]....;
+						return "not implemented";
 		    		},
 		    		function(d) {
 				      	return "#" + createIDForLink2(d);

@@ -96,10 +96,15 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 				putGraphicAttributes(actualRootNodeObject,actualRootNode);
 				putLabels(actualRootNode, getDefaultWidthNodes(), actualRootNodeObject); // TODO width OK?
 				
-				actualRootNodeObject.put("connector_label", actualRootNode.getLabel());
-			//	actualRootNodeObject.put("connector_arrow_type", connector.getShape());
-			//	actualRootNodeObject.put("connector_color_rgb_hex", connectorColorRGBHex);
-			//	actualRootNodeObject.put("connector_color_rgb_hex_combined", actualRootNode.getColorRGBHexCombinedWithHSLValues());
+				
+				
+				// connector
+				Map<String,Object> connectorJSON = new LinkedHashMap<String,Object>();
+				connectorJSON.put("arrow_type", "line");
+				connectorJSON.put("width", "0"); // make this invisible
+				connectorJSON.put("color_rgb_hex_combined", "#c00");
+				
+				actualRootNodeObject.put("connector", connectorJSON);
 				
 				List childrenListLinking = generateChildrenListFor4Linking(actualRootNode);
 				if (!childrenListLinking.isEmpty()) {
@@ -127,9 +132,9 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 	}
 	
 	
-	private List generateChildrenListFor4Linking(GraphicObjectX parentGO) {
+	private List<Map<String,Object>> generateChildrenListFor4Linking(GraphicObjectX parentGO) {
 		
-		List listOfChildren = new LinkedList();
+		List<Map<String,Object>> listOfChildren = new LinkedList<Map<String,Object>>();
 		
 		Set<DirectedLinking> directedLinkingsFromHere = AVMUtils.getDirectedLinkingRelationsFrom(modelAVM, parentGO);
 		
@@ -157,9 +162,9 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 	}
 	
 	// cloned from linking, much redundant, similar code	
-	private List<Object> generateChildrenListFor4Containment(GraphicObjectX parentGO) {
+	private List<Map<String,Object>> generateChildrenListFor4Containment(GraphicObjectX parentGO) {
 		
-		List listOfChildren = new LinkedList();
+		List<Map<String,Object>> listOfChildren = new LinkedList<Map<String,Object>>();
 		
 		Set<Containment> containmentsFromHere = AVMUtils.getContainmentRelationsFrom(modelAVM, parentGO);
 		
@@ -181,40 +186,31 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 	}
 	
 	
-	private Map generateObjectFor(DirectedLinking directedLinking) {
+	private Map<String,Object> generateObjectFor(DirectedLinking directedLinking) {
 		
 		GraphicObjectX endNode = (GraphicObjectX) directedLinking.getAllEndnode_as().firstValue().castTo(GraphicObjectX.class);
 		GraphicObjectX connector = (GraphicObjectX) directedLinking.getAllLinkingconnector_as().firstValue().castTo(GraphicObjectX.class);
 		
 		// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
 		endNode = RVLUtils.tryReplaceWithCashedInstanceForSameURI_for_VISO_Resources(endNode, GraphicObjectX.class);
-		
-		
-
-		//connector color
-		String connectorColorRGBHex = connector.getColorHex();
 
 		Map<String,Object> child = new LinkedHashMap<String,Object>();
 		child.put("uri", endNode.getRepresentedResource().toString());
-		
 		putLabels(endNode, getDefaultWidthNodes(), child); // TODO width OK?
-		
-		/*
-		child.put("label",D3Utils.shortenLabel(endNode.getLabel()));
-		child.put("full_label",endNode.getLabel() + " (ID: " + endNode.getRepresentedResource() + ")");
-		*/
-		
 		putGraphicAttributes(child,endNode);
 		
-		child.put("connector_label", connector.getLabel());
-		child.put("connector_full_label", connector.getLabel() + " (ID: " + connector.getRepresentedResource() + ")");
-		child.put("connector_arrow_type", connector.getShape());
-		child.put("connector_width", connector.getWidth());
-		child.put("connector_color_rgb_hex", connectorColorRGBHex);
-		child.put("connector_color_rgb_hex_combined", connector.getColorRGBHexCombinedWithHSLValues());
+		// connector
+		Map<String,Object> connectorJSON = new LinkedHashMap<String,Object>();
+		connectorJSON.put("arrow_type", connector.getShape());
+		connectorJSON.put("width", connector.getWidth());
+		connectorJSON.put("color_rgb_hex", connector.getColorHex());
+		connectorJSON.put("color_rgb_hex_combined", connector.getColorRGBHexCombinedWithHSLValues());
+		putLabels(connector, getDefaultWidthNodes(), connectorJSON); // TODO width OK?
 		
+		child.put("connector", connectorJSON);
+
 		// break possible circles
-		List childrenList = generateChildrenListFor4Linking(endNode);
+		List<Map<String,Object>> childrenList = generateChildrenListFor4Linking(endNode);
 		if (!childrenList.isEmpty()) {
 			child.put("children", childrenList);
 		}
@@ -222,8 +218,8 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		return child;
 	}
 
-	// cloned from linking, much redundant, similar code
-private Map generateObjectFor(Containment rel) {
+// cloned from linking, much redundant, similar code
+private Map<String,Object> generateObjectFor(Containment rel) {
 		
 		GraphicObjectX containee = (GraphicObjectX) rel.getAllContainmentcontainee_as().firstValue().castTo(GraphicObjectX.class);
 		
@@ -235,7 +231,12 @@ private Map generateObjectFor(Containment rel) {
 		child.put("uri", containee.getRepresentedResource().toString());
 
 
-		putLabels(containee, getDefaultWidthNodes(), child); // TODO width OK?
+		Map<String,Object> connectorJSON = new LinkedHashMap<String,Object>();
+		putLabels(containee, getDefaultWidthNodes(), connectorJSON); // TODO width OK?
+		
+		child.put("connector", connectorJSON);
+		
+		
 
 		putGraphicAttributes(child,containee);
 		
@@ -243,7 +244,7 @@ private Map generateObjectFor(Containment rel) {
 		child.put("connector_color_rgb_hex", "#ccc");
 		
 		// break possible circles
-		List<Object> childrenList = generateChildrenListFor4Containment(containee);
+		List<Map<String,Object>> childrenList = generateChildrenListFor4Containment(containee);
 		if (!childrenList.isEmpty()) {
 			child.put("children", childrenList);
 		}
