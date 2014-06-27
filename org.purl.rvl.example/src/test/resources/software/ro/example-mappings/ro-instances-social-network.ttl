@@ -15,51 +15,6 @@
 :     rdf:type owl:Ontology ;
       owl:imports spin-constraints: , semvis-example: , common-shapes: , <http://purl.org/ro/ont> , rvl: .
 
-
-:AnyPropertyToLinkingByConnectorMappingTrials
-      a rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:disabled "true"^^xsd:boolean ;
-      rdfs:label "(Any) property to linking by connector mapping"^^xsd:string ;
-      rvl:sourceProperty owl:topObjectProperty ;
-      #rvl:sourceProperty ro:isAuthoredBy ;
-      #rvl:invertSourceProperty "true"^^xsd:boolean;
-      #rvl:inheritedBy owl:someValuesFrom;
-      rvl:targetObjToObjRelation
-              <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-      #rvl:subMapping 
-      #[
-      #  a rvl:SubMappingRelation ;
-      #  rvl:subMapping-onRole vg:linking_connector;
-      #  rvl:subMapping-onTriplePart rdf:predicate;
-      #  rvl:subMapping-mapping :PMfromID2ColorNamed2;
-      #]
-      #,
-      #[
-      #  a rvl:SubMappingRelation ;
-      #  rvl:subMapping-onRole vg:linkingDirected_startNode;
-      #  rvl:subMapping-onTriplePart rdf:subject;
-      #  rvl:subMapping-mapping :ShapeMapping;
-      #]
-      #,
-      #[
-      #  a rvl:SubMappingRelation ;
-      #  rvl:subMapping-onRole vg:linkingDirected_endNode;
-      #  rvl:subMapping-onTriplePart rdf:object;
-      #  rvl:subMapping-mapping :ShapeMapping;
-      #],
-      #[
-      #  a rvl:SubMappingRelation ;
-      #  rvl:subMapping-onRole vg:linkingDirected_startNode;
-      #  rvl:subMapping-onTriplePart rdf:subject;
-      #  rvl:subMapping-mapping :PMfromType2Width;
-      #],
-      #[
-      #  a rvl:SubMappingRelation ;
-      #  rvl:subMapping-onRole vg:linkingDirected_endNode;
-      #  rvl:subMapping-onTriplePart rdf:object;
-      #  rvl:subMapping-mapping :PMfromType2Width;
-      #]
-      .
       
 :AnyPropertyToLinkingByConnectorMapping
       a rvl:PropertyToGraphicObjToObjRelationMapping ;
@@ -310,8 +265,6 @@
 
 # END ALTERNATIVE    
 
-
-# TRIAL TEMP LABEL POSITIONING MAPPING
 
 :TypeToLabelStyleMapping
 	  rvl:disabled "true";

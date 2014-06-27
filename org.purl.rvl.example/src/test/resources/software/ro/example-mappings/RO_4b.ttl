@@ -57,7 +57,7 @@ rvl:valueMapping
       .
 
 
-#### Labeling could become a default .... ####     
+#### Labeling is done by default, but needs to be made explicit in order to refine label style .... ####     
       
 :LabelMapping
       a rvl:PropertyToGraphicObjToObjRelationMapping ;
@@ -99,7 +99,6 @@ rvl:valueMapping
       	rvl:targetValue vg:Containment_Relation;
       ]
       .
-
       
 :PMfromType2Width
       rvl:disabled "true"^^xsd:boolean ;

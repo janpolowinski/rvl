@@ -37,26 +37,4 @@
 		]. 
       
       
-#### Labeling could become a default .... ####     
-      
-# TODO the following mapping will not assign labels to all rdf nodes! only to those nodes being subject in a cites relation     
-:LabelMapping
-      a rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:sourceProperty cito:cites ;
-      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
-      rvl:subMapping [
-        rvl:subMapping-onRole vg:labeling_label;
-        rvl:subMapping-onTriplePart rdf:subject;
-        rvl:subMapping-mapping :LabelTextIdentityMapping;
-      ]
-      .
-      
-:LabelTextIdentityMapping
-	  rvl:disabled "true"^^xsd:boolean ;
-      a rvl:IdentityMapping ;
-      #rvl:sourceProperty rvl:label ;
-      rvl:sourceProperty rvl:IDandTypes ;
-      rvl:targetAttribute
-              vg:text_value ;
-      .         
-                 
+#### Labeling is done by default when no other text labeling is found .... ####             

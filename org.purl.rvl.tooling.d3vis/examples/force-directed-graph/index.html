@@ -162,16 +162,26 @@
 			  .avmShapedWithUseSVGPureEnter()
 			  .classed("iconLabelNew", true)
 			  ;
+			
+			var connectorLabelText = connectorLabelGroup
+			  .filter(function(d) { return d.labels != null ;})
+			  .selectAll(".textLabelNew")
+			  .data(function(d) { return d.labels }).enter()
+			  .append("text")
+			  .filter(function(d) { return d.type == "text_label" ;})
+			  .text(function(d){return d.text_value_full ; })
+			  .classed("textLabelNew label", true)
+			  ;
+			
+			/*var connectorLabelText = connectorLabelGroup.append("text")
+    		.attr("class", "label")
+    	    //.attr("dx", function(d){return 100})
+    		//.attr("dy", function(d){return 100})
+    	    .text(function(d){return d.text_value ; })
+    		;*/
 				
 			// broken? shapes as paths
 			// var connectorLabelSymbol = connectorLabelGroup.avmShapedWithPath();
-				
-			var connectorLabelText = connectorLabelGroup.append("text")
-        		.attr("class", "label")
-        	    //.attr("dx", function(d){return 100})
-        		//.attr("dy", function(d){return 100})
-        	    .text(function(d){return d.text_value ; })
-        		;
         		
 			/* alternative : very simple labeling of connectors by title-tag */	
 			//path.avmTitled();

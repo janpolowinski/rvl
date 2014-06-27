@@ -463,6 +463,7 @@ var width = 1400,
 	  
 	  d3.selection.enter.prototype.avmShapedWithUseSVGPureEnter = function() {
 		 	return this.append("use")
+		 	  .filter(function(d) { return null != d.shape_d3_name ;})
 			  .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.shape_d3_name; })
 			  //.attr("xlink:href", function(d) { return "../../svg/symbols.svg#clock"; })
 	   	 	  .attr("class", "svgSymbol")
