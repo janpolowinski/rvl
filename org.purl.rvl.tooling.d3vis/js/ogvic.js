@@ -92,20 +92,10 @@ var width = 1400,
 					.selectAll(".iconLabelContainer")
 					.data(function(d) { return d.labels ; }).enter()
 					.avmLabeledSVGIcon();
-				
-				/*this
-				.filter(function(d) { return d.type === "icon_label" ;})
-				.avmLabeledSVGIcon();*/
 			}
    
 			// SVG text label in html div (cropped in webkit, maybe create a much bigger SVG inside the div, or modify clipping) 
 			if (addSVGTextLabel) {
-			
-				/*
-				labelContainerContainer
-				.filter(function(d) { return d.type === "text_label" ;})
-				.filter(function(d) { return d.position !== "centerCenter" ;})
-			    .avmLabeledSVGText();*/
 			    
 			    this
 					.selectAll(".textSVGLabelContainer")
@@ -113,19 +103,13 @@ var width = 1400,
 					.avmLabeledSVGText();
 			}
 
-			// HTML label  -> TODO only use this when label attachedBy containment (position = centerCenter)
+			// HTML label
 			if (addHTMLTextLabel) {
 				
 				this
 					.selectAll(".textHTMLLabelContainer")
 					.data(function(d) { return d.labels ; }).enter()
 					.avmLabeledHTMLText();
-					// filter .... here ...
-				
-				/*labelContainerContainer
-				.filter(function(d) { return d.type === "text_label" ;})
-				.filter(function(d) { return d.position === "centerCenter" ;})
-				.avmLabeledHTMLText();*/
 			}
 
 		  return this;
