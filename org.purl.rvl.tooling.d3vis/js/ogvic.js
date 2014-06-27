@@ -261,29 +261,9 @@ var width = 1400,
 		  return containerDiv;
 	  };
 	   
-	  /* label aligned at the connector path */
-	  d3.selection.enter.prototype.avmLabeledConnectorAligned = function() {
-		  
-		  var text =  this.append("svg:text")
-			.attr("class", "path_label");
-		  
-		  text.append("svg:textPath")
-			.attr("startOffset", "50%")
-			.attr("text-anchor", "middle")
-			.attr("xlink:href", function(d){
-			      	return "#" + createIDForLink(d);
-			  	}).style("fill", "#fff")
-			.style("font-family", "Arial")
-			.text(function (d) {
-	           		 return d.text_value;
-	        		}
-				);
-		  
-		  return text;
-	  };
 	  
-	  /* label aligned at the connector path */ // TODO merge
-	  d3.selection.enter.prototype.avmLabeledConnectorAligned2 = function() {
+	  /* label aligned at the connector path  (enter-version) */
+	  d3.selection.enter.prototype.avmLabeledConnectorAligned = function(labelText,id) {
 		  
 		  var text =  this.append("svg:text")
 			.attr("class", "path_label");
@@ -291,14 +271,10 @@ var width = 1400,
 		  text.append("svg:textPath")
 			.attr("startOffset", "50%")
 			.attr("text-anchor", "middle")
-			.attr("xlink:href",	function(d){
-			      	return "#" + createIDForLink2(d);
-			  	}).style("fill", "#fff")
-			.style("font-family", "Arial")
-			.text(function (d) {
-	           		 return d.target.connector_label;
-	        		}
-				);
+			.attr("xlink:href",	id)
+			.style("fill", "#fff")
+			.style("font-family", "Georgia")
+			.text(labelText);
 		  
 		  return text;
 	  };

@@ -37,6 +37,7 @@ var w = width - m[1] - m[3],
     
 var complexLabeling = false; // not yet fully implemented
 var simpleLabeling = true;
+var alignedConnectorLabeling = false;
     
 //force-directed-graph
 var lineWidth = 7,
@@ -323,12 +324,21 @@ function update(source) {
 		});
 		
 		
-		/* label aligned at the connector path */
-		/*var path_label = vis.append("svg:g")
-	 		.selectAll(".path_label")
-			.data(tree.links(nodes)).enter().avmLabeledConnectorAligned2();*/
-		
+		if (alignedConnectorLabeling) {
 			
+			/* label aligned at the connector path */
+			var path_label = vis.append("svg:g")
+		 		.selectAll(".path_label")
+				.data(tree.links(nodes)).enter()
+				.avmLabeledConnectorAligned(
+					function (d) {
+		          		 return d.target.connector_label;
+		    		},
+		    		function(d) {
+				      	return "#" + createIDForLink2(d);
+				  	}
+				);
+		}
 
 	}
 	

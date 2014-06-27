@@ -31,6 +31,7 @@
         var drawLinks = true; // choose whether only nodes should be drawn and layouted
         var complexLabeling = true;
         var simpleLabeling = false;
+        var alignedConnectorLabeling = false;
 
         // force-directed-graph
         var lineWidth = 7,
@@ -145,11 +146,22 @@
         	})
     		;
 			
-			/* label aligned at the connector path */
-			/*var path_label = vis.append("svg:g")
-		 		.selectAll(".path_label")
-				.data(force.links()).enter().avmLabeledConnectorAligned();*/
-					
+        	if (alignedConnectorLabeling) { 
+        	
+				/* label aligned at the connector path */
+				var path_label = vis.append("svg:g")
+			 		.selectAll(".path_label")
+					.data(force.links()).enter()
+					.avmLabeledConnectorAligned(
+						function (d) {
+			          		 return "not yet implemented";
+			    		},
+			    		function(d) {
+					      	return "#" + createIDForLink(d);
+					  	}
+					);
+        	}	
+						
 			/* alternative : simple labeling of connectors */	
         	var connectorLabelGroup = connectorGroup.append("svg:g")
 				.attr("class", function(d) { return "connectorLabelGroup" })
