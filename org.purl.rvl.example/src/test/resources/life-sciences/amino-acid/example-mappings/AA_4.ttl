@@ -65,12 +65,12 @@
 :IncreaseSizeHack3
       rvl:disabled "false"^^xsd:boolean ;
       a rvl:PropertyMapping ;
-      rvl:sourceProperty rdf:type ;
-      rvl:inheritedBy owl:allValuesFrom ;
+      rvl:subjectFilter " ?s rdfs:subClassOf amino-acid:SpecificAminoAcid . "^^rvl:sparqlSelector;
+      rvl:sourceProperty rdfs:subClassOf ;
  	  rvl:targetAttribute vg:width ;
  	  rvl:valueMapping [
         a rvl:ValueMapping ;
-        rvl:sourceValue rdfs:Resource;
+        rvl:sourceValue amino-acid:SpecificAminoAcid;
 		rvl:targetValue "50"^^xsd:float; # used like a constant here
       ]
       . 

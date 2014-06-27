@@ -209,19 +209,20 @@ function update(source) {
 			
 			// The label and a copy of the label as shadow for better readability
 			
+			/*
 			nodeEnter
 				.filter(function(d) { return d.labels != null ;})
 				.selectAll(".nodeLabelShadow")
 				.data(function(d) { return d.labels }).enter()
 				.avmLabeledCT(true) // TODO make dependent on whether d has children, e.g.: function(d) { return d.children || d._children ; } , however here we are alread in d.labels!
-				.classed("nodeLabelShadow", true);
+				.classed("nodeLabelShadow", true);*/
 				
 			nodeEnter
 				.filter(function(d) { return d.labels != null ;})
 				.selectAll(".nodeLabelText")
 				.data(function(d) { return d.labels }).enter()
 				.avmLabeledCT(true) // TODO make dependent on whether d has children, e.g.: function(d) { return d.children || d._children ; } , however here we are alread in d.labels!
-				.classed("nodeLabelText", true);
+				.classed("nodeLabelText label", true);
 
 		}
 		

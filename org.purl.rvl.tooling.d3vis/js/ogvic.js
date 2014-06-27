@@ -179,7 +179,7 @@ var width = 1400,
 			.style("width", function(d){return d.width + "px";});
 	  };
 	  
-	  /* labeling with SVG2 text (version for enter-selection-array) */
+	  /* labeling with SVG text (version for enter-selection-array) */
 	  d3.selection.enter.prototype.avmLabeledSVGText = function() {
 		  
 		var containerDiv = this
@@ -199,8 +199,8 @@ var width = 1400,
 			//.style("margin-bottom",-0.2*NODE_SIZE + "px");
 										
 			// The label and a copy of the label as shadow for better readability
-			labelContainerSVG.avmLabeledFDG2(function(d){ return d.width; }).attr("class", "nodeLabelShadow");
-			labelContainerSVG.avmLabeledFDG2(function(d){ return d.width; });
+			//labelContainerSVG.avmLabeledFDG2(function(d){ return d.width; }).attr("class", "nodeLabelShadow");
+			labelContainerSVG.avmLabeledFDG2(function(d){ return d.width; }).classed("label", true);
 		  
 		    return containerDiv;
 	  };

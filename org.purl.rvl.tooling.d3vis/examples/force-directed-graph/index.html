@@ -148,7 +148,7 @@
 			
         	if (alignedConnectorLabeling) { 
         	
-				/* label aligned at the connector path */
+				/* text label aligned at the connector path */
 				var path_label = vis.append("svg:g")
 			 		.selectAll(".path_label")
 					.data(force.links()).enter()
@@ -162,11 +162,11 @@
 					);
         	}	
 						
-			/* alternative : simple labeling of connectors */	
         	var connectorLabelGroup = connectorGroup.append("svg:g")
 				.attr("class", function(d) { return "connectorLabelGroup" })
         		.attr("class", "label");
         
+        	/* icon labeling of connectors */	
 			var connectorLabelSymbol = connectorLabelGroup
 			  .filter(function(d) { return d.labels != null ;})
  			  .selectAll(".iconLabelNew")
@@ -176,6 +176,7 @@
 			  .classed("iconLabelNew", true)
 			  ;
 			
+			/* alternative to aligned labeling : simple text labeling of connectors */	
 			var connectorLabelText = connectorLabelGroup
 			  .filter(function(d) { return d.labels != null ;})
 			  .selectAll(".textLabelNew")
@@ -185,13 +186,6 @@
 			  .text(function(d){return d.text_value_full ; })
 			  .classed("textLabelNew label", true)
 			  ;
-			
-			/*var connectorLabelText = connectorLabelGroup.append("text")
-    		.attr("class", "label")
-    	    //.attr("dx", function(d){return 100})
-    		//.attr("dy", function(d){return 100})
-    	    .text(function(d){return d.text_value ; })
-    		;*/
 				
 			// broken? shapes as paths
 			// var connectorLabelSymbol = connectorLabelGroup.avmShapedWithPath();
@@ -324,17 +318,18 @@
 	
 	        	// The label and a copy of the label as shadow for better readability
 
+	        	/*
 				nodeEnter
 				.filter(function(d) { return d.labels != null ;})
 				.selectAll(".nodeLabelShadow")
 				.data(function(d) { return d.labels }).enter()
-				.avmLabeledFDG().classed("nodeLabelShadow", true);
+				.avmLabeledFDG().classed("nodeLabelShadow", true);*/
 	        	
 				nodeEnter
 				.filter(function(d) { return d.labels != null ;})
 				.selectAll(".nodeLabelText")
 				.data(function(d) { return d.labels }).enter()
-				.avmLabeledFDG().classed("nodeLabelText", true);
+				.avmLabeledFDG().classed("nodeLabelText label", true);
 				
 			}
 	 		
