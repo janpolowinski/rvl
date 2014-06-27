@@ -80,7 +80,9 @@ body {
   font-family: Arial, sans-serif;
   font-size: 12px;
   text-anchor: middle;
-  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff; /* not yet supported in firefox it seems */
+  text-shadow: 0 1px 0 #ccc, 1px 0 0 #ccc, -1px 0 0 #ccc, 0 -1px 0 #ccc;
+  /*text-shadow: 0 1px 2px #fff, 1px 0 2px #fff, -1px 0 2px #fff, 0 -1px 2px #fff;*/
+  /*text-shadow: 0 1px 1.5px #fff, 1px 0 1.5px #fff, -1px 0 1.5px #fff, 0 -1px 1.5px #fff;*/
 }
 
 /* node labels */
