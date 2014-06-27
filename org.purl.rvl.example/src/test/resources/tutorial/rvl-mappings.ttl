@@ -28,15 +28,53 @@
       .
       
       
+:AnExampleLightnessMapping
+  a rvl:PropertyMapping ;
+  rvl:sourceProperty factbook:internetusers ;
+  rvl:targetAttribute vg:color_hsl_lightness ; 
+  rvl:valueMapping [
+    a rvl:ValueMapping ;
+	rvl:sourceValueInterval [
+		a rvl:Interval;
+    	rvl:lowerBoundIncl "0";
+    	rvl:upperBoundIncl "10000000";
+	];
+	rvl:discretize "true"^^xsd:boolean ;
+	rvl:targetValueInterval [
+    	a rvl:Interval;
+    	rvl:lowerBoundIncl "0";
+    	rvl:upperBoundIncl "100";
+    ];
+  ]
+  .  
+  
+:AnExampleSizeMapping
+  a rvl:PropertyMapping ;
+  rvl:sourceProperty factbook:internetusers ;
+  rvl:targetAttribute vg:width ; 
+  rvl:valueMapping [
+    a rvl:ValueMapping ;
+	rvl:sourceValueInterval [
+		a rvl:Interval;
+    	rvl:lowerBoundIncl "0";
+    	rvl:upperBoundIncl "10000000";
+	];
+	rvl:discretize "true"^^xsd:boolean ;
+	rvl:targetValueInterval [
+    	a rvl:Interval;
+    	rvl:lowerBoundIncl "0";
+    	rvl:upperBoundIncl "200";
+    ];
+  ]
+  . 
       
       
       
-      
-#### Standard labeling will become a default in future implementations .... ####     
-#### Until then add this to your mappings .... #####
+#### A default labeling will be done, when this is disabled. ######
+#### Activate the mapping below to configure your own labeling ####     
       
 :LabelMapping
-	  rvl:disabled "false"^^xsd:boolean ;
+	  rvl:disabled "true"^^xsd:boolean ;
       a rvl:PropertyToGraphicObjToObjRelationMapping ;
       rvl:sourceProperty rdfs:label ; ### OR SOME OTHER PROPERTY IF YOU DON'T HAVE LABELS
       rvl:targetObjToObjRelation vg:Labeling_Relation ; 

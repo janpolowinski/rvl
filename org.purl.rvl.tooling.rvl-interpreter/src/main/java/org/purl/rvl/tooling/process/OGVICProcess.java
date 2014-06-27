@@ -93,7 +93,7 @@ public class OGVICProcess {
   	
 		//LOGGER.setLevel(Level.SEVERE); 
 		//LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.SEVERE); 
-		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.FINEST);
+		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.INFO);
 
 		
 		// In order to show log entrys of the fine level, we need to create a new handler as well
@@ -291,7 +291,7 @@ public class OGVICProcess {
 		} catch (IOException e) {
 			LOGGER.warning("problem with pretty printing JSON (skipped) : " + e.getMessage());
 		}
-		LOGGER.info("JSON data is: " + NL +  json);
+		LOGGER.fine("JSON data is: " + NL +  json);
 		d3Generator.writeJSONToFile(json);
 	}
 
