@@ -159,7 +159,8 @@
 			  .filter(function(d) { return d.labels != null ;})
  			  .selectAll(".iconLabelNew")
  			  .data(function(d) { return d.labels }).enter()
-			  .avmShapedWithUseSVGPureEnter()
+			  .avmShapedWithUseSVG() // enter version of the function called here!
+	   	 	  .attr("transform", "scale(1.5)")
 			  .classed("iconLabelNew", true)
 			  ;
 			
@@ -275,7 +276,10 @@
         	/* node shape as reuse svg symbol */
 			var symbolAsShape = nodeEnter
 				.filter(function(d) { return d.shape_d3_name != null ;})
-				.avmShapedWithUseSVG();
+				.avmShapedWithUseSVG()
+				//.attr("width", "200 px").attr("height", "200 px") // does not seem to work (Firefox at least)
+		      	.attr("transform", function(d) { return "scale(" + d.width/SYMBOL_WIDTH +  ")"; })
+		      	;
 			
         	/* node shape as text */
         	var textAsShape = nodeEnter
@@ -299,7 +303,7 @@
 				.style("height", function(d) { return d.width + "px";})
 				.style("width", function(d) { return d.width + "px";}); // TODO height
 			        		 		  	
-				labelContainerContainer.avmLabeledComplexFDG();
+				labelContainerContainer.avmLabeledComplex();
 	 		}
 				
 			if (simpleLabeling) {

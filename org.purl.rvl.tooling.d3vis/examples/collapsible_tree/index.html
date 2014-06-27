@@ -179,7 +179,10 @@ function update(source) {
 
 
 		// shapes as reused svg-groups
-		var symbol = nodeEnter.avmShapedWithUseSVG();
+		var symbol = nodeEnter.avmShapedWithUseSVG()		      
+			//.attr("width", "200 px").attr("height", "200 px") // does not seem to work (Firefox at least)
+	       .attr("transform", function(d) { return "scale(" + d.width/SYMBOL_WIDTH +  ")"; });
+		
 		//var symbol = nodeEnter.avmShapedWithPath(avmDefaultSizeSymbolFunction);
 		
 		if (complexLabeling) {
@@ -196,7 +199,7 @@ function update(source) {
 				.style("height", function(d) { return d.width + "px";})
 				.style("width", function(d) { return d.width + "px";}); // TODO height
 			        		 		  	
-				labelContainerContainer.avmLabeledComplexCT();
+				labelContainerContainer.avmLabeledComplex();
 	 		}
 
 		if (simpleLabeling) {
