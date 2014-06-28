@@ -63,7 +63,7 @@
 	rvl:targetValueInterval [
     	a rvl:Interval;
     	rvl:lowerBoundIncl "0";
-    	rvl:upperBoundIncl "200";
+    	rvl:upperBoundIncl "100";
     ];
   ]
   . 

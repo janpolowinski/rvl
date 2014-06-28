@@ -260,7 +260,7 @@
 				// highlighting of identical resources (same URI)
 				allNodes.avmHighlightIdentical(d.uri);
 				
-				// extend label to full label // TODO distinguish text_value and label!!!-> move to label mouse-over?
+				// extend label to full label
 				thisNode.selectAll("text.nodeLabel").text(function(d){return d.text_value_full});			
 
 			}
@@ -297,29 +297,30 @@
  
 	 		if (complexLabeling) {
 	 
- 			 // complex labeling
-			 
-			 var labelContainerContainer = d3
-				.select("#labelContainerSpace")
-				.selectAll(".labelContainerContainer")
-				.data(graph.nodes).enter()
-				.append("div")
-				.filter(function(d) { return d.labels != null ;})
-				.attr("class","labelContainerContainer")
-				.style("height", function(d) { return d.width + "px";})
-				.style("width", function(d) { return d.width + "px";}); // TODO height
+	 			 // complex labeling
+				 
+				 var labelContainerContainer = d3
+					.select("#labelContainerSpace")
+					.selectAll(".labelContainerContainer")
+					.data(graph.nodes).enter()
+					.append("div")
+					.filter(function(d) { return d.labels != null ;})
+					.attr("class","labelContainerContainer")
+					.style("height", function(d) { return d.width + "px";})
+					.style("width", function(d) { return d.width + "px";}); // TODO height
 			        		 		  	
 				labelContainerContainer.avmLabeledComplex();
+				
+	            // show tooltip with full label (since extending labels not implemented for complex labels)
+	        	nodeEnter.avmTitled();
 	 		}
 				
-			if (simpleLabeling) {
+	 		else if (simpleLabeling) {
 			
 	        	// simple node labeling and tooltips 
 	
 	        	// The label and a copy of the label as shadow for better readability
-
-	        	/*
-				nodeEnter
+	        	/* nodeEnter
 				.filter(function(d) { return d.labels != null ;})
 				.selectAll(".nodeLabelShadow")
 				.data(function(d) { return d.labels }).enter()
@@ -332,9 +333,6 @@
 				.avmLabeledFDG().classed("nodeLabelText label", true);
 				
 			}
-	 		
-            // tooltip
-        	//nodeEnter.avmTitled();
 
         	  
         	// Use elliptical arc path segments to doubly-encode directionality.
