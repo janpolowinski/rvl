@@ -1,0 +1,57 @@
+@prefix :        			<http://purl.org/rvl/example-mapping/tutorial/> .
+@prefix dct:     			<http://purl.org/dc/terms/> .
+@prefix owl:     			<http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     			<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    			<http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     			<http://www.w3.org/2001/XMLSchema#> .
+@prefix rvl:     			<http://purl.org/rvl/> .
+@prefix vg:    				<http://purl.org/viso/graphic/> .
+@prefix bio:     			<http://purl.org/viso/addon/shapes/bio/> .
+@prefix common-shapes:    	<http://purl.org/viso/shape/commons/> .
+@prefix cito:     			<http://purl.org/spar/cito/> .
+@prefix factbook:			<http://wifo5-04.informatik.uni-mannheim.de/factbook/ns#> .
+@prefix foaf:  				<http://xmlns.com/foaf/0.1/> .
+@prefix dbpprop:  			<http://dbpedia.org/property/> .
+@prefix dbpedia-owl: 		<http://dbpedia.org/ontology/> .
+@prefix dbpedia:			<http://dbpedia.org/resource/> .
+
+:     rdf:type owl:Ontology .
+#:      owl:imports rvl: . #### uncomment this line for easier (guided) editing in editors like TopBraid
+
+
+#############################
+# place your mappings here: #
+#############################
+
+
+
+
+
+
+
+
+
+
+
+
+      
+#### A default labeling will be done, when this is disabled. ######
+#### Activate the mapping below to configure your own labeling ####     
+      
+:LabelMapping
+	  rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:sourceProperty rdfs:label ; ### OR SOME OTHER PROPERTY IF YOU DON'T HAVE LABELS
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:subMapping [
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :LabelTextIdentityMapping;
+      ].
+      
+:LabelTextIdentityMapping
+	  rvl:disabled "true"^^xsd:boolean ;
+      a rvl:IdentityMapping ;
+      rvl:sourceProperty rvl:IDandTypes ;
+      rvl:targetAttribute
+              vg:text_value . 

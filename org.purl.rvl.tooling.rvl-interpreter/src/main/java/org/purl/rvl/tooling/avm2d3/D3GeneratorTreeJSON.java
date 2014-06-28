@@ -28,7 +28,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 	
 	
 	private final static Logger LOGGER = Logger.getLogger(D3GeneratorTreeJSON.class .getName()); 
-	static final int MAX_DEPTH = 5;	
+	static final int MAX_DEPTH = 10;	
 	
 	private int currentDepth = 0;
 	

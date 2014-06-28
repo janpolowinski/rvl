@@ -1,0 +1,49 @@
+@prefix :        			<http://purl.org/rvl/example-mapping/tutorial/> .
+
+@prefix dct:     			<http://purl.org/dc/terms/> .
+@prefix owl:     			<http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     			<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    			<http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     			<http://www.w3.org/2001/XMLSchema#> .
+@prefix rvl:     			<http://purl.org/rvl/> .
+@prefix vg:    				<http://purl.org/viso/graphic/> .
+@prefix bio:     			<http://purl.org/viso/addon/shapes/bio/> .
+@prefix common-shapes:    	<http://purl.org/viso/shape/commons/> .
+@prefix cito:     			<http://purl.org/spar/cito/> .
+@prefix factbook:			<http://wifo5-04.informatik.uni-mannheim.de/factbook/ns#> .
+@prefix foaf:  				<http://xmlns.com/foaf/0.1/> .
+@prefix dbpprop:  			<http://dbpedia.org/property/> .
+@prefix dbpedia-owl: 		<http://dbpedia.org/ontology/> .
+@prefix dbpedia:			<http://dbpedia.org/resource/> .
+
+
+
+
+:     rdf:type owl:Ontology .
+#:      owl:imports rvl: . #### uncomment this line for easier (guided) editing in editors like TopBraid
+
+ 
+:SomeExampleMapping
+      rvl:disabled "false"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty dbpedia-owl:subsequentWork ;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
+      .
+
+:ExampleColorMapping
+      a rvl:PropertyMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
+ 	  rvl:sourceProperty dbpprop:doctor ;
+ 	  rvl:targetAttribute vg:color_named ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue dbpedia:Tom_Baker;
+		rvl:sourceValue dbpedia:Jon_Pertwee ;
+		#rvl:sourceValue "Jon Pertwee";
+		#rvl:sourceValue "Tom Baker"@en;
+        rvl:targetValue vg:DarkRed;
+        rvl:targetValue vg:Yellow;
+        #rvl:targetValue vg:Purple;
+        #rvl:targetValue vg:Green;
+      ]
+      . 
