@@ -17,18 +17,21 @@
 
 :America
       rdf:type :Place ;
-      :partOf :World .
+      :partOf :World , "World" .
 
 :Asia
       rdf:type :Place ;
-      :partOf :World ;
-      rdfs:label "Asia"^^xsd:string ;
-      .
+      :partOf :World , "World"^^xsd:string ;
+      rdfs:label "Asia"^^xsd:string .
 
 :Australia
       rdf:type :Place ;
-      :partOf :World ;
+      :partOf :World , "World"@en ;
       :population "100"^^xsd:int .
+      
+:Europe
+      rdf:type :Place ;
+      :partOf :World , "World"@en-us .
 
 :Author
       rdf:type owl:Class ;
@@ -70,9 +73,6 @@
       rdf:type :Place ;
       :partOf :Germany .
 
-:Europe
-      rdf:type :Place ;
-      :partOf :World .
 
 :Fiction
       rdf:type :Field ;
@@ -105,7 +105,7 @@
 
 :John
       rdf:type :Author ;
-      rdfs:label "John"^^xsd:string ;
+      rdfs:label "John" ;
       :workingField :Sci-Fi .
 
 :Lina
