@@ -25,7 +25,7 @@ ex:Document_B cito:critiques ex:Document_E.
 
 ex:Document_D cito:critiques ex:Document_E.
 
-ex:Document_D cito:critiques ex:Document_B.
+ex:Document_D cito:critiques ex:Document_E.
 
 #ex:Document_D cito:critiques ex:Document_A. # this causes the treeification algo to break ... TODO
 

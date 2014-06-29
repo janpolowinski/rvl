@@ -4,17 +4,17 @@ PREFIX dbpprop:  <http://dbpedia.org/property/>
 PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
 
 CONSTRUCT { 
-?serie dbpprop:serialName ?titel .
-?serie dbpedia-owl:publicationDate ?date . 
-?serie dbpedia-owl:subsequentWork ?nextSerial . 
-?serie dbpprop:doctor ?doctor . 
-?serie dbpprop:year ?year .
+   ?episode dbpprop:serialName ?title .
+   ?episode dbpedia-owl:publicationDate ?date . 
+   ?episode dbpedia-owl:subsequentWork ?next . 
+   ?episode dbpprop:doctor ?doctor . 
+   ?episode dbpprop:year ?year .
 }
 WHERE {
-   ?serie dbpprop:serialName ?titel .
-   ?serie dbpedia-owl:publicationDate ?date .
-   FILTER ( ?date < "1982-01-01"^^xsd:date && ?date > "1971-01-01"^^xsd:date)
-   ?serie dbpedia-owl:subsequentWork ?nextSerial .
-   OPTIONAL {?serie dbpprop:doctor ?doctor . } 
-   OPTIONAL {?serie dbpprop:year ?year . }
-} ORDER by ?year LIMIT 200
+   ?episode dbpprop:serialName ?title .
+   OPTIONAL {?episode dbpedia-owl:publicationDate ?date . }
+   FILTER ( ?date < "1976-01-01"^^xsd:date && ?date > "1970-01-01"^^xsd:date)
+   OPTIONAL {?episode dbpedia-owl:subsequentWork ?next . }
+   OPTIONAL {?episode dbpprop:doctor ?doctor . } 
+   OPTIONAL {?episode dbpprop:year ?year . }
+} ORDER by ?year LIMIT 500
