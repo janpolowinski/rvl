@@ -731,7 +731,7 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 					Node sv = svIt.next();
 					Node tv = tvIt.next();
 					
-					cvms.add(new CalculatedValueMapping(sv.asURI(), tv.asURI()));
+					cvms.add(new CalculatedValueMapping(sv, tv));
 				}
 
 			} else { // numberOfSv > numberOfTv
