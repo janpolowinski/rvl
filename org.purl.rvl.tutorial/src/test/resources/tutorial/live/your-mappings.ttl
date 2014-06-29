@@ -24,6 +24,13 @@
 #############################
 
 
+     
+
+:Cites2Linking
+    a rvl:PropertyMapping ;
+    rvl:sourceProperty cito:cites ;
+    rvl:targetObjToObjRelation vg:Linking_Directed_Relation ;
+    .
 
 
 
