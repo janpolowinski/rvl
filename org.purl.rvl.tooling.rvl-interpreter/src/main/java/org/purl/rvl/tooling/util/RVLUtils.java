@@ -85,7 +85,7 @@ public class RVLUtils {
 			Map<Node, Node> explicitlyMappedValues, Property property) {
 		
 		// storing new implicitly mapped values
-		Map<Node, Node> implicitlyMappedValues = new HashMap<Node, Node>();
+		Map<Resource, Node> implicitlyMappedValues = new HashMap<Resource, Node>();
 		
 		// iterate explicitly mapped values and add them 
 		// to the implicit ones using the same target value
@@ -93,16 +93,22 @@ public class RVLUtils {
 		
 		for (Entry<Node, Node> mappedValuePair : explicitlyMappedPair) {
 			
-			// TODO use getDirectlyRelatedResources  
-			// to avoid assigning a more general value after a specific values has already be assigned
-			// this needs recursion when only directly related resources are returned
-			Set<Resource> directSubValues = DataQuery.getRelatedResources(modelOrModelSet, mappedValuePair.getKey().asResource(), property);
-			//Set<Resource> directSubValues = DataQuery.getDirectlyRelatedResources(modelOrModelSet, mappedValuePair.getKey().asResource(), property);
+			try {
 			
-			for (Node directSubValue : directSubValues) {
+				// TODO use getDirectlyRelatedResources  
+				// to avoid assigning a more general value after a specific values has already be assigned
+				// this needs recursion when only directly related resources are returned
+				Set<Resource> directSubValues = DataQuery.getRelatedResources(modelOrModelSet, mappedValuePair.getKey().asResource(), property);
+				//Set<Resource> directSubValues = DataQuery.getDirectlyRelatedResources(modelOrModelSet, mappedValuePair.getKey().asResource(), property);
 				
-				implicitlyMappedValues.put(directSubValue, mappedValuePair.getValue());
+				for (Resource directSubValue : directSubValues) {
+					
+					implicitlyMappedValues.put(directSubValue, mappedValuePair.getValue());
+					
+				}
 				
+			} catch (ClassCastException e ) {
+				// not all key are resources, there may also be literals
 			}
 			
 		}
