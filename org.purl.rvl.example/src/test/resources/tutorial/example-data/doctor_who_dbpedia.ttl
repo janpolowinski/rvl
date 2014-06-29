@@ -10,15 +10,14 @@ dbpedia:Day_of_the_Daleks	dbpedia-owl:publicationDate	"1972-01-21+02:00"^^xsd:da
 	dbpedia-owl:subsequentWork	dbpedia:The_Curse_of_Peladon ;
 	dbpprop:doctor	"Jon Pertwee"@en ;
 	dbpprop:serialName	"Day of the Daleks"@en .
+dbpedia:Doctor_Who_and_the_Silurians	dbpedia-owl:publicationDate	"1970-03-13+02:00"^^xsd:date ;
+	dbpedia-owl:subsequentWork	dbpedia:The_Ambassadors_of_Death ;
+	dbpprop:doctor	"Jon Pertwee"@en ;
+	dbpprop:serialName	"Doctor Who and the Silurians"@en .
 dbpedia:Image_of_the_Fendahl	dbpedia-owl:publicationDate	"1977-11-18+02:00"^^xsd:date ;
 	dbpedia-owl:subsequentWork	dbpedia:The_Sun_Makers ;
 	dbpprop:doctor	"Tom Baker"@en ;
 	dbpprop:serialName	"Image of the Fendahl"@en .
-dbpedia:Logopolis	dbpedia-owl:publicationDate	"1981-03-20+02:00"^^xsd:date ;
-	dbpedia-owl:subsequentWork	<http://dbpedia.org/resource/Castrovalva_(Doctor_Who)> ;
-	dbpprop:doctor	dbpedia:Tom_Baker ,
-		"*Peter Davison"@en ;
-	dbpprop:serialName	"Logopolis"@en .
 dbpedia:Pyramids_of_Mars	dbpedia-owl:publicationDate	"1975-11-14+02:00"^^xsd:date ;
 	dbpedia-owl:subsequentWork	dbpedia:The_Android_Invasion ;
 	dbpprop:doctor	"Tom Baker"@en ;
@@ -27,10 +26,6 @@ dbpedia:Revenge_of_the_Cybermen	dbpedia-owl:publicationDate	"1975-05-09+02:00"^^
 	dbpedia-owl:subsequentWork	dbpedia:Terror_of_the_Zygons ;
 	dbpprop:doctor	"Tom Baker"@en ;
 	dbpprop:serialName	"Revenge of the Cybermen"@en .
-dbpedia:State_of_Decay	dbpedia-owl:publicationDate	"1980-12-12+02:00"^^xsd:date ;
-	dbpedia-owl:subsequentWork	<http://dbpedia.org/resource/Warriors\u0027_Gate> ;
-	dbpprop:doctor	"Tom Baker"@en ;
-	dbpprop:serialName	"State of Decay"@en .
 dbpedia:The_Armageddon_Factor	dbpedia-owl:publicationDate	"1979-02-23+02:00"^^xsd:date ;
 	dbpedia-owl:subsequentWork	dbpedia:Destiny_of_the_Daleks ;
 	dbpprop:doctor	"Tom Baker"@en ;
@@ -65,14 +60,6 @@ dbpedia:The_Sun_Makers	dbpedia-owl:publicationDate	"1977-12-16+02:00"^^xsd:date 
 	dbpprop:doctor	"*William Hartnell \n*Patrick Troughton"@en ,
 		dbpedia:Jon_Pertwee ;
 	dbpprop:serialName	"The Three Doctors"@en .
-<http://dbpedia.org/resource/Warriors\u0027_Gate>	dbpedia-owl:publicationDate	"1981-01-23+02:00"^^xsd:date ;
-	dbpedia-owl:subsequentWork	dbpedia:The_Keeper_of_Traken ;
-	dbpprop:doctor	"Tom Baker"@en ;
-	dbpprop:serialName	"Warriors' Gate"@en .
-<http://dbpedia.org/resource/Full_Circle_(Doctor_Who)>	dbpedia-owl:publicationDate	"1980-11-14+02:00"^^xsd:date ;
-	dbpedia-owl:subsequentWork	dbpedia:State_of_Decay ;
-	dbpprop:doctor	"Tom Baker"@en ;
-	dbpprop:serialName	"Full Circle"@en .
 dbpedia:Horror_of_Fang_Rock	dbpedia-owl:publicationDate	"1977-09-23+02:00"^^xsd:date ;
 	dbpedia-owl:subsequentWork	<http://dbpedia.org/resource/The_Invisible_Enemy_(Doctor_Who)> ;
 	dbpprop:doctor	"Tom Baker"@en ;
@@ -101,10 +88,22 @@ dbpedia:The_Masque_of_Mandragora	dbpedia-owl:publicationDate	"1976-09-24+02:00"^
 	dbpedia-owl:subsequentWork	dbpedia:The_Hand_of_Fear ;
 	dbpprop:doctor	"Tom Baker"@en ;
 	dbpprop:serialName	"The Masque of Mandragora"@en .
+<http://dbpedia.org/resource/Inferno_(Doctor_Who)>	dbpedia-owl:publicationDate	"1970-06-19+02:00"^^xsd:date ;
+	dbpedia-owl:subsequentWork	dbpedia:Terror_of_the_Autons ;
+	dbpprop:doctor	"Jon Pertwee"@en ;
+	dbpprop:serialName	"Inferno"@en .
 dbpedia:Invasion_of_the_Dinosaurs	dbpedia-owl:publicationDate	"1974-02-15+02:00"^^xsd:date ;
 	dbpedia-owl:subsequentWork	dbpedia:Death_to_the_Daleks ;
 	dbpprop:doctor	"Jon Pertwee"@en ;
 	dbpprop:serialName	"Invasion of the Dinosaurs"@en .
+dbpedia:Spearhead_from_Space	dbpedia-owl:publicationDate	"1970-01-23+02:00"^^xsd:date ;
+	dbpedia-owl:subsequentWork	dbpedia:Doctor_Who_and_the_Silurians ;
+	dbpprop:doctor	"Jon Pertwee"@en ;
+	dbpprop:serialName	"Spearhead from Space"@en .
+@prefix ns4:	<http://dbpedia.org/resource/Exploration_Earth:> .
+ns4:_The_Time_Machine	dbpedia-owl:publicationDate	"1976-10-03+02:00"^^xsd:date ;
+	dbpprop:doctor	"Tom Baker"@en ;
+	dbpprop:serialName	"Exploration Earth: The Time Machine"@en .
 dbpedia:Destiny_of_the_Daleks	dbpedia-owl:publicationDate	"1979-09-21+02:00"^^xsd:date ;
 	dbpedia-owl:subsequentWork	dbpedia:City_of_Death ;
 	dbpprop:doctor	"Tom Baker"@en ;
@@ -118,10 +117,6 @@ dbpedia:Planet_of_the_Spiders	dbpedia-owl:publicationDate	"1974-06-07+02:00"^^xs
 	dbpprop:doctor	"Jon Pertwee"@en ,
 		"*Tom Baker"@en ;
 	dbpprop:serialName	"Planet of the Spiders"@en .
-dbpedia:The_Keeper_of_Traken	dbpedia-owl:publicationDate	"1981-02-20+02:00"^^xsd:date ;
-	dbpedia-owl:subsequentWork	dbpedia:Logopolis ;
-	dbpprop:doctor	"Tom Baker"@en ;
-	dbpprop:serialName	"The Keeper of Traken"@en .
 dbpedia:The_Stones_of_Blood	dbpedia-owl:publicationDate	"1978-11-17+02:00"^^xsd:date ;
 	dbpedia-owl:subsequentWork	dbpedia:The_Androids_of_Tara ;
 	dbpprop:doctor	"Tom Baker"@en ;
@@ -179,10 +174,6 @@ dbpedia:The_Time_Warrior	dbpedia-owl:publicationDate	"1974-01-04+02:00"^^xsd:dat
 	dbpedia-owl:subsequentWork	dbpedia:Invasion_of_the_Dinosaurs ;
 	dbpprop:doctor	"Jon Pertwee"@en ;
 	dbpprop:serialName	"The Time Warrior"@en .
-dbpedia:Meglos	dbpedia-owl:publicationDate	"1980-10-17+02:00"^^xsd:date ;
-	dbpedia-owl:subsequentWork	<http://dbpedia.org/resource/Full_Circle_(Doctor_Who)> ;
-	dbpprop:doctor	"Tom Baker"@en ;
-	dbpprop:serialName	"Meglos"@en .
 dbpedia:Nightmare_of_Eden	dbpedia-owl:publicationDate	"1979-12-14+02:00"^^xsd:date ;
 	dbpedia-owl:subsequentWork	dbpedia:The_Horns_of_Nimon ;
 	dbpprop:doctor	"Tom Baker"@en ;
@@ -191,6 +182,10 @@ dbpedia:Planet_of_Evil	dbpedia-owl:publicationDate	"1975-10-17+02:00"^^xsd:date 
 	dbpedia-owl:subsequentWork	dbpedia:Pyramids_of_Mars ;
 	dbpprop:doctor	"Tom Baker"@en ;
 	dbpprop:serialName	"Planet of Evil"@en .
+dbpedia:The_Ambassadors_of_Death	dbpedia-owl:publicationDate	"1970-05-01+02:00"^^xsd:date ;
+	dbpedia-owl:subsequentWork	<http://dbpedia.org/resource/Inferno_(Doctor_Who)> ;
+	dbpprop:doctor	"Jon Pertwee"@en ;
+	dbpprop:serialName	"The Ambassadors of Death"@en .
 dbpedia:The_Android_Invasion	dbpedia-owl:publicationDate	"1975-12-12+02:00"^^xsd:date ;
 	dbpedia-owl:subsequentWork	dbpedia:The_Brain_of_Morbius ;
 	dbpprop:doctor	"Tom Baker"@en ;
@@ -208,10 +203,6 @@ dbpedia:The_Horns_of_Nimon	dbpedia-owl:publicationDate	"1979-12-21+02:00"^^xsd:d
 		dbpedia:The_Leisure_Hive ;
 	dbpprop:doctor	"Tom Baker"@en ;
 	dbpprop:serialName	"The Horns of Nimon"@en .
-dbpedia:The_Leisure_Hive	dbpedia-owl:publicationDate	"1980-09-19+02:00"^^xsd:date ;
-	dbpedia-owl:subsequentWork	dbpedia:Meglos ;
-	dbpprop:doctor	"Tom Baker"@en ;
-	dbpprop:serialName	"The Leisure Hive"@en .
 dbpedia:The_Power_of_Kroll	dbpedia-owl:publicationDate	"1979-01-12+02:00"^^xsd:date ,
 		"1978-12-22+02:00"^^xsd:date ;
 	dbpedia-owl:subsequentWork	dbpedia:The_Armageddon_Factor ;
@@ -225,10 +216,6 @@ dbpedia:Planet_of_the_Daleks	dbpedia-owl:publicationDate	"1973-05-11+02:00"^^xsd
 	dbpedia-owl:subsequentWork	dbpedia:The_Green_Death ;
 	dbpprop:doctor	"Jon Pertwee"@en ;
 	dbpprop:serialName	"Planet of the Daleks"@en .
-dbpedia:Shada	dbpedia-owl:publicationDate	"1980-02-22+02:00"^^xsd:date ;
-	dbpedia-owl:subsequentWork	dbpedia:The_Leisure_Hive ;
-	dbpprop:doctor	"Tom Baker"@en ;
-	dbpprop:serialName	"Shada"@en .
 dbpedia:The_Mutants	dbpedia-owl:publicationDate	"1972-05-12+02:00"^^xsd:date ;
 	dbpedia-owl:subsequentWork	dbpedia:The_Time_Monster ;
 	dbpprop:doctor	"Jon Pertwee"@en ;
