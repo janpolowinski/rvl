@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.Statement;
@@ -35,6 +34,8 @@ import org.purl.rvl.tooling.util.RVLUtils;
  * 
  */
 public class ValueMappingX extends Valuemapping implements MappingIF {
+	
+	private PropertyMappingX currentParenPropertyMapping;
 
 	/**
 	 * 
@@ -75,14 +76,6 @@ public class ValueMappingX extends Valuemapping implements MappingIF {
 	public static final int SOM_NOMINAL = 1;
 	public static final int SOM_ORDINAL = 2;
 	public static final int SOM_QUANTITATIVE = 3;
-	
-	// TODO: reuse these properties!!
-	final Property HAS_NOMINAL_VALUE = new Property(model, new URIImpl(
-			"http://purl.org/viso/data/has_nominal_value"), false);
-	final Property HAS_ORDINAL_VALUE = new Property(model, new URIImpl(
-			"http://purl.org/viso/data/has_ordinal_value"), false);
-	final Property HAS_QUANTITATIVE_VALUE = new Property(model, new URIImpl(
-			"http://purl.org/viso/data/has_quantitative_value"), false);
 
 	private int addressedSourceValueSituation = NOT_CALCULATED;
 	private int addressedTargetValueSituation = NOT_CALCULATED;
@@ -143,27 +136,14 @@ public class ValueMappingX extends Valuemapping implements MappingIF {
 	 * 
 	 * @return the scale of measurement ID as integer
 	 */
-	private int getExplicitScaleOfMeasurementOfTargetGR() {
+	private int getExplicitScaleOfMeasurementOfTargetGR(Property targetGraphicRelation) {
 		
 		// is there a global SoM setting for the source property?
 		// such as: ex:size rdfs:subPropertyOf viso-data:has_quantitative_value
-		Property targetGraphicRelation;
 		
-		try {
-			
-			targetGraphicRelation = ((org.purl.rvl.java.rvl.PropertyMappingX)getPropertyMapping().castTo(org.purl.rvl.java.rvl.PropertyMappingX.class)).getTargetGraphicRelation();
-			
-			return getExplicitlyStatedScaleOfMeasurement(targetGraphicRelation);
-		
-		} catch (InsufficientMappingSpecificationException e) {
-			// TODO Auto-generated catch block
-			LOGGER.warning(e.getMessage() + " --> Could not determine scale of measurement for target graphic relation.");
-		}
+		return ValueMappingUtils.getExplicitlyStatedScaleOfMeasurement(targetGraphicRelation);
 
 		// TODO: Add other ways of calculating SoM.
-
-		return SOM_UNKNOWN;
-
 	}
 
 	/**
@@ -173,50 +153,17 @@ public class ValueMappingX extends Valuemapping implements MappingIF {
 	 * 
 	 * @return the scale of measurement ID as integer
 	 */
-	private int getExplicitScaleOfMeasurementOfSourceProperty() {
+	private int getExplicitScaleOfMeasurementOfSourceProperty(Property sp) {
 		
 		// is there a global SoM setting for the source property?
 		// such as: ex:size rdfs:subPropertyOf viso-data:hasQuantitativeSoM
-		Property sp;
 		
-		try {
-			
-			sp = ((org.purl.rvl.java.rvl.PropertyMappingX)getPropertyMapping().castTo(org.purl.rvl.java.rvl.PropertyMappingX.class)).getSourceProperty();
-			
-			return getExplicitlyStatedScaleOfMeasurement(sp);
-		
-		} catch (InsufficientMappingSpecificationException e) {
-			// TODO Auto-generated catch block
-			LOGGER.warning(e.getMessage() + " --> Could not determine scale of measurement.");
-		}
+		return ValueMappingUtils.getExplicitlyStatedScaleOfMeasurement(sp);
 
 		// TODO: Add other ways of calculating SoM.
-
-		return SOM_UNKNOWN;
-
 	}
 
-	/**
-	 * Get the Scale of Measurement which is (eventually) stated explicitly for the property
-	 * @param property
-	 * @return
-	 */
-	private int getExplicitlyStatedScaleOfMeasurement(Property property) {
-		
-		ClosableIterator<Property> subPropIt = property.getAllSubPropertyOf();
 
-		while (subPropIt.hasNext()) {
-			Property spSubProp = (Property) subPropIt.next();
-			if (spSubProp.equals(HAS_NOMINAL_VALUE))
-				return SOM_NOMINAL;
-			else if (spSubProp.equals(HAS_ORDINAL_VALUE))
-				return SOM_ORDINAL;
-			else if (spSubProp.equals(HAS_QUANTITATIVE_VALUE))
-				return SOM_QUANTITATIVE;
-		}
-		
-		return SOM_UNKNOWN;
-	}
 
 	private List<Node> getSourceValues() {
 		return this.getAllSourcevalue_asNode_().asList();
@@ -336,8 +283,9 @@ private List<Node> calculateOrderedSetFromRange() {
 
 /**
  * @return the addressedSourceValueSituation
+ * @throws InsufficientMappingSpecificationException 
  */
-public int getAddressedSourceValueSituation() {
+public int getAddressedSourceValueSituation() throws InsufficientMappingSpecificationException {
 	
 	if (this.addressedSourceValueSituation == NOT_CALCULATED) {
 		addressedSourceValueSituation = determineAdressedSourceValues();
@@ -411,8 +359,9 @@ public void setTargetValuesContinuousInterval(IntervalX targetValuesContinuousIn
 
 /**
  * @return the addressedTargetValueSituation
+ * @throws InsufficientMappingSpecificationException 
  */
-public int getAddressedTargetValueSituation() {
+public int getAddressedTargetValueSituation() throws InsufficientMappingSpecificationException {
 	if (this.addressedTargetValueSituation == NOT_CALCULATED) {
 		addressedTargetValueSituation = determineAdressedTargetValues();
 	}
@@ -422,10 +371,11 @@ public int getAddressedTargetValueSituation() {
 /**
  * determines the target values to be used in in this value mapping (as a
  * basis for calculating the VM)
+ * @throws InsufficientMappingSpecificationException 
  */
-private int determineAdressedTargetValues() {
+private int determineAdressedTargetValues() throws InsufficientMappingSpecificationException {
 	
-	LOGGER.info("Determining Target Value (Situation) for " + this.getPropertyMapping().toStringSummary());
+	LOGGER.finer("Determining addressed target value situation");
 
 	int addressedValueSituation = ValueMappingX.UNKNOWN;
 
@@ -490,7 +440,7 @@ private int determineAdressedTargetValues() {
 				
 				if (this.hasTargetvalueinterval()) {
 					
-					if (getExplicitScaleOfMeasurementOfTargetGR() == SOM_ORDINAL) {
+					if (getExplicitScaleOfMeasurementOfTargetGR(currentParenPropertyMapping.getTargetGraphicRelation()) == SOM_ORDINAL) {
 						
 						addressedValueSituation = ValueMappingX.ORDERED_SET;
 						
@@ -514,9 +464,9 @@ private int determineAdressedTargetValues() {
 	return addressedValueSituation;
 }
 
-private int determineAdressedSourceValues() {
+private int determineAdressedSourceValues() throws InsufficientMappingSpecificationException {
 	
-	LOGGER.info("Determining Source Value (Situation) for " + this.getPropertyMapping().toStringSummary());
+	LOGGER.finer("Determining addressed source value situation");
 
 	int addressedValueSituation = ValueMappingX.UNKNOWN;
 
@@ -566,7 +516,7 @@ private int determineAdressedSourceValues() {
 			
 			if (this.hasSourcefilter()) {
 				
-				getExplicitScaleOfMeasurementOfSourceProperty();
+				getExplicitScaleOfMeasurementOfSourceProperty(currentParenPropertyMapping.getSourceProperty());
 				
 				// TODO handle filters
 				
@@ -589,7 +539,7 @@ private int determineAdressedSourceValues() {
 					
 					if (this.hasSourceinterval()) {
 						
-						if (getExplicitScaleOfMeasurementOfSourceProperty() == SOM_ORDINAL) {
+						if (getExplicitScaleOfMeasurementOfSourceProperty(currentParenPropertyMapping.getSourceProperty()) == SOM_ORDINAL) {
 							
 							addressedValueSituation = ValueMappingX.ORDERED_SET;
 							
@@ -619,8 +569,9 @@ private int determineAdressedSourceValues() {
  * values. Currently triggers determining the source and target value situation.
  * 
  * @return
+ * @throws InsufficientMappingSpecificationException 
  */
-public Boolean isManualValueMapping() {
+public Boolean isManualValueMapping() throws InsufficientMappingSpecificationException {
 	
 	if (addressedSourceValueSituation == NOT_CALCULATED || addressedTargetValueSituation == NOT_CALCULATED) {
 		determineAdressedSourceValues();
@@ -635,7 +586,7 @@ public Boolean isManualValueMapping() {
 }
 
 
-public int calculateMappingSituation(){
+private int calculateMappingSituation() throws InsufficientMappingSpecificationException{
 	
 	int svSituation = determineAdressedSourceValues();
 	int tvSituation = determineAdressedTargetValues();
@@ -674,8 +625,9 @@ public int calculateMappingSituation(){
  * @param affectedStatements - the set of statements that the property mapping currently affects 
  * 
  * @return
+ * @throws InsufficientMappingSpecificationException 
  */
-private Set<CalculatedValueMapping> calculateValueMappings(Set<Statement> affectedStatements) {
+private Set<CalculatedValueMapping> calculateValueMappings(Set<Statement> affectedStatements) throws InsufficientMappingSpecificationException {
 	
 	this.affectedStatements = affectedStatements;
 
@@ -1140,7 +1092,7 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 
 }
 
-public Collection<CalculatedValueMapping> getCalculatedValueMappings(Set<Statement> affectedStatements) {
+public Collection<CalculatedValueMapping> getCalculatedValueMappings(Set<Statement> affectedStatements) throws InsufficientMappingSpecificationException {
 	
 	if (null == cvms) {
 		cvms = calculateValueMappings(affectedStatements);
@@ -1180,7 +1132,7 @@ public boolean hasDiscreteStepCount() {
 }
 
 /**
- * @return the addressedTargetValueSituation
+ * @return the number of discrete steps (for discretization)
  */
 public int getDiscreteStepCount() {
 	
@@ -1191,23 +1143,16 @@ public int getDiscreteStepCount() {
 	}
 }
 
-private PropertyMappingX getPropertyMapping() {
-	Resource res = this.getAllValuemapping_Inverse().next();
-	return new PropertyMappingX(model, res, false);
-}
-
 public String toStringDetailed() {
 	
 	String s = "";
 	
-	// s += getCalculatedValueMappings() + NL;
-	
-	//s += "        used in PM: "
-	//		+ getPropertyMapping().getAllLabel_as().firstValue() + NL;
+	try {
+		
 	s += "        SoM of SP: "
-			+ ValueMappingUtils.getSomName(getExplicitScaleOfMeasurementOfSourceProperty()) + NL;
+			+ ValueMappingUtils.getSomName(getExplicitScaleOfMeasurementOfSourceProperty(currentParenPropertyMapping.getSourceProperty())) + NL;
 	s += "        SoM of TV: "
-			+ ValueMappingUtils.getSomName(getExplicitScaleOfMeasurementOfTargetGR()) + NL;
+			+ ValueMappingUtils.getSomName(getExplicitScaleOfMeasurementOfTargetGR(currentParenPropertyMapping.getTargetGraphicRelation())) + NL;
 	s += "        addressed SV situation: "
 			+ ValueMappingUtils.getNameForValueSituation(getAddressedSourceValueSituation())
 			+ " (" + ValueMappingUtils.printAddressedSourceValues(LOGGER, this) + ")" 
@@ -1219,16 +1164,15 @@ public String toStringDetailed() {
 	s += "        mappings case: "
 			+ ValueMappingUtils.getMappingCaseName(calculateMappingSituation()) 
 			+ NL;
-	try {
+	
 		s += "        calculated value mappings: "
 				+ calculateValueMappingsForCase(calculateMappingSituation()) 
 				+ NL;
 	} catch (UnexpressiveMappingSpecificationException e) {
-		s += "        " + e.getMessage() ;
+		s+= "(Unexpressive mapping)" + NL;
+	} catch (InsufficientMappingSpecificationException e) {
+		s+= "(Insufficiently specified mapping)" + NL;
 	}
-	
-	
-	
 	
 	return s + NL;
 }
