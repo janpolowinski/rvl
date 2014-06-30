@@ -27,6 +27,7 @@ import org.purl.rvl.exception.UnexpressiveMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.Interval;
 import org.purl.rvl.java.gen.rvl.Valuemapping;
 import org.purl.rvl.java.rvl.mapping.CalculatedValueMapping;
+import org.purl.rvl.java.rvl.mapping.ValueMappingUtils;
 import org.purl.rvl.tooling.util.RVLUtils;
 
 /**
@@ -45,35 +46,35 @@ public class ValueMappingX extends Valuemapping implements MappingIF {
 	private final static Logger LOGGER = Logger.getLogger(ValueMappingX.class.getName()); 
 
 	
-	static final int NOT_CALCULATED = -1;
-	static final int UNKNOWN = 0;
+	public static final int NOT_CALCULATED = -1;
+	public static final int UNKNOWN = 0;
 	
 	// ADDRESSED SOURCE AND TARGET VALUES
-	static final int CONTINUOUS_RANGE = 1;
-	static final int ORDERED_SET = 2;
-	static final int UNORDERED_SET = 3;
-	static final int SINGLE_VALUE = 4;
+	public static final int CONTINUOUS_RANGE = 1;
+	public static final int ORDERED_SET = 2;
+	public static final int UNORDERED_SET = 3;
+	public static final int SINGLE_VALUE = 4;
 	
 	// MAPPING SITUATIONS FROM MATRIX
-	static final int CC = 1;
-	static final int CC_D = 2;
-	static final int CO = 3;
-	static final int CU = 4;
-	static final int OC = 5;
-	static final int OO = 6;
-	static final int OU = 7;
-	static final int UC = 8;
-	static final int UO = 9;
-	static final int UU = 10;
-	static final int SS = 11;
+	public static final int CC = 1;
+	public static final int CC_D = 2;
+	public static final int CO = 3;
+	public static final int CU = 4;
+	public static final int OC = 5;
+	public static final int OO = 6;
+	public static final int OU = 7;
+	public static final int UC = 8;
+	public static final int UO = 9;
+	public static final int UU = 10;
+	public static final int SS = 11;
 
 	
 	
 	// SCALE OF MEASUREMENT
-	static final int SOM_UNKNOWN = 0;
-	static final int SOM_NOMINAL = 1;
-	static final int SOM_ORDINAL = 2;
-	static final int SOM_QUANTITATIVE = 3;
+	public static final int SOM_UNKNOWN = 0;
+	public static final int SOM_NOMINAL = 1;
+	public static final int SOM_ORDINAL = 2;
+	public static final int SOM_QUANTITATIVE = 3;
 	
 	// TODO: reuse these properties!!
 	final Property HAS_NOMINAL_VALUE = new Property(model, new URIImpl(
@@ -342,6 +343,70 @@ public int getAddressedSourceValueSituation() {
 		addressedSourceValueSituation = determineAdressedSourceValues();
 	}
 	return addressedSourceValueSituation;
+}
+
+public Node getSourceValuesSingleValue() {
+	return sourceValuesSingleValue;
+}
+
+public void setSourceValuesSingleValue(Node sourceValuesSingleValue) {
+	this.sourceValuesSingleValue = sourceValuesSingleValue;
+}
+
+public Set<Node> getSourceValuesUnorderedSet() {
+	return sourceValuesUnorderedSet;
+}
+
+public void setSourceValuesUnorderedSet(Set<Node> sourceValuesUnorderedSet) {
+	this.sourceValuesUnorderedSet = sourceValuesUnorderedSet;
+}
+
+public List<Node> getSourceValuesOrderedSet() {
+	return sourceValuesOrderedSet;
+}
+
+public void setSourceValuesOrderedSet(List<Node> sourceValuesOrderedSet) {
+	this.sourceValuesOrderedSet = sourceValuesOrderedSet;
+}
+
+public IntervalX getSourceValuesContinuousInterval() {
+	return sourceValuesContinuousInterval;
+}
+
+public void setSourceValuesContinuousInterval(IntervalX sourceValuesContinuousInterval) {
+	this.sourceValuesContinuousInterval = sourceValuesContinuousInterval;
+}
+
+public Node getTargetValuesSingleValue() {
+	return targetValuesSingleValue;
+}
+
+public void setTargetValuesSingleValue(Node targetValuesSingleValue) {
+	this.targetValuesSingleValue = targetValuesSingleValue;
+}
+
+public Set<Node> getTargetValuesUnorderedSet() {
+	return targetValuesUnorderedSet;
+}
+
+public void setTargetValuesUnorderedSet(Set<Node> targetValuesUnorderedSet) {
+	this.targetValuesUnorderedSet = targetValuesUnorderedSet;
+}
+
+public List<Node> getTargetValuesList() {
+	return targetValuesList;
+}
+
+public void setTargetValuesList(List<Node> targetValuesList) {
+	this.targetValuesList = targetValuesList;
+}
+
+public IntervalX getTargetValuesContinuousInterval() {
+	return targetValuesContinuousInterval;
+}
+
+public void setTargetValuesContinuousInterval(IntervalX targetValuesContinuousInterval) {
+	this.targetValuesContinuousInterval = targetValuesContinuousInterval;
 }
 
 /**
@@ -642,7 +707,7 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 
 	cvms = new HashSet<CalculatedValueMapping>();
 	
-	LOGGER.info("Calculating value mappings for mapping case " + getMappingCaseName(caseID));
+	LOGGER.info("Calculating value mappings for mapping case " + ValueMappingUtils.getMappingCaseName(caseID));
 	
 	if (UNKNOWN == caseID) {
 		
@@ -1140,19 +1205,19 @@ public String toStringDetailed() {
 	//s += "        used in PM: "
 	//		+ getPropertyMapping().getAllLabel_as().firstValue() + NL;
 	s += "        SoM of SP: "
-			+ getSomName(getExplicitScaleOfMeasurementOfSourceProperty()) + NL;
+			+ ValueMappingUtils.getSomName(getExplicitScaleOfMeasurementOfSourceProperty()) + NL;
 	s += "        SoM of TV: "
-			+ getSomName(getExplicitScaleOfMeasurementOfTargetGR()) + NL;
+			+ ValueMappingUtils.getSomName(getExplicitScaleOfMeasurementOfTargetGR()) + NL;
 	s += "        addressed SV situation: "
-			+ getNameForValueSituation(getAddressedSourceValueSituation())
-			+ " (" + printAddressedSourceValues(getAddressedSourceValueSituation()) + ")" 
+			+ ValueMappingUtils.getNameForValueSituation(getAddressedSourceValueSituation())
+			+ " (" + ValueMappingUtils.printAddressedSourceValues(LOGGER, this) + ")" 
 			+ NL;
 	s += "        addressed TV situation: "
-			+ getNameForValueSituation(getAddressedTargetValueSituation())
-			+ " (" + printAddressedTargetValues(getAddressedTargetValueSituation()) + ")" 
+			+ ValueMappingUtils.getNameForValueSituation(getAddressedTargetValueSituation())
+			+ " (" + ValueMappingUtils.printAddressedTargetValues(LOGGER, this) + ")" 
 			+ NL;
 	s += "        mappings case: "
-			+ getMappingCaseName(calculateMappingSituation()) 
+			+ ValueMappingUtils.getMappingCaseName(calculateMappingSituation()) 
 			+ NL;
 	try {
 		s += "        calculated value mappings: "
@@ -1166,139 +1231,6 @@ public String toStringDetailed() {
 	
 	
 	return s + NL;
-}
-
-private String getSomName(int somID) {
-	
-	switch (somID) {
-	
-		case SOM_NOMINAL:
-			return "nominal";
-		case SOM_ORDINAL:
-			return "ordinal";
-		case SOM_QUANTITATIVE:
-			return "quantitative";
-		default:
-			return "unknown";
-	}
-}
-
-private String getNameForValueSituation(int situationID) {
-
-	switch (situationID) {
-	
-		case UNKNOWN:
-			return "unknown";
-		case CONTINUOUS_RANGE:
-			return "cont. range";
-		case ORDERED_SET:
-			return "ordered set or list";
-		case UNORDERED_SET:
-			return "set";
-		case SINGLE_VALUE:
-			return "single value";
-		default:
-			return "unknown";
-	}
-}
-
-private String getMappingCaseName(int caseID) {
-	
-	switch (caseID) {
-	
-	case CC: return "CC";
-	case CC_D: return "CCd";
-	case CO: return "CO";
-	case CU: return "CU";
-	case OC: return "OC";
-	case OO: return "OO";
-	case OU: return "OU";
-	case UC: return "UC";
-	case UO: return "UO";
-	case UU: return "UU";
-	case SS: return "SS (single values mapped)";
-		default:
-			return "unknown";
-	}
-}
-
-private String printAddressedSourceValues(int addressedSourceValueSituation) {
-	
-	String s = "";
-	
-	try {
-
-		switch (addressedSourceValueSituation) {
-		
-			case SINGLE_VALUE:
-				s += "Single source value: " ;
-				s += sourceValuesSingleValue.toString();
-				break;
-
-			case UNORDERED_SET:
-				s += "Source value unordered set: ";
-				s += sourceValuesUnorderedSet.toString();
-				break;
-
-			case ORDERED_SET:
-				s += "Source value ordered set: ";
-				s += sourceValuesOrderedSet.toString();
-				break;
-
-			case CONTINUOUS_RANGE:
-				s += "Continuous range of source values: ";
-				s += sourceValuesContinuousInterval.toString();
-				break;
-		}
-	
-	} catch (NullPointerException e) {
-		
-		String warning = "Could not describe the addressed source values for the " +
-				"situation " + getNameForValueSituation(addressedSourceValueSituation);
-		LOGGER.warning(warning);
-		s += warning;
-	}
-
-	return s;
-}
-
-private String printAddressedTargetValues(int addressedTargetValueSituation) {
-String s = "";
-	
-	try {
-
-		switch (addressedTargetValueSituation) {
-		
-			case SINGLE_VALUE:
-				s += "Single target value: " ;
-				s += targetValuesSingleValue.toString();
-				break;
-
-			case UNORDERED_SET:
-				s += "Target value unordered set: ";
-				s += targetValuesUnorderedSet.toString();
-				break;
-
-			case ORDERED_SET:
-				s += "Target value list: ";
-				s += targetValuesList.toString();
-				break;
-
-			case CONTINUOUS_RANGE:
-				s += "Continuous range of target values: ";
-				s += targetValuesContinuousInterval.toString();
-				break;
-		}
-	
-	} catch (NullPointerException e) {
-		
-		String warning = "Could not describe the addressed target values for the " +
-				"situation " + getNameForValueSituation(addressedTargetValueSituation);
-		LOGGER.warning(warning);
-		s += warning;
-	}
-
-	return s;
 }
 
 }
