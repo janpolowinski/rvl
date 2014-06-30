@@ -1,4 +1,4 @@
-@prefix :        <http://purl.org/viso/example/amino-acids/> .
+@prefix :        <http://purl.org/viso/example/amino-acids/aa-3/> .
 @prefix amino-acid:  <http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#> .
 @prefix bio:     <http://purl.org/viso/addon/shapes/bio/> .
 @prefix common-shapes:    <http://purl.org/viso/shape/commons/> .
@@ -14,32 +14,86 @@
       owl:imports <http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl> , rvl: , bio: ;
       owl:versionInfo "Created with TopBraid Composer"^^xsd:string .
 
-
+ 
 :AA-3
-      rdf:type rvl:PropertyMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:sourceProperty amino-acid:hasPolarity ;
+      rvl:subjectFilter " ?s rdfs:subClassOf ?restriction . ?restriction owl:onProperty amino-acid:hasPolarity . ?restriction owl:allValuesFrom  amino-acid:Polar . "^^rvl:sparqlSelector;
+      rvl:inheritedBy owl:allValuesFrom ;
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:subMapping 
+      [
+        rvl:subMapping-onRole vg:labeling_label; 
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :IconLabelShapeMapping;
+      ],[
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :IncreaseSizeHack2;
+      ]
+      .
+      
+:IconLabelShapeMapping
+      rvl:disabled "true"^^xsd:boolean ;
+      # TODO: filter not considered during submapping: # rvl:subjectFilter " ?s rdfs:subClassOf ?restriction . ?restriction owl:onProperty amino-acid:hasPolarity . ?restriction owl:allValuesFrom  amino-acid:Polar . "^^rvl:sparqlSelector;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rdf:ID ;
+      rvl:targetAttribute vg:shape_named ; 
+      rvl:valueMapping :Polar_to_CircleP ;
+      .         
+      
+      
+:Polar_to_CircleP
+      a rvl:ValueMapping ;
+      rdfs:label "Polar to Circle-P"^^xsd:string ;
+      rvl:sourceValue amino-acid:Polar ;
+      rvl:targetValue common-shapes:CircleP; 
+      .
+      
+######################## EXTRA ############################
+  
+:Mapping_the_Main_Shape
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
       rdfs:label "SideChainStructure to Shape"^^xsd:string ;
       rvl:sourceProperty amino-acid:hasPolarity ;
       rvl:inheritedBy owl:allValuesFrom ;
       rvl:targetAttribute
               <http://purl.org/viso/graphic/shape_named> ;
       rvl:valueMapping :Polar_to_CircleP .
-
-   
-:Polar_to_CircleP
-      rdf:type rvl:ValueMapping ;
-      rdfs:label "Polar to Circle-P"^^xsd:string ;
-      rvl:sourceValue amino-acid:Polar ;
-      rvl:targetValue common-shapes:CircleP; 
-      .
-      
-      
-  ######################## EXTRA ############################
   
-  :SideChainStructureToLinking
-	  rdf:type rvl:PropertyMapping ;
+:SideChainStructureToLinking
+	  a rvl:PropertyMapping ;
 	  rvl:disabled "true"^^xsd:boolean ;
 	  rdfs:label "Polarity (class level) to Linking"^^xsd:string ;
 	  rvl:sourceProperty amino-acid:hasPolarity ;
 	  rvl:inheritedBy owl:allValuesFrom ;
 	  rvl:targetObjToObjRelation
 	          vg:Linking_Directed_Relation .
+	          
+# set main object size       
+:IncreaseSizeHack
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+ 	  rvl:sourceProperty rdf:type ;
+ 	  rvl:targetAttribute vg:width ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:sourceValue rdfs:Resource;
+		rvl:targetValue "50"^^xsd:float; # used like a constant here
+      ]
+      . 
+      
+# set label size 
+:IncreaseSizeHack2
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+ 	  rvl:sourceProperty rdf:type ;
+ 	  rvl:targetAttribute vg:width ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:sourceValue rdfs:Resource;
+		rvl:targetValue "10"^^xsd:float; # used like a constant here
+      ]
+      . 

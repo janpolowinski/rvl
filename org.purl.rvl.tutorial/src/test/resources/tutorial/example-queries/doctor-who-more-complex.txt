@@ -1,0 +1,20 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX foaf:  <http://xmlns.com/foaf/0.1/>
+PREFIX dbpprop:  <http://dbpedia.org/property/>
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+
+CONSTRUCT { 
+   ?episode dbpprop:serialName ?title .
+   ?episode dbpedia-owl:publicationDate ?date . 
+   ?episode dbpedia-owl:subsequentWork ?next . 
+   ?episode dbpprop:doctor ?doctor . 
+   ?episode dbpprop:year ?year .
+}
+WHERE {
+   ?episode dbpprop:serialName ?title .
+   OPTIONAL {?episode dbpedia-owl:publicationDate ?date . }
+   FILTER ( ?date < "1976-01-01"^^xsd:date && ?date > "1970-01-01"^^xsd:date)
+   OPTIONAL {?episode dbpedia-owl:subsequentWork ?next . }
+   OPTIONAL {?episode dbpprop:doctor ?doctor . } 
+   OPTIONAL {?episode dbpprop:year ?year . }
+} ORDER by ?year LIMIT 500

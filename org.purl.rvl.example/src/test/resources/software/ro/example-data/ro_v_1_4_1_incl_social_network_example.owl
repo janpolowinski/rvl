@@ -8,6 +8,10 @@
  Please refer to http://purl.org/ro/ont# or cf. Siegemund, Katja, et al. "Towards ontology-driven requirements engineering." 
  Workshop Semantic Web Enabled Software Engineering at 10th International Semantic Web Conference (ISWC), Bonn. 2011
  for further information.
+ 
+ The following changes have been done to instance data in order to be able to demonstrate all use cases:
+ - added some values for responseTimeInMs as literals typed xsd:integer. 
+ 
  ##################### ##################### ##################### ##################### ##################### #####################
  -->
 
@@ -1739,6 +1743,7 @@ The use case should contain all system activities that have significance to the 
         <rdf:type rdf:resource="&owl;Thing"/>
         <refinesTo rdf:resource="#AdvertisementOnProfilePage"/>
         <isAuthoredBy rdf:resource="#PersonC"/>
+        <hasResponseTime rdf:datatype="&xsd;integer">99</hasResponseTime>
     </HighPriority>
     
 
@@ -1888,6 +1893,7 @@ The use case should contain all system activities that have significance to the 
         <isNegativeContributionTo rdf:resource="#DataPrivacyProtection"/>
         <refinesTo rdf:resource="#StoreUserDataInDatabase"/>
         <isAuthoredBy rdf:resource="#PersonC"/>
+        <hasResponseTime rdf:datatype="&xsd;integer">14</hasResponseTime>
     </owl:Thing>
     
 

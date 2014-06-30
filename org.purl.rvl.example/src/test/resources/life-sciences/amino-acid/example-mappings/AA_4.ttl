@@ -23,7 +23,7 @@
 
 
 :AA-4
-      rdf:type rvl:PropertyMapping ;
+      a rvl:PropertyMapping ;
       rdfs:label "SideChainStructure to Shape"^^xsd:string ;
       rvl:sourceProperty amino-acid:hasSideChainStructure ;
       rvl:inheritedBy owl:allValuesFrom ;
@@ -50,7 +50,7 @@
       
  ######################## EXTRA ############################
       
-      :SideChainStructureToLinking
+:SideChainStructureToLinking
       rdf:type rvl:PropertyMapping ;
       rvl:disabled "true"^^xsd:boolean ;
       rdfs:label "SideChainStructure to Linking"^^xsd:string ;
@@ -59,3 +59,19 @@
       rvl:inheritedBy owl:allValuesFrom ;
       rvl:targetObjToObjRelation
               vg:Linking_Directed_Relation .
+              
+              
+# set main object size       
+:IncreaseSizeHack3
+      rvl:disabled "false"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:subjectFilter " ?s rdfs:subClassOf amino-acid:SpecificAminoAcid . "^^rvl:sparqlSelector;
+      rvl:sourceProperty rdfs:subClassOf ;
+ 	  rvl:targetAttribute vg:width ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:sourceValue amino-acid:SpecificAminoAcid;
+		rvl:targetValue "50"^^xsd:float; # used like a constant here
+      ]
+      . 
+      

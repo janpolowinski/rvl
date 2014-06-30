@@ -34,8 +34,8 @@ public class MappingToContainmentHandler extends MappingToP2GOTORHandler {
 		// Node object = statement.getObject();
 
 		LOGGER.finest("Subject label "
-				+ AVMUtils.getGoodLabel(subject, modelAVM));
-		LOGGER.finest("Object label " + AVMUtils.getGoodLabel(object, modelAVM));
+				+ AVMUtils.getGoodNodeLabel(subject, modelAVM));
+		LOGGER.finest("Object label " + AVMUtils.getGoodNodeLabel(object, modelAVM));
 		LOGGER.fine("Statement to be mapped : " + statement);
 
 		// For each statement, create a container GO representing the subject
@@ -60,7 +60,7 @@ public class MappingToContainmentHandler extends MappingToP2GOTORHandler {
 		Containment containmentRel = new Containment(modelAVM,
 				"http://purl.org/rvl/example-avm/GR_"
 						+ rvlInterpreter.createNewInternalID(), true);
-		containmentRel.setLabel(AVMUtils.getGoodLabel(
+		containmentRel.setLabel(AVMUtils.getGoodNodeLabel(
 				mapping.getTargetGraphicRelation(), modelAVM));
 
 		// configure the relation

@@ -26,6 +26,7 @@ public class DataQuery {
 
 	final static Logger LOGGER = Logger.getLogger(DataQuery.class.getName());
 	static final String NL =  System.getProperty("line.separator");
+	
 	public static Set<Statement> findStatementsPreferingThoseUsingASubProperty(
 			Sparqlable modelOrModelSet,
 			URI fromGraph,
@@ -48,7 +49,7 @@ public class DataQuery {
 			QueryResultTable explMapResults = modelOrModelSet.sparqlSelect(queryString);
 			
 			for (QueryRow row : explMapResults) {
-				LOGGER.finest("fetched SPARQL result row: " + row);
+				//LOGGER.finest("fetched SPARQL result row: " + row);
 				try {
 						
 					Statement stmt = new StatementImpl(
@@ -240,6 +241,7 @@ public class DataQuery {
 			
 			return statementSet;
 	}
+	
 	/**
 	 * Returns all resources from the data graph 
 	 * related to the baseResource via the property relation.
@@ -290,6 +292,68 @@ public class DataQuery {
 		return resourceSet;
 	
 	}
+	
+	
+	/**
+	 * Returns all resources from the data graph directly
+	 * related to the baseResource via the property relation.
+	 * For a baseResource A, B is only returned, when not A -> X -> B .
+	 * 
+	 * @param modelOrModelSet
+	 * @param baseResource
+	 * @param relation - a Property
+	 * @return a set of directly related resources
+	 */
+	public static Set<Resource> getDirectlyRelatedResources(Sparqlable modelOrModelSet, Resource baseResource,
+			Property relation) {
+		
+		Set<Resource> resourceSet = new HashSet<Resource>();
+	
+		try {
+			
+			// TODO: not yet tested!
+			
+			String queryString = "" + 
+					" SELECT DISTINCT ?r " + 
+					" WHERE { " +
+					" GRAPH " + OGVICProcess.GRAPH_DATA.toSPARQL() + " { " +
+					" ?r " + relation.toSPARQL() + " " + baseResource.toSPARQL()  + 
+					" FILTER NOT EXISTS { " +
+					  " ?r " + relation.toSPARQL() + " ?intermediateNode . " + 
+					  " ?intermediateNode " + relation.toSPARQL() + "+ " + baseResource.toSPARQL() + " . " + 
+					  " FILTER(?r != ?intermediateNode) " + 
+					  " FILTER(?intermediateNode != " + baseResource.toSPARQL() + ") " + 
+					  " } " +  
+					" } " +
+					" FILTER (?r != " + baseResource.toSPARQL()  + ") " + 
+					" }";
+			
+	
+			LOGGER.finest("Query :" + queryString);
+	
+			QueryResultTable explMapResults = modelOrModelSet.sparqlSelect(queryString);
+			
+			for (QueryRow row : explMapResults) {
+				
+				try {
+						
+					Resource relatedResource = 	row.getValue("r").asURI();
+					LOGGER.finest("added directly related resource: " + relatedResource.toString());
+					resourceSet.add(relatedResource);
+					
+				} catch (ClassCastException e){
+					LOGGER.finer("Problem getting a directly related resource : " + e.getMessage());
+				}
+			}
+		
+		} catch (UnsupportedOperationException e){
+			LOGGER.warning("Problem with query to get directly related resources (blank node?): " + e.getMessage());
+		} 
+		
+		return resourceSet;
+	
+	}
+	
 
 	
 }

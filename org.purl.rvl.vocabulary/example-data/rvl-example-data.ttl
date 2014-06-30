@@ -12,21 +12,26 @@
 
 :Alice
       rdf:type :Author ;
-      rdfs:label "Bob"^^xsd:string ;
+      rdfs:label "Alice"^^xsd:string ;
       :workingField :Biography .
 
 :America
       rdf:type :Place ;
-      :partOf :World .
+      :partOf :World , "World" .
 
 :Asia
       rdf:type :Place ;
-      :partOf :World .
+      :partOf :World , "World"^^xsd:string ;
+      rdfs:label "Asia"^^xsd:string .
 
 :Australia
       rdf:type :Place ;
-      :partOf :World ;
+      :partOf :World , "World"@en ;
       :population "100"^^xsd:int .
+      
+:Europe
+      rdf:type :Place ;
+      :partOf :World , "World"@en-us .
 
 :Author
       rdf:type owl:Class ;
@@ -39,7 +44,9 @@
 
 :Bob  rdf:type :Author ;
       rdfs:label "Bob"^^xsd:string ;
-      :workingField :Science .
+      :workingField :Science ;
+      :partOf :America;
+      .
 
 :Book
       rdf:type owl:Class ;
@@ -66,9 +73,6 @@
       rdf:type :Place ;
       :partOf :Germany .
 
-:Europe
-      rdf:type :Place ;
-      :partOf :World .
 
 :Fiction
       rdf:type :Field ;
@@ -95,17 +99,21 @@
 
 :Jan  rdf:type :Person ;
       rdfs:label "Jan"^^xsd:string ;
-      :workingField :InfoVis .
+      :workingField :InfoVis ;
+      :knows :Lina , :Luisa ;
+      .
 
 :John
       rdf:type :Author ;
-      rdfs:label "John"^^xsd:string ;
+      rdfs:label "John" ;
       :workingField :Sci-Fi .
 
 :Lina
       rdf:type :Author ;
       rdfs:label "Lina"^^xsd:string ;
-      :workingField :Biography .
+      :workingField :Biography ;
+      :knows :John ;
+      .
 
 :Luisa
       rdf:type :Author ;
@@ -177,6 +185,10 @@
 :partOf
       rdf:type rdf:Property , owl:ObjectProperty , owl:TransitiveProperty ;
       rdfs:range :Place ;
+      rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value .
+      
+:knows
+      rdf:type rdf:Property , owl:ObjectProperty ;
       rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value .
 
 :population

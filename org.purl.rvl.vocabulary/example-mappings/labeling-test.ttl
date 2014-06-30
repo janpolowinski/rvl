@@ -16,30 +16,42 @@
 :     rdf:type owl:Ontology ;
       owl:imports rvl: , rexd: ,common-shapes: .
       
-    
+
+      
 rexm:PMWithExplicitValueMappingsAsBlankNodes
       rvl:disabled "false"^^xsd:boolean ;
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
       rvl:sourceProperty rexd:workingField ;
       rvl:targetObjToObjRelation vg:Labeling_Relation ; 
-      rvl:subMapping [
-        rvl:subMapping-onRole vg:labeling_label; # use role "this" to apply submappings to the n-ary relation itself?
+      rvl:subMapping 
+      [
+        rvl:subMapping-onRole vg:labeling_label; 
         rvl:subMapping-onTriplePart rdf:object;
         rvl:subMapping-mapping :IconLabelShapeMapping;
-      ],[
+      ],
+      [
         rvl:subMapping-onRole vg:labeling_label;
         rvl:subMapping-onTriplePart rdf:object;
-        rvl:subMapping-mapping :IconLabelColorMapping;
+        rvl:subMapping-mapping :LabelColorMapping;
       ],[
-        rvl:subMapping-onRole vg:this;
+        rvl:subMapping-onRole vg:this; # use role "this" to apply submappings to the n-ary relation itself (not yet part of RVL spec!)
         rvl:subMapping-onTriplePart rdf:object;
         rvl:subMapping-mapping :TypeToLabelStyleMapping;
+      ],[
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :TextIdentityMapping;
+      ],[
+        rvl:subMapping-onRole vg:labeling_base;
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :ShapeMappingToBeUsedAsSubmapping;
       ]
       .
+
       
-rexm:IconLabelShapeMapping
+:IconLabelShapeMapping
       rvl:disabled "true"^^xsd:boolean ;
-      rdf:type rvl:PropertyMapping ;
+      a rvl:PropertyMapping ;
       rvl:sourceProperty rdf:ID ;
       rvl:targetAttribute vg:shape_named ; 
       rvl:valueMapping [
@@ -50,11 +62,15 @@ rexm:IconLabelShapeMapping
         a rvl:ValueMapping ;
 		rvl:sourceValue rexd:Biography;
         rvl:targetValue common-shapes:Clock;
+      ],[
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Science;
+        rvl:targetValue common-shapes:Heart;
       ]
       .   
       
       
-rexm:IconLabelColorMapping
+rexm:LabelColorMapping
       rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rvl:sourceProperty rdf:ID ;
@@ -66,7 +82,7 @@ rexm:IconLabelColorMapping
       ],[
         a rvl:ValueMapping ;
 		rvl:sourceValue rexd:Biography;
-        rvl:targetValue vg:Green;
+        rvl:targetValue vg:Blue;
       ]
       .  
       
@@ -88,6 +104,56 @@ rexm:IconLabelColorMapping
       ]
       .
     
+    
+:TextIdentityMapping
+	  rvl:disabled "true"^^xsd:boolean ;
+      rdf:type rvl:IdentityMapping ;
+      #rvl:sourceProperty rdfs:label ;
+      #rvl:sourceProperty rvl:label ;
+      rvl:sourceProperty rvl:IDandTypes ;
+      #rvl:sourceProperty rdf:ID ;
+      rvl:targetAttribute
+              vg:text_value ;
+      .
  
+ 
+ :Knows2Linking
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
+      rvl:sourceProperty rexd:knows ;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
+      .
 
-              
+
+:PMWithExplicitValueMappingsAsBlankNodesToColorNamed
+      rvl:disabled "false"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Sci-Fi;
+        rvl:targetValue vg:Red;
+      ],[
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Biography;
+        rvl:targetValue vg:Green;
+      ]
+      . 
+      
+      
+:ShapeMappingToBeUsedAsSubmapping
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rdf:ID ;
+      rvl:targetAttribute vg:shape_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Sci-Fi;
+        rvl:targetValue common-shapes:Rhomb;
+      ],[
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Biography ;
+        rvl:targetValue common-shapes:Cross;
+      ]
+      . 

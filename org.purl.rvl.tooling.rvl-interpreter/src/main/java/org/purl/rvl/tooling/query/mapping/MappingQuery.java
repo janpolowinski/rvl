@@ -10,8 +10,10 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.QueryResultTable;
 import org.ontoware.rdf2go.model.QueryRow;
 import org.ontoware.rdf2go.model.node.URI;
+import org.purl.rvl.java.gen.rvl.Identitymapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
+import org.purl.rvl.java.rvl.IdentityMappingX;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
 import org.purl.rvl.tooling.process.OGVICProcess;
@@ -95,6 +97,17 @@ public class MappingQuery {
 		return getAllP2GOTORMappingsTo(modelMappings, null);
 	}
 
+	public static Set<IdentityMappingX> getAllIdentityMappings(
+			Model modelMappings) {
+		
+		MappingQueryBuilder queryBuilder = new MappingQueryBuilder();
+		//queryBuilder.constrainToGraph(OGVICProcess.GRAPH_MAPPING);
+		queryBuilder.constrainToType(Identitymapping.RDFS_CLASS);
+		String queryString = queryBuilder.buildQuery();
+		
+		return getIdentityMappings(modelMappings, queryString);
+	}
+
 	/**
 	 * @param modelMappings
 	 * @param mappingSet
@@ -115,7 +128,6 @@ public class MappingQuery {
 		for (QueryRow row : results) {
 				Property_to_Graphic_AttributeMapping mapping = Property_to_Graphic_AttributeMapping.getInstance(modelMappings, row.getValue("mapping").asResource());
 				mappingSet.add((PropertyToGraphicAttributeMappingX)mapping.castTo(PropertyToGraphicAttributeMappingX.class));
-				LOGGER.warning("P2GAM could not be added to the mapping set.");
 				continue;
 		}
 		
@@ -142,6 +154,21 @@ public class MappingQuery {
 		for(QueryRow row : results) {
 			Property_to_Graphic_Object_to_Object_RelationMapping mapping = Property_to_Graphic_Object_to_Object_RelationMapping.getInstance(modelMappings, (URI)row.getValue("mapping"));
 			mappingSet.add((PropertyToGO2ORMappingX)mapping.castTo(PropertyToGO2ORMappingX.class));
+		}
+		
+		return mappingSet;
+	}
+
+	protected static Set<IdentityMappingX> getIdentityMappings(
+			Model modelMappings, String queryString) {
+		
+		final Set<IdentityMappingX> mappingSet = new HashSet<IdentityMappingX>();
+		
+		QueryResultTable results = modelMappings.sparqlSelect(queryString);
+		
+		for(QueryRow row : results) {
+			Identitymapping mapping = Identitymapping.getInstance(modelMappings, (URI)row.getValue("mapping"));
+			mappingSet.add((IdentityMappingX)mapping.castTo(IdentityMappingX.class));
 		}
 		
 		return mappingSet;

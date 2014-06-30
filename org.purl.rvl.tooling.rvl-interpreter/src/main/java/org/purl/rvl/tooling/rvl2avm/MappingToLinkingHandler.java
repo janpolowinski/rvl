@@ -9,6 +9,7 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.Resource;
+import org.ontoware.rdf2go.model.node.URI;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
@@ -22,51 +23,47 @@ import org.purl.rvl.tooling.util.AVMUtils;
  */
 public class MappingToLinkingHandler extends MappingToP2GOTORHandler {
 
-	public MappingToLinkingHandler(ModelSet modelSet,
-			RVLInterpreter rvlInterpreter, Model modelAVM) {
+	public MappingToLinkingHandler(ModelSet modelSet, RVLInterpreter rvlInterpreter, Model modelAVM) {
 		super(modelSet, rvlInterpreter, modelAVM);
 	}
 
-	private final static Logger LOGGER = Logger
-			.getLogger(MappingToLinkingHandler.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(MappingToLinkingHandler.class.getName());
 
 	@Override
-	public void encodeStatement(Statement statement)
-			throws InsufficientMappingSpecificationException {
+	public void encodeStatement(Statement statement) throws InsufficientMappingSpecificationException {
 
 		Resource subject = statement.getSubject();
 		Resource object = statement.getObject().asResource();
 
-		LOGGER.finest("Subject label "
-				+ AVMUtils.getGoodLabel(subject, modelAVM));
-		LOGGER.finest("Object label " + AVMUtils.getGoodLabel(object, modelAVM));
+		LOGGER.finest("Subject label " + AVMUtils.getGoodNodeLabel(subject, modelAVM));
+		LOGGER.finest("Object label " + AVMUtils.getGoodNodeLabel(object, modelAVM));
 
 		LOGGER.fine("Statement to be mapped : " + statement);
 
 		// For each statement, create a startNode GO representing the subject
 		// (if not exists)
-		GraphicObjectX subjectNode = rvlInterpreter
-				.createOrGetGraphicObject(subject);
+		GraphicObjectX subjectNode = rvlInterpreter.createOrGetGraphicObject(subject);
 		LOGGER.finest("Created GO for subject: " + subject.toString());
 
 		// For each statement, create an endNode GO representing the object (if
 		// not exists)
 		// Node object = statement.getObject();
 
-		GraphicObjectX objectNode = rvlInterpreter
-				.createOrGetGraphicObject(object);
+		GraphicObjectX objectNode = rvlInterpreter.createOrGetGraphicObject(object);
 		LOGGER.finest("Created GO for object: " + object.toString());
 
-		// create a connector and add default color
-		// GraphicObjectX connector = new GraphicObjectX(modelAVM, true);
-		GraphicObjectX connector = new GraphicObjectX(modelAVM,
-				"http://purl.org/rvl/example-avm/GO_Connector_"
-						+ rvlInterpreter.createNewInternalID(), true);
-		// connector.setLabel(statement.getPredicate());
-		connector.setLabel(AVMUtils.getGoodLabel(statement.getPredicate(),
-				modelAVM)); // TODO: actually the label of the connector
-							// representing this ; statement contains evtl. used
-							// subproperty
+		// create a connector object
+		GraphicObjectX connector = new GraphicObjectX(modelAVM, "http://purl.org/rvl/example-avm/GO_Connector_"
+				+ rvlInterpreter.createNewInternalID(), true);
+
+		// set represented resource and store as a main GraphicObject (will enable automatic labeling, for example)
+		URI predicateURI = statement.getPredicate();
+		connector.setRepresents(predicateURI);
+		rvlInterpreter.addToMainGraphicObjectSet(connector);
+
+		// label the GraphicObject itself (only used for bootstrapping purposes,
+		// when looking at the generated Abstract Visual Model)
+		connector.setLabel("Connector ( " + AVMUtils.getGoodNodeLabel(predicateURI, modelAVM) + " or sub-property)");
 
 		// generic graphic relation needed for submappings
 		// (could also be some super class of directed linking, undirected
@@ -74,16 +71,13 @@ public class MappingToLinkingHandler extends MappingToP2GOTORHandler {
 		Resource rel = null;
 
 		// directed linking
-		if (mapping.getTargetGraphicRelation().equals(
-				DirectedLinking.RDFS_CLASS)) {
+		if (mapping.getTargetGraphicRelation().equals(DirectedLinking.RDFS_CLASS)) {
 
 			// create the directed linking relation
 			// DirectedLinking dlRel = new DirectedLinking(modelAVM, true);
-			DirectedLinking dlRel = new DirectedLinking(modelAVM,
-					"http://purl.org/rvl/example-avm/GR_"
-							+ rvlInterpreter.createNewInternalID(), true);
-			dlRel.setLabel(AVMUtils.getGoodLabel(
-					mapping.getTargetGraphicRelation(), modelAVM));
+			DirectedLinking dlRel = new DirectedLinking(modelAVM, "http://purl.org/rvl/example-avm/GR_"
+					+ rvlInterpreter.createNewInternalID(), true);
+			dlRel.setLabel(AVMUtils.getGoodNodeLabel(mapping.getTargetGraphicRelation(), modelAVM));
 
 			// configure the relation
 			if (mapping.isInvertSourceProperty()) {
@@ -99,11 +93,7 @@ public class MappingToLinkingHandler extends MappingToP2GOTORHandler {
 			}
 
 			// set default shape of directed connectors
-			connector
-					.setShapenamed(new ShapeX(
-							modelAVM,
-							"http://purl.org/viso/shape/commons/UMLAssociation",
-							false));
+			connector.setShapenamed(new ShapeX(modelAVM, "http://purl.org/viso/shape/commons/UMLAssociation", false));
 
 			dlRel.setLinkingconnector(connector);
 			rel = dlRel;
@@ -112,11 +102,9 @@ public class MappingToLinkingHandler extends MappingToP2GOTORHandler {
 
 			// create the undirected linking relation
 			// UndirectedLinking udlRel = new UndirectedLinking(modelAVM, true);
-			UndirectedLinking udlRel = new UndirectedLinking(modelAVM,
-					"http://purl.org/rvl/example-avm/GR_"
-							+ rvlInterpreter.createNewInternalID(), true);
-			udlRel.setLabel(AVMUtils.getGoodLabel(
-					mapping.getTargetGraphicRelation(), modelAVM));
+			UndirectedLinking udlRel = new UndirectedLinking(modelAVM, "http://purl.org/rvl/example-avm/GR_"
+					+ rvlInterpreter.createNewInternalID(), true);
+			udlRel.setLabel(AVMUtils.getGoodNodeLabel(mapping.getTargetGraphicRelation(), modelAVM));
 
 			// configure the relation
 			udlRel.addLinkingnode(subjectNode);
@@ -125,8 +113,7 @@ public class MappingToLinkingHandler extends MappingToP2GOTORHandler {
 			objectNode.addLinkedwith(udlRel);
 
 			// set default shape of undirected connectors
-			connector.setShapenamed(new ShapeX(modelAVM,
-					"http://purl.org/viso/shape/commons/Line", false));
+			connector.setShapenamed(new ShapeX(modelAVM, "http://purl.org/viso/shape/commons/Line", false));
 
 			udlRel.setLinkingconnector(connector);
 			rel = udlRel;

@@ -33,6 +33,14 @@
         rvl:subMapping-onRole vg:linking_connector;
         rvl:subMapping-onTriplePart rdf:predicate;
         rvl:subMapping-mapping :ArrowShapeMapping;
+      ],[
+        rvl:subMapping-onRole vg:linkingDirected_startNode;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :LabelMapping2;
+      ],[
+        rvl:subMapping-onRole vg:linkingDirected_endNode;
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :LabelMapping1;
       ]
       .
 
@@ -63,7 +71,7 @@
  	  rvl:valueMapping [
         a rvl:ValueMapping ;
         rvl:sourceValue <http://purl.org/obo/owl/obo#develops_from> ;
-		rvl:targetValue "34"^^xsd:float ; # TODO: manual settings for now. 34 is the height of the flow-arrow symbol
+		rvl:targetValue "23"^^xsd:float ; # TODO: manual settings for now. 23 is the height of the flow-arrow symbol
       ]
       . 
       
@@ -80,3 +88,6 @@
         rvl:targetValue common-shapes:Line ;
       ]
       . 
+
+      
+#### Labeling is done by default when no other text labeling is found .... ####     

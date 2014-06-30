@@ -16,6 +16,7 @@
     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
     xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:amino-acid="http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#"
   xml:base="http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl">
   <owl:Ontology rdf:about="">
     <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"

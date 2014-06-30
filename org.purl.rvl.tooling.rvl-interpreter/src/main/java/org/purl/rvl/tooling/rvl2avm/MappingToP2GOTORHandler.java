@@ -25,6 +25,7 @@ public abstract class MappingToP2GOTORHandler extends MappingHandlerBase {
 			.getLogger(MappingToP2GOTORHandler.class.getName());
 
 	protected PropertyToGO2ORMappingX mapping;
+	
 	public MappingToP2GOTORHandler(ModelSet modelSet,
 			RVLInterpreter rvlInterpreter, Model modelAvm) {
 		super(modelSet, rvlInterpreter, modelAvm);

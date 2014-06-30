@@ -13,6 +13,7 @@ import org.ontoware.rdf2go.model.QueryRow;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.impl.StatementImpl;
 import org.ontoware.rdf2go.model.node.Node;
+import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.util.RDFTool;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
@@ -256,51 +257,43 @@ public class AVMUtils {
 		return relFromHere;
 
 	}
-
-	public static String getOrGenerateDefaultLabelString(Model model, org.ontoware.rdf2go.model.node.Resource resource){
-		
-		String genLabel = getGoodLabel(resource,model);
-
-		return genLabel;
-	}
-
-	public static String getLocalName(Node node, Model model){
-		
-		String localName = "local-name-could-not-be-fetched";
-		
-		try {	 
-			localName =  RDFTool.getShortName(node.asURI().toString());
-		}
-		catch (Exception e) {
-			LOGGER.finest("Local name could not be fetched. Blank node?");
-			localName = node.toString();
-		}
-
-		return localName;
-	}
 	
-	public static String getGoodLabel(Node node, Model model){
+	public static String getGoodNodeLabel(Node node, Model model){
 		
 		
-		String label = "no-good-label-could-be-calculated";
+		String label;
 		
 		try {	 
 			// somehow causes runtime exception with jena when not casted to resource as below
 			label =  RDFTool.getGoodLabel(node.asResource(), model);
-		}
-		catch (Exception e) {
 			
-			LOGGER.finest("No good label could be calculated.");
+		} catch (ClassCastException e) {
+			
+			// when this didn't work for some reason, but it's still a resource
 			
 			try {
-
-				label = getLocalName(node, model);
+				
+				// get the local/short name after # or the last /
+				label = RDFTool.getShortName(node.asURI().toString());
 				
 			} catch (Exception e1) {
 				
-				LOGGER.finest("Local name could not be calculated.");
-				label = node.toString();
+				// seems not to be a resource ...
+				
+				try {
+					
+					label = node.asLiteral().getValue();
+					
+				} catch (Exception e2) {
+					
+					// when nothing helps, toString it
+					
+					label = node.toString();
+
+				}
+				
 			}
+			
 		}
 
 		return label;
