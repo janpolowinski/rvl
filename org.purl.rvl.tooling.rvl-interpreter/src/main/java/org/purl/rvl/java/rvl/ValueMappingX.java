@@ -731,7 +731,7 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 					Node sv = svIt.next();
 					Node tv = tvIt.next();
 					
-					cvms.add(new CalculatedValueMapping(sv.asURI(), tv.asURI()));
+					cvms.add(new CalculatedValueMapping(sv, tv));
 				}
 
 			} else { // numberOfSv > numberOfTv
@@ -817,7 +817,7 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 				
 				Statement statement = (Statement) iterator.next();
 				
-				DatatypeLiteral sv = statement.getObject().asDatatypeLiteral();
+				Literal sv = statement.getObject().asLiteral();
 				float svValue = Float.parseFloat(sv.getValue());
 				float tvValue;
 				
@@ -882,7 +882,8 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 		} catch (UnexpressiveMappingSpecificationException e) {
 			LOGGER.warning(e.getMessage());
 		} catch (Exception e) {
-			LOGGER.finest("sv/tv lower/upper bound  or sv itself is not a literal or stepcount is < 2," +
+			// TODO fix this bad exception handling
+			LOGGER.warning("sv/tv lower/upper bound  or sv itself is not a literal or stepcount is < 2," +
 					" will try to get values from the resource ... TOBEIMPLEMENTED");
 		}
 		

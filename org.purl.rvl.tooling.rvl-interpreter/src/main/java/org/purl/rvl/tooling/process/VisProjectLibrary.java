@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.purl.rvl.tooling.avm2d3.D3GeneratorSimpleJSON;
+import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorTreeJSON;
 import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 
@@ -44,7 +44,7 @@ public class VisProjectLibrary {
 		useCaseAA.registerMappingFile("../org.purl.rvl.example/src/test/resources/life-sciences/amino-acid/example-mappings/experimental-wip.ttl");
 		useCaseAA.registerDataFile("../org.purl.rvl.example/src/test/resources/life-sciences/amino-acid/example-data/amino-acid.owl");
 		//useCaseAA.setD3Generator(new D3GeneratorTreeJSON());
-		useCaseAA.setD3Generator(new D3GeneratorSimpleJSON());
+		useCaseAA.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		storeProject(useCaseAA);
 		
 		//////////////////////////////////////////////////////////////////
@@ -67,7 +67,7 @@ public class VisProjectLibrary {
 		avmBootstrap.registerDataFile(ExampleData.AVM);
 		avmBootstrap.registerDataFile(ExampleData.AVM_EXTRA_DATA);
 		//avmBootstrap.setRvlInterpreter(new SimpleRVLInterpreter());
-		avmBootstrap.setD3Generator(new D3GeneratorSimpleJSON());
+		avmBootstrap.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		//avmBootstrap.setD3Generator(new D3GeneratorTreeJSON());
 		storeProject(avmBootstrap);
 				
@@ -93,7 +93,7 @@ public class VisProjectLibrary {
 		//useCaseRVLExampleData.registerMappingFile(ExampleMapping.RVL_EXAMPLE_OLD);
 		//useCaseRVLExampleData.registerDataFile(ExampleData.RVL_EXAMPLE_OLD);
 		//useCaseRVLExampleData.setRvlInterpreter(new SimpleRVLInterpreter());
-		useCaseRVLExampleData.setD3Generator(new D3GeneratorSimpleJSON());
+		useCaseRVLExampleData.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		//useCaseRVLExampleData.setD3Generator(new D3GeneratorTreeJSON());
 		storeProject(useCaseRVLExampleData);
 				

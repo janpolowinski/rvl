@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
+import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
@@ -35,11 +36,11 @@ public class MappingToLabelingHandler extends MappingToP2GOTORHandler {
 			throws InsufficientMappingSpecificationException {
 
 		Resource subject = statement.getSubject();
-		Resource object = statement.getObject().asResource();
+		Node object = statement.getObject();
 
 		LOGGER.finest("Subject label "
-				+ AVMUtils.getGoodLabel(subject, modelAVM));
-		LOGGER.finest("Object label " + AVMUtils.getGoodLabel(object, modelAVM));
+				+ AVMUtils.getGoodNodeLabel(subject, modelAVM));
+		LOGGER.finest("Object label " + AVMUtils.getGoodNodeLabel(object, modelAVM));
 
 		LOGGER.fine("Statement to be mapped : " + statement);
 
@@ -52,16 +53,19 @@ public class MappingToLabelingHandler extends MappingToP2GOTORHandler {
 		// For each statement, create an endNode GO representing the object (if
 		// not exists)
 		// create an additional object here, don't reuse existing ones!
-		GraphicObjectX label = new GraphicObjectX(modelAVM, false); 
+		GraphicObjectX label = //new GraphicObjectX(modelAVM, false); 
+		new GraphicObjectX(modelAVM,
+				"http://purl.org/rvl/example-avm/GO_Label_"
+						+ rvlInterpreter.createNewInternalID(), false);
 		LOGGER.finest("Created new Label-GO for object: " + object.toString());
 
 		Labeling rel = new Labeling(modelAVM,
 				"http://purl.org/rvl/example-avm/GR_"
 						+ rvlInterpreter.createNewInternalID(), true);
-		rel.setLabel(AVMUtils.getGoodLabel(mapping.getTargetGraphicRelation(),
+		rel.setLabel(AVMUtils.getGoodNodeLabel(mapping.getTargetGraphicRelation(),
 				modelAVM));
 
-		subjectNode.setLabeledwith(rel);
+		subjectNode.addLabeledwith(rel);
 		rel.setLabelinglabel(label);
 		rel.setLabelingattachedBy(Superimposition.RDFS_CLASS); // passing a node
 																// here
@@ -69,7 +73,7 @@ public class MappingToLabelingHandler extends MappingToP2GOTORHandler {
 
 		// set default shape of icon labels
 		label.setShapenamed(new ShapeX(modelAVM,
-				"http://purl.org/viso/shape/commons/Circle", false));
+				"http://purl.org/viso/shape/commons/Square", false));
 
 		// submappings
 		if (mapping.hasSub_mapping()) {

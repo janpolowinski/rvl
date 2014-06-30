@@ -103,7 +103,7 @@ public class ShapeX extends Shape {
 		else if (this.asURI().toString().equals("http://purl.org/viso/addon/shapes/bio/Hydrophil")) return "raindrop";
 		
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Star18")) return "star-18";
-		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/XMark")) return "sourceValue-mark";
+		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/XMark")) return "x-mark";
 		
 		
 		// shapes used to define connectors primarily

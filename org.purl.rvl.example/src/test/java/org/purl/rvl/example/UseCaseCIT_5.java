@@ -4,9 +4,6 @@ import java.io.FileNotFoundException;
 
 import org.junit.Test;
 import org.purl.rvl.interpreter.test.TestOGVICProcess;
-import org.purl.rvl.tooling.avm2d3.D3GeneratorSimpleJSON;
-import org.purl.rvl.tooling.process.ExampleData;
-import org.purl.rvl.tooling.process.ExampleMapping;
 
 public class UseCaseCIT_5 extends TestOGVICProcess {
 	
@@ -17,7 +14,7 @@ public class UseCaseCIT_5 extends TestOGVICProcess {
 		project.registerDataFile(ExampleFile.get("library-and-publication/cito/example-data/cito.owl"));
 		project.registerDataFile(ExampleFile.get("library-and-publication/cito/example-data/cito-example-data.ttl"));
 		
-		project.setD3Generator(new D3GeneratorSimpleJSON());
+
 		//project.setD3Generator(new D3GeneratorTreeJSON());
 		
 		loadProjectAndRunProcess();

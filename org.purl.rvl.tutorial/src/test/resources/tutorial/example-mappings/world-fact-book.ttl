@@ -1,0 +1,92 @@
+@prefix :        			<http://purl.org/rvl/example-mapping/tutorial/> .
+
+@prefix dct:     			<http://purl.org/dc/terms/> .
+@prefix owl:     			<http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     			<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    			<http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     			<http://www.w3.org/2001/XMLSchema#> .
+
+@prefix rvl:     			<http://purl.org/rvl/> .
+@prefix vg:    				<http://purl.org/viso/graphic/> .
+
+@prefix bio:     			<http://purl.org/viso/addon/shapes/bio/> .
+@prefix common-shapes:    	<http://purl.org/viso/shape/commons/> .
+
+@prefix factbook:			<http://wifo5-04.informatik.uni-mannheim.de/factbook/ns#> .
+
+
+
+:     rdf:type owl:Ontology .
+#:      owl:imports rvl: . #### uncomment this line for easier (guided) editing in editors like TopBraid
+
+ 
+:SomeExampleMapping
+      rvl:disabled "false"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty factbook:landboundary ;
+      rvl:targetObjToObjRelation vg:Linking_Undirected_Relation ; 
+      .
+      
+      
+:AnExampleLightnessMapping
+  a rvl:PropertyMapping ;
+  rvl:sourceProperty factbook:internetusers ;
+  rvl:targetAttribute vg:color_hsl_lightness ; 
+  rvl:valueMapping [
+    a rvl:ValueMapping ;
+	rvl:sourceValueInterval [
+		a rvl:Interval;
+    	rvl:lowerBoundIncl "0";
+    	rvl:upperBoundIncl "10000000";
+	];
+	rvl:discretize "true"^^xsd:boolean ;
+	rvl:targetValueInterval [
+    	a rvl:Interval;
+    	rvl:lowerBoundIncl "0";
+    	rvl:upperBoundIncl "100";
+    ];
+  ]
+  .  
+  
+:AnExampleSizeMapping
+  a rvl:PropertyMapping ;
+  rvl:sourceProperty factbook:internetusers ;
+  rvl:targetAttribute vg:width ; 
+  rvl:valueMapping [
+    a rvl:ValueMapping ;
+	rvl:sourceValueInterval [
+		a rvl:Interval;
+    	rvl:lowerBoundIncl "0";
+    	rvl:upperBoundIncl "10000000";
+	];
+	rvl:discretize "true"^^xsd:boolean ;
+	rvl:targetValueInterval [
+    	a rvl:Interval;
+    	rvl:lowerBoundIncl "0";
+    	rvl:upperBoundIncl "100";
+    ];
+  ]
+  . 
+      
+      
+      
+#### A default labeling will be done, when this is disabled. ######
+#### Activate the mapping below to configure your own labeling ####     
+      
+:LabelMapping
+	  rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:sourceProperty rdfs:label ; ### OR SOME OTHER PROPERTY IF YOU DON'T HAVE LABELS
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:subMapping [
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :LabelTextIdentityMapping;
+      ].
+      
+:LabelTextIdentityMapping
+	  rvl:disabled "true"^^xsd:boolean ;
+      a rvl:IdentityMapping ;
+      rvl:sourceProperty rvl:IDandTypes ;
+      rvl:targetAttribute
+              vg:text_value . 

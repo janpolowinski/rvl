@@ -117,6 +117,9 @@ rexm:SubPropertyOfToLinkingDirected
 			vg:linkingDirected_endNode
 			vg:linking_connector
 			
+			vg:labeled_with
+			vg:labeling_label
+			
 		);
 		rvl:targetValueList (
 		
@@ -131,6 +134,9 @@ rexm:SubPropertyOfToLinkingDirected
 			vg:Green
 			vg:Grey
 			
+			common-shapes:Square
+			common-shapes:Circle
+			
 		);
       ]
       . 
@@ -139,7 +145,7 @@ rexm:SubPropertyOfToLinkingDirected
 # order a bit misused here, better use single vms
 :PMfromID2ShapeNamed
       rdf:type rvl:PropertyMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true"^^xsd:boolean ;
       rdfs:label "PM from ID to shape (used as a submapping above)"^^xsd:string ;
  	  rvl:sourceProperty rdf:ID ;
  	  rvl:targetAttribute vg:shape_named ;
@@ -158,19 +164,25 @@ rexm:SubPropertyOfToLinkingDirected
 			vg:linkingDirected_endNode
 			vg:linking_connector
 			
+			vg:labeled_with
+			vg:labeling_label
+			
 		);
 		rvl:targetValueList (
 		
 			common-shapes:Rhomb
 			common-shapes:Rhomb
-			common-shapes:Circle
-			common-shapes:Circle
+			common-shapes:Square
+			common-shapes:Square
 			
 			common-shapes:Rhomb
 			common-shapes:Rhomb
+			common-shapes:Square
+			common-shapes:Square
+			common-shapes:FlowArrow
+			
+			common-shapes:Square
 			common-shapes:Circle
-			common-shapes:Circle
-			common-shapes:Cross
 			
 		);
       ]
@@ -199,6 +211,9 @@ rexm:SubPropertyOfToLinkingDirected
 			vg:linkingDirected_endNode
 			vg:linking_connector
 			
+			vg:labeled_with
+			vg:labeling_label
+			
 		);
 		rvl:targetValueList (
 		
@@ -212,6 +227,9 @@ rexm:SubPropertyOfToLinkingDirected
 			vg:Green
 			vg:Green
 			vg:Red
+			
+			vg:Green
+			vg:Green
 		);
       ]
       . 
@@ -231,7 +249,7 @@ rexm:SubPropertyOfToLinkingDirected
       ],[
         a rvl:ValueMapping ;
 		rvl:sourceValue <http://purl.org/viso/graphic/Graphic_Object>;
-        rvl:targetValue common-shapes:Circle;
+        rvl:targetValue common-shapes:Square;
       ]
       .
       
@@ -244,13 +262,14 @@ rexm:SubPropertyOfToLinkingDirected
       rvl:subjectFilter "http://purl.org/viso/graphic/Linking_Directed_Relation"^^rvl:classSelector;
       rvl:targetAttribute vg:shape_named ; 
       rvl:valueMapping [
-        a rvl:ValueMapping ;
 		rvl:sourceValue <http://purl.org/viso/graphic/Linking_Directed_Relation>;
         rvl:targetValue common-shapes:Rhomb;
       ],[
-        a rvl:ValueMapping ;
+		rvl:sourceValue <http://purl.org/viso/graphic/Labeling_Relation>;
+        rvl:targetValue common-shapes:Rhomb;
+      ],[
 		rvl:sourceValue <http://purl.org/viso/graphic/Graphic_Object>;
-        rvl:targetValue common-shapes:Circle;
+        rvl:targetValue common-shapes:Square;
       ]
       .
       
@@ -262,12 +281,33 @@ rexm:SubPropertyOfToLinkingDirected
       rvl:subjectFilter "http://purl.org/viso/graphic/Linking_Directed_Relation"^^rvl:classSelector;
       rvl:targetAttribute vg:color_named ; 
       rvl:valueMapping [
-        a rvl:ValueMapping ;
 		rvl:sourceValue <http://purl.org/viso/graphic/Linking_Directed_Relation>;
+        rvl:targetValue vg:Green;
+      ],[
+		rvl:sourceValue <http://purl.org/viso/graphic/Labeling_Relation>;
         rvl:targetValue vg:Green;
       ]
       .
       
-      
- 
-              
+### Labeling #####
+
+:PMWithExplicitValueMappingsAsBlankNodes
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      #rvl:subjectFilter "http://purl.org/viso/graphic/Labeling_Relation"^^rvl:classSelector;
+      rvl:sourceProperty rdf:type ;
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:subMapping 
+	  [
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :TextIdentityMapping;
+      ]
+      .
+          
+:TextIdentityMapping
+	  rvl:disabled "true"^^xsd:boolean ;
+      a rvl:IdentityMapping ;
+      rvl:sourceProperty rvl:label ;
+      rvl:targetAttribute vg:text_value ;
+      .    

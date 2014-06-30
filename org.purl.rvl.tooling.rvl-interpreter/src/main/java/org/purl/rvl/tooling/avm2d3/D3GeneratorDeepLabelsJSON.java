@@ -15,28 +15,27 @@ import java.util.logging.Logger;
 import org.json.simple.JSONObject;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
+import org.ontoware.rdfreactor.runtime.ReactorResult;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
-import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
-import org.purl.rvl.java.gen.viso.graphic.Labeling;
-import org.purl.rvl.java.gen.viso.graphic.Superimposition;
 import org.purl.rvl.java.gen.viso.graphic.Thing1;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.D3Utils;
+import org.purl.rvl.tooling.util.RVLUtils;
 
 
 /**
  * @author Jan Polowinski
  *
  */
-public class D3GeneratorSimpleJSON extends D3GeneratorBase {
+public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 	
 	
-	private final static Logger LOGGER = Logger.getLogger(D3GeneratorSimpleJSON.class .getName()); 
+	final static Logger LOGGER = Logger.getLogger(D3GeneratorDeepLabelsJSON.class .getName()); 
 	
-	public D3GeneratorSimpleJSON() {
+	public D3GeneratorDeepLabelsJSON() {
 		super();
 	}
 	
@@ -44,7 +43,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 	 * @param modelAVM
 	 * @param modelVISO
 	 */
-	public D3GeneratorSimpleJSON(Model model, Model modelVISO) {
+	public D3GeneratorDeepLabelsJSON(Model model, Model modelVISO) {
 		super(model, modelVISO);
 	}
 	
@@ -61,7 +60,7 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 		// we need an array, not a set below ...
 		int j = 0;
 		for (Iterator<GraphicObjectX> iterator = goSet.iterator(); iterator.hasNext();) {
-			GraphicObjectX graphicObject = (GraphicObjectX) iterator.next();
+			GraphicObjectX graphicObject = iterator.next();
 			goArray[j] = graphicObject;
 			j++;
 		}
@@ -72,9 +71,9 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			goMap.put(startNode,i);
 		}
 		
-		JSONObject d3data=new JSONObject();
-		List listOfNodes = new LinkedList();
-		List listOfLinks = new LinkedList();
+		JSONObject d3data = new JSONObject();
+		List<Map<String,Object>> listOfNodes = new LinkedList<Map<String,Object>>();
+		List<Map<String,Object>> listOfLinks = new LinkedList<Map<String,Object>>();
 		
 		// generate JSON node entries
 		for (int i = 0; i < goArray.length; i++) {
@@ -82,57 +81,16 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 			GraphicObjectX startNode = goArray[i];
 			
 			// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
-			startNode = startNode.tryReplaceWithCashedInstanceForSameURI(startNode);
+			startNode = RVLUtils.tryReplaceWithCashedInstanceForSameURI_for_VISO_Resources(startNode, GraphicObjectX.class);
 			
 			// width (used for calculating label size)
 			float startNodeWidth = startNode.hasWidth()? startNode.getWidth() : getDefaultWidthNodes();
 			
-			Map node = new LinkedHashMap();
+			Map<String,Object> node = new LinkedHashMap<String,Object>();
 			putGraphicAttributes(node, startNode);
 			node.put("uri", startNode.getRepresentedResource().toString());
-			node.put("display_label_text", true);
-			node.put("label", D3Utils.shortenLabel(startNode.getLabel()));
-			node.put("full_label", startNode.getLabel() + " (ID: " + startNode.getRepresentedResource() + ")");
-			
-			// temp label positioning using the attachedBy information
-			if (startNode.hasLabeledwith()){
-				
-				Labeling nAryLabeling = startNode.getAllLabeledwith_as().firstValue(); // TODO only one label handled!
 
-				try {
-					
-					GraphicObjectX label = (GraphicObjectX) nAryLabeling.getAllLabelinglabel_as().firstValue().castTo(GraphicObjectX.class);
-					
-					GraphicObjectToObjectRelation attachementRelation = nAryLabeling.getAllLabelingattachedBy_as().firstValue();
-					
-					node.put("label_shape_d3_name", label.getShape());
-					node.put("label_color_rgb_hex_combined", label.getColorRGBHexCombinedWithHSLValues());
-					node.put("label_width", startNodeWidth*LABEL_ICON_SIZE_FACTOR);
-					
-					if (attachementRelation.asURI().equals(Containment.RDFS_CLASS)) {
-						node.put("display_label_text", true);
-						node.put("label_position", "centerCenter"); /* temp, should be label.shape_d3_name*/	
-					} else if (attachementRelation.asURI().equals(Superimposition.RDFS_CLASS)) {
-						node.put("display_label_icon", true);
-						node.put("label_position", "centerRight"); /* temp, should be label.shape_d3_name*/	
-						node.put("width", 30);
-						
-					}
-				
-				}
-				catch (NullPointerException e ){
-					
-					LOGGER.severe("Problem getting label from labeling relation, labeling " + nAryLabeling + " will be ignored.");
-				}
-					
-				// ... other positions ...
-				
-			} else {
-				
-				// default label positioning
-				node.put("label_position", "topLeft"); /* temp, should be label.shape_d3_name*/	
-				
-			}
+			putLabels(startNode, startNodeWidth, node);
 			
 			listOfNodes.add(node);
 		}
@@ -177,16 +135,17 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				GraphicObjectX endNode = (GraphicObjectX) dlRel.getAllEndnode_as().firstValue().castTo(GraphicObjectX.class);
 				GraphicObjectX connector = (GraphicObjectX) dlRel.getAllLinkingconnector_as().firstValue().castTo(GraphicObjectX.class);
 				// get index of the endNode in the above generated Map
-				Map link = new LinkedHashMap();
+				Map<String,Object> link = new LinkedHashMap<String,Object>();
 				putGraphicAttributes(link,connector);
 				link.put("type", "Directed");
-				link.put("arrow_type", connector.getShape());
 				//link.put("type", dlRel.getRDFSClassURI().toString());
 				link.put("source", goMap.get(startNode));
 				link.put("target", goMap.get(endNode));
 				link.put("value", "1");
-				link.put("label", D3Utils.shortenLabel(connector.getLabel()));
-				link.put("full_label", connector.getLabel() + " (ID: " + connector.getRepresentedResource() + ")");
+				//link.put("text_value", D3Utils.shortenLabel(connector.getLabel()));
+				//link.put("text_value_full", connector.getLabel() + " (ID: " + connector.getRepresentedResource() + ")");
+				
+				putLabels(connector, getDefaultWidthConnectors(), link);
 				
 				listOfLinks.add(link);
 				LOGGER.finer("Generated JSON link for " + dlRel + " (" + startNode.getLabel() + " --> " + endNode.getLabel() +")" );
@@ -220,14 +179,14 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				
 				GraphicObjectX connector = (GraphicObjectX) rel.getAllLinkingconnector_as().firstValue().castTo(GraphicObjectX.class);
 				// get index of the endNode in the above generated Map
-				Map link = new LinkedHashMap();
+				Map<String,Object> link = new LinkedHashMap<String,Object>();
 				putGraphicAttributes(link,connector);
 				//link.put("type", rel.getRDFSClassURI().toString());
 				link.put("type", "Undirected");
 				link.put("source", goMap.get(node1));
 				link.put("target", goMap.get(node2));
 				link.put("value", "1");
-				link.put("label", connector.getLabel());
+				link.put("text_value", connector.getLabel());
 				
 				listOfLinks.add(link);
 				LOGGER.finer("Generated JSON link for " + rel + " (" + node1.getLabel() + " --> " + node2.getLabel() +")" );
@@ -252,14 +211,14 @@ public class D3GeneratorSimpleJSON extends D3GeneratorBase {
 				GraphicObjectX containee = (GraphicObjectX) rel.getAllContainmentcontainee_as().firstValue().castTo(GraphicObjectX.class);
 
 				// get index of the endNode in the above generated Map
-				Map link = new LinkedHashMap();
+				Map<String,Object> link = new LinkedHashMap<String,Object>();
 				putGraphicAttributes(link,containee);
 				//link.put("type", rel.getRDFSClassURI().toString());
 				link.put("type", "Containment");
 				link.put("source", goMap.get(container));
 				link.put("target", goMap.get(containee));
 				link.put("value", "1");
-				link.put("label", "contains");
+				link.put("text_value", "contains");
 
 				listOfLinks.add(link);
 				LOGGER.finer("Generated JSON link for " + rel + " (" + container.getLabel() + " contains " + containee.getLabel() +")" );

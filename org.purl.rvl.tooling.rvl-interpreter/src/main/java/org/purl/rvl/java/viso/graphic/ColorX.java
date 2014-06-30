@@ -183,8 +183,4 @@ public class ColorX extends org.purl.rvl.java.gen.viso.graphic.Color {
 		}
 		return defaultColor;
 	}
-
-	public ColorX tryReplaceWithCashedInstanceForSameURI(ColorX colorNamed) {
-		return (ColorX) ResourcesCache.getInstance().tryReplaceOrCache(colorNamed);
-	}
 }

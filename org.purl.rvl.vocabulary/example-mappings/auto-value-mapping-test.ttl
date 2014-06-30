@@ -1,0 +1,102 @@
+@prefix :        <http://purl.org/rvl/example-mappings/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rexm:    <http://purl.org/rvl/example-mappings/> .
+@prefix rexd:    <http://purl.org/rvl/example-data/> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix vg:      <http://purl.org/viso/graphic/> .
+@prefix common-shapes:    <http://purl.org/viso/shape/commons/> .
+
+:     rdf:type owl:Ontology ;
+      owl:imports rvl: , rexd: ,common-shapes: .
+      
+      
+      
+      
+:CC
+      rdfs:label "CC - nominal 2 nominal (set 2 set) - PM with a VM that defines a mapping between two (unordered) set of source and target values (here less source than target values)"^^xsd:string ;
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+      
+        a rvl:ValueMapping ;
+        
+		rvl:sourceValue rexd:Fiction;
+		rvl:sourceValue rexd:Science;
+		rvl:sourceValue rexd:Sci-Fi;
+		rvl:sourceValue rexd:Spirituality;
+		rvl:sourceValue rexd:Biography;
+		rvl:sourceValue rexd:Travel;
+		
+		rvl:targetValue vg:Yellow;
+		rvl:targetValue vg:Green;
+		rvl:targetValue vg:Orange;
+		rvl:targetValue vg:Blue;
+		rvl:targetValue vg:DarkRed;
+		rvl:targetValue vg:Red;
+		rvl:targetValue vg:Purple;
+		rvl:targetValue vg:LightYellow;
+      ]
+      .   
+      
+      
+:CC_type
+      rdfs:label "CC (Variant source property type) - nominal 2 nominal (set 2 set) - PM with a VM that defines a mapping between two (unordered) set of source and target values "^^xsd:string ;
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:subjectFilter "http://purl.org/rvl/example-data/DomainResource"^^rvl:classSelector;
+      rvl:sourceProperty rdf:type ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+      
+        a rvl:ValueMapping ;
+        
+        #rvl:sourceValue rexd:Author;
+		rvl:sourceValue rexd:Person; # TODO there seems to be still a problem with super-types. Why are persons not colored? Because they are Authors? Jan is mapped (not an author).
+		rvl:sourceValue rexd:Book;
+		rvl:sourceValue rexd:Field;
+		rvl:sourceValue rexd:Place;
+		
+		rvl:targetValue vg:Yellow;
+		rvl:targetValue vg:Green;
+		rvl:targetValue vg:Orange;
+		rvl:targetValue vg:Blue;
+		rvl:targetValue vg:DarkRed;
+		rvl:targetValue vg:Red;
+		rvl:targetValue vg:Purple;
+		#rvl:targetValue vg:LightYellow;
+      ]
+      .  
+      
+      
+:CC_literals
+      rdfs:label "CC (Variant with also literals as source values) - nominal 2 nominal (set 2 set) - PM with a VM that defines a mapping between two (unordered) set of source and target values"^^xsd:string ;
+      rvl:disabled "false"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:partOf ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+      
+        a rvl:ValueMapping ;
+        
+		#rvl:sourceValue rexd:World;
+		rvl:sourceValue "World";
+		rvl:sourceValue "World"^^xsd:string;
+		rvl:sourceValue "World"@en;
+		rvl:sourceValue "World"@en-us;
+		#rvl:sourceValue "World"^^xsd:int; # Jena checks this - data type format exception
+		
+		rvl:targetValue vg:Yellow;
+		rvl:targetValue vg:Green;
+		rvl:targetValue vg:Orange;
+		rvl:targetValue vg:Blue;
+		rvl:targetValue vg:DarkRed;
+		rvl:targetValue vg:Red;
+		rvl:targetValue vg:Purple;
+		rvl:targetValue vg:LightYellow;
+      ]
+      .   

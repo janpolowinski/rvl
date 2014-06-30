@@ -1,0 +1,434 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:foaf="http://xmlns.com/foaf/0.1/"
+    xmlns:d2r="http://sites.wiwiss.fu-berlin.de/suhl/bizer/d2r-server/config.rdf#"
+    xmlns:factbook="http://wifo5-04.informatik.uni-mannheim.de/factbook/ns#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:db="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:map="file:///var/www/wbsg.de/factbook/factbook.n3#">
+  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Denmark">
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Germany"/>
+    <factbook:internetusers>3763000</factbook:internetusers>
+    <rdfs:label>Denmark</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/El_Salvador">
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Honduras"/>
+    <rdfs:label>El Salvador</rdfs:label>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Guatemala"/>
+    <factbook:internetusers>637100</factbook:internetusers>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Cambodia">
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Vietnam"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Thailand"/>
+    <rdfs:label>Cambodia</rdfs:label>
+    <factbook:internetusers>41000</factbook:internetusers>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Laos"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Cote_dIvoire">
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Mali"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Liberia"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Guinea"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Ghana"/>
+    <factbook:internetusers>160000</factbook:internetusers>
+    <rdfs:label>Cote dIvoire</rdfs:label>
+    <factbook:landboundary>
+      <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Burkina_Faso">
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Togo"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Niger"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Mali"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Ghana"/>
+        <factbook:internetusers>64600</factbook:internetusers>
+        <rdfs:label>Burkina Faso</rdfs:label>
+        <factbook:landboundary>
+          <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Benin">
+            <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Togo"/>
+            <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Nigeria"/>
+            <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Niger"/>
+            <factbook:internetusers>425000</factbook:internetusers>
+            <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Burkina_Faso"/>
+            <rdfs:label>Benin</rdfs:label>
+          </rdf:Description>
+        </factbook:landboundary>
+      </rdf:Description>
+    </factbook:landboundary>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Congo_Democratic_Republic_of_the">
+    <factbook:landboundary>
+      <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Central_African_Republic">
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Sudan"/>
+        <factbook:landboundary>
+          <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Chad">
+            <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Sudan"/>
+            <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Nigeria"/>
+            <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Niger"/>
+            <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Libya"/>
+            <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Central_African_Republic"/>
+            <factbook:landboundary>
+              <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Cameroon">
+                <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Nigeria"/>
+                <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Gabon"/>
+                <factbook:landboundary>
+                  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Equatorial_Guinea">
+                    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Gabon"/>
+                    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Cameroon"/>
+                    <factbook:internetusers>5000</factbook:internetusers>
+                    <rdfs:label>Equatorial Guinea</rdfs:label>
+                  </rdf:Description>
+                </factbook:landboundary>
+                <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Chad"/>
+                <factbook:internetusers>167000</factbook:internetusers>
+                <rdfs:label>Cameroon</rdfs:label>
+                <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Central_African_Republic"/>
+              </rdf:Description>
+            </factbook:landboundary>
+            <factbook:internetusers>35000</factbook:internetusers>
+            <rdfs:label>Chad</rdfs:label>
+          </rdf:Description>
+        </factbook:landboundary>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Cameroon"/>
+        <factbook:internetusers>9000</factbook:internetusers>
+        <rdfs:label>Central African Republic</rdfs:label>
+      </rdf:Description>
+    </factbook:landboundary>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Zambia"/>
+    <factbook:landboundary>
+      <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Burundi">
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Tanzania"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Rwanda"/>
+        <factbook:internetusers>25000</factbook:internetusers>
+        <rdfs:label>Burundi</rdfs:label>
+      </rdf:Description>
+    </factbook:landboundary>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Uganda"/>
+    <factbook:internetusers>140600</factbook:internetusers>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Sudan"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Rwanda"/>
+    <factbook:landboundary>
+      <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Angola">
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Zambia"/>
+        <rdfs:label>Angola</rdfs:label>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Namibia"/>
+        <factbook:internetusers>172000</factbook:internetusers>
+      </rdf:Description>
+    </factbook:landboundary>
+    <rdfs:label>Congo, Democratic Republic of the</rdfs:label>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Tanzania"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Algeria">
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Western_Sahara"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Tunisia"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Niger"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Morocco"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Mauritania"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Mali"/>
+    <rdfs:label>Algeria</rdfs:label>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Libya"/>
+    <factbook:internetusers>1920000</factbook:internetusers>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Cyprus">
+    <factbook:internetusers>298000</factbook:internetusers>
+    <rdfs:label>Cyprus</rdfs:label>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Akrotiri"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Estonia">
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Russia"/>
+    <rdfs:label>Estonia</rdfs:label>
+    <factbook:internetusers>690000</factbook:internetusers>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Latvia"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Dominican_Republic">
+    <rdfs:label>Dominican Republic</rdfs:label>
+    <factbook:internetusers>938300</factbook:internetusers>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Haiti"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Belgium">
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Netherlands"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Luxembourg"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Germany"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/France"/>
+    <rdfs:label>Belgium</rdfs:label>
+    <factbook:internetusers>5100000</factbook:internetusers>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Botswana">
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Zimbabwe"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/South_Africa"/>
+    <factbook:internetusers>60000</factbook:internetusers>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Namibia"/>
+    <rdfs:label>Botswana</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/European_Union">
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Russia"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Macedonia"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Serbia"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/San_Marino"/>
+    <rdfs:label>European Union</rdfs:label>
+    <factbook:landboundary>
+      <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Andorra">
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Spain"/>
+        <factbook:internetusers>21900</factbook:internetusers>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/France"/>
+        <rdfs:label>Andorra</rdfs:label>
+      </rdf:Description>
+    </factbook:landboundary>
+    <factbook:internetusers>247000000</factbook:internetusers>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Norway"/>
+    <factbook:landboundary>
+      <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Belarus">
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Ukraine"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Russia"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Poland"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Lithuania"/>
+        <factbook:internetusers>3394000</factbook:internetusers>
+        <rdfs:label>Belarus</rdfs:label>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Latvia"/>
+      </rdf:Description>
+    </factbook:landboundary>
+    <factbook:landboundary>
+      <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Albania">
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Serbia"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Montenegro"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Macedonia"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Greece"/>
+        <rdfs:label>Albania</rdfs:label>
+        <factbook:internetusers>75000</factbook:internetusers>
+      </rdf:Description>
+    </factbook:landboundary>
+    <factbook:landboundary>
+      <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Croatia">
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Slovenia"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Serbia"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Montenegro"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Hungary"/>
+        <factbook:landboundary>
+          <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Bosnia_and_Herzegovina">
+            <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Serbia"/>
+            <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Montenegro"/>
+            <rdfs:label>Bosnia and Herzegovina</rdfs:label>
+            <factbook:internetusers>806400</factbook:internetusers>
+            <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Croatia"/>
+          </rdf:Description>
+        </factbook:landboundary>
+        <factbook:internetusers>1451000</factbook:internetusers>
+        <rdfs:label>Croatia</rdfs:label>
+      </rdf:Description>
+    </factbook:landboundary>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Moldova"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Liechtenstein"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Monaco"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Bulgaria">
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Turkey"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Serbia"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Romania"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Macedonia"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Greece"/>
+    <rdfs:label>Bulgaria</rdfs:label>
+    <factbook:internetusers>2200000</factbook:internetusers>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Brunei">
+    <rdfs:label>Brunei</rdfs:label>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Malaysia"/>
+    <factbook:internetusers>56000</factbook:internetusers>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Belize">
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Mexico"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Guatemala"/>
+    <rdfs:label>Belize</rdfs:label>
+    <factbook:internetusers>35000</factbook:internetusers>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Congo_Republic_of_the">
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Gabon"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Central_African_Republic"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Cameroon"/>
+    <factbook:internetusers>36000</factbook:internetusers>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Angola"/>
+    <rdfs:label>Congo, Republic of the</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/East_Timor">
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Indonesia"/>
+    <rdfs:label>East Timor</rdfs:label>
+    <factbook:internetusers>1000</factbook:internetusers>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Azerbaijan">
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Turkey"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Russia"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Iran"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Georgia"/>
+    <rdfs:label>Azerbaijan</rdfs:label>
+    <factbook:internetusers>678800</factbook:internetusers>
+    <factbook:landboundary>
+      <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Armenia">
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Turkey"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Iran"/>
+        <rdfs:label>Armenia</rdfs:label>
+        <factbook:internetusers>150000</factbook:internetusers>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Georgia"/>
+      </rdf:Description>
+    </factbook:landboundary>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Egypt">
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Sudan"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Libya"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Israel"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Gaza_Strip"/>
+    <rdfs:label>Egypt</rdfs:label>
+    <factbook:internetusers>5000000</factbook:internetusers>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Chile">
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Peru"/>
+    <factbook:landboundary>
+      <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Bolivia">
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Peru"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Paraguay"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Chile"/>
+        <factbook:landboundary>
+          <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Brazil">
+            <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Venezuela"/>
+            <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Bolivia"/>
+            <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Guyana"/>
+            <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Peru"/>
+            <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Suriname"/>
+            <rdfs:label>Brazil</rdfs:label>
+            <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Uruguay"/>
+            <factbook:landboundary>
+              <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Argentina">
+                <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Uruguay"/>
+                <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Paraguay"/>
+                <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Chile"/>
+                <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Brazil"/>
+                <factbook:internetusers>10000000</factbook:internetusers>
+                <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Bolivia"/>
+                <rdfs:label>Argentina</rdfs:label>
+              </rdf:Description>
+            </factbook:landboundary>
+            <factbook:internetusers>25900000</factbook:internetusers>
+            <factbook:landboundary>
+              <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Colombia">
+                <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Venezuela"/>
+                <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Peru"/>
+                <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Panama"/>
+                <factbook:landboundary>
+                  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Ecuador">
+                    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Peru"/>
+                    <factbook:internetusers>616000</factbook:internetusers>
+                    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Colombia"/>
+                    <rdfs:label>Ecuador</rdfs:label>
+                  </rdf:Description>
+                </factbook:landboundary>
+                <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Brazil"/>
+                <factbook:internetusers>4739000</factbook:internetusers>
+                <rdfs:label>Colombia</rdfs:label>
+              </rdf:Description>
+            </factbook:landboundary>
+            <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Paraguay"/>
+          </rdf:Description>
+        </factbook:landboundary>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Argentina"/>
+        <rdfs:label>Bolivia</rdfs:label>
+        <factbook:internetusers>480000</factbook:internetusers>
+      </rdf:Description>
+    </factbook:landboundary>
+    <rdfs:label>Chile</rdfs:label>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Argentina"/>
+    <factbook:internetusers>6700000</factbook:internetusers>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/China">
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Mongolia"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Pakistan"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Vietnam"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Laos"/>
+    <factbook:landboundary>
+      <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Afghanistan">
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Uzbekistan"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Turkmenistan"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Tajikistan"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Pakistan"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Iran"/>
+        <factbook:internetusers>30000</factbook:internetusers>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/China"/>
+        <rdfs:label>Afghanistan</rdfs:label>
+      </rdf:Description>
+    </factbook:landboundary>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Kyrgyzstan"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Nepal"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Tajikistan"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/India"/>
+    <factbook:landboundary>
+      <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Burma">
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Thailand"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Laos"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/India"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/China"/>
+        <factbook:landboundary>
+          <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Bangladesh">
+            <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/India"/>
+            <factbook:internetusers>300000</factbook:internetusers>
+            <rdfs:label>Bangladesh</rdfs:label>
+            <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Burma"/>
+          </rdf:Description>
+        </factbook:landboundary>
+        <rdfs:label>Burma</rdfs:label>
+        <factbook:internetusers>78000</factbook:internetusers>
+      </rdf:Description>
+    </factbook:landboundary>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Russia"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Kazakhstan"/>
+    <factbook:landboundary>
+      <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Bhutan">
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/India"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/China"/>
+        <rdfs:label>Bhutan</rdfs:label>
+        <factbook:internetusers>25000</factbook:internetusers>
+      </rdf:Description>
+    </factbook:landboundary>
+    <factbook:internetusers>123000000</factbook:internetusers>
+    <rdfs:label>China</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Ethiopia">
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Sudan"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Kenya"/>
+    <factbook:landboundary>
+      <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Eritrea">
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Sudan"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Ethiopia"/>
+        <rdfs:label>Eritrea</rdfs:label>
+        <factbook:landboundary>
+          <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Djibouti">
+            <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Ethiopia"/>
+            <rdfs:label>Djibouti</rdfs:label>
+            <factbook:internetusers>9000</factbook:internetusers>
+            <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Eritrea"/>
+          </rdf:Description>
+        </factbook:landboundary>
+        <factbook:internetusers>70000</factbook:internetusers>
+      </rdf:Description>
+    </factbook:landboundary>
+    <rdfs:label>Ethiopia</rdfs:label>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Djibouti"/>
+    <factbook:internetusers>113000</factbook:internetusers>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Austria">
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Italy"/>
+    <factbook:internetusers>4650000</factbook:internetusers>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Slovenia"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Germany"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Liechtenstein"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Slovakia"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Switzerland"/>
+    <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Hungary"/>
+    <rdfs:label>Austria</rdfs:label>
+    <factbook:landboundary>
+      <rdf:Description rdf:about="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Czech_Republic">
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Slovakia"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Poland"/>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Germany"/>
+        <rdfs:label>Czech Republic</rdfs:label>
+        <factbook:landboundary rdf:resource="http://wifo5-04.informatik.uni-mannheim.de/factbook/resource/Austria"/>
+        <factbook:internetusers>5100000</factbook:internetusers>
+      </rdf:Description>
+    </factbook:landboundary>
+  </rdf:Description>
+</rdf:RDF>
