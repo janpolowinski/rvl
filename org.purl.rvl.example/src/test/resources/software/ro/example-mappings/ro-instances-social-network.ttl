@@ -15,51 +15,6 @@
 :     rdf:type owl:Ontology ;
       owl:imports spin-constraints: , semvis-example: , common-shapes: , <http://purl.org/ro/ont> , rvl: .
 
-
-:AnyPropertyToLinkingByConnectorMappingTrials
-      a rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:disabled "true"^^xsd:boolean ;
-      rdfs:label "(Any) property to linking by connector mapping"^^xsd:string ;
-      rvl:sourceProperty owl:topObjectProperty ;
-      #rvl:sourceProperty ro:isAuthoredBy ;
-      #rvl:invertSourceProperty "true"^^xsd:boolean;
-      #rvl:inheritedBy owl:someValuesFrom;
-      rvl:targetObjToObjRelation
-              <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
-      #rvl:subMapping 
-      #[
-      #  a rvl:SubMappingRelation ;
-      #  rvl:subMapping-onRole vg:linking_connector;
-      #  rvl:subMapping-onTriplePart rdf:predicate;
-      #  rvl:subMapping-mapping :PMfromID2ColorNamed2;
-      #]
-      #,
-      #[
-      #  a rvl:SubMappingRelation ;
-      #  rvl:subMapping-onRole vg:linkingDirected_startNode;
-      #  rvl:subMapping-onTriplePart rdf:subject;
-      #  rvl:subMapping-mapping :ShapeMapping;
-      #]
-      #,
-      #[
-      #  a rvl:SubMappingRelation ;
-      #  rvl:subMapping-onRole vg:linkingDirected_endNode;
-      #  rvl:subMapping-onTriplePart rdf:object;
-      #  rvl:subMapping-mapping :ShapeMapping;
-      #],
-      #[
-      #  a rvl:SubMappingRelation ;
-      #  rvl:subMapping-onRole vg:linkingDirected_startNode;
-      #  rvl:subMapping-onTriplePart rdf:subject;
-      #  rvl:subMapping-mapping :PMfromType2Width;
-      #],
-      #[
-      #  a rvl:SubMappingRelation ;
-      #  rvl:subMapping-onRole vg:linkingDirected_endNode;
-      #  rvl:subMapping-onTriplePart rdf:object;
-      #  rvl:subMapping-mapping :PMfromType2Width;
-      #]
-      .
       
 :AnyPropertyToLinkingByConnectorMapping
       a rvl:PropertyToGraphicObjToObjRelationMapping ;
@@ -101,24 +56,81 @@
         rvl:subMapping-onRole vg:linkingDirected_endNode;
         rvl:subMapping-onTriplePart rdf:object;
         rvl:subMapping-mapping :PMfromType2Width;
+      ],
+      [
+        a rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linkingDirected_startNode;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :NonDefaultLabelMapping;
       ]
       .
       
       
-:ShouldBecomeASubmappingWhenPossible
-      rvl:disabled "false"^^xsd:boolean ;
+:NonDefaultLabelMapping
+      rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
-      #rvl:sourceProperty owl:topObjectProperty ;
-      rvl:sourceProperty ro:isAuthoredBy ;
+      rvl:sourceProperty rdf:ID ;
+      #subfilter in submappings not yet implemented:
+      #rvl:subjectFilter "http://purl.org/ro/ont#RequirementArtifact"^^rvl:classSelector;
       rvl:targetObjToObjRelation vg:Labeling_Relation ; 
       rvl:subMapping [
         rvl:subMapping-onRole vg:this;
         rvl:subMapping-onTriplePart rdf:subject;
         rvl:subMapping-mapping :TypeToLabelStyleMapping;
+      ],[
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :LabelTextIdentityMapping;
       ]
       .
-
-             
+      
+# How to set labels once and refine things like label style for some resources only?
+# -> should filters be allowed on sub-mappings?           
+      
+:TypeToLabelStyleMapping
+	  rvl:disabled "true";
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "Label style mapping"^^xsd:string ;
+      rvl:sourceProperty rdf:type ;
+      #why did this work above in the shape mapping??? 
+      #rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
+      rvl:targetAttribute
+              vg:labeling_attachedBy ;
+      rvl:valueMapping [
+      	a rvl:valueMapping;
+      	rvl:sourceValue ro:Requirement;
+      	rvl:targetValue vg:Containment_Relation;
+      ],
+      [
+      	a rvl:valueMapping;
+      	rvl:sourceValue ro:Stakeholder;
+      	rvl:targetValue vg:Superimposition_Relation;
+      ]
+      .
+      
+:LabelTextIdentityMapping
+	  rvl:disabled "true"^^xsd:boolean ;
+      a rvl:IdentityMapping ;
+      #rvl:sourceProperty rdfs:label ;
+      #rvl:sourceProperty rvl:label ;
+      rvl:sourceProperty rvl:IDandTypes ;
+      rvl:targetAttribute
+              vg:text_value ;
+      .
+      
+:PMfromType2Width
+      rvl:disabled "true"^^xsd:boolean ;
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "PM from type to width (used as a submapping above)"^^xsd:string ;
+ 	  rvl:sourceProperty rdf:type ;
+ 	  rvl:targetAttribute vg:width ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:sourceValue ro:Requirement;
+		rvl:targetValue "70"^^xsd:float; # create some space for contained labels
+      ]
+      . 
+      
                  
 :PMfromID2ColorNamed
       rdf:type rvl:PropertyMapping ;
@@ -133,9 +145,9 @@
 		rvl:sourceValue ro:isDescribedByUseCase;
 		rvl:sourceValue ro:isAuthoredBy;
 		rvl:targetValue vg:Yellow;
-        rvl:targetValue vg:Green;
-        rvl:targetValue vg:Red;
-        rvl:targetValue vg:Blue;
+        rvl:targetValue vg:DarkGreen;
+        rvl:targetValue vg:DarkRed;
+        rvl:targetValue vg:Black;
       ]
       .  
       
@@ -152,9 +164,9 @@
 			ro:isRefinementOf ro:isDescribedByUseCase ro:isAuthoredBy
 		);
 		rvl:targetValueList (
-			vg:Red
-			vg:Green
-			vg:Blue
+			vg:DarkRed
+			vg:DarkGreen
+			vg:Black
 		);
       ]
       . 
@@ -201,7 +213,7 @@
 		);
 		rvl:discretize "true"^^xsd:boolean ;
 		rvl:targetValueList (
-        	vg:Green vg:Yellow vg:Red
+        	vg:DarkGreen vg:Yellow vg:DarkRed
         );
       ]
       . 
@@ -211,7 +223,7 @@
       rdf:type rvl:PropertyMapping ;
       rdfs:label "Shape mapping"^^xsd:string ;
       rvl:sourceProperty rdf:type ;
-      rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
+      #rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
       rvl:targetAttribute
               <http://purl.org/viso/graphic/shape_named> ;
       rvl:valueMapping [
@@ -222,7 +234,8 @@
       [
       	a rvl:valueMapping;
       	rvl:sourceValue ro:Stakeholder;
-      	rvl:targetValue common-shapes:EquiliteralTriangle;
+      	#rvl:targetValue common-shapes:EquiliteralTriangle;
+      	rvl:targetValue common-shapes:CircleP;
       ],
       [
       	a rvl:valueMapping;
@@ -292,40 +305,5 @@
 # END ALTERNATIVE    
 
 
-# TRIAL TEMP LABEL POSITIONING MAPPING
 
-:TypeToLabelStyleMapping
-	  rvl:disabled "true";
-      rdf:type rvl:PropertyMapping ;
-      rdfs:label "Label style mapping"^^xsd:string ;
-      rvl:sourceProperty rdf:type ;
-     # why did this work above in the shape mapping??? 
-      #rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
-      rvl:targetAttribute
-              vg:labeling_attachedBy ;
-      rvl:valueMapping [
-      	a rvl:valueMapping;
-      	rvl:sourceValue ro:Requirement;
-      	rvl:targetValue vg:Containment_Relation;
-      ],
-      [
-      	a rvl:valueMapping;
-      	rvl:sourceValue ro:Stakeholder;
-      	rvl:targetValue vg:Superimposition_Relation;
-      ]
-      .
-      
-:PMfromType2Width
-      rvl:disabled "true"^^xsd:boolean ;
-      rdf:type rvl:PropertyMapping ;
-      rdfs:label "PM from type to width (used as a submapping above)"^^xsd:string ;
- 	  rvl:sourceProperty rdf:type ;
- 	  rvl:targetAttribute vg:width ;
- 	  rvl:valueMapping [
-        a rvl:ValueMapping ;
-        rvl:sourceValue ro:Requirement;
-		rvl:targetValue "100"^^xsd:float; # create some space for contained labels
-      ]
-      . 
-      
 

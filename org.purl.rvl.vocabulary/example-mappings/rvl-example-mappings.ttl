@@ -612,4 +612,28 @@ rexm:ExampleNamedSourceValueList
       rdfs:label "Example named source value set"^^xsd:string ;
       rdf:first rexd:Fiction ;
       rdf:rest (rexd:Science  rexd:Spirituality) .  
+
+ 
+:LabelMapping
+      rvl:disabled "false"^^xsd:boolean ;
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:sourceProperty rexd:partOf ;
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:subMapping 
+      [
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :LabelTextIdentityMapping;
+      ]
+      .
+      
+:LabelTextIdentityMapping
+	  rvl:disabled "true"^^xsd:boolean ;
+      a rvl:IdentityMapping ;
+      #rvl:sourceProperty rdfs:label ;
+      rvl:sourceProperty rvl:label ;
+      rvl:targetAttribute
+              vg:text_value ;
+      .
+      
               

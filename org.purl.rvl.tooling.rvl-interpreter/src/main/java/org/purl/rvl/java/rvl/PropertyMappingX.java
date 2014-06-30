@@ -12,6 +12,7 @@ import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.UnsupportedSelectorTypeException;
 import org.purl.rvl.java.rvl.filter.SubjectFilter;
+import org.purl.rvl.tooling.process.ResourcesCache;
 import org.purl.rvl.tooling.util.AVMUtils;
 
 /**
@@ -231,14 +232,9 @@ static final String NL =  System.getProperty("line.separator");
 	}
 
 	public String toStringSummary() {
-		return AVMUtils.getGoodLabel(this, model);
+		return AVMUtils.getGoodNodeLabel(this, model);
 	}
 
-//	public PropertyMappingX tryReplaceWithCashedInstanceForSameURI(MappingIF mapping) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-	
 	/**
 	 * @return the filter string for the subject in SPARQL
 	 */

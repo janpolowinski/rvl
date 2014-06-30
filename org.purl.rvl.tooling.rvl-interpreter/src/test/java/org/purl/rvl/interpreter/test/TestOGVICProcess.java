@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.purl.rvl.tooling.avm2d3.D3GeneratorSimpleJSON;
+import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
 import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
@@ -42,7 +42,7 @@ public class TestOGVICProcess {
 		project.registerDataFile(ExampleData.RVL_EXAMPLE);
 		
 		//project.setRvlInterpreter(new SimpleRVLInterpreter());
-		project.setD3Generator(new D3GeneratorSimpleJSON());
+		project.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		
 		loadProjectAndRunProcess();
 	}

@@ -1,0 +1,16 @@
+:ExampleColorMapping
+      a rvl:PropertyMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
+ 	  rvl:sourceProperty dbpprop:doctor ;
+ 	  rvl:targetAttribute vg:color_named ;
+ 	  rvl:valueMapping [
+		rvl:sourceValue dbpedia:Tom_Baker;
+		rvl:sourceValue "Tom Baker"@en;
+        rvl:targetValue vg:Green;
+      ],[
+		rvl:sourceValue dbpedia:Jon_Pertwee;
+		rvl:sourceValue "Jon Pertwee"@en;
+		rvl:sourceValue "Jon Pertwee";
+		rvl:targetValue vg:Purple;
+	  ]
+      . 

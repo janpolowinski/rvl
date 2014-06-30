@@ -13,4 +13,8 @@ public final class RVL {
 	
 	public static final String TBOX_RESTRICTION = NS + "tBoxRestriction";
 
+	public static final String LABEL = NS + "label";
+	
+	public static final String ID_AND_TYPES = NS + "IDandTypes";
+
 }

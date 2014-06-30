@@ -32,11 +32,12 @@ public class ExampleMapping {
 	public static final String RVL_EXAMPLE = "../org.purl.rvl.vocabulary/example-mappings/rvl-example-mappings.ttl";
 	public static final String RVL_EXAMPLE_FILTERING = "../org.purl.rvl.vocabulary/experiments/example-mappings/rvl-example-filtering.ttl";
 	public static final String RVL_EXAMPLE_LABELING = "../org.purl.rvl.vocabulary/example-mappings/labeling-test.ttl";
-
+	public static final String RVL_EXAMPLE_AUTOMATIC_VM = "../org.purl.rvl.vocabulary/example-mappings/auto-value-mapping-test.ttl";
 	
 	// problem (no root nodes found) here probably because subClassOf etc. are reflexiv and our method for finding root nodes does not work here! -> exlude direct "loop" relations
 	public static final String RVL_EXAMPLE_BOOTSTRAP = "../org.purl.rvl.vocabulary/example-mappings/rvl-bootstrap.ttl";
 	public static final String AVM_EXAMPLE_BOOTSTRAP = "../org.purl.rvl.vocabulary/example-mappings/avm-bootstrap.ttl";
 	public static final String VISO_EXAMPLE_BOOTSTRAP = "../org.purl.rvl.vocabulary/example-mappings/viso-bootstrap.ttl";
+
 
 }

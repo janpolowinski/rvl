@@ -8,6 +8,8 @@ import java.util.logging.Logger;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
+import org.ontoware.rdf2go.vocabulary.RDFS;
+import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.MappingException;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
@@ -15,6 +17,7 @@ import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
+import org.purl.rvl.java.rvl.IdentityMappingX;
 import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
@@ -22,6 +25,7 @@ import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.query.data.DataQuery;
 import org.purl.rvl.tooling.query.mapping.MappingQuery;
+import org.purl.rvl.tooling.util.RVLUtils;
 
 /**
  * @author Jan Polowinski
@@ -47,7 +51,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		interpretSimpleP2GArvlMappings();
 		interpretNormalP2GArvlMappings(); 
 		interpretP2GO2ORMappings();
-		interpretResourceLabelAsGOLabelForAllCreatedResources();
+		interpretIdentityMappings();
+		performDefaultLabelMappingForAllGOs();
 	}
 
 	/**
@@ -105,7 +110,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				}
 				
 			} catch (MappingException e) {
-				LOGGER.severe(e.getMessage());
+				LOGGER.severe("P2GOTOR mappings could not be interpreted: " + e.getMessage());
 			} catch (InsufficientMappingSpecificationException e) {
 				LOGGER.severe("Could not start mapping interpretation: " + e.getMessage());
 			}
@@ -133,7 +138,9 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			PropertyToGraphicAttributeMappingX p2gam = (PropertyToGraphicAttributeMappingX) iterator.next();
 			
 			// caching
-			p2gam = p2gam.tryReplaceWithCashedInstanceForSameURI(p2gam);
+			p2gam = (PropertyToGraphicAttributeMappingX) 
+					RVLUtils.tryReplaceWithCashedInstanceForSameURI(p2gam, PropertyMappingX.class)
+					.castTo(PropertyToGraphicAttributeMappingX.class);
 			
 			if (p2gam.isDisabled()) {
 				LOGGER.info("Ignored disabled normal P2GAM mapping " + p2gam.toStringSummary() );
@@ -226,7 +233,9 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			PropertyToGraphicAttributeMappingX p2gam = (PropertyToGraphicAttributeMappingX) iterator.next();
 			
 			// caching
-			p2gam = p2gam.tryReplaceWithCashedInstanceForSameURI(p2gam);
+			p2gam = (PropertyToGraphicAttributeMappingX) 
+					RVLUtils.tryReplaceWithCashedInstanceForSameURI(p2gam, PropertyMappingX.class)
+					.castTo(PropertyToGraphicAttributeMappingX.class);
 			
 			if (p2gam.isDisabled()) {
 				LOGGER.info("Ignored disabled simple P2GAM mapping " + p2gam );
@@ -236,7 +245,11 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			LOGGER.info("Interpret simple P2GAM mapping " + p2gam );
 			
 			// get the mapping table SV->TV
-			Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
+			//Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
+			
+			// get the extended mapping table offering also tv for subclasses of the sv 
+			// TODO generalize this to other transitive properties
+			Map<Node, Node> svUriTVuriMap = RVLUtils.extendMappingTable(modelSet, p2gam.getExplicitlyMappedValues(), new Property(modelData, RDFS.subClassOf, false) );	
 			
 			try {
 				GraphicAttribute tga = p2gam.getTargetAttribute();
@@ -280,6 +293,48 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			
 		}
 	} 
+
+	/**
+	 * Interprets IdentityMappings, i.e. mappings where the source value will be
+	 * passed through to the target attribute without changing it.
+	 * @throws MappingException 
+	 */
+	protected void interpretIdentityMappings() {
+
+		Set<IdentityMappingX> mappingSet = MappingQuery
+				.getAllIdentityMappings(modelMappings);
+
+		LOGGER.info(NL + "Found " + mappingSet.size()
+				+ " identity mappings.");
+
+		// for each identity mapping
+		for (Iterator<IdentityMappingX> iterator = mappingSet.iterator(); iterator.hasNext();) {
+
+			IdentityMappingX mapping =  (IdentityMappingX) iterator.next();
+
+			// caching
+			mapping = (IdentityMappingX) 
+					RVLUtils.tryReplaceWithCashedInstanceForSameURI(mapping, PropertyMappingX.class)
+					.castTo(IdentityMappingX.class);
+
+			if (mapping.isDisabled()) {
+				LOGGER.info("Ignored disabled mapping "
+						+ mapping.toStringSummary());
+				continue;
+			}
+
+			try {
+				new IdentityMappingHandler(modelSet, this, modelAVM).handleIdentityMapping(mapping);
+			} catch (MappingException e) {
+				LOGGER.severe("Identity mapping could not be interpreted: " + e.getMessage());
+			}
+		}
+
+		LOGGER.fine("The size of the Resource-to-GraphicObjectX map is "
+				+ resourceGraphicObjectMap.size() + ".");
+
+	}
+
 	
 
 }

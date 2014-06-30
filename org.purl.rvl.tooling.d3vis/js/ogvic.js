@@ -38,32 +38,81 @@ var width = 1400,
 	  };
 	  
 	  /* labeling with title-tag (tooltip) */
+	  // TODO so far the first text label is used when it is a text label, however when it's an icon label, this will fail
 	  d3.selection.prototype.avmTitled = function() {
-		  return this.append("svg:title").text(function(d) { return d.full_label; });
+		  return this
+		  .filter(function(d) { return d.labels != null && d.labels[0].type == "text_label" ; })
+		  .append("svg:title").text(function(d) { return d.labels[0].text_value_full; });
 	  };
 		    
 	  /* labeling with SVG text CT */
-	  d3.selection.prototype.avmLabeledCT = function() {
-		  return this.append("svg:text")
+	  d3.selection.enter.prototype.avmLabeledCT = function(hasChildren) {
+
+		  var text =  this
+		  	.append("svg:text")
 			.attr("class", "nodeLabel")
-	 		.attr("x", function(d) { return d.children || d._children ? -10 : 10; })
+	 		.attr("x", function() { return hasChildren ? -10 : 10; })
 	     	.attr("dy", ".35em")
-			.attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
-		    .text(function(d) { return d.label; })
+			.attr("text-anchor", function() { return hasChildren ? "end" : "start"; })
+		    .text(function(d) { return d.text_value; })
 			.style("visibility", "hidden")
 			;
+
+		  return text;
 	  };
 	  
 	  /* labeling with SVG text FDG */
-	  d3.selection.prototype.avmLabeledFDG = function() {
-		  return this.append("svg:text")
+	  d3.selection.enter.prototype.avmLabeledFDG = function() {
+		  
+		  var text = this
+		  	.append("svg:text")
 			.attr("class", "nodeLabel")
 	 		.attr("dx", 10)
 	     	.attr("dy", 0)
 			//.attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
-		    .text(function(d) { return d.label; })
+		    .text(function(d) { return d.text_value; })
 			//.style("visibility", "hidden")
 			;
+		  
+		  return text;
+	  };
+	  
+	  /* labeling with text and/or icon using "complex" labels from the labels-array */
+	  d3.selection.prototype.avmLabeledComplex = function() {
+		  
+		 var 
+			addHTMLTextLabel = true,
+			addSVGTextLabel = true, 
+			addSVGIconLabel = true;	
+		  
+		 	// SVG icon label in html div 
+			if (addSVGIconLabel) {
+				
+				this
+					.selectAll(".iconLabelContainer")
+					.data(function(d) { return d.labels ; }).enter()
+					.avmLabeledSVGIcon();
+			}
+   
+			// SVG text label in html div (cropped in webkit, maybe create a much bigger SVG inside the div, or modify clipping) 
+			if (addSVGTextLabel) {
+			    
+			    this
+					.selectAll(".textSVGLabelContainer")
+					.data(function(d) { return d.labels ; }).enter()
+					.avmLabeledSVGText();
+			}
+
+			// HTML label
+			if (addHTMLTextLabel) {
+				
+				this
+					.selectAll(".textHTMLLabelContainer")
+					.data(function(d) { return d.labels ; }).enter()
+					.avmLabeledHTMLText();
+			}
+
+		  return this;
 	  };
 	  
 	  /* labeling with SVG text FDG 2 */
@@ -72,10 +121,10 @@ var width = 1400,
 		  	attr("class", "nodeLabel") // TODO class was label ... clean up various label CSS classes
 			.attr("x", function(d){return labelShapeSize/2;})  // dx is relative positioning, x is absolute
 			.attr("y", function(d){return labelShapeSize/2;})
-		    .text(function(d){return d.label; })
+		    .text(function(d){return d.text_value; })
 			.style("text-anchor", 
 				function(d){
-					var labelPosition = d.label_position;
+					var labelPosition = d.position;
 					if(labelPosition.indexOf("Right") != -1){
 						return "start" ;
 					} else if(labelPosition.indexOf("Left") != -1){
@@ -83,17 +132,22 @@ var width = 1400,
 					}
 					else return "middle" ;
 				})
+			.style("fill", function(d){
+				return d.color_rgb_hex_combined;
+				})
 			;
 	  };
 	  
 	  
-	  /* labeling with HTML text */
-	  d3.selection.prototype.avmLabeledHTML = function() {
+	  /* labeling with HTML text (version for enter-selection-array) */
+	  d3.selection.enter.prototype.avmLabeledHTMLText = function() {
 		  
 		  // TODO: reuse avmLabelPositioning
-		  var containerDiv =  this.append("div")
-		    //.attr("class","labelContainer topRight")
-			.attr("class", function(d){ return "labelContainer " + d.label_position;})
+		  var containerDiv =  this
+		  	.append("div")
+			.filter(function(d) { return d.type == "text_label" ;})
+			.filter(function(d) { return d.position == "centerCenter" ;})
+			.attr("class", function(d){ return "labelContainer textHTMLLabelContainer " + " " + d.position;})
 			.style("text-align","center")
 			.style("height", function(d){return d.width + "px";})
 			.style("width", function(d){return d.width + "px";})
@@ -101,93 +155,99 @@ var width = 1400,
 		  
 		  containerDiv.append("div")
 		  			.attr("class", "htmlTextLabel")
+		  			.style("color", function(d){
+		  				var textColor = d.color_rgb_hex_combined;
+		  				var bgColor = this.parentNode.parentNode.__data__.color_rgb_hex_combined;
+		  				//var parentNode2 = this.parentNode.parentNode;
+		  				//console.log(parentNode2.__data__.color_rgb_hex_combined); // TODO why does parentNode2.data() not work???
+		  				if (textColor == null) textColor = calculateHighContrastColor(bgColor);
+		  				return textColor;
+		  				})
 					//.style("width", NODE_SIZE + "px") // does only work well for xCenter position
-					.html(function(d){ return d.label;});
+					.html(function(d){ return d.text_value;});
 		  
 		  return containerDiv;
 	  };
 	  
+	  
 	  /* add label positioning div */
-	  d3.selection.prototype.avmLabelPositioning = function() {
+	  d3.selection.enter.prototype.avmLabelPositioning = function() {
 		  
 		  return this.append("div")
-			.attr("class", function(d){ return "labelContainer " + d.label_position ;})
+			.attr("class", function(d){ return "labelContainer " + d.position ;})
 			.style("height", function(d){return d.width + "px";})
 			.style("width", function(d){return d.width + "px";});
 	  };
 	  
-	  /* labeling with SVG text */
-	  d3.selection.prototype.avmLabeledSVG = function() {
+	  /* labeling with SVG text (version for enter-selection-array) */
+	  d3.selection.enter.prototype.avmLabeledSVGText = function() {
 		  
-		var containerDiv = this.avmLabelPositioning();
+		var containerDiv = this
+			.avmLabelPositioning()
+			.classed("textSVGLabelContainer",true);
 			
-		var labelContainerSVG = containerDiv.append("svg")
+		var labelContainerSVG = containerDiv
+			.filter(function(d) { return d.type == "text_label" ;})
+			.filter(function(d) { return d.position != "centerCenter" ;})
+			.append("svg")
 			.attr("class", "svgLabelText")
 			//.attr("width",100 +"px")
 			//.attr("height",25 +"px")
-			.attr("width", function(d){ return d.label_width + "px"; }) // are these sizes sensible?
-			.attr("height",function(d){ return d.label_width + "px"; });
+			.attr("width", function(d){ return d.width + "px"; }) // are these sizes sensible?
+			.attr("height",function(d){ return d.width + "px"; });
 			//.style("margin-left",-100 + "px")
 			//.style("margin-bottom",-0.2*NODE_SIZE + "px");
 										
 			// The label and a copy of the label as shadow for better readability
-			labelContainerSVG.avmLabeledFDG2(function(d){ return d.label_width; }).attr("class", "nodeLabelShadow");
-			labelContainerSVG.avmLabeledFDG2(function(d){ return d.label_width; });
+			//labelContainerSVG.avmLabeledFDG2(function(d){ return d.width; }).attr("class", "nodeLabelShadow");
+			labelContainerSVG.avmLabeledFDG2(function(d){ return d.width; }).classed("label", true);
 		  
 		    return containerDiv;
 	  };
 	  
-	  /* labeling with SVG icon  */
-	  d3.selection.prototype.avmLabeledSVGIcon = function() {
+	  
+	  /* labeling with SVG icon (version for enter-selection-array)  */
+	  d3.selection.enter.prototype.avmLabeledSVGIcon = function() {
 		  
-		var containerDiv = this.avmLabelPositioning();
+		var containerDiv = this
+				.avmLabelPositioning()
+				.classed("iconLabelContainer",true);
 			
-		containerDiv.append("svg")
+		containerDiv
+			.filter(function(d) { return d.type === "icon_label" ;})
+			.append("svg")
 			.attr("class", "svgLabelIcon")
-			.attr("width",function(d){ return d.label_width + "px"; })
-			.attr("height",function(d){ return d.label_width + "px"; })
-			.style("margin",function(d){ return -1*d.label_width*LABEL_ICON_SUPER_IMPOSITION_FAKTOR + "px"; })
+			.attr("width",function(d){ return d.width + "px"; })
+			.attr("height",function(d){ return d.width + "px"; })
+			.style("margin",function(d){ return -1*d.width*LABEL_ICON_SUPER_IMPOSITION_FAKTOR + "px"; })
 			//.style("margin","0px")
 			
 			.append("svg:g") // translating here allows for using transform two times (for scale, translate. alternative could be use of matrix)
-				.attr("transform", function(d){ return "translate(" + d.label_width/2 + "," + d.label_width/2 + ")";})
-				//.attr("x", function(d){ return (d.label_width)/2;}) // somehow offers other results than translate
-		        //.attr("y", function(d){ return (d.label_width)/2;})
+				.attr("transform", function(d){ return "translate(" + d.width/2 + "," + d.width/2 + ")";})
+				//.attr("x", function(d){ return (d.width)/2;}) // somehow offers other results than translate
+		        //.attr("y", function(d){ return (d.width)/2;})
 				
 			.append("use")
-			  .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.label_shape_d3_name; })
-			  //.attr("xlink:href", function(d) { return "../../svg/symbols.svg#clock"; })
-	   	 	  .attr("class", function(d) { return "label svgSymbol"; })
-		      .style("fill", function(d) { return d.label_color_rgb_hex_combined; })
-		      .attr("transform", function(d) { return "scale(" + (d.label_width/SYMBOL_WIDTH) +  ")"; })
-			  ;
-			
-			/* OLD: path instead of symbol. advantage: shape can be calculated on square-pixels (area) */
-			/*.append("path")
-	  			.attr("class", "label")
-	 			.attr("d", avmDefaultSizeLabelSymbolFunction)
-	 			.style("fill", "red")
-				.attr("transform", function(d){ return "translate(" + labelShapeSize/2 + "," + labelShapeSize/2 + ")";});
-			*/
-		  
-		  return containerDiv;
-	  };
-	  
-	  /* setting the shape by reusing an SVG symbol */ // TODO: this also sets color and node-class at the moment
-	  /*d3.selection.prototype.avmShapedWithUseSVG = function() {
-		 	return this.append("use")
 			  .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.shape_d3_name; })
 			  //.attr("xlink:href", function(d) { return "../../svg/symbols.svg#clock"; })
-	   	 	  .attr("class", function(d) { return "node svgSymbol"; })
+	   	 	  .attr("class", function(d) { return "label svgSymbol"; })
 		      .style("fill", function(d) { return d.color_rgb_hex_combined; })
-		      //.attr("width", "200 px").attr("height", "200 px") // does not seem to work (Firefox at least)
-		      .attr("transform", function(d) { return "scale(" + d.width/SYMBOL_WIDTH +  ")"; })
-		     ;
-	  };*/
+		      .attr("transform", function(d) { return "scale(" + (d.width/SYMBOL_WIDTH) +  ")"; })
+			  ;
+		
+		// OLD: path instead of symbol. advantage: shape can be calculated on square-pixels (area) 
+//		.append("path")
+//  		.attr("class", "label")
+// 			.attr("d", avmDefaultSizeLabelSymbolFunction)
+// 			.style("fill", "red")
+//			.attr("transform", function(d){ return "translate(" + labelShapeSize/2 + "," + labelShapeSize/2 + ")";});
 
+		  return containerDiv;
+	  };
 	   
-	  /* label aligned at the connector path */
-	  d3.selection.enter.prototype.avmLabeledConnectorAligned = function() {
+	  
+	  /* label aligned at the connector path  (enter-version) */
+	  d3.selection.enter.prototype.avmLabeledConnectorAligned = function(labelText,id) {
 		  
 		  var text =  this.append("svg:text")
 			.attr("class", "path_label");
@@ -195,68 +255,43 @@ var width = 1400,
 		  text.append("svg:textPath")
 			.attr("startOffset", "50%")
 			.attr("text-anchor", "middle")
-			.attr("xlink:href", function(d){
-			      	return "#" + createIDForLink(d);
-			  	}).style("fill", "#fff")
-			.style("font-family", "Arial")
-			.text(function (d) {
-	           		 return d.label;
-	        		}
-				);
+			.attr("xlink:href",	id)
+			.style("fill", "#fff")
+			.style("font-family", "Georgia")
+			.text(labelText);
 		  
 		  return text;
 	  };
 	  
-	  /* label aligned at the connector path */ // TODO merge
-	  d3.selection.enter.prototype.avmLabeledConnectorAligned2 = function() {
-		  
-		  var text =  this.append("svg:text")
-			.attr("class", "path_label");
-		  
-		  text.append("svg:textPath")
-			.attr("startOffset", "50%")
-			.attr("text-anchor", "middle")
-			.attr("xlink:href",	function(d){
-			      	return "#" + createIDForLink2(d);
-			  	}).style("fill", "#fff")
-			.style("font-family", "Arial")
-			.text(function (d) {
-	           		 return d.target.connector_label;
-	        		}
-				);
-		  
-		  return text;
-	  };
-	  
-	  /* setting the icon label as a circle */
+	  /* setting the icon label as a circle */ // does this actually work? not in use at the moment!
 	  d3.selection.prototype.avmLabeledWithCircle = function(labelShapeSize) {
 		 	return this.append("svg:circle")
 			.attr("r", labelShapeSize/2)
 			.attr("cx",labelShapeSize/2)
 			.attr("cy",labelShapeSize/2)
-			.style("fill", function(d) { return d.color_rgb_hex_combined; });
+			.applyGraphicAttributesNonSpatial2SVG();
 	  };
 	  
-	  /* setting the shape by reusing an SVG symbol */ // TODO: this also sets color and node-class at the moment
-	  d3.selection.prototype.avmShapedWithUseSVG = function() {
+	  /* setting the shape by reusing an SVG symbol */ 
+	  d3.selection.prototype.avmShapedWithUseSVG = 
+	  d3.selection.enter.prototype.avmShapedWithUseSVG = function() {
 		 	return this.append("use")
+		 	  .filter(function(d) { return null != d.shape_d3_name ;})
 			  .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.shape_d3_name; })
-			  //.attr("xlink:href", function(d) { return "../../svg/symbols.svg#clock"; })
-	   	 	  .attr("class", function(d) { return "node svgSymbol"; })
-		      .style("fill", function(d) { return d.color_rgb_hex_combined; })
-		      //.attr("width", "200 px").attr("height", "200 px") // does not seem to work (Firefox at least)
-		      .attr("transform", function(d) { return "scale(" + d.width/SYMBOL_WIDTH +  ")"; })
-		     ;
-	  };
-	  
-	  /* setting the shape by reusing an SVG symbol */ // TODO: this also sets color at the moment; merge with above
-	  d3.selection.prototype.avmShapedWithUseSVGPure = function() {
-		 	return this.append("use")
-			  .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.shape_d3_name; })
-			  //.attr("xlink:href", function(d) { return "../../svg/symbols.svg#clock"; })
 	   	 	  .attr("class", "svgSymbol")
-		      .style("fill", function(d) { return d.color_rgb_hex_combined; })
+		      .applyGraphicAttributesNonSpatial2SVG()
 		     ;
+	  };
+	  
+	  /* setting the shape as a text based on text_value */
+	  d3.selection.prototype.avmShapedWithText = function() { 	
+		 	return this.append("svg:text")
+			.attr("class", "textNode")
+	 		.attr("dx", 10)
+	     	.attr("dy", 0)
+		    .text(function(d) { return d.shape_text_value; })
+			.applyGraphicAttributesNonSpatial2SVG()
+			;
 	  };
 	  
 	  /* setting the shape by a path object */ // TODO: this also sets color and class node at the moment ; seems broken
@@ -266,7 +301,14 @@ var width = 1400,
 		 		//.attr("d", d3.svg.symbol());
 			   .attr("class", function(d) { return "node";})
     		   .attr("d", symbolFunction)
-    		    .style("fill", function(d) { return d.color_rgb_hex_combined; })
+			   .applyGraphicAttributesNonSpatial2SVG()
+		     ;
+	  };
+	  
+	  /* setting graphic attributes on SVG (except position, dimensions ... */
+	  d3.selection.prototype.applyGraphicAttributesNonSpatial2SVG = function() {
+		 	return this
+    		   .style("fill", function(d) { return d.color_rgb_hex_combined; })
 		     ;
 	  };
 	  
@@ -326,7 +368,7 @@ var avmDefaultSizeSymbolFunction = d3.svg.symbol()
 
 var avmDefaultSizeLabelSymbolFunction = d3.svg.symbol()
 	.size(250)
-	.type(function (d) {return d.label_shape_d3_name;})
+	.type(function (d) {return d.shape_d3_name;})
 	;
 
 
@@ -457,9 +499,6 @@ function toggle(d) {
 	d3.selectAll(".node").classed("highlighted identical", false);
 	
 	//shorten labels // TODO: this is no highlighting stuff
-	d3.selectAll(".node").selectAll("text").
-		text(function(d){return d.label;});
+	d3.selectAll(".node").selectAll("text.nodeLabel").
+		text(function(d){return d.text_value;});
  }
- 
- 
- 

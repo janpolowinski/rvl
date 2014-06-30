@@ -21,10 +21,12 @@ import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.purl.rvl.tooling.ModelBuilder;
 import org.purl.rvl.tooling.avm2d3.D3Generator;
-import org.purl.rvl.tooling.avm2d3.D3GeneratorSimpleJSON;
+import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
 import org.purl.rvl.tooling.rvl2avm.RVLInterpreter;
 import org.purl.rvl.tooling.rvl2avm.SimpleRVLInterpreter;
 import org.purl.rvl.tooling.util.CustomRecordFormatter;
+
+import com.cedarsoftware.util.io.JsonWriter;
 
 
 /**
@@ -91,7 +93,7 @@ public class OGVICProcess {
   	
 		//LOGGER.setLevel(Level.SEVERE); 
 		//LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.SEVERE); 
-		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.FINEST);
+		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.INFO);
 
 		
 		// In order to show log entrys of the fine level, we need to create a new handler as well
@@ -238,7 +240,7 @@ public class OGVICProcess {
 		// create and set a generator, if not already set
 		if (null == d3Generator) {
 			LOGGER.warning("JSON generator was not set, using default one.");
-			setD3Generator(new D3GeneratorSimpleJSON());
+			setD3Generator(new D3GeneratorDeepLabelsJSON());
 		}
 	}
 
@@ -284,7 +286,12 @@ public class OGVICProcess {
 	private void transformAVMToD3() {
 		d3Generator.init(getModelAVM());
 		String json = d3Generator.generateJSONforD3();
-		LOGGER.info("JSON data is: " + NL +  json);
+		try {
+			json = JsonWriter.formatJson(json);
+		} catch (IOException e) {
+			LOGGER.warning("problem with pretty printing JSON (skipped) : " + e.getMessage());
+		}
+		LOGGER.fine("JSON data is: " + NL +  json);
 		d3Generator.writeJSONToFile(json);
 	}
 

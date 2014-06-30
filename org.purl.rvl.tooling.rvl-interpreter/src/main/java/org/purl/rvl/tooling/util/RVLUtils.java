@@ -1,11 +1,21 @@
 package org.purl.rvl.tooling.util;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.logging.Logger;
 
+import org.ontoware.rdf2go.model.Sparqlable;
 import org.ontoware.rdf2go.model.node.Node;
+import org.ontoware.rdf2go.model.node.Resource;
+import org.ontoware.rdfreactor.schema.rdfs.Property;
+import org.purl.rvl.java.gen.rvl.Thing1;
+import org.purl.rvl.tooling.process.ResourcesCache;
+import org.purl.rvl.tooling.query.data.DataQuery;
 
 /**
  * @author Jan Polowinski
@@ -54,6 +64,57 @@ public class RVLUtils {
 		
 //		LOGGER.finest("Java list of nodes: " + javaList);
 		return javaList;
+		
+	}
+	
+	public static <T extends Thing1> T tryReplaceWithCashedInstanceForSameURI(Thing1 instance, Class<T> clasz) {
+		
+		T castedInstance = (T) instance.castTo(clasz);
+		
+		return (T) ResourcesCache.getInstance().tryReplaceOrCache(castedInstance);
+	}
+	
+	public static <T extends org.purl.rvl.java.gen.viso.graphic.Thing1> T tryReplaceWithCashedInstanceForSameURI_for_VISO_Resources(org.purl.rvl.java.gen.viso.graphic.Thing1 instance, Class<T> clasz) {
+		
+		T castedInstance = (T) instance.castTo(clasz);
+		
+		return (T) ResourcesCache.getInstance().tryReplaceOrCache(castedInstance);
+	}
+
+	public static Map<Node, Node> extendMappingTable(Sparqlable modelOrModelSet,
+			Map<Node, Node> explicitlyMappedValues, Property property) {
+		
+		// storing new implicitly mapped values
+		Map<Resource, Node> implicitlyMappedValues = new HashMap<Resource, Node>();
+		
+		// iterate explicitly mapped values and add them 
+		// to the implicit ones using the same target value
+		Set<Entry<Node,Node>> explicitlyMappedPair = explicitlyMappedValues.entrySet();
+		
+		for (Entry<Node, Node> mappedValuePair : explicitlyMappedPair) {
+			
+			try {
+			
+				// TODO use getDirectlyRelatedResources  
+				// to avoid assigning a more general value after a specific values has already be assigned
+				// this needs recursion when only directly related resources are returned
+				Set<Resource> directSubValues = DataQuery.getRelatedResources(modelOrModelSet, mappedValuePair.getKey().asResource(), property);
+				//Set<Resource> directSubValues = DataQuery.getDirectlyRelatedResources(modelOrModelSet, mappedValuePair.getKey().asResource(), property);
+				
+				for (Resource directSubValue : directSubValues) {
+					
+					implicitlyMappedValues.put(directSubValue, mappedValuePair.getValue());
+					
+				}
+				
+			} catch (ClassCastException e ) {
+				// not all key are resources, there may also be literals
+			}
+			
+		}
+		
+		explicitlyMappedValues.putAll(implicitlyMappedValues);
+		return explicitlyMappedValues;
 		
 	}
 
