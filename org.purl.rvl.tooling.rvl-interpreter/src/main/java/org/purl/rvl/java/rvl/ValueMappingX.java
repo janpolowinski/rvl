@@ -18,7 +18,6 @@ import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.UnexpressiveMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.Interval;
-import org.purl.rvl.java.gen.rvl.PropertyMapping;
 import org.purl.rvl.java.gen.rvl.Valuemapping;
 import org.purl.rvl.java.rvl.mapping.CalculatedValueMapping;
 import org.purl.rvl.java.rvl.mapping.ValueMapperCC_CCd;

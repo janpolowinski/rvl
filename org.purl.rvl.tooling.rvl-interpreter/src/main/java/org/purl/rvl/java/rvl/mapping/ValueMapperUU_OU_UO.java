@@ -3,14 +3,14 @@ package org.purl.rvl.java.rvl.mapping;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
+//import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.model.node.Node;
 import org.purl.rvl.exception.UnexpressiveMappingSpecificationException;
 
 public class ValueMapperUU_OU_UO extends ValueMapper {
 	
-	private final static Logger LOGGER = Logger.getLogger(ValueMapperUU_OU_UO.class.getName()); 
+	//private final static Logger LOGGER = Logger.getLogger(ValueMapperUU_OU_UO.class.getName()); 
 	
 	private Set<Node> sourceValuesUnorderedSet;
 	private List<Node> sourceValuesOrderedSet;

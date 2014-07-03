@@ -21,12 +21,10 @@ import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.util.RDFTool;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
-import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
-import org.purl.rvl.java.gen.rvl.Thing1;
 import org.purl.rvl.java.gen.rvl.Valuemapping;
+import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.rvl.mapping.CalculatedValueMapping;
-import org.purl.rvl.tooling.process.ResourcesCache;
 import org.purl.rvl.tooling.util.AVMUtils;
 
 

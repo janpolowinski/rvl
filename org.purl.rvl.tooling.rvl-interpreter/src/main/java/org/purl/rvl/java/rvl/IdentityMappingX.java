@@ -9,7 +9,6 @@ import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.purl.rvl.java.gen.rvl.Identitymapping;
-import org.purl.rvl.tooling.process.ResourcesCache;
 
 /**
  * @author Jan Polowinski
