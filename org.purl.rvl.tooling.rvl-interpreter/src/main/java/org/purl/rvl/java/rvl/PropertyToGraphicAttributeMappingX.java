@@ -214,7 +214,8 @@ public class PropertyToGraphicAttributeMappingX extends
 			
 			// TODO: we ignore other value mapping than the first at the moment! sometimes multiple are allowed!
 			
-			Collection<CalculatedValueMapping> cvms = getFirstValueMapping().getCalculatedValueMappings(affectedStatements);
+			Collection<CalculatedValueMapping> cvms = getFirstValueMapping()
+					.getCalculatedValueMappings(affectedStatements, (PropertyMappingX)this.castTo(PropertyMappingX.class));
 			
 			for (Iterator<CalculatedValueMapping> iterator = cvms.iterator(); iterator.hasNext();) {
 				CalculatedValueMapping calculatedValueMapping = (CalculatedValueMapping) iterator.next();

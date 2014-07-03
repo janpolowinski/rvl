@@ -9,6 +9,7 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.exception.NotImplementedMappingFeatureException;
 
 /**
  * @author Jan Polowinski
@@ -32,6 +33,6 @@ public abstract class MappingHandlerBase implements MappingHandler  {
 	}
 
 	protected abstract void encodeStatement(Statement statement)
-			throws InsufficientMappingSpecificationException;
+			throws InsufficientMappingSpecificationException, NotImplementedMappingFeatureException;
 
 }

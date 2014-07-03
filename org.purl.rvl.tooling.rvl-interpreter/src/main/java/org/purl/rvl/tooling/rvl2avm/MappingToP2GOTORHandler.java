@@ -10,6 +10,7 @@ import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.MappingException;
+import org.purl.rvl.exception.NotImplementedMappingFeatureException;
 import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
 import org.purl.rvl.tooling.process.OGVICProcess;
@@ -31,8 +32,7 @@ public abstract class MappingToP2GOTORHandler extends MappingHandlerBase {
 		super(modelSet, rvlInterpreter, modelAvm);
 	}
 
-	public void handleP2GOTORMapping(PropertyToGO2ORMappingX mapping) throws MappingException
-		{
+	public void handleP2GOTORMapping(PropertyToGO2ORMappingX mapping) throws MappingException {
 		
 		this.mapping = mapping;
 		
@@ -67,6 +67,9 @@ public abstract class MappingToP2GOTORHandler extends MappingHandlerBase {
 					} catch (InsufficientMappingSpecificationException e) {
 						throw new MappingException("Problem encoding statement " 
 							+ statement.toString() + ": " + e.getMessage());
+					} catch (NotImplementedMappingFeatureException e) {
+						LOGGER.warning("Problem encoding statement, skipped " 
+								+ statement.toString() + ": " + e.getMessage());
 					}
 
 				processedGraphicRelations++;
