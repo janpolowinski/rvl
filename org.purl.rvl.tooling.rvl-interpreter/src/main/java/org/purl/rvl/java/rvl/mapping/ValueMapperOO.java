@@ -1,33 +1,24 @@
 package org.purl.rvl.java.rvl.mapping;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.model.node.Node;
+import org.purl.rvl.java.rvl.ValueMappingX;
 
 public class ValueMapperOO extends ValueMapper {
 	
 	private final static Logger LOGGER = Logger.getLogger(ValueMapperOO.class.getName()); 
 	
-	private List<Node> sourceValuesOrderedSet;
-	private List<Node> targetValuesList;
-
-	
-	public ValueMapperOO(List<Node> sourceValuesOrderedSet, List<Node> targetValuesList) {
-		super();
-		this.sourceValuesOrderedSet = sourceValuesOrderedSet;
-		this.targetValuesList = targetValuesList;
-	}
 	
 	@Override
-	public Set<CalculatedValueMapping> calculateValueMappings() {
+	public Set<CalculatedValueMapping> calculateValueMappings(ValueMappingX valueMapping) {
 
-		Iterator<Node> svIt = sourceValuesOrderedSet.iterator();
-		Iterator<Node> tvIt = targetValuesList.iterator();
+		Iterator<Node> svIt = valueMapping.getSourceValuesOrderedSet().iterator();
+		Iterator<Node> tvIt = valueMapping.getTargetValuesList().iterator();
 				
-		if (sourceValuesOrderedSet.size() <= targetValuesList.size() ) {
+		if (valueMapping.getSourceValuesOrderedSet().size() <= valueMapping.getTargetValuesList().size() ) {
 			
 			// TODO ignored stretching for the moment
 			while (svIt.hasNext() && tvIt.hasNext()) {
@@ -38,12 +29,12 @@ public class ValueMapperOO extends ValueMapper {
 				cvms.add(new CalculatedValueMapping(sv.asURI(), tv.asURI()));
 			}
 		} 
-		else { // sourceValuesOrderedSet.size() > targetValuesList.size()
+		else { // valueMapping.getSourceValuesOrderedSet().size() > valueMapping.getTargetValuesList().size()
 
 			while (svIt.hasNext() && tvIt.hasNext()) {
 				
-				LOGGER.warning("Not enough distinct target values defined (" + targetValuesList.size() + ") " +
-						"for the number of source values (" +  sourceValuesOrderedSet.size() + "), " +
+				LOGGER.warning("Not enough distinct target values defined (" + valueMapping.getTargetValuesList().size() + ") " +
+						"for the number of source values (" +  valueMapping.getSourceValuesOrderedSet().size() + "), " +
 						"will cycle values.");
 
 				Node sv = svIt.next();
@@ -52,7 +43,7 @@ public class ValueMapperOO extends ValueMapper {
 				cvms.add(new CalculatedValueMapping(sv.asURI(), tv.asURI()));
 				
 				// reset tv iterator if necessary
-				if(!tvIt.hasNext()) tvIt = targetValuesList.iterator();
+				if(!tvIt.hasNext()) tvIt = valueMapping.getTargetValuesList().iterator();
 			}
 		}
 		

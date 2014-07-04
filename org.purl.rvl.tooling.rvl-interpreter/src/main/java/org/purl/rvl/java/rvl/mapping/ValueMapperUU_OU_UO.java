@@ -1,40 +1,20 @@
 package org.purl.rvl.java.rvl.mapping;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
-//import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.model.node.Node;
 import org.purl.rvl.exception.UnexpressiveMappingSpecificationException;
+import org.purl.rvl.java.rvl.ValueMappingX;
+//import java.util.logging.Logger;
 
 public class ValueMapperUU_OU_UO extends ValueMapper {
 	
 	//private final static Logger LOGGER = Logger.getLogger(ValueMapperUU_OU_UO.class.getName()); 
-	
-	private Set<Node> sourceValuesUnorderedSet;
-	private List<Node> sourceValuesOrderedSet;
-	private List<Node> targetValuesList;
-	private Set<Node> targetValuesUnorderedSet;
 
-
-	
-	public ValueMapperUU_OU_UO(
-			List<Node> sourceValuesOrderedSet,
-			Set<Node> sourceValuesUnorderedSet,
-			List<Node> targetValuesList,
-			Set<Node> targetValuesUnorderedSet
-			) {
-		super();
-
-		this.sourceValuesOrderedSet = sourceValuesOrderedSet;
-		this.sourceValuesUnorderedSet = sourceValuesUnorderedSet;
-		this.targetValuesList = targetValuesList;
-		this.targetValuesUnorderedSet = targetValuesUnorderedSet;
-	}
 	
 	@Override
-	public Set<CalculatedValueMapping> calculateValueMappings() 
+	public Set<CalculatedValueMapping> calculateValueMappings(ValueMappingX valueMapping) 
 			throws UnexpressiveMappingSpecificationException {
 
 		Iterator<Node> svIt;
@@ -42,21 +22,21 @@ public class ValueMapperUU_OU_UO extends ValueMapper {
 		int numberOfSv ;
 		int numberOfTv ;
 		
-		if (null != sourceValuesOrderedSet) {
-			svIt = sourceValuesOrderedSet.iterator();
-			numberOfSv = sourceValuesOrderedSet.size();
+		if (null != valueMapping.getSourceValuesOrderedSet()) {
+			svIt = valueMapping.getSourceValuesOrderedSet().iterator();
+			numberOfSv = valueMapping.getSourceValuesOrderedSet().size();
 		} 
 		else {
-			svIt = sourceValuesUnorderedSet.iterator();
-			numberOfSv = sourceValuesUnorderedSet.size();
+			svIt = valueMapping.getSourceValuesUnorderedSet().iterator();
+			numberOfSv = valueMapping.getSourceValuesUnorderedSet().size();
 		}
 		
-		if (null != targetValuesList) {
-			tvIt = targetValuesList.iterator();
-			numberOfTv = targetValuesList.size();	
+		if (null != valueMapping.getTargetValuesList()) {
+			tvIt = valueMapping.getTargetValuesList().iterator();
+			numberOfTv = valueMapping.getTargetValuesList().size();	
 		} else {
-			tvIt = targetValuesUnorderedSet.iterator();
-			numberOfTv = targetValuesUnorderedSet.size();	
+			tvIt = valueMapping.getTargetValuesUnorderedSet().iterator();
+			numberOfTv = valueMapping.getTargetValuesUnorderedSet().size();	
 		}
 
 

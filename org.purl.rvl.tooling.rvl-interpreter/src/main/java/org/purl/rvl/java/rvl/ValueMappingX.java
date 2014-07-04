@@ -671,17 +671,15 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 		
 	} else if (OO == caseID){
 		
-		return new ValueMapperOO(sourceValuesOrderedSet,targetValuesList).calculateValueMappings();
+		return new ValueMapperOO().calculateValueMappings(this);
 
 	} else if (UU == caseID || OU == caseID || UO == caseID){
 
-		return new ValueMapperUU_OU_UO(sourceValuesOrderedSet,sourceValuesUnorderedSet,
-				targetValuesList,targetValuesUnorderedSet).calculateValueMappings();
+		return new ValueMapperUU_OU_UO().calculateValueMappings(this);
 			
 	} else if (OC == caseID || UC == caseID) {
 		
-		return new ValueMapperOC_UC(sourceValuesOrderedSet,sourceValuesUnorderedSet,
-				targetValuesContinuousInterval).calculateValueMappings();
+		return new ValueMapperOC_UC().calculateValueMappings(this);
 
 	} else if ((CC == caseID || CC_D == caseID ) && null != this.affectedStatements) {
 		

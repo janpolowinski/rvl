@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.purl.rvl.exception.UnexpressiveMappingSpecificationException;
+import org.purl.rvl.java.rvl.ValueMappingX;
 
 /**
  * @author Jan Polowinski
@@ -24,7 +25,7 @@ public abstract class ValueMapper {
 	 * @return - the set of CalculatedValueMapping 's 
 	 * @throws UnexpressiveMappingSpecificationException 
 	 */
-	public abstract Set<CalculatedValueMapping> calculateValueMappings() throws UnexpressiveMappingSpecificationException ;
+	public abstract Set<CalculatedValueMapping> calculateValueMappings(ValueMappingX valueMapping) throws UnexpressiveMappingSpecificationException ;
 
 	protected ValueMapper() {
 		super();

@@ -1,7 +1,6 @@
 package org.purl.rvl.java.rvl.mapping;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -9,26 +8,15 @@ import org.ontoware.rdf2go.model.node.Literal;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.impl.DatatypeLiteralImpl;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
-import org.purl.rvl.java.rvl.IntervalX;
+import org.purl.rvl.java.rvl.ValueMappingX;
 
 public class ValueMapperOC_UC extends ValueMapper {
 	
 	private final static Logger LOGGER = Logger.getLogger(ValueMapperOC_UC.class.getName()); 
-	
-	private Set<Node> sourceValuesUnorderedSet;
-	private List<Node> sourceValuesOrderedSet;
-	private IntervalX targetValuesContinuousInterval;
 
 	
-	public ValueMapperOC_UC(List<Node> sourceValuesOrderedSet, Set<Node> sourceValuesUnorderedSet, IntervalX targetValuesContinuousInterval) {
-		super();
-		this.sourceValuesUnorderedSet = sourceValuesUnorderedSet;
-		this.sourceValuesOrderedSet = sourceValuesOrderedSet;
-		this.targetValuesContinuousInterval = targetValuesContinuousInterval;
-	}
-	
 	@Override
-	public Set<CalculatedValueMapping> calculateValueMappings() {
+	public Set<CalculatedValueMapping> calculateValueMappings(ValueMappingX valueMapping) {
 
 		Iterator<Node> svIt;
 		int numberOfSv ;
@@ -38,13 +26,13 @@ public class ValueMapperOC_UC extends ValueMapper {
 		int discreteStepCount = 1;
 		float discreteStepSize = -1; 
 
-		if (null != sourceValuesOrderedSet) {
-			svIt = sourceValuesOrderedSet.iterator();
-			numberOfSv = sourceValuesOrderedSet.size();
+		if (null != valueMapping.getSourceValuesOrderedSet()) {
+			svIt = valueMapping.getSourceValuesOrderedSet().iterator();
+			numberOfSv = valueMapping.getSourceValuesOrderedSet().size();
 		} 
 		else {
-			svIt = sourceValuesUnorderedSet.iterator();
-			numberOfSv = sourceValuesUnorderedSet.size();
+			svIt = valueMapping.getSourceValuesUnorderedSet().iterator();
+			numberOfSv = valueMapping.getSourceValuesUnorderedSet().size();
 		}
 		
 		// TODO check for discrete step count here
@@ -54,10 +42,10 @@ public class ValueMapperOC_UC extends ValueMapper {
 
 		try {
 			
-			lowerBoundValue = targetValuesContinuousInterval.getLowerBoundAsFloat();
+			lowerBoundValue = valueMapping.getTargetValuesContinuousInterval().getLowerBoundAsFloat();
 			LOGGER.finest("lower bound: " + lowerBoundValue );
 			
-			upperBoundValue = targetValuesContinuousInterval.getUpperBoundAsFloat();
+			upperBoundValue = valueMapping.getTargetValuesContinuousInterval().getUpperBoundAsFloat();
 			LOGGER.finest("upper bound: " + upperBoundValue );
 			
 			discreteStepSize = (upperBoundValue - lowerBoundValue)/(discreteStepCount-1);

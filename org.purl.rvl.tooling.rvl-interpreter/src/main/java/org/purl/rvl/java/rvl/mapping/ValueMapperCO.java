@@ -18,8 +18,8 @@ public class ValueMapperCO extends ValueMapper {
 		super();
 	}
 	
+	@Override
 	public Set<CalculatedValueMapping> calculateValueMappings(ValueMappingX valueMapping) {
-		
 		
 		int discreteStepCount = -1; 
 		float discreteStepSizeSv = -1; 
@@ -109,12 +109,6 @@ public class ValueMapperCO extends ValueMapper {
 		
 		return cvms;
 		
-	}
-
-	@Override
-	public Set<CalculatedValueMapping> calculateValueMappings() throws UnexpressiveMappingSpecificationException {
-		// TODO decide on one variant
-		return null;
 	}
 
 }
