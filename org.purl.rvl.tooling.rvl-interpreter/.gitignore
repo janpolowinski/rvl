@@ -6,6 +6,8 @@ target/
 pom.properties
 /.classpath
 
-/gen/*.*
+/gen/tempAVM.*
+/gen/docs/*
+*-javadoc.xml
 
 ogvic.properties
