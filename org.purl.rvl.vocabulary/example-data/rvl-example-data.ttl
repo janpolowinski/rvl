@@ -107,6 +107,16 @@
       :workingField :InfoVis ;
       :knows :Lina , :Luisa ;
       .
+      
+:Johannes a :Person ;
+      rdfs:label "Johannes"^^xsd:string ;
+      :workingField :Spirituality ;
+      .
+      
+:Goethe a :Person ;
+      rdfs:label "Goethe"^^xsd:string ;
+      :workingField :Fiction ;
+      .
 
 :John
       rdf:type :Author ;
@@ -153,6 +163,17 @@
       rdf:type :Author ;
       rdfs:label "Susane"^^xsd:string ;
       :workingField :Travel .
+      
+:DoctorWho
+	  a :Person ;
+	  rdfs:label "Doctor Who"^^xsd:string ;
+	  :workingField :Science ;
+	  .      
+      
+:PersonWithoutCharacteristics
+      rdf:type :Person ;
+      rdfs:label "Person without characteristics"^^xsd:string ;
+      .
 
 :Travel
       rdf:type :Field ;
