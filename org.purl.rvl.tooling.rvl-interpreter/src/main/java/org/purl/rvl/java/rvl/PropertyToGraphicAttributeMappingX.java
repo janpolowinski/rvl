@@ -21,12 +21,10 @@ import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.util.RDFTool;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
-import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
-import org.purl.rvl.java.gen.rvl.Thing1;
 import org.purl.rvl.java.gen.rvl.Valuemapping;
+import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.rvl.mapping.CalculatedValueMapping;
-import org.purl.rvl.tooling.process.ResourcesCache;
 import org.purl.rvl.tooling.util.AVMUtils;
 
 
@@ -148,8 +146,11 @@ public class PropertyToGraphicAttributeMappingX extends
 			
 			try {
 				explicitlyMappedValues = getCalculatedValues(null); // TODO null OK???
+			} catch (InsufficientMappingSpecificationException e) {
+				LOGGER.warning("Could not calculate value mappings: " + e.getMessage()); 
 			} catch (Exception e) {
-				LOGGER.fine("Could neither find explicit nor calculate value mappings (will return empty set)"); 
+				// TODO remove catch all here!
+				LOGGER.warning("Could neither find explicit nor calculate value mappings (will return empty set): " + e.getMessage()); 
 			}
 		}
 
@@ -201,8 +202,9 @@ public class PropertyToGraphicAttributeMappingX extends
 	 * TODO: CURRENTLY ONLY ONE VALUE MAPPING IS EVALUATED!
 	 * @param the set of statements that the property mapping currently affects
 	 * @return
+	 * @throws InsufficientMappingSpecificationException 
 	 */
-	public Map<Node, Node> getCalculatedValues(Set<Statement> affectedStatements) {
+	public Map<Node, Node> getCalculatedValues(Set<Statement> affectedStatements) throws InsufficientMappingSpecificationException {
 		
 		if ((null == explicitlyMappedValues || explicitlyMappedValues.isEmpty()) && hasValuemapping()) {
 
@@ -210,7 +212,8 @@ public class PropertyToGraphicAttributeMappingX extends
 			
 			// TODO: we ignore other value mapping than the first at the moment! sometimes multiple are allowed!
 			
-			Collection<CalculatedValueMapping> cvms = getFirstValueMapping().getCalculatedValueMappings(affectedStatements);
+			Collection<CalculatedValueMapping> cvms = getFirstValueMapping()
+					.getCalculatedValueMappings(affectedStatements, (PropertyMappingX)this.castTo(PropertyMappingX.class));
 			
 			for (Iterator<CalculatedValueMapping> iterator = cvms.iterator(); iterator.hasNext();) {
 				CalculatedValueMapping calculatedValueMapping = (CalculatedValueMapping) iterator.next();

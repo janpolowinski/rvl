@@ -1,32 +1,32 @@
 package org.purl.rvl.java.rvl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.BlankNode;
-import org.ontoware.rdf2go.model.node.DatatypeLiteral;
-import org.ontoware.rdf2go.model.node.Literal;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
-import org.ontoware.rdf2go.model.node.impl.DatatypeLiteralImpl;
-import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.UnexpressiveMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.Interval;
 import org.purl.rvl.java.gen.rvl.Valuemapping;
 import org.purl.rvl.java.rvl.mapping.CalculatedValueMapping;
+import org.purl.rvl.java.rvl.mapping.ValueMapperCC_CCd;
+import org.purl.rvl.java.rvl.mapping.ValueMapperCO;
+import org.purl.rvl.java.rvl.mapping.ValueMapperCU;
+import org.purl.rvl.java.rvl.mapping.ValueMapperOC_UC;
+import org.purl.rvl.java.rvl.mapping.ValueMapperOO;
+import org.purl.rvl.java.rvl.mapping.ValueMapperUU_OU_UO;
+import org.purl.rvl.java.rvl.mapping.ValueMappingUtils;
 import org.purl.rvl.tooling.util.RVLUtils;
 
 /**
@@ -34,54 +34,38 @@ import org.purl.rvl.tooling.util.RVLUtils;
  * 
  */
 public class ValueMappingX extends Valuemapping implements MappingIF {
-
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
-
 	static final String NL = System.getProperty("line.separator");
-	
 	private final static Logger LOGGER = Logger.getLogger(ValueMappingX.class.getName()); 
-
 	
-	static final int NOT_CALCULATED = -1;
-	static final int UNKNOWN = 0;
+	public static final int NOT_CALCULATED = -1;
+	public static final int UNKNOWN = 0;
 	
 	// ADDRESSED SOURCE AND TARGET VALUES
-	static final int CONTINUOUS_RANGE = 1;
-	static final int ORDERED_SET = 2;
-	static final int UNORDERED_SET = 3;
-	static final int SINGLE_VALUE = 4;
+	public static final int CONTINUOUS_RANGE = 1;
+	public static final int ORDERED_SET = 2;
+	public static final int UNORDERED_SET = 3;
+	public static final int SINGLE_VALUE = 4;
 	
 	// MAPPING SITUATIONS FROM MATRIX
-	static final int CC = 1;
-	static final int CC_D = 2;
-	static final int CO = 3;
-	static final int CU = 4;
-	static final int OC = 5;
-	static final int OO = 6;
-	static final int OU = 7;
-	static final int UC = 8;
-	static final int UO = 9;
-	static final int UU = 10;
-	static final int SS = 11;
+	public static final int CC = 1;
+	public static final int CC_D = 2;
+	public static final int CO = 3;
+	public static final int CU = 4;
+	public static final int OC = 5;
+	public static final int OO = 6;
+	public static final int OU = 7;
+	public static final int UC = 8;
+	public static final int UO = 9;
+	public static final int UU = 10;
+	public static final int SS = 11;
 
-	
-	
 	// SCALE OF MEASUREMENT
-	static final int SOM_UNKNOWN = 0;
-	static final int SOM_NOMINAL = 1;
-	static final int SOM_ORDINAL = 2;
-	static final int SOM_QUANTITATIVE = 3;
-	
-	// TODO: reuse these properties!!
-	final Property HAS_NOMINAL_VALUE = new Property(model, new URIImpl(
-			"http://purl.org/viso/data/has_nominal_value"), false);
-	final Property HAS_ORDINAL_VALUE = new Property(model, new URIImpl(
-			"http://purl.org/viso/data/has_ordinal_value"), false);
-	final Property HAS_QUANTITATIVE_VALUE = new Property(model, new URIImpl(
-			"http://purl.org/viso/data/has_quantitative_value"), false);
+	public static final int SOM_UNKNOWN = 0;
+	public static final int SOM_NOMINAL = 1;
+	public static final int SOM_ORDINAL = 2;
+	public static final int SOM_QUANTITATIVE = 3;
 
 	private int addressedSourceValueSituation = NOT_CALCULATED;
 	private int addressedTargetValueSituation = NOT_CALCULATED;
@@ -96,16 +80,11 @@ public class ValueMappingX extends Valuemapping implements MappingIF {
 	private Set<Node> targetValuesUnorderedSet; 
 	private List<Node> targetValuesList;
 	private IntervalX targetValuesContinuousInterval;
-
-
-	// cache calculated mappings
-	private Set<CalculatedValueMapping> cvms;
-
+	
+	private Set<CalculatedValueMapping> cvms; // cache calculated mappings
+	private PropertyMappingX currentParentPropertyMapping; // reference to the property mapping, for which the value mapping is currently evaluated
 	private Set<Statement> affectedStatements;  // the set of statements that the property mapping currently affects
-	
-	
-	
-	
+
 
 	public ValueMappingX(Model model, URI classURI, Resource instanceIdentifier,
 			boolean write) {
@@ -142,27 +121,14 @@ public class ValueMappingX extends Valuemapping implements MappingIF {
 	 * 
 	 * @return the scale of measurement ID as integer
 	 */
-	private int getExplicitScaleOfMeasurementOfTargetGR() {
+	private int getExplicitScaleOfMeasurementOfTargetGR(Property targetGraphicRelation) {
 		
 		// is there a global SoM setting for the source property?
 		// such as: ex:size rdfs:subPropertyOf viso-data:has_quantitative_value
-		Property targetGraphicRelation;
 		
-		try {
-			
-			targetGraphicRelation = ((org.purl.rvl.java.rvl.PropertyMappingX)getPropertyMapping().castTo(org.purl.rvl.java.rvl.PropertyMappingX.class)).getTargetGraphicRelation();
-			
-			return getExplicitlyStatedScaleOfMeasurement(targetGraphicRelation);
-		
-		} catch (InsufficientMappingSpecificationException e) {
-			// TODO Auto-generated catch block
-			LOGGER.warning(e.getMessage() + " --> Could not determine scale of measurement for target graphic relation.");
-		}
+		return ValueMappingUtils.getExplicitlyStatedScaleOfMeasurement(targetGraphicRelation);
 
 		// TODO: Add other ways of calculating SoM.
-
-		return SOM_UNKNOWN;
-
 	}
 
 	/**
@@ -172,50 +138,17 @@ public class ValueMappingX extends Valuemapping implements MappingIF {
 	 * 
 	 * @return the scale of measurement ID as integer
 	 */
-	private int getExplicitScaleOfMeasurementOfSourceProperty() {
+	private int getExplicitScaleOfMeasurementOfSourceProperty(Property sp) {
 		
 		// is there a global SoM setting for the source property?
 		// such as: ex:size rdfs:subPropertyOf viso-data:hasQuantitativeSoM
-		Property sp;
 		
-		try {
-			
-			sp = ((org.purl.rvl.java.rvl.PropertyMappingX)getPropertyMapping().castTo(org.purl.rvl.java.rvl.PropertyMappingX.class)).getSourceProperty();
-			
-			return getExplicitlyStatedScaleOfMeasurement(sp);
-		
-		} catch (InsufficientMappingSpecificationException e) {
-			// TODO Auto-generated catch block
-			LOGGER.warning(e.getMessage() + " --> Could not determine scale of measurement.");
-		}
+		return ValueMappingUtils.getExplicitlyStatedScaleOfMeasurement(sp);
 
 		// TODO: Add other ways of calculating SoM.
-
-		return SOM_UNKNOWN;
-
 	}
 
-	/**
-	 * Get the Scale of Measurement which is (eventually) stated explicitly for the property
-	 * @param property
-	 * @return
-	 */
-	private int getExplicitlyStatedScaleOfMeasurement(Property property) {
-		
-		ClosableIterator<Property> subPropIt = property.getAllSubPropertyOf();
 
-		while (subPropIt.hasNext()) {
-			Property spSubProp = (Property) subPropIt.next();
-			if (spSubProp.equals(HAS_NOMINAL_VALUE))
-				return SOM_NOMINAL;
-			else if (spSubProp.equals(HAS_ORDINAL_VALUE))
-				return SOM_ORDINAL;
-			else if (spSubProp.equals(HAS_QUANTITATIVE_VALUE))
-				return SOM_QUANTITATIVE;
-		}
-		
-		return SOM_UNKNOWN;
-	}
 
 	private List<Node> getSourceValues() {
 		return this.getAllSourcevalue_asNode_().asList();
@@ -335,8 +268,9 @@ private List<Node> calculateOrderedSetFromRange() {
 
 /**
  * @return the addressedSourceValueSituation
+ * @throws InsufficientMappingSpecificationException 
  */
-public int getAddressedSourceValueSituation() {
+public int getAddressedSourceValueSituation() throws InsufficientMappingSpecificationException {
 	
 	if (this.addressedSourceValueSituation == NOT_CALCULATED) {
 		addressedSourceValueSituation = determineAdressedSourceValues();
@@ -344,10 +278,75 @@ public int getAddressedSourceValueSituation() {
 	return addressedSourceValueSituation;
 }
 
+public Node getSourceValuesSingleValue() {
+	return sourceValuesSingleValue;
+}
+
+public void setSourceValuesSingleValue(Node sourceValuesSingleValue) {
+	this.sourceValuesSingleValue = sourceValuesSingleValue;
+}
+
+public Set<Node> getSourceValuesUnorderedSet() {
+	return sourceValuesUnorderedSet;
+}
+
+public void setSourceValuesUnorderedSet(Set<Node> sourceValuesUnorderedSet) {
+	this.sourceValuesUnorderedSet = sourceValuesUnorderedSet;
+}
+
+public List<Node> getSourceValuesOrderedSet() {
+	return sourceValuesOrderedSet;
+}
+
+public void setSourceValuesOrderedSet(List<Node> sourceValuesOrderedSet) {
+	this.sourceValuesOrderedSet = sourceValuesOrderedSet;
+}
+
+public IntervalX getSourceValuesContinuousInterval() {
+	return sourceValuesContinuousInterval;
+}
+
+public void setSourceValuesContinuousInterval(IntervalX sourceValuesContinuousInterval) {
+	this.sourceValuesContinuousInterval = sourceValuesContinuousInterval;
+}
+
+public Node getTargetValuesSingleValue() {
+	return targetValuesSingleValue;
+}
+
+public void setTargetValuesSingleValue(Node targetValuesSingleValue) {
+	this.targetValuesSingleValue = targetValuesSingleValue;
+}
+
+public Set<Node> getTargetValuesUnorderedSet() {
+	return targetValuesUnorderedSet;
+}
+
+public void setTargetValuesUnorderedSet(Set<Node> targetValuesUnorderedSet) {
+	this.targetValuesUnorderedSet = targetValuesUnorderedSet;
+}
+
+public List<Node> getTargetValuesList() {
+	return targetValuesList;
+}
+
+public void setTargetValuesList(List<Node> targetValuesList) {
+	this.targetValuesList = targetValuesList;
+}
+
+public IntervalX getTargetValuesContinuousInterval() {
+	return targetValuesContinuousInterval;
+}
+
+public void setTargetValuesContinuousInterval(IntervalX targetValuesContinuousInterval) {
+	this.targetValuesContinuousInterval = targetValuesContinuousInterval;
+}
+
 /**
  * @return the addressedTargetValueSituation
+ * @throws InsufficientMappingSpecificationException 
  */
-public int getAddressedTargetValueSituation() {
+public int getAddressedTargetValueSituation() throws InsufficientMappingSpecificationException {
 	if (this.addressedTargetValueSituation == NOT_CALCULATED) {
 		addressedTargetValueSituation = determineAdressedTargetValues();
 	}
@@ -357,10 +356,11 @@ public int getAddressedTargetValueSituation() {
 /**
  * determines the target values to be used in in this value mapping (as a
  * basis for calculating the VM)
+ * @throws InsufficientMappingSpecificationException 
  */
-private int determineAdressedTargetValues() {
+private int determineAdressedTargetValues() throws InsufficientMappingSpecificationException {
 	
-	LOGGER.info("Determining Target Value (Situation) for " + this.getPropertyMapping().toStringSummary());
+	LOGGER.finer("Determining addressed target value situation");
 
 	int addressedValueSituation = ValueMappingX.UNKNOWN;
 
@@ -425,7 +425,7 @@ private int determineAdressedTargetValues() {
 				
 				if (this.hasTargetvalueinterval()) {
 					
-					if (getExplicitScaleOfMeasurementOfTargetGR() == SOM_ORDINAL) {
+					if (getExplicitScaleOfMeasurementOfTargetGR(currentParentPropertyMapping.getTargetGraphicRelation()) == SOM_ORDINAL) {
 						
 						addressedValueSituation = ValueMappingX.ORDERED_SET;
 						
@@ -449,9 +449,9 @@ private int determineAdressedTargetValues() {
 	return addressedValueSituation;
 }
 
-private int determineAdressedSourceValues() {
+private int determineAdressedSourceValues() throws InsufficientMappingSpecificationException {
 	
-	LOGGER.info("Determining Source Value (Situation) for " + this.getPropertyMapping().toStringSummary());
+	LOGGER.finer("Determining addressed source value situation");
 
 	int addressedValueSituation = ValueMappingX.UNKNOWN;
 
@@ -501,7 +501,7 @@ private int determineAdressedSourceValues() {
 			
 			if (this.hasSourcefilter()) {
 				
-				getExplicitScaleOfMeasurementOfSourceProperty();
+				getExplicitScaleOfMeasurementOfSourceProperty(currentParentPropertyMapping.getSourceProperty());
 				
 				// TODO handle filters
 				
@@ -524,7 +524,7 @@ private int determineAdressedSourceValues() {
 					
 					if (this.hasSourceinterval()) {
 						
-						if (getExplicitScaleOfMeasurementOfSourceProperty() == SOM_ORDINAL) {
+						if (getExplicitScaleOfMeasurementOfSourceProperty(currentParentPropertyMapping.getSourceProperty()) == SOM_ORDINAL) {
 							
 							addressedValueSituation = ValueMappingX.ORDERED_SET;
 							
@@ -554,8 +554,9 @@ private int determineAdressedSourceValues() {
  * values. Currently triggers determining the source and target value situation.
  * 
  * @return
+ * @throws InsufficientMappingSpecificationException 
  */
-public Boolean isManualValueMapping() {
+public Boolean isManualValueMapping() throws InsufficientMappingSpecificationException {
 	
 	if (addressedSourceValueSituation == NOT_CALCULATED || addressedTargetValueSituation == NOT_CALCULATED) {
 		determineAdressedSourceValues();
@@ -570,7 +571,7 @@ public Boolean isManualValueMapping() {
 }
 
 
-public int calculateMappingSituation(){
+private int calculateMappingSituation() throws InsufficientMappingSpecificationException{
 	
 	int svSituation = determineAdressedSourceValues();
 	int tvSituation = determineAdressedTargetValues();
@@ -607,11 +608,17 @@ public int calculateMappingSituation(){
  * pairs of a (domain data) value and a graphic attribute value. The
  * calculated values are stored.
  * @param affectedStatements - the set of statements that the property mapping currently affects 
+ * @param propertyMapping - the PropertyMapping currently processing the value mapping (multiple PM may share the same VM)
  * 
  * @return
+ * @throws InsufficientMappingSpecificationException 
  */
-private Set<CalculatedValueMapping> calculateValueMappings(Set<Statement> affectedStatements) {
+private Set<CalculatedValueMapping> calculateValueMappings(Set<Statement> affectedStatements, PropertyMappingX propertyMapping) 
+		throws InsufficientMappingSpecificationException {
 	
+	// TODO: when value mappings are actually reused, keeping this usage specific 
+	// information in the state of the VM here will not work!
+	this.currentParentPropertyMapping = propertyMapping;
 	this.affectedStatements = affectedStatements;
 
 	try {
@@ -629,6 +636,14 @@ private Set<CalculatedValueMapping> calculateValueMappings(Set<Statement> affect
 }
 
 
+public Set<Statement> getAffectedStatements() {
+	return affectedStatements;
+}
+
+public void setAffectedStatements(Set<Statement> affectedStatements) {
+	this.affectedStatements = affectedStatements;
+}
+
 /**
  * Calculate concrete, explicit CalculatedValueMappings which represents
  * pairs of a (domain data) value and a graphic attribute value. The
@@ -642,7 +657,7 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 
 	cvms = new HashSet<CalculatedValueMapping>();
 	
-	LOGGER.info("Calculating value mappings for mapping case " + getMappingCaseName(caseID));
+	LOGGER.info("Calculating value mappings for mapping case " + ValueMappingUtils.getMappingCaseName(caseID));
 	
 	if (UNKNOWN == caseID) {
 		
@@ -656,413 +671,28 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 		
 	} else if (OO == caseID){
 		
-		Iterator<Node> svIt = sourceValuesOrderedSet.iterator();
-		Iterator<Node> tvIt = targetValuesList.iterator();
-				
-		if (sourceValuesOrderedSet.size() <= targetValuesList.size() ) {
-			
-			// TODO ignored stretching for the moment
-			while (svIt.hasNext() && tvIt.hasNext()) {
-				
-				Node sv = svIt.next();
-				Node tv = tvIt.next();
-				
-				cvms.add(new CalculatedValueMapping(sv.asURI(), tv.asURI()));
-			}
-		} 
-		else { // sourceValuesOrderedSet.size() > targetValuesList.size()
+		return new ValueMapperOO().calculateValueMappings(this);
 
-			while (svIt.hasNext() && tvIt.hasNext()) {
-				
-				LOGGER.warning("Not enough distinct target values defined (" + targetValuesList.size() + ") " +
-						"for the number of source values (" +  sourceValuesOrderedSet.size() + "), " +
-						"will cycle values.");
-
-				Node sv = svIt.next();
-				Node tv = tvIt.next();
-
-				cvms.add(new CalculatedValueMapping(sv.asURI(), tv.asURI()));
-				
-				// reset tv iterator if necessary
-				if(!tvIt.hasNext()) tvIt = targetValuesList.iterator();
-			}
-		}
 	} else if (UU == caseID || OU == caseID || UO == caseID){
 
-			
-			Iterator<Node> svIt;
-			Iterator<Node> tvIt;
-			int numberOfSv ;
-			int numberOfTv ;
-			
-			if (null != sourceValuesOrderedSet) {
-				svIt = sourceValuesOrderedSet.iterator();
-				numberOfSv = sourceValuesOrderedSet.size();
-			} 
-			else {
-				svIt = sourceValuesUnorderedSet.iterator();
-				numberOfSv = sourceValuesUnorderedSet.size();
-			}
-			
-			if (null != targetValuesList) {
-				tvIt = targetValuesList.iterator();
-				numberOfTv = targetValuesList.size();	
-			} else {
-				tvIt = targetValuesUnorderedSet.iterator();
-				numberOfTv = targetValuesUnorderedSet.size();	
-			}
-
-
-			if (numberOfTv == 1) { // all sv get the (same) tv
-				
-				Node tv = tvIt.next();
-				
-				while (svIt.hasNext()) {
-					
-					Node sv = svIt.next();
-					cvms.add(new CalculatedValueMapping(sv.asURI(), tv.asURI()));
-				}
-
-			} else if (numberOfSv <= numberOfTv) {
-				
-				// TODO ignored shuffling to random for the moment
-				while (svIt.hasNext() && tvIt.hasNext()) {
-					
-					Node sv = svIt.next();
-					Node tv = tvIt.next();
-					
-					cvms.add(new CalculatedValueMapping(sv, tv));
-				}
-
-			} else { // numberOfSv > numberOfTv
-				
-				throw new UnexpressiveMappingSpecificationException();
-
-			}
+		return new ValueMapperUU_OU_UO().calculateValueMappings(this);
 			
 	} else if (OC == caseID || UC == caseID) {
 		
-		Iterator<Node> svIt;
-		int numberOfSv ;
-		int numberOfTv ;
-		float lowerBoundValue;
-		float upperBoundValue;
-		int discreteStepCount = 1;
-		float discreteStepSize = -1; 
-
-		if (null != sourceValuesOrderedSet) {
-			svIt = sourceValuesOrderedSet.iterator();
-			numberOfSv = sourceValuesOrderedSet.size();
-		} 
-		else {
-			svIt = sourceValuesUnorderedSet.iterator();
-			numberOfSv = sourceValuesUnorderedSet.size();
-		}
-		
-		// TODO check for discrete step count here
-		numberOfTv = numberOfSv;
-		discreteStepCount = numberOfTv;
-		LOGGER.finest("discrete step count: " + discreteStepCount );
-
-		try {
-			
-			lowerBoundValue = targetValuesContinuousInterval.getLowerBoundAsFloat();
-			LOGGER.finest("lower bound: " + lowerBoundValue );
-			
-			upperBoundValue = targetValuesContinuousInterval.getUpperBoundAsFloat();
-			LOGGER.finest("upper bound: " + upperBoundValue );
-			
-			discreteStepSize = (upperBoundValue - lowerBoundValue)/(discreteStepCount-1);
-			LOGGER.finest("discrete step size: " + discreteStepSize );
-			
-			int step = 0;
-			
-			while (svIt.hasNext()) {
-				
-				Node sv = svIt.next();
-				Literal tvLiteral = new DatatypeLiteralImpl((lowerBoundValue + step*discreteStepSize) + "", new URIImpl("http://www.w3.org/2001/XMLSchema#float"));
-				cvms.add(new CalculatedValueMapping(sv.asURI(), tvLiteral));
-				step++;
-			}
-			
-		} catch (Exception e) {
-			LOGGER.finest("lower or upper bound is not a literal," +
-					" will try to get values from the resource ... TOBEIMPLEMENTED");
-		}
+		return new ValueMapperOC_UC().calculateValueMappings(this);
 
 	} else if ((CC == caseID || CC_D == caseID ) && null != this.affectedStatements) {
 		
-		Set<Statement> statementSet = this.affectedStatements;
-		
-		int discreteStepCount = -1; 
-		float discreteStepSizeSv = -1; 
-		float discreteStepSizeTv = -1; 
-		
-		float svLowerBoundValue;
-		float svUpperBoundValue;
-		float tvLowerBoundValue;
-		float tvUpperBoundValue;
-
-		try {
-			svLowerBoundValue = sourceValuesContinuousInterval.getLowerBoundAsFloat();
-			LOGGER.finest("sv lower bound: " + svLowerBoundValue );
-			svUpperBoundValue = sourceValuesContinuousInterval.getUpperBoundAsFloat();
-			LOGGER.finest("sv upper bound: " + svUpperBoundValue );
-			tvLowerBoundValue = targetValuesContinuousInterval.getLowerBoundAsFloat();
-			LOGGER.finest("tv lower bound: " + tvLowerBoundValue );
-			tvUpperBoundValue = targetValuesContinuousInterval.getUpperBoundAsFloat();
-			LOGGER.finest("tv upper bound: " + tvUpperBoundValue );
-			
-			for (Iterator<Statement> iterator = statementSet.iterator(); iterator.hasNext();) {
-				
-				Statement statement = (Statement) iterator.next();
-				
-				Literal sv = statement.getObject().asLiteral();
-				float svValue = Float.parseFloat(sv.getValue());
-				float tvValue;
-				
-				LOGGER.finest("Calculating continuous tv for continuous sv-value " + svValue);
-				
-				Literal tvLiteral = null;
-				
-				// TODO evaluate out of range settings - crop / cut settings
-				
-				if (svValue <= svLowerBoundValue) {
-					
-					tvValue = tvLowerBoundValue;
-					
-				} else if (svValue >= svUpperBoundValue) {
-					
-					tvValue = tvUpperBoundValue;
-					
-				} else { // normal case within ranges
-				
-					if (isDiscretize() && hasDiscreteStepCount()) {
-						
-						float svRange = svUpperBoundValue-svLowerBoundValue;
-						float tvRange = tvUpperBoundValue-tvLowerBoundValue;
-						
-						discreteStepCount = getDiscreteStepCount();
-						
-						if (discreteStepCount >= 2) {
-							
-							LOGGER.finest("discrete step count: " + discreteStepCount );
-							
-							discreteStepSizeSv = svRange/(discreteStepCount);
-							LOGGER.finest("discrete step size sv: " + discreteStepSizeSv );
-							
-							discreteStepSizeTv = tvRange/(discreteStepCount-1);
-							LOGGER.finest("discrete step size tv: " + discreteStepSizeTv );
-							
-							// the follwoing does not work for sv equal svLowerBoundValue (case caught above)
-							tvValue = tvLowerBoundValue + ((int) ((svValue - svLowerBoundValue) / discreteStepSizeSv)) * discreteStepSizeTv; // TODO this does apparently not work for step count  = {0,1} -> div/0 -> catch earlier
-							
-							LOGGER.finest("tvValue: " + tvValue );
-						}
-						else {
-							throw new UnexpressiveMappingSpecificationException("No value mappings could be calculated! Discretization steps must be greater or equal 2");
-						}
-						
-					} else {
-							float svRange = svUpperBoundValue-svLowerBoundValue;
-							float tvRange = tvUpperBoundValue-tvLowerBoundValue;
-							float stretchFactor =  tvRange/svRange;
-							tvValue = svValue * stretchFactor;
-					}
-				}
-				
-				tvLiteral = new DatatypeLiteralImpl(tvValue + "", new URIImpl("http://www.w3.org/2001/XMLSchema#float"));
-				
-				if (null != tvLiteral) {
-					cvms.add(new CalculatedValueMapping(sv, tvLiteral));
-				}
-				
-			}
-			
-		} catch (UnexpressiveMappingSpecificationException e) {
-			LOGGER.warning(e.getMessage());
-		} catch (Exception e) {
-			// TODO fix this bad exception handling
-			LOGGER.warning("sv/tv lower/upper bound  or sv itself is not a literal or stepcount is < 2," +
-					" will try to get values from the resource ... TOBEIMPLEMENTED");
-		}
-		
+		return new ValueMapperCC_CCd().calculateValueMappings(this);
 		
 	} else if (CO == caseID  && null != this.affectedStatements) { // || CU == caseID) {
-		
-		Set<Statement> statementSet = this.affectedStatements;
-		
-		int discreteStepCount = -1; 
-		float discreteStepSizeSv = -1; 
-		
-		float svLowerBoundValue;
-		float svUpperBoundValue;
-		
-		int numberOfTv ;
-		
-		// get the number of target values
-		if (null != targetValuesList) {
-			numberOfTv = targetValuesList.size();
-		} 
-		else {
-			numberOfTv = targetValuesUnorderedSet.size();
-		}		
-		
-		try {
-			svLowerBoundValue = sourceValuesContinuousInterval.getLowerBoundAsFloat();
-			LOGGER.finest("sv lower bound: " + svLowerBoundValue );
-			svUpperBoundValue = sourceValuesContinuousInterval.getUpperBoundAsFloat();
-			LOGGER.finest("sv upper bound: " + svUpperBoundValue );
-			
-			for (Iterator<Statement> iterator = statementSet.iterator(); iterator.hasNext();) {
-				
-				Statement statement = (Statement) iterator.next();
-				
-				DatatypeLiteral sv = statement.getObject().asDatatypeLiteral();
-				float svValue = Float.parseFloat(sv.getValue());
-				
-				LOGGER.finest("Selecting discrete tv for continuous sv-value " + svValue);
-				
-				Node tv = null;
-				
-				// TODO evaluate out of range settings - crop / cut settings
-				
-				if (svValue <= svLowerBoundValue) {
-					
-					tv = targetValuesList.get(0);
-					
-				} else if (svValue >= svUpperBoundValue) {
-					
-					tv = targetValuesList.get(targetValuesList.size()-1);
-					
-				} else { 
-				
-					if (hasDiscreteStepCount()) {
-						
-						discreteStepCount = getDiscreteStepCount(); // TODO
-						
-					} else {
-						
-						discreteStepCount = numberOfTv;
-						
-						float svRange = svUpperBoundValue-svLowerBoundValue;
-						
-						if (discreteStepCount >= 2) {
-							
-							LOGGER.finest("discrete step count: " + discreteStepCount );
-							
-							discreteStepSizeSv = svRange/(discreteStepCount);
-							LOGGER.finest("discrete step size sv: " + discreteStepSizeSv );
-							
-							int tvListPosition = ((int) ((svValue - svLowerBoundValue) / discreteStepSizeSv)); // this does not work for sv equal svLowerBoundValue (case caught above)
-							tv = targetValuesList.get(tvListPosition);				
-							LOGGER.finest("tv: " + tv );
-							
-						}
-						else {
-							throw new UnexpressiveMappingSpecificationException("No value mappings could be calculated! Discretization steps must be greater or equal 2");
-						}
-		
-					}
-				}
-				
-				if (null != tv) {
-					cvms.add(new CalculatedValueMapping(sv, tv));
-				}
-				
-			}
-			
-		} catch (UnexpressiveMappingSpecificationException e) {
-			LOGGER.warning(e.getMessage());
-		} catch (Exception e) {
-			LOGGER.finest("sv lower/upper bound  or sv itself is not a literal");
-		}
-		
-		
+
+		return new ValueMapperCO().calculateValueMappings(this);
 		
 	} else if (CU == caseID && null != this.affectedStatements) {
 		
-		Set<Statement> statementSet = this.affectedStatements;
+		return new ValueMapperCU().calculateValueMappings(this);
 		
-		int discreteStepCount = -1; 
-		float discreteStepSizeSv = -1; 
-		
-		float svLowerBoundValue;
-		float svUpperBoundValue;
-
-		int numberOfTv ;
-		
-		// get the number of target values
-		if (null != targetValuesList) {
-			numberOfTv = targetValuesList.size();
-		} 
-		else {
-			numberOfTv = targetValuesUnorderedSet.size();
-		}		
-		
-		try {
-			svLowerBoundValue = sourceValuesContinuousInterval.getLowerBoundAsFloat();
-			LOGGER.finest("sv lower bound: " + svLowerBoundValue );
-			svUpperBoundValue = sourceValuesContinuousInterval.getUpperBoundAsFloat();
-			LOGGER.finest("sv upper bound: " + svUpperBoundValue );
-			
-			for (Iterator<Statement> iterator = statementSet.iterator(); iterator.hasNext();) {
-				
-				Statement statement = (Statement) iterator.next();
-				
-				DatatypeLiteral sv = statement.getObject().asDatatypeLiteral();
-				float svValue = Float.parseFloat(sv.getValue());
-				
-				LOGGER.finest("Selecting discrete, unordered tv for continuous sv-value " + svValue);
-				
-				List<Node> targetValuesUnorderedSetList = new ArrayList<Node>(targetValuesUnorderedSet);
-				
-				Node tv = null;
-				
-				// TODO evaluate out o range settings - crop / cut settings
-			
-				if (svValue <= svLowerBoundValue || svValue >= svUpperBoundValue) {
-					
-					// no value mappings calculated for out of range values 
-					
-				} else { 
-		
-					discreteStepCount = numberOfTv;
-					
-					float svRange = svUpperBoundValue-svLowerBoundValue;
-					
-					if (discreteStepCount >= 2) {
-						
-						LOGGER.finest("discrete step count: " + discreteStepCount );
-						
-						discreteStepSizeSv = svRange/(discreteStepCount);
-						LOGGER.finest("discrete step size sv: " + discreteStepSizeSv );
-						
-						int svStep = ((int) ((svValue - svLowerBoundValue) / discreteStepSizeSv)); // this does not work for sv equal svLowerBoundValue (case caught above)
-						tv = (Node)targetValuesUnorderedSetList.get(svStep);				
-						LOGGER.finest("tv: " + tv );
-						
-					}
-					else if (discreteStepCount == 1) {
-						tv = targetValuesUnorderedSetList.get(0);		
-					} else { // (0 target values)
-						throw new UnexpressiveMappingSpecificationException("No value mappings could be calculated! Discretization steps must be greater or equal 2");
-					}
-	
-				}
-				
-				if (null != tv) {
-					cvms.add(new CalculatedValueMapping(sv, tv));
-				}
-				
-			}
-			
-		} catch (UnexpressiveMappingSpecificationException e) {
-			LOGGER.warning(e.getMessage());
-		} catch (Exception e) {
-			LOGGER.finest("sv lower/upper bound  or sv itself is not a literal");
-		}
-	
 	}
 
 	LOGGER.finest("Calculated value mappings: " + cvms);
@@ -1075,10 +705,17 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 
 }
 
-public Collection<CalculatedValueMapping> getCalculatedValueMappings(Set<Statement> affectedStatements) {
+/**
+ * @param affectedStatements
+ * @param propertyMapping - the PropertyMapping currently processing the value mapping (multiple PM may share the same VM)
+ * @return
+ * @throws InsufficientMappingSpecificationException
+ */
+public Collection<CalculatedValueMapping> getCalculatedValueMappings(Set<Statement> affectedStatements, PropertyMappingX propertyMapping) 
+		throws InsufficientMappingSpecificationException {
 	
 	if (null == cvms) {
-		cvms = calculateValueMappings(affectedStatements);
+		cvms = calculateValueMappings(affectedStatements, propertyMapping);
 	}
 	return cvms;
 }
@@ -1115,7 +752,7 @@ public boolean hasDiscreteStepCount() {
 }
 
 /**
- * @return the addressedTargetValueSituation
+ * @return the number of discrete steps (for discretization)
  */
 public int getDiscreteStepCount() {
 	
@@ -1126,179 +763,38 @@ public int getDiscreteStepCount() {
 	}
 }
 
-private PropertyMappingX getPropertyMapping() {
-	Resource res = this.getAllValuemapping_Inverse().next();
-	return new PropertyMappingX(model, res, false);
-}
-
 public String toStringDetailed() {
 	
 	String s = "";
 	
-	// s += getCalculatedValueMappings() + NL;
-	
-	//s += "        used in PM: "
-	//		+ getPropertyMapping().getAllLabel_as().firstValue() + NL;
+	try {
+		
 	s += "        SoM of SP: "
-			+ getSomName(getExplicitScaleOfMeasurementOfSourceProperty()) + NL;
+			+ ValueMappingUtils.getSomName(getExplicitScaleOfMeasurementOfSourceProperty(currentParentPropertyMapping.getSourceProperty())) + NL;
 	s += "        SoM of TV: "
-			+ getSomName(getExplicitScaleOfMeasurementOfTargetGR()) + NL;
+			+ ValueMappingUtils.getSomName(getExplicitScaleOfMeasurementOfTargetGR(currentParentPropertyMapping.getTargetGraphicRelation())) + NL;
 	s += "        addressed SV situation: "
-			+ getNameForValueSituation(getAddressedSourceValueSituation())
-			+ " (" + printAddressedSourceValues(getAddressedSourceValueSituation()) + ")" 
+			+ ValueMappingUtils.getNameForValueSituation(getAddressedSourceValueSituation())
+			+ " (" + ValueMappingUtils.printAddressedSourceValues(LOGGER, this) + ")" 
 			+ NL;
 	s += "        addressed TV situation: "
-			+ getNameForValueSituation(getAddressedTargetValueSituation())
-			+ " (" + printAddressedTargetValues(getAddressedTargetValueSituation()) + ")" 
+			+ ValueMappingUtils.getNameForValueSituation(getAddressedTargetValueSituation())
+			+ " (" + ValueMappingUtils.printAddressedTargetValues(LOGGER, this) + ")" 
 			+ NL;
 	s += "        mappings case: "
-			+ getMappingCaseName(calculateMappingSituation()) 
+			+ ValueMappingUtils.getMappingCaseName(calculateMappingSituation()) 
 			+ NL;
-	try {
+	
 		s += "        calculated value mappings: "
 				+ calculateValueMappingsForCase(calculateMappingSituation()) 
 				+ NL;
 	} catch (UnexpressiveMappingSpecificationException e) {
-		s += "        " + e.getMessage() ;
+		s+= "(Unexpressive mapping)" + NL;
+	} catch (InsufficientMappingSpecificationException e) {
+		s+= "(Insufficiently specified mapping)" + NL;
 	}
-	
-	
-	
 	
 	return s + NL;
-}
-
-private String getSomName(int somID) {
-	
-	switch (somID) {
-	
-		case SOM_NOMINAL:
-			return "nominal";
-		case SOM_ORDINAL:
-			return "ordinal";
-		case SOM_QUANTITATIVE:
-			return "quantitative";
-		default:
-			return "unknown";
-	}
-}
-
-private String getNameForValueSituation(int situationID) {
-
-	switch (situationID) {
-	
-		case UNKNOWN:
-			return "unknown";
-		case CONTINUOUS_RANGE:
-			return "cont. range";
-		case ORDERED_SET:
-			return "ordered set or list";
-		case UNORDERED_SET:
-			return "set";
-		case SINGLE_VALUE:
-			return "single value";
-		default:
-			return "unknown";
-	}
-}
-
-private String getMappingCaseName(int caseID) {
-	
-	switch (caseID) {
-	
-	case CC: return "CC";
-	case CC_D: return "CCd";
-	case CO: return "CO";
-	case CU: return "CU";
-	case OC: return "OC";
-	case OO: return "OO";
-	case OU: return "OU";
-	case UC: return "UC";
-	case UO: return "UO";
-	case UU: return "UU";
-	case SS: return "SS (single values mapped)";
-		default:
-			return "unknown";
-	}
-}
-
-private String printAddressedSourceValues(int addressedSourceValueSituation) {
-	
-	String s = "";
-	
-	try {
-
-		switch (addressedSourceValueSituation) {
-		
-			case SINGLE_VALUE:
-				s += "Single source value: " ;
-				s += sourceValuesSingleValue.toString();
-				break;
-
-			case UNORDERED_SET:
-				s += "Source value unordered set: ";
-				s += sourceValuesUnorderedSet.toString();
-				break;
-
-			case ORDERED_SET:
-				s += "Source value ordered set: ";
-				s += sourceValuesOrderedSet.toString();
-				break;
-
-			case CONTINUOUS_RANGE:
-				s += "Continuous range of source values: ";
-				s += sourceValuesContinuousInterval.toString();
-				break;
-		}
-	
-	} catch (NullPointerException e) {
-		
-		String warning = "Could not describe the addressed source values for the " +
-				"situation " + getNameForValueSituation(addressedSourceValueSituation);
-		LOGGER.warning(warning);
-		s += warning;
-	}
-
-	return s;
-}
-
-private String printAddressedTargetValues(int addressedTargetValueSituation) {
-String s = "";
-	
-	try {
-
-		switch (addressedTargetValueSituation) {
-		
-			case SINGLE_VALUE:
-				s += "Single target value: " ;
-				s += targetValuesSingleValue.toString();
-				break;
-
-			case UNORDERED_SET:
-				s += "Target value unordered set: ";
-				s += targetValuesUnorderedSet.toString();
-				break;
-
-			case ORDERED_SET:
-				s += "Target value list: ";
-				s += targetValuesList.toString();
-				break;
-
-			case CONTINUOUS_RANGE:
-				s += "Continuous range of target values: ";
-				s += targetValuesContinuousInterval.toString();
-				break;
-		}
-	
-	} catch (NullPointerException e) {
-		
-		String warning = "Could not describe the addressed target values for the " +
-				"situation " + getNameForValueSituation(addressedTargetValueSituation);
-		LOGGER.warning(warning);
-		s += warning;
-	}
-
-	return s;
 }
 
 }

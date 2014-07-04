@@ -12,11 +12,348 @@
 :     rdf:type owl:Ontology ;
       owl:imports rvl: , rexd: ,common-shapes: .
       
-      
-      
-      
+
 :CC
-      rdfs:label "CC - nominal 2 nominal (set 2 set) - PM with a VM that defines a mapping between two (unordered) set of source and target values (here less source than target values)"^^xsd:string ;
+      rdfs:label "CC - quantitative continuous range 2 quantitative continuous range - PM with a VM that defines a mapping between ranges of source and target values"^^xsd:string ;
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:population ;
+      rvl:targetAttribute vg:width ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueInterval [
+			a rvl:Interval;
+			rvl:upperBoundIncl "1000";
+			rvl:lowerBoundIncl "0";
+		];
+        rvl:targetValueInterval [
+        	a rvl:Interval;
+        	rvl:upperBoundIncl "130";
+        	rvl:lowerBoundIncl "30"; ### TODO: is this evaluated? smaller values seem to be generated
+        ];
+      ]
+      .   
+      
+:CC_default
+      rdfs:label "CC - quantitative property to quantitative target graphic attribute"^^xsd:string ;
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:population ;
+      rvl:targetAttribute vg:width ; 
+      .  
+      
+:CC_inverted_source
+   	  rdfs:label "CC-inverted - quantitative continuous range 2 quantitative continuous range - PM with a VM that defines a mapping between ranges of source and target values, where the target values are inverted."^^xsd:string ;
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:population ;
+      rvl:targetAttribute vg:width ;
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueInterval [
+			a rvl:Interval;
+			rvl:upperBoundIncl "1000";
+			rvl:lowerBoundIncl "0";
+		];
+        rvl:targetValueInterval [
+        	a rvl:Interval;
+        	rvl:upperBoundIncl "100";
+        	rvl:lowerBoundIncl "0";
+        ];
+      ];
+      rvl:invertSourceProperty "true"^^xsd:boolean ;  ### TODO: seems to have no effect and should be ignored + issue warning when used with a datatype property like here
+      .
+      
+:CC_default_inverted_source
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:population ;
+      rvl:targetAttribute vg:width ; 
+      rvl:invertSourceProperty "true"^^xsd:boolean ;  ### TODO: seems to have no effect and should be ignored + issue warning when used with a datatype property like here
+      .  
+
+      
+:CC_discretized
+      rdfs:label "CC-discretized - quantitative continuous range 2 quantitative continuous range - PM with a VM that defines a mapping between ranges of source and target values"^^xsd:string ;
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:population ;
+      rvl:targetAttribute vg:color_hsl_lightness ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueInterval [
+			a rvl:Interval;
+			rvl:upperBoundIncl "1000";
+			rvl:lowerBoundIncl "0";
+		];
+        rvl:targetValueInterval [
+        	a rvl:Interval;
+        	rvl:upperBoundIncl "100";
+        	rvl:lowerBoundIncl "0";
+        ];
+      ];
+      rvl:discretize "true"^^xsd:boolean ; ### should have no effect without rvl:discreteStepCount set
+      .  
+
+
+:CC_discretized_n_steps
+      rdfs:label "CC-discretized-n-steps - quantitative continuous range 2 quantitative continuous range - PM with a VM that defines a mapping between ranges of source and target values"^^xsd:string ;
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:population ;
+      rvl:targetAttribute vg:color_hsl_lightness ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueInterval [
+			a rvl:Interval;
+			rvl:upperBoundIncl "1000";
+			rvl:lowerBoundIncl "0";
+		];
+        rvl:targetValueInterval [
+        	a rvl:Interval;
+        	rvl:upperBoundIncl "100";
+        	rvl:lowerBoundIncl "0";
+        ];
+      ];
+      rvl:discretize "true"^^xsd:boolean ;
+      rvl:discreteStepCount "3"^^xsd:int ;  ### TODO: seems to have no effect
+      .  
+      
+      
+:CO
+  	  rdfs:label "CO - quantitative continuous range 2 ordinal list - PM with a VM that defines a mapping between a value range and a list of target values"^^xsd:string ;
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:population ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueInterval [
+			a rvl:Interval;
+			rvl:upperBoundIncl "1000";
+			rvl:lowerBoundIncl "0";
+		];
+		rvl:targetValueList (
+			vg:Red vg:Orange vg:Yellow
+		);
+      ]
+      .
+      
+:CO_inverted_target
+  	  rdfs:label "CO - quantitative continuous range 2 ordinal list - PM with a VM that defines a mapping between a value range and a list of target values"^^xsd:string ;
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:population ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:invertOrderOfTargetValues "true"^^xsd:boolean;
+		rvl:sourceValueInterval [
+			a rvl:Interval;
+			rvl:upperBoundIncl "1000";
+			rvl:lowerBoundIncl "0";
+		];
+		rvl:targetValueList (
+			vg:Red vg:Orange vg:Yellow
+		);
+      ]
+      .       
+      
+:CO_target_literals
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:population ;
+      rvl:targetAttribute vg:color_hsl_lightness ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueInterval [
+			a rvl:Interval;
+			rvl:upperBoundIncl "1000";
+			rvl:lowerBoundIncl "0";
+		];
+		rvl:targetValueList (
+			"0"^^xsd:float
+			"50"^^xsd:float
+			"100"^^xsd:float
+		);
+      ]
+      .  
+      
+      
+:CU_target_set_ad_hoc
+	  rdfs:label "CU - quantitative continuous range 2 nominal unordered set - PM with a VM that defines a mapping between a value range and a set of (unordered) target values"^^xsd:string ;
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:population ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueInterval [
+			a rvl:Interval;
+			rvl:upperBoundIncl "1001"; ### TODO: 1000 should also work here!
+			rvl:lowerBoundIncl "0";
+		];
+		rvl:targetValue vg:Green; ### TODO: also one value alone should work!
+		rvl:targetValue vg:Blue;
+		rvl:targetValue vg:Red;
+      ]
+      .   
+      
+      
+:OC
+ 	  rdfs:label "OC - ordinal ordered set 2 (auto-discretized) range - PM with a VM that defines a mapping between an ordered set of source values and a range of target values, automatically discretized into steps according to the number of (differernt) source values"^^xsd:string ;
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:workingField ; ### TODO: better example values
+      rvl:targetAttribute vg:width ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueOrderedSet (
+			rvl:sourceValue rexd:Fiction
+			rvl:sourceValue rexd:Science
+			rvl:sourceValue rexd:Sci-Fi
+			rvl:sourceValue rexd:Spirituality
+			rvl:sourceValue rexd:Biography
+			rvl:sourceValue rexd:Travel
+		);
+		rvl:targetValueInterval [
+        	a rvl:Interval;
+        	rvl:upperBoundIncl "100";
+        	rvl:lowerBoundIncl "0";
+        ];
+        #rvl:discretize "false"^^xsd:boolean ; ### should be ignored here when set
+      ]
+      .    
+      
+# TODO: does not seem to work
+:OC_source_literals
+ 	  rdfs:label "OC - Variant with literals as source values"^^xsd:string ;
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:population ;
+      rvl:targetAttribute vg:width ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueOrderedSet (
+			#"400"^^xsd:int
+			#"100"^^xsd:int
+			#"40"^^xsd:int
+			"400"
+			"100"
+			"40"
+		);
+		rvl:targetValueInterval [
+        	a rvl:Interval;
+        	rvl:upperBoundIncl "100";
+        	rvl:lowerBoundIncl "0";
+        ];
+      ]
+      .   
+      
+      
+:OO
+	  rdfs:label "B2 - ordinal ordered set 2 ordinal list) - PM with a value mapping that defines a mapping between an ordered set of source values and a list of target values"^^xsd:string ;
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueOrderedSet (
+			rexd:Science
+			#rexd:Fiction
+			rexd:Sci-Fi
+			#rexd:Spirituality
+			rexd:Biography # this will cause cycling values ### TODO: is this intended?
+		);
+		rvl:targetValueList (
+			vg:Red
+			vg:Orange # TODO: order seems to be wrong
+			vg:Yellow
+		);
+		# rvl:targetValues [a vg:GraphicValueList ; ... ] ### TODO: make a separate test case 
+      ]
+      .
+      
+:OU
+ 	  rdfs:label "OU - ordinal ordered set 2 nominal unordered set - PM with a VM that defines a mapping between an ordered set (technically a list) of source values to a set of single target values"^^xsd:string ;
+      rvl:disabled "false"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetAttribute vg:shape_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueOrderedSet (
+			rexd:Science
+			rexd:Biography
+			#rexd:Sci-Fi ### TODO: when this is active AND the next line points to a value not-used in the data-set, no colors are assigned
+			rexd:Spirituality
+		);
+		rvl:targetValue common-shapes:Star18;
+		rvl:targetValue common-shapes:Square;
+		rvl:targetValue common-shapes:Cross;
+      ]
+      .
+      
+      
+:UC
+      rdfs:label "UC - nominal unordered set 2 (auto-discretized) range - PM with a VM that defines a mapping from a set of (unordered) source values to a range of target values. The source set is defined adhoc by using sourceValue multiple times."^^xsd:string ;
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetAttribute vg:color_hsl_lightness ; 
+	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Travel;
+		rvl:sourceValue	rexd:Sci-Fi;
+		rvl:sourceValue	rexd:Science;
+		rvl:targetValueInterval [
+        	a rvl:Interval;
+        	rvl:upperBoundIncl "100";
+        	rvl:lowerBoundIncl "0";
+        ];
+      ];
+      .   
+  
+:UO
+	  rdfs:label "UO - nominal unordered set 2 ordinal list -  PM with a VM that defines a mapping from a set of (unordered) source values to a list of target values. The source set is defined adhoc by using sourceValue multiple times."^^xsd:string ;
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:workingField;
+      rvl:targetAttribute vg:color_named ; 
+	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Science;
+		rvl:sourceValue rexd:Sci-Fi;
+		rvl:sourceValue	rexd:Fiction;
+		rvl:sourceValue	rexd:Spirituality;
+		rvl:targetValueList (
+			vg:Red
+			vg:Orange
+			vg:Yellow
+			vg:LightYellow
+			vg:White # this is one more target than source element
+		);
+      ];
+      .       
+
+# TODO: does not seem to work      
+:UO_target_list_named
+	  rdfs:label "UO - nominal unordered set 2 ordinal list -  PM with a VM that defines a mapping from a named set of source values to a named visual value list of target values"^^xsd:string ;
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetAttribute vg:color_named ;
+      rvl:valueMapping
+          [ rdf:type rvl:ValueMapping ;
+          	rvl:sourceValueSet :ExampleNamedSourceValueSet ;
+            rvl:targetValueList vg:OrderedSizeSteps ### TODO: BigSize, MediumSize etc. do not seem to be supported
+          ];
+      .  
+  
+      
+:UU
+      rdfs:label "UU - nominal unordered set 2 nominal unordered set - PM with a VM that defines a mapping between two (unordered) sets of source and target values"^^xsd:string ;
       rvl:disabled "true"^^xsd:boolean ;
       a rvl:PropertyMapping ;
       rvl:sourceProperty rexd:workingField ;
@@ -30,7 +367,7 @@
 		rvl:sourceValue rexd:Sci-Fi;
 		rvl:sourceValue rexd:Spirituality;
 		rvl:sourceValue rexd:Biography;
-		rvl:sourceValue rexd:Travel;
+		rvl:sourceValue rexd:Travel; ### NOTE: less source than target values here
 		
 		rvl:targetValue vg:Yellow;
 		rvl:targetValue vg:Green;
@@ -40,12 +377,12 @@
 		rvl:targetValue vg:Red;
 		rvl:targetValue vg:Purple;
 		rvl:targetValue vg:LightYellow;
-      ]
+      ];
       .   
       
       
-:CC_type
-      rdfs:label "CC (Variant source property type) - nominal 2 nominal (set 2 set) - PM with a VM that defines a mapping between two (unordered) set of source and target values "^^xsd:string ;
+:UU_type
+      rdfs:label "UU (Variant source property type) - nominal set 2 nominal set - PM with a VM that defines a mapping between two (unordered) set of source and target values "^^xsd:string ;
       rvl:disabled "true"^^xsd:boolean ;
       a rvl:PropertyMapping ;
       rvl:subjectFilter "http://purl.org/rvl/example-data/DomainResource"^^rvl:classSelector;
@@ -73,9 +410,9 @@
       .  
       
       
-:CC_literals
-      rdfs:label "CC (Variant with also literals as source values) - nominal 2 nominal (set 2 set) - PM with a VM that defines a mapping between two (unordered) set of source and target values"^^xsd:string ;
-      rvl:disabled "false"^^xsd:boolean ;
+:UU_literals
+      rdfs:label "UU (Variant with also literals as source values) - nominal set 2 nominal set - PM with a VM that defines a mapping between two (unordered) set of source and target values"^^xsd:string ;
+      rvl:disabled "true"^^xsd:boolean ;
       a rvl:PropertyMapping ;
       rvl:sourceProperty rexd:partOf ;
       rvl:targetAttribute vg:color_named ; 
@@ -100,3 +437,11 @@
 		rvl:targetValue vg:LightYellow;
       ]
       .   
+      
+#################### HELPER ##############################
+
+:ExampleNamedSourceValueSet
+      a rdf:List ;
+      rdfs:label "Example named source value set"^^xsd:string ;
+      rdf:first rexd:Fiction ;
+      rdf:rest (rexd:Science  rexd:Spirituality) .

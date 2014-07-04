@@ -51,7 +51,7 @@ public class RVLUtils {
 		
 		List<Node> javaList = null;
 		
-		Node headRdfsList = rdfsList.getAllFirst_as().firstValue();
+		Node headRdfsList = rdfsList.getAllFirst_asNode_().firstValue();
 		org.ontoware.rdfreactor.schema.rdfs.List restRdfsList = rdfsList.getAllRest_as().firstValue();
 		
 		if (headRdfsList == null) {

@@ -26,12 +26,16 @@
 
 :Australia
       rdf:type :Place ;
+      rdfs:label "Australia (pop.: 100)"^^xsd:string ;
       :partOf :World , "World"@en ;
       :population "100"^^xsd:int .
       
 :Europe
       rdf:type :Place ;
-      :partOf :World , "World"@en-us .
+      rdfs:label "Europe (pop.: 400)"^^xsd:string ;
+      :partOf :World , "World"@en-us ;
+      :population "400"^^xsd:int ;
+      .
 
 :Author
       rdf:type owl:Class ;
@@ -45,7 +49,7 @@
 :Bob  rdf:type :Author ;
       rdfs:label "Bob"^^xsd:string ;
       :workingField :Science ;
-      :partOf :America;
+      :partOf :America ;
       .
 
 :Book
@@ -55,9 +59,10 @@
 
 :China
       rdf:type :Place ;
+      rdfs:label "China (pop.: 1000)"^^xsd:string ;
       :exportsTo :America ;
       :partOf :Asia ;
-      :population "3000"^^xsd:int .
+      :population "1000"^^xsd:int .
 
 :Christof
       rdf:type :Author ;
@@ -102,6 +107,16 @@
       :workingField :InfoVis ;
       :knows :Lina , :Luisa ;
       .
+      
+:Johannes a :Person ;
+      rdfs:label "Johannes"^^xsd:string ;
+      :workingField :Spirituality ;
+      .
+      
+:Goethe a :Person ;
+      rdfs:label "Goethe"^^xsd:string ;
+      :workingField :Fiction ;
+      .
 
 :John
       rdf:type :Author ;
@@ -140,6 +155,7 @@
 
 :Spain
       rdf:type :Place ;
+      rdfs:label "Spain (pop.: 40)"^^xsd:string ;
       :partOf :Europe ;
       :population "40"^^xsd:int .
 
@@ -147,6 +163,17 @@
       rdf:type :Author ;
       rdfs:label "Susane"^^xsd:string ;
       :workingField :Travel .
+      
+:DoctorWho
+	  a :Person ;
+	  rdfs:label "Doctor Who"^^xsd:string ;
+	  :workingField :Science ;
+	  .      
+      
+:PersonWithoutCharacteristics
+      rdf:type :Person ;
+      rdfs:label "Person without characteristics"^^xsd:string ;
+      .
 
 :Travel
       rdf:type :Field ;
