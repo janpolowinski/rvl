@@ -7,4 +7,7 @@
  <xs:simpleType name='sparqlSelector'>
   <xs:restriction base='string'/>
  </xs:simpleType>
+ <xs:simpleType name='classSelector'>
+  <xs:restriction base='string'/>
+ </xs:simpleType>
 </xs:schema>
