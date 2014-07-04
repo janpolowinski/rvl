@@ -202,7 +202,7 @@
       
 :OC
  	  rdfs:label "OC - ordinal ordered set 2 (auto-discretized) range - PM with a VM that defines a mapping between an ordered set of source values and a range of target values, automatically discretized into steps according to the number of (differernt) source values"^^xsd:string ;
-      rvl:disabled "true"^^xsd:boolean ;
+      rvl:disabled "false"^^xsd:boolean ;
       a rvl:PropertyMapping ;
       rvl:sourceProperty rexd:workingField ; ### TODO: better example values
       rvl:targetAttribute vg:width ; 
@@ -222,6 +222,7 @@
         	rvl:lowerBoundIncl "0";
         ];
         #rvl:discretize "false"^^xsd:boolean ; ### should be ignored here when set
+        rvl:discreteStepCount "2"^^xsd:int ;  ### TODO: no effect
       ]
       .    
       
@@ -277,7 +278,7 @@
       
 :OU
  	  rdfs:label "OU - ordinal ordered set 2 nominal unordered set - PM with a VM that defines a mapping between an ordered set (technically a list) of source values to a set of single target values"^^xsd:string ;
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true"^^xsd:boolean ;
       a rvl:PropertyMapping ;
       rvl:sourceProperty rexd:workingField ;
       rvl:targetAttribute vg:shape_named ; 
@@ -435,7 +436,7 @@
 		rvl:targetValue vg:Red;
 		rvl:targetValue vg:Purple;
 		rvl:targetValue vg:LightYellow;
-      ]
+      ];
       .   
       
 #################### HELPER ##############################
