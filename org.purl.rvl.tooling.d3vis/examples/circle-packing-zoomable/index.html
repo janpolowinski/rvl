@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  	<meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 	<link type="text/css" rel="stylesheet" href="../../css/main.css"/>
+	<link type="text/css" rel="stylesheet" href="../../css/labeling.css"/>
+    <link type="text/css" rel="stylesheet" href="../../css/labeling-new-boxmodel.css"/>
+    <link type="text/css" rel="stylesheet" href="../../css/labeling-webkit-old-boxmodel.css"/>
 	<script type="text/javascript" src="../../js/d3.min.js"></script>
+    <!-- >script type="text/javascript" src="../../js/d3.layout.js"></script--> <!-- causes conflicts when imported -->
+    <!-- own plugins to handle AVM based on D3.js -->
+    <script type="text/javascript" src="../../js/ogvic.js"></script>
+    <script type="text/javascript" src="../../js/ogvic.d3.utils.js"></script>
 	<style type="text/css">
 	
 	
@@ -21,29 +28,45 @@
 	
 	/* following is in conflict with main: */
 	
-.node:hover, .node.highlighted {
-	stroke: yellow;
-	stroke-width: 10px;
-	stroke-opacity:1;
-}
-
-
-.node.highlighted.identical {
-	stroke: yellow;
-}
-
+	/*.node:hover, .node.highlighted {
+		stroke: yellow;
+		stroke-width: 10px;
+		stroke-opacity:1;
+	}
 	
-
 	
+	.node.highlighted.identical {
+		stroke: yellow;
+	}*/
+
 	</style>
 </head>
-<body><div id="body"></div>
+<body>
 
 <script type="text/javascript">
 
+/******************************/
+/* CREDITS        			  */
+/******************************/
+            	
+/* after an example from TODO */
+
+/******************/
+/* SETTINGS       */
+/******************/
+
+// labeling
+var complexLabeling = false; // not yet fully implemented
+var simpleLabeling = true;
+
+// circle packing
 var margin = 10,
     outerDiameter = 960,
     innerDiameter = outerDiameter - margin - margin;
+    
+/*****************************************/
+/* GLOBAL VARS & ADAPTED PLUGINS         */
+/*****************************************/
 
 var x = d3.scale.linear()
     .range([0, innerDiameter]);
@@ -61,6 +84,13 @@ var pack = d3.layout.pack()
     .size([innerDiameter, innerDiameter])
     //.value(function(d) { return d.size; })
 	.value(function(d) { return "100"; })
+	
+/******************************/
+/* BASIC PAGE BUILDING        */
+/******************************/
+
+
+//var mInfo = d3.select("body").append("div");
 
 var svg = d3.select("body").append("svg")
     .attr("width", outerDiameter)
@@ -68,6 +98,10 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin + "," + margin + ")");
 	
+	
+/**************************/
+/* START DATA DRIVE       */
+/**************************/
 
 d3.json("../../gen/json/tree-data.json", function(error, root) {
 	
@@ -137,15 +171,36 @@ d3.json("../../gen/json/tree-data.json", function(error, root) {
 	 
 	 
 
-	 
-  svg.append("g").selectAll("text")
-      .data(nodes)
-    .enter().append("text")
-      .attr("class", "label nodeLabel")
-      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
-      .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
-      .style("display", function(d) { return d.parent === root ? null : "none"; })
-      .text(function(d) { return d.label; });
+  // text label	 
+  
+//   svg.append("g").selectAll("text")
+//       .data(nodes)
+//     .enter().append("text")
+//       .attr("class", "label nodeLabel")
+//       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+//       .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
+//       .style("display", function(d) { return d.parent === root ? null : "none"; })
+//       .text(function(d) { return d.label; });
+  
+  // text label new
+  if (simpleLabeling) {
+		
+		svg.append("g").selectAll(".nodeLabelContainer")
+		  .data(nodes).enter()
+		    .append("g")
+			.filter(function(d) { return d.labels != null ;})
+			.classed("nodeLabelContainer", true)
+			.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+			.style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
+			.style("display", function(d) { return d.parent === root ? null : "none"; })
+			.selectAll(".nodeLabelText")
+			.data(function(d) { return d.labels }).enter()
+			  .avmLabeledCT(true) // TODO make dependent on whether d has children, e.g.: function(d) { return d.children || d._children ; } , however here we are alread in d.labels!
+			  .classed("nodeLabelText label", true)
+			  .style("visibility", "visible") // because this is set to hidden in avmLabeledCT, which is reused here atm
+			  ;
+
+	}
 	  
 
   d3.select(window)
@@ -161,14 +216,14 @@ d3.json("../../gen/json/tree-data.json", function(error, root) {
     y.domain([d.y - d.r, d.y + d.r]);
     d3.event.stopPropagation();
 
-    var transition = d3.selectAll("path,text,circle").transition()
+    var transition = d3.selectAll("path,circle,g.nodeLabelContainer").transition()
         .duration(d3.event.altKey ? 7500 : 750)
         .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
 
     transition.filter("circle")
         .attr("r", function(d) { return k * d.r; });
 
-    transition.filter("text")
+    transition.filter(".nodeLabelContainer")
       .filter(function(d) { return d.parent === focus || d.parent === focus0; })
         .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
         .each("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
