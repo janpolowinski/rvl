@@ -37,7 +37,8 @@ public class MappingToLinkingHandler extends MappingToP2GOTORHandler {
 		try {
 			statement.getObject().asResource();
 		} catch (ClassCastException e) {
-			throw new NotImplementedMappingFeatureException("Can only handle linking relations where all objects are resources, but " + statement.getObject() + " is probably a Literal.");
+			throw new NotImplementedMappingFeatureException("Can only handle linking relations where all " +
+					"objects are resources, but " + statement.getObject() + " is probably a Literal.");
 		}
 
 		Resource subject = statement.getSubject();

@@ -78,7 +78,8 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		JSONObject d3data = new JSONObject();
 
 		Set<GraphicObjectX> rootNodeSet = AVMUtils.getRootNodesGraphicObject(modelAVM); // TODO SEVERE: only linking considered here!!!
-		if (null!=rootNodeSet && !rootNodeSet.isEmpty()) {
+		
+		if (null != rootNodeSet && !rootNodeSet.isEmpty()) {
 			
 			List<Map<String,Object>> listOfRootNodes = new LinkedList<Map<String,Object>>();
 			
@@ -91,9 +92,8 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 
 				Map<String,Object> actualRootNodeObject = new LinkedHashMap<String,Object>();
 				
-				actualRootNodeObject.put("uri", actualRootNode.getRepresentedResource().toString());
-				
-				putGraphicAttributes(actualRootNodeObject,actualRootNode);
+				putRepresentedResource(actualRootNodeObject, actualRootNode);
+				putGraphicAttributes(actualRootNodeObject, actualRootNode);
 				putLabels(actualRootNode, getDefaultWidthNodes(), actualRootNodeObject); // TODO width OK?
 				
 				
@@ -106,13 +106,13 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 				
 				actualRootNodeObject.put("connector", connectorJSON);
 				
-				List childrenListLinking = generateChildrenListFor4Linking(actualRootNode);
+				List<Map<String,Object>> childrenListLinking = generateChildrenListFor4Linking(actualRootNode);
 				if (!childrenListLinking.isEmpty()) {
 					actualRootNodeObject.put("type", "DirectedLinking");
 					actualRootNodeObject.put("children", childrenListLinking);
 				}
 				
-				List childrenListContainment = generateChildrenListFor4Containment(actualRootNode);
+				List<Map<String,Object>> childrenListContainment = generateChildrenListFor4Containment(actualRootNode);
 				if (!childrenListContainment.isEmpty()) {
 					actualRootNodeObject.put("type", "Containment");
 					actualRootNodeObject.put("children", childrenListContainment);

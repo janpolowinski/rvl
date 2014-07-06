@@ -8,8 +8,10 @@ import java.util.logging.Logger;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
+import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.exception.NotImplementedMappingFeatureException;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.util.AVMUtils;
@@ -27,7 +29,14 @@ public class MappingToContainmentHandler extends MappingToP2GOTORHandler {
 	private final static Logger LOGGER = Logger
 			.getLogger(MappingToContainmentHandler.class.getName());
 
-	public void encodeStatement(Statement statement) throws InsufficientMappingSpecificationException {
+	public void encodeStatement(Statement statement) throws InsufficientMappingSpecificationException, NotImplementedMappingFeatureException {
+		
+		try {
+			statement.getObject().asResource();
+		} catch (ClassCastException e) {
+			throw new NotImplementedMappingFeatureException("Can only handle linking relations where all " +
+					"objects are resources, but " + statement.getObject() + " is probably a Literal.");
+		}
 
 		Resource subject = statement.getSubject();
 		Resource object = statement.getObject().asResource();

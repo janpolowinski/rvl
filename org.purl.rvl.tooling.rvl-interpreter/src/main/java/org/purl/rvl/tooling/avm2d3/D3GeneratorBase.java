@@ -48,9 +48,9 @@ public abstract class D3GeneratorBase implements D3Generator {
 	 * @param modelAVM
 	 * @param modelVISO
 	 */
-	public D3GeneratorBase(Model model, Model modelVISO) {
+	public D3GeneratorBase(Model modelAVM, Model modelVISO) {
 		super();
-		this.modelAVM = model;
+		this.modelAVM = modelAVM;
 		this.modelVISO = modelVISO;
 	}
 
@@ -99,10 +99,8 @@ public abstract class D3GeneratorBase implements D3Generator {
 
 
 	/**
-	 * @param graphicObject
-	 * @param endNodeColorRGBHex
-	 * @param endNodeShapeD3Name
 	 * @param map
+	 * @param graphicObject
 	 */
 	protected void putGraphicAttributes(Map map, GraphicObjectX graphicObject) {
 		
@@ -128,6 +126,16 @@ public abstract class D3GeneratorBase implements D3Generator {
 		} else if (!graphicObject.hasRole(VISOGRAPHIC.ROLE_LINKING_CONNECTOR)){
 			map.put("width", getDefaultWidthNodes());
 		}
+
+	}
+	
+	/**
+	 * @param map
+	 * @param graphicObject
+	 */
+	protected void putRepresentedResource(Map<String,Object> map, GraphicObjectX graphicObject) {
+		
+		map.put("uri", graphicObject.getRepresentedResource().toString());
 
 	}
 	

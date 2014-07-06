@@ -15,14 +15,12 @@ import java.util.logging.Logger;
 import org.json.simple.JSONObject;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
-import org.ontoware.rdfreactor.runtime.ReactorResult;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.Thing1;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.util.AVMUtils;
-import org.purl.rvl.tooling.util.D3Utils;
 import org.purl.rvl.tooling.util.RVLUtils;
 
 

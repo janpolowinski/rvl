@@ -16,6 +16,7 @@ public class VisProject {
 	private D3Generator d3Generator;
 	private Reasoning reasoningDataModel = Reasoning.rdfs;
 	private String name;
+	private String d3GraphicFile;
 
 	
 	/**
@@ -76,10 +77,31 @@ public class VisProject {
 		return d3Generator;
 	}
 	
+	
 	public void setD3Generator(D3Generator d3Generator) {
 		this.d3Generator = d3Generator;
 	}
 
+
+	/**
+	 * Returns the path of the html file to be used for rendering the d3 graphic. When this was not 
+	 * set, the default defined by the generator will be used.
+	 * 
+	 * @return the path of the html file to be used for rendering the d3 graphic
+	 */
+	public String getD3GraphicFile() {
+		return d3GraphicFile;
+	}
+
+
+	/**
+	 * @param d3GraphicFile - the path of the html file to be used for rendering the d3 graphic.
+	 */
+	public void setD3GraphicFile(String d3GraphicFile) {
+		this.d3GraphicFile = d3GraphicFile;
+	}
+
+	
 
 
 }

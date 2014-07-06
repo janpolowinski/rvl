@@ -66,10 +66,12 @@ public class OGVICProcess {
 	// OTHER MEMBERS
 	ModelBuilder modelBuilder;
 
+	//protected VisProject currentProject; // TODO always use settings from project directly?
 	//protected static FakeRVLInterpreter avmBuilder;
 	protected D3Generator d3Generator;
 	protected RVLInterpreter rvlInterpreter;
-	
+	protected String d3GraphicFile;
+
 	private final  FileRegistry ontologyFileRegistry = new FileRegistry("ontology files"); // RVL, VISO_GRAPHIC ,...
 	private final  FileRegistry dataFileRegistry = new FileRegistry("data files"); // DATA
 	private final  FileRegistry mappingFileRegistry = new FileRegistry("mapping files"); // Mapping files (each interpreted as a mapping set)
@@ -196,6 +198,8 @@ public class OGVICProcess {
 	
 	public void loadProject(VisProject project) {
 		
+		//this.currentProject = project; // TODO: think about just referencing a current project instead of copying all settings to the process
+		
 		LOGGER.finest("Clearing internal models (AVM, data, mappings)");
 		
 		modelBuilder.clearMappingAndDataModels();
@@ -242,6 +246,18 @@ public class OGVICProcess {
 			LOGGER.warning("JSON generator was not set, using default one.");
 			setD3Generator(new D3GeneratorDeepLabelsJSON());
 		}
+		
+		// try to get html file for d3 rendering from project
+		if (null != project.getD3GraphicFile()){
+			setD3GraphicFile(project.getD3GraphicFile());
+		} else if (null != d3Generator) {
+			setD3GraphicFile(d3Generator.getDefaultD3GraphicFile());
+		} else {
+			LOGGER.severe("D3 html file was not set, using default one.");
+			System.exit(0);
+		}
+			
+			
 	}
 
 	private Model readAVMFromFile(ModelBuilder modelBuilder) {
@@ -297,7 +313,7 @@ public class OGVICProcess {
 
 	private void populateD3HTMLFolder() {
 
-		File originLocation = new File (D3_EXAMPLE_GRAPHICS_FOLDER_NAME + "/" + d3Generator.getDefaultD3GraphicFile());
+		File originLocation = new File (D3_EXAMPLE_GRAPHICS_FOLDER_NAME + "/" + getD3GraphicFile());
 		File targetLocation = new File (D3_HTML_FOLDER_NAME + "/index.html");
 		
 		try {
@@ -399,6 +415,13 @@ public class OGVICProcess {
 		return GEN_MODEL_FILE_FOLDER_D3_JSON + "/" + d3Generator.getGenJSONFileName();
 	}
 
+	public String getD3GraphicFile() {
+		return d3GraphicFile;
+	}
+
+	public void setD3GraphicFile(String d3GraphicFile) {
+		this.d3GraphicFile = d3GraphicFile;
+	}
 
 
 }
