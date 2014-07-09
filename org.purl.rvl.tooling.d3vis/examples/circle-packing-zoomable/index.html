@@ -25,20 +25,6 @@
 	  pointer-events: none;
 	}	
 	
-	
-	/* following is in conflict with main: */
-	
-	/*.node:hover, .node.highlighted {
-		stroke: yellow;
-		stroke-width: 10px;
-		stroke-opacity:1;
-	}
-	
-	
-	.node.highlighted.identical {
-		stroke: yellow;
-	}*/
-
 	</style>
 </head>
 <body>
@@ -117,9 +103,11 @@ d3.json("../../gen/json/tree-data.json", function(error, root) {
       .data(nodes)
     .enter().append("circle")
       .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
+      .classed("packedCircle",true)
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
       .attr("r", function(d) { return d.r; })
-      .style("fill", function(d) { return d.children ? color(d.depth) : "white"; })
+      //.style("fill", function(d) { return d.children ? color(d.depth) : "white"; })
+      .style("fill", function(d) { return d.color_rgb_hex_combined; })
       .on("click", function(d) { return zoom(focus == d ? root : d); })
 	  
 	  .on("mouseover", function(d) {
@@ -131,7 +119,7 @@ d3.json("../../gen/json/tree-data.json", function(error, root) {
 			svg.selectAll(".node").filter(function(node) {
 			    return node.uri === d.uri;
             })
-			.attr("class", "node highlighted identical");
+			.classed("highlighted identical", true);
 			
 			/*
 			svg.selectAll(".node--leaf").filter(function(node) {
@@ -145,8 +133,8 @@ d3.json("../../gen/json/tree-data.json", function(error, root) {
 	  })
 	  .on("mouseout", function(d) {
 			//d3.select(this).attr("class", "node");
-			svg.selectAll(".node").attr("class", "node");
-			
+			svg.selectAll(".node")
+			.classed("highlighted identical", false);
 			/*
 			svg.selectAll(".node--leaf").attr("class", "node node--leaf");*/
 			
@@ -154,7 +142,8 @@ d3.json("../../gen/json/tree-data.json", function(error, root) {
 	  ;
 	  
 	  
-	  
+  // old labeling with shape
+	  /*
   svg.append("g").selectAll("path")
 	.data(nodes)
 	.enter().append("path")
@@ -164,10 +153,10 @@ d3.json("../../gen/json/tree-data.json", function(error, root) {
 	 .attr("d", symbolFunction)
 	 .style("fill", function(d) { return d.color_rgb_hex_combined; })
 	 .style("visibility", function(d) {
-	 	 /*alert(d.shape_d3_name);*/ 
 		 return (d.shape_d3_name ==  "circle" || d.shape_d3_name ==  undefined) ? "hidden" : "visible"; 
 		 })
 	 ;	
+	  */
 	 
 	 
 

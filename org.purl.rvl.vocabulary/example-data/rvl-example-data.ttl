@@ -100,7 +100,9 @@
 :Germany
       rdf:type :Place ;
       :exportsTo :China ;
-      :partOf :Europe .
+      :partOf :Europe ;
+      :population "80"^^xsd:int ;
+      .
 
 :Jan  rdf:type :Person ;
       rdfs:label "Jan"^^xsd:string ;

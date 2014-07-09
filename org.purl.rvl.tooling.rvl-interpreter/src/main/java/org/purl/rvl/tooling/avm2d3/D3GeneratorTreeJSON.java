@@ -225,23 +225,12 @@ private Map<String,Object> generateObjectFor(Containment rel) {
 		
 		// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
 		containee = RVLUtils.tryReplaceWithCashedInstanceForSameURI_for_VISO_Resources(containee, GraphicObjectX.class);
-		
-	
+
 		Map<String,Object> child = new LinkedHashMap<String,Object>();
 		child.put("uri", containee.getRepresentedResource().toString());
-
-
-		Map<String,Object> connectorJSON = new LinkedHashMap<String,Object>();
-		putLabels(containee, getDefaultWidthNodes(), connectorJSON); // TODO width OK?
 		
-		child.put("connector", connectorJSON);
-		
-		
-
+		putLabels(containee, getDefaultWidthNodes(), child); // TODO width OK?
 		putGraphicAttributes(child,containee);
-		
-		child.put("connector_arrow_type", "uml_generalization_arrow");
-		child.put("connector_color_rgb_hex", "#ccc");
 		
 		// break possible circles
 		List<Map<String,Object>> childrenList = generateChildrenListFor4Containment(containee);
