@@ -20,10 +20,14 @@
 	}
 	
 	.label,
-	.node--root,
-	.node--leaf {
+	.node--root {
 	  pointer-events: none;
 	}	
+	
+	.node--leaf {
+	  pointer-events: all; /* problem: when leafs are clickable, we zoom into them instead of showing them (with a label) */
+	  /*pointer-events: none;*/ /* problem: prevents identity highlighting of leaf nodes */
+	}
 	
 	</style>
 </head>
@@ -108,8 +112,12 @@ d3.json("../../gen/json/tree-data.json", function(error, root) {
       .attr("r", function(d) { return d.r; })
       //.style("fill", function(d) { return d.children ? color(d.depth) : "white"; })
       .style("fill", function(d) { return d.color_rgb_hex_combined; })
-      .on("click", function(d) { return zoom(focus == d ? root : d); })
-	  
+      .on("click", function(d) { 
+    	  //return zoom(focus == d ? root : d); 							    // original
+    	  //return zoom(focus == d ? root : d.children ? d: d.parent); 		    // don't zoom into leaf nodes.
+    	  return zoom((focus == d.parent && !d.children) ? d.parent.parent : 
+    				  (focus == d || !d.children) ?  d.parent : d );            // don't zoom into leaf nodes and zoom to parent when clicking on the same level
+       })
 	  .on("mouseover", function(d) {
 	  		
 			// highlight this node
