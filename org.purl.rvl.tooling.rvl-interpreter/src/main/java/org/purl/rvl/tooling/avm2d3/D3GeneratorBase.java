@@ -134,9 +134,11 @@ public abstract class D3GeneratorBase implements D3Generator {
 	 * @param graphicObject
 	 */
 	protected void putRepresentedResource(Map<String,Object> map, GraphicObjectX graphicObject) {
-		
-		map.put("uri", graphicObject.getRepresentedResource().toString());
-
+		try {
+			map.put("uri", graphicObject.getRepresentedResource().toString());
+		} catch (NullPointerException e) {
+			LOGGER.warning("graphic object " + graphicObject + " does not represent a domain resource.");
+		}
 	}
 	
 	protected float getDefaultWidthNodes(){
@@ -247,5 +249,21 @@ public abstract class D3GeneratorBase implements D3Generator {
 			}
 	
 		}
+	}
+
+
+	/**
+	 * @param graphicObject
+	 * @param jsonObject
+	 */
+	protected void putAttributesLabelsRepresentedResource(GraphicObjectX graphicObject, Map<String, Object> jsonObject) {
+
+		putRepresentedResource(jsonObject, graphicObject);
+		putGraphicAttributes(jsonObject, graphicObject);
+		
+		// width (used for calculating label size)
+		float startNodeWidth = graphicObject.hasWidth()? graphicObject.getWidth() : getDefaultWidthNodes();
+		
+		putLabels(graphicObject, startNodeWidth, jsonObject); // TODO width OK?
 	}
 }

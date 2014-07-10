@@ -43,47 +43,27 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 	public D3GeneratorTreeJSON(Model model, Model modelVISO) {
 		super(model, modelVISO);
 	}
-	
 
 	/**
-	 * Generates JSON using SimpleJSON (Jackson JSON-Binding-Version also exists)
-	 */
-	/*public String generateJSONforD3SingleRootNode(){
-		
-		JSONObject d3data = new JSONObject();
-
-		GraphicObjectX rootNode = AVMUtils.getRootNodeGraphicObject(modelAVM);
-		if (null != rootNode) {
-			// generate JSON root object
-			d3data.put("label", rootNode.getLabel());
-			d3data.put("children", generateChildrenListFor(rootNode));
-		}
-		else {
-			LOGGER.severe("No root node found!");
-		}
-
-		return d3data.toJSONString();
-	}*/
-	
-	
-
-
-
-	/**
-	 * Generates JSON using SimpleJSON (Jackson JSON-Binding-Version also exists)
+	 * Generates JSON using SimpleJSON
 	 */
 	public String generateJSONforD3(){
 		
 		// generate empty JSON root object, containing all actual root nodes
 		JSONObject d3data = new JSONObject();
 
-		Set<GraphicObjectX> rootNodeSet = AVMUtils.getRootNodesGraphicObject(modelAVM); // TODO SEVERE: only linking considered here!!!
+		Set<GraphicObjectX> rootNodeSet = AVMUtils.getRootNodesGraphicObject(modelAVM); 
+		// TODO SEVERE: only some graphic relations considered by getRootNodesGraphicObject
+		// like linking and containment !
 		
 		if (null != rootNodeSet && !rootNodeSet.isEmpty()) {
 			
 			List<Map<String,Object>> listOfRootNodes = new LinkedList<Map<String,Object>>();
 			
 			for (Iterator<GraphicObjectX> iterator = rootNodeSet.iterator(); iterator.hasNext();) {
+				
+				// the actual root nodes are handled separately since we need to take special care of 
+				// rendering the relations from the structural (single) root node to the actual root nodes
 				
 				GraphicObjectX actualRootNode = (GraphicObjectX) iterator.next();
 				
@@ -92,24 +72,19 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 
 				Map<String,Object> actualRootNodeObject = new LinkedHashMap<String,Object>();
 				
-				putRepresentedResource(actualRootNodeObject, actualRootNode);
-				putGraphicAttributes(actualRootNodeObject, actualRootNode);
-				putLabels(actualRootNode, getDefaultWidthNodes(), actualRootNodeObject); // TODO width OK?
-				
-				
-				
-				// connector
-				Map<String,Object> connectorJSON = new LinkedHashMap<String,Object>();
-				connectorJSON.put("arrow_type", "line");
-				connectorJSON.put("width", "0"); // make this invisible
-				connectorJSON.put("color_rgb_hex_combined", "#c00");
-				
-				actualRootNodeObject.put("connector", connectorJSON);
-				
+				putAttributesLabelsRepresentedResource(actualRootNode, actualRootNodeObject);
+			
 				List<Map<String,Object>> childrenListLinking = generateChildrenListFor4Linking(actualRootNode);
 				if (!childrenListLinking.isEmpty()) {
 					actualRootNodeObject.put("type", "DirectedLinking");
 					actualRootNodeObject.put("children", childrenListLinking);
+
+					// special connectors from single structural root node to actual root nodes 
+					Map<String,Object> connectorJSON = new LinkedHashMap<String,Object>();
+					connectorJSON.put("arrow_type", "line");
+					connectorJSON.put("width", "0"); // make this invisible
+					connectorJSON.put("color_rgb_hex_combined", "#c00");
+					actualRootNodeObject.put("connector", connectorJSON);
 				}
 				
 				List<Map<String,Object>> childrenListContainment = generateChildrenListFor4Containment(actualRootNode);
@@ -117,7 +92,6 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 					actualRootNodeObject.put("type", "Containment");
 					actualRootNodeObject.put("children", childrenListContainment);
 				}
-				
 							
 				listOfRootNodes.add(actualRootNodeObject);
 
@@ -130,8 +104,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 
 		return d3data.toJSONString();
 	}
-	
-	
+
 	private List<Map<String,Object>> generateChildrenListFor4Linking(GraphicObjectX parentGO) {
 		
 		List<Map<String,Object>> listOfChildren = new LinkedList<Map<String,Object>>();
@@ -145,12 +118,6 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 			for (Iterator<DirectedLinking> iterator = directedLinkingsFromHere.iterator(); iterator
 					.hasNext();) {
 				DirectedLinking directedLinking = (DirectedLinking) iterator.next();
-		
-				/*
-				GraphicObjectX endNode = (GraphicObjectX) directedLinking.getAllEndnode_as().firstValue().castTo(GraphicObjectX.class);
-				GraphicObjectX connector = (GraphicObjectX) directedLinking.getAllLinkingconnector_as().firstValue().castTo(GraphicObjectX.class);
-				
-				*/
 				
 				listOfChildren.add(generateObjectFor(directedLinking));
 			}
@@ -195,17 +162,17 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		endNode = RVLUtils.tryReplaceWithCashedInstanceForSameURI_for_VISO_Resources(endNode, GraphicObjectX.class);
 
 		Map<String,Object> child = new LinkedHashMap<String,Object>();
-		child.put("uri", endNode.getRepresentedResource().toString());
-		putLabels(endNode, getDefaultWidthNodes(), child); // TODO width OK?
-		putGraphicAttributes(child,endNode);
+		
+		putAttributesLabelsRepresentedResource(endNode, child);
 		
 		// connector
 		Map<String,Object> connectorJSON = new LinkedHashMap<String,Object>();
 		connectorJSON.put("arrow_type", connector.getShape());
-		connectorJSON.put("width", connector.getWidth());
-		connectorJSON.put("color_rgb_hex", connector.getColorHex());
-		connectorJSON.put("color_rgb_hex_combined", connector.getColorRGBHexCombinedWithHSLValues());
-		putLabels(connector, getDefaultWidthNodes(), connectorJSON); // TODO width OK?
+		//connectorJSON.put("width", connector.getWidth());
+		//connectorJSON.put("color_rgb_hex", connector.getColorHex());
+		//connectorJSON.put("color_rgb_hex_combined", connector.getColorRGBHexCombinedWithHSLValues());
+		//putLabels(connector, getDefaultWidthNodes(), connectorJSON); // TODO width OK?
+		putAttributesLabelsRepresentedResource(connector, connectorJSON);
 		
 		child.put("connector", connectorJSON);
 
@@ -227,10 +194,8 @@ private Map<String,Object> generateObjectFor(Containment rel) {
 		containee = RVLUtils.tryReplaceWithCashedInstanceForSameURI_for_VISO_Resources(containee, GraphicObjectX.class);
 
 		Map<String,Object> child = new LinkedHashMap<String,Object>();
-		child.put("uri", containee.getRepresentedResource().toString());
-		
-		putLabels(containee, getDefaultWidthNodes(), child); // TODO width OK?
-		putGraphicAttributes(child,containee);
+
+		putAttributesLabelsRepresentedResource(containee, child);
 		
 		// break possible circles
 		List<Map<String,Object>> childrenList = generateChildrenListFor4Containment(containee);

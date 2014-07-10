@@ -85,10 +85,10 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 			float startNodeWidth = startNode.hasWidth()? startNode.getWidth() : getDefaultWidthNodes();
 			
 			Map<String,Object> node = new LinkedHashMap<String,Object>();
-			putGraphicAttributes(node, startNode);
-			node.put("uri", startNode.getRepresentedResource().toString());
-
-			putLabels(startNode, startNodeWidth, node);
+			//putGraphicAttributes(node, startNode);
+			//node.put("uri", startNode.getRepresentedResource().toString());
+			//putLabels(startNode, startNodeWidth, node);
+			putAttributesLabelsRepresentedResource(startNode, node);
 			
 			listOfNodes.add(node);
 		}
@@ -133,8 +133,13 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 				GraphicObjectX endNode = (GraphicObjectX) dlRel.getAllEndnode_as().firstValue().castTo(GraphicObjectX.class);
 				GraphicObjectX connector = (GraphicObjectX) dlRel.getAllLinkingconnector_as().firstValue().castTo(GraphicObjectX.class);
 				// get index of the endNode in the above generated Map
+				
 				Map<String,Object> link = new LinkedHashMap<String,Object>();
+				
 				putGraphicAttributes(link,connector);
+				putLabels(connector, getDefaultWidthConnectors(), link);
+				putRepresentedResource(link, connector);
+				
 				link.put("type", "Directed");
 				//link.put("type", dlRel.getRDFSClassURI().toString());
 				link.put("source", goMap.get(startNode));
@@ -142,8 +147,6 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 				link.put("value", "1");
 				//link.put("text_value", D3Utils.shortenLabel(connector.getLabel()));
 				//link.put("text_value_full", connector.getLabel() + " (ID: " + connector.getRepresentedResource() + ")");
-				
-				putLabels(connector, getDefaultWidthConnectors(), link);
 				
 				listOfLinks.add(link);
 				LOGGER.finer("Generated JSON link for " + dlRel + " (" + startNode.getLabel() + " --> " + endNode.getLabel() +")" );
@@ -178,7 +181,11 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 				GraphicObjectX connector = (GraphicObjectX) rel.getAllLinkingconnector_as().firstValue().castTo(GraphicObjectX.class);
 				// get index of the endNode in the above generated Map
 				Map<String,Object> link = new LinkedHashMap<String,Object>();
+
 				putGraphicAttributes(link,connector);
+				putLabels(connector, getDefaultWidthConnectors(), link);
+				putRepresentedResource(link, connector);
+				
 				//link.put("type", rel.getRDFSClassURI().toString());
 				link.put("type", "Undirected");
 				link.put("source", goMap.get(node1));
@@ -209,8 +216,11 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 				GraphicObjectX containee = (GraphicObjectX) rel.getAllContainmentcontainee_as().firstValue().castTo(GraphicObjectX.class);
 
 				// get index of the endNode in the above generated Map
+				
 				Map<String,Object> link = new LinkedHashMap<String,Object>();
-				putGraphicAttributes(link,containee);
+				
+				putAttributesLabelsRepresentedResource(containee,link);
+				
 				//link.put("type", rel.getRDFSClassURI().toString());
 				link.put("type", "Containment");
 				link.put("source", goMap.get(container));
