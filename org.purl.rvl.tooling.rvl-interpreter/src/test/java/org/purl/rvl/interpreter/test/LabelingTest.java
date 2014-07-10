@@ -22,7 +22,7 @@ public class LabelingTest extends TestOGVICProcess {
 		
 		//project.setRvlInterpreter(new SimpleRVLInterpreter());
 		
-		project.setD3Generator(new D3GeneratorTreeJSON());
+		//project.setD3Generator(new D3GeneratorTreeJSON());
 		
 		loadProjectAndRunProcess();
 	}
