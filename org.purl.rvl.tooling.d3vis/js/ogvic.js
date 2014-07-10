@@ -138,6 +138,15 @@ var width = 1400,
 			;
 	  };
 	  
+	  /* add label positioning div */
+	  d3.selection.enter.prototype.avmLabelPositioning = function() {
+		  
+		  return this.append("div")
+			.attr("class", function(d){ return "labelContainer " + d.position ;})
+			.style("height", function(d){return d.width + "px";})
+			.style("width", function(d){return d.width + "px";});
+	  };
+	  
 	  
 	  /* labeling with HTML text (version for enter-selection-array) */
 	  d3.selection.enter.prototype.avmLabeledHTMLText = function() {
@@ -169,15 +178,7 @@ var width = 1400,
 		  return containerDiv;
 	  };
 	  
-	  
-	  /* add label positioning div */
-	  d3.selection.enter.prototype.avmLabelPositioning = function() {
-		  
-		  return this.append("div")
-			.attr("class", function(d){ return "labelContainer " + d.position ;})
-			.style("height", function(d){return d.width + "px";})
-			.style("width", function(d){return d.width + "px";});
-	  };
+	 
 	  
 	  /* labeling with SVG text (version for enter-selection-array) */
 	  d3.selection.enter.prototype.avmLabeledSVGText = function() {
