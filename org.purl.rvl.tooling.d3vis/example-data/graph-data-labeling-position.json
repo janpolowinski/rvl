@@ -77,28 +77,91 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
-      "width":200.0,
+      "width":100.0,
       "labels":[
       	{
           "position":"topLeft",
-          "width":"50.0",
+          "width":"30.0",
           "color_rgb_hex_combined":"green",
           "type":"icon_label",
           "shape_d3_name":"square"
         },
         {
           "position":"centerCenter",
-          "width":"50.0",
+          "width":"30.0",
           "color_rgb_hex_combined":"white",
           "shape_d3_name":"square",
           "type":"icon_label"
         },
         {
           "position":"bottomRight",
-          "width":"50.0",
+          "width":"30.0",
           "color_rgb_hex_combined":"red",
           "shape_d3_name":"square",
           "type":"icon_label"
+        },
+        {
+          "position":"topLeft",
+          "width":"0",
+          "color_rgb_hex_combined":"red",
+          "text_value":"topLeft,30",
+          "type":"text_label"
+        },
+        {
+          "position":"topCenter",
+          "width":"30.0",
+          "color_rgb_hex_combined":"red",
+          "text_value":"topCenter,30",
+          "type":"text_label"
+        },
+        {
+          "position":"topRight",
+          "width":"30.0",
+          "color_rgb_hex_combined":"red",
+          "text_value":"topRight,30",
+          "type":"text_label"
+        },
+        {
+          "position":"centerRight",
+          "width":"30.0",
+          "color_rgb_hex_combined":"red",
+          "text_value":"centerRight,30",
+          "type":"text_label"
+        },
+        {
+          "position":"centerCenter",
+          "width":"30.0",
+          "color_rgb_hex_combined":"black",
+          "text_value_full":"text_value_full - centerCenter,30 -> should be stretched to 100%",
+          "type":"text_label"
+        },
+        {
+          "position":"centerLeft",
+          "width":"30.0",
+          "color_rgb_hex_combined":"red",
+          "text_value":"centerLeft,30",
+          "type":"text_label"
+        },
+        {
+          "position":"bottomLeft",
+          "width":"30.0",
+          "color_rgb_hex_combined":"red",
+          "text_value":"bottomLeft,30",
+          "type":"text_label"
+        },
+        {
+          "position":"bottomCenter",
+          "width":"30.0",
+          "color_rgb_hex_combined":"red",
+          "text_value":"bottomCenter,30",
+          "type":"text_label"
+        },
+        {
+          "position":"bottomRight",
+          "width":"30.0",
+          "color_rgb_hex_combined":"red",
+          "text_value":"bottomRight,30",
+          "type":"text_label"
         }
       ]
     }

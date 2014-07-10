@@ -143,8 +143,11 @@ var width = 1400,
 		  
 		  return this.append("div")
 			.attr("class", function(d){ return "labelContainer " + d.position ;})
-			.style("height", function(d){return d.width + "px";})
-			.style("width", function(d){return d.width + "px";});
+			//.style("height", function(d){return d.parent.width + "px";})
+			//.style("width", function(d){return d.parent.width + "px";})
+			.style("height", function(d){return "100%";})
+			.style("width", function(d){return "100%";})
+			;
 	  };
 	  
 	  
@@ -192,12 +195,11 @@ var width = 1400,
 			.filter(function(d) { return d.position != "centerCenter" ;})
 			.append("svg")
 			.attr("class", "svgLabelText")
-			//.attr("width",100 +"px")
-			//.attr("height",25 +"px")
-			.attr("width", function(d){ return d.width + "px"; }) // are these sizes sensible?
-			.attr("height",function(d){ return d.width + "px"; });
+			.attr("width",0 +"px") // text needs to have width and height = 0 for correct positioning atm
+			.attr("height",0 +"px")
 			//.style("margin-left",-100 + "px")
 			//.style("margin-bottom",-0.2*NODE_SIZE + "px");
+			;
 										
 			// The label and a copy of the label as shadow for better readability
 			//labelContainerSVG.avmLabeledFDG2(function(d){ return d.width; }).attr("class", "nodeLabelShadow");
@@ -292,6 +294,8 @@ var width = 1400,
 	     	.attr("dy", 0)
 		    .text(function(d) { return d.shape_text_value; })
 			.applyGraphicAttributesNonSpatial2SVG()
+			.filter(function (d) { return null != d.width;})
+			.style("font-size", function (d) { return d.width + "px";})
 			;
 	  };
 	  
