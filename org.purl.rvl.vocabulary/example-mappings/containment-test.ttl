@@ -47,17 +47,17 @@
       .
       
 :ShapeNamedMapping
-      rvl:disabled "true"^^xsd:boolean ;
+      rvl:disabled "false"^^xsd:boolean ;
       a rvl:PropertyMapping ;
-      rvl:sourceProperty rexd:workingField ;
+      rvl:sourceProperty rexd:partOf ;
       rvl:targetAttribute vg:shape_named ; 
       rvl:valueMapping [
         a rvl:ValueMapping ;
-		rvl:sourceValue rexd:Sci-Fi;
-        rvl:targetValue common-shapes:Rhomb;
+		rvl:sourceValue rexd:Europe;
+        rvl:targetValue common-shapes:CircleP;
       ],[
         a rvl:ValueMapping ;
-		rvl:sourceValue rexd:Biography;
-        rvl:targetValue common-shapes:Square;
+		rvl:sourceValue rexd:Asia;
+        rvl:targetValue common-shapes:Star18;
       ]
       .

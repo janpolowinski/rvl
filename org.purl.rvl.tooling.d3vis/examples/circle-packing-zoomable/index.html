@@ -49,6 +49,9 @@
 var complexLabeling = false; // not yet fully implemented
 var simpleLabeling = true;
 
+//shapes as overlayed transparent svg symbol not to destroy circle-packing layout
+var shapeAsOverlay = true;
+
 // circle packing
 var margin = 10,
     outerDiameter = 960,
@@ -148,36 +151,26 @@ d3.json("../../gen/json/tree-data.json", function(error, root) {
 			
 	  })
 	  ;
-	  
-	  
-  // old labeling with shape
-	  /*
-  svg.append("g").selectAll("path")
-	.data(nodes)
-	.enter().append("path")
-    //.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
-    //.attr("d", d3.svg.symbol());
-	  .attr("class", "symbol")
-	 .attr("d", symbolFunction)
-	 .style("fill", function(d) { return d.color_rgb_hex_combined; })
-	 .style("visibility", function(d) {
-		 return (d.shape_d3_name ==  "circle" || d.shape_d3_name ==  undefined) ? "hidden" : "visible"; 
-		 })
-	 ;	
-	  */
-	 
-	 
 
-  // text label	 
-  
-//   svg.append("g").selectAll("text")
-//       .data(nodes)
-//     .enter().append("text")
-//       .attr("class", "label nodeLabel")
-//       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
-//       .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
-//       .style("display", function(d) { return d.parent === root ? null : "none"; })
-//       .text(function(d) { return d.label; });
+	// when using transparent shape overlay
+  	if (shapeAsOverlay) {
+		var symbolContainer = svg.append("g").selectAll(".svgSymbolContainer")
+		.data(nodes).enter()
+		.append("g")
+		.filter(function(d) { return d.shape_d3_name != "circle" && d.shape_d3_name !=  undefined; })
+		.attr("class","svgSymbolContainer")
+		.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+		;
+	 
+	 	symbolContainer.avmShapedWithUseSVG()		      
+		//.attr("transform", function(d) { return "scale(" + d.width/SYMBOL_WIDTH +  ")"; })
+		.attr("transform", function(d) { return "scale(5)"; })
+		.style("fill-opacity","0.33")
+		.style("stroke-opacity","0")
+		.style("pointer-events","none")
+		;
+  	}
+	 
   
   // text label new
   if (simpleLabeling) {
@@ -205,6 +198,9 @@ d3.json("../../gen/json/tree-data.json", function(error, root) {
 
   d3.select(window)
       .on("click", function() { zoom(root); });
+  
+  d3.select(window)
+     .on("load", function() { zoom(root); });
 
   function zoom(d, i) {
   	
@@ -216,7 +212,7 @@ d3.json("../../gen/json/tree-data.json", function(error, root) {
     y.domain([d.y - d.r, d.y + d.r]);
     d3.event.stopPropagation();
 
-    var transition = d3.selectAll("path,circle,g.nodeLabelContainer").transition()
+    var transition = d3.selectAll("path,circle,g.nodeLabelContainer,.svgSymbolContainer").transition()
         .duration(d3.event.altKey ? 7500 : 750)
         .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
 
@@ -228,8 +224,18 @@ d3.json("../../gen/json/tree-data.json", function(error, root) {
         .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
         .each("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
         .each("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+    
+	// when using transparent shape overlay
+  	if (shapeAsOverlay) {
+	    transition.filter(".svgSymbolContainer")
+	    .filter(function(d) { return d.parent === focus || d.parent === focus0; })
+	      .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
+	      .each("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+	      .each("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+  	}
+	
   }
-  
+
   
 });
 
