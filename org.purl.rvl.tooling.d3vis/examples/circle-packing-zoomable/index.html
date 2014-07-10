@@ -39,7 +39,7 @@
 /* CREDITS        			  */
 /******************************/
             	
-/* after an example from TODO */
+/* after an example from http://bl.ocks.org/mbostock/7607535 */
 
 /******************/
 /* SETTINGS       */
@@ -103,9 +103,9 @@ d3.json("../../gen/json/tree-data.json", function(error, root) {
 						.type(function (d) {return d.shape_d3_name})
 					;
 
-  svg.append("g").selectAll("circle")
+  	var nodeEnter = svg.append("g").selectAll("circle")
       .data(nodes)
-    .enter().append("circle")
+      .enter().append("circle")
       .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
       .classed("packedCircle",true)
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
@@ -198,6 +198,9 @@ d3.json("../../gen/json/tree-data.json", function(error, root) {
 			  ;
 
 	}
+  
+	// tooltip
+	nodeEnter.avmTitled();
 	  
 
   d3.select(window)
