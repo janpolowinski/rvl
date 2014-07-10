@@ -336,25 +336,25 @@ var width = 1400,
 	  /* setting the shape by a path object */ // TODO: this also sets color and class node at the moment ; seems broken
 	  d3.selection.prototype.avmProvideMarkerCollection = function() {
 
-	  var defs = this.append("svg:defs");
+		  var defs = this.append("svg:defs");
 	  
-	  defs.selectAll("marker")
-	      .data(["arrow", "uml_generalization_arrow", "arrow_small_triangle"])
-	      .enter().append("svg:marker")
-	      .attr("id", String)
-	      .attr("viewBox", "0 -5 10 10")
-	      .attr("refX", refX)
-	      .attr("refY", refY)
-	      .attr("markerWidth", markerWidth)
-	      .attr("markerHeight", markerHeight)
-	      .attr("orient", "auto")
-	      .append("svg:path")
-		    .attr("markerUnits","userSpaceOnUse") /* seems to have no effect */
-	        .attr("d", "M0,-5L10,0L0,5L0,-5Z");
+		  defs.selectAll("marker")
+		      .data(["arrow", "uml_generalization_arrow", "arrow_small_triangle"])
+		      .enter().append("svg:marker")
+		      .attr("id", String)
+		      .attr("viewBox", "0 -5 10 10")
+		      .attr("refX", refX)
+		      .attr("refY", refY)
+		      .attr("markerWidth", markerWidth)
+		      .attr("markerHeight", markerHeight)
+		      .attr("orient", "auto")
+		      .append("svg:path")
+			    .attr("markerUnits","userSpaceOnUse") /* seems to have no effect */
+		        .attr("d", "M0,-5L10,0L0,5L0,-5Z");
+		  
+		  defs.select("#arrow_small_triangle").select("path").attr("d", "M0,-3L6,0L0,3L0,-3Z");
 	  
-	  defs.select("#arrow_small_triangle").select("path").attr("d", "M0,-3L6,0L0,3L0,-3Z");
-	  
-	  return defs;
+		  return defs;
 	};
 	
 	
