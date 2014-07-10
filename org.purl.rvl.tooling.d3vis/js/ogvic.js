@@ -158,8 +158,8 @@ var width = 1400,
 			.filter(function(d) { return d.position == "centerCenter" ;})
 			.attr("class", function(d){ return "labelContainer textHTMLLabelContainer " + " " + d.position;})
 			.style("text-align","center")
-			.style("height", function(d){return d.width + "px";})
-			.style("width", function(d){return d.width + "px";})
+			.style("height", function(d){return "100%";}) // use the whole area defined by the labeling base 
+			.style("width", function(d){return "100%";})
 			;
 		  
 		  containerDiv.append("div")
@@ -173,7 +173,7 @@ var width = 1400,
 		  				return textColor;
 		  				})
 					//.style("width", NODE_SIZE + "px") // does only work well for xCenter position
-					.html(function(d){ return d.text_value;});
+					.html(function(d){ return d.text_value_full;});
 		  
 		  return containerDiv;
 	  };
