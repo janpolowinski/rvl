@@ -187,24 +187,29 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 
 				Resource resource = go.getRepresentedResource();
 
-				// TODO: temp workaround: only do this when no other TEXT label already exists (with text_value attribute)
-				if (!go.hasLabeledwith()) {
-	
-						performDefaultLabelMapping(go, resource);
-	
-				} else {
-	
-					Labeling rel = go.getAllLabeledwith_as().firstValue();
-	
-					if (rel.hasLabelinglabel()) {
-	
-						Thing1 label = rel.getAllLabelinglabel_as().firstValue();
-						GraphicObjectX labelGO = (GraphicObjectX) label.castTo(GraphicObjectX.class);
-	
-						if (null != labelGO && !labelGO.hasTextvalue()) {
+				// never default-label text shapes
+				if (!go.hasTextvalue()) {
+				
+					// TODO: temp workaround: only do this when no other TEXT label already exists (with text_value attribute)
+					if (!go.hasLabeledwith()) {
+		
 							performDefaultLabelMapping(go, resource);
+		
+					} else {
+		
+						Labeling rel = go.getAllLabeledwith_as().firstValue();
+		
+						if (rel.hasLabelinglabel()) {
+		
+							Thing1 label = rel.getAllLabelinglabel_as().firstValue();
+							GraphicObjectX labelGO = (GraphicObjectX) label.castTo(GraphicObjectX.class);
+		
+							// also perform a default text label mapping when only an icon labeling exists
+							if (null != labelGO && !labelGO.hasTextvalue()) {
+								performDefaultLabelMapping(go, resource);
+							}
+		
 						}
-	
 					}
 				}
 			
