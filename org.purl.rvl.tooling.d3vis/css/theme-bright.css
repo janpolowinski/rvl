@@ -1,0 +1,32 @@
+body {
+	background-color: #fff;
+}
+
+
+
+/* set to whatever the body-background-color is */
+.svgSymbol, .packedCircle {
+	stroke: #fff;
+   	fill: #666;
+}
+
+circle.node.highlighted.identical,
+.node.highlighted path,
+.node.highlighted circle {
+	stroke: #ffe900;
+}
+
+.node.highlighted.identical path,
+.node.highlighted.identical circle {
+	stroke: #ffe900;
+}
+
+path.link {
+    stroke-opacity: .65;
+}
+
+path.link.highlighted {
+	stroke-opacity: 1;
+    stroke: #ffe900 ! important;
+}
+
