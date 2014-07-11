@@ -33,7 +33,7 @@
 
    
 :Aliphatic_to_Shape1
-      rdf:type rvl:ValueMapping ;
+      a rvl:ValueMapping ;
       rdfs:label "Aliphatic to Shape1"^^xsd:string ;
       rvl:includeInLegend "true"^^xsd:boolean ;
       rvl:sourceValue amino-acid:Aliphatic ;
@@ -41,7 +41,7 @@
       .
 
 :Aromatic_to_Shape2
-      rdf:type rvl:ValueMapping ;
+      a rvl:ValueMapping ;
       rdfs:label "Aromatic to Shape2"^^xsd:string ;
       rvl:includeInLegend "true"^^xsd:boolean ;
       rvl:sourceValue amino-acid:Aromatic ;

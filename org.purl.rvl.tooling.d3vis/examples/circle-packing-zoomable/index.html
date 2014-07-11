@@ -114,8 +114,8 @@ d3.json("../../gen/json/tree-data.json", function(error, root) {
       .classed("packedCircle",true)
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
       .attr("r", function(d) { return d.r; })
-      //.style("fill", function(d) { return d.children ? color(d.depth) : "white"; })
-      .style("fill", function(d) { return d.color_rgb_hex_combined; })
+      .style("fill", function(d) { return d.children ? color(d.depth) : "white"; })
+      //.style("fill", function(d) { return d.color_rgb_hex_combined; })
       .on("click", function(d) { 
     	  //return zoom(focus == d ? root : d); 							    // original
     	  //return zoom(focus == d ? root : d.children ? d: d.parent); 		    // don't zoom into leaf nodes.
