@@ -62,7 +62,7 @@ var width = 1400,
 	  };
 	  
 	  /* labeling with SVG text FDG */
-	  d3.selection.enter.prototype.avmLabeledFDG = function() {
+	  d3.selection.enter.prototype.avmLabeledFDG = d3.selection.prototype.avmLabeledFDG = function() {
 		  
 		  var text = this
 		  	.append("svg:text")
@@ -216,7 +216,7 @@ var width = 1400,
 				.avmLabelPositioning()
 				.classed("iconLabelContainer",true);
 			
-		containerDiv
+		var innerSVG = containerDiv
 			.filter(function(d) { return d.type === "icon_label" ;})
 			.append("svg")
 			.attr("class", "svgLabelIcon")
@@ -226,11 +226,12 @@ var width = 1400,
 			//.style("margin","0px")
 			
 			.append("svg:g") // translating here allows for using transform two times (for scale, translate. alternative could be use of matrix)
-				.attr("transform", function(d){ return "translate(" + d.width/2 + "," + d.width/2 + ")";})
+				.attr("transform", function(d){ return "translate(" + d.width/2 + "," + d.width/2 + ")";});
 				//.attr("x", function(d){ return (d.width)/2;}) // somehow offers other results than translate
 		        //.attr("y", function(d){ return (d.width)/2;})
+			
 				
-			.append("use")
+			innerSVG.append("use")
 			  .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.shape_d3_name; })
 			  //.attr("xlink:href", function(d) { return "../../svg/symbols.svg#clock"; })
 	   	 	  .attr("class", function(d) { return "label svgSymbol"; })
@@ -244,7 +245,19 @@ var width = 1400,
 // 			.attr("d", avmDefaultSizeLabelSymbolFunction)
 // 			.style("fill", "red")
 //			.attr("transform", function(d){ return "translate(" + labelShapeSize/2 + "," + labelShapeSize/2 + ")";});
+		
+		
+		  // trial: limited support for labeled labels up to 2 levels:
 
+		  innerSVG
+		    .filter(function(d) { return d.labels != null ;})
+			.selectAll(".nodeLabelText")
+			.data(function(d) { return d.labels; }).enter()
+			// TODO: this is a hack to quickly allow text labels CENTER/RIGHT from icon labels
+			.append("svg:g").attr("transform","translate(17,7.5)")
+			.avmLabeledFDG().classed("nodeLabelText label iconLabelText", true)
+			;
+		
 		  return containerDiv;
 	  };
 	   

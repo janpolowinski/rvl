@@ -36,6 +36,11 @@
         rvl:subMapping-mapping :TypeToLabelStyleMapping;
       ],
       [
+        rvl:subMapping-onRole vg:this; # use role "this" to apply submappings to the n-ary relation itself (not yet part of RVL spec!)
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :TypeToLabelPositionMapping;
+      ],
+      [
         rvl:subMapping-onRole vg:labeling_base;
         rvl:subMapping-onTriplePart rdf:object;
         rvl:subMapping-mapping :ShapeMapping;
@@ -68,6 +73,11 @@
         rvl:subMapping-onRole vg:this; # use role "this" to apply submappings to the n-ary relation itself (not yet part of RVL spec!)
         rvl:subMapping-onTriplePart rdf:object;
         rvl:subMapping-mapping :TypeToLabelStyleMapping;
+      ],
+      [
+        rvl:subMapping-onRole vg:this; # use role "this" to apply submappings to the n-ary relation itself (not yet part of RVL spec!)
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :TypeToLabelPositionMapping;
       ],
       [
         rvl:subMapping-onRole vg:labeling_base;
@@ -110,7 +120,7 @@
       
 :TextIdentityMapping
 	  rvl:disabled "true"^^xsd:boolean ;
-      rdf:type rvl:IdentityMapping ;
+      a rvl:IdentityMapping ;
       #rvl:sourceProperty rdfs:label ;
       #rvl:sourceProperty rvl:label ;
       rvl:sourceProperty rvl:IDandTypes ;
@@ -121,7 +131,7 @@
       
 :TypeToLabelStyleMapping
 	  rvl:disabled "true";
-      rdf:type rvl:PropertyMapping ;
+      a rvl:PropertyMapping ;
       rvl:sourceProperty rdf:ID ;
       rvl:targetAttribute
               vg:labeling_attachedBy ;
@@ -132,14 +142,28 @@
       ],
       [
       	a rvl:valueMapping;
-      	rvl:sourceValue rexd:Biography;
+      	rvl:sourceValue rexd:Sci-Fi;
       	rvl:targetValue vg:Superimposition_Relation;
       ]
-      .      
+      .    
+      
+:TypeToLabelPositionMapping
+	  rvl:disabled "true";
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rdf:ID ;
+      rvl:targetAttribute
+              vg:labeling_position ; # (not yet part of RVL spec!)
+      rvl:valueMapping 
+      [
+      	a rvl:valueMapping;
+      	rvl:sourceValue rexd:Sci-Fi;
+      	rvl:targetValue vg:CenterLeft;
+      ]
+      .   
       
 :LabelColorMapping
       rvl:disabled "true"^^xsd:boolean ;
-      rdf:type rvl:PropertyMapping ;
+      a rvl:PropertyMapping ;
       rvl:sourceProperty rdf:ID ;
       rvl:targetAttribute vg:color_named ; 
       rvl:valueMapping [

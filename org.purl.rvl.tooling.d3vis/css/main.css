@@ -130,7 +130,7 @@ text.textNode {
   fill: #555;
   font-size: 10px;
   text-anchor: middle;
-  text-shadow: 0 1px 0 #ccc, 1px 0 0 #ccc, -1px 0 0 #ccc, 0 -1px 0 #ccc;
+  /*text-shadow: 0 1px 0 #ccc, 1px 0 0 #ccc, -1px 0 0 #ccc, 0 -1px 0 #ccc;*/
   /*visibility: hidden;*/
 }
 

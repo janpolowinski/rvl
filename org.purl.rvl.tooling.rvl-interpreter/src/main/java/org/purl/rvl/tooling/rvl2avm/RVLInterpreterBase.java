@@ -17,6 +17,7 @@ import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.model.node.impl.PlainLiteralImpl;
+import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
@@ -29,6 +30,7 @@ import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObject;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
+import org.purl.rvl.java.gen.viso.graphic.Object_to_ObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.Shape;
 import org.purl.rvl.java.gen.viso.graphic.Superimposition;
 import org.purl.rvl.java.gen.viso.graphic.Thing1;
@@ -257,7 +259,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	 * @throws
 	 */
 	@Override
-	public void applySubmappings(PropertyToGO2ORMappingX p2go2orm, Statement mainStatement, Resource dlRel) {
+	public void applySubmappings(PropertyToGO2ORMappingX p2go2orm, Statement mainStatement, Object_to_ObjectRelation graphicRelation) {
 
 		// TODO derive GO by onRole settings and the mainStatement? or just check if correct?
 
@@ -306,7 +308,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 					LOGGER.finer("Applying submapping to the GR itself (role: " + roleURI + ") based on triple part "
 							+ triplePartURI);
 
-					applyMappingToNaryRelation(mainStatement, triplePartURI, dlRel, mapping);
+					applyMappingToNaryRelation(mainStatement, triplePartURI, graphicRelation, mapping);
 
 				} else {
 
@@ -315,7 +317,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 					LOGGER.finer("Applying submapping to GO with the role " + roleURI + " based on triple part "
 							+ triplePartURI);
 
-					GraphicObjectX goToApplySubmapping = AVMUtils.getGOForRole(modelAVM, dlRel, roleURI);
+					GraphicObjectX goToApplySubmapping = AVMUtils.getGOForRole(modelAVM, graphicRelation, roleURI);
 					// TODO this is a simplification: multiple GOs may be affected, not only one
 
 					applyMappingToGraphicObject(mainStatement, triplePartURI, goToApplySubmapping, mapping);
@@ -339,6 +341,40 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 
 		}
 
+	}
+
+	/* (non-Javadoc)
+	 * @see org.purl.rvl.tooling.rvl2avm.RVLInterpreter#applyParameterToGraphicRelation(org.ontoware.rdf2go.model.node.Resource, org.ontoware.rdf2go.model.node.Node, org.ontoware.rdf2go.model.node.Node, org.purl.rvl.java.gen.viso.graphic.GraphicRelation)
+	 */
+	@Override
+	public void applyParameterToGraphicRelation(Resource parameterProperty, Node parameterValue, Node sourceValue, Object_to_ObjectRelation graphicRelation) {
+		
+		if (null != parameterProperty && null != parameterValue && null != sourceValue && null != graphicRelation) {
+			
+			LOGGER.finest("Setting parameter " + parameterProperty + " to " + parameterValue + " for source value " + sourceValue);
+			
+			// if we are mapping to labeling_attachedBy 
+			if (parameterProperty.asURI().equals(Labeling.LABELINGATTACHEDBY)) {
+				
+				GraphicObjectToObjectRelation attachementRelation = GraphicObjectToObjectRelation.getInstance(
+						modelVISO, parameterValue.asURI());
+				((Labeling) graphicRelation.castTo(Labeling.class)).setLabelingattachedBy(parameterValue);  
+				
+				LOGGER.finer("Set labeling attachment to " + attachementRelation + " for source value " + sourceValue + NL);
+			}
+			
+			// if we are mapping to labeling_position
+			if (parameterProperty.asURI().equals(Labeling.LABELINGPOSITION)) {
+				
+				((Labeling) graphicRelation.castTo(Labeling.class)).setLabelingposition(parameterValue); 
+
+				LOGGER.finer("Set label position to " + parameterValue + " for source value " + sourceValue + NL);
+			}
+			
+		} else {
+			LOGGER.warning("Could not set parameter " + parameterProperty + " to " + parameterValue + " for source value " + sourceValue);
+		}
+		
 	}
 
 	@Override
@@ -387,15 +423,6 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 				LOGGER.finer("Set width to float value " + width + " for sv " + sv + NL);
 			}
 
-			// if we are mapping to labeling_attachedBy
-			if (tga.asURI().equals(Labeling.LABELINGATTACHEDBY)) {
-				GraphicObjectToObjectRelation attachementRelation = GraphicObjectToObjectRelation.getInstance(
-						modelVISO, tv.asURI());
-				Labeling nAryLabeling = new Labeling(modelAVM, true);
-				nAryLabeling.setLabelingattachedBy(attachementRelation);
-				go.addLabeledwith(nAryLabeling);
-				LOGGER.finer("Set labeling attachment to " + attachementRelation + " for sv " + sv + NL);
-			}
 		}
 
 		else {
@@ -428,7 +455,6 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 
 	/**
 	 * Hack: Copied from applyMappingToGraphicObject() to allow for "parameterizing" n-ary-relations by submappings.
-	 * Incomplete. will always set setLabelingattachedBy and ignore the tga!
 	 * 
 	 * @param mainStatement
 	 * @param triplePartURI
@@ -437,7 +463,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	 * @throws InsufficientMappingSpecificationException
 	 * @throws UnsupportedMappingParameterValueException
 	 */
-	public void applyMappingToNaryRelation(Statement mainStatement, URI triplePartURI, Resource rel,
+	public void applyMappingToNaryRelation(Statement mainStatement, URI triplePartURI, Object_to_ObjectRelation rel,
 			PropertyMappingX mapping) throws InsufficientMappingSpecificationException,
 			UnsupportedMappingParameterValueException {
 
@@ -470,21 +496,21 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 				LOGGER.finer(p2gam.explicitlyMappedValuesToString());
 			}
 
-			Node sv = null, tv = null;
+			Node sourceValue = null, targetValue = null;
 
 			if (sp.asURI().equals(RDF.ID)) { // special treatment of rdf:ID
 
 				if (triplePartURI.equals(RDF.subject)) {
-					sv = mainStatement.getSubject(); // TODO ID actually only fine when URIs!
+					sourceValue = mainStatement.getSubject(); // TODO ID actually only fine when URIs!
 				} else if (triplePartURI.equals(RDF.predicate)) {
-					sv = mainStatement.getPredicate();
+					sourceValue = mainStatement.getPredicate();
 				} else if (triplePartURI.equals(RDF.object)) {
-					sv = mainStatement.getObject();
+					sourceValue = mainStatement.getObject();
 				} else {
 					throw new InsufficientMappingSpecificationException("only subject/predicate/object allowed");
 				}
 
-				tv = svUriTVuriMap.get(sv);
+				targetValue = svUriTVuriMap.get(sourceValue);
 
 			} else { // other source properties than rdf:ID ...
 
@@ -518,15 +544,14 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 					return;
 				}
 
-				sv = svWithItsTv.sourceValue;
-				tv = svWithItsTv.targetValue;
+				sourceValue = svWithItsTv.sourceValue;
+				targetValue = svWithItsTv.targetValue;
 			}
 
-			if (null == tv) {
+			if (null == targetValue) {
 				LOGGER.info("No target value found, parameter sub-mapping cannot be applied.");
 			} else {
-				// we found a tv for the sv
-				((Labeling) rel).setLabelingattachedBy(tv); // TODO only works for this specific tga!
+				applyParameterToGraphicRelation(tga, targetValue, sourceValue, rel);
 			}
 
 		} // end if P2GAM
