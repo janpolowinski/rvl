@@ -5,7 +5,6 @@ package org.purl.rvl.tooling.rvl2avm;
 
 import java.util.logging.Logger;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
@@ -14,6 +13,7 @@ import org.ontoware.rdf2go.model.node.URI;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.NotImplementedMappingFeatureException;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
+import org.purl.rvl.java.gen.viso.graphic.Object_to_ObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.java.viso.graphic.ShapeX;
@@ -77,7 +77,7 @@ public class MappingToLinkingHandler extends MappingToP2GOTORHandler {
 		// generic graphic relation needed for submappings
 		// (could also be some super class of directed linking, undirected
 		// linking, containment ,...)
-		Resource rel = null;
+		Object_to_ObjectRelation rel = null;
 
 		// directed linking
 		if (mapping.getTargetGraphicRelation().equals(DirectedLinking.RDFS_CLASS)) {
@@ -132,8 +132,6 @@ public class MappingToLinkingHandler extends MappingToP2GOTORHandler {
 		if (mapping.hasSub_mapping()) {
 
 			if (null != rel) {
-				// DirectedLinking etc need to be subclasses of (n-ary)
-				// GraphicRelation
 				rvlInterpreter.applySubmappings(mapping, statement, rel);
 			} else {
 				LOGGER.warning("Submapping existed, but could not be applied, since no parent graphic relation was provided.");
