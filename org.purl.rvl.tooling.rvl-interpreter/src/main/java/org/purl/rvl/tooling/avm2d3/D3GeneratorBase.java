@@ -1,5 +1,6 @@
 package org.purl.rvl.tooling.avm2d3;
 
+import java.beans.Introspector;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
@@ -10,6 +11,9 @@ import java.util.logging.Logger;
 
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
+import org.ontoware.rdf2go.model.node.Resource;
+import org.ontoware.rdf2go.util.ModelUtils;
+import org.ontoware.rdf2go.util.RDFTool;
 import org.purl.rvl.java.VISOGRAPHIC;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
@@ -17,7 +21,9 @@ import org.purl.rvl.java.gen.viso.graphic.Labeling;
 import org.purl.rvl.java.gen.viso.graphic.Superimposition;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
+import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.D3Utils;
+import org.purl.rvl.tooling.util.RVLUtils;
 
 
 /**
@@ -194,8 +200,13 @@ public abstract class D3GeneratorBase implements D3Generator {
 			}
 			
 			GraphicObjectToObjectRelation attachementRelation = nAryLabeling.getAllLabelingattachedBy_as().firstValue();
+			Resource position = nAryLabeling.getAllLabelingposition_as().firstValue();
 			
-			if (null!=attachementRelation) {
+			if (null!=position) {
+				
+				labelJSON.put("position", Introspector.decapitalize(RDFTool.getShortName(position.toString())));
+				
+			} else if (null!=attachementRelation) {
 			
 				if (attachementRelation.asURI().equals(Containment.RDFS_CLASS)) {
 					labelJSON.put("position", "centerCenter");

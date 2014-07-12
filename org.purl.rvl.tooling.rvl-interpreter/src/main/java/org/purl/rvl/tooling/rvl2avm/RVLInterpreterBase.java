@@ -353,20 +353,20 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			
 			LOGGER.finest("Setting parameter " + parameterProperty + " to " + parameterValue + " for source value " + sourceValue);
 			
-			// if we are mapping to labeling_attachedBy // TODO seems to be dead code!
+			// if we are mapping to labeling_attachedBy 
 			if (parameterProperty.asURI().equals(Labeling.LABELINGATTACHEDBY)) {
+				
 				GraphicObjectToObjectRelation attachementRelation = GraphicObjectToObjectRelation.getInstance(
 						modelVISO, parameterValue.asURI());
-				//Labeling nAryLabeling = new Labeling(modelAVM, true); // why a new labeling relation?
-				//nAryLabeling.setLabelingattachedBy(attachementRelation);
 				((Labeling) graphicRelation.castTo(Labeling.class)).setLabelingattachedBy(parameterValue);  
+				
 				LOGGER.finer("Set labeling attachment to " + attachementRelation + " for source value " + sourceValue + NL);
 			}
 			
-			// if we are mapping to labeling_position // TODO seems to be dead code!
-			if (parameterProperty.asURI().equals(new URIImpl("http://purl.org/viso/graphic/labeling_position"))) {
+			// if we are mapping to labeling_position
+			if (parameterProperty.asURI().equals(Labeling.LABELINGPOSITION)) {
 				
-				//((Labeling) graphicRelation.castTo(Labeling.class)).setLabel;  
+				((Labeling) graphicRelation.castTo(Labeling.class)).setLabelingposition(parameterValue); 
 
 				LOGGER.finer("Set label position to " + parameterValue + " for source value " + sourceValue + NL);
 			}
@@ -552,8 +552,6 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 				LOGGER.info("No target value found, parameter sub-mapping cannot be applied.");
 			} else {
 				applyParameterToGraphicRelation(tga, targetValue, sourceValue, rel);
-				// we found a tv (parameterValue) for the sourceValue
-				//((Labeling) rel).setLabelingattachedBy(tv); // TODO only works for this specific tga!
 			}
 
 		} // end if P2GAM

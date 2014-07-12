@@ -157,7 +157,7 @@
       [
       	a rvl:valueMapping;
       	rvl:sourceValue rexd:Sci-Fi;
-      	rvl:targetValue vg:BottomLeft;
+      	rvl:targetValue vg:CenterLeft;
       ]
       .   
       
