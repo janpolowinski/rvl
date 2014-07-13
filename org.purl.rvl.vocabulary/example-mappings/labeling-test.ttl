@@ -232,3 +232,36 @@
       ]
       .    
       
+##### Labeling of Labels #########
+
+# extend the mapping above by these extra triples to add another sub-mapping ... :
+:IconLabeling
+      rvl:subMapping 
+      [
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :TextLabelingOfLabel;
+      ]
+      .
+      
+:TextLabelingOfLabel
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:sourceProperty rdfs:label ;
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:subMapping 
+      [
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :LabelingTextIdentityMapping;
+      ]
+      .      
+      
+ :LabelingTextIdentityMapping
+	  rvl:disabled "true"^^xsd:boolean ;
+      a rvl:IdentityMapping ;
+      rvl:sourceProperty rdfs:label ;
+      rvl:targetAttribute
+              vg:text_value ;
+      . 
+      
