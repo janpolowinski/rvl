@@ -18,6 +18,7 @@ rvl:valueMapping
       owl:imports semvis-example: , commons: , <http://purl.org/ro/ont> , rvl: .
       
 :RO-4b-Ampel
+      rvl:disabled "false"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rdfs:label "RO-4b-Ampel"^^xsd:string ;
       rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
@@ -40,6 +41,7 @@ rvl:valueMapping
   
   
 :ShapeMapping
+      rvl:disabled "false"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rdfs:label "Shape mapping"^^xsd:string ;
       rvl:sourceProperty rdf:type ;
@@ -54,6 +56,7 @@ rvl:valueMapping
       .
 
 :IsRefinementOfToLinkingDirected
+      rvl:disabled "false"^^xsd:boolean ;
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
       rdfs:label "PM from ro:isRefinementOf to Linking Directed"^^xsd:string ;
       rvl:sourceProperty ro:isRefinementOf ;
@@ -70,6 +73,7 @@ rvl:valueMapping
       . 
       
 :IsInConflictWithToLinkingDirected
+      rvl:disabled "false"^^xsd:boolean ;
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
       rdfs:label "PM from ro:isInConflictWith to Linking Directed"^^xsd:string ;
       rvl:sourceProperty ro:isInConflictWith ;
@@ -88,6 +92,7 @@ rvl:valueMapping
       
 # order a bit misused here, better use single vms
 :PMfromID2ColorNamed
+      rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rdfs:label "PM from ID to color 2 (used as a submapping above)"^^xsd:string ;
  	  rvl:sourceProperty rdf:ID ;
@@ -126,9 +131,10 @@ rvl:valueMapping
       . 
       
 :IconLabelMappingForHasResponseTime
+      rvl:disabled "false"^^xsd:boolean ;
       a rvl:PropertyToGraphicObjToObjRelationMapping ;
       rvl:sourceProperty ro:hasResponseTime ;
-      #rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
+      rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
       rvl:targetObjToObjRelation vg:Labeling_Relation ; 
       rvl:subMapping [
         rvl:subMapping-onRole vg:labeling_label;
@@ -161,9 +167,9 @@ rvl:valueMapping
 #### Simple Labeling is a default now, but we want to define the labeling style and position ... ####     
       
 :TextLabelMapping
-	  rvl:disabled "true"^^xsd:boolean ;
+	  rvl:disabled "false"^^xsd:boolean ;
       a rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:sourceProperty rdf:type ;
+      rvl:sourceProperty rdf:ID ;
       rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
       rvl:targetObjToObjRelation vg:Labeling_Relation ; 
       rvl:subMapping
