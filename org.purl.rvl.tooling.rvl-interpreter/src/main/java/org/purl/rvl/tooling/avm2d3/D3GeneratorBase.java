@@ -12,18 +12,14 @@ import java.util.logging.Logger;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.Resource;
-import org.ontoware.rdf2go.util.ModelUtils;
 import org.ontoware.rdf2go.util.RDFTool;
 import org.purl.rvl.java.VISOGRAPHIC;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
-import org.purl.rvl.java.gen.viso.graphic.Superimposition;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
-import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.D3Utils;
-import org.purl.rvl.tooling.util.RVLUtils;
 
 
 /**
@@ -209,17 +205,30 @@ public abstract class D3GeneratorBase implements D3Generator {
 			} else if (null!=attachementRelation) {
 			
 				if (attachementRelation.asURI().equals(Containment.RDFS_CLASS)) {
+					
 					labelJSON.put("position", "centerCenter");
-					//label1.put("width", 30);
-				} else if (attachementRelation.asURI().equals(Superimposition.RDFS_CLASS)) {
-					labelJSON.put("position", "centerRight");
+					
+				//} else if (attachementRelation.asURI().equals(Superimposition.RDFS_CLASS)) {}
+
 				} else {
+					
 					// default label positioning
-					labelJSON.put("position", defaultLabelPosition);	
+					
+					if (null!=labelTextValue) {
+						labelJSON.put("position", "centerRight");
+					} else {
+						labelJSON.put("position", "topRight");
+					}
 				}
 			} else {
+				
 				// default label positioning
-				labelJSON.put("position", defaultLabelPosition);	
+				
+				if (null!=labelTextValue) {
+					labelJSON.put("position", "centerRight");
+				} else {
+					labelJSON.put("position", "topRight");
+				}	
 			}
 			
 			// ... other positions ...

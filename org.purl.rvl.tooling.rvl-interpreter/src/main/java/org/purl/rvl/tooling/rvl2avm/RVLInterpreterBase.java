@@ -17,8 +17,6 @@ import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.model.node.impl.PlainLiteralImpl;
-import org.ontoware.rdf2go.model.node.impl.URIImpl;
-import org.ontoware.rdf2go.vocabulary.RDFS;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;

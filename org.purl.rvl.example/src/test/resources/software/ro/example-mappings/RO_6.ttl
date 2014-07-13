@@ -145,8 +145,7 @@ rvl:valueMapping
       a rvl:PropertyMapping ;
       rvl:disabled "true";
       rvl:sourceProperty rdf:type ;
-      rvl:targetAttribute
-              <http://purl.org/viso/graphic/shape_named> ;
+      rvl:targetAttribute vg:shape_named ;
       rvl:valueMapping [
       	a rvl:valueMapping;
       	rvl:sourceValue ro:Requirement;
@@ -185,16 +184,14 @@ rvl:valueMapping
 	  rvl:disabled "true"^^xsd:boolean ;
       a rvl:IdentityMapping ;
       rvl:sourceProperty rvl:label ;
-      rvl:targetAttribute
-              vg:text_value ;
+      rvl:targetAttribute vg:text_value ;
       . 
       
 :TypeToLabelStyleMapping
 	  rvl:disabled "true";
       a rvl:PropertyMapping ;
       rvl:sourceProperty rdf:type ;
-      rvl:targetAttribute
-              vg:labeling_attachedBy ;
+      rvl:targetAttribute vg:labeling_attachedBy ;
       rvl:valueMapping [
       	a rvl:valueMapping;
       	rvl:sourceValue ro:Requirement;
