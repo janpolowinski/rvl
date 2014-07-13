@@ -165,7 +165,8 @@ public abstract class D3GeneratorBase implements D3Generator {
 			
 			// defaults
 			
-			String defaultLabelPosition = "topLeft";
+			String defaultLabelPositionIcon = "topRight";
+			String defaultLabelPositionText = "centerRight";
 			
 			final GraphicObjectX label = (GraphicObjectX) nAryLabeling
 					.getAllLabelinglabel_as().firstValue()
@@ -174,7 +175,13 @@ public abstract class D3GeneratorBase implements D3Generator {
 			// setting graphic attributes that are valid for any kind of label
 			
 			labelJSON.put("color_rgb_hex_combined", label.getColorRGBHexCombinedWithHSLValues());
-			labelJSON.put("width", startNodeWidth*LABEL_ICON_SIZE_FACTOR+""); // TODO text label width should not be the same as for icon labels
+			
+			if (label.hasWidth()) {
+				labelJSON.put("width", label.getWidth() + ""); 
+			} else {
+				// TODO text label width should not be the same as for icon labels
+				labelJSON.put("width", startNodeWidth*LABEL_ICON_SIZE_FACTOR+""); 
+			}
 			
 			// text label or icon label?
 			
@@ -215,9 +222,9 @@ public abstract class D3GeneratorBase implements D3Generator {
 					// default label positioning
 					
 					if (null!=labelTextValue) {
-						labelJSON.put("position", "centerRight");
+						labelJSON.put("position", defaultLabelPositionText);
 					} else {
-						labelJSON.put("position", "topRight");
+						labelJSON.put("position", defaultLabelPositionIcon);
 					}
 				}
 			} else {
@@ -225,9 +232,9 @@ public abstract class D3GeneratorBase implements D3Generator {
 				// default label positioning
 				
 				if (null!=labelTextValue) {
-					labelJSON.put("position", "centerRight");
+					labelJSON.put("position", defaultLabelPositionText);
 				} else {
-					labelJSON.put("position", "topRight");
+					labelJSON.put("position", defaultLabelPositionIcon);
 				}	
 			}
 			

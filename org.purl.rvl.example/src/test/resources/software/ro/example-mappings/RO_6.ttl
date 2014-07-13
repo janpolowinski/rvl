@@ -138,6 +138,10 @@ rvl:valueMapping
         rvl:subMapping-onRole vg:labeling_label;
         rvl:subMapping-onTriplePart rdf:subject;
         rvl:subMapping-mapping :TextLabelingOfLabel;
+      ],[
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :PMfromType2LabelWidth;
       ]
       .
       
@@ -201,7 +205,7 @@ rvl:valueMapping
 
 :PMfromType2Width
       rvl:disabled "true"^^xsd:boolean ;
-      rdf:type rvl:PropertyMapping ;
+      a rvl:PropertyMapping ;
       rdfs:label "PM from type to width (used as a submapping above)"^^xsd:string ;
  	  rvl:sourceProperty rdf:type ;
  	  rvl:targetAttribute vg:width ;
@@ -209,6 +213,19 @@ rvl:valueMapping
         a rvl:ValueMapping ;
         rvl:sourceValue ro:Requirement;
 		rvl:targetValue "100"^^xsd:float; # create some space for contained labels
+      ]
+      . 
+      
+:PMfromType2LabelWidth
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rdfs:label "PM from type to width (used as a submapping above)"^^xsd:string ;
+ 	  rvl:sourceProperty rdf:type ;
+ 	  rvl:targetAttribute vg:width ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:sourceValue ro:Requirement;
+		rvl:targetValue "20"^^xsd:float;
       ]
       . 
 
