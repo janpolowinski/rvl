@@ -701,9 +701,8 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 						sv = triplePart; // TODO ID actually only fine when URIs!
 						// tv = svUriTVuriMap.get(sv);
 
-						// create the label
-
-						// call the submapping method with the same unchanged statement to set label text_value or
+						// 1. create the label
+						// 2. call the submapping method with the same unchanged statement to set label text_value or
 						// icon_shape etc ...
 
 						// duplicated code ....
@@ -713,20 +712,8 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 						// Resource subject = statement.getSubject();
 						Node object = statement.getObject();
 
-						/*
-						 * LOGGER.finest("Subject label " + AVMUtils.getGoodNodeLabel(subject, modelAVM));
-						 * LOGGER.finest("Object label " + AVMUtils.getGoodNodeLabel(object, modelAVM));
-						 */
 						LOGGER.fine("Statement to be mapped : " + statement);
 
-						/*
-						 * // For each statement, create a startNode GO representing the subject // (if not exists)
-						 * GraphicObjectX subjectNode = this .createOrGetGraphicObject(subject);
-						 * LOGGER.finest("Created GO for subject: " + subject.toString());
-						 */
-
-						// For each statement, create an endNode GO representing the object (if
-						// not exists)
 						// create an additional object here, don't reuse existing ones!
 						GraphicObjectX label = new GraphicObjectX(modelAVM, "http://purl.org/rvl/example-avm/GO_Label_"
 								+ this.createNewInternalID(), false);
@@ -755,7 +742,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 
 						// ... end duplicated code
 
-					} else if (sp.asURI().equals(RDFS.label)) { // other source properties than rdf:ID
+					} else { // other source properties than rdf:ID
 						
 						sv = triplePart; 
 
@@ -793,10 +780,6 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 						}
 
 						// ... end duplicated code
-						
-					} else {
-						throw new MappingException(
-								"P2GORM-Submappings other than mappings with source property rdf:ID or rdfs:label not yet supported.");
 					}
 
 					// recursive does not yet work (no specific treatment of RDF:ID as a source property!)

@@ -225,6 +225,9 @@ public abstract class D3GeneratorBase implements D3Generator {
 			// ... other positions ...
 		
 		
+		// handle labeling of labels
+		putLabels(label, startNodeWidth, labelJSON); // TODO width OK?
+			
 		return labelJSON;
 	}
 

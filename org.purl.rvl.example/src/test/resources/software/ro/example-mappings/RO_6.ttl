@@ -17,7 +17,7 @@ rvl:valueMapping
 :     rdf:type owl:Ontology ;
       owl:imports semvis-example: , commons: , <http://purl.org/ro/ont> , rvl: .
       
- :RO-4b-Ampel
+:RO-4b-Ampel
       rdf:type rvl:PropertyMapping ;
       rdfs:label "RO-4b-Ampel"^^xsd:string ;
       rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
@@ -39,7 +39,7 @@ rvl:valueMapping
       . 
   
   
-  :ShapeMapping
+:ShapeMapping
       rdf:type rvl:PropertyMapping ;
       rdfs:label "Shape mapping"^^xsd:string ;
       rvl:sourceProperty rdf:type ;
@@ -134,6 +134,10 @@ rvl:valueMapping
         rvl:subMapping-onRole vg:labeling_label;
         rvl:subMapping-onTriplePart rdf:subject;
         rvl:subMapping-mapping :IconShapeMapping;
+      ],[
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :TextLabelingOfLabel;
       ]
       .
       
@@ -149,28 +153,9 @@ rvl:valueMapping
       	rvl:targetValue common-shapes:Clock;
       ]
       .
-      
-:TextLabelMappingForHasResponseTime
-	  a rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:sourceProperty ro:hasResponseTime ;
-      #rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
-      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
-      rvl:subMapping [
-        rvl:subMapping-onRole vg:labeling_label;
-        rvl:subMapping-onTriplePart rdf:subject;
-        rvl:subMapping-mapping :LabelTimeValueIdentityMapping;
-      ]
-      .
-      
-:LabelTimeValueIdentityMapping
-	  rvl:disabled "true"^^xsd:boolean ;
-      a rvl:IdentityMapping ;
-      rvl:sourceProperty ro:hasResponseTime ;
-      rvl:targetAttribute
-              vg:text_value ;
-      . 
      
-#### Labeling could become a default .... ####     
+     
+#### Simple Labeling is a default now, but we want to define the labeling style and position ... ####     
       
 :TextLabelMapping
 	  rvl:disabled "false"^^xsd:boolean ;
@@ -230,3 +215,27 @@ rvl:valueMapping
       ]
       . 
 
+##### Labeling of Labels #########
+      
+:TextLabelingOfLabel
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:sourceProperty ro:hasResponseTime ;
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:subMapping 
+      [
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :LabelingTextIdentityMapping;
+      ]
+      .      
+      
+ :LabelingTextIdentityMapping
+	  rvl:disabled "true"^^xsd:boolean ;
+      a rvl:IdentityMapping ;
+      rvl:sourceProperty ro:hasResponseTime ;
+      rvl:targetAttribute
+              vg:text_value ;
+      .
+   
+      
