@@ -161,7 +161,7 @@ rvl:valueMapping
 #### Simple Labeling is a default now, but we want to define the labeling style and position ... ####     
       
 :TextLabelMapping
-	  rvl:disabled "false"^^xsd:boolean ;
+	  rvl:disabled "true"^^xsd:boolean ;
       a rvl:PropertyToGraphicObjToObjRelationMapping ;
       rvl:sourceProperty rdf:type ;
       rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
