@@ -38,7 +38,7 @@
       [
         rvl:subMapping-onRole vg:this; # use role "this" to apply submappings to the n-ary relation itself (not yet part of RVL spec!)
         rvl:subMapping-onTriplePart rdf:object;
-        rvl:subMapping-mapping :TypeToLabelPositionMapping;
+        rvl:subMapping-mapping :IDtoLabelPositionMapping;
       ],
       [
         rvl:subMapping-onRole vg:labeling_base;
@@ -82,7 +82,7 @@
       [
         rvl:subMapping-onRole vg:this; # use role "this" to apply submappings to the n-ary relation itself (not yet part of RVL spec!)
         rvl:subMapping-onTriplePart rdf:object;
-        rvl:subMapping-mapping :TypeToLabelPositionMapping;
+        rvl:subMapping-mapping :IDtoLabelPositionMapping;
       ],
       [
         rvl:subMapping-onRole vg:labeling_base;
@@ -147,7 +147,7 @@
       ]
       .    
       
-:TypeToLabelPositionMapping
+:IDtoLabelPositionMapping
 	  rvl:disabled "true";
       a rvl:PropertyMapping ;
       rvl:sourceProperty rdf:ID ;

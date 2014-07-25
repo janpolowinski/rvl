@@ -277,8 +277,9 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 
 			if (subMapping.isDisabled()) {
 				// LOGGER.info("The referenced submapping was disabled. Will ignore it");
-				LOGGER.info("The referenced submapping was disabled but will still be used."
-						+ " TODO: implement 3 status ENABLED (default), DISABLED, USE-ONLY-AS-SUBMAPPING");
+				LOGGER.finest("The referenced submapping was disabled but will still be used."
+						+ " TODO: implement 3 status ENABLED (default), DISABLED, USE-ONLY-AS-SUBMAPPING or better allow " +
+						"disabling submapping relation");
 				// continue;
 			}
 
@@ -492,7 +493,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 				LOGGER.severe("Could not apply submappings since (explicit or calculated) value mappings were null");
 				return;
 			} else {
-				LOGGER.finer(p2gam.explicitlyMappedValuesToString());
+				LOGGER.finest(p2gam.explicitlyMappedValuesToString());
 			}
 
 			Node sourceValue = null, targetValue = null;
@@ -548,7 +549,8 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			}
 
 			if (null == targetValue) {
-				LOGGER.info("No target value found, parameter sub-mapping cannot be applied.");
+				LOGGER.finest("No target value found for source value " + sourceValue + " ," +
+						" parameter sub-mapping cannot be applied.");
 			} else {
 				applyParameterToGraphicRelation(tga, targetValue, sourceValue, rel);
 			}
@@ -796,19 +798,23 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			throw new MappingException("Submappings other than P2GAM, P2GORM or Identitymappings not yet supported.");
 		}
 
-		if (null == tga) {
-			throw new InsufficientMappingSpecificationException("no target graphic attribute set");
-		}
-
-		// if we found a tv for the sv
-		if (null != tv && null != sv) {
-
-			applyGraphicValueToGO(tga, tv, sv, goToApplySubmapping);
-			// TODO enable again : applyInheritanceOfTargetValue(mapping, mainStatement.getSubject(), tv);
-
-		} else {
-			LOGGER.finest("Graphic attribute , source or target value was null, couldn't apply graphic value " + tv
-					+ " to the sv " + sv);
+		if (mapping.isInstanceof(PropertyToGraphicAttributeMappingX.RDFS_CLASS) 
+		 || mapping.isInstanceof(IdentityMappingX.RDFS_CLASS)) {
+			
+			if (null == tga) {
+				throw new InsufficientMappingSpecificationException("no target graphic attribute set");
+			}
+	
+			// if we found a tv for the sv
+			if (null != tv && null != sv) {
+	
+				applyGraphicValueToGO(tga, tv, sv, goToApplySubmapping);
+				// TODO enable again : applyInheritanceOfTargetValue(mapping, mainStatement.getSubject(), tv);
+	
+			} else {
+				LOGGER.finest("Graphic attribute , source or target value was null, couldn't apply graphic value " + tv
+						+ " to the sv " + sv);
+			}
 		}
 	}
 
@@ -848,24 +854,24 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	 * Iterates through statement objects and returns a tuple consisting of the source value and a corresponding target
 	 * value or null when none of the objects matched a source value in the map.
 	 * 
+	 * 	// TODO Multiple objects may match a mapped target value. For now only the first match will win!
+	 *	// TODO: maybe not the most specific is mapped, therefore,
+	 *	// we cannot simply check the map for the most specific results.
+	 *	// e.g. Europe could be mapped, but Germany not, still the mapping for
+	 *	// Europe should be applied (partOf). Or Animal may be mapped but not Cat.
+	 *	// TODO: It may also be the case that two most specific values exist, e.g.
+	 *	// two classes as types, where one is not a subclass of the other!
+	 * 
 	 * @param it
 	 * @param svUriTVuriMap
-	 * @return a tuple of a source and target value or null
+	 * @return a tuple of a source and target value or null if no source value matching a target value was found
 	 */
 	public TupleSourceValueTargetValue<Node, Node> lookUpTvForSv(ClosableIterator<Statement> it,
 			Map<Node, Node> svUriTVuriMap) {
 
 		TupleSourceValueTargetValue<Node, Node> svWithItsTv = null;
 		Node sv;
-
-		// TODO Multiple objects may match a mapped target value. For now only the first match will win!
-		// TODO: maybe not the most specific is mapped, therefore,
-		// we cannot simply check the map for the most specific results.
-		// e.g. Europe could be mapped, but Germany not, still the mapping for
-		// Europe should be applied (partOf). Or Animal may be mapped but not Cat.
-		// TODO: It may also be the case that two most specific values exist, e.g.
-		// two classes as types, where one is not a subclass of the other!
-
+		
 		while (it.hasNext()) {
 			sv = it.next().getObject();
 			if (svUriTVuriMap.containsKey(sv)) {
