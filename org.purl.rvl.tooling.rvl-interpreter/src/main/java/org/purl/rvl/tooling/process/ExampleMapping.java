@@ -29,6 +29,7 @@ public class ExampleMapping {
 //	public static final String CIT_blog = OGVICProcess.USE_CASE_FOLDER + "/Publication/SPAR/MappingExample/CIT_blog.ttl";
 //	public static final String LLD = OGVICProcess.USE_CASE_FOLDER + "/Publication/LLD/lld-data-mapping-example.ttl";
 	
+	public static final String RVL_TEST_TEMP = "../org.purl.rvl.vocabulary/example-mappings/temp-test.ttl";
 	public static final String RVL_EXAMPLE = "../org.purl.rvl.vocabulary/example-mappings/rvl-example-mappings.ttl";
 	public static final String RVL_EXAMPLE_FILTERING = "../org.purl.rvl.vocabulary/experiments/example-mappings/rvl-example-filtering.ttl";
 	public static final String RVL_EXAMPLE_LABELING = "../org.purl.rvl.vocabulary/example-mappings/labeling-test.ttl";

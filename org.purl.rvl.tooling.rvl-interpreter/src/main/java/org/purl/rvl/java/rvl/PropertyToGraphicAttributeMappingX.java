@@ -42,7 +42,7 @@ public class PropertyToGraphicAttributeMappingX extends
 	static final String NL =  System.getProperty("line.separator");
 	
 	Map<Node, Node> explicitlyMappedValues;
-	Map<Node, Node> calculatedMappedValues;
+//	Map<Node, Node> calculatedMappedValues;
 
 	public PropertyToGraphicAttributeMappingX(Model model, boolean write) {
 		super(model, write);
@@ -51,13 +51,11 @@ public class PropertyToGraphicAttributeMappingX extends
 	public PropertyToGraphicAttributeMappingX(Model model,
 			Resource instanceIdentifier, boolean write) {
 		super(model, instanceIdentifier, write);
-		// TODO Auto-generated constructor stub
 	}
 
 	public PropertyToGraphicAttributeMappingX(Model model, URI classURI,
 			Resource instanceIdentifier, boolean write) {
 		super(model, classURI, instanceIdentifier, write);
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**

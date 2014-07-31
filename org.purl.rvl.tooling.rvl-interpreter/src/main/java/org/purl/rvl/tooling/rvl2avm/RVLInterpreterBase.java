@@ -290,10 +290,11 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			// subclass-hierarchy (wrappers inherit from generated classes instead!)
 			// short time solution: only store PM to cash, not subclasses
 			// long term solution restructure subclass-hierarchy. all wrappers use delegation instead of inheritance
-			PropertyMappingX mapping = (PropertyMappingX) subMapping.castTo(PropertyMappingX.class);
+			PropertyMappingX subMappingPM = (PropertyMappingX) subMapping.castTo(PropertyMappingX.class);
 
 			// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
-			mapping = RVLUtils.tryReplaceWithCashedInstanceForSameURI(mapping, PropertyMappingX.class);
+			// not already here, we need to know first, what kind of mapping we want to receive P2GAM, P2GOTORM? ... ) : 
+			// mapping = RVLUtils.tryReplaceWithCashedInstanceForSameURI(mapping, mapping.getClass());
 
 			try {
 
@@ -308,7 +309,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 					LOGGER.finer("Applying submapping to the GR itself (role: " + roleURI + ") based on triple part "
 							+ triplePartURI);
 
-					applyMappingToNaryRelation(mainStatement, triplePartURI, graphicRelation, mapping);
+					applyMappingToNaryRelation(mainStatement, triplePartURI, graphicRelation, subMappingPM);
 
 				} else {
 
@@ -320,7 +321,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 					GraphicObjectX goToApplySubmapping = AVMUtils.getGOForRole(modelAVM, graphicRelation, roleURI);
 					// TODO this is a simplification: multiple GOs may be affected, not only one
 
-					applyMappingToGraphicObject(mainStatement, triplePartURI, goToApplySubmapping, mapping);
+					applyMappingToGraphicObject(mainStatement, triplePartURI, goToApplySubmapping, subMappingPM);
 					// this does not use the cashed mappings somehow:
 					// goToApplySubmapping.setLabel(roleURI + " with an applied submapping: " + smr.toStringSummary());
 
@@ -328,15 +329,15 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 
 			} catch (InsufficientMappingSpecificationException e) {
 
-				LOGGER.warning("Submapping " + mapping + " could not be applied. Reason: " + e.getMessage());
+				LOGGER.warning("Submapping " + subMappingPM + " could not be applied. Reason: " + e.getMessage());
 
 			} catch (UnsupportedMappingParameterValueException e) {
 
-				LOGGER.warning("Submapping " + mapping + " could not be applied. Reason: " + e.getMessage());
+				LOGGER.warning("Submapping " + subMappingPM + " could not be applied. Reason: " + e.getMessage());
 
 			} catch (MappingException e) {
 
-				LOGGER.warning("Submapping " + mapping + " could not be applied. Reason: " + e.getMessage());
+				LOGGER.warning("Submapping " + subMappingPM + " could not be applied. Reason: " + e.getMessage());
 			}
 
 		}
@@ -636,9 +637,13 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 
 			// end if ID mapping
 		} else if (mapping.isInstanceof(PropertyToGraphicAttributeMappingX.RDFS_CLASS)) {
+			
+			// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
+			PropertyToGraphicAttributeMappingX p2gam = RVLUtils.tryReplaceWithCashedInstanceForSameURI(mapping, PropertyToGraphicAttributeMappingX.class);
 
-			PropertyToGraphicAttributeMappingX p2gam = (PropertyToGraphicAttributeMappingX) mapping
-					.castTo(PropertyToGraphicAttributeMappingX.class);
+			// when using a cached mapping that was casted to a PropertyMappingX, the explicitlyMappedValues were lost
+			//PropertyToGraphicAttributeMappingX p2gam = (PropertyToGraphicAttributeMappingX) mapping
+			//		.castTo(PropertyToGraphicAttributeMappingX.class);
 
 			tga = p2gam.getTargetAttribute();
 

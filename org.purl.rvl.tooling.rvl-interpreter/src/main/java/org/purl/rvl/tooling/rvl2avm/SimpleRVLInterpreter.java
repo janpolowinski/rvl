@@ -139,7 +139,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			
 			// caching
 			p2gam = (PropertyToGraphicAttributeMappingX) 
-					RVLUtils.tryReplaceWithCashedInstanceForSameURI(p2gam, PropertyMappingX.class)
+					RVLUtils.tryReplaceWithCashedInstanceForSameURI(p2gam, PropertyToGraphicAttributeMappingX.class)
 					.castTo(PropertyToGraphicAttributeMappingX.class);
 			
 			if (p2gam.isDisabled()) {
@@ -234,7 +234,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			
 			// caching
 			p2gam = (PropertyToGraphicAttributeMappingX) 
-					RVLUtils.tryReplaceWithCashedInstanceForSameURI(p2gam, PropertyMappingX.class)
+					RVLUtils.tryReplaceWithCashedInstanceForSameURI(p2gam, PropertyToGraphicAttributeMappingX.class)
 					.castTo(PropertyToGraphicAttributeMappingX.class);
 			
 			if (p2gam.isDisabled()) {
