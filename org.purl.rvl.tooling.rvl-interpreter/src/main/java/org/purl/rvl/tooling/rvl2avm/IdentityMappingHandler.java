@@ -16,7 +16,6 @@ import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.query.data.DataQuery;
-import org.purl.rvl.tooling.util.AVMUtils;
 
 public class IdentityMappingHandler extends MappingHandlerBase {
 	
@@ -34,15 +33,10 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 	protected void encodeStatement(Statement statement)
 			throws InsufficientMappingSpecificationException {
 		
+		logStatementDetails(LOGGER,statement);
 
 		Resource subject = statement.getSubject();
 		Node object = statement.getObject();
-
-		LOGGER.finest("Subject label "
-				+ AVMUtils.getGoodNodeLabel(subject, modelAVM));
-		LOGGER.finest("Object label " + AVMUtils.getGoodNodeLabel(object, modelAVM));
-
-		LOGGER.fine("Statement to be mapped : " + statement);
 		
 		// For each statement, create a startNode GO representing the subject
 		// (if not exists)

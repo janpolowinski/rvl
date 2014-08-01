@@ -661,7 +661,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 				LOGGER.severe("Could not apply submappings since (explicit or calculated) value mappings were null");
 				return;
 			} else {
-				LOGGER.finer(p2gam.explicitlyMappedValuesToString());
+				LOGGER.finest(p2gam.explicitlyMappedValuesToString());
 			}
 
 			if (sp.asURI().equals(RDF.ID)) { // special treatment of rdf:ID
@@ -683,7 +683,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 					tv = svWithItsTv.targetValue;
 
 				} catch (Exception e) {
-					LOGGER.severe("Could not get value for source property " + sp + "for object "
+					LOGGER.severe("Could not get value for source property " + sp + " for object "
 							+ mainStatement.getObject());
 					return;
 				}

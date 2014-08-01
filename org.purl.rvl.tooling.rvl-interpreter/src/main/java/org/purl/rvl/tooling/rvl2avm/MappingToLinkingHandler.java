@@ -40,26 +40,23 @@ public class MappingToLinkingHandler extends MappingToP2GOTORHandler {
 			throw new NotImplementedMappingFeatureException("Can only handle linking relations where all " +
 					"objects are resources, but " + statement.getObject() + " is probably a Literal.");
 		}
+		
+		logStatementDetails(LOGGER,statement);
 
 		Resource subject = statement.getSubject();
 		Resource object = statement.getObject().asResource();
-
-		LOGGER.finest("Subject label " + AVMUtils.getGoodNodeLabel(subject, modelAVM));
-		LOGGER.finest("Object label " + AVMUtils.getGoodNodeLabel(object, modelAVM));
-
-		LOGGER.fine("Statement to be mapped : " + statement);
-
+		
 		// For each statement, create a startNode GO representing the subject
 		// (if not exists)
 		GraphicObjectX subjectNode = rvlInterpreter.createOrGetGraphicObject(subject);
-		LOGGER.finest("Created GO for subject: " + subject.toString());
+		LOGGER.finest("Created GO for subject: " + subject);
 
 		// For each statement, create an endNode GO representing the object (if
 		// not exists)
 		// Node object = statement.getObject();
 
 		GraphicObjectX objectNode = rvlInterpreter.createOrGetGraphicObject(object);
-		LOGGER.finest("Created GO for object: " + object.toString());
+		LOGGER.finest("Created GO for object: " + object);
 
 		// create a connector object
 		GraphicObjectX connector = new GraphicObjectX(modelAVM, "http://purl.org/rvl/example-avm/GO_Connector_"
