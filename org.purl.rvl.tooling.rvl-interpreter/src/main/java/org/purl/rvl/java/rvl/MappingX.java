@@ -80,11 +80,10 @@ public class MappingX extends org.purl.rvl.java.gen.rvl.Mapping implements Mappi
 		 String s = "";
 		  
 		// print as P2GAM (value mappings ... )
-		if(this.isInstanceof(org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX.RDFS_CLASS)) {
+		if(this.isInstanceof(PropertyToGraphicAttributeMappingX.RDFS_CLASS)) {
 
 			PropertyToGraphicAttributeMappingX p2gam = 
-					(PropertyToGraphicAttributeMappingX) this.castTo(
-							org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX.class);
+					(PropertyToGraphicAttributeMappingX) this.castTo(PropertyToGraphicAttributeMappingX.class);
 			
 			// caching
 			p2gam = RVLUtils.tryReplaceWithCashedInstanceForSameURI(p2gam, PropertyToGraphicAttributeMappingX.class);
@@ -93,7 +92,7 @@ public class MappingX extends org.purl.rvl.java.gen.rvl.Mapping implements Mappi
 		}
 		
 		// print as P2GO2ORM (submappings ... )
-		else if(this.isInstanceof(org.purl.rvl.java.rvl.PropertyToGO2ORMappingX.RDFS_CLASS)) {
+		else if(this.isInstanceof(PropertyToGO2ORMappingX.RDFS_CLASS)) {
 			
 			PropertyToGO2ORMappingX p2go2orm = 
 					(PropertyToGO2ORMappingX) this.castTo(PropertyToGO2ORMappingX.class);

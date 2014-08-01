@@ -77,21 +77,10 @@ public class PropertyToGO2ORMappingX extends
 		
 		if (pm.hasSub_mapping()) {
 			// list sub-mappings
-			Sub_mappingrelation smr = this.getAllSub_mapping_as().firstValue(); // TODO only first submapping listed here
+			// TODO only first submapping listed here
+			SubMappingRelationX smr = new SubMappingRelationX(this.getAllSub_mapping_as().firstValue());
 			s += "     Submapping relation (only first shown): " + smr + NL;
-			//s += "          type: " + smr.getAllType_as().firstValue() + NL ;
-			if(smr.hasOnrole())
-				s += "          ... on role: " + smr.getAllOnrole_as().firstValue() + NL ;
-			if(smr.hasOntriplepart())
-				s += "          ... on triple part: " + smr.getAllOntriplepart_as().firstValue() + NL ;
-			if(smr.hasSub_mapping()) {
-				org.purl.rvl.java.gen.rvl.Mapping mapping = smr.getAllSub_mapping_as().firstValue();
-				s += "          ... to mapping: " + mapping + NL ; // wrong return type and wrong methode name, but seems to work
-				s += "              ... Sub-Mapping-Details: " + NL;
-				s += NL;
-				s += ((MappingX)mapping.castTo(MappingX.class)).toStringAsSpecificAsPossible() + NL ;
-			}
-	
+			s += smr.toStringDetailed(true);
 		}
 		
 		return s;
