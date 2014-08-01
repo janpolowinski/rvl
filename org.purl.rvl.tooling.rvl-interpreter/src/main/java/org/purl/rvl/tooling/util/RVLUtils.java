@@ -81,17 +81,26 @@ public class RVLUtils {
 		return (T) ResourcesCache.getInstance().tryReplaceOrCache(castedInstance);
 	}
 
+	/**
+	 * Extends a value mapping table to include source values related to the explicitly mapped source value 
+	 * via the property 'property'.
+	 * 
+	 * @param modelOrModelSet
+	 * @param explicitlyMappedValues
+	 * @param property
+	 * @return the extended value mapping map
+	 */
 	public static Map<Node, Node> extendMappingTable(Sparqlable modelOrModelSet,
 			Map<Node, Node> explicitlyMappedValues, Property property) {
 		
 		// storing new implicitly mapped values
 		Map<Resource, Node> implicitlyMappedValues = new HashMap<Resource, Node>();
 		
-		// iterate explicitly mapped values and add them 
-		// to the implicit ones using the same target value
-		Set<Entry<Node,Node>> explicitlyMappedPair = explicitlyMappedValues.entrySet();
+		// iterate explicitly mapped values and store related values 
+		// to the implicitly mapped values (using the same target value)
+		Set<Entry<Node,Node>> explicitlyMappedValuesSet = explicitlyMappedValues.entrySet();
 		
-		for (Entry<Node, Node> mappedValuePair : explicitlyMappedPair) {
+		for (Entry<Node, Node> mappedValuePair : explicitlyMappedValuesSet) {
 			
 			try {
 			

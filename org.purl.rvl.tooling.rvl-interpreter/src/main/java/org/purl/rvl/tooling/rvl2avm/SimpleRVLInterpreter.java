@@ -244,12 +244,10 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 
 			LOGGER.info("Interpret simple P2GAM mapping " + p2gam );
 			
-			// get the mapping table SV->TV
-			//Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();	
-			
-			// get the extended mapping table offering also tv for subclasses of the sv 
-			// TODO generalize this to other transitive properties
-			Map<Node, Node> svUriTVuriMap = RVLUtils.extendMappingTable(modelSet, p2gam.getExplicitlyMappedValues(), new Property(modelData, RDFS.subClassOf, false) );	
+			// get the (extended) mapping table SV->TV
+			// TODO generalize this to other transitive properties than subClassOf
+			// TODO seems not to be used in sub-mappings
+			Map<Node, Node> svUriTVuriMap = p2gam.getExtendedMappedValues(modelSet, new Property(modelData, RDFS.subClassOf, false));	
 			
 			try {
 				GraphicAttribute tga = p2gam.getTargetAttribute();
