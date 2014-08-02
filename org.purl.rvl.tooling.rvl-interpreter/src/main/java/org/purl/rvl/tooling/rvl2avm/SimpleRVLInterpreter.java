@@ -311,9 +311,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			IdentityMappingX mapping =  (IdentityMappingX) iterator.next();
 
 			// caching
-			mapping = (IdentityMappingX) 
-					RVLUtils.tryReplaceWithCashedInstanceForSameURI(mapping, PropertyMappingX.class)
-					.castTo(IdentityMappingX.class);
+			mapping = RVLUtils.tryReplaceWithCashedInstanceForSameURI(mapping, IdentityMappingX.class);
 
 			if (mapping.isDisabled()) {
 				LOGGER.info("Ignored disabled mapping "
