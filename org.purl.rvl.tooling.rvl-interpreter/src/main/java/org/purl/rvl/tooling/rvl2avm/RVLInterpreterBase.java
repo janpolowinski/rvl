@@ -17,7 +17,6 @@ import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.model.node.impl.PlainLiteralImpl;
-import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
@@ -278,8 +277,9 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 
 			if (subMapping.isDisabled()) {
 				// LOGGER.info("The referenced submapping was disabled. Will ignore it");
-				LOGGER.info("The referenced submapping was disabled but will still be used."
-						+ " TODO: implement 3 status ENABLED (default), DISABLED, USE-ONLY-AS-SUBMAPPING");
+				LOGGER.finest("The referenced submapping was disabled but will still be used."
+						+ " TODO: implement 3 status ENABLED (default), DISABLED, USE-ONLY-AS-SUBMAPPING or better allow " +
+						"disabling submapping relation");
 				// continue;
 			}
 
@@ -290,10 +290,11 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			// subclass-hierarchy (wrappers inherit from generated classes instead!)
 			// short time solution: only store PM to cash, not subclasses
 			// long term solution restructure subclass-hierarchy. all wrappers use delegation instead of inheritance
-			PropertyMappingX mapping = (PropertyMappingX) subMapping.castTo(PropertyMappingX.class);
+			PropertyMappingX subMappingPM = (PropertyMappingX) subMapping.castTo(PropertyMappingX.class);
 
 			// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
-			mapping = RVLUtils.tryReplaceWithCashedInstanceForSameURI(mapping, PropertyMappingX.class);
+			// not already here, we need to know first, what kind of mapping we want to receive P2GAM, P2GOTORM? ... ) : 
+			// mapping = RVLUtils.tryReplaceWithCashedInstanceForSameURI(mapping, mapping.getClass());
 
 			try {
 
@@ -308,7 +309,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 					LOGGER.finer("Applying submapping to the GR itself (role: " + roleURI + ") based on triple part "
 							+ triplePartURI);
 
-					applyMappingToNaryRelation(mainStatement, triplePartURI, graphicRelation, mapping);
+					applyMappingToNaryRelation(mainStatement, triplePartURI, graphicRelation, subMappingPM);
 
 				} else {
 
@@ -320,7 +321,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 					GraphicObjectX goToApplySubmapping = AVMUtils.getGOForRole(modelAVM, graphicRelation, roleURI);
 					// TODO this is a simplification: multiple GOs may be affected, not only one
 
-					applyMappingToGraphicObject(mainStatement, triplePartURI, goToApplySubmapping, mapping);
+					applyMappingToGraphicObject(mainStatement, triplePartURI, goToApplySubmapping, subMappingPM);
 					// this does not use the cashed mappings somehow:
 					// goToApplySubmapping.setLabel(roleURI + " with an applied submapping: " + smr.toStringSummary());
 
@@ -328,15 +329,15 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 
 			} catch (InsufficientMappingSpecificationException e) {
 
-				LOGGER.warning("Submapping " + mapping + " could not be applied. Reason: " + e.getMessage());
+				LOGGER.warning("Submapping " + subMappingPM + " could not be applied. Reason: " + e.getMessage());
 
 			} catch (UnsupportedMappingParameterValueException e) {
 
-				LOGGER.warning("Submapping " + mapping + " could not be applied. Reason: " + e.getMessage());
+				LOGGER.warning("Submapping " + subMappingPM + " could not be applied. Reason: " + e.getMessage());
 
 			} catch (MappingException e) {
 
-				LOGGER.warning("Submapping " + mapping + " could not be applied. Reason: " + e.getMessage());
+				LOGGER.warning("Submapping " + subMappingPM + " could not be applied. Reason: " + e.getMessage());
 			}
 
 		}
@@ -493,7 +494,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 				LOGGER.severe("Could not apply submappings since (explicit or calculated) value mappings were null");
 				return;
 			} else {
-				LOGGER.finer(p2gam.explicitlyMappedValuesToString());
+				LOGGER.finest(p2gam.explicitlyMappedValuesToString());
 			}
 
 			Node sourceValue = null, targetValue = null;
@@ -549,7 +550,8 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			}
 
 			if (null == targetValue) {
-				LOGGER.info("No target value found, parameter sub-mapping cannot be applied.");
+				LOGGER.finest("No target value found for source value " + sourceValue + " ," +
+						" parameter sub-mapping cannot be applied.");
 			} else {
 				applyParameterToGraphicRelation(tga, targetValue, sourceValue, rel);
 			}
@@ -635,9 +637,13 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 
 			// end if ID mapping
 		} else if (mapping.isInstanceof(PropertyToGraphicAttributeMappingX.RDFS_CLASS)) {
+			
+			// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
+			PropertyToGraphicAttributeMappingX p2gam = RVLUtils.tryReplaceWithCashedInstanceForSameURI(mapping, PropertyToGraphicAttributeMappingX.class);
 
-			PropertyToGraphicAttributeMappingX p2gam = (PropertyToGraphicAttributeMappingX) mapping
-					.castTo(PropertyToGraphicAttributeMappingX.class);
+			// when using a cached mapping that was casted to a PropertyMappingX, the explicitlyMappedValues were lost
+			//PropertyToGraphicAttributeMappingX p2gam = (PropertyToGraphicAttributeMappingX) mapping
+			//		.castTo(PropertyToGraphicAttributeMappingX.class);
 
 			tga = p2gam.getTargetAttribute();
 
@@ -655,7 +661,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 				LOGGER.severe("Could not apply submappings since (explicit or calculated) value mappings were null");
 				return;
 			} else {
-				LOGGER.finer(p2gam.explicitlyMappedValuesToString());
+				LOGGER.finest(p2gam.explicitlyMappedValuesToString());
 			}
 
 			if (sp.asURI().equals(RDF.ID)) { // special treatment of rdf:ID
@@ -677,7 +683,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 					tv = svWithItsTv.targetValue;
 
 				} catch (Exception e) {
-					LOGGER.severe("Could not get value for source property " + sp + "for object "
+					LOGGER.severe("Could not get value for source property " + sp + " for object "
 							+ mainStatement.getObject());
 					return;
 				}
@@ -689,19 +695,19 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 
 			PropertyToGO2ORMappingX p2go2orm = (PropertyToGO2ORMappingX) mapping.castTo(PropertyToGO2ORMappingX.class);
 
-			// org.purl.rvl.java.gen.rvl.GraphicObjectToObjectRelation tgr = p2go2orm.getTargetGraphicRelation();
+			// TODO: Refactor VISO/RVL: we have to use the generic type Node here since there is a mismatch between the generated types returned by getTargetGraphicRelation and the superclass of Labeling
+			Node targetGraphicRelation = p2go2orm.getTargetGraphicRelation();
 
 			try {
-				if (p2go2orm.getTargetGraphicRelation().equals(Labeling.RDFS_CLASS)) {
+				if (targetGraphicRelation.equals(Labeling.RDFS_CLASS)) {
 
 					if (sp.asURI().equals(RDF.ID)) { // special treatment of rdf:ID
 
 						sv = triplePart; // TODO ID actually only fine when URIs!
 						// tv = svUriTVuriMap.get(sv);
 
-						// create the label
-
-						// call the submapping method with the same unchanged statement to set label text_value or
+						// 1. create the label
+						// 2. call the submapping method with the same unchanged statement to set label text_value or
 						// icon_shape etc ...
 
 						// duplicated code ....
@@ -711,20 +717,8 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 						// Resource subject = statement.getSubject();
 						Node object = statement.getObject();
 
-						/*
-						 * LOGGER.finest("Subject label " + AVMUtils.getGoodNodeLabel(subject, modelAVM));
-						 * LOGGER.finest("Object label " + AVMUtils.getGoodNodeLabel(object, modelAVM));
-						 */
 						LOGGER.fine("Statement to be mapped : " + statement);
 
-						/*
-						 * // For each statement, create a startNode GO representing the subject // (if not exists)
-						 * GraphicObjectX subjectNode = this .createOrGetGraphicObject(subject);
-						 * LOGGER.finest("Created GO for subject: " + subject.toString());
-						 */
-
-						// For each statement, create an endNode GO representing the object (if
-						// not exists)
 						// create an additional object here, don't reuse existing ones!
 						GraphicObjectX label = new GraphicObjectX(modelAVM, "http://purl.org/rvl/example-avm/GO_Label_"
 								+ this.createNewInternalID(), false);
@@ -753,9 +747,44 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 
 						// ... end duplicated code
 
-					} else {
-						throw new MappingException(
-								"P2GORM-Submappings other than mappings with source property rdf:ID not yet supported.");
+					} else { // other source properties than rdf:ID
+						
+						sv = triplePart; 
+
+						// 1. create the label
+						// 2. call the submapping method with the same unchanged statement to set label text_value or
+						// icon_shape etc ...
+
+						// duplicated code ....
+
+						Statement statement = mainStatement;
+
+						// Resource subject = statement.getSubject();
+						Node object = statement.getObject();
+
+						// create an additional object here, don't reuse existing ones!
+						GraphicObjectX label = new GraphicObjectX(modelAVM, "http://purl.org/rvl/example-avm/GO_LabelLabel_"
+								+ this.createNewInternalID(), false);
+						LOGGER.finest("Created new Label-GO for (Label) object: " + object.toString());
+
+						Labeling rel = new Labeling(modelAVM, "http://purl.org/rvl/example-avm/LabelingRelation_"
+								+ this.createNewInternalID(), true);
+						rel.setLabel(AVMUtils.getGoodNodeLabel(mapping.getTargetGraphicRelation(), modelAVM));
+
+						goToApplySubmapping.addLabeledwith(rel);
+						rel.setLabelinglabel(label);
+						rel.setLabelingattachedBy(Superimposition.RDFS_CLASS); // passing a node here
+						rel.setLabelingbase(goToApplySubmapping);
+
+						// set default shape of icon labels
+						label.setShapenamed(new ShapeX(modelAVM, "http://purl.org/viso/shape/commons/Cross", false));
+
+						// submappings
+						if (mapping.hasSub_mapping()) {
+							this.applySubmappings(p2go2orm, statement, rel);
+						}
+
+						// ... end duplicated code
 					}
 
 					// recursive does not yet work (no specific treatment of RDF:ID as a source property!)
@@ -774,19 +803,23 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			throw new MappingException("Submappings other than P2GAM, P2GORM or Identitymappings not yet supported.");
 		}
 
-		if (null == tga) {
-			throw new InsufficientMappingSpecificationException("no target graphic attribute set");
-		}
-
-		// if we found a tv for the sv
-		if (null != tv && null != sv) {
-
-			applyGraphicValueToGO(tga, tv, sv, goToApplySubmapping);
-			// TODO enable again : applyInheritanceOfTargetValue(mapping, mainStatement.getSubject(), tv);
-
-		} else {
-			LOGGER.finest("Graphic attribute , source or target value was null, couldn't apply graphic value " + tv
-					+ " to the sv " + sv);
+		if (mapping.isInstanceof(PropertyToGraphicAttributeMappingX.RDFS_CLASS) 
+		 || mapping.isInstanceof(IdentityMappingX.RDFS_CLASS)) {
+			
+			if (null == tga) {
+				throw new InsufficientMappingSpecificationException("no target graphic attribute set");
+			}
+	
+			// if we found a tv for the sv
+			if (null != tv && null != sv) {
+	
+				applyGraphicValueToGO(tga, tv, sv, goToApplySubmapping);
+				// TODO enable again : applyInheritanceOfTargetValue(mapping, mainStatement.getSubject(), tv);
+	
+			} else {
+				LOGGER.finest("Graphic attribute , source or target value was null, couldn't apply graphic value " + tv
+						+ " to the sv " + sv);
+			}
 		}
 	}
 
@@ -826,24 +859,24 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	 * Iterates through statement objects and returns a tuple consisting of the source value and a corresponding target
 	 * value or null when none of the objects matched a source value in the map.
 	 * 
+	 * 	// TODO Multiple objects may match a mapped target value. For now only the first match will win!
+	 *	// TODO: maybe not the most specific is mapped, therefore,
+	 *	// we cannot simply check the map for the most specific results.
+	 *	// e.g. Europe could be mapped, but Germany not, still the mapping for
+	 *	// Europe should be applied (partOf). Or Animal may be mapped but not Cat.
+	 *	// TODO: It may also be the case that two most specific values exist, e.g.
+	 *	// two classes as types, where one is not a subclass of the other!
+	 * 
 	 * @param it
 	 * @param svUriTVuriMap
-	 * @return a tuple of a source and target value or null
+	 * @return a tuple of a source and target value or null if no source value matching a target value was found
 	 */
 	public TupleSourceValueTargetValue<Node, Node> lookUpTvForSv(ClosableIterator<Statement> it,
 			Map<Node, Node> svUriTVuriMap) {
 
 		TupleSourceValueTargetValue<Node, Node> svWithItsTv = null;
 		Node sv;
-
-		// TODO Multiple objects may match a mapped target value. For now only the first match will win!
-		// TODO: maybe not the most specific is mapped, therefore,
-		// we cannot simply check the map for the most specific results.
-		// e.g. Europe could be mapped, but Germany not, still the mapping for
-		// Europe should be applied (partOf). Or Animal may be mapped but not Cat.
-		// TODO: It may also be the case that two most specific values exist, e.g.
-		// two classes as types, where one is not a subclass of the other!
-
+		
 		while (it.hasNext()) {
 			sv = it.next().getObject();
 			if (svUriTVuriMap.containsKey(sv)) {

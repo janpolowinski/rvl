@@ -37,15 +37,11 @@ public class MappingToContainmentHandler extends MappingToP2GOTORHandler {
 			throw new NotImplementedMappingFeatureException("Can only handle linking relations where all " +
 					"objects are resources, but " + statement.getObject() + " is probably a Literal.");
 		}
+		
+		logStatementDetails(LOGGER,statement);
 
 		Resource subject = statement.getSubject();
 		Resource object = statement.getObject().asResource();
-		// Node object = statement.getObject();
-
-		LOGGER.finest("Subject label "
-				+ AVMUtils.getGoodNodeLabel(subject, modelAVM));
-		LOGGER.finest("Object label " + AVMUtils.getGoodNodeLabel(object, modelAVM));
-		LOGGER.fine("Statement to be mapped : " + statement);
 
 		// For each statement, create a container GO representing the subject
 		// (if not exists)

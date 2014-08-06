@@ -12,18 +12,14 @@ import java.util.logging.Logger;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.Resource;
-import org.ontoware.rdf2go.util.ModelUtils;
 import org.ontoware.rdf2go.util.RDFTool;
 import org.purl.rvl.java.VISOGRAPHIC;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
-import org.purl.rvl.java.gen.viso.graphic.Superimposition;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
-import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.D3Utils;
-import org.purl.rvl.tooling.util.RVLUtils;
 
 
 /**
@@ -169,7 +165,8 @@ public abstract class D3GeneratorBase implements D3Generator {
 			
 			// defaults
 			
-			String defaultLabelPosition = "topLeft";
+			String defaultLabelPositionIcon = "topRight";
+			String defaultLabelPositionText = "centerRight";
 			
 			final GraphicObjectX label = (GraphicObjectX) nAryLabeling
 					.getAllLabelinglabel_as().firstValue()
@@ -178,7 +175,13 @@ public abstract class D3GeneratorBase implements D3Generator {
 			// setting graphic attributes that are valid for any kind of label
 			
 			labelJSON.put("color_rgb_hex_combined", label.getColorRGBHexCombinedWithHSLValues());
-			labelJSON.put("width", startNodeWidth*LABEL_ICON_SIZE_FACTOR+""); // TODO text label width should not be the same as for icon labels
+			
+			if (label.hasWidth()) {
+				labelJSON.put("width", label.getWidth() + ""); 
+			} else {
+				// TODO text label width should not be the same as for icon labels
+				labelJSON.put("width", startNodeWidth*LABEL_ICON_SIZE_FACTOR+""); 
+			}
 			
 			// text label or icon label?
 			
@@ -209,22 +212,38 @@ public abstract class D3GeneratorBase implements D3Generator {
 			} else if (null!=attachementRelation) {
 			
 				if (attachementRelation.asURI().equals(Containment.RDFS_CLASS)) {
+					
 					labelJSON.put("position", "centerCenter");
-					//label1.put("width", 30);
-				} else if (attachementRelation.asURI().equals(Superimposition.RDFS_CLASS)) {
-					labelJSON.put("position", "centerRight");
+					
+				//} else if (attachementRelation.asURI().equals(Superimposition.RDFS_CLASS)) {}
+
 				} else {
+					
 					// default label positioning
-					labelJSON.put("position", defaultLabelPosition);	
+					
+					if (null!=labelTextValue) {
+						labelJSON.put("position", defaultLabelPositionText);
+					} else {
+						labelJSON.put("position", defaultLabelPositionIcon);
+					}
 				}
 			} else {
+				
 				// default label positioning
-				labelJSON.put("position", defaultLabelPosition);	
+				
+				if (null!=labelTextValue) {
+					labelJSON.put("position", defaultLabelPositionText);
+				} else {
+					labelJSON.put("position", defaultLabelPositionIcon);
+				}	
 			}
 			
 			// ... other positions ...
 		
 		
+		// handle labeling of labels
+		putLabels(label, startNodeWidth, labelJSON); // TODO width OK?
+			
 		return labelJSON;
 	}
 

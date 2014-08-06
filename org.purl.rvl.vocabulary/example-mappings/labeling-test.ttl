@@ -38,7 +38,7 @@
       [
         rvl:subMapping-onRole vg:this; # use role "this" to apply submappings to the n-ary relation itself (not yet part of RVL spec!)
         rvl:subMapping-onTriplePart rdf:object;
-        rvl:subMapping-mapping :TypeToLabelPositionMapping;
+        rvl:subMapping-mapping :IDtoLabelPositionMapping;
       ],
       [
         rvl:subMapping-onRole vg:labeling_base;
@@ -49,12 +49,17 @@
         rvl:subMapping-onRole vg:labeling_base;
         rvl:subMapping-onTriplePart rdf:subject;
         rvl:subMapping-mapping :Type2Width;
+      ],
+      [
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :Type2WidthLabel;
       ]
       .
       
       
 :TextLabeling
-      rvl:disabled "true"^^xsd:boolean ;
+      rvl:disabled "false"^^xsd:boolean ;
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
       rvl:sourceProperty rexd:workingField ;
       rvl:targetObjToObjRelation vg:Labeling_Relation ; 
@@ -77,7 +82,7 @@
       [
         rvl:subMapping-onRole vg:this; # use role "this" to apply submappings to the n-ary relation itself (not yet part of RVL spec!)
         rvl:subMapping-onTriplePart rdf:object;
-        rvl:subMapping-mapping :TypeToLabelPositionMapping;
+        rvl:subMapping-mapping :IDtoLabelPositionMapping;
       ],
       [
         rvl:subMapping-onRole vg:labeling_base;
@@ -86,11 +91,6 @@
       ],
       [
         rvl:subMapping-onRole vg:labeling_base;
-        rvl:subMapping-onTriplePart rdf:subject;
-        rvl:subMapping-mapping :Type2Width;
-      ],
-      [
-        rvl:subMapping-onRole vg:labeling_label;
         rvl:subMapping-onTriplePart rdf:subject;
         rvl:subMapping-mapping :Type2Width;
       ]
@@ -147,7 +147,7 @@
       ]
       .    
       
-:TypeToLabelPositionMapping
+:IDtoLabelPositionMapping
 	  rvl:disabled "true";
       a rvl:PropertyMapping ;
       rvl:sourceProperty rdf:ID ;
@@ -230,5 +230,50 @@
         rvl:sourceValue rexd:Person;
 		rvl:targetValue "120"^^xsd:float; # create some space for contained labels
       ]
-      .    
+      .  
+      
+:Type2WidthLabel
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+ 	  rvl:sourceProperty rdf:type ;
+ 	  rvl:targetAttribute vg:width ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:sourceValue rexd:Person;
+		rvl:targetValue "12"^^xsd:float;
+      ]
+      .  
+      
+##### Labeling of Labels #########
+
+# extend the mapping above by these extra triples to add another sub-mapping ... :
+:IconLabeling
+      rvl:subMapping 
+      [
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :TextLabelingOfLabel;
+      ]
+      .
+      
+:TextLabelingOfLabel
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:sourceProperty rdfs:label ;
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:subMapping 
+      [
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :LabelingTextIdentityMapping;
+      ]
+      .      
+      
+ :LabelingTextIdentityMapping
+	  rvl:disabled "true"^^xsd:boolean ;
+      a rvl:IdentityMapping ;
+      rvl:sourceProperty rdfs:label ;
+      rvl:targetAttribute
+              vg:text_value ;
+      . 
       

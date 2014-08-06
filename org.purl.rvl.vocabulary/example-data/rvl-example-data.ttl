@@ -49,6 +49,12 @@
 :Biography
       rdf:type :Field ;
       rdfs:label "Biography"^^xsd:string .
+      
+:AutoBiography
+      rdf:type :Field ;
+      rdfs:subClassOf :Biography ;
+      rdfs:label "Auto-Biography"^^xsd:string ;
+      .
 
 :Bob  rdf:type :Author ;
       rdfs:label "Bob"^^xsd:string ;
@@ -133,7 +139,7 @@
 :Lina
       rdf:type :Author ;
       rdfs:label "Lina"^^xsd:string ;
-      :workingField :Biography ;
+      :workingField :AutoBiography ;
       :knows :John ;
       .
 

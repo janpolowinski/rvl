@@ -9,3 +9,7 @@ body {
 	stroke: #334;
    	fill: #ccc;
 }
+
+marker#uml_generalization_arrow {
+	fill: #334;
+}

@@ -10,6 +10,8 @@ import org.purl.rvl.java.gen.rvl.SyntacticRole;
  */
 public class SubMappingRelationX {
 	
+	static final String NL =  System.getProperty("line.separator");
+	
 	private Sub_mappingrelation subMappingRelationGen;
 
 	/**
@@ -57,24 +59,34 @@ public class SubMappingRelationX {
 	}
 
 	
-	public String toStringDetailed(){
+	public String toStringDetailed(boolean showSubMappingDetails){
 		
-		String label = "";
-
-		if (hasSubMapping() && hasOnRole()) {
-			
-			//label += " ... to mapping: " + getSubMapping() ; // wrong return type and wrong methode name, but seems to work
-			label += " ... on role: " + getOnRole() ;
-			label += "... to mapping: " + ((org.purl.rvl.java.rvl.MappingX)getSubMapping().castTo(org.purl.rvl.java.rvl.MappingX.class)).toStringAsSpecificAsPossible() ;
-
+		String s = "";
+		
+		if (hasOnRole()) {
+			s += "      ... on role: " + getOnRole() + NL ;
 		}
 		if(hasOnTriplePart()) {
-			label += " ... on triple part: " + getOnTriplePart() ;
+			s += "      ... on triple part: " + getOnTriplePart() + NL;
+		}
+
+		if (hasSubMapping()) {
+			s += "      ... to mapping: " + getSubMapping() + NL ;
+			
+			if (showSubMappingDetails) {
+				
+				MappingX subMapping = getSubMapping();
+				
+				s += "      ... sub-mapping details: " + NL;
+				s += subMapping.toStringAsSpecificAsPossible() + NL ;
+			}
 		}
 		
-		return label;
-		
+		return s;
 	}
-
+	
+	public String toStringDetailed() {
+		return toStringDetailed(false);
+	}
 
 }
