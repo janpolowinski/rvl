@@ -6,7 +6,7 @@ target/
 pom.properties
 /.classpath
 
-/gen/tempAVM.*
+/gen/temp*.*
 /gen/docs/*
 *-javadoc.xml
 

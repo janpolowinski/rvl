@@ -33,7 +33,7 @@ public class RVLapiGenerator {
 		if (file.exists()) {
 			try {
 				model.readFrom(new FileReader(file),
-						Syntax.RdfXml);
+						Syntax.Turtle);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
