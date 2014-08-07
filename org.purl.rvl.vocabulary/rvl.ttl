@@ -102,14 +102,6 @@ RVL was developed in the SemVis project by Jan Polowinski.
       rdfs:comment "Also referred to as \"Passthrough Mapping\" in some tools."^^xsd:string ;
       rdfs:label "Identity mapping"^^xsd:string ;
       rdfs:subClassOf :PropertyMapping ;
-      rdfs:subClassOf
-              [ rdf:type owl:Class ;
-                owl:complementOf
-                        [ rdf:type owl:Restriction ;
-                          owl:onProperty :valueMapping ;
-                          owl:someValuesFrom :ValueMapping
-                        ]
-              ] ;
       dct:description "Passes source values through to the target graphic relation without changing the datatype or value. The type of the values in the domain is equal to the type of the values in the co-domain."^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string ;
@@ -1261,33 +1253,3 @@ viso-graphic:GraphicRelation
 
 viso-graphic:Visual_Value_Container
       rdf:type owl:Class .
-
-rdf:Bag
-      rdf:type rdfs:Datatype , owl:Class .
-
-rdf:List
-      rdf:type owl:Class .
-
-rdf:Property
-      rdf:type owl:Class .
-
-rdfs:Container
-      rdf:type owl:Class .
-
-rdfs:Literal
-      rdf:type owl:Class .
-
-rdfs:comment
-      rdf:type owl:AnnotationProperty .
-
-rdfs:label
-      rdf:type owl:AnnotationProperty .
-
-rdfs:seeAlso
-      rdf:type owl:AnnotationProperty .
-
-owl:DatatypeProperty
-      rdf:type owl:Class .
-
-skos:example
-      rdf:type owl:DatatypeProperty .
