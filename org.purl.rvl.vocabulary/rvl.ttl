@@ -33,7 +33,8 @@ RVL was developed in the SemVis project by Jan Polowinski.
 <b>ScaleTransformationType:</b> Linear (default), Logarithmic
 
 <!--<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/datatypes_rvl.png\"/>-->"""^^xsd:string ;
-      owl:imports viso-graphic: .
+#      owl:imports viso-graphic: 
+.
 
 :Average
       rdf:type :MissingSourceValueHandlingType , :MissingValueMappingHandlingType , :NeutralValueHandlingType ;
@@ -1109,7 +1110,6 @@ TODO: range also flselector"""^^xsd:string .
 
 :targetAttribute
       rdf:type owl:FunctionalProperty , owl:ObjectProperty ;
-      rdfs:domain :PropertyToGraphicAttributeMapping ;
       rdfs:label "target attribute"^^xsd:string ;
       rdfs:range viso-graphic:GraphicAttribute ;
       rdfs:subPropertyOf :targetGraphicRelation ;

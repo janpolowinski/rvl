@@ -81,3 +81,10 @@
               [ a       owl:Class ;
                 owl:unionOf (viso-graphic:Visual_Attribute rdfs:Literal)
               ] .
+              
+              
+:targetAttribute
+ 		 rdfs:domain
+              [ a       owl:Class ;
+                owl:unionOf (:PropertyToGraphicAttributeMapping :IdentityMapping)
+              ] .

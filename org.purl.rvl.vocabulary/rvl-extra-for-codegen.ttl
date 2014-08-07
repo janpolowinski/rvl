@@ -16,12 +16,14 @@
       rdfs:range 
       	viso-graphic:Visual_Attribute , rdfs:Literal;
       rdfs:domain
-      	:ValueMapping, :PropertyToGraphicAttributeMapping;
+      	:ValueMapping
+#	  , :PropertyToGraphicAttributeMapping;
       . 
       
 :sourceValue
       rdfs:domain 
-      	:ValueMapping , :PropertyToGraphicAttributeMapping ;
+      	:ValueMapping 
+#	  , :PropertyToGraphicAttributeMapping ;
       .
 
 
@@ -34,3 +36,7 @@
       rdfs:range rdfs:Container , rdf:List ;
   	.
   	
+  	
+  	
+:targetAttribute
+      rdfs:domain :PropertyToGraphicAttributeMapping,  :IdentityMapping .

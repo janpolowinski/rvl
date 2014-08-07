@@ -41,6 +41,7 @@ public class OGVICProcess {
 	public static int MAX_GRAPHIC_RELATIONS_PER_MAPPING = 5000;
 	public static boolean REGENERATE_AVM = true;
 	public static boolean WRITE_AVM = true;
+	public static boolean WRITE_MAPPING_MODEL = false;
 	public static boolean WRITE_JSON = true;
 	
 	// LOCAL FILES AND FOLDER SETTINGS
@@ -48,6 +49,7 @@ public class OGVICProcess {
 	public static final String GEN_MODEL_FILE_FOLDER = "../org.purl.rvl.tooling.rvl-interpreter/gen"; // new
 	public static final String GEN_MODEL_FILE_FOLDER_D3_JSON = "../org.purl.rvl.tooling.d3vis/gen/json";
 	protected static final String TMP_RVL_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempRvl.ttl";
+	protected static final String TMP_MAPPING_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempMappingModel.ttl";
 	public static final String TMP_AVM_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempAVM.ttl";
 	public static final String D3_HTML_FOLDER_NAME = "../org.purl.rvl.tooling.d3vis/gen/html";
 	private static final String D3_EXAMPLE_GRAPHICS_FOLDER_NAME = "../org.purl.rvl.tooling.d3vis/examples";;
@@ -77,6 +79,7 @@ public class OGVICProcess {
 	private final  FileRegistry mappingFileRegistry = new FileRegistry("mapping files"); // Mapping files (each interpreted as a mapping set)
 	
 	private boolean writeAVM = WRITE_AVM;
+	private boolean writeMappingModel = WRITE_MAPPING_MODEL;
 	private Reasoning reasoningDataModel = Reasoning.rdfs;
 
 
@@ -267,7 +270,7 @@ public class OGVICProcess {
 	}
 
 	/**
-	 * Saves the whole Model to a tmp file 
+	 * Saves the AVM Model to a tmp file 
 	 * TODO: does not currently filter out non-avm triples!
 	 */
 	public void writeAVMToFile() {
@@ -286,12 +289,33 @@ public class OGVICProcess {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Saves the mapping model to a tmp file 
+	 */
+	public void writeMappingModelToFile() {
+	
+		try {
+			String fileName = OGVICProcess.TMP_MAPPING_MODEL_FILE_NAME;
+			FileWriter writer = new FileWriter(fileName);
+			
+			getModelMappings().writeTo(writer, Syntax.Turtle);
+			writer.flush();
+			writer.close();
+			
+			LOGGER.info("Mapping model written to " + fileName + " as Turtle");
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void runOGVICProcess(){
 		interpreteRVL2AVM();	
 		transformAVMToD3();
 		populateD3HTMLFolder();
 		if (isWriteAVM()) writeAVMToFile();
+		if (isWriteMappingModel()) writeMappingModelToFile();
 	}
 
 	private void interpreteRVL2AVM() {
@@ -390,6 +414,10 @@ public class OGVICProcess {
 
 	private boolean isWriteAVM() {
 		return this.writeAVM;
+	}
+
+	private boolean isWriteMappingModel() {
+		return this.writeMappingModel;
 	}
 
 	/**
