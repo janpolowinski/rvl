@@ -18,8 +18,7 @@ rvl:valueMapping
       owl:imports semvis-example: , commons: , <http://purl.org/ro/ont> , rvl: .
       
  :RO-4b-Ampel
-      rdf:type rvl:PropertyMapping ;
-      rdfs:label "RO-4b-Ampel"^^xsd:string ;
+      a rvl:PropertyMapping ;
       rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
       rvl:sourceProperty rdf:type ;
       rvl:targetAttribute vg:color_named ; 
@@ -40,8 +39,7 @@ rvl:valueMapping
   
   
   :ShapeMapping
-      rdf:type rvl:PropertyMapping ;
-      rdfs:label "Shape mapping"^^xsd:string ;
+      a rvl:PropertyMapping ;
       rvl:sourceProperty rdf:type ;
       rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
       rvl:targetAttribute
@@ -53,11 +51,11 @@ rvl:valueMapping
       ]
       .
 
-#### Labeling could become a default .... ####     
-      
+#### Labeling is done by default, but needs to be made explicit in order to refine label style .... ####     
+     
 :LabelMapping
       a rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:sourceProperty rdf:type ;
+      rvl:sourceProperty rdf:ID ;
       rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
       rvl:targetObjToObjRelation vg:Labeling_Relation ; 
       rvl:subMapping [
@@ -98,8 +96,7 @@ rvl:valueMapping
 
 :PMfromType2Width
       rvl:disabled "true"^^xsd:boolean ;
-      rdf:type rvl:PropertyMapping ;
-      rdfs:label "PM from type to width (used as a submapping above)"^^xsd:string ;
+      a rvl:PropertyMapping ;
  	  rvl:sourceProperty rdf:type ;
  	  rvl:targetAttribute vg:width ;
  	  rvl:valueMapping [
