@@ -11,7 +11,42 @@
 
 :     rdf:type owl:Ontology ;
       owl:imports rvl: , rexd: ,common-shapes: .
+      
+### testing rdf:ID in P2GAM as submapping and standalone-mapping + testing rdf:ID in a P2GOTORM
 
+:ColorByIDMapping
+      rvl:disabled "false"^^xsd:boolean ;
+      rvl:subjectFilter "http://purl.org/rvl/example-data/Person"^^rvl:classSelector;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rdf:ID ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+		rvl:sourceValue rexd:Bob;
+        rvl:targetValue vg:Red;
+      ],[
+		rvl:sourceValue rexd:Jan;
+        rvl:targetValue vg:Green;
+      ]
+      .
+      
+      
+:IconLabeling
+      rvl:disabled "false"^^xsd:boolean ;
+      rvl:subjectFilter "http://purl.org/rvl/example-data/Person"^^rvl:classSelector;
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:sourceProperty rdf:ID ;
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:subMapping 
+      [
+        rvl:subMapping-onRole vg:labeling_label; 
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :ColorByIDMapping;
+      ]
+      .
+      
+      
+### testing rdf:ID in IdentityMapping     
+      
 :TextIdentityMapping
       a rvl:IdentityMapping ;
       rvl:disabled "true"^^xsd:boolean ;
@@ -25,22 +60,4 @@
       
       rvl:targetAttribute
               vg:text_value ;
-      .
-      
-### try with submapping and non-submapping!      
-
-
-:LabelColorMapping
-      rvl:disabled "false"^^xsd:boolean ;
-      rvl:subjectFilter "http://purl.org/rvl/example-data/Person"^^rvl:classSelector;
-      a rvl:PropertyMapping ;
-      rvl:sourceProperty rdf:ID ;
-      rvl:targetAttribute vg:color_named ; 
-      rvl:valueMapping [
-		rvl:sourceValue rexd:Bob;
-        rvl:targetValue vg:Red;
-      ],[
-		rvl:sourceValue rexd:Jan;
-        rvl:targetValue vg:Green;
-      ]
       .
