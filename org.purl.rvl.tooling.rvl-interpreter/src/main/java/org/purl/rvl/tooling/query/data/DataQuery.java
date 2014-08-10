@@ -302,57 +302,7 @@ public class DataQuery {
 		return stmtSet;
 	}
 	
-	/**
-	 * @deprecated - use findRDFidStatements instead
-	 * 
-	 * @param modelOrModelSet
-	 * @param fromGraph
-	 * @param selectorSPARQLString
-	 * @return
-	 */
-	private static Collection<? extends Statement> findResourceStatements(Sparqlable modelOrModelSet, URI fromGraph, String selectorSPARQLString) {
-
-		Set<Statement> stmtSet = new HashSet<Statement>();
-		
-		try {
-			
-			DataQueryBuilder queryBuilder = new RDFidSPARQLQueryBuilder();
-			queryBuilder.constrainToGraph(fromGraph);
-			queryBuilder.constrainToSubjectBySelector(selectorSPARQLString);
-			String queryString = queryBuilder.buildQuery();
 	
-			LOGGER.fine("Query ID-statements");
-			LOGGER.finest("Query :" + queryString);
-	
-			QueryResultTable explMapResults = modelOrModelSet.sparqlSelect(queryString);
-			
-			for (QueryRow row : explMapResults) {
-				
-				try {
-						
-					Statement stmt = new StatementImpl(
-							fromGraph,
-							row.getValue("s").asURI(),
-							row.getValue("p").asURI(),
-							row.getValue("o")
-							);
-					
-					LOGGER.finest("build Statement: " + stmt.toString());
-					
-					stmtSet.add(stmt);
-					
-				} catch (ClassCastException e){
-					LOGGER.finer("Skipped statement (blank node casting to URI?): " + e.getMessage());
-				}
-			}
-		
-		} catch (UnsupportedOperationException e){
-			LOGGER.warning("Problem with query to get statements (blank node?): " + e.getMessage());
-		} 
-		
-		return stmtSet;
-		
-	}
 	/**
 	 * Returns all resources from the data graph 
 	 * related to the baseResource via the property relation.

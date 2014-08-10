@@ -6,6 +6,8 @@ import org.purl.rvl.java.RDF;
 
 /**
  * @author Jan Polowinski
+ * 
+ * Returns a query for all rdf:Resources (pattern: <SUBJECT> rdf:type rdf:Resource)
  *
  */
 public class RDFidSPARQLQueryBuilder extends DataQueryBuilder {
