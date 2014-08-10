@@ -271,8 +271,6 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 					// create a GO for each subject
 				    GraphicObjectX go = createOrGetGraphicObject(statement.getSubject());
 				    
-				    // TODO: handle rdf:ID mappings or return statements like :X rdf:ID :X, then the following code should also work!?
-				    
 			    	Node sv = statement.getObject(); 
 			    	Resource subject = statement.getSubject();
 							

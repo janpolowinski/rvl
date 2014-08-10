@@ -499,7 +499,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 
 			Node sourceValue = null, targetValue = null;
 
-			if (sp.asURI().equals(RDF.ID)) { // special treatment of rdf:ID
+			if (sp.asURI().equals(RDF.ID)) { // special treatment of rdf:ID TODO: still necessary?
 
 				if (triplePartURI.equals(RDF.subject)) {
 					sourceValue = mainStatement.getSubject(); // TODO ID actually only fine when URIs!
@@ -560,9 +560,8 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	}
 
 	/**
-	 * Needs to properly handle other than P2GAMs. Case for IdentityMappings quickly hacked and added already. Also
-	 * P2GOTORs must be handled!
-	 * 
+	 * Needs to properly handle other than P2GAMs. Cases for IdentityMappings and P2GOTORs quickly hacked.+
+	 *  
 	 * @param mainStatement
 	 * @param triplePartURI
 	 * @param goToApplySubmapping
@@ -592,9 +591,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 		GraphicAttribute tga = null;
 		Property sp = mapping.getSourceProperty();
 
-		if (mapping.isInstanceof(IdentityMappingX.RDFS_CLASS)) { // TODO why are identity mappings also PGAMs??? that
-																	// means checking for ID mappings after P2GAMs won't
-																	// work!!
+		if (mapping.isInstanceof(IdentityMappingX.RDFS_CLASS)) { 
 
 			// IdentityMappingX idMapping = (IdentityMappingX) mapping.castTo(IdentityMappingX.class);
 			newSubjectResource = triplePart.asResource();
@@ -664,7 +661,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 				LOGGER.finest(p2gam.explicitlyMappedValuesToString());
 			}
 
-			if (sp.asURI().equals(RDF.ID)) { // special treatment of rdf:ID
+			if (sp.asURI().equals(RDF.ID)) { // special treatment of rdf:ID TODO: still necessary?
 
 				sv = triplePart; // TODO ID actually only fine when URIs!
 				tv = svUriTVuriMap.get(sv);
@@ -701,7 +698,9 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			try {
 				if (targetGraphicRelation.equals(Labeling.RDFS_CLASS)) {
 
-					if (sp.asURI().equals(RDF.ID)) { // special treatment of rdf:ID
+					/* // special treatment of rdf:ID seems not to be necessary anymore DELETE SOON
+					
+					if (sp.asURI().equals(RDF.ID)) { 
 
 						sv = triplePart; // TODO ID actually only fine when URIs!
 						// tv = svUriTVuriMap.get(sv);
@@ -747,17 +746,19 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 
 						// ... end duplicated code
 
-					} else { // other source properties than rdf:ID
+					} else */ 
+					
+					{ // other source properties than rdf:ID
 						
-						sv = triplePart; 
+						sv = triplePart; // TODO when sp rdf:ID: ID actually only fine when URIs!
 
 						// 1. create the label
 						// 2. call the submapping method with the same unchanged statement to set label text_value or
 						// icon_shape etc ...
 
-						// duplicated code ....
-
 						Statement statement = mainStatement;
+						
+						LOGGER.fine("Statement to be mapped : " + statement);
 
 						// Resource subject = statement.getSubject();
 						Node object = statement.getObject();
@@ -765,7 +766,9 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 						// create an additional object here, don't reuse existing ones!
 						GraphicObjectX label = new GraphicObjectX(modelAVM, "http://purl.org/rvl/example-avm/GO_LabelLabel_"
 								+ this.createNewInternalID(), false);
+						
 						LOGGER.finest("Created new Label-GO for (Label) object: " + object.toString());
+						// TODO when sp rdf:ID: not created for object in all cases?!
 
 						Labeling rel = new Labeling(modelAVM, "http://purl.org/rvl/example-avm/LabelingRelation_"
 								+ this.createNewInternalID(), true);
@@ -777,14 +780,12 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 						rel.setLabelingbase(goToApplySubmapping);
 
 						// set default shape of icon labels
-						label.setShapenamed(new ShapeX(modelAVM, "http://purl.org/viso/shape/commons/Cross", false));
+						label.setShapenamed(new ShapeX(modelAVM, "http://purl.org/viso/shape/commons/Square", false));
 
 						// submappings
 						if (mapping.hasSub_mapping()) {
 							this.applySubmappings(p2go2orm, statement, rel);
 						}
-
-						// ... end duplicated code
 					}
 
 					// recursive does not yet work (no specific treatment of RDF:ID as a source property!)
