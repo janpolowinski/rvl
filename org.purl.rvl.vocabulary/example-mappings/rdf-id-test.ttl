@@ -27,7 +27,7 @@
               vg:text_value ;
       .
       
-      
+### try with submapping and non-submapping!      
 
 
 :LabelColorMapping
