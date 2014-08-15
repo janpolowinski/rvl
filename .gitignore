@@ -11,3 +11,5 @@
 *.checkstyle
 
 *.pmd
+
+*.project

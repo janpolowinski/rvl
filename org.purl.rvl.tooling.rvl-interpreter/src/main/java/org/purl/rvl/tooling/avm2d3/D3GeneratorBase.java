@@ -1,5 +1,6 @@
 package org.purl.rvl.tooling.avm2d3;
 
+import java.beans.Introspector;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
@@ -10,11 +11,12 @@ import java.util.logging.Logger;
 
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
+import org.ontoware.rdf2go.model.node.Resource;
+import org.ontoware.rdf2go.util.RDFTool;
 import org.purl.rvl.java.VISOGRAPHIC;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
-import org.purl.rvl.java.gen.viso.graphic.Superimposition;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.util.D3Utils;
@@ -36,7 +38,7 @@ public abstract class D3GeneratorBase implements D3Generator {
 	protected static final float DEFAULT_WIDTH_NODES = 17;
 	protected static final float DEFAULT_WIDTH_CONNECTORS = 17;
 
-	protected static final float LABEL_ICON_SIZE_FACTOR = (float) 0.75; 
+	protected static final float LABEL_ICON_SIZE_FACTOR = (float) 0.50; 
 	
 	
 	public D3GeneratorBase() {
@@ -48,9 +50,9 @@ public abstract class D3GeneratorBase implements D3Generator {
 	 * @param modelAVM
 	 * @param modelVISO
 	 */
-	public D3GeneratorBase(Model model, Model modelVISO) {
+	public D3GeneratorBase(Model modelAVM, Model modelVISO) {
 		super();
-		this.modelAVM = model;
+		this.modelAVM = modelAVM;
 		this.modelVISO = modelVISO;
 	}
 
@@ -99,10 +101,8 @@ public abstract class D3GeneratorBase implements D3Generator {
 
 
 	/**
-	 * @param graphicObject
-	 * @param endNodeColorRGBHex
-	 * @param endNodeShapeD3Name
 	 * @param map
+	 * @param graphicObject
 	 */
 	protected void putGraphicAttributes(Map map, GraphicObjectX graphicObject) {
 		
@@ -131,6 +131,18 @@ public abstract class D3GeneratorBase implements D3Generator {
 
 	}
 	
+	/**
+	 * @param map
+	 * @param graphicObject
+	 */
+	protected void putRepresentedResource(Map<String,Object> map, GraphicObjectX graphicObject) {
+		try {
+			map.put("uri", graphicObject.getRepresentedResource().toString());
+		} catch (NullPointerException e) {
+			LOGGER.warning("graphic object " + graphicObject + " does not represent a domain resource.");
+		}
+	}
+	
 	protected float getDefaultWidthNodes(){
 		return DEFAULT_WIDTH_NODES;
 	}
@@ -153,7 +165,8 @@ public abstract class D3GeneratorBase implements D3Generator {
 			
 			// defaults
 			
-			String defaultLabelPosition = "topLeft";
+			String defaultLabelPositionIcon = "topRight";
+			String defaultLabelPositionText = "centerRight";
 			
 			final GraphicObjectX label = (GraphicObjectX) nAryLabeling
 					.getAllLabelinglabel_as().firstValue()
@@ -162,7 +175,13 @@ public abstract class D3GeneratorBase implements D3Generator {
 			// setting graphic attributes that are valid for any kind of label
 			
 			labelJSON.put("color_rgb_hex_combined", label.getColorRGBHexCombinedWithHSLValues());
-			labelJSON.put("width", startNodeWidth*LABEL_ICON_SIZE_FACTOR+""); // TODO text label width should not be the same as for icon labels
+			
+			if (label.hasWidth()) {
+				labelJSON.put("width", label.getWidth() + ""); 
+			} else {
+				// TODO text label width should not be the same as for icon labels
+				labelJSON.put("width", startNodeWidth*LABEL_ICON_SIZE_FACTOR+""); 
+			}
 			
 			// text label or icon label?
 			
@@ -184,26 +203,47 @@ public abstract class D3GeneratorBase implements D3Generator {
 			}
 			
 			GraphicObjectToObjectRelation attachementRelation = nAryLabeling.getAllLabelingattachedBy_as().firstValue();
+			Resource position = nAryLabeling.getAllLabelingposition_as().firstValue();
 			
-			if (null!=attachementRelation) {
+			if (null!=position) {
+				
+				labelJSON.put("position", Introspector.decapitalize(RDFTool.getShortName(position.toString())));
+				
+			} else if (null!=attachementRelation) {
 			
 				if (attachementRelation.asURI().equals(Containment.RDFS_CLASS)) {
+					
 					labelJSON.put("position", "centerCenter");
-					//label1.put("width", 30);
-				} else if (attachementRelation.asURI().equals(Superimposition.RDFS_CLASS)) {
-					labelJSON.put("position", "centerRight");
+					
+				//} else if (attachementRelation.asURI().equals(Superimposition.RDFS_CLASS)) {}
+
 				} else {
+					
 					// default label positioning
-					labelJSON.put("position", defaultLabelPosition);	
+					
+					if (null!=labelTextValue) {
+						labelJSON.put("position", defaultLabelPositionText);
+					} else {
+						labelJSON.put("position", defaultLabelPositionIcon);
+					}
 				}
 			} else {
+				
 				// default label positioning
-				labelJSON.put("position", defaultLabelPosition);	
+				
+				if (null!=labelTextValue) {
+					labelJSON.put("position", defaultLabelPositionText);
+				} else {
+					labelJSON.put("position", defaultLabelPositionIcon);
+				}	
 			}
 			
 			// ... other positions ...
 		
 		
+		// handle labeling of labels
+		putLabels(label, startNodeWidth, labelJSON); // TODO width OK?
+			
 		return labelJSON;
 	}
 
@@ -239,5 +279,21 @@ public abstract class D3GeneratorBase implements D3Generator {
 			}
 	
 		}
+	}
+
+
+	/**
+	 * @param graphicObject
+	 * @param jsonObject
+	 */
+	protected void putAttributesLabelsRepresentedResource(GraphicObjectX graphicObject, Map<String, Object> jsonObject) {
+
+		putRepresentedResource(jsonObject, graphicObject);
+		putGraphicAttributes(jsonObject, graphicObject);
+		
+		// width (used for calculating label size)
+		float startNodeWidth = graphicObject.hasWidth()? graphicObject.getWidth() : getDefaultWidthNodes();
+		
+		putLabels(graphicObject, startNodeWidth, jsonObject); // TODO width OK?
 	}
 }

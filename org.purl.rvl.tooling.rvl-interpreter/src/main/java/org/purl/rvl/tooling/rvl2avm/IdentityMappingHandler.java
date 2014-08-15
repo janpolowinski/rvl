@@ -5,18 +5,20 @@ import java.util.logging.Logger;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
+import org.ontoware.rdf2go.model.node.Literal;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
+import org.ontoware.rdf2go.model.node.impl.PlainLiteralImpl;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.MappingException;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObject;
+import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.rvl.IdentityMappingX;
 import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.query.data.DataQuery;
-import org.purl.rvl.tooling.util.AVMUtils;
 
 public class IdentityMappingHandler extends MappingHandlerBase {
 	
@@ -34,15 +36,10 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 	protected void encodeStatement(Statement statement)
 			throws InsufficientMappingSpecificationException {
 		
+		logStatementDetails(LOGGER,statement);
 
 		Resource subject = statement.getSubject();
 		Node object = statement.getObject();
-
-		LOGGER.finest("Subject label "
-				+ AVMUtils.getGoodNodeLabel(subject, modelAVM));
-		LOGGER.finest("Object label " + AVMUtils.getGoodNodeLabel(object, modelAVM));
-
-		LOGGER.fine("Statement to be mapped : " + statement);
 		
 		// For each statement, create a startNode GO representing the subject
 		// (if not exists)
@@ -50,17 +47,28 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 				.createOrGetGraphicObject(subject);
 		LOGGER.finest("Created GO for subject: " + subject.toString());
 		
-		// TODO hack: we are always settings textvalue here
-		// (as will be the case in 99%), 
-		// while also color values may have been passed!
-		
-		Node sv = object.asLiteral();
+		Node sv = object;
 		Node tv = sv;
-		GraphicAttribute tga = GraphicAttribute.getInstance(OGVICProcess.getInstance().getModelAVM(), GraphicObject.TEXTVALUE);
-		rvlInterpreter.applyGraphicValueToGO(tga, tv, sv, subjectNode);
 		
-		// remove existing shapes (incl. default shape) - these are now overridden by the text-shape
-		subjectNode.removeAllShapenamed();
+			// TODO hack: we are always settings textvalue here
+			// (as will be the case in 99%), 
+			// while also color values may have been passed!
+			GraphicAttribute tga = GraphicAttribute.getInstance(OGVICProcess.getInstance().getModelAVM(), GraphicObject.TEXTVALUE);
+			
+			if (tga.asURI() == GraphicObject.TEXTVALUE) {
+				
+				try {
+					// if the object is a literal, such as a label
+					tv = sv.asLiteral();
+				} catch (Exception e ) {
+					tv = new PlainLiteralImpl(sv.asURI().toString());
+				}
+				
+				// remove existing shapes (incl. default shape) - these are now overridden by the text-shape
+				subjectNode.removeAllShapenamed();
+			}
+			
+		rvlInterpreter.applyGraphicValueToGO(tga, tv, sv, subjectNode);
 		
 	}
 

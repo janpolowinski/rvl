@@ -22,8 +22,10 @@ public class UseCaseRVLClasses extends TestOGVICProcess {
 		project.registerDataFile(ExampleData.RVL_EXTRA_DATA);
 		
 		//project.setRvlInterpreter(new SimpleRVLInterpreter());
+		
 		project.setD3Generator(new D3GeneratorTreeJSON());
-		//project.setD3Generator(new D3GeneratorSimpleJSON());
+		
+		project.setD3GraphicFile("circle-packing-zoomable/index.html");
 		
 		loadProjectAndRunProcess();
 	}

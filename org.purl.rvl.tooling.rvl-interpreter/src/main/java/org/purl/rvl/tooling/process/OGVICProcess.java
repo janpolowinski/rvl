@@ -41,6 +41,7 @@ public class OGVICProcess {
 	public static int MAX_GRAPHIC_RELATIONS_PER_MAPPING = 5000;
 	public static boolean REGENERATE_AVM = true;
 	public static boolean WRITE_AVM = true;
+	public static boolean WRITE_MAPPING_MODEL = false;
 	public static boolean WRITE_JSON = true;
 	
 	// LOCAL FILES AND FOLDER SETTINGS
@@ -48,6 +49,7 @@ public class OGVICProcess {
 	public static final String GEN_MODEL_FILE_FOLDER = "../org.purl.rvl.tooling.rvl-interpreter/gen"; // new
 	public static final String GEN_MODEL_FILE_FOLDER_D3_JSON = "../org.purl.rvl.tooling.d3vis/gen/json";
 	protected static final String TMP_RVL_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempRvl.ttl";
+	protected static final String TMP_MAPPING_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempMappingModel.ttl";
 	public static final String TMP_AVM_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempAVM.ttl";
 	public static final String D3_HTML_FOLDER_NAME = "../org.purl.rvl.tooling.d3vis/gen/html";
 	private static final String D3_EXAMPLE_GRAPHICS_FOLDER_NAME = "../org.purl.rvl.tooling.d3vis/examples";;
@@ -66,15 +68,18 @@ public class OGVICProcess {
 	// OTHER MEMBERS
 	ModelBuilder modelBuilder;
 
+	//protected VisProject currentProject; // TODO always use settings from project directly?
 	//protected static FakeRVLInterpreter avmBuilder;
 	protected D3Generator d3Generator;
 	protected RVLInterpreter rvlInterpreter;
-	
+	protected String d3GraphicFile;
+
 	private final  FileRegistry ontologyFileRegistry = new FileRegistry("ontology files"); // RVL, VISO_GRAPHIC ,...
 	private final  FileRegistry dataFileRegistry = new FileRegistry("data files"); // DATA
 	private final  FileRegistry mappingFileRegistry = new FileRegistry("mapping files"); // Mapping files (each interpreted as a mapping set)
 	
 	private boolean writeAVM = WRITE_AVM;
+	private boolean writeMappingModel = WRITE_MAPPING_MODEL;
 	private Reasoning reasoningDataModel = Reasoning.rdfs;
 
 
@@ -93,7 +98,7 @@ public class OGVICProcess {
   	
 		//LOGGER.setLevel(Level.SEVERE); 
 		//LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.SEVERE); 
-		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.INFO);
+		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.FINER);
 
 		
 		// In order to show log entrys of the fine level, we need to create a new handler as well
@@ -196,6 +201,8 @@ public class OGVICProcess {
 	
 	public void loadProject(VisProject project) {
 		
+		//this.currentProject = project; // TODO: think about just referencing a current project instead of copying all settings to the process
+		
 		LOGGER.finest("Clearing internal models (AVM, data, mappings)");
 		
 		modelBuilder.clearMappingAndDataModels();
@@ -242,6 +249,18 @@ public class OGVICProcess {
 			LOGGER.warning("JSON generator was not set, using default one.");
 			setD3Generator(new D3GeneratorDeepLabelsJSON());
 		}
+		
+		// try to get html file for d3 rendering from project
+		if (null != project.getD3GraphicFile()){
+			setD3GraphicFile(project.getD3GraphicFile());
+		} else if (null != d3Generator) {
+			setD3GraphicFile(d3Generator.getDefaultD3GraphicFile());
+		} else {
+			LOGGER.severe("D3 html file was not set, using default one.");
+			System.exit(0);
+		}
+			
+			
 	}
 
 	private Model readAVMFromFile(ModelBuilder modelBuilder) {
@@ -251,7 +270,7 @@ public class OGVICProcess {
 	}
 
 	/**
-	 * Saves the whole Model to a tmp file 
+	 * Saves the AVM Model to a tmp file 
 	 * TODO: does not currently filter out non-avm triples!
 	 */
 	public void writeAVMToFile() {
@@ -270,12 +289,33 @@ public class OGVICProcess {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Saves the mapping model to a tmp file 
+	 */
+	public void writeMappingModelToFile() {
+	
+		try {
+			String fileName = OGVICProcess.TMP_MAPPING_MODEL_FILE_NAME;
+			FileWriter writer = new FileWriter(fileName);
+			
+			getModelMappings().writeTo(writer, Syntax.Turtle);
+			writer.flush();
+			writer.close();
+			
+			LOGGER.info("Mapping model written to " + fileName + " as Turtle");
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void runOGVICProcess(){
 		interpreteRVL2AVM();	
 		transformAVMToD3();
 		populateD3HTMLFolder();
 		if (isWriteAVM()) writeAVMToFile();
+		if (isWriteMappingModel()) writeMappingModelToFile();
 	}
 
 	private void interpreteRVL2AVM() {
@@ -297,7 +337,7 @@ public class OGVICProcess {
 
 	private void populateD3HTMLFolder() {
 
-		File originLocation = new File (D3_EXAMPLE_GRAPHICS_FOLDER_NAME + "/" + d3Generator.getDefaultD3GraphicFile());
+		File originLocation = new File (D3_EXAMPLE_GRAPHICS_FOLDER_NAME + "/" + getD3GraphicFile());
 		File targetLocation = new File (D3_HTML_FOLDER_NAME + "/index.html");
 		
 		try {
@@ -376,6 +416,10 @@ public class OGVICProcess {
 		return this.writeAVM;
 	}
 
+	private boolean isWriteMappingModel() {
+		return this.writeMappingModel;
+	}
+
 	/**
 	 * @param writeAVM the writeAVM to set
 	 */
@@ -399,6 +443,13 @@ public class OGVICProcess {
 		return GEN_MODEL_FILE_FOLDER_D3_JSON + "/" + d3Generator.getGenJSONFileName();
 	}
 
+	public String getD3GraphicFile() {
+		return d3GraphicFile;
+	}
+
+	public void setD3GraphicFile(String d3GraphicFile) {
+		this.d3GraphicFile = d3GraphicFile;
+	}
 
 
 }

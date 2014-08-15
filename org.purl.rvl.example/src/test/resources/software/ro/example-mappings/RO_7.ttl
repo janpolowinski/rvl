@@ -1,0 +1,36 @@
+@prefix :        <http://purl.org/viso/example/ro/> .
+@prefix commons:  <http://purl.org/viso/shape/commons/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ro:      <http://purl.org/ro/ont#> .
+@prefix common-shapes:  <http://purl.org/viso/shape/commons/> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix semvis-example:  <http://purl.org/ro/semvis-example/> .
+@prefix viso-graphic:  <http://purl.org/viso/graphic/> .
+@prefix vg:  	<http://purl.org/viso/graphic/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+rvl:valueMapping
+      rdfs:domain rvl:PropertyMapping .
+
+:     rdf:type owl:Ontology ;
+      owl:imports semvis-example: , commons: , <http://purl.org/ro/ont> , rvl: .
+      
+
+# why is this required? since OWL reasoning should handle merging refinesTo and isRefinementOf
+:IsRefinementOfToContainment
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rdfs:label "PM from ro:isRefinementOf to Containment"^^xsd:string ;
+      rvl:sourceProperty ro:isRefinementOf ;
+      rvl:invertSourceProperty "true"^^xsd:boolean ;
+      rvl:targetObjToObjRelation viso-graphic:Containment_Relation ;
+      .
+      
+:RefinesToToContainment
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rdfs:label "PM from ro:isRefinementOf to Containment"^^xsd:string ;
+      rvl:sourceProperty ro:refinesTo ;
+      rvl:targetObjToObjRelation viso-graphic:Containment_Relation ;
+      .

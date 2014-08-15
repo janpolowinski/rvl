@@ -31,3 +31,38 @@
       rvl:targetAttribute
               vg:text_value ;
       .
+      
+      
+      
+##### EXTRA ######
+
+## not yet supported:
+#:TextIdentityMapping
+#	 rvl:subMapping [
+#       rvl:subMapping-onRole ????;
+#       rvl:subMapping-onTriplePart rdf:subject;
+#       rvl:subMapping-mapping :Population2Width;
+#     ]
+#     .
+
+  
+      
+:Population2Width
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+ 	  rvl:sourceProperty rexd:population ;
+ 	  rvl:targetAttribute vg:width ;
+ 	  rvl:valueMapping [
+	    a rvl:ValueMapping ;
+	    rvl:sourceValueInterval [
+	        a rvl:Interval;
+	        rvl:upperBoundIncl "250";
+	        rvl:lowerBoundIncl "0";
+	    ];
+	    rvl:targetValueInterval [
+	        a rvl:Interval;
+	        rvl:upperBoundIncl "50";
+	        rvl:lowerBoundIncl "8";
+	    ];
+	  ];
+      .

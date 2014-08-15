@@ -1,0 +1,63 @@
+# Saved by TopBraid on Sat May 25 19:43:31 CEST 2013
+# baseURI: http://purl.org/rvl/example-mappings/
+# imports: http://purl.org/rvl/
+
+@prefix :        <http://purl.org/rvl/example-mappings/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rexm:    <http://purl.org/rvl/example-mappings/> .
+@prefix rexd:    <http://purl.org/rvl/example-data/> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix vg:    <http://purl.org/viso/graphic/> .
+@prefix common-shapes:    <http://purl.org/viso/shape/commons/> .
+
+:     rdf:type owl:Ontology ;
+      owl:imports rvl: , rexd: ,common-shapes: .
+      
+
+
+ 
+ 
+ :PartOf2Containment
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
+      rvl:sourceProperty rexd:partOf ;
+      rvl:invertSourceProperty "true"^^xsd:boolean ;
+      rvl:targetObjToObjRelation vg:Containment_Relation ; 
+      .
+
+
+:ColorNamedMapping
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:population ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueInterval [
+			a rvl:Interval;
+			rvl:upperBoundIncl "1000";
+			rvl:lowerBoundIncl "0";
+		];
+		rvl:targetValueList (
+			vg:Red vg:Orange vg:Yellow
+		);
+      ]
+      .
+      
+:ShapeNamedMapping
+      rvl:disabled "false"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:partOf ;
+      rvl:targetAttribute vg:shape_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Europe;
+        rvl:targetValue common-shapes:CircleP;
+      ],[
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Asia;
+        rvl:targetValue common-shapes:Star18;
+      ]
+      .

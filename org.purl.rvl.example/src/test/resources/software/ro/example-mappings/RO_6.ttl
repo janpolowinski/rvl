@@ -17,7 +17,8 @@ rvl:valueMapping
 :     rdf:type owl:Ontology ;
       owl:imports semvis-example: , commons: , <http://purl.org/ro/ont> , rvl: .
       
- :RO-4b-Ampel
+:RO-4b-Ampel
+      rvl:disabled "false"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rdfs:label "RO-4b-Ampel"^^xsd:string ;
       rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
@@ -39,7 +40,8 @@ rvl:valueMapping
       . 
   
   
-  :ShapeMapping
+:ShapeMapping
+      rvl:disabled "false"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rdfs:label "Shape mapping"^^xsd:string ;
       rvl:sourceProperty rdf:type ;
@@ -54,6 +56,7 @@ rvl:valueMapping
       .
 
 :IsRefinementOfToLinkingDirected
+      rvl:disabled "false"^^xsd:boolean ;
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
       rdfs:label "PM from ro:isRefinementOf to Linking Directed"^^xsd:string ;
       rvl:sourceProperty ro:isRefinementOf ;
@@ -70,6 +73,7 @@ rvl:valueMapping
       . 
       
 :IsInConflictWithToLinkingDirected
+      rvl:disabled "false"^^xsd:boolean ;
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
       rdfs:label "PM from ro:isInConflictWith to Linking Directed"^^xsd:string ;
       rvl:sourceProperty ro:isInConflictWith ;
@@ -88,6 +92,7 @@ rvl:valueMapping
       
 # order a bit misused here, better use single vms
 :PMfromID2ColorNamed
+      rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rdfs:label "PM from ID to color 2 (used as a submapping above)"^^xsd:string ;
  	  rvl:sourceProperty rdf:ID ;
@@ -126,14 +131,23 @@ rvl:valueMapping
       . 
       
 :IconLabelMappingForHasResponseTime
+      rvl:disabled "false"^^xsd:boolean ;
       a rvl:PropertyToGraphicObjToObjRelationMapping ;
       rvl:sourceProperty ro:hasResponseTime ;
-      #rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
+      rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
       rvl:targetObjToObjRelation vg:Labeling_Relation ; 
       rvl:subMapping [
         rvl:subMapping-onRole vg:labeling_label;
         rvl:subMapping-onTriplePart rdf:subject;
         rvl:subMapping-mapping :IconShapeMapping;
+      ],[
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :TextLabelingOfLabel;
+      ],[
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :PMfromType2LabelWidth;
       ]
       .
       
@@ -141,41 +155,21 @@ rvl:valueMapping
       a rvl:PropertyMapping ;
       rvl:disabled "true";
       rvl:sourceProperty rdf:type ;
-      rvl:targetAttribute
-              <http://purl.org/viso/graphic/shape_named> ;
+      rvl:targetAttribute vg:shape_named ;
       rvl:valueMapping [
       	a rvl:valueMapping;
       	rvl:sourceValue ro:Requirement;
       	rvl:targetValue common-shapes:Clock;
       ]
       .
-      
-:TextLabelMappingForHasResponseTime
-	  a rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:sourceProperty ro:hasResponseTime ;
-      #rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
-      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
-      rvl:subMapping [
-        rvl:subMapping-onRole vg:labeling_label;
-        rvl:subMapping-onTriplePart rdf:subject;
-        rvl:subMapping-mapping :LabelTimeValueIdentityMapping;
-      ]
-      .
-      
-:LabelTimeValueIdentityMapping
-	  rvl:disabled "true"^^xsd:boolean ;
-      a rvl:IdentityMapping ;
-      rvl:sourceProperty ro:hasResponseTime ;
-      rvl:targetAttribute
-              vg:text_value ;
-      . 
      
-#### Labeling could become a default .... ####     
+     
+#### Simple Labeling is a default now, but we want to define the labeling style and position ... ####     
       
 :TextLabelMapping
 	  rvl:disabled "false"^^xsd:boolean ;
       a rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:sourceProperty rdf:type ;
+      rvl:sourceProperty rdf:ID ;
       rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
       rvl:targetObjToObjRelation vg:Labeling_Relation ; 
       rvl:subMapping
@@ -200,16 +194,14 @@ rvl:valueMapping
 	  rvl:disabled "true"^^xsd:boolean ;
       a rvl:IdentityMapping ;
       rvl:sourceProperty rvl:label ;
-      rvl:targetAttribute
-              vg:text_value ;
+      rvl:targetAttribute vg:text_value ;
       . 
       
 :TypeToLabelStyleMapping
 	  rvl:disabled "true";
       a rvl:PropertyMapping ;
       rvl:sourceProperty rdf:type ;
-      rvl:targetAttribute
-              vg:labeling_attachedBy ;
+      rvl:targetAttribute vg:labeling_attachedBy ;
       rvl:valueMapping [
       	a rvl:valueMapping;
       	rvl:sourceValue ro:Requirement;
@@ -219,7 +211,7 @@ rvl:valueMapping
 
 :PMfromType2Width
       rvl:disabled "true"^^xsd:boolean ;
-      rdf:type rvl:PropertyMapping ;
+      a rvl:PropertyMapping ;
       rdfs:label "PM from type to width (used as a submapping above)"^^xsd:string ;
  	  rvl:sourceProperty rdf:type ;
  	  rvl:targetAttribute vg:width ;
@@ -229,4 +221,41 @@ rvl:valueMapping
 		rvl:targetValue "100"^^xsd:float; # create some space for contained labels
       ]
       . 
+      
+:PMfromType2LabelWidth
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rdfs:label "PM from type to width (used as a submapping above)"^^xsd:string ;
+ 	  rvl:sourceProperty rdf:type ;
+ 	  rvl:targetAttribute vg:width ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:sourceValue ro:Requirement;
+		rvl:targetValue "20"^^xsd:float;
+      ]
+      . 
 
+##### Labeling of Labels #########
+      
+:TextLabelingOfLabel
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:sourceProperty ro:hasResponseTime ;
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:subMapping 
+      [
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :LabelingTextIdentityMapping;
+      ]
+      .      
+      
+ :LabelingTextIdentityMapping
+	  rvl:disabled "true"^^xsd:boolean ;
+      a rvl:IdentityMapping ;
+      rvl:sourceProperty ro:hasResponseTime ;
+      rvl:targetAttribute
+              vg:text_value ;
+      .
+   
+      

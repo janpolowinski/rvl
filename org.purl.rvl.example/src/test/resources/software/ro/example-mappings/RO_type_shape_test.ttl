@@ -21,7 +21,6 @@ rvl:valueMapping
   
   :ShapeMapping
       a rvl:PropertyMapping ;
-      rdfs:label "Shape mapping"^^xsd:string ;
       rvl:sourceProperty rdf:type ;
       rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
       rvl:targetAttribute

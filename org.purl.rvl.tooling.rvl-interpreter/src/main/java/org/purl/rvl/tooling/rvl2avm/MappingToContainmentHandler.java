@@ -10,7 +10,9 @@ import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.exception.NotImplementedMappingFeatureException;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
+import org.purl.rvl.java.gen.viso.graphic.Object_to_ObjectRelation;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.util.AVMUtils;
 
@@ -27,16 +29,19 @@ public class MappingToContainmentHandler extends MappingToP2GOTORHandler {
 	private final static Logger LOGGER = Logger
 			.getLogger(MappingToContainmentHandler.class.getName());
 
-	public void encodeStatement(Statement statement) throws InsufficientMappingSpecificationException {
+	public void encodeStatement(Statement statement) throws InsufficientMappingSpecificationException, NotImplementedMappingFeatureException {
+		
+		try {
+			statement.getObject().asResource();
+		} catch (ClassCastException e) {
+			throw new NotImplementedMappingFeatureException("Can only handle linking relations where all " +
+					"objects are resources, but " + statement.getObject() + " is probably a Literal.");
+		}
+		
+		logStatementDetails(LOGGER,statement);
 
 		Resource subject = statement.getSubject();
 		Resource object = statement.getObject().asResource();
-		// Node object = statement.getObject();
-
-		LOGGER.finest("Subject label "
-				+ AVMUtils.getGoodNodeLabel(subject, modelAVM));
-		LOGGER.finest("Object label " + AVMUtils.getGoodNodeLabel(object, modelAVM));
-		LOGGER.fine("Statement to be mapped : " + statement);
 
 		// For each statement, create a container GO representing the subject
 		// (if not exists)
@@ -53,7 +58,7 @@ public class MappingToContainmentHandler extends MappingToP2GOTORHandler {
 
 		// generic graphic relation needed for submappings
 		// (could also be some super class of containment ,...)
-		Resource rel = null;
+		Object_to_ObjectRelation rel = null;
 
 		// create the containment relation
 		// Containment dlRel = new Containment(modelAVM, true);

@@ -34,15 +34,11 @@ public class MappingToLabelingHandler extends MappingToP2GOTORHandler {
 	@Override
 	public void encodeStatement(Statement statement)
 			throws InsufficientMappingSpecificationException {
+		
+		logStatementDetails(LOGGER,statement);
 
 		Resource subject = statement.getSubject();
 		Node object = statement.getObject();
-
-		LOGGER.finest("Subject label "
-				+ AVMUtils.getGoodNodeLabel(subject, modelAVM));
-		LOGGER.finest("Object label " + AVMUtils.getGoodNodeLabel(object, modelAVM));
-
-		LOGGER.fine("Statement to be mapped : " + statement);
 
 		// For each statement, create a startNode GO representing the subject
 		// (if not exists)

@@ -1,5 +1,6 @@
 package org.purl.rvl.tooling.query.data;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -14,6 +15,7 @@ import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.java.RDF;
 import org.purl.rvl.java.RVL;
 import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.tooling.process.OGVICProcess;
@@ -185,13 +187,19 @@ public class DataQuery {
 			
 			String selectorSPARQLString = "";
 			
-			if(pm.hasSubjectfilter()) {
+			if (pm.hasSubjectfilter()) {
 				
 				selectorSPARQLString = pm.getSubjectFilterString();
 			
 			}
 			
-			if (onlyMostSpecific) {
+			if (spURI.equals(RDF.ID)) {
+				
+				// in the special case when rdf:ID was used as a source property, we query for a set of triples (<ID>, rdf:type, rdfs:Resource).
+				//statementSet.addAll(DataQuery.findResourceStatements(modelOrModelSet, fromGraph, spURI, selectorSPARQLString)); 
+				statementSet.addAll(DataQuery.findRDFidStatements(modelOrModelSet, fromGraph, selectorSPARQLString)); 
+				
+			} else if (onlyMostSpecific) {
 				
 				 // get only the most specific statements and exclude those using a super-property instead
 				statementSet.addAll(DataQuery.findStatementsPreferingThoseUsingASubProperty(modelOrModelSet, fromGraph, spURI, selectorSPARQLString)); 
@@ -241,6 +249,59 @@ public class DataQuery {
 			
 			return statementSet;
 	}
+	
+	/**
+	 * TODO: directly query for the special statements with the pattern <RESOURCE_URI> rdf:ID <RESOURCE_URI>
+	 * 
+	 * @param modelOrModelSet
+	 * @param fromGraph
+	 * @param selectorSPARQLString
+	 * @return a collection of statements following the pattern <RESOURCE_URI> rdf:ID <RESOURCE_URI>
+	 */
+	private static Collection<? extends Statement> findRDFidStatements(Sparqlable modelOrModelSet, URI fromGraph,
+			String selectorSPARQLString) {
+
+		Set<Statement> stmtSet = new HashSet<Statement>();
+		
+		try {
+			
+			DataQueryBuilder queryBuilder = new RDFidSPARQLQueryBuilder();
+			queryBuilder.constrainToGraph(fromGraph);
+			queryBuilder.constrainToSubjectBySelector(selectorSPARQLString);
+			String queryString = queryBuilder.buildQuery();
+	
+			LOGGER.fine("Query ID-statements");
+			LOGGER.finest("Query :" + queryString);
+	
+			QueryResultTable explMapResults = modelOrModelSet.sparqlSelect(queryString);
+			
+			for (QueryRow row : explMapResults) {
+				
+				try {
+						
+					Statement stmt = new StatementImpl(
+							fromGraph,
+							row.getValue("s").asURI(),
+							RDF.ID,
+							row.getValue("s").asURI()
+							);
+					
+					LOGGER.finest("build Statement: " + stmt.toString());
+					
+					stmtSet.add(stmt);
+					
+				} catch (ClassCastException e){
+					LOGGER.finer("Skipped statement (blank node casting to URI?): " + e.getMessage());
+				}
+			}
+		
+		} catch (UnsupportedOperationException e){
+			LOGGER.warning("Problem with query to get statements (blank node?): " + e.getMessage());
+		} 
+		
+		return stmtSet;
+	}
+	
 	
 	/**
 	 * Returns all resources from the data graph 

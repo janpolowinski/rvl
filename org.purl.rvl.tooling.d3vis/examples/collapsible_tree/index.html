@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-        <!-- labeling at various positions works, but is cropped (view box bug) in webkit and is slow in firefox (many objects SVG in HTML in SVG ) -->
+    <!-- labeling at various positions works, but is cropped (view box bug) in webkit and is slow in firefox (many objects SVG in HTML in SVG ) -->
   	<meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 	<link type="text/css" rel="stylesheet" href="../../css/main.css"/>
+	<link type="text/css" rel="stylesheet" href="../../css/theme-bright.css"/>
 	<link type="text/css" rel="stylesheet" href="../../css/labeling.css"/>
     <link type="text/css" rel="stylesheet" href="../../css/labeling-new-boxmodel.css"/>
     <link type="text/css" rel="stylesheet" href="../../css/labeling-webkit-old-boxmodel.css"/>
@@ -277,13 +278,9 @@ function update(source) {
 		.attr("id", function(d){
         	return createIDForLink2(d);
     	})
-    	.attr("marker-end", function (d) {
-    			if(d.target.shape_d3_name == "line" || d.target.shape_d3_name == "circle") // TODO: hack. should at least be "default". don't draw marker in this case at all
-            		return "url()";
-    			else 
-    				return "url(#" + d.target.connector.arrow_type + ")";
-            	//return "url(#" + "uml_generalization_arrow" + ")";
-        })
+        .attr("marker-end", function (d) {
+        	return "url(#" + d.target.connector.arrow_type + ")";
+    	})
         ;
 
 		linkEnter.transition().duration(duration).attr("d", diagonal);

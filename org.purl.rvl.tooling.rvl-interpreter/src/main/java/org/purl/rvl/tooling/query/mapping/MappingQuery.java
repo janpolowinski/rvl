@@ -16,6 +16,7 @@ import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMa
 import org.purl.rvl.java.rvl.IdentityMappingX;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
+import org.purl.rvl.java.rvl.ValueMappingX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.query.data.DataQueryBuilder;
 
@@ -43,7 +44,7 @@ public class MappingQuery {
 					"	SELECT ?vm  (COUNT(?sv) AS ?svCount) " + NL + 
 					"       WHERE " + NL + 
 					"       { " + NL + 
-					"	 		  ?vm <" + PropertyToGraphicAttributeMappingX.SOURCEVALUE + "> ?sv  " + NL + 
+					"	 		  ?vm <" + ValueMappingX.SOURCEVALUE + "> ?sv  " + NL + 
 					"       } " + NL + 
 					"        GROUP BY ?vm " + NL + 
 					"	} " + NL + 
@@ -69,7 +70,7 @@ public class MappingQuery {
 	//				"	SELECT ?vm  (COUNT(?sv) AS ?svCount) " +
 	//				"       WHERE " +
 	//				"       { " +
-	//				"	 		  ?vm <" + PropertyToGraphicAttributeMappingX.SOURCEVALUE + "> ?sv  " +
+	//				"	 		  ?vm <" + ValueMappingX.SOURCEVALUE + "> ?sv  " +
 	//				"       } " +
 	//				"        GROUP BY ?vm " +
 	//				"	} " +

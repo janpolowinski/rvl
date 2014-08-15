@@ -18,6 +18,7 @@ import org.purl.rvl.tooling.query.SPARQLQueryBuilder;
 public class DataQueryBuilder extends SPARQLQueryBuilder {
 
 	private Resource subject;
+	private Resource predicate;
 	private Resource object;
 	private URI spURI;
 	private String selectorSPARQLString;
@@ -42,6 +43,10 @@ public class DataQueryBuilder extends SPARQLQueryBuilder {
 	private void constrainToSubjectSPARQL(Resource subject) {
 		query.append(" FILTER (?s = " +  subject.toSPARQL() + ") ");
 	}
+	
+	private void constrainToPredicateSPARQL(Resource predicate) {
+		query.append(" FILTER (?p = " +  predicate.toSPARQL() + ") ");
+	}
 
 	private void constrainToObjectSPARQL(Resource object) {
 		query.append(" FILTER (?o = " +  object.toSPARQL() + ") ");
@@ -62,6 +67,10 @@ public class DataQueryBuilder extends SPARQLQueryBuilder {
 
 	public void constrainToSubject(Resource subject) {
 		this.subject = subject;
+	}
+	
+	public void constrainToPredicate(Resource predicate) {
+		this.predicate = predicate;
 	}
 
 	public void constrainToObject(Resource object) {
@@ -222,8 +231,9 @@ public class DataQueryBuilder extends SPARQLQueryBuilder {
 										spoVarTripleSPARQL();
 		if (null!=selectorSPARQLString)	selectorSPARQL();
 										statementSPARQL(spURI);
-		if (null!=object) 				constrainToObjectSPARQL(object);
 		if (null!=subject) 				constrainToSubjectSPARQL(subject);
+		if (null!=predicate) 			constrainToPredicateSPARQL(predicate);
+		if (null!=object) 				constrainToObjectSPARQL(object);
 										filterNoReflexiveStatementsSPARQL();
 										//filterOnlyIRIsForSubjectAndObjectSPARQL();
 		if (null!=graphURI) 		closeGraphSPARQL();

@@ -9,6 +9,7 @@ import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
+import org.purl.rvl.java.gen.viso.graphic.Object_to_ObjectRelation;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 
@@ -45,11 +46,20 @@ public interface RVLInterpreter {
 	 */
 	abstract Set<GraphicObjectX> getMainGraphicObjectSet();
 
-	public abstract void applySubmappings(PropertyToGO2ORMappingX p2go2orm, Statement mainStatement, Resource dlRel);
+	public abstract void applySubmappings(PropertyToGO2ORMappingX p2go2orm, Statement mainStatement, Object_to_ObjectRelation graphicRelation);
 
 	public abstract void applyGraphicValueToGOsRepresentingNodesRelatedVia(GraphicAttribute tga, Node tv, Resource mappedNode, Property inheritedBy);
 
 	public abstract void applyGraphicValueToGO(GraphicAttribute tga, Node tv, Node sv, GraphicObjectX go);
+	
+	/**
+	 * Similar to applyGraphicValueToGO(...), but sets parameters of graphic relations rather than attributes of graphic objects
+	 * @param parameterProperty
+	 * @param parameterValue
+	 * @param sourceValue
+	 * @param graphicRelation
+	 */
+	public abstract void applyParameterToGraphicRelation(Resource parameterProperty, Node parameterValue, Node sourceValue, Object_to_ObjectRelation graphicRelation);
 
 	public abstract String createNewInternalID();
 

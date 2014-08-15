@@ -5,7 +5,6 @@ package org.purl.rvl.tooling.rvl2avm;
 
 import java.util.logging.Logger;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
@@ -14,6 +13,7 @@ import org.ontoware.rdf2go.model.node.URI;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.NotImplementedMappingFeatureException;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
+import org.purl.rvl.java.gen.viso.graphic.Object_to_ObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.java.viso.graphic.ShapeX;
@@ -37,28 +37,26 @@ public class MappingToLinkingHandler extends MappingToP2GOTORHandler {
 		try {
 			statement.getObject().asResource();
 		} catch (ClassCastException e) {
-			throw new NotImplementedMappingFeatureException("Can only handle linking relations where all objects are resources, but " + statement.getObject() + " is probably a Literal.");
+			throw new NotImplementedMappingFeatureException("Can only handle linking relations where all " +
+					"objects are resources, but " + statement.getObject() + " is probably a Literal.");
 		}
+		
+		logStatementDetails(LOGGER,statement);
 
 		Resource subject = statement.getSubject();
 		Resource object = statement.getObject().asResource();
-
-		LOGGER.finest("Subject label " + AVMUtils.getGoodNodeLabel(subject, modelAVM));
-		LOGGER.finest("Object label " + AVMUtils.getGoodNodeLabel(object, modelAVM));
-
-		LOGGER.fine("Statement to be mapped : " + statement);
-
+		
 		// For each statement, create a startNode GO representing the subject
 		// (if not exists)
 		GraphicObjectX subjectNode = rvlInterpreter.createOrGetGraphicObject(subject);
-		LOGGER.finest("Created GO for subject: " + subject.toString());
+		LOGGER.finest("Created GO for subject: " + subject);
 
 		// For each statement, create an endNode GO representing the object (if
 		// not exists)
 		// Node object = statement.getObject();
 
 		GraphicObjectX objectNode = rvlInterpreter.createOrGetGraphicObject(object);
-		LOGGER.finest("Created GO for object: " + object.toString());
+		LOGGER.finest("Created GO for object: " + object);
 
 		// create a connector object
 		GraphicObjectX connector = new GraphicObjectX(modelAVM, "http://purl.org/rvl/example-avm/GO_Connector_"
@@ -76,7 +74,7 @@ public class MappingToLinkingHandler extends MappingToP2GOTORHandler {
 		// generic graphic relation needed for submappings
 		// (could also be some super class of directed linking, undirected
 		// linking, containment ,...)
-		Resource rel = null;
+		Object_to_ObjectRelation rel = null;
 
 		// directed linking
 		if (mapping.getTargetGraphicRelation().equals(DirectedLinking.RDFS_CLASS)) {
@@ -131,8 +129,6 @@ public class MappingToLinkingHandler extends MappingToP2GOTORHandler {
 		if (mapping.hasSub_mapping()) {
 
 			if (null != rel) {
-				// DirectedLinking etc need to be subclasses of (n-ary)
-				// GraphicRelation
 				rvlInterpreter.applySubmappings(mapping, statement, rel);
 			} else {
 				LOGGER.warning("Submapping existed, but could not be applied, since no parent graphic relation was provided.");

@@ -62,7 +62,7 @@ var width = 1400,
 	  };
 	  
 	  /* labeling with SVG text FDG */
-	  d3.selection.enter.prototype.avmLabeledFDG = function() {
+	  d3.selection.enter.prototype.avmLabeledFDG = d3.selection.prototype.avmLabeledFDG = function() {
 		  
 		  var text = this
 		  	.append("svg:text")
@@ -138,6 +138,18 @@ var width = 1400,
 			;
 	  };
 	  
+	  /* add label positioning div */
+	  d3.selection.enter.prototype.avmLabelPositioning = function() {
+		  
+		  return this.append("div")
+			.attr("class", function(d){ return "labelContainer " + d.position ;})
+			//.style("height", function(d){return d.parent.width + "px";})
+			//.style("width", function(d){return d.parent.width + "px";})
+			.style("height", function(d){return "100%";})
+			.style("width", function(d){return "100%";})
+			;
+	  };
+	  
 	  
 	  /* labeling with HTML text (version for enter-selection-array) */
 	  d3.selection.enter.prototype.avmLabeledHTMLText = function() {
@@ -149,8 +161,8 @@ var width = 1400,
 			.filter(function(d) { return d.position == "centerCenter" ;})
 			.attr("class", function(d){ return "labelContainer textHTMLLabelContainer " + " " + d.position;})
 			.style("text-align","center")
-			.style("height", function(d){return d.width + "px";})
-			.style("width", function(d){return d.width + "px";})
+			.style("height", function(d){return "100%";}) // use the whole area defined by the labeling base 
+			.style("width", function(d){return "100%";})
 			;
 		  
 		  containerDiv.append("div")
@@ -164,20 +176,12 @@ var width = 1400,
 		  				return textColor;
 		  				})
 					//.style("width", NODE_SIZE + "px") // does only work well for xCenter position
-					.html(function(d){ return d.text_value;});
+					.html(function(d){ return d.text_value_full;});
 		  
 		  return containerDiv;
 	  };
 	  
-	  
-	  /* add label positioning div */
-	  d3.selection.enter.prototype.avmLabelPositioning = function() {
-		  
-		  return this.append("div")
-			.attr("class", function(d){ return "labelContainer " + d.position ;})
-			.style("height", function(d){return d.width + "px";})
-			.style("width", function(d){return d.width + "px";});
-	  };
+	 
 	  
 	  /* labeling with SVG text (version for enter-selection-array) */
 	  d3.selection.enter.prototype.avmLabeledSVGText = function() {
@@ -191,12 +195,11 @@ var width = 1400,
 			.filter(function(d) { return d.position != "centerCenter" ;})
 			.append("svg")
 			.attr("class", "svgLabelText")
-			//.attr("width",100 +"px")
-			//.attr("height",25 +"px")
-			.attr("width", function(d){ return d.width + "px"; }) // are these sizes sensible?
-			.attr("height",function(d){ return d.width + "px"; });
+			.attr("width",0 +"px") // text needs to have width and height = 0 for correct positioning atm
+			.attr("height",0 +"px")
 			//.style("margin-left",-100 + "px")
 			//.style("margin-bottom",-0.2*NODE_SIZE + "px");
+			;
 										
 			// The label and a copy of the label as shadow for better readability
 			//labelContainerSVG.avmLabeledFDG2(function(d){ return d.width; }).attr("class", "nodeLabelShadow");
@@ -213,7 +216,7 @@ var width = 1400,
 				.avmLabelPositioning()
 				.classed("iconLabelContainer",true);
 			
-		containerDiv
+		var innerSVG = containerDiv
 			.filter(function(d) { return d.type === "icon_label" ;})
 			.append("svg")
 			.attr("class", "svgLabelIcon")
@@ -223,11 +226,12 @@ var width = 1400,
 			//.style("margin","0px")
 			
 			.append("svg:g") // translating here allows for using transform two times (for scale, translate. alternative could be use of matrix)
-				.attr("transform", function(d){ return "translate(" + d.width/2 + "," + d.width/2 + ")";})
+				.attr("transform", function(d){ return "translate(" + d.width/2 + "," + d.width/2 + ")";});
 				//.attr("x", function(d){ return (d.width)/2;}) // somehow offers other results than translate
 		        //.attr("y", function(d){ return (d.width)/2;})
+			
 				
-			.append("use")
+			innerSVG.append("use")
 			  .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.shape_d3_name; })
 			  //.attr("xlink:href", function(d) { return "../../svg/symbols.svg#clock"; })
 	   	 	  .attr("class", function(d) { return "label svgSymbol"; })
@@ -241,7 +245,19 @@ var width = 1400,
 // 			.attr("d", avmDefaultSizeLabelSymbolFunction)
 // 			.style("fill", "red")
 //			.attr("transform", function(d){ return "translate(" + labelShapeSize/2 + "," + labelShapeSize/2 + ")";});
+		
+		
+		  // trial: limited support for labeled labels up to 2 levels:
 
+		  innerSVG
+		    .filter(function(d) { return d.labels != null ;})
+			.selectAll(".nodeLabelText")
+			.data(function(d) { return d.labels; }).enter()
+			// TODO: this is a hack to quickly allow text labels CENTER/RIGHT from icon labels
+			.append("svg:g").attr("transform","translate(17,7.5)")
+			.avmLabeledFDG().classed("nodeLabelText label iconLabelText", true)
+			;
+		
 		  return containerDiv;
 	  };
 	   
@@ -291,6 +307,8 @@ var width = 1400,
 	     	.attr("dy", 0)
 		    .text(function(d) { return d.shape_text_value; })
 			.applyGraphicAttributesNonSpatial2SVG()
+			.filter(function (d) { return null != d.width;})
+			.style("font-size", function (d) { return d.width + "px";})
 			;
 	  };
 	  
@@ -331,25 +349,25 @@ var width = 1400,
 	  /* setting the shape by a path object */ // TODO: this also sets color and class node at the moment ; seems broken
 	  d3.selection.prototype.avmProvideMarkerCollection = function() {
 
-	  var defs = this.append("svg:defs");
+		  var defs = this.append("svg:defs");
 	  
-	  defs.selectAll("marker")
-	      .data(["arrow", "uml_generalization_arrow", "arrow_small_triangle"])
-	      .enter().append("svg:marker")
-	      .attr("id", String)
-	      .attr("viewBox", "0 -5 10 10")
-	      .attr("refX", refX)
-	      .attr("refY", refY)
-	      .attr("markerWidth", markerWidth)
-	      .attr("markerHeight", markerHeight)
-	      .attr("orient", "auto")
-	      .append("svg:path")
-		    .attr("markerUnits","userSpaceOnUse") /* seems to have no effect */
-	        .attr("d", "M0,-5L10,0L0,5L0,-5Z");
+		  defs.selectAll("marker")
+		      .data(["arrow", "uml_generalization_arrow", "arrow_small_triangle"])
+		      .enter().append("svg:marker")
+		      .attr("id", String)
+		      .attr("viewBox", "0 -5 10 10")
+		      .attr("refX", refX)
+		      .attr("refY", refY)
+		      .attr("markerWidth", markerWidth)
+		      .attr("markerHeight", markerHeight)
+		      .attr("orient", "auto")
+		      .append("svg:path")
+			    .attr("markerUnits","userSpaceOnUse") /* seems to have no effect */
+		        .attr("d", "M0,-5L10,0L0,5L0,-5Z");
+		  
+		  defs.select("#arrow_small_triangle").select("path").attr("d", "M0,-3L6,0L0,3L0,-3Z");
 	  
-	  defs.select("#arrow_small_triangle").select("path").attr("d", "M0,-3L6,0L0,3L0,-3Z");
-	  
-	  return defs;
+		  return defs;
 	};
 	
 	

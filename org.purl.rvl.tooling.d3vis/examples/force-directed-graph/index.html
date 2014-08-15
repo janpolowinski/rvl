@@ -5,6 +5,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
         <link type="text/css" rel="stylesheet" href="../../css/main.css"/>
+        <link type="text/css" rel="stylesheet" href="../../css/theme-bright.css"/>
         <link type="text/css" rel="stylesheet" href="../../css/labeling.css"/>
         <link type="text/css" rel="stylesheet" href="../../css/labeling-new-boxmodel.css"/>
         <link type="text/css" rel="stylesheet" href="../../css/labeling-webkit-old-boxmodel.css"/>
@@ -99,7 +100,7 @@
         /**************************/	
         
         d3.json("../../gen/json/graph-data.json", function(error, graph) {
-		//d3.json("../../example-data/graph-data-labeling-optional.json", function(error, graph) {
+		//d3.json("../../example-data/graph-data-labeling-advanced.json", function(error, graph) {
 		
 			/*********************************/
 			/* LOCAL ADAPTED PLUGINS         */
@@ -329,7 +330,7 @@
 				nodeEnter
 				.filter(function(d) { return d.labels != null ;})
 				.selectAll(".nodeLabelText")
-				.data(function(d) { return d.labels }).enter()
+				.data(function(d) { return d.labels ; }).enter()
 				.avmLabeledFDG().classed("nodeLabelText label", true);
 				
 			}

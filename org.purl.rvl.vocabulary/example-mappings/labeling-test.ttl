@@ -1,7 +1,3 @@
-# Saved by TopBraid on Sat May 25 19:43:31 CEST 2013
-# baseURI: http://purl.org/rvl/example-mappings/
-# imports: http://purl.org/rvl/
-
 @prefix :        <http://purl.org/rvl/example-mappings/> .
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -18,7 +14,7 @@
       
 
       
-rexm:PMWithExplicitValueMappingsAsBlankNodes
+:IconLabeling
       rvl:disabled "false"^^xsd:boolean ;
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
       rvl:sourceProperty rexd:workingField ;
@@ -33,21 +29,74 @@ rexm:PMWithExplicitValueMappingsAsBlankNodes
         rvl:subMapping-onRole vg:labeling_label;
         rvl:subMapping-onTriplePart rdf:object;
         rvl:subMapping-mapping :LabelColorMapping;
-      ],[
+      ],
+      [
         rvl:subMapping-onRole vg:this; # use role "this" to apply submappings to the n-ary relation itself (not yet part of RVL spec!)
         rvl:subMapping-onTriplePart rdf:object;
         rvl:subMapping-mapping :TypeToLabelStyleMapping;
-      ],[
+      ],
+      [
+        rvl:subMapping-onRole vg:this; # use role "this" to apply submappings to the n-ary relation itself (not yet part of RVL spec!)
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :IDtoLabelPositionMapping;
+      ],
+      [
+        rvl:subMapping-onRole vg:labeling_base;
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :ShapeMapping;
+      ],
+      [
+        rvl:subMapping-onRole vg:labeling_base;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :Type2Width;
+      ],
+      [
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :Type2WidthLabel;
+      ]
+      .
+      
+      
+:TextLabeling
+      rvl:disabled "false"^^xsd:boolean ;
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:subMapping 
+      [
         rvl:subMapping-onRole vg:labeling_label;
         rvl:subMapping-onTriplePart rdf:subject;
         rvl:subMapping-mapping :TextIdentityMapping;
-      ],[
+      ],
+      [
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :LabelColorMapping;
+      ],
+      [
+        rvl:subMapping-onRole vg:this; # use role "this" to apply submappings to the n-ary relation itself (not yet part of RVL spec!)
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :TypeToLabelStyleMapping;
+      ],
+      [
+        rvl:subMapping-onRole vg:this; # use role "this" to apply submappings to the n-ary relation itself (not yet part of RVL spec!)
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :IDtoLabelPositionMapping;
+      ],
+      [
         rvl:subMapping-onRole vg:labeling_base;
         rvl:subMapping-onTriplePart rdf:object;
-        rvl:subMapping-mapping :ShapeMappingToBeUsedAsSubmapping;
+        rvl:subMapping-mapping :ShapeMapping;
+      ],
+      [
+        rvl:subMapping-onRole vg:labeling_base;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :Type2Width;
       ]
       .
 
+#### Submapping used above #####
       
 :IconLabelShapeMapping
       rvl:disabled "true"^^xsd:boolean ;
@@ -69,10 +118,52 @@ rexm:PMWithExplicitValueMappingsAsBlankNodes
       ]
       .   
       
+:TextIdentityMapping
+	  rvl:disabled "true"^^xsd:boolean ;
+      a rvl:IdentityMapping ;
+      #rvl:sourceProperty rdfs:label ;
+      #rvl:sourceProperty rvl:label ;
+      rvl:sourceProperty rvl:IDandTypes ;
+      #rvl:sourceProperty rdf:ID ;
+      rvl:targetAttribute
+              vg:text_value ;
+      .
       
-rexm:LabelColorMapping
+:TypeToLabelStyleMapping
+	  rvl:disabled "true";
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rdf:ID ;
+      rvl:targetAttribute
+              vg:labeling_attachedBy ;
+      rvl:valueMapping [
+      	a rvl:valueMapping;
+		rvl:sourceValue rexd:Science;
+      	rvl:targetValue vg:Containment_Relation;
+      ],
+      [
+      	a rvl:valueMapping;
+      	rvl:sourceValue rexd:Sci-Fi;
+      	rvl:targetValue vg:Superimposition_Relation;
+      ]
+      .    
+      
+:IDtoLabelPositionMapping
+	  rvl:disabled "true";
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rdf:ID ;
+      rvl:targetAttribute
+              vg:labeling_position ; # (not yet part of RVL spec!)
+      rvl:valueMapping 
+      [
+      	a rvl:valueMapping;
+      	rvl:sourceValue rexd:Sci-Fi;
+      	rvl:targetValue vg:CenterLeft;
+      ]
+      .   
+      
+:LabelColorMapping
       rvl:disabled "true"^^xsd:boolean ;
-      rdf:type rvl:PropertyMapping ;
+      a rvl:PropertyMapping ;
       rvl:sourceProperty rdf:ID ;
       rvl:targetAttribute vg:color_named ; 
       rvl:valueMapping [
@@ -86,47 +177,35 @@ rexm:LabelColorMapping
       ]
       .  
       
-:TypeToLabelStyleMapping
-	  rvl:disabled "true";
-      rdf:type rvl:PropertyMapping ;
+:ShapeMapping
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
       rvl:sourceProperty rdf:ID ;
-      rvl:targetAttribute
-              vg:labeling_attachedBy ;
+      rvl:targetAttribute vg:shape_named ; 
       rvl:valueMapping [
-      	a rvl:valueMapping;
-		rvl:sourceValue rexd:Sci-Fi;
-      	rvl:targetValue vg:Containment_Relation;
-      ],
-      [
-      	a rvl:valueMapping;
-      	rvl:sourceValue rexd:Biography;
-      	rvl:targetValue vg:Superimposition_Relation;
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Science;
+        rvl:targetValue common-shapes:Square;
+      ],[
+        a rvl:ValueMapping ;
+		rvl:sourceValue rexd:Biography ;
+        rvl:targetValue common-shapes:Cross;
       ]
-      .
-    
-    
-:TextIdentityMapping
-	  rvl:disabled "true"^^xsd:boolean ;
-      rdf:type rvl:IdentityMapping ;
-      #rvl:sourceProperty rdfs:label ;
-      #rvl:sourceProperty rvl:label ;
-      rvl:sourceProperty rvl:IDandTypes ;
-      #rvl:sourceProperty rdf:ID ;
-      rvl:targetAttribute
-              vg:text_value ;
-      .
+      . 
+
  
+#### EXTRA (NON-LABELING)  ##### 
  
- :Knows2Linking
+:Knows2Linking
       a rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true"^^xsd:boolean ;
       rvl:sourceProperty rexd:knows ;
       rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
       .
 
 
-:PMWithExplicitValueMappingsAsBlankNodesToColorNamed
-      rvl:disabled "false"^^xsd:boolean ;
+:ColorMapping
+      rvl:disabled "true"^^xsd:boolean ;
       a rvl:PropertyMapping ;
       rvl:sourceProperty rexd:workingField ;
       rvl:targetAttribute vg:color_named ; 
@@ -141,19 +220,60 @@ rexm:LabelColorMapping
       ]
       . 
       
-      
-:ShapeMappingToBeUsedAsSubmapping
+:Type2Width
       rvl:disabled "true"^^xsd:boolean ;
       a rvl:PropertyMapping ;
-      rvl:sourceProperty rdf:ID ;
-      rvl:targetAttribute vg:shape_named ; 
-      rvl:valueMapping [
+ 	  rvl:sourceProperty rdf:type ;
+ 	  rvl:targetAttribute vg:width ;
+ 	  rvl:valueMapping [
         a rvl:ValueMapping ;
-		rvl:sourceValue rexd:Sci-Fi;
-        rvl:targetValue common-shapes:Rhomb;
-      ],[
-        a rvl:ValueMapping ;
-		rvl:sourceValue rexd:Biography ;
-        rvl:targetValue common-shapes:Cross;
+        rvl:sourceValue rexd:Person;
+		rvl:targetValue "120"^^xsd:float; # create some space for contained labels
       ]
+      .  
+      
+:Type2WidthLabel
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+ 	  rvl:sourceProperty rdf:type ;
+ 	  rvl:targetAttribute vg:width ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:sourceValue rexd:Person;
+		rvl:targetValue "12"^^xsd:float;
+      ]
+      .  
+      
+##### Labeling of Labels #########
+
+# extend the mapping above by these extra triples to add another sub-mapping ... :
+:IconLabeling
+      rvl:subMapping 
+      [
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :TextLabelingOfLabel;
+      ]
+      .
+      
+:TextLabelingOfLabel
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:sourceProperty rdfs:label ;
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:subMapping 
+      [
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :LabelingTextIdentityMapping;
+      ]
+      .      
+      
+ :LabelingTextIdentityMapping
+	  rvl:disabled "true"^^xsd:boolean ;
+      a rvl:IdentityMapping ;
+      rvl:sourceProperty rdfs:label ;
+      rvl:targetAttribute
+              vg:text_value ;
       . 
+      

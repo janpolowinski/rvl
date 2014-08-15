@@ -17,18 +17,22 @@
 
 :America
       rdf:type :Place ;
-      :partOf :World , "World" .
+      :partOf :World , "World" ;
+      :population "500"^^xsd:int ;
+      .
 
 :Asia
       rdf:type :Place ;
       :partOf :World , "World"^^xsd:string ;
-      rdfs:label "Asia"^^xsd:string .
+      rdfs:label "Asia"^^xsd:string ;
+      .
 
 :Australia
       rdf:type :Place ;
       rdfs:label "Australia (pop.: 100)"^^xsd:string ;
       :partOf :World , "World"@en ;
-      :population "100"^^xsd:int .
+      :population "100"^^xsd:int ;
+      .
       
 :Europe
       rdf:type :Place ;
@@ -45,6 +49,12 @@
 :Biography
       rdf:type :Field ;
       rdfs:label "Biography"^^xsd:string .
+      
+:AutoBiography
+      rdf:type :Field ;
+      rdfs:subClassOf :Biography ;
+      rdfs:label "Auto-Biography"^^xsd:string ;
+      .
 
 :Bob  rdf:type :Author ;
       rdfs:label "Bob"^^xsd:string ;
@@ -62,7 +72,8 @@
       rdfs:label "China (pop.: 1000)"^^xsd:string ;
       :exportsTo :America ;
       :partOf :Asia ;
-      :population "1000"^^xsd:int .
+      :population "1000"^^xsd:int ;
+      .
 
 :Christof
       rdf:type :Author ;
@@ -100,7 +111,9 @@
 :Germany
       rdf:type :Place ;
       :exportsTo :China ;
-      :partOf :Europe .
+      :partOf :Europe ;
+      :population "80"^^xsd:int ;
+      .
 
 :Jan  rdf:type :Person ;
       rdfs:label "Jan"^^xsd:string ;
@@ -126,7 +139,7 @@
 :Lina
       rdf:type :Author ;
       rdfs:label "Lina"^^xsd:string ;
-      :workingField :Biography ;
+      :workingField :AutoBiography ;
       :knows :John ;
       .
 
@@ -157,7 +170,8 @@
       rdf:type :Place ;
       rdfs:label "Spain (pop.: 40)"^^xsd:string ;
       :partOf :Europe ;
-      :population "40"^^xsd:int .
+      :population "40"^^xsd:int ;
+      .
 
 :Susane
       rdf:type :Author ;
@@ -181,7 +195,9 @@
 
 :Turkey
       rdf:type :Place ;
-      :partOf :Asia , :Europe .
+      :partOf :Asia , :Europe ;
+      :population "30"^^xsd:int ;
+      .
 
 :category
       rdf:type rdf:Property , owl:DatatypeProperty ;

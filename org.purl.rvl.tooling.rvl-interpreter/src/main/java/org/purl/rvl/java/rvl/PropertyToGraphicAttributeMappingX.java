@@ -10,8 +10,10 @@ import java.util.logging.Logger;
 
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
+import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.QueryResultTable;
 import org.ontoware.rdf2go.model.QueryRow;
+import org.ontoware.rdf2go.model.Sparqlable;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Node;
@@ -26,6 +28,7 @@ import org.purl.rvl.java.gen.rvl.Valuemapping;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.rvl.mapping.CalculatedValueMapping;
 import org.purl.rvl.tooling.util.AVMUtils;
+import org.purl.rvl.tooling.util.RVLUtils;
 
 
 /**
@@ -42,7 +45,8 @@ public class PropertyToGraphicAttributeMappingX extends
 	static final String NL =  System.getProperty("line.separator");
 	
 	Map<Node, Node> explicitlyMappedValues;
-	Map<Node, Node> calculatedMappedValues;
+	Map<Property,Map<Node, Node>> extendedMappedValuesByExtensionProperty;
+//	Map<Node, Node> calculatedMappedValues;
 
 	public PropertyToGraphicAttributeMappingX(Model model, boolean write) {
 		super(model, write);
@@ -51,13 +55,11 @@ public class PropertyToGraphicAttributeMappingX extends
 	public PropertyToGraphicAttributeMappingX(Model model,
 			Resource instanceIdentifier, boolean write) {
 		super(model, instanceIdentifier, write);
-		// TODO Auto-generated constructor stub
 	}
 
 	public PropertyToGraphicAttributeMappingX(Model model, URI classURI,
 			Resource instanceIdentifier, boolean write) {
 		super(model, classURI, instanceIdentifier, write);
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**
@@ -322,6 +324,36 @@ public class PropertyToGraphicAttributeMappingX extends
 
 	public String toStringSummary() {
 		return AVMUtils.getGoodNodeLabel(this, model);
+	}
+
+	/**
+	 * Returns the extended mapping table offering also tv for subclasses of the sv.
+	 * Values are caches per extension property.
+	 * 
+	 * @param modelSet
+	 * @param property
+	 * @return the extended value mappings for the given extension property
+	 */
+	public Map<Node, Node> getExtendedMappedValues(Sparqlable modelSet, Property property) {
+		
+		if (null == extendedMappedValuesByExtensionProperty) {
+			extendedMappedValuesByExtensionProperty = new HashMap<Property, Map<Node,Node>>();
+		} 
+		
+		if (extendedMappedValuesByExtensionProperty.containsKey(property)) {
+			
+			return extendedMappedValuesByExtensionProperty.get(property);
+			
+		} else {
+			
+			Map<Node, Node> svUriTVuriMap = RVLUtils.extendMappingTable(
+					modelSet, this.getExplicitlyMappedValues(), property );
+			
+			extendedMappedValuesByExtensionProperty.put(property, svUriTVuriMap);
+
+			return svUriTVuriMap;
+		}
+		
 	}
 
 }

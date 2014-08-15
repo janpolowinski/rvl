@@ -8,7 +8,7 @@ body {
 }
 
 /* set to whatever the body-background-color is */
-.svgSymbol {
+.svgSymbol, .packedCircle {
 	stroke: #334;
     stroke-width: 1.5px;
     stroke-opacity: 1;
@@ -26,7 +26,7 @@ body {
   cursor: pointer;
 }
 
-
+circle.node.highlighted.identical, /* Without constraining to circle also labels are highlighted */
 .node.highlighted path,
 .node.highlighted circle {
 	stroke: yellow;
@@ -66,12 +66,12 @@ body {
 }
 
 .node--root {
-  fill: black;
+  /*fill: black;*/
   /*stroke: black;*/
 }
 
 .node--leaf {
-  fill: white;
+  /*#fill: white;*/
 }
 
 /* general labels */
@@ -130,7 +130,7 @@ text.textNode {
   fill: #555;
   font-size: 10px;
   text-anchor: middle;
-  text-shadow: 0 1px 0 #ccc, 1px 0 0 #ccc, -1px 0 0 #ccc, 0 -1px 0 #ccc;
+  /*text-shadow: 0 1px 0 #ccc, 1px 0 0 #ccc, -1px 0 0 #ccc, 0 -1px 0 #ccc;*/
   /*visibility: hidden;*/
 }
 
