@@ -11,27 +11,30 @@
 
 :     rdf:type owl:Ontology ;
       owl:imports rvl: , rexd: ,common-shapes: .
+      
+### testing rdf:ID in P2GAM as submapping and standalone-mapping + testing rdf:ID in a P2GOTORM
 
-:TextIdentityMapping
-      a rvl:IdentityMapping ;
-      rvl:disabled "true"^^xsd:boolean ;
-      
-      #rvl:sourceProperty rdfs:label ;
-      
-      # special relations below will only work when this is used as a sub-mapping by now
-      #rvl:sourceProperty rvl:label ;
-      #rvl:sourceProperty rvl:IDandTypes ;
+:ColorByIDMapping
+      rvl:disabled "false"^^xsd:boolean ;
+      rvl:subjectFilter "http://purl.org/rvl/example-data/Person"^^rvl:classSelector;
+      a rvl:PropertyMapping ;
       rvl:sourceProperty rdf:ID ;
-      
-      rvl:targetAttribute
-              vg:text_value ;
+      rvl:targetAttribute vg:color_named ; 
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:sourceValueOrderedSet (
+			rexd:Bob rexd:Jan rexd:John
+		);
+		rvl:targetValueList (
+			vg:DarkRed
+			vg:DarkGreen
+			vg:Blue
+		);
+      ]
       .
       
-      
-
-
-:LabelColorMapping
-      rvl:disabled "false"^^xsd:boolean ;
+:SimpleColorByIDMapping
+      rvl:disabled "true"^^xsd:boolean ;
       rvl:subjectFilter "http://purl.org/rvl/example-data/Person"^^rvl:classSelector;
       a rvl:PropertyMapping ;
       rvl:sourceProperty rdf:ID ;
@@ -43,4 +46,39 @@
 		rvl:sourceValue rexd:Jan;
         rvl:targetValue vg:Green;
       ]
+      .
+      
+      
+:IconLabeling
+      rvl:disabled "false"^^xsd:boolean ;
+      rvl:subjectFilter "http://purl.org/rvl/example-data/Person"^^rvl:classSelector;
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:sourceProperty rdf:ID ;
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:subMapping 
+      [
+        rvl:subMapping-onRole vg:labeling_label; 
+        rvl:subMapping-onTriplePart rdf:subject;
+        #rvl:subMapping-mapping :SimpleColorByIDMapping;
+        rvl:subMapping-mapping :ColorByIDMapping;
+      ]
+      .
+      
+      
+### testing rdf:ID in IdentityMapping     
+      
+:TextIdentityMapping
+      a rvl:IdentityMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
+      rvl:subjectFilter "http://purl.org/rvl/example-data/Person"^^rvl:classSelector;
+      
+      #rvl:sourceProperty rdfs:label ;
+      
+      # special relations below will only work when this is used as a sub-mapping by now
+      #rvl:sourceProperty rvl:label ;
+      #rvl:sourceProperty rvl:IDandTypes ;
+      rvl:sourceProperty rdf:ID ;
+      
+      rvl:targetAttribute
+              vg:text_value ;
       .

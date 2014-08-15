@@ -195,8 +195,9 @@ public class DataQuery {
 			
 			if (spURI.equals(RDF.ID)) {
 				
-				 // in the special case when rdf:ID was used as a source property, we query for a set of triples (<ID>, rdf:type, rdfs:Resource).
-				statementSet.addAll(DataQuery.findResourceStatements(modelOrModelSet, fromGraph, spURI, selectorSPARQLString)); 
+				// in the special case when rdf:ID was used as a source property, we query for a set of triples (<ID>, rdf:type, rdfs:Resource).
+				//statementSet.addAll(DataQuery.findResourceStatements(modelOrModelSet, fromGraph, spURI, selectorSPARQLString)); 
+				statementSet.addAll(DataQuery.findRDFidStatements(modelOrModelSet, fromGraph, selectorSPARQLString)); 
 				
 			} else if (onlyMostSpecific) {
 				
@@ -249,8 +250,16 @@ public class DataQuery {
 			return statementSet;
 	}
 	
-	private static Collection<? extends Statement> findResourceStatements(Sparqlable modelOrModelSet, URI fromGraph,
-			URI spURI, String selectorSPARQLString) {
+	/**
+	 * TODO: directly query for the special statements with the pattern <RESOURCE_URI> rdf:ID <RESOURCE_URI>
+	 * 
+	 * @param modelOrModelSet
+	 * @param fromGraph
+	 * @param selectorSPARQLString
+	 * @return a collection of statements following the pattern <RESOURCE_URI> rdf:ID <RESOURCE_URI>
+	 */
+	private static Collection<? extends Statement> findRDFidStatements(Sparqlable modelOrModelSet, URI fromGraph,
+			String selectorSPARQLString) {
 
 		Set<Statement> stmtSet = new HashSet<Statement>();
 		
@@ -273,8 +282,8 @@ public class DataQuery {
 					Statement stmt = new StatementImpl(
 							fromGraph,
 							row.getValue("s").asURI(),
-							row.getValue("p").asURI(),
-							row.getValue("o")
+							RDF.ID,
+							row.getValue("s").asURI()
 							);
 					
 					LOGGER.finest("build Statement: " + stmt.toString());
@@ -291,8 +300,9 @@ public class DataQuery {
 		} 
 		
 		return stmtSet;
-		
 	}
+	
+	
 	/**
 	 * Returns all resources from the data graph 
 	 * related to the baseResource via the property relation.
