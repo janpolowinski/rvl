@@ -16,7 +16,6 @@ import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.Variable;
-import org.ontoware.rdf2go.model.node.impl.PlainLiteralImpl;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
@@ -26,7 +25,6 @@ import org.purl.rvl.java.RDF;
 import org.purl.rvl.java.RVL;
 import org.purl.rvl.java.gen.viso.graphic.Color;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
-import org.purl.rvl.java.gen.viso.graphic.GraphicObject;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
 import org.purl.rvl.java.gen.viso.graphic.Object_to_ObjectRelation;
@@ -45,7 +43,6 @@ import org.purl.rvl.java.viso.graphic.ShapeX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.query.data.DataQuery;
 import org.purl.rvl.tooling.util.AVMUtils;
-import org.purl.rvl.tooling.util.ModelUtils;
 import org.purl.rvl.tooling.util.RVLUtils;
 
 /**
@@ -560,17 +557,18 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	}
 
 	/**
-	 * Needs to properly handle other than P2GAMs. Cases for IdentityMappings and P2GOTORs quickly hacked.+
+	 * Called when handling sub-mappings.
+	 * NOTE: Needs to properly handle other than P2GAMs. Cases for IdentityMappings and P2GOTORs quickly hacked.
 	 *  
 	 * @param mainStatement
 	 * @param triplePartURI
 	 * @param goToApplySubmapping
-	 * @param mapping
+	 * @param subMapping
 	 * @throws InsufficientMappingSpecificationException
 	 * @throws MappingException
 	 */
 	public void applyMappingToGraphicObject(Statement mainStatement, URI triplePartURI,
-			GraphicObjectX goToApplySubmapping, PropertyMappingX mapping)
+			GraphicObjectX goToApplySubmapping, PropertyMappingX subMapping)
 			throws InsufficientMappingSpecificationException, MappingException {
 
 		Node sv = null, tv = null;
@@ -589,12 +587,11 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 
 		Resource newSubjectResource = triplePart.asResource();
 		GraphicAttribute tga = null;
-		Property sp = mapping.getSourceProperty();
+		Property sp = subMapping.getSourceProperty();
 
-		if (mapping.isInstanceof(IdentityMappingX.RDFS_CLASS)) { 
+		if (subMapping.isInstanceof(IdentityMappingX.RDFS_CLASS)) { 
 
-			// IdentityMappingX idMapping = (IdentityMappingX) mapping.castTo(IdentityMappingX.class);
-			newSubjectResource = triplePart.asResource();
+			 /*
 
 			tga = GraphicAttribute.getInstance(OGVICProcess.getInstance().getModelAVM(), GraphicObject.TEXTVALUE);
 
@@ -631,12 +628,18 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 					tv = sv = it.next().getObject();
 				}
 			}
+			
+			*/
+			
+			IdentityMappingX idMapping = (IdentityMappingX) subMapping.castTo(IdentityMappingX.class);
+			
+			new IdentityMappingHandler(modelSet, this, modelAVM).encodeStatement(mainStatement, idMapping, goToApplySubmapping, newSubjectResource);
 
 			// end if ID mapping
-		} else if (mapping.isInstanceof(PropertyToGraphicAttributeMappingX.RDFS_CLASS)) {
+		} else if (subMapping.isInstanceof(PropertyToGraphicAttributeMappingX.RDFS_CLASS)) {
 			
 			// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
-			PropertyToGraphicAttributeMappingX p2gam = RVLUtils.tryReplaceWithCashedInstanceForSameURI(mapping, PropertyToGraphicAttributeMappingX.class);
+			PropertyToGraphicAttributeMappingX p2gam = RVLUtils.tryReplaceWithCashedInstanceForSameURI(subMapping, PropertyToGraphicAttributeMappingX.class);
 
 			// when using a cached mapping that was casted to a PropertyMappingX, the explicitlyMappedValues were lost
 			//PropertyToGraphicAttributeMappingX p2gam = (PropertyToGraphicAttributeMappingX) mapping
@@ -688,67 +691,17 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			}
 
 			// end if P2GAM
-		} else if (mapping.isInstanceof(PropertyToGO2ORMappingX.RDFS_CLASS)) {
+		} else if (subMapping.isInstanceof(PropertyToGO2ORMappingX.RDFS_CLASS)) {
 
-			PropertyToGO2ORMappingX p2go2orm = (PropertyToGO2ORMappingX) mapping.castTo(PropertyToGO2ORMappingX.class);
+			PropertyToGO2ORMappingX p2go2orm = (PropertyToGO2ORMappingX) subMapping.castTo(PropertyToGO2ORMappingX.class);
 
 			// TODO: Refactor VISO/RVL: we have to use the generic type Node here since there is a mismatch between the generated types returned by getTargetGraphicRelation and the superclass of Labeling
 			Node targetGraphicRelation = p2go2orm.getTargetGraphicRelation();
 
 			try {
 				if (targetGraphicRelation.equals(Labeling.RDFS_CLASS)) {
-
-					/* // special treatment of rdf:ID seems not to be necessary anymore DELETE SOON
-					
-					if (sp.asURI().equals(RDF.ID)) { 
-
-						sv = triplePart; // TODO ID actually only fine when URIs!
-						// tv = svUriTVuriMap.get(sv);
-
-						// 1. create the label
-						// 2. call the submapping method with the same unchanged statement to set label text_value or
-						// icon_shape etc ...
-
-						// duplicated code ....
-
-						Statement statement = mainStatement;
-
-						// Resource subject = statement.getSubject();
-						Node object = statement.getObject();
-
-						LOGGER.fine("Statement to be mapped : " + statement);
-
-						// create an additional object here, don't reuse existing ones!
-						GraphicObjectX label = new GraphicObjectX(modelAVM, "http://purl.org/rvl/example-avm/GO_Label_"
-								+ this.createNewInternalID(), false);
-						LOGGER.finest("Created new Label-GO for object: " + object.toString());
-						// TODO not created for object in all cases?!
-
-						Labeling rel = new Labeling(modelAVM, "http://purl.org/rvl/example-avm/GR_"
-								+ this.createNewInternalID(), true);
-						rel.setLabel(AVMUtils.getGoodNodeLabel(mapping.getTargetGraphicRelation(), modelAVM));
-
-						// subjectNode.addLabeledwith(rel);
-						goToApplySubmapping.addLabeledwith(rel);
-						rel.setLabelinglabel(label);
-						rel.setLabelingattachedBy(Superimposition.RDFS_CLASS); // passing a node
-																				// here
-						// rel.setLabelingbase(subjectNode);
-						rel.setLabelingbase(goToApplySubmapping);
-
-						// set default shape of icon labels
-						label.setShapenamed(new ShapeX(modelAVM, "http://purl.org/viso/shape/commons/Square", false));
-
-						// submappings
-						if (mapping.hasSub_mapping()) {
-							this.applySubmappings(p2go2orm, statement, rel);
-						}
-
-						// ... end duplicated code
-
-					} else */ 
-					
-					{ // other source properties than rdf:ID
+				
+					/*{ // other source properties than rdf:ID
 						
 						sv = triplePart; // TODO when sp rdf:ID: ID actually only fine when URIs!
 
@@ -772,7 +725,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 
 						Labeling rel = new Labeling(modelAVM, "http://purl.org/rvl/example-avm/LabelingRelation_"
 								+ this.createNewInternalID(), true);
-						rel.setLabel(AVMUtils.getGoodNodeLabel(mapping.getTargetGraphicRelation(), modelAVM));
+						rel.setLabel(AVMUtils.getGoodNodeLabel(subMapping.getTargetGraphicRelation(), modelAVM));
 
 						goToApplySubmapping.addLabeledwith(rel);
 						rel.setLabelinglabel(label);
@@ -783,13 +736,17 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 						label.setShapenamed(new ShapeX(modelAVM, "http://purl.org/viso/shape/commons/Square", false));
 
 						// submappings
-						if (mapping.hasSub_mapping()) {
+						if (subMapping.hasSub_mapping()) {
 							this.applySubmappings(p2go2orm, statement, rel);
 						}
-					}
+					} */
 
-					// recursive does not yet work (no specific treatment of RDF:ID as a source property!)
-					// new MappingToLabelingHandler(modelSet, this, modelAVM).handleP2GOTORMapping(p2go2orm);
+					// OLD: recursive does not yet work (no specific treatment of RDF:ID as a source property!)
+					// after changes this seems to work, but in the labeling test the font size is not the same as before. WHY???
+					// also the RDFID test fails ( but this seems to fail anyway)
+					// passing the goToApplySubmapping it works ... WHY??? It should actually have been retrieved from the cash!?
+					new MappingToLabelingHandler(modelSet, this, modelAVM).encodeStatement(mainStatement, p2go2orm, goToApplySubmapping);
+					sv = triplePart; // TODO when sp rdf:ID: ID actually only fine when URIs!
 
 				} else {
 					throw new MappingException("P2GORM-Submappings other than mappings to Labeling not yet supported.");
@@ -804,8 +761,9 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			throw new MappingException("Submappings other than P2GAM, P2GORM or Identitymappings not yet supported.");
 		}
 
-		if (mapping.isInstanceof(PropertyToGraphicAttributeMappingX.RDFS_CLASS) 
-		 || mapping.isInstanceof(IdentityMappingX.RDFS_CLASS)) {
+		if (subMapping.isInstanceof(PropertyToGraphicAttributeMappingX.RDFS_CLASS) 
+		 //|| subMapping.isInstanceof(IdentityMappingX.RDFS_CLASS)
+		 ) {
 			
 			if (null == tga) {
 				throw new InsufficientMappingSpecificationException("no target graphic attribute set");

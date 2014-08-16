@@ -25,9 +25,6 @@ import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.query.data.DataQuery;
 import org.purl.rvl.tooling.query.mapping.MappingQuery;
-import org.purl.rvl.tooling.util.AVMUtils;
-import org.purl.rvl.tooling.util.ModelUtils;
-import org.purl.rvl.tooling.util.PrintUtils;
 import org.purl.rvl.tooling.util.RVLUtils;
 
 /**
