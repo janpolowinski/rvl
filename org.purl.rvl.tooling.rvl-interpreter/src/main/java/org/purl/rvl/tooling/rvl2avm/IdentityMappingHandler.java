@@ -46,8 +46,7 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 		Node sourceValue = statement.getObject();
 
 		// For each statement, create a startNode GO representing the subject (if not exists)
-		GraphicObjectX subjectNode = rvlInterpreter
-				.createOrGetGraphicObject(subject);
+		GraphicObjectX subjectNode = rvlInterpreter.createOrGetGraphicObject(subject);
 		
 		LOGGER.finest("Created GO for subject: " + subject.toString());
 		

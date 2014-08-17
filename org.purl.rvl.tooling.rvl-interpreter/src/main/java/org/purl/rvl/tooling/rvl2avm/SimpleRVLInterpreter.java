@@ -48,7 +48,6 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			return;
 		}
 		
-		//interpretSimpleP2GArvlMappings();
 		interpretNormalP2GArvlMappings(); 
 		interpretP2GO2ORMappings();
 		interpretIdentityMappings();

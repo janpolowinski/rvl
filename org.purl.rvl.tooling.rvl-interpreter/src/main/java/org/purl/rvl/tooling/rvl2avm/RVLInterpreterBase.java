@@ -571,7 +571,6 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			GraphicObjectX goToApplySubmapping, PropertyMappingX subMapping)
 			throws InsufficientMappingSpecificationException, MappingException {
 
-		Node sv = null, tv = null;
 		Node triplePart;
 
 		if (triplePartURI.equals(RDF.subject)) {
@@ -586,8 +585,6 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 		}
 
 		Resource newSubjectResource = triplePart.asResource();
-		GraphicAttribute tga = null;
-		Property sp = subMapping.getSourceProperty();
 
 		if (subMapping.isInstanceof(IdentityMappingX.RDFS_CLASS)) { 
 
@@ -595,8 +592,24 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			
 			new IdentityMappingHandler(modelSet, this, modelAVM).encodeStatement(mainStatement, idMapping, goToApplySubmapping, newSubjectResource);
 
-			// end if ID mapping
 		} else if (subMapping.isInstanceof(PropertyToGraphicAttributeMappingX.RDFS_CLASS)) {
+			
+			try {
+				
+				// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
+				PropertyToGraphicAttributeMappingX p2gam = RVLUtils.tryReplaceWithCashedInstanceForSameURI(subMapping, PropertyToGraphicAttributeMappingX.class);
+				
+				new MappingToP2GAMHandler(modelSet, this, modelAVM).encodeStatement(mainStatement, p2gam, goToApplySubmapping, newSubjectResource);
+				
+			} catch (MappingException e) {
+				LOGGER.warning("No resources will be affected by sub-mapping " + subMapping.asURI() + " (" + e.getMessage() + ")" );
+			} 
+			
+			
+			// TODO: check if below did the same as handler now does
+			
+			// get mappedValues ohne stmt parameter??
+			/*
 			
 			// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
 			PropertyToGraphicAttributeMappingX p2gam = RVLUtils.tryReplaceWithCashedInstanceForSameURI(subMapping, PropertyToGraphicAttributeMappingX.class);
@@ -648,9 +661,8 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 					return;
 				}
 
-			}
+			} */
 
-			// end if P2GAM
 		} else if (subMapping.isInstanceof(PropertyToGO2ORMappingX.RDFS_CLASS)) {
 
 			PropertyToGO2ORMappingX p2go2orm = (PropertyToGO2ORMappingX) subMapping.castTo(PropertyToGO2ORMappingX.class);
@@ -706,7 +718,6 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 					// also the RDFID test fails ( but this seems to fail anyway)
 					// passing the goToApplySubmapping it works ... WHY??? It should actually have been retrieved from the cash!?
 					new MappingToLabelingHandler(modelSet, this, modelAVM).encodeStatement(mainStatement, p2go2orm, goToApplySubmapping);
-					sv = triplePart; // TODO when sp rdf:ID: ID actually only fine when URIs!
 
 				} else {
 					throw new MappingException("P2GORM-Submappings other than mappings to Labeling not yet supported.");
@@ -716,30 +727,10 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 				throw new MappingException("Problem interpreting submapping " + p2go2orm);
 			}
 
-			// end if P2GORM (e.g. labeling!)
 		} else {
 			throw new MappingException("Submappings other than P2GAM, P2GORM or Identitymappings not yet supported.");
 		}
 
-		if (subMapping.isInstanceof(PropertyToGraphicAttributeMappingX.RDFS_CLASS) 
-		 //|| subMapping.isInstanceof(IdentityMappingX.RDFS_CLASS)
-		 ) {
-			
-			if (null == tga) {
-				throw new InsufficientMappingSpecificationException("no target graphic attribute set");
-			}
-	
-			// if we found a tv for the sv
-			if (null != tv && null != sv) {
-	
-				applyGraphicValueToGO(tga, tv, sv, goToApplySubmapping);
-				// TODO enable again : applyInheritanceOfTargetValue(mapping, mainStatement.getSubject(), tv);
-	
-			} else {
-				LOGGER.finest("Graphic attribute , source or target value was null, couldn't apply graphic value " + tv
-						+ " to the sv " + sv);
-			}
-		}
 	}
 
 	/**
