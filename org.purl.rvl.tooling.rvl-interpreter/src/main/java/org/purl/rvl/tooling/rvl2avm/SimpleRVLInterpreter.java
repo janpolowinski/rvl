@@ -99,7 +99,6 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 //				}
 				else if (p2go2orm.getTargetGraphicRelation().equals(Containment.RDFS_CLASS)) {
 					new MappingToContainmentHandler(modelSet, this, modelAVM).handleP2GOTORMapping(p2go2orm);
-					//LOGGER.info("Ignored Mapping to Containment. Containment not yet implemented");
 				}
 				else  {
 					try {
@@ -111,8 +110,6 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				
 			} catch (MappingException e) {
 				LOGGER.severe("P2GOTOR mappings could not be interpreted: " + e.getMessage());
-			} catch (InsufficientMappingSpecificationException e) {
-				LOGGER.severe("Could not start mapping interpretation: " + e.getMessage());
 			}
 
 		}
@@ -122,7 +119,9 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 
 
 	/**
-	 * Interprets the normal P2GA mappings, i.e. those with need for calculating value mappings. 
+	 * Interprets a normal P2GA mapping with an implicit value mapping and triggers calculating its values.
+	 * TODO: ONLY ONE VALUE MAPPING is currently handled! Therefore, explicit value mappings, which are usually more than one are handled by 
+	 * interpretSimpleP2GAMappings. 
 	 * Creates GO for all affected resources if they don't exist already.
 	 */
 	protected void interpretNormalP2GArvlMappings() {
@@ -147,73 +146,22 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				continue;
 			}
 			
-			interpretNormalP2GArvlMapping(p2gam);
+			LOGGER.info("Interpret P2GAM mapping " + p2gam.toStringSummary() );
+
+			try {
+				
+				new MappingToP2GAMHandler(modelSet, this, modelAVM).handleP2GAMMapping(p2gam);
+				
+			} catch (MappingException e) {
+				LOGGER.warning("No resources will be affected by mapping " + p2gam.asURI() + " (" + e.getMessage() + ")" );
+			} 
+
 		}
 
 		LOGGER.fine("The size of the Resource-to-GraphicObjectX map is " + resourceGraphicObjectMap.size()+".");
 		
 	}
 
-	
-	/**
-	 * Interprets a normal P2GA mapping with an implicit value mapping and triggers calculating its values. 
-	 * ONLY ONE VALUE MAPPING is currently handled! Therefore, explicit value mappings, which are usually more than one are handled by 
-	 * interpretSimpleP2GAMappings.
-	 * Creates GO for all affected resources if they don't exist already.
-	 * @param p2gam 
-	 */
-	protected void interpretNormalP2GArvlMapping(PropertyToGraphicAttributeMappingX p2gam) {
-
-		LOGGER.info("Interpret P2GAM mapping " + p2gam.toStringSummary() );
-
-		try {
-			
-			GraphicAttribute tga = p2gam.getTargetAttribute();
-
-		    // get a statement set 
-		    Set<Statement> stmtSet = DataQuery.findRelationsOnInstanceOrClassLevel(
-		    		modelSet,
-		    		OGVICProcess.GRAPH_DATA,
-		    		(PropertyMappingX) p2gam.castTo(PropertyMappingX.class),
-		    		true,
-		    		null,
-		    		null
-		    		); 
-
-			// get the mapping table SV->TV
-			Map<Node, Node> svUriTVuriMap = p2gam.getCalculatedValues(stmtSet);	
-		    
-		    
-		    // for all statements check whether there is a tv for the sv
-		    for (Iterator<Statement> stmtSetIt = stmtSet.iterator(); stmtSetIt
-					.hasNext();) {
-		    	
-		    	Statement statement = (Statement) stmtSetIt.next();
-		    	
-				// create a GO for each subject of the statement
-			    GraphicObjectX go = createOrGetGraphicObject(statement.getSubject());
-
-		    	Node sv = statement.getObject();
-
-				LOGGER.finest("trying to find and apply value mapping for sv " + sv.toString());
-				
-				// get the target value for the sv
-		    	Node tv = svUriTVuriMap.get(sv);
-		    	
-		    	// if we found a tv for the sv
-		    	if (null != tv) {
-			    	applyGraphicValueToGO(tga, tv, sv, go);	
-			    	
-			    	applyInheritanceOfTargetValue(p2gam, statement.getSubject(), tv);
-		    	}
-		    	
-			}
-		    
-		} catch (InsufficientMappingSpecificationException e) {
-			LOGGER.warning("No resources will be affected by mapping " + p2gam.asURI() + " (" + e.getMessage() + ")" );
-		} 
-			
-	}
 	
 	/**
 	 * Interprets only the simple P2GA mappings, i.e. those without need for calculating value mappings. 

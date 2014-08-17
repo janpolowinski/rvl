@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
-import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.QueryResultTable;
 import org.ontoware.rdf2go.model.QueryRow;
 import org.ontoware.rdf2go.model.Sparqlable;
@@ -44,7 +43,7 @@ public class PropertyToGraphicAttributeMappingX extends
 	private static final long serialVersionUID = 5391124674649010787L;
 	static final String NL =  System.getProperty("line.separator");
 	
-	Map<Node, Node> explicitlyMappedValues;
+	Map<Node, Node> mappedValues;
 	Map<Property,Map<Node, Node>> extendedMappedValuesByExtensionProperty;
 //	Map<Node, Node> calculatedMappedValues;
 
@@ -70,22 +69,22 @@ public class PropertyToGraphicAttributeMappingX extends
 	public Map<Node, Node> getExplicitlyMappedValues(){
 		
 		// check cash ...
-		if (null != explicitlyMappedValues) {
-			LOGGER.fine("Found cached value mappings: " + explicitlyMappedValues);
-			return explicitlyMappedValues;
+		if (null != mappedValues) {
+			LOGGER.fine("Found cached value mappings: " + mappedValues);
+			return mappedValues;
 		} else {
 			LOGGER.fine("Newly calculating value mappings ...");
 		}
 		
 		if (!hasValuemapping()) {
-			explicitlyMappedValues = new HashMap<Node, Node>();
-			return explicitlyMappedValues;
+			mappedValues = new HashMap<Node, Node>();
+			return mappedValues;
 		}
 		
 		// try to get explicit ones
-		if (null == explicitlyMappedValues || explicitlyMappedValues.isEmpty()) {
+		if (null == mappedValues || mappedValues.isEmpty()) {
 						
-			explicitlyMappedValues = new HashMap<Node, Node>();
+			mappedValues = new HashMap<Node, Node>();
 			
 			// TODO get value mappings without using sparql
 			Property_to_Graphic_AttributeMapping thisGen = ( (Property_to_Graphic_AttributeMapping)this.castTo(Property_to_Graphic_AttributeMapping.class));
@@ -103,12 +102,12 @@ public class PropertyToGraphicAttributeMappingX extends
 					Node sv = RDFTool.getSingleValue(model, statement.getObject().asResource(), ValueMappingX.SOURCEVALUE);
 					Node tv = RDFTool.getSingleValue(model, statement.getObject().asResource(), ValueMappingX.TARGETVALUE);
 					
-					explicitlyMappedValues.put(sv,tv);
+					mappedValues.put(sv,tv);
 				}
 				
 				LOGGER.fine("Created value map: " + explicitlyMappedValuesToString());
 				
-				return explicitlyMappedValues;
+				return mappedValues;
 				
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -121,7 +120,7 @@ public class PropertyToGraphicAttributeMappingX extends
 			}
 			catch (UnsupportedOperationException e) {
 				LOGGER.severe("Problem creating the SPARQL representation of the mapping " + this);
-				return explicitlyMappedValues;
+				return mappedValues;
 			}
 			
 			// get all subjects and the sv/tv table via SPARQL // TODO here we take all value mappings with a source and target value, but these may include those with more than one sv/tv value set!
@@ -135,19 +134,19 @@ public class PropertyToGraphicAttributeMappingX extends
 			
 			QueryResultTable explMapResults = model.sparqlSelect(querySubjectsAndSVtoTVMapForGivenProperty);
 			for(QueryRow row : explMapResults) {
-				explicitlyMappedValues.put(row.getValue("sv"),row.getValue("tv"));
+				mappedValues.put(row.getValue("sv"),row.getValue("tv"));
 			}
 			
 			LOGGER.fine("Created value map: " + explicitlyMappedValuesToString());
 		}
 		
 		// when this fails, try to get calculated values
-		if (null == explicitlyMappedValues || explicitlyMappedValues.isEmpty()) {
+		if (null == mappedValues || mappedValues.isEmpty()) {
 			
 			LOGGER.fine("Could not find explicitly stated 1-1 value mappings, will try to calculate value mappings ... "); // TODO check this ...
 			
 			try {
-				explicitlyMappedValues = getCalculatedValues(null); // TODO null OK???
+				mappedValues = getCalculatedValues(null); // TODO null OK???
 			} catch (InsufficientMappingSpecificationException e) {
 				LOGGER.warning("Could not calculate value mappings: " + e.getMessage()); 
 			} catch (Exception e) {
@@ -156,7 +155,7 @@ public class PropertyToGraphicAttributeMappingX extends
 			}
 		}
 
-		return explicitlyMappedValues;
+		return mappedValues;
 		
 		
 		/*
@@ -200,31 +199,47 @@ public class PropertyToGraphicAttributeMappingX extends
 	}
 
 	/**
-	 * Gets a set of explicit value mappings (resource-node-graphic-value-node-pairs) from implicit value mappings.
-	 * TODO: CURRENTLY ONLY ONE VALUE MAPPING IS EVALUATED!
-	 * @param the set of statements that the property mapping currently affects
-	 * @return
+	 * TODO when the affected statements change the mappings need to be recalculated!
+	 * Gets a set of resource-node-graphic-value-node-pairs (possibly calculated from implicit value mappings).
+	 * @return - the set of resource-node-graphic-value-node-pairs as it was calculated the last time the calculation was triggered
 	 * @throws InsufficientMappingSpecificationException 
 	 */
 	public Map<Node, Node> getCalculatedValues(Set<Statement> affectedStatements) throws InsufficientMappingSpecificationException {
 		
-		if ((null == explicitlyMappedValues || explicitlyMappedValues.isEmpty()) && hasValuemapping()) {
+		if ((null == mappedValues || mappedValues.isEmpty()) && hasValuemapping()) {
 
-			explicitlyMappedValues = new HashMap<Node, Node>();
-			
-			// TODO: we ignore other value mapping than the first at the moment! sometimes multiple are allowed!
+			calculateValues(affectedStatements);
+		}
+
+		return mappedValues; 
+	}
+	
+	/**
+	 * @return - the resource-node-graphic-value-node-pairs if they have been calculated before, or null otherwise.
+	 */
+	public Map<Node, Node> getCalculatedValues() {
+
+		return mappedValues; 
+	}
+	
+	/**
+	 * Calculates the resource-node-graphic-value-node-pairs from implicit value mappings
+	 * TODO: CURRENTLY ONLY ONE VALUE MAPPING IS EVALUATED!
+	 * TODO: we ignore other value mapping than the first at the moment! sometimes multiple are allowed!
+	 * @param the set of statements that the property mapping currently affects
+	 * @throws InsufficientMappingSpecificationException 
+	 */
+	public void calculateValues(Set<Statement> affectedStatements) throws InsufficientMappingSpecificationException {
+
+			mappedValues = new HashMap<Node, Node>();
 			
 			Collection<CalculatedValueMapping> cvms = getFirstValueMapping()
 					.getCalculatedValueMappings(affectedStatements, (PropertyMappingX)this.castTo(PropertyMappingX.class));
 			
 			for (Iterator<CalculatedValueMapping> iterator = cvms.iterator(); iterator.hasNext();) {
 				CalculatedValueMapping calculatedValueMapping = (CalculatedValueMapping) iterator.next();
-				explicitlyMappedValues.put(calculatedValueMapping.getSourceValue(),calculatedValueMapping.getTargetValue());
+				mappedValues.put(calculatedValueMapping.getSourceValue(),calculatedValueMapping.getTargetValue());
 			}
-
-		}
-
-		return explicitlyMappedValues;
 	}
 
 	private ValueMappingX getFirstValueMapping() {
@@ -299,17 +314,17 @@ public class PropertyToGraphicAttributeMappingX extends
 
 	public String explicitlyMappedValuesToString() {
 		
-		if (null == this.explicitlyMappedValues) {
-			explicitlyMappedValues = this.getExplicitlyMappedValues();	
+		if (null == this.mappedValues) {
+			mappedValues = this.getExplicitlyMappedValues();	
 		}
 		
 		String s = "";
 
-		if(!explicitlyMappedValues.isEmpty()){
+		if(!mappedValues.isEmpty()){
 
 			s += "Map of explicit source and target values: " + NL;
 			
-			for (Entry<Node, Node> entry : explicitlyMappedValues.entrySet()) {
+			for (Entry<Node, Node> entry : mappedValues.entrySet()) {
 				Node sv = entry.getKey();
 				Node tv = entry.getValue();
 				s += sv + " --> " + tv + NL;
@@ -355,5 +370,7 @@ public class PropertyToGraphicAttributeMappingX extends
 		}
 		
 	}
+
+
 
 }

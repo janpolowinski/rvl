@@ -591,46 +591,6 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 
 		if (subMapping.isInstanceof(IdentityMappingX.RDFS_CLASS)) { 
 
-			 /*
-
-			tga = GraphicAttribute.getInstance(OGVICProcess.getInstance().getModelAVM(), GraphicObject.TEXTVALUE);
-
-			if (sp.asURI().toString().equals(RVL.LABEL)) {
-
-				// special treatment of the source property rvl:label (will use rdfs:label or use the local name for
-				// URIs instead)
-				tv = sv = new PlainLiteralImpl(AVMUtils.getGoodNodeLabel(newSubjectResource, modelData));
-
-			} else if (sp.asURI().toString().equals(RVL.ID_AND_TYPES)) {
-
-				String types = "";
-				Set<Resource> typesSet = ModelUtils.getTypes(modelData, newSubjectResource);
-
-				if (typesSet.isEmpty()) {
-					types = " (untyped)";
-				} else {
-					for (Resource resource : typesSet) {
-						types += " : " + AVMUtils.getGoodNodeLabel(resource, modelData);
-					}
-				}
-
-				// special treatment of the source property rvl:IDandTypes
-				tv = sv = new PlainLiteralImpl(AVMUtils.getGoodNodeLabel(newSubjectResource, modelData) + types);
-
-			} else {
-
-				// for all other source properties
-
-				ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, newSubjectResource,
-						sp.asURI(), Variable.ANY);
-
-				if (it.hasNext()) {
-					tv = sv = it.next().getObject();
-				}
-			}
-			
-			*/
-			
 			IdentityMappingX idMapping = (IdentityMappingX) subMapping.castTo(IdentityMappingX.class);
 			
 			new IdentityMappingHandler(modelSet, this, modelAVM).encodeStatement(mainStatement, idMapping, goToApplySubmapping, newSubjectResource);
@@ -792,6 +752,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	 * @param tv
 	 * @throws InsufficientMappingSpecificationException
 	 */
+	@Override
 	public void applyInheritanceOfTargetValue(PropertyToGraphicAttributeMappingX p2gam, Resource baseResource, Node tv)
 			throws InsufficientMappingSpecificationException {
 
