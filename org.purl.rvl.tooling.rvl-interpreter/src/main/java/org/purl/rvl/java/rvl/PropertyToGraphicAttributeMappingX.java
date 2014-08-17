@@ -43,9 +43,15 @@ public class PropertyToGraphicAttributeMappingX extends
 	private static final long serialVersionUID = 5391124674649010787L;
 	static final String NL =  System.getProperty("line.separator");
 	
-	Map<Node, Node> mappedValues;
-	Map<Property,Map<Node, Node>> extendedMappedValuesByExtensionProperty;
-//	Map<Node, Node> calculatedMappedValues;
+	private Map<Node, Node> explicitlyMappedValues;
+	private Map<Node, Node> calculatedMappedValues;
+	private Map<Node, Node> mappedValues;
+	private Map<Property,Map<Node, Node>> extendedMappedValuesByExtensionProperty;
+
+
+	private ValueMappingX getFirstValueMapping() {
+		return (ValueMappingX)this.getAllValuemapping_as().firstValue().castTo(ValueMappingX.class);
+	}
 
 	public PropertyToGraphicAttributeMappingX(Model model, boolean write) {
 		super(model, write);
@@ -62,29 +68,24 @@ public class PropertyToGraphicAttributeMappingX extends
 	}
 	
 	/**
-	 * Creates and returns a map of URIs of all explicitly mapped values 
+	 * TODO: clean up
+	 * TODO: this only needs to be public since it is used in the parameter mapping evaluation, where
+	 * we do not want to calculate over value mappings !?
+	 * Creates and returns a map of URIs of all explicitly mapped values (from 1-1 value mappings)
 	 * and their target graphic values.
 	 * @return
 	 */
 	public Map<Node, Node> getExplicitlyMappedValues(){
-		
-		// check cash ...
-		if (null != mappedValues) {
-			LOGGER.fine("Found cached value mappings: " + mappedValues);
-			return mappedValues;
-		} else {
-			LOGGER.fine("Newly calculating value mappings ...");
-		}
-		
-		if (!hasValuemapping()) {
-			mappedValues = new HashMap<Node, Node>();
-			return mappedValues;
-		}
-		
-		// try to get explicit ones
-		if (null == mappedValues || mappedValues.isEmpty()) {
+
+		if (null == explicitlyMappedValues || explicitlyMappedValues.isEmpty()) {
+			
+			LOGGER.finest("Collecting explicitly mapped values ...");
 						
-			mappedValues = new HashMap<Node, Node>();
+			explicitlyMappedValues = new HashMap<Node, Node>();
+			
+			if (!hasValuemapping()) {
+				return explicitlyMappedValues;
+			}
 			
 			// TODO get value mappings without using sparql
 			Property_to_Graphic_AttributeMapping thisGen = ( (Property_to_Graphic_AttributeMapping)this.castTo(Property_to_Graphic_AttributeMapping.class));
@@ -102,12 +103,12 @@ public class PropertyToGraphicAttributeMappingX extends
 					Node sv = RDFTool.getSingleValue(model, statement.getObject().asResource(), ValueMappingX.SOURCEVALUE);
 					Node tv = RDFTool.getSingleValue(model, statement.getObject().asResource(), ValueMappingX.TARGETVALUE);
 					
-					mappedValues.put(sv,tv);
+					explicitlyMappedValues.put(sv,tv);
 				}
 				
 				LOGGER.fine("Created value map: " + explicitlyMappedValuesToString());
 				
-				return mappedValues;
+				return explicitlyMappedValues;
 				
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -120,7 +121,7 @@ public class PropertyToGraphicAttributeMappingX extends
 			}
 			catch (UnsupportedOperationException e) {
 				LOGGER.severe("Problem creating the SPARQL representation of the mapping " + this);
-				return mappedValues;
+				return explicitlyMappedValues;
 			}
 			
 			// get all subjects and the sv/tv table via SPARQL // TODO here we take all value mappings with a source and target value, but these may include those with more than one sv/tv value set!
@@ -133,30 +134,18 @@ public class PropertyToGraphicAttributeMappingX extends
 					"} ";
 			
 			QueryResultTable explMapResults = model.sparqlSelect(querySubjectsAndSVtoTVMapForGivenProperty);
+			
 			for(QueryRow row : explMapResults) {
-				mappedValues.put(row.getValue("sv"),row.getValue("tv"));
+				explicitlyMappedValues.put(row.getValue("sv"),row.getValue("tv"));
 			}
 			
-			LOGGER.fine("Created value map: " + explicitlyMappedValuesToString());
-		}
-		
-		// when this fails, try to get calculated values
-		if (null == mappedValues || mappedValues.isEmpty()) {
+			LOGGER.fine("Collected the following explicitly mapped values: " + explicitlyMappedValuesToString());
 			
-			LOGGER.fine("Could not find explicitly stated 1-1 value mappings, will try to calculate value mappings ... "); // TODO check this ...
-			
-			try {
-				mappedValues = getCalculatedValues(null); // TODO null OK???
-			} catch (InsufficientMappingSpecificationException e) {
-				LOGGER.warning("Could not calculate value mappings: " + e.getMessage()); 
-			} catch (Exception e) {
-				// TODO remove catch all here!
-				LOGGER.warning("Could neither find explicit nor calculate value mappings (will return empty set): " + e.getMessage()); 
-			}
+		} else {
+			LOGGER.fine("Will use the following cached explicitly mapped values: " + explicitlyMappedValuesToString());
 		}
 
-		return mappedValues;
-		
+		return explicitlyMappedValues;
 		
 		/*
 		// TRIAL WITH COMPLEX SPARQL QUERY: leads to concurrent modification exception wehen GOs are edited:
@@ -199,30 +188,6 @@ public class PropertyToGraphicAttributeMappingX extends
 	}
 
 	/**
-	 * TODO when the affected statements change the mappings need to be recalculated!
-	 * Gets a set of resource-node-graphic-value-node-pairs (possibly calculated from implicit value mappings).
-	 * @return - the set of resource-node-graphic-value-node-pairs as it was calculated the last time the calculation was triggered
-	 * @throws InsufficientMappingSpecificationException 
-	 */
-	public Map<Node, Node> getCalculatedValues(Set<Statement> affectedStatements) throws InsufficientMappingSpecificationException {
-		
-		if ((null == mappedValues || mappedValues.isEmpty()) && hasValuemapping()) {
-
-			calculateValues(affectedStatements);
-		}
-
-		return mappedValues; 
-	}
-	
-	/**
-	 * @return - the resource-node-graphic-value-node-pairs if they have been calculated before, or null otherwise.
-	 */
-	public Map<Node, Node> getCalculatedValues() {
-
-		return mappedValues; 
-	}
-	
-	/**
 	 * Calculates the resource-node-graphic-value-node-pairs from implicit value mappings
 	 * TODO: CURRENTLY ONLY ONE VALUE MAPPING IS EVALUATED!
 	 * TODO: we ignore other value mapping than the first at the moment! sometimes multiple are allowed!
@@ -230,20 +195,114 @@ public class PropertyToGraphicAttributeMappingX extends
 	 * @throws InsufficientMappingSpecificationException 
 	 */
 	public void calculateValues(Set<Statement> affectedStatements) throws InsufficientMappingSpecificationException {
-
-			mappedValues = new HashMap<Node, Node>();
+	
+			calculatedMappedValues = new HashMap<Node, Node>();
 			
 			Collection<CalculatedValueMapping> cvms = getFirstValueMapping()
 					.getCalculatedValueMappings(affectedStatements, (PropertyMappingX)this.castTo(PropertyMappingX.class));
 			
 			for (Iterator<CalculatedValueMapping> iterator = cvms.iterator(); iterator.hasNext();) {
 				CalculatedValueMapping calculatedValueMapping = (CalculatedValueMapping) iterator.next();
-				mappedValues.put(calculatedValueMapping.getSourceValue(),calculatedValueMapping.getTargetValue());
+				calculatedMappedValues.put(calculatedValueMapping.getSourceValue(),calculatedValueMapping.getTargetValue());
 			}
 	}
 
-	private ValueMappingX getFirstValueMapping() {
-		return (ValueMappingX)this.getAllValuemapping_as().firstValue().castTo(ValueMappingX.class);
+	/**
+	 * TODO when the affected statements change the mappings need to be recalculated!
+	 * Gets a set of resource-node-graphic-value-node-pairs (possibly calculated from implicit value mappings).
+	 * @return - the set of resource-node-graphic-value-node-pairs as it was calculated the last time the calculation was triggered
+	 * @throws InsufficientMappingSpecificationException 
+	 */
+	private Map<Node, Node> getCalculatedValues(Set<Statement> affectedStatements) throws InsufficientMappingSpecificationException {
+		
+		if ((null == calculatedMappedValues || calculatedMappedValues.isEmpty()) && hasValuemapping()) {
+
+			calculateValues(affectedStatements);
+		}
+
+		return calculatedMappedValues; 
+	}
+	
+	/**
+	 * @return - the resource-node-graphic-value-node-pairs if they have been calculated before, or null otherwise.
+	 * @throws InsufficientMappingSpecificationException 
+	 */
+	public Map<Node, Node> getCalculatedValues() throws InsufficientMappingSpecificationException {
+
+		return getCalculatedValues(null); 
+	}
+	
+	/**
+	 * Gets a set of all resource-node-graphic-value-node-pairs including the explicitly mapped ones and those
+	 * calculated from implicit value mappings.
+	 * @return - a Map of graphic-values by resource node
+	 * @throws InsufficientMappingSpecificationException 
+	 */
+	public Map<Node, Node> getMappedValues() throws InsufficientMappingSpecificationException{
+		
+		if (null == mappedValues) {
+			
+			LOGGER.fine("Collecting from implicit and explicit value mappings ...");
+			
+			mappedValues = new HashMap<Node, Node>();
+			
+			if (hasValuemapping()) {
+				
+				mappedValues.putAll(getCalculatedValues());
+				mappedValues.putAll(getExplicitlyMappedValues());
+			}
+
+		} else {
+			
+			LOGGER.finest("Will use the following cached mapped values: " + mappedValues);
+		}
+			
+		if (null == calculatedMappedValues || calculatedMappedValues.isEmpty()) {
+			LOGGER.warning("Could neither find explicit mappings nor values be calculated " +
+					"from implicit value mappings (will return empty set)"); 
+		}
+
+		return mappedValues;
+	}
+
+	/**
+	 * Returns the extended mapping table offering also tv for subclasses of the sv.
+	 * Values are caches per extension property.
+	 * 
+	 * @param modelSet
+	 * @param property
+	 * @return the extended value mappings for the given extension property
+	 * @throws InsufficientMappingSpecificationException 
+	 */
+	public Map<Node, Node> getExtendedMappedValues(Sparqlable modelSet, Property property) throws InsufficientMappingSpecificationException {
+		
+		if (null == extendedMappedValuesByExtensionProperty) {
+			extendedMappedValuesByExtensionProperty = new HashMap<Property, Map<Node,Node>>();
+		} 
+		
+		if (extendedMappedValuesByExtensionProperty.containsKey(property)) {
+			
+			return extendedMappedValuesByExtensionProperty.get(property);
+			
+		} else {
+			
+			Map<Node, Node> svUriTVuriMap = RVLUtils.extendMappingTable(
+					modelSet, this.getMappedValues(), property );
+			
+			extendedMappedValuesByExtensionProperty.put(property, svUriTVuriMap);
+	
+			return svUriTVuriMap;
+		}
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.purl.rvl.java.rvl.MappingIF#isDisabled()
+	 */
+	public boolean isDisabled() {
+		if (this.hasDisabled()) {
+			return this.getAllDisabled_as().firstValue();
+		} else return false;
 	}
 
 	public String toStringDetailed(){
@@ -259,24 +318,27 @@ public class PropertyToGraphicAttributeMappingX extends
 		String tgaString = tga.getAllLabel_as().count()>0 ? tga.getAllLabel_as().firstValue() : tga.toString();
 		s += "     Target graphic attribute: " + tgaString + NL ;
 		
-		if(this.hasValuemapping()) {
+		if (this.hasValuemapping()) {
 
-			if(!getExplicitlyMappedValues().isEmpty()){
-				s += explicitlyMappedValuesToString();
-			}
-			else {
-				s += "     (value mappings not yet calculated ...)" + NL;
-				
-				s += "     Value mappings:" + NL;
-				ClosableIterator<Valuemapping> vmIterator = this.getAllValuemapping_as().asClosableIterator();
-				while (vmIterator.hasNext()) {
-					ValueMappingX vm = (ValueMappingX) vmIterator.next().castTo(ValueMappingX.class);
-					s += "" + vm + NL;
+			try {
+				if(!getMappedValues().isEmpty()){
+					//s += mappedValuesToString();
 				}
+			} catch (InsufficientMappingSpecificationException e) {
+				s += "     An insuffiently specified mapping was found." +NL;
+			}
+				
+			s += "     Value mappings:" + NL;
+			
+			ClosableIterator<Valuemapping> vmIterator = this.getAllValuemapping_as().asClosableIterator();
+			
+			while (vmIterator.hasNext()) {
+				ValueMappingX vm = (ValueMappingX) vmIterator.next().castTo(ValueMappingX.class);
+				s += "" + vm + NL;
 			}
 		}
 		else {
-			s += "     (with no explicit value mappings)" + NL;
+			s += "     (with no value mappings)" + NL;
 		}
 		
 		/*
@@ -292,15 +354,6 @@ public class PropertyToGraphicAttributeMappingX extends
 		return s;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.purl.rvl.java.rvl.MappingIF#isDisabled()
-	 */
-	public boolean isDisabled() {
-		if (this.hasDisabled()) {
-			return this.getAllDisabled_as().firstValue();
-		} else return false;
-	}
-
 	public GraphicAttribute getTargetAttribute() throws InsufficientMappingSpecificationException {
 		if (hasTargetattribute()) {
 			return (GraphicAttribute) this.getAllTargetattribute_as().firstValue().castTo(GraphicAttribute.class);
@@ -314,17 +367,17 @@ public class PropertyToGraphicAttributeMappingX extends
 
 	public String explicitlyMappedValuesToString() {
 		
-		if (null == this.mappedValues) {
-			mappedValues = this.getExplicitlyMappedValues();	
+		if (null == this.explicitlyMappedValues) {
+			explicitlyMappedValues = this.getExplicitlyMappedValues();	
 		}
 		
 		String s = "";
 
-		if(!mappedValues.isEmpty()){
+		if (!explicitlyMappedValues.isEmpty()){
 
-			s += "Map of explicit source and target values: " + NL;
+			s += "Map of explicitly mapped source values: " + NL;
 			
-			for (Entry<Node, Node> entry : mappedValues.entrySet()) {
+			for (Entry<Node, Node> entry : explicitlyMappedValues.entrySet()) {
 				Node sv = entry.getKey();
 				Node tv = entry.getValue();
 				s += sv + " --> " + tv + NL;
@@ -340,37 +393,6 @@ public class PropertyToGraphicAttributeMappingX extends
 	public String toStringSummary() {
 		return AVMUtils.getGoodNodeLabel(this, model);
 	}
-
-	/**
-	 * Returns the extended mapping table offering also tv for subclasses of the sv.
-	 * Values are caches per extension property.
-	 * 
-	 * @param modelSet
-	 * @param property
-	 * @return the extended value mappings for the given extension property
-	 */
-	public Map<Node, Node> getExtendedMappedValues(Sparqlable modelSet, Property property) {
-		
-		if (null == extendedMappedValuesByExtensionProperty) {
-			extendedMappedValuesByExtensionProperty = new HashMap<Property, Map<Node,Node>>();
-		} 
-		
-		if (extendedMappedValuesByExtensionProperty.containsKey(property)) {
-			
-			return extendedMappedValuesByExtensionProperty.get(property);
-			
-		} else {
-			
-			Map<Node, Node> svUriTVuriMap = RVLUtils.extendMappingTable(
-					modelSet, this.getExplicitlyMappedValues(), property );
-			
-			extendedMappedValuesByExtensionProperty.put(property, svUriTVuriMap);
-
-			return svUriTVuriMap;
-		}
-		
-	}
-
 
 
 }

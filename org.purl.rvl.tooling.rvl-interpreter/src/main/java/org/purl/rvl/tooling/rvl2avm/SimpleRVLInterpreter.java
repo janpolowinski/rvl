@@ -48,7 +48,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			return;
 		}
 		
-		interpretSimpleP2GArvlMappings();
+		//interpretSimpleP2GArvlMappings();
 		interpretNormalP2GArvlMappings(); 
 		interpretP2GO2ORMappings();
 		interpretIdentityMappings();
@@ -168,7 +168,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	 * Unlike interpretNormalP2GAMappings, multiple VMs are considered.
 	 * Creates GO for all affected resources if they don't exist already.
 	 */
-	protected void interpretSimpleP2GArvlMappings() {
+	/*protected void interpretSimpleP2GArvlMappings() {
 		
 		Set<PropertyToGraphicAttributeMappingX> setOfSimpleP2GAMappings = MappingQuery.getAllP2GAMappingsWithExplicitMappings(modelMappings);
 		
@@ -238,7 +238,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			} 
 			
 		}
-	} 
+	} */
 
 	/**
 	 * Interprets IdentityMappings, i.e. mappings where the source value will be

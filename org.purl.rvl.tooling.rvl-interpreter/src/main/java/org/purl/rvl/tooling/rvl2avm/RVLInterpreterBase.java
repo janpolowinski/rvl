@@ -615,13 +615,13 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 						"Parameter mappings with no value mappings at all are not supported.");
 			}
 
-			Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();
+			Map<Node, Node> svUriTVuriMap = p2gam.getMappedValues();
 
 			if (null == svUriTVuriMap || svUriTVuriMap.isEmpty()) {
-				LOGGER.severe("Could not apply submappings since (explicit or calculated) value mappings were null");
+				LOGGER.severe("Could not apply submappings since mapped values were null");
 				return;
 			} else {
-				LOGGER.finest(p2gam.explicitlyMappedValuesToString());
+				//LOGGER.finest(p2gam.mappedValuesToString());
 			}
 
 			if (sp.asURI().equals(RDF.ID)) { // special treatment of rdf:ID TODO: still necessary?
