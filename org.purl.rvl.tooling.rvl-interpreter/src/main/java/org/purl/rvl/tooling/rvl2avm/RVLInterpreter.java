@@ -1,7 +1,9 @@
 package org.purl.rvl.tooling.rvl2avm;
 
+import java.util.Map;
 import java.util.Set;
 
+import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
@@ -13,6 +15,7 @@ import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.gen.viso.graphic.Object_to_ObjectRelation;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
+import org.purl.rvl.java.rvl.mapping.TupleSourceValueTargetValue;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 
 /**
@@ -67,6 +70,8 @@ public interface RVLInterpreter {
 
 	public abstract void applyInheritanceOfTargetValue(PropertyToGraphicAttributeMappingX p2gam, Resource baseResource, Node tv)
 			throws InsufficientMappingSpecificationException;
+
+	public abstract TupleSourceValueTargetValue<Node, Node> lookUpTvForSv(ClosableIterator<Statement> it, Map<Node, Node> svUriTVuriMap);
 
 
 }

@@ -8,11 +8,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
+import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.MappingException;
@@ -21,6 +23,7 @@ import org.purl.rvl.java.RDF;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
+import org.purl.rvl.java.rvl.mapping.TupleSourceValueTargetValue;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.query.data.DataQuery;
@@ -44,20 +47,15 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 	public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping) throws MappingException {
 		
 		this.mapping = mapping;
-		
-		// validity checking
-		
-		if (!mapping.hasValuemapping()) {
-			throw new InsufficientMappingSpecificationException(
-					"P2GA-mappings with no value mappings at all are not supported.");
-		}
-		
-		GraphicAttribute tga = mapping.getTargetAttribute();
-		if (null == tga) {
-			throw new InsufficientMappingSpecificationException("No target graphic attribute set.");
-		}
 
 	    try {
+	    	
+	    	// validity checking
+			
+			if (!mapping.hasValuemapping()) {
+				throw new InsufficientMappingSpecificationException(
+						"P2GA-mappings with no value mappings at all are not supported.");
+			}
 
 			// get a statement set 
 			Set<Statement> stmtSet = DataQuery.findRelationsOnInstanceOrClassLevel(
@@ -110,20 +108,19 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 			NotImplementedMappingFeatureException, MappingException {
 		
 		Resource subject = statement.getSubject();
-		Node sourceValue = statement.getObject();
 		
-		// create a GO for each subject of the statement
-	    GraphicObjectX go = rvlInterpreter.createOrGetGraphicObject(statement.getSubject());
+		// create a GO for the subject of the statement
+	    GraphicObjectX go = rvlInterpreter.createOrGetGraphicObject(subject);
 	    
-	    LOGGER.finest("Created GO for subject: " + subject.toString());
+	    LOGGER.finest("Created GO for subject: " + subject);
 
-	    encodeStatement(statement, mapping, go, sourceValue);
+	    encodeStatement(statement, mapping, go, subject);
 	}
 	
 
 
 	public void encodeStatement(Statement statement, PropertyToGraphicAttributeMappingX mapping,
-			GraphicObjectX go, Node sourceValue) throws InsufficientMappingSpecificationException {
+			GraphicObjectX go, Resource subjectResource) throws InsufficientMappingSpecificationException {
 		
 		this.mapping = mapping;
 		
@@ -131,46 +128,69 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 		Property sp = mapping.getSourceProperty();
 
 
-		LOGGER.finest("trying to find and apply value mapping for sv " + sourceValue.toString());
+		//LOGGER.finest("trying to find and apply value mapping for sv " + sourceValue.toString());
 		
 		// get the mapping table SV->TV (the calculation of mapped values from data dependent (!) implicit
 		// value mappings must have been triggered before!)
 		Map<Node, Node> svUriTVuriMap = mapping.getMappedValues();	
 		
+		if (null == svUriTVuriMap || svUriTVuriMap.isEmpty()) {
+			LOGGER.severe("Could not apply submappings since no mapped values have been found.");
+			return;
+		}
+		//	else {
+			//LOGGER.finest(mapping.mappedValuesToString());
+		//}
+		
 		// get the target value for the sv
-    	Node tv;
+    	Node targetValue;
+    	Node sourceValue = null;
     	
     	if (sp.asURI().equals(RDF.ID)) { // special treatment of rdf:ID TODO: still necessary?
 
-			tv = svUriTVuriMap.get(sourceValue);
+			sourceValue = svUriTVuriMap.get(subjectResource);
+			targetValue = sourceValue; 
 
 		} else { // other source properties than rdf:ID ...
-			sourceValue = statement.getObject();
-			tv = svUriTVuriMap.get(sourceValue);
-		}
-    	
-    	
-    	// if we found a tv for the sv
-    	if (null != tv) {
-    		
-	    	rvlInterpreter.applyGraphicValueToGO(tga, tv, sourceValue, go);	
-	    	
-	    	rvlInterpreter.applyInheritanceOfTargetValue(mapping, statement.getSubject(), tv);
-    	}
+			
+			// this worked more or less. Code below stems from merging code from evaluating P2GAMs as submappings:
+			//sourceValue = statement.getObject();
+			//targetValue = svUriTVuriMap.get(sourceValue);
+			
+			// this also works for some cases
+			
+			TupleSourceValueTargetValue<Node, Node> svWithItsTv;
+			ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, subjectResource,
+					sp.asURI(), Variable.ANY);
+			
+			LOGGER.severe("Getting Statement iterator for (" + subjectResource + " " + sp.asURI() + " ANY)");
+			
+			try {
 
-		
-		/*
-		// if we found a tv for the sv
-					if (null != tv && null != sv) {
-			
-						applyGraphicValueToGO(tga, tv, sv, goToApplySubmapping);
-						// TODO enable again : applyInheritanceOfTargetValue(mapping, mainStatement.getSubject(), tv);
-			
-					} else {
-						LOGGER.finest("Graphic attribute , source or target value was null, couldn't apply graphic value " + tv
-								+ " to the sv " + sv);
-					}
-					*/
+				// TODO Multiple objects may match a mapped target value. For now only the first match will win!
+				svWithItsTv = rvlInterpreter.lookUpTvForSv(it, svUriTVuriMap);
+				sourceValue = svWithItsTv.sourceValue;
+				targetValue = svWithItsTv.targetValue;
+
+			} catch (Exception e) {
+				LOGGER.fine("Could not get value for source property " + sp + " for object "
+						+ statement.getObject());
+				return;
+			}
+	
+		}
+
+    	// if we found a tv for the sv
+    	if (null != targetValue && null != sourceValue) {
+    		
+	    	rvlInterpreter.applyGraphicValueToGO(tga, targetValue, sourceValue, go);	
+	    	
+	    	// TODO enable again : rvlInterpreter.applyInheritanceOfTargetValue(mapping, statement.getSubject(), tv);
+	    	
+    	} else {
+			LOGGER.fine("Source or target (graphic) value was null, couldn't apply target value " + targetValue
+					+ " to the source value " + sourceValue + ".");
+		}
 		
 	}
 

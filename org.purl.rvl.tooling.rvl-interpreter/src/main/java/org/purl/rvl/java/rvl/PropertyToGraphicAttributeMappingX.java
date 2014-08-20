@@ -358,7 +358,7 @@ public class PropertyToGraphicAttributeMappingX extends
 		if (hasTargetattribute()) {
 			return (GraphicAttribute) this.getAllTargetattribute_as().firstValue().castTo(GraphicAttribute.class);
 		} else 
-			throw new InsufficientMappingSpecificationException();
+			throw new InsufficientMappingSpecificationException("No target graphic attribute set, but this is mandatory.");
 	}
 
 	public Property getSourceProperty() throws InsufficientMappingSpecificationException {

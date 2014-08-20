@@ -599,69 +599,18 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 				// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
 				PropertyToGraphicAttributeMappingX p2gam = RVLUtils.tryReplaceWithCashedInstanceForSameURI(subMapping, PropertyToGraphicAttributeMappingX.class);
 				
-				new MappingToP2GAMHandler(modelSet, this, modelAVM).encodeStatement(mainStatement, p2gam, goToApplySubmapping, newSubjectResource);
+				if (!p2gam.hasValuemapping()) {
+					throw new InsufficientMappingSpecificationException(
+							"P2GA-mappings with no value mappings at all are not supported.");
+				}
+				
+				new MappingToP2GAMHandler(modelSet, this, modelAVM)
+					.encodeStatement(mainStatement, p2gam, goToApplySubmapping, newSubjectResource);
 				
 			} catch (MappingException e) {
 				LOGGER.warning("No resources will be affected by sub-mapping " + subMapping.asURI() + " (" + e.getMessage() + ")" );
 			} 
-			
-			
-			// TODO: check if below did the same as handler now does
-			
-			// get mappedValues ohne stmt parameter??
-			/*
-			
-			// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
-			PropertyToGraphicAttributeMappingX p2gam = RVLUtils.tryReplaceWithCashedInstanceForSameURI(subMapping, PropertyToGraphicAttributeMappingX.class);
 
-			// when using a cached mapping that was casted to a PropertyMappingX, the explicitlyMappedValues were lost
-			//PropertyToGraphicAttributeMappingX p2gam = (PropertyToGraphicAttributeMappingX) mapping
-			//		.castTo(PropertyToGraphicAttributeMappingX.class);
-
-			tga = p2gam.getTargetAttribute();
-
-			// get the subproperties as subjects of the new mapping --> do this in the calculation of value mappings
-			// instead
-
-			if (!p2gam.hasValuemapping()) {
-				throw new InsufficientMappingSpecificationException(
-						"Parameter mappings with no value mappings at all are not supported.");
-			}
-
-			Map<Node, Node> svUriTVuriMap = p2gam.getMappedValues();
-
-			if (null == svUriTVuriMap || svUriTVuriMap.isEmpty()) {
-				LOGGER.severe("Could not apply submappings since mapped values were null");
-				return;
-			} else {
-				//LOGGER.finest(p2gam.mappedValuesToString());
-			}
-
-			if (sp.asURI().equals(RDF.ID)) { // special treatment of rdf:ID TODO: still necessary?
-
-				sv = triplePart; // TODO ID actually only fine when URIs!
-				tv = svUriTVuriMap.get(sv);
-
-			} else { // other source properties than rdf:ID ...
-
-				TupleSourceValueTargetValue<Node, Node> svWithItsTv;
-				ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, newSubjectResource,
-						sp.asURI(), Variable.ANY);
-
-				try {
-
-					// TODO Multiple objects may match a mapped target value. For now only the first match will win!
-					svWithItsTv = lookUpTvForSv(it, svUriTVuriMap);
-					sv = svWithItsTv.sourceValue;
-					tv = svWithItsTv.targetValue;
-
-				} catch (Exception e) {
-					LOGGER.severe("Could not get value for source property " + sp + " for object "
-							+ mainStatement.getObject());
-					return;
-				}
-
-			} */
 
 		} else if (subMapping.isInstanceof(PropertyToGO2ORMappingX.RDFS_CLASS)) {
 
@@ -782,6 +731,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	 * @param svUriTVuriMap
 	 * @return a tuple of a source and target value or null if no source value matching a target value was found
 	 */
+	@Override
 	public TupleSourceValueTargetValue<Node, Node> lookUpTvForSv(ClosableIterator<Statement> it,
 			Map<Node, Node> svUriTVuriMap) {
 
