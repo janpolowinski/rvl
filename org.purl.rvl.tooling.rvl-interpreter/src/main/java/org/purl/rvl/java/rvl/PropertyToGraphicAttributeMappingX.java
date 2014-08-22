@@ -1,8 +1,10 @@
 package org.purl.rvl.java.rvl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -26,6 +28,7 @@ import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Valuemapping;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.rvl.mapping.CalculatedValueMapping;
+import org.purl.rvl.tooling.query.mapping.MappingQuery;
 import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.RVLUtils;
 
@@ -75,7 +78,7 @@ public class PropertyToGraphicAttributeMappingX extends
 	 * and their target graphic values.
 	 * @return
 	 */
-	public Map<Node, Node> getExplicitlyMappedValues(){
+	public Map<Node, Node> getExplicitlyMappedValues() {
 
 		if (null == explicitlyMappedValues || explicitlyMappedValues.isEmpty()) {
 			
@@ -83,7 +86,7 @@ public class PropertyToGraphicAttributeMappingX extends
 						
 			explicitlyMappedValues = new HashMap<Node, Node>();
 			
-			if (!hasValuemapping()) {
+			if (!hasExplicitValueMapping()) {
 				return explicitlyMappedValues;
 			}
 			
@@ -238,7 +241,7 @@ public class PropertyToGraphicAttributeMappingX extends
 	 * @return - a Map of graphic-values by resource node
 	 * @throws InsufficientMappingSpecificationException 
 	 */
-	public Map<Node, Node> getMappedValues() throws InsufficientMappingSpecificationException{
+	public Map<Node, Node> getMappedValues() throws InsufficientMappingSpecificationException {
 		
 		if (null == mappedValues) {
 			
@@ -277,6 +280,7 @@ public class PropertyToGraphicAttributeMappingX extends
 	public Map<Node, Node> getExtendedMappedValues(Sparqlable modelSet, Property property) throws InsufficientMappingSpecificationException {
 		
 		if (null == extendedMappedValuesByExtensionProperty) {
+			
 			extendedMappedValuesByExtensionProperty = new HashMap<Property, Map<Node,Node>>();
 		} 
 		
@@ -393,6 +397,59 @@ public class PropertyToGraphicAttributeMappingX extends
 	public String toStringSummary() {
 		return AVMUtils.getGoodNodeLabel(this, model);
 	}
+	
+	/**
+	 * Check if a mapping has at least one value mapping that defines exactly 1 source value 
+	 * -> then it will probably not have implicit value mappings that require calculation.
+	 * 
+	 * TODO: this assumption is too strong, when the final specification should allow mixing of 
+     * explicit and implicit value mappings!
+     * 
+	 * @return - true if the mapping has at least one explicit value mapping
+	 */
+	private boolean hasExplicitValueMapping() {
+		
+		if (! hasValuemapping()) {
+			
+			return false;
+			
+		} else {
+			
+			// does not support blank nodes (but submappings may be anonymous!)
+			//return MappingQuery.askIfHasExplicitValueMapping(model, this);
+			
+			// get value mappings without using SPARQL and check if one of them has only 1 source value
+			
+				List<ValueMappingX> valueMappings = getValueMappings();
+				
+				for (ValueMappingX valueMappingX : valueMappings) {
+					
+					int cardinalityOfSourceValueProperty = valueMappingX.getAllSourcevalue_asNode_().asArray().length;
+					
+					if (cardinalityOfSourceValueProperty == 1) {
+						return true;	
+					}
+				}
 
+		}
+		
+		return false;
+	}
+
+	/**
+	 * @return a List of all value mappings as ValueMappingX
+	 */
+	private List<ValueMappingX> getValueMappings() {
+		
+		List<ValueMappingX> valueMappingsX = new ArrayList<ValueMappingX>();
+		
+		List<Valuemapping> valueMappings = getAllValuemapping_as().asList();
+		
+		for (Valuemapping valuemapping : valueMappings) {
+			valueMappingsX.add((ValueMappingX)valuemapping.castTo(ValueMappingX.class));
+		}
+		
+		return valueMappingsX;
+	}
 
 }

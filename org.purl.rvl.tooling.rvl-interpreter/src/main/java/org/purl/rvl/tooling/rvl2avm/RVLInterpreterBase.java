@@ -732,7 +732,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	 * @return a tuple of a source and target value or null if no source value matching a target value was found
 	 */
 	@Override
-	public TupleSourceValueTargetValue<Node, Node> lookUpTvForSv(ClosableIterator<Statement> it,
+	public TupleSourceValueTargetValue<Node, Node> lookUpTvForSv(Iterator<Statement> it,
 			Map<Node, Node> svUriTVuriMap) {
 
 		TupleSourceValueTargetValue<Node, Node> svWithItsTv = null;

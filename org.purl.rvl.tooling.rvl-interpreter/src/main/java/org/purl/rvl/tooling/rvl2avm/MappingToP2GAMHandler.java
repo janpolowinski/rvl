@@ -15,6 +15,7 @@ import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.Variable;
+import org.ontoware.rdf2go.vocabulary.RDFS;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.MappingException;
@@ -126,21 +127,23 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 		
 		GraphicAttribute tga = mapping.getTargetAttribute();
 		Property sp = mapping.getSourceProperty();
-
-
-		//LOGGER.finest("trying to find and apply value mapping for sv " + sourceValue.toString());
 		
 		// get the mapping table SV->TV (the calculation of mapped values from data dependent (!) implicit
 		// value mappings must have been triggered before!)
-		Map<Node, Node> svUriTVuriMap = mapping.getMappedValues();	
+		
+		// mapping table SV->TV
+		Map<Node, Node> svUriTVuriMap;
+
+		Model modelData = modelSet.getModel(OGVICProcess.getInstance().GRAPH_DATA);
+		Property extensionProperty = new Property(modelData, RDFS.subClassOf, false);
+
+		svUriTVuriMap = mapping.getExtendedMappedValues(modelSet, extensionProperty);
+		//svUriTVuriMap = mapping.getMappedValues();	
 		
 		if (null == svUriTVuriMap || svUriTVuriMap.isEmpty()) {
 			LOGGER.severe("Could not apply submappings since no mapped values have been found.");
 			return;
 		}
-		//	else {
-			//LOGGER.finest(mapping.mappedValuesToString());
-		//}
 		
 		// get the target value for the sv
     	Node targetValue;
@@ -153,15 +156,28 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 
 		} else { // other source properties than rdf:ID ...
 			
-			// this worked more or less. Code below stems from merging code from evaluating P2GAMs as submappings:
 			//sourceValue = statement.getObject();
-			//targetValue = svUriTVuriMap.get(sourceValue);
+			//targetValue = svUriTVuriMap.get(sourceValue); 
 			
-			// this also works for some cases
 			
+			
+			// this does not work for cases like mapping the shape in AA-4 were a relation on class level is mapped!
+			// but it seems to be necessary for RO-6 etc ...
+			// TODO the necessary extension mechanism needs to be refactored and be able to handle class-level relations
+			// hint: use sparql query instead!
+
 			TupleSourceValueTargetValue<Node, Node> svWithItsTv;
-			ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, subjectResource,
-					sp.asURI(), Variable.ANY);
+			//ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, subjectResource,
+			//		sp.asURI(), Variable.ANY);
+			
+			Iterator<Statement> it = DataQuery.findRelationsOnInstanceOrClassLevel(
+					modelSet,
+					OGVICProcess.GRAPH_DATA,
+					(PropertyMappingX)mapping.castTo(PropertyMappingX.class),
+					false,
+					subjectResource,
+					null)
+					.iterator();
 			
 			LOGGER.severe("Getting Statement iterator for (" + subjectResource + " " + sp.asURI() + " ANY)");
 			
@@ -169,7 +185,7 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 
 				// TODO Multiple objects may match a mapped target value. For now only the first match will win!
 				svWithItsTv = rvlInterpreter.lookUpTvForSv(it, svUriTVuriMap);
-				sourceValue = svWithItsTv.sourceValue;
+				sourceValue = svWithItsTv.sourceValue; 
 				targetValue = svWithItsTv.targetValue;
 
 			} catch (Exception e) {
@@ -185,7 +201,8 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
     		
 	    	rvlInterpreter.applyGraphicValueToGO(tga, targetValue, sourceValue, go);	
 	    	
-	    	// TODO enable again : rvlInterpreter.applyInheritanceOfTargetValue(mapping, statement.getSubject(), tv);
+	    	// TODO enable again : 
+	    	rvlInterpreter.applyInheritanceOfTargetValue(mapping, statement.getSubject(), targetValue);
 	    	
     	} else {
 			LOGGER.fine("Source or target (graphic) value was null, couldn't apply target value " + targetValue

@@ -10,6 +10,7 @@ import org.ontoware.rdf2go.model.QueryRow;
 import org.ontoware.rdf2go.model.Sparqlable;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.impl.StatementImpl;
+import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
@@ -76,23 +77,27 @@ public class DataQuery {
 		
 		return stmtSet;
 	}
+	
+	
 	public static Set<Statement> findRelationsOnClassLevel(
 			Sparqlable modelOrModelSet,
 			URI fromGraph,
 			URI spURI, 
 			String selectorSPARQLString,
-			org.ontoware.rdfreactor.schema.rdfs.Property inheritedBy
+			Property inheritedBy
 			) {
 		return findRelationsOnClassLevel(modelOrModelSet, fromGraph, spURI, selectorSPARQLString, inheritedBy, null, null);
 	}
+	
+	
 	public static Set<Statement> findRelationsOnClassLevel(
 			Sparqlable modelOrModelSet,
 			URI fromGraph,
 			URI spURI, 
 			String selectorSPARQLString,
-			org.ontoware.rdfreactor.schema.rdfs.Property inheritedBy,
-			org.ontoware.rdf2go.model.node.Resource subject,
-			org.ontoware.rdf2go.model.node.Node object
+			Property inheritedBy,
+			Resource subject,
+			Node object
 			) {
 		
 		QueryResultTable results = null;
@@ -127,6 +132,7 @@ public class DataQuery {
 			
 		queryBuilder.constrainToGraph(fromGraph);
 		queryBuilder.constrainToSubjectBySelector(selectorSPARQLString);
+		queryBuilder.constrainToSubject(subject);
 		query = queryBuilder.buildQuery();
 	
 		try {			
@@ -163,6 +169,8 @@ public class DataQuery {
 		
 		return stmtSet;
 	}
+	
+	
 	/** NOTE: Hack: Reflexive edges are ignored at filtering
 	 * @param modelOrModelSet
 	 * @param fromGraph
@@ -178,8 +186,8 @@ public class DataQuery {
 			URI fromGraph,
 			PropertyMappingX pm,
 			boolean onlyMostSpecific, 
-			org.ontoware.rdf2go.model.node.Resource subject,
-			org.ontoware.rdf2go.model.node.Node object) throws InsufficientMappingSpecificationException {
+			Resource subject,
+			Node object) throws InsufficientMappingSpecificationException {
 		
 			Set<Statement> statementSet = new HashSet<Statement>();
 		
@@ -209,31 +217,33 @@ public class DataQuery {
 				// old code for getting statements directly with the API without SPARQL. maybe reuse later, when performance should matter
 				// not usable in most cases, since many filter and restrictions usually apply for statement selection
 				LOGGER.severe("Finding statements including less specific statements not implemented.");
-				System.exit(1);
+				
+				// TODO what should happen here??? can most specific and inheritedBy already be used at the same time? or only XOR?
+				//System.exit(1);
 				//statementSet.addAll(findStatementsIncludingSubPropertyStatementsWithoutSPARQL(
 				//		modelOrModelSet, subject, object, spURI,classSelector));
 				
 			}
 			
+			// WARNING!
+			// if inherited by is set statement set will be extended, not replaced! :
+			
 			// consider inherited relations, including those between classes (someValueFrom ...)
-			if(pm.hasInheritedby()) {
+			if (pm.hasInheritedby()) {
 				
-				try{
+				try {
 				
-				Property inheritedBy = pm.getInheritedBy();
+					Property inheritedBy = pm.getInheritedBy();
 				
-				// temp only support some and all values from ...
-				if (!(
+					// temp only support some and all values from ...
+					if (
 						inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
 						|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())
 						|| inheritedBy.toString().equals(RVL.TBOX_RESTRICTION)
 						|| inheritedBy.toString().equals(RVL.TBOX_DOMAIN_RANGE)	
-					)) {
-					LOGGER.finest("inheritedBy set to a value not defining a class level relation or value not yet supported. Will be ignored as a class level relation.");
-					return statementSet;
-				}
-	
-				statementSet.addAll(findRelationsOnClassLevel(
+					) {
+					
+					statementSet.addAll(findRelationsOnClassLevel(
 							modelOrModelSet,
 							fromGraph,
 							spURI,
@@ -242,6 +252,12 @@ public class DataQuery {
 							subject,
 							object)
 							);
+					
+					} else {
+						LOGGER.finest("inheritedBy set to a value not defining a class level relation or value not yet supported." +
+								" Will be ignored as a class level relation.");
+					}
+				
 				} catch (Exception e) {
 					LOGGER.warning("Problem evaluating inheritedBy setting or getting relations on class level");
 				}
@@ -249,6 +265,7 @@ public class DataQuery {
 			
 			return statementSet;
 	}
+	
 	
 	/**
 	 * TODO: directly query for the special statements with the pattern <RESOURCE_URI> rdf:ID <RESOURCE_URI>
@@ -414,7 +431,5 @@ public class DataQuery {
 		return resourceSet;
 	
 	}
-	
 
-	
 }
