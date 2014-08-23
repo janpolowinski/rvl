@@ -196,7 +196,7 @@ public class DataQuery {
 			String selectorSPARQLString = "";
 			
 			if (pm.hasSubjectfilter()) {
-				
+	
 				selectorSPARQLString = pm.getSubjectFilterString();
 			
 			}
@@ -234,8 +234,7 @@ public class DataQuery {
 				try {
 				
 					Property inheritedBy = pm.getInheritedBy();
-				
-					// temp only support some and all values from ...
+
 					if (
 						inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
 						|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())

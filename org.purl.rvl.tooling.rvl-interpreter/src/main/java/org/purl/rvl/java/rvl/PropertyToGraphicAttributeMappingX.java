@@ -260,7 +260,7 @@ public class PropertyToGraphicAttributeMappingX extends
 			LOGGER.finest("Will use the following cached mapped values: " + mappedValues);
 		}
 			
-		if (null == calculatedMappedValues || calculatedMappedValues.isEmpty()) {
+		if (null == mappedValues || mappedValues.isEmpty()) {
 			LOGGER.warning("Could neither find explicit mappings nor values be calculated " +
 					"from implicit value mappings (will return empty set)"); 
 		}
@@ -270,7 +270,7 @@ public class PropertyToGraphicAttributeMappingX extends
 
 	/**
 	 * Returns the extended mapping table offering also tv for subclasses of the sv.
-	 * Values are caches per extension property.
+	 * Values are cached per extension property.
 	 * 
 	 * @param modelSet
 	 * @param property

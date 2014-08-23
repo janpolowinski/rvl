@@ -37,6 +37,15 @@ public abstract class MappingHandlerBase implements MappingHandler  {
 		this.modelAVM = modelAvm;
 	}
 
+	/**
+	 * Visually encodes a Statement in the domain data and creates the necessary
+	 * graphic objects for the subject (and object if necessary) and if they do not already exist.
+	 * 
+	 * @param statement
+	 * @throws InsufficientMappingSpecificationException
+	 * @throws NotImplementedMappingFeatureException
+	 * @throws MappingException
+	 */
 	abstract void encodeStatement(Statement statement)
 			throws InsufficientMappingSpecificationException, NotImplementedMappingFeatureException, MappingException;
 
