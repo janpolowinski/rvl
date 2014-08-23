@@ -111,13 +111,14 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 			NotImplementedMappingFeatureException, MappingException {
 		
 		Resource subject = statement.getSubject();
+		Node object = statement.getObject();
 		
 		// create a GO for the subject of the statement
 	    GraphicObjectX go = rvlInterpreter.createOrGetGraphicObject(subject);
 	    
 	    LOGGER.finest("Created GO for subject: " + subject);
 
-	    encodeStatement(statement, mapping, go, subject);
+	    encodeStatement(statement, mapping, go, object);
 	}
 	
 
@@ -126,11 +127,11 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 	 * @param statement - the statement to visually encode
 	 * @param mapping
 	 * @param go - the graphic object to use as a base for applying the additional visual encoding
-	 * @param subjectResource - the resource to use as the new subject in further mappings?????
+	 * @param workNode - the node to work with (use as source value, apply base further mappings on ...) It is one of the nodes used in the statement.
 	 * @throws InsufficientMappingSpecificationException
 	 */
 	public void encodeStatement(Statement statement, PropertyToGraphicAttributeMappingX mapping,
-			GraphicObjectX go, Resource subjectResource) throws InsufficientMappingSpecificationException {
+			GraphicObjectX go, Node workNode) throws InsufficientMappingSpecificationException {
 		
 		this.mapping = mapping;
 		
@@ -153,56 +154,49 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 			LOGGER.severe("Could not apply submappings since no mapped values have been found.");
 			return;
 		}
+
+    	Node targetValue = null;
+    	Node sourceValue = null;
+
+		// special treatment of rdf:ID not necessary anymore since special triples <ID> rdf:ID <ID> are now provided
+		sourceValue = workNode;
 		
 		// get the target value for the sv
-    	Node targetValue;
-    	Node sourceValue = null;
-    	
-    	if (sp.asURI().equals(RDF.ID)) { // special treatment of rdf:ID TODO: still necessary?
+		targetValue = svUriTVuriMap.get(sourceValue); 
+		
+		
+		// causes size mappings to fail in AA-4 (sometimes??) and lightness mapping in RO-4b
+		/*
 
-			sourceValue = svUriTVuriMap.get(subjectResource);
-			targetValue = sourceValue; 
+		TupleSourceValueTargetValue<Node, Node> svWithItsTv;
+		//ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, subjectResource,
+		//		sp.asURI(), Variable.ANY);
+		
+		Iterator<Statement> it = DataQuery.findRelationsOnInstanceOrClassLevel(
+				modelSet,
+				OGVICProcess.GRAPH_DATA,
+				(PropertyMappingX)mapping.castTo(PropertyMappingX.class),
+				true,
+				subjectResource,
+				null)
+				.iterator();
+		
+		LOGGER.severe("Getting Statement iterator for (" + subjectResource + " " + sp.asURI() + " ANY)");
+		
+		try {
 
-		} else { // other source properties than rdf:ID ...
-			
-			sourceValue = statement.getObject();
-			targetValue = svUriTVuriMap.get(sourceValue); 
-			
-			
-			// causes size mappings to fail in AA-4 (sometimes??) and lightness mapping in RO-4b
-			/*
+			// TODO Multiple objects may match a mapped target value. For now only the first match will win!
+			svWithItsTv = rvlInterpreter.lookUpTvForSv(it, svUriTVuriMap);
+			sourceValue = svWithItsTv.sourceValue; 
+			targetValue = svWithItsTv.targetValue;
 
-			TupleSourceValueTargetValue<Node, Node> svWithItsTv;
-			//ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, subjectResource,
-			//		sp.asURI(), Variable.ANY);
-			
-			Iterator<Statement> it = DataQuery.findRelationsOnInstanceOrClassLevel(
-					modelSet,
-					OGVICProcess.GRAPH_DATA,
-					(PropertyMappingX)mapping.castTo(PropertyMappingX.class),
-					true,
-					subjectResource,
-					null)
-					.iterator();
-			
-			LOGGER.severe("Getting Statement iterator for (" + subjectResource + " " + sp.asURI() + " ANY)");
-			
-			try {
-
-				// TODO Multiple objects may match a mapped target value. For now only the first match will win!
-				svWithItsTv = rvlInterpreter.lookUpTvForSv(it, svUriTVuriMap);
-				sourceValue = svWithItsTv.sourceValue; 
-				targetValue = svWithItsTv.targetValue;
-
-			} catch (Exception e) {
-				LOGGER.fine("Could not get value for source property " + sp + " for subject "
-						+ subjectResource);
-				return;
-			}
-			
-			*/
-	
+		} catch (Exception e) {
+			LOGGER.fine("Could not get value for source property " + sp + " for subject "
+					+ subjectResource);
+			return;
 		}
+		
+		*/
 
     	// if we found a tv for the sv
     	if (null != targetValue && null != sourceValue) {
