@@ -63,7 +63,7 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 					modelSet,
 					OGVICProcess.GRAPH_DATA,
 					(PropertyMappingX) mapping.castTo(PropertyMappingX.class),
-					true,
+					true, // only most specific relations (e.g. only A citesCritical B, not A cites B if both exist)
 					null,
 					null
 					);
@@ -71,7 +71,7 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 			// (re)calculate the (implicitly) mapped values
 			// this will be accessed in the encode method while encoding statements
 			// TODO is this done too often now?
-			mapping.calculateValues(stmtSet);	
+			mapping.calculateValues(stmtSet);
 		    
 			stmtSetIterator = stmtSet.iterator(); // TODO why stored as a member?
 			
@@ -83,11 +83,10 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 						+ mapping.asURI());
 			} else {
 		    
-			    // for all statements check whether there is a tv for the sv
 			    for (Iterator<Statement> stmtSetIt = stmtSetIterator; stmtSetIt.hasNext() 
 			    		&& processedGraphicRelations < OGVICProcess.MAX_GRAPHIC_RELATIONS_PER_MAPPING;) {
 			    	
-			    	Statement statement = (Statement) stmtSetIt.next();
+			    	Statement statement = stmtSetIt.next();
 			    	
 			    	encodeStatement(statement);
 		    	
@@ -104,6 +103,9 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.purl.rvl.tooling.rvl2avm.MappingHandlerBase#encodeStatement(org.ontoware.rdf2go.model.Statement)
+	 */
 	@Override
 	void encodeStatement(Statement statement) throws InsufficientMappingSpecificationException,
 			NotImplementedMappingFeatureException, MappingException {
@@ -120,6 +122,13 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 	
 
 
+	/**
+	 * @param statement - the statement to visually encode
+	 * @param mapping
+	 * @param go - the graphic object to use as a base for applying the additional visual encoding
+	 * @param subjectResource - the resource to use as the new subject in further mappings?????
+	 * @throws InsufficientMappingSpecificationException
+	 */
 	public void encodeStatement(Statement statement, PropertyToGraphicAttributeMappingX mapping,
 			GraphicObjectX go, Resource subjectResource) throws InsufficientMappingSpecificationException {
 		
@@ -156,15 +165,12 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 
 		} else { // other source properties than rdf:ID ...
 			
-			//sourceValue = statement.getObject();
-			//targetValue = svUriTVuriMap.get(sourceValue); 
+			sourceValue = statement.getObject();
+			targetValue = svUriTVuriMap.get(sourceValue); 
 			
 			
-			
-			// this does not work for cases like mapping the shape in AA-4 were a relation on class level is mapped!
-			// but it seems to be necessary for RO-6 etc ...
-			// TODO the necessary extension mechanism needs to be refactored and be able to handle class-level relations
-			// hint: use sparql query instead!
+			// causes size mappings to fail in AA-4 (sometimes??) and lightness mapping in RO-4b
+			/*
 
 			TupleSourceValueTargetValue<Node, Node> svWithItsTv;
 			//ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, subjectResource,
@@ -174,7 +180,7 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 					modelSet,
 					OGVICProcess.GRAPH_DATA,
 					(PropertyMappingX)mapping.castTo(PropertyMappingX.class),
-					false,
+					true,
 					subjectResource,
 					null)
 					.iterator();
@@ -189,10 +195,12 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 				targetValue = svWithItsTv.targetValue;
 
 			} catch (Exception e) {
-				LOGGER.fine("Could not get value for source property " + sp + " for object "
-						+ statement.getObject());
+				LOGGER.fine("Could not get value for source property " + sp + " for subject "
+						+ subjectResource);
 				return;
 			}
+			
+			*/
 	
 		}
 
@@ -202,7 +210,7 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 	    	rvlInterpreter.applyGraphicValueToGO(tga, targetValue, sourceValue, go);	
 	    	
 	    	// TODO enable again : 
-	    	rvlInterpreter.applyInheritanceOfTargetValue(mapping, statement.getSubject(), targetValue);
+	    	//rvlInterpreter.applyInheritanceOfTargetValue(mapping, statement.getSubject(), targetValue);
 	    	
     	} else {
 			LOGGER.fine("Source or target (graphic) value was null, couldn't apply target value " + targetValue
