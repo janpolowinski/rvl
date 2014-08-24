@@ -203,10 +203,19 @@ public class DataQuery {
 			
 			if (spURI.equals(RDF.ID)) {
 				
-				// in the special case when rdf:ID was used as a source property, we query for a set of triples (<ID>, rdf:type, rdfs:Resource).
-				//statementSet.addAll(DataQuery.findResourceStatements(modelOrModelSet, fromGraph, spURI, selectorSPARQLString)); 
-				statementSet.addAll(DataQuery.findRDFidStatements(modelOrModelSet, fromGraph, selectorSPARQLString)); 
-				
+				if (null == subject) {
+					
+					// in the special case when rdf:ID was used as a source property, we query for a set of triples (<ID>, rdf:type, rdfs:Resource).
+					//statementSet.addAll(DataQuery.findResourceStatements(modelOrModelSet, fromGraph, spURI, selectorSPARQLString)); 
+					statementSet.addAll(DataQuery.findRDFidStatements(modelOrModelSet, fromGraph, selectorSPARQLString)); 
+
+				} else {
+
+					// create a single rdf:ID statement when the query is restricted with a subject
+					statementSet.add(new StatementImpl(fromGraph, subject, spURI, subject));
+
+				}
+							
 			} else if (onlyMostSpecific) {
 				
 				 // get only the most specific statements and exclude those using a super-property instead

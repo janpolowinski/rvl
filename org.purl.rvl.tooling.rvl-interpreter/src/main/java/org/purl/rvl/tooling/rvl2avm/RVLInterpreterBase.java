@@ -584,13 +584,13 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 					"Only RDF subject/predicate/object allowed as triple part URI.");
 		}
 
-		Resource newSubjectResource = triplePart.asResource();
+		Resource newWorkResource = triplePart.asResource();
 
 		if (subMapping.isInstanceof(IdentityMappingX.RDFS_CLASS)) { 
 
 			IdentityMappingX idMapping = (IdentityMappingX) subMapping.castTo(IdentityMappingX.class);
 			
-			new IdentityMappingHandler(modelSet, this, modelAVM).encodeStatement(mainStatement, idMapping, goToApplySubmapping, newSubjectResource);
+			new IdentityMappingHandler(modelSet, this, modelAVM).encodeStatement(mainStatement, idMapping, goToApplySubmapping, newWorkResource);
 
 		} else if (subMapping.isInstanceof(PropertyToGraphicAttributeMappingX.RDFS_CLASS)) {
 			
@@ -604,8 +604,11 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 							"P2GA-mappings with no value mappings at all are not supported.");
 				}
 				
-				new MappingToP2GAMHandler(modelSet, this, modelAVM)
-					.encodeStatement(mainStatement, p2gam, goToApplySubmapping, newSubjectResource);
+				//new MappingToP2GAMHandler(modelSet, this, modelAVM)
+				//	.encodeStatement(mainStatement, p2gam, goToApplySubmapping, newWorkResource);
+				
+				new MappingToP2GAMHandler(modelSet, this, modelAVM).handleP2GAMMappingAsSubmapping(p2gam, goToApplySubmapping, newWorkResource);
+				
 				
 			} catch (MappingException e) {
 				LOGGER.warning("No resources will be affected by sub-mapping " + subMapping.asURI() + " (" + e.getMessage() + ")" );

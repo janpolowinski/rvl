@@ -83,10 +83,10 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 						+ mapping.asURI());
 			} else {
 		    
-			    for (Iterator<Statement> stmtSetIt = stmtSetIterator; stmtSetIt.hasNext() 
-			    		&& processedGraphicRelations < OGVICProcess.MAX_GRAPHIC_RELATIONS_PER_MAPPING;) {
+			    while (stmtSetIterator.hasNext() 
+			    		&& processedGraphicRelations < OGVICProcess.MAX_GRAPHIC_RELATIONS_PER_MAPPING) {
 			    	
-			    	Statement statement = stmtSetIt.next();
+			    	Statement statement = stmtSetIterator.next();
 			    	
 			    	encodeStatement(statement);
 		    	
@@ -100,6 +100,68 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 			LOGGER.warning("No resources will be affected by mapping " + mapping.asURI() 
 					+ " (" + e.getMessage() + ")" );
 		} 
+
+	}
+	
+public void handleP2GAMMappingAsSubmapping(PropertyToGraphicAttributeMappingX mapping, GraphicObjectX go, Resource workResource) throws MappingException {
+		
+		this.mapping = mapping;
+
+	    try {
+	    	
+	    	// validity checking
+			
+			if (!mapping.hasValuemapping()) {
+				throw new InsufficientMappingSpecificationException(
+						"P2GA-mappings with no value mappings at all are not supported.");
+			}
+
+			// get a statement set 
+			Set<Statement> stmtSet = DataQuery.findRelationsOnInstanceOrClassLevel(
+					modelSet,
+					OGVICProcess.GRAPH_DATA,
+					(PropertyMappingX) mapping.castTo(PropertyMappingX.class),
+					true, // only most specific relations (e.g. only A citesCritical B, not A cites B if both exist)
+					workResource,
+					null
+					);
+
+			// (re)calculate the (implicitly) mapped values
+			// this will be accessed in the encode method while encoding statements
+			// TODO is this done too often now?
+			mapping.calculateValues(stmtSet);
+		    
+			stmtSetIterator = stmtSet.iterator(); // TODO why stored as a member?
+			
+			if (null == stmtSetIterator) {
+				LOGGER.severe("Statement iterator was null, no relations could be interpreted for "
+						+ mapping.asURI());
+			} else if (!stmtSetIterator.hasNext()) {
+				LOGGER.severe("Statement iterator was empty, no relations could be interpreted for "
+						+ mapping.asURI());
+			} else {
+		    
+			    while (stmtSetIterator.hasNext() 
+			    		&& processedGraphicRelations < OGVICProcess.MAX_GRAPHIC_RELATIONS_PER_MAPPING) {
+			    	
+			    	Statement statement = stmtSetIterator.next();
+			    	
+				    encodeStatement(statement, mapping, go, statement.getObject());
+		    	
+			    	processedGraphicRelations++;
+			    	
+				}
+		    
+			}
+			
+		} catch (InsufficientMappingSpecificationException e) {
+			LOGGER.warning("No resources will be affected by mapping " + mapping.asURI() 
+					+ " (" + e.getMessage() + ")" );
+		} catch (ClassCastException e) {
+			LOGGER.warning("No resources will be affected by mapping. Maybe the submapping was " +
+					"accidentally applied to literal? " + mapping.asURI() 
+					+ " (" + e.getMessage() + ")" );
+		}
 
 	}
 
@@ -177,11 +239,11 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 				OGVICProcess.GRAPH_DATA,
 				(PropertyMappingX)mapping.castTo(PropertyMappingX.class),
 				true,
-				subjectResource,
+				workNode.asResource(),
 				null)
 				.iterator();
 		
-		LOGGER.severe("Getting Statement iterator for (" + subjectResource + " " + sp.asURI() + " ANY)");
+		LOGGER.severe("Getting Statement iterator for (" + workNode + " " + sp.asURI() + " ANY)");
 		
 		try {
 
@@ -192,11 +254,11 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 
 		} catch (Exception e) {
 			LOGGER.fine("Could not get value for source property " + sp + " for subject "
-					+ subjectResource);
+					+ workNode);
 			return;
 		}
-		
 		*/
+		
 
     	// if we found a tv for the sv
     	if (null != targetValue && null != sourceValue) {
