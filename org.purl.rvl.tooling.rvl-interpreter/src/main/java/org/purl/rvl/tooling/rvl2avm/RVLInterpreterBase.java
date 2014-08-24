@@ -607,7 +607,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 				//new MappingToP2GAMHandler(modelSet, this, modelAVM)
 				//	.encodeStatement(mainStatement, p2gam, goToApplySubmapping, newWorkResource);
 				
-				new MappingToP2GAMHandler(modelSet, this, modelAVM).handleP2GAMMappingAsSubmapping(p2gam, goToApplySubmapping, newWorkResource);
+				new MappingToP2GAMHandler(modelSet, this, modelAVM).handleP2GAMMapping(p2gam, goToApplySubmapping, newWorkResource);
 				
 				
 			} catch (MappingException e) {

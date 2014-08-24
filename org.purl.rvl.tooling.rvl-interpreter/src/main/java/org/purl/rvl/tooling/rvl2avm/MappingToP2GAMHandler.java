@@ -3,28 +3,23 @@
  */
 package org.purl.rvl.tooling.rvl2avm;
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
-import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.vocabulary.RDFS;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.MappingException;
 import org.purl.rvl.exception.NotImplementedMappingFeatureException;
-import org.purl.rvl.java.RDF;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
-import org.purl.rvl.java.rvl.mapping.TupleSourceValueTargetValue;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.query.data.DataQuery;
@@ -47,63 +42,17 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 
 	public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping) throws MappingException {
 		
-		this.mapping = mapping;
-
-	    try {
-	    	
-	    	// validity checking
-			
-			if (!mapping.hasValuemapping()) {
-				throw new InsufficientMappingSpecificationException(
-						"P2GA-mappings with no value mappings at all are not supported.");
-			}
-
-			// get a statement set 
-			Set<Statement> stmtSet = DataQuery.findRelationsOnInstanceOrClassLevel(
-					modelSet,
-					OGVICProcess.GRAPH_DATA,
-					(PropertyMappingX) mapping.castTo(PropertyMappingX.class),
-					true, // only most specific relations (e.g. only A citesCritical B, not A cites B if both exist)
-					null,
-					null
-					);
-
-			// (re)calculate the (implicitly) mapped values
-			// this will be accessed in the encode method while encoding statements
-			// TODO is this done too often now?
-			mapping.calculateValues(stmtSet);
-		    
-			stmtSetIterator = stmtSet.iterator(); // TODO why stored as a member?
-			
-			if (null == stmtSetIterator) {
-				LOGGER.severe("Statement iterator was null, no relations could be interpreted for "
-						+ mapping.asURI());
-			} else if (!stmtSetIterator.hasNext()) {
-				LOGGER.severe("Statement iterator was empty, no relations could be interpreted for "
-						+ mapping.asURI());
-			} else {
-		    
-			    while (stmtSetIterator.hasNext() 
-			    		&& processedGraphicRelations < OGVICProcess.MAX_GRAPHIC_RELATIONS_PER_MAPPING) {
-			    	
-			    	Statement statement = stmtSetIterator.next();
-			    	
-			    	encodeStatement(statement);
-		    	
-			    	processedGraphicRelations++;
-			    	
-				}
-		    
-			}
-			
-		} catch (InsufficientMappingSpecificationException e) {
-			LOGGER.warning("No resources will be affected by mapping " + mapping.asURI() 
-					+ " (" + e.getMessage() + ")" );
-		} 
-
+		handleP2GAMMapping(mapping, null, null);
+		
 	}
 	
-public void handleP2GAMMappingAsSubmapping(PropertyToGraphicAttributeMappingX mapping, GraphicObjectX go, Resource workResource) throws MappingException {
+/**
+ * @param mapping
+ * @param go - the graphic object to use as a base for applying the additional visual encoding
+ * @param workNode - the node to work with (use as source value, apply base further mappings on ...) 
+ * @throws MappingException
+ */
+public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping, GraphicObjectX go, Resource workResource) throws MappingException {
 		
 		this.mapping = mapping;
 
@@ -146,7 +95,11 @@ public void handleP2GAMMappingAsSubmapping(PropertyToGraphicAttributeMappingX ma
 			    	
 			    	Statement statement = stmtSetIterator.next();
 			    	
-				    encodeStatement(statement, mapping, go, statement.getObject());
+			    	if (null != go) {
+			    		encodeStatement(statement, mapping, go, statement.getObject());
+			    	} else {
+			    		encodeStatement(statement);
+			    	}
 		    	
 			    	processedGraphicRelations++;
 			    	
@@ -189,7 +142,8 @@ public void handleP2GAMMappingAsSubmapping(PropertyToGraphicAttributeMappingX ma
 	 * @param statement - the statement to visually encode
 	 * @param mapping
 	 * @param go - the graphic object to use as a base for applying the additional visual encoding
-	 * @param workNode - the node to work with (use as source value, apply base further mappings on ...) It is one of the nodes used in the statement.
+	 * @param workNode - the node to work with (use as source value, apply base further mappings on ...)
+	 * It is one of the nodes used in the statement.
 	 * @throws InsufficientMappingSpecificationException
 	 */
 	public void encodeStatement(Statement statement, PropertyToGraphicAttributeMappingX mapping,
@@ -227,7 +181,8 @@ public void handleP2GAMMappingAsSubmapping(PropertyToGraphicAttributeMappingX ma
 		targetValue = svUriTVuriMap.get(sourceValue); 
 		
 		
-		// causes size mappings to fail in AA-4 (sometimes??) and lightness mapping in RO-4b
+		// should now be obsolete since done in handle method
+		// delete soon
 		/*
 
 		TupleSourceValueTargetValue<Node, Node> svWithItsTv;
