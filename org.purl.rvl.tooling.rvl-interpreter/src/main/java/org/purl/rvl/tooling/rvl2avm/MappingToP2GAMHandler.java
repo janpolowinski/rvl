@@ -40,6 +40,12 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 		super(modelSet, rvlInterpreter, modelAvm);
 	}
 
+	/**
+	 * Apply mapping on the whole data set without considering any context.
+	 * 
+	 * @param mapping
+	 * @throws MappingException
+	 */
 	public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping) throws MappingException {
 		
 		handleP2GAMMapping(mapping, null, null);
@@ -47,12 +53,15 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
 	}
 	
 /**
+ * Apply mapping starting using the resource workResource as a subject 
+ * for filtering statements and applying the result to the graphic object go.
+ * 
  * @param mapping
- * @param go - the graphic object to use as a base for applying the additional visual encoding
+ * @param graphicObjectToApplyMapping - the graphic object to use as a base for applying the additional visual encoding
  * @param workNode - the node to work with (use as source value, apply base further mappings on ...) 
  * @throws MappingException
  */
-public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping, GraphicObjectX go, Resource workResource) throws MappingException {
+public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping, GraphicObjectX graphicObjectToApplyMapping, Resource workResource) throws MappingException {
 		
 		this.mapping = mapping;
 
@@ -94,11 +103,12 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping, Graph
 			    		&& processedGraphicRelations < OGVICProcess.MAX_GRAPHIC_RELATIONS_PER_MAPPING) {
 			    	
 			    	Statement statement = stmtSetIterator.next();
+			    	Node valueNode = statement.getObject();
 			    	
-			    	if (null != go) {
-			    		encodeStatement(statement, mapping, go, statement.getObject());
-			    	} else {
+			    	if (null == graphicObjectToApplyMapping) {
 			    		encodeStatement(statement);
+			    	} else {
+			    		encodeStatement(statement, mapping, graphicObjectToApplyMapping, valueNode);
 			    	}
 		    	
 			    	processedGraphicRelations++;
@@ -147,12 +157,12 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping, Graph
 	 * @throws InsufficientMappingSpecificationException
 	 */
 	public void encodeStatement(Statement statement, PropertyToGraphicAttributeMappingX mapping,
-			GraphicObjectX go, Node workNode) throws InsufficientMappingSpecificationException {
+			GraphicObjectX graphicObjectToApplyMapping, Node workNode) throws InsufficientMappingSpecificationException {
 		
 		this.mapping = mapping;
 		
 		GraphicAttribute tga = mapping.getTargetAttribute();
-		Property sp = mapping.getSourceProperty();
+		//Property sp = mapping.getSourceProperty();
 		
 		// get the mapping table SV->TV (the calculation of mapped values from data dependent (!) implicit
 		// value mappings must have been triggered before!)
@@ -160,8 +170,8 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping, Graph
 		// mapping table SV->TV
 		Map<Node, Node> svUriTVuriMap;
 
-		Model modelData = modelSet.getModel(OGVICProcess.getInstance().GRAPH_DATA);
-		Property extensionProperty = new Property(modelData, RDFS.subClassOf, false);
+		final Model modelData = modelSet.getModel(OGVICProcess.GRAPH_DATA);
+		final Property extensionProperty = new Property(modelData, RDFS.subClassOf, false);
 
 		svUriTVuriMap = mapping.getExtendedMappedValues(modelSet, extensionProperty);
 		//svUriTVuriMap = mapping.getMappedValues();	
@@ -218,7 +228,7 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping, Graph
     	// if we found a tv for the sv
     	if (null != targetValue && null != sourceValue) {
     		
-	    	rvlInterpreter.applyGraphicValueToGO(tga, targetValue, sourceValue, go);	
+	    	rvlInterpreter.applyGraphicValueToGO(tga, targetValue, sourceValue, graphicObjectToApplyMapping);	
 	    	
 	    	// TODO enable again : 
 	    	//rvlInterpreter.applyInheritanceOfTargetValue(mapping, statement.getSubject(), targetValue);
