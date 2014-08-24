@@ -171,6 +171,7 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping, Graph
 		Map<Node, Node> svUriTVuriMap;
 
 		final Model modelData = modelSet.getModel(OGVICProcess.GRAPH_DATA);
+		// TODO: automatically extend by other relations than subClassOf ? subPropertyOf? 
 		final Property extensionProperty = new Property(modelData, RDFS.subClassOf, false);
 
 		svUriTVuriMap = mapping.getExtendedMappedValues(modelSet, extensionProperty);
@@ -194,7 +195,6 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping, Graph
 		// should now be obsolete since done in handle method
 		// delete soon
 		/*
-
 		TupleSourceValueTargetValue<Node, Node> svWithItsTv;
 		//ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, subjectResource,
 		//		sp.asURI(), Variable.ANY);

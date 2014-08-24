@@ -719,6 +719,8 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	}
 
 	/**
+	 * TODO is this still necessary? A similar mechanism is to extend the (value) mapping table, which works already for subClassOf.
+	 * @seeAlso org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX.getExtendedMappedValues(Sparqlable, Property)
 	 * Iterates through statement objects and returns a tuple consisting of the source value and a corresponding target
 	 * value or null when none of the objects matched a source value in the map.
 	 * 

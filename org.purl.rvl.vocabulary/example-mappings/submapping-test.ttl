@@ -13,7 +13,7 @@
       owl:imports rvl: , rexd: ,common-shapes: .
 
 :IconLabeling
-      rvl:disabled "true"^^xsd:boolean ;
+      rvl:disabled "false"^^xsd:boolean ;
       a rvl:PropertyMapping ;
       rvl:sourceProperty rexd:workingField ;
       rvl:targetObjToObjRelation vg:Labeling_Relation ; 
@@ -28,7 +28,7 @@
       
       
 :Linking
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true"^^xsd:boolean ;
       a rvl:PropertyMapping ;
       rvl:sourceProperty rexd:workingField ;
       rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
@@ -52,5 +52,8 @@
       ],[
 		rvl:sourceValue rexd:Biography;
         rvl:targetValue vg:Green;
+      ],[
+      	rvl:sourceValue rexd:Travel;
+      	rvl:targetValue vg:Blue;
       ]
       .
