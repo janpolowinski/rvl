@@ -24,10 +24,25 @@
         rvl:subMapping-mapping :LabelColorMapping;
       ]
       .
+      
+      
+      
+:Linking
+      rvl:disabled "false"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
+      rvl:subMapping 
+      [
+        rvl:subMapping-onRole vg:linkingDirected_startNode;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :LabelColorMapping;
+      ]
+      .
 
 
 :LabelColorMapping
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true"^^xsd:boolean ;
       a rvl:PropertyMapping ;
       rvl:sourceProperty rexd:workingField ;
       rvl:targetAttribute vg:color_named ; 

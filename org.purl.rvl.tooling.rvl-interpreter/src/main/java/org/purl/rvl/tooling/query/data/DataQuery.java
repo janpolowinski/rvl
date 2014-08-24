@@ -30,11 +30,30 @@ public class DataQuery {
 	final static Logger LOGGER = Logger.getLogger(DataQuery.class.getName());
 	static final String NL =  System.getProperty("line.separator");
 	
+	
 	public static Set<Statement> findStatementsPreferingThoseUsingASubProperty(
 			Sparqlable modelOrModelSet,
 			URI fromGraph,
 			URI spURI,
 			String selectorSPARQLString
+			) {
+		return findStatementsPreferingThoseUsingASubProperty(
+				modelOrModelSet,
+				fromGraph,
+				spURI,
+				selectorSPARQLString,
+				null,
+				null
+				);
+			}
+	
+	public static Set<Statement> findStatementsPreferingThoseUsingASubProperty(
+			final Sparqlable modelOrModelSet,
+			final URI fromGraph,
+			final URI spURI,
+			final String selectorSPARQLString,
+			final Resource subject,
+			final Node object
 			) {
 		
 			Set<Statement> stmtSet = new HashSet<Statement>();
@@ -43,6 +62,8 @@ public class DataQuery {
 			
 			DataQueryBuilder queryBuilder = new DataQueryBuilder(spURI);
 			queryBuilder.constrainToGraph(fromGraph);
+			queryBuilder.constrainToSubject(subject);
+			queryBuilder.constrainToObject(object);
 			queryBuilder.constrainToSubjectBySelector(selectorSPARQLString);
 			String queryString = queryBuilder.buildQuery();
 	
@@ -219,7 +240,14 @@ public class DataQuery {
 			} else if (onlyMostSpecific) {
 				
 				 // get only the most specific statements and exclude those using a super-property instead
-				statementSet.addAll(DataQuery.findStatementsPreferingThoseUsingASubProperty(modelOrModelSet, fromGraph, spURI, selectorSPARQLString)); 
+				statementSet.addAll(DataQuery.findStatementsPreferingThoseUsingASubProperty(
+						modelOrModelSet,
+						fromGraph,
+						spURI,
+						selectorSPARQLString,
+						subject,
+						object
+						)); 
 				
 			} else {
 				
