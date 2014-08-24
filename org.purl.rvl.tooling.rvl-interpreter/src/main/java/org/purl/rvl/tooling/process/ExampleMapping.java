@@ -31,6 +31,7 @@ public class ExampleMapping {
 	
 	public static final String RVL_TEST_TEMP = "../org.purl.rvl.vocabulary/example-mappings/temp-test.ttl";
 	public static final String RVL_TEST_RDF_ID = "../org.purl.rvl.vocabulary/example-mappings/rdf-id-test.ttl";
+	public static final String RVL_TEST_SUBMAPPING = "../org.purl.rvl.vocabulary/example-mappings/submapping-test.ttl";
 	public static final String RVL_EXAMPLE = "../org.purl.rvl.vocabulary/example-mappings/rvl-example-mappings.ttl";
 	public static final String RVL_EXAMPLE_FILTERING = "../org.purl.rvl.vocabulary/experiments/example-mappings/rvl-example-filtering.ttl";
 	public static final String RVL_EXAMPLE_LABELING = "../org.purl.rvl.vocabulary/example-mappings/labeling-test.ttl";
