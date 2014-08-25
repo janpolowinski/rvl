@@ -44,8 +44,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 	}
 
 	/**
-	 * Interprets the P2GO2OR mappings.
-	 * TODO: Implement other GR than linking
+	 * Interprets P2GO2OR mappings.
 	 */
 	protected void interpretP2GO2ORMappings() {
 		
@@ -107,9 +106,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 
 
 	/**
-	 * Interprets a normal P2GA mapping with an implicit value mapping and triggers calculating its values.
-	 * TODO: ONLY ONE VALUE MAPPING is currently handled! Therefore, explicit value mappings, which are usually more than one are handled by 
-	 * interpretSimpleP2GAMappings. 
+	 * Interprets P2GA mappings with explicit or 1(!) implicit value mapping and triggers calculating its values.
+	 * TODO: ONLY ONE IMPLICIT VALUE MAPPING is currently handled!
 	 * Creates GO for all affected resources if they don't exist already.
 	 */
 	protected void interpretP2GAMappings() {

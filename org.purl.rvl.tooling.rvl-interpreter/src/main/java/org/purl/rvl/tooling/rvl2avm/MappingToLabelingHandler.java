@@ -44,40 +44,45 @@ public class MappingToLabelingHandler extends MappingToP2GOTORHandler {
 	}
 	
 	/**
-	 * Temp. solution - pass mapping to handler in public encodeStatement method. Check if this is necessary.
+	 * Encode with context.
 	 * 
 	 * @param statement
-	 * @param mappingAttribute
+	 * @param mapping
 	 * @throws InsufficientMappingSpecificationException
 	 */
-	public void encodeStatement(Statement statement, PropertyToGO2ORMappingX mappingAttribute, GraphicObjectX subjectNode) throws InsufficientMappingSpecificationException {
+	public void encodeStatement(Statement statement, PropertyToGO2ORMappingX mapping, GraphicObjectX graphicObjectToApplyMapping) 
+			throws InsufficientMappingSpecificationException {
+		
+		// TODO triple part not passed???? 
+		// sv = triplePart; // TODO when sp rdf:ID: ID actually only fine when URIs!
 
 		logStatementDetails(LOGGER, statement);
 
 		Node object = statement.getObject();
 
-
-		// For each statement, create an endNode GO representing the object (if not exists)
+		// 1. create the label - for each statement, create an endNode GO representing the object (if not exists)
 		// create an additional object here, don't reuse existing ones!
 		GraphicObjectX label = new GraphicObjectX(modelAVM, "http://purl.org/rvl/example-avm/GO_Label_" 
 				+ rvlInterpreter.createNewInternalID(), false);
-		LOGGER.finest("Created new Label-GO for (Label) object: " + object.toString());
+		LOGGER.finest("Created new Label-GO for (label) object: " + object.toString());
+		// TODO when sp rdf:ID: not created for object in all cases?!
 
 		Labeling rel = new Labeling(modelAVM, "http://purl.org/rvl/example-avm/LabelingRelation_"
 				+ rvlInterpreter.createNewInternalID(), true);
-		rel.setLabel(AVMUtils.getGoodNodeLabel(mappingAttribute.getTargetGraphicRelation(), modelAVM));
+		rel.setLabel(AVMUtils.getGoodNodeLabel(mapping.getTargetGraphicRelation(), modelAVM));
 
-		subjectNode.addLabeledwith(rel);
+		graphicObjectToApplyMapping.addLabeledwith(rel);
 		rel.setLabelinglabel(label);
 		rel.setLabelingattachedBy(Superimposition.RDFS_CLASS); // passing a node here
-		rel.setLabelingbase(subjectNode);
+		rel.setLabelingbase(graphicObjectToApplyMapping);
 
 		// set default shape of icon labels
 		label.setShapenamed(new ShapeX(modelAVM, "http://purl.org/viso/shape/commons/Square", false));
 
-		// submappings
-		if (mappingAttribute.hasSub_mapping()) {
-			rvlInterpreter.applySubmappings(mappingAttribute, statement, rel);
+		// 2. call the submapping method with the same unchanged statement to set label text_value or
+		// icon_shape etc ...
+		if (mapping.hasSub_mapping()) {
+			rvlInterpreter.applySubmappings(mapping, statement, rel);
 		}
 
 	}
