@@ -455,86 +455,65 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	 * @param triplePartURI
 	 * @param rel
 	 * @param mapping
-	 * @throws InsufficientMappingSpecificationException
 	 * @throws UnsupportedMappingParameterValueException
+	 * @throws MappingException 
 	 */
 	public void applyMappingToNaryRelation(Statement mainStatement, URI triplePartURI, Object_to_ObjectRelation rel,
-			PropertyMappingX mapping) throws InsufficientMappingSpecificationException,
-			UnsupportedMappingParameterValueException {
+			PropertyMappingX mapping) throws UnsupportedMappingParameterValueException, MappingException {
 
-		if (mapping.isInstanceof(PropertyToGraphicAttributeMappingX.RDFS_CLASS)) {
-
-			PropertyToGraphicAttributeMappingX p2gam = (PropertyToGraphicAttributeMappingX) mapping
-					.castTo(PropertyToGraphicAttributeMappingX.class);
-
-			GraphicAttribute tga = p2gam.getTargetAttribute();
-			Property sp = p2gam.getSourceProperty();
-
-			// get the subproperties as subjects of the new mapping --> do this in the calculation of value mappings
-			// instead
-
-			if (null == tga) {
-				throw new InsufficientMappingSpecificationException("no target graphic attribute set");
+			// there is not yet a special parameter-mapping, so we use P2GAMs here
+			if (!mapping.isInstanceof(PropertyToGraphicAttributeMappingX.RDFS_CLASS)) {
+				
+				throw new MappingException("Use P2GAM for value mappings until " +
+						"a special paramter mapping class exists. Other mapping types are not supported.");
 			}
 
-			if (!p2gam.hasValuemapping()) {
+			final PropertyToGraphicAttributeMappingX parameterMapping = (PropertyToGraphicAttributeMappingX) mapping
+					.castTo(PropertyToGraphicAttributeMappingX.class);
+
+			final GraphicAttribute targetParameter = parameterMapping.getTargetAttribute();
+			final Property sourceProperty = parameterMapping.getSourceProperty();
+
+			if (null == targetParameter) {
+				throw new InsufficientMappingSpecificationException("no target parameter set");
+			}
+
+			if (!parameterMapping.hasValuemapping()) {
 				throw new InsufficientMappingSpecificationException(
 						"P2GAM with no value mappings at all are not yet supported (defaults needs to be implemented).");
 			}
 
-			Map<Node, Node> svUriTVuriMap = p2gam.getExplicitlyMappedValues();
+			Map<Node, Node> valueMap = parameterMapping.getExplicitlyMappedValues(); // TODO only explicitly mapped values?
 
-			if (null == svUriTVuriMap || svUriTVuriMap.isEmpty()) {
-				LOGGER.severe("Could not apply submappings since (explicit or calculated) value mappings were null");
-				return;
+			if (null == valueMap || valueMap.isEmpty()) {
+				throw new MappingException("Could not apply submappings since mapped values were null or empty.");
 			} else {
-				LOGGER.finest(p2gam.explicitlyMappedValuesToString());
+				LOGGER.finest("Parameter mapping table: " + PropertyToGraphicAttributeMappingX.valueMapToString(valueMap));
 			}
 
 			Node sourceValue = null, targetValue = null;
 
-			if (sp.asURI().equals(RDF.ID)) { // special treatment of rdf:ID TODO: still necessary?
+			if (sourceProperty.asURI().equals(RDF.ID)) { 
+				
+				// special treatment of rdf:ID TODO: still necessary? -> yes other results label position differs! 
+				// Probably because literals are not handled otherwise?
 
-				if (triplePartURI.equals(RDF.subject)) {
-					sourceValue = mainStatement.getSubject(); // TODO ID actually only fine when URIs!
-				} else if (triplePartURI.equals(RDF.predicate)) {
-					sourceValue = mainStatement.getPredicate();
-				} else if (triplePartURI.equals(RDF.object)) {
-					sourceValue = mainStatement.getObject();
-				} else {
-					throw new InsufficientMappingSpecificationException("only subject/predicate/object allowed");
-				}
-
-				targetValue = svUriTVuriMap.get(sourceValue);
+				sourceValue = determineTriplePart(mainStatement, triplePartURI);
+				targetValue = valueMap.get(sourceValue);
 
 			} else { // other source properties than rdf:ID ...
 
-				Resource superResource;
+				Resource newWorkResource = determineWorkResource(mainStatement, triplePartURI);
+				
 				TupleSourceValueTargetValue<Node, Node> svWithItsTv;
-
-				if (triplePartURI.equals(RDF.subject)) {
-					superResource = mainStatement.getSubject();
-				} else if (triplePartURI.equals(RDF.predicate)) {
-					superResource = mainStatement.getPredicate();
-				} else if (triplePartURI.equals(RDF.object)) {
-					try {
-						// object could also be a literal
-						superResource = (Resource) mainStatement.getObject().asResource();
-					} catch (ClassCastException e) {
-						throw new UnsupportedMappingParameterValueException(
-								"Cannot cast the object of the super-statement (" + mainStatement.getObject()
-										+ ") to a resource.");
-					}
-				} else {
-					throw new InsufficientMappingSpecificationException("only subject/predicate/object allowed");
-				}
+				
 				ClosableIterator<Statement> stmtIterator = modelSet.findStatements(OGVICProcess.GRAPH_DATA,
-						superResource.asResource(), sp.asURI(), Variable.ANY);
+						newWorkResource, sourceProperty.asURI(), Variable.ANY);
 
-				svWithItsTv = lookUpTvForSv(stmtIterator, svUriTVuriMap);
+				svWithItsTv = lookUpTvForSv(stmtIterator, valueMap);
 
 				if (null == svWithItsTv) {
-					LOGGER.info("No target value mapped to the object values matching " + superResource + " --" + sp
+					LOGGER.info("No target value mapped to the object values matching " + newWorkResource + " --" + sourceProperty
 							+ "--> ?object ." + NL);
 					return;
 				}
@@ -547,10 +526,58 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 				LOGGER.finest("No target value found for source value " + sourceValue + " ," +
 						" parameter sub-mapping cannot be applied.");
 			} else {
-				applyParameterToGraphicRelation(tga, targetValue, sourceValue, rel);
+				applyParameterToGraphicRelation(targetParameter, targetValue, sourceValue, rel);
 			}
 
-		} // end if P2GAM
+	}
+
+	/**
+	 * @param statement
+	 * @param triplePartURI
+	 * @param triplePart
+	 * @return
+	 * @throws InsufficientMappingSpecificationException
+	 */
+	protected Node determineTriplePart(Statement statement, URI triplePartURI)
+			throws InsufficientMappingSpecificationException {
+		
+		Node triplePart;
+		
+		if (triplePartURI.equals(RDF.subject)) {
+			triplePart = statement.getSubject(); // TODO ID actually only fine when URIs!
+		} else if (triplePartURI.equals(RDF.predicate)) {
+			triplePart = statement.getPredicate();
+		} else if (triplePartURI.equals(RDF.object)) {
+			triplePart = statement.getObject();
+		} else {
+			throw new InsufficientMappingSpecificationException(
+					"Only subject/predicate/object allowed as triple part URI. Was " + triplePartURI);
+		}
+		return triplePart;
+	}
+
+	/**
+	 * @param statement
+	 * @param triplePartURI
+	 * @return
+	 * @throws InsufficientMappingSpecificationException
+	 * @throws MappingException
+	 */
+	protected Resource determineWorkResource(Statement statement, URI triplePartURI)
+			throws InsufficientMappingSpecificationException, MappingException {
+		
+		Node triplePart = determineTriplePart(statement, triplePartURI);
+		
+		Resource newWorkResource;
+		
+		// object could also be a literal
+		try {
+			newWorkResource = triplePart.asResource();
+		} catch (ClassCastException e) {
+			throw new MappingException("Triple part " + triplePart + " cannot be used for submappings," +
+					" since it is not a ressource: " + e.getMessage());
+		}
+		return newWorkResource;
 	}
 
 	/**
@@ -569,28 +596,9 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			GraphicObjectX graphicObjToApplySubmapping, PropertyMappingX subMapping)
 			throws InsufficientMappingSpecificationException, MappingException {
 
-		Node triplePart;
-
-		if (triplePartURI.equals(RDF.subject)) {
-			triplePart = mainStatement.getSubject();
-		} else if (triplePartURI.equals(RDF.predicate)) {
-			triplePart = mainStatement.getPredicate();
-		} else if (triplePartURI.equals(RDF.object)) {
-			triplePart = mainStatement.getObject();
-		} else {
-			throw new InsufficientMappingSpecificationException(
-					"Only RDF subject/predicate/object allowed as triple part URI.");
-		}
-
-		Resource newWorkResource;
+		Resource newWorkResource = determineWorkResource(mainStatement, triplePartURI);
 		
-		try {
-			newWorkResource = triplePart.asResource();
-		} catch (ClassCastException e) {
-			throw new MappingException("Triple part " + triplePart + " cannot be used for submappings," +
-					" since it is not a ressource: " + e.getMessage());
-		}
-
+		
 		if (subMapping.isInstanceof(IdentityMappingX.RDFS_CLASS)) { 
 
 			IdentityMappingX idMapping = (IdentityMappingX) subMapping.castTo(IdentityMappingX.class);

@@ -380,12 +380,7 @@ public class PropertyToGraphicAttributeMappingX extends
 		if (!explicitlyMappedValues.isEmpty()){
 
 			s += "Map of explicitly mapped source values: " + NL;
-			
-			for (Entry<Node, Node> entry : explicitlyMappedValues.entrySet()) {
-				Node sv = entry.getKey();
-				Node tv = entry.getValue();
-				s += sv + " --> " + tv + NL;
-			}
+			s += valueMapToString(explicitlyMappedValues);
 			
 		} else {
 			s += "No explicitly mapped source values. " + NL;
@@ -450,6 +445,20 @@ public class PropertyToGraphicAttributeMappingX extends
 		}
 		
 		return valueMappingsX;
+	}
+
+	
+	public static String valueMapToString(Map<Node, Node> valueMap) {
+		
+		String s = "";
+		
+		for (Entry<Node, Node> entry : valueMap.entrySet()) {
+			Node sv = entry.getKey();
+			Node tv = entry.getValue();
+			s += sv + " --> " + tv + NL;
+		}
+		
+		return s;
 	}
 
 }
