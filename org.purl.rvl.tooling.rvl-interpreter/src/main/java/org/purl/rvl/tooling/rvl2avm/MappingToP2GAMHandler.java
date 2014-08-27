@@ -61,7 +61,8 @@ public class MappingToP2GAMHandler extends MappingHandlerBase {
  * @param workNode - the node to work with (use as source value, apply base further mappings on ...) 
  * @throws MappingException
  */
-public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping, GraphicObjectX graphicObjectToApplyMapping, Resource workResource) throws MappingException {
+public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping, 
+		GraphicObjectX graphicObjectToApplyMapping, Resource workResource) throws MappingException {
 		
 		this.mapping = mapping;
 

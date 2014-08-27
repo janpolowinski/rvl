@@ -424,7 +424,6 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 					.castTo(PropertyToGraphicAttributeMappingX.class);
 	
 			final GraphicAttribute targetParameter = parameterMapping.getTargetAttribute();
-			final Property sourceProperty = parameterMapping.getSourceProperty();
 	
 			if (null == targetParameter) {
 				throw new InsufficientMappingSpecificationException("No target parameter set.");
@@ -435,54 +434,12 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 						"Parameter mappings with no value mappings at all are not yet supported" +
 						" (defaults needs to be implemented).");
 			}
-	
 
-			Map<Node, Node> valueMap = parameterMapping.getExplicitlyMappedValues(); // TODO only explicitly mapped values?
-	
-			if (null == valueMap || valueMap.isEmpty()) {
-				throw new MappingException("Could not apply submappings since mapped values were null or empty.");
-			} else {
-				LOGGER.finest("Parameter mapping table: " + PropertyToGraphicAttributeMappingX.valueMapToString(valueMap));
-			}
-	
-			Node sourceValue = null, targetValue = null;
-	
-			if (sourceProperty.asURI().equals(RDF.ID)) { 
-				
-				// special treatment of rdf:ID TODO: still necessary? -> yes other results label position differs! 
-				// Probably because literals are not handled otherwise?
-	
-				sourceValue = determineTriplePart(mainStatement, triplePartURI);
-				targetValue = valueMap.get(sourceValue);
-	
-			} else { // other source properties than rdf:ID ...
-	
-				Resource newWorkResource = determineWorkResource(mainStatement, triplePartURI);
-				
-				TupleSourceValueTargetValue<Node, Node> svWithItsTv;
-				
-				ClosableIterator<Statement> stmtIterator = modelSet.findStatements(OGVICProcess.GRAPH_DATA,
-						newWorkResource, sourceProperty.asURI(), Variable.ANY);
-	
-				svWithItsTv = lookUpTvForSv(stmtIterator, valueMap);
-	
-				if (null == svWithItsTv) {
-					LOGGER.info("No target value mapped to the object values matching " + newWorkResource + " --" + sourceProperty
-							+ "--> ?object ." + NL);
-					return;
-				}
-	
-				sourceValue = svWithItsTv.sourceValue;
-				targetValue = svWithItsTv.targetValue;
-			}
-	
-			if (null == targetValue) {
-				LOGGER.finest("No target value found for source value " + sourceValue + " ," +
-						" parameter sub-mapping cannot be applied.");
-			} else {
-				applyParameterToGraphicRelation(targetParameter, targetValue, sourceValue, rel);
-			}
-	
+			Resource newWorkResource = determineWorkResource(mainStatement, triplePartURI);
+			
+			new ParameterMappingHandler(modelSet, this, modelAVM)
+				.handleParameterMapping(parameterMapping, rel, newWorkResource);
+
 	}
 
 	@Override
