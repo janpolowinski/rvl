@@ -23,6 +23,14 @@
         rvl:subMapping-onTriplePart rdf:subject;
         rvl:subMapping-mapping :LabelColorMapping;
       ]
+      # try using P2GOTOR mappings as sub-mappings:
+      # this one will work on the subjects again (persons that have a working field)
+      ,
+      [
+        rvl:subMapping-onRole vg:labeling_base;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :LinkingAsSubmapping;
+      ]
       .
       
       
@@ -56,4 +64,11 @@
       	rvl:sourceValue rexd:Travel;
       	rvl:targetValue vg:Blue;
       ]
+      .
+   
+:LinkingAsSubmapping
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
       .

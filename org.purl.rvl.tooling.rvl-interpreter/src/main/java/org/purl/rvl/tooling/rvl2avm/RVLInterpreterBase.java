@@ -25,6 +25,8 @@ import org.purl.rvl.exception.UnsupportedMappingParameterValueException;
 import org.purl.rvl.java.RDF;
 import org.purl.rvl.java.RVL;
 import org.purl.rvl.java.gen.viso.graphic.Color;
+import org.purl.rvl.java.gen.viso.graphic.Containment;
+import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
@@ -32,6 +34,7 @@ import org.purl.rvl.java.gen.viso.graphic.Object_to_ObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.Shape;
 import org.purl.rvl.java.gen.viso.graphic.Superimposition;
 import org.purl.rvl.java.gen.viso.graphic.Thing1;
+import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
 import org.purl.rvl.java.rvl.IdentityMappingX;
 import org.purl.rvl.java.rvl.MappingX;
 import org.purl.rvl.java.rvl.PropertyMappingX;
@@ -385,17 +388,32 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			// generated types returned by getTargetGraphicRelation and the superclass of Labeling
 			Node targetGraphicRelation = p2go2orm.getTargetGraphicRelation();
 	
+			// TODO code from SimpleRVLInterpreter->interpretP2GOTORMappings duplicated here 
+			// since it needs to use encodeStatement(...) instead of handle..()...
 			if (targetGraphicRelation.equals(Labeling.RDFS_CLASS)) {
-	
 				new MappingToLabelingHandler(modelSet, this, modelAVM)
 					.encodeStatement(mainStatement, p2go2orm, graphicObjToApplySubmapping);
-	
-			} else {
-				throw new NotImplementedMappingFeatureException("P2GORM-Submappings other than mappings to Labeling not yet supported.");
+			}
+			else if (targetGraphicRelation.equals(DirectedLinking.RDFS_CLASS)
+					|| targetGraphicRelation.equals(UndirectedLinking.RDFS_CLASS)) {
+				new MappingToLinkingHandler(modelSet, this, modelAVM)
+					.handleP2GOTORMapping(p2go2orm);
+					//.encodeStatement(mainStatement, p2go2orm, graphicObjToApplySubmapping); // TODO
+			}
+//			else if (targetGraphicRelation.equals(UndirectedLinking.RDFS_CLASS)) {
+//				LOGGER.info("Ignored Mapping to Undirected Linking. Undirected Linking not yet implemented");
+//			}
+			else if (targetGraphicRelation.equals(Containment.RDFS_CLASS)) {
+				new MappingToContainmentHandler(modelSet, this, modelAVM).handleP2GOTORMapping(p2go2orm);
+			}
+			else {
+				throw new NotImplementedMappingFeatureException("Submappings to the graphic relation " 
+						+ targetGraphicRelation + " not yet implemented.");
 			}
 	
 		} else {
-			throw new NotImplementedMappingFeatureException("Submappings other than P2GAM, P2GORM or Identitymappings not yet supported.");
+			throw new NotImplementedMappingFeatureException(
+					"Submappings other than P2GAM, P2GORM or Identitymappings not yet supported.");
 		}
 	
 	}
