@@ -67,6 +67,7 @@ public class OGVICProcess {
 	
 	// OTHER MEMBERS
 	ModelBuilder modelBuilder;
+	String generatedD3json;
 
 	//protected VisProject currentProject; // TODO always use settings from project directly?
 	//protected static FakeRVLInterpreter avmBuilder;
@@ -317,22 +318,38 @@ public class OGVICProcess {
 		if (isWriteAVM()) writeAVMToFile();
 		if (isWriteMappingModel()) writeMappingModelToFile();
 	}
+	
+	public void runOGVICProcessForTesting(){
+		interpreteRVL2AVM();	
+		transformAVMToD3();
+	}
+
+	public String getGeneratedD3json() {
+		return generatedD3json;
+	}
+
 
 	private void interpreteRVL2AVM() {
 		rvlInterpreter.init(getModelAVM(), getModelSet());
 		rvlInterpreter.interpretMappings();
 	}
 
+	/**
+	 * TODO: This method now returns the JSON to be used on tests. 
+	 * Writing it to a file at the same time can be seen as an unwanted side-effect now.
+	 * 
+	 * @return - the AVM as JSON to be used as d3 "data"
+	 */
 	private void transformAVMToD3() {
 		d3Generator.init(getModelAVM());
-		String json = d3Generator.generateJSONforD3();
+		generatedD3json = d3Generator.generateJSONforD3();
 		try {
-			json = JsonWriter.formatJson(json);
+			generatedD3json = JsonWriter.formatJson(generatedD3json);
 		} catch (IOException e) {
 			LOGGER.warning("problem with pretty printing JSON (skipped) : " + e.getMessage());
 		}
-		LOGGER.fine("JSON data is: " + NL +  json);
-		d3Generator.writeJSONToFile(json);
+		LOGGER.fine("JSON data is: " + NL +  generatedD3json);
+		d3Generator.writeJSONToFile(generatedD3json);
 	}
 
 	private void populateD3HTMLFolder() {

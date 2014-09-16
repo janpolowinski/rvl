@@ -27,5 +27,10 @@ public class TempTest extends TestOGVICProcess {
 		loadProjectAndRunProcess();
 	}
 
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		return null;
+	}
+
 
 }

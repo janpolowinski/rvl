@@ -23,6 +23,13 @@ public class IdentityMappingTest extends TestOGVICProcess {
 		project.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		
 		loadProjectAndRunProcess();
+		
+		assertGeneratedJSONEqualsExpected();
+	}
+
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		return "identity-mapping.json";
 	}
 
 

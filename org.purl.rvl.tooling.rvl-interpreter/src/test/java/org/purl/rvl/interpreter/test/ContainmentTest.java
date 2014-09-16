@@ -24,6 +24,13 @@ public class ContainmentTest extends TestOGVICProcess {
 		project.setD3GraphicFile("circle-packing-zoomable/index.html");
 		
 		loadProjectAndRunProcess();
+		
+		assertGeneratedJSONEqualsExpected();
+	}
+
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		return "containment.json";
 	}
 
 
