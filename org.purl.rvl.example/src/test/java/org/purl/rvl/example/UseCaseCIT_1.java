@@ -13,12 +13,16 @@ public class UseCaseCIT_1 extends TestOGVICProcess {
 		project.registerMappingFile(ExampleFile.get("library-and-publication/cito/example-mappings/CIT_1.ttl"));
 		project.registerDataFile(ExampleFile.get("library-and-publication/cito/example-data/cito.owl"));
 		project.registerDataFile(ExampleFile.get("library-and-publication/cito/example-data/cito-example-data.ttl"));
-		
 
-		
 		loadProjectAndRunProcess();
+		
+		assertGeneratedJSONEqualsExpected();
 		
 	}
 
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		return "use-case-cit-1.json";
+	}
 
 }

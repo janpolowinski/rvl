@@ -19,7 +19,13 @@ public class UseCaseCIT_blog extends TestOGVICProcess {
 		
 		loadProjectAndRunProcess();
 		
+		assertGeneratedJSONEqualsExpected();
+		
 	}
 
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		return "use-case-cit-blog.json";
+	}
 
 }

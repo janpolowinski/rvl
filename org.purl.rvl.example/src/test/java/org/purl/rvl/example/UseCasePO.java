@@ -25,5 +25,11 @@ public class UseCasePO extends TestOGVICProcess {
 		loadProjectAndRunProcess();
 	}
 
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

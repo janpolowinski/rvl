@@ -18,7 +18,13 @@ public class UseCaseRO_4b extends TestOGVICProcess {
 		
 		loadProjectAndRunProcess();
 		
+		assertGeneratedJSONEqualsExpected();
+		
 	}
 
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		return "use-case-ro-4b.json";
+	}
 
 }

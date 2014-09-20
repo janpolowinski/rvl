@@ -19,7 +19,12 @@ public class UseCaseRO_6 extends TestOGVICProcess {
 		project.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		loadProjectAndRunProcess();
 		
+		assertGeneratedJSONEqualsExpected();
 	}
 
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		return "use-case-ro-6.json";
+	}
 
 }

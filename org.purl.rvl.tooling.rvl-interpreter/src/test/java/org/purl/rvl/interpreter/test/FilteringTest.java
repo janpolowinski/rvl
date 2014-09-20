@@ -1,13 +1,12 @@
-package org.purl.rvl.example.basic;
+package org.purl.rvl.interpreter.test;
 
 import java.io.FileNotFoundException;
 
 import org.junit.Test;
-import org.purl.rvl.interpreter.test.TestOGVICProcess;
 import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
 
-public class UseCaseFiltering extends TestOGVICProcess {
+public class FilteringTest extends TestOGVICProcess {
 
 	@Test
 	public final void testOGVICProcess() throws FileNotFoundException {
@@ -22,7 +21,14 @@ public class UseCaseFiltering extends TestOGVICProcess {
 		//project.setD3Generator(new D3GeneratorTreeJSON());
 
 		loadProjectAndRunProcess();
+		
+		assertGeneratedJSONEqualsExpected();
 	}
+	
 
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		return "filtering.json";
+	}
 
 }

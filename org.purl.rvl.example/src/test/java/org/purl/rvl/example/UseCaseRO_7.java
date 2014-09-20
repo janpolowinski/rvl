@@ -22,7 +22,13 @@ public class UseCaseRO_7 extends TestOGVICProcess {
 		project.setD3GraphicFile("circle-packing-zoomable/index.html");
 		loadProjectAndRunProcess();
 		
+		assertGeneratedJSONEqualsExpected();
 	}
-
+	
+	
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		return "use-case-ro-7.json";
+	}
 
 }

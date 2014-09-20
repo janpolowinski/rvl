@@ -27,6 +27,13 @@ public class UseCaseROInstancesSocialNetwork extends TestOGVICProcess {
 		
 		loadProjectAndRunProcess();
 		
+		//assertGeneratedJSONEqualsExpected();
+		
+	}
+	
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		return null;
 	}
 
 

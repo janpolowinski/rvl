@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 
 import org.junit.Test;
 import org.purl.rvl.interpreter.test.TestOGVICProcess;
-import org.skyscreamer.jsonassert.JSONAssert;
 
 public class UseCaseAA_4 extends TestOGVICProcess {
 	
@@ -24,10 +23,7 @@ public class UseCaseAA_4 extends TestOGVICProcess {
 
 	@Override
 	protected String getExpectedD3JSONFileName() {
-		// TODO Auto-generated method stub
-		//JSONAssert.assertEquals(null, null, false);
-
-		return null;
+		return "use-case-aa-4.json";
 	}
 
 

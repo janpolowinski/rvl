@@ -23,7 +23,13 @@ public class UseCaseZFA_inheritance extends TestOGVICProcess {
 		//project.setD3Generator(new D3GeneratorTreeJSON());
 		
 		loadProjectAndRunProcess();
+		
+		assertGeneratedJSONEqualsExpected();
 	}
 
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		return "use-case-zfa-inheritance.json";
+	}
 
 }

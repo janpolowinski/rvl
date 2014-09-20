@@ -22,7 +22,7 @@ import org.skyscreamer.jsonassert.JSONAssert;
  */
 public abstract class TestOGVICProcess {
 	
-	private static final String PATH_TO_RESOURCES = "resources/test/d3-json";
+	private static final String PATH_TO_RESOURCES = "src/test/resources/d3-json";
 	
 	protected OGVICProcess process;
 	protected VisProject project = new VisProject("test");
