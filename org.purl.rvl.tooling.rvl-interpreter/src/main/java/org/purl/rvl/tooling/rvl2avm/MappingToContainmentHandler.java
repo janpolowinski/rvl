@@ -10,6 +10,7 @@ import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.exception.MappingException;
 import org.purl.rvl.exception.NotImplementedMappingFeatureException;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.Object_to_ObjectRelation;
@@ -29,7 +30,8 @@ public class MappingToContainmentHandler extends MappingToP2GOTORHandler {
 	private final static Logger LOGGER = Logger
 			.getLogger(MappingToContainmentHandler.class.getName());
 
-	public void encodeStatement(Statement statement) throws InsufficientMappingSpecificationException, NotImplementedMappingFeatureException {
+	public void encodeStatement(Statement statement) throws InsufficientMappingSpecificationException,
+		NotImplementedMappingFeatureException {
 		
 		try {
 			statement.getObject().asResource();
@@ -85,14 +87,10 @@ public class MappingToContainmentHandler extends MappingToP2GOTORHandler {
 
 		// submappings
 		if (mapping.hasSub_mapping()) {
-
-			if (null != rel) {
-				// Containment etc need to be subclasses of (n-ary)
-				// GraphicRelation
-				rvlInterpreter.applySubmappings(mapping, statement, rel);
-			} else {
-				LOGGER.warning("Submapping existed, but could not be applied, since no parent graphic relation was provided.");
-			}
+			
+			// Containment etc need to be subclasses of (n-ary)
+			// GraphicRelation
+			rvlInterpreter.applySubmappings(mapping, statement, rel);
 		}
 
 	}

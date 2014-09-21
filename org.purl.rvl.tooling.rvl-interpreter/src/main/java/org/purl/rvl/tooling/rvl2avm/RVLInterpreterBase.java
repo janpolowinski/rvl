@@ -247,11 +247,31 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 		go.addLabeledwith(rel);
 
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.purl.rvl.tooling.rvl2avm.RVLInterpreter#applySubmappings(org.purl.rvl.java.rvl.PropertyToGO2ORMappingX, org.ontoware.rdf2go.model.Statement, org.purl.rvl.java.gen.viso.graphic.Object_to_ObjectRelation)
+	 */
+	@Override
+	public void applySubmappings(PropertyMappingX mapping,
+			Statement mainStatement, Object_to_ObjectRelation graphicRelation) {
+		
+		applySubmappings(mapping, mainStatement, graphicRelation, null);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.purl.rvl.tooling.rvl2avm.RVLInterpreter#applySubmappings(org.purl.rvl.java.rvl.PropertyToGO2ORMappingX, org.ontoware.rdf2go.model.Statement, org.purl.rvl.java.viso.graphic.GraphicObjectX)
+	 */
+	@Override
+	public void applySubmappings(PropertyMappingX p2go2orm,
+			Statement mainStatement, GraphicObjectX parentGO) {
+		
+		applySubmappings(p2go2orm, mainStatement, null, parentGO);
+	}
 
 	/**
 	 * Applies sub-mappings (if any exist) based on a "main" statement. An existing GO to append the sub-mapping, as
 	 * well as a triple part (S,P,O) of the main statement (as a base for the mapping) is determined by the sub-mapping
-	 * relation. TODO: linking-specific! only works on top of P2GOTORMs and only for sub-mappings that are P2GAMs
+	 * relation (if not provided). TODO: linking-specific! only works on top of P2GOTORMs and only for sub-mappings that are P2GAMs
 	 * 
 	 * @param p2go2orm
 	 * @param mainStatement
@@ -259,11 +279,12 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	 * @throws
 	 */
 	@Override
-	public void applySubmappings(PropertyToGO2ORMappingX p2go2orm, Statement mainStatement, Object_to_ObjectRelation graphicRelation) {
+	public void applySubmappings(PropertyMappingX mapping, Statement mainStatement,
+			Object_to_ObjectRelation graphicRelation, GraphicObjectX goToApplySubmappingArg) {
 
 		// TODO derive GO by onRole settings and the mainStatement? or just check if correct?
 
-		Set<SubMappingRelationX> subMappingRelations = p2go2orm.getSubMappings();
+		Set<SubMappingRelationX> subMappingRelations = mapping.getSubMappings();
 
 		for (Iterator<SubMappingRelationX> iterator = subMappingRelations.iterator(); iterator.hasNext();) {
 
@@ -312,19 +333,33 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 					applySubmappingToNaryRelation(mainStatement, triplePartURI, graphicRelation, subMappingPM);
 
 				} else {
+					
+					final GraphicObjectX goToApplySubmapping;
+					
+					if (null == graphicRelation && null != goToApplySubmappingArg) {
+					
+						// apply submapping to the parent GO (this is needed for mappings to graphic attributes,
+						// where not graphic relation is created)
+						
+						goToApplySubmapping = goToApplySubmappingArg;
+						
+						LOGGER.finer("Applying submapping to parent GO " + goToApplySubmapping + " based on triple part "
+								+ triplePartURI);
+						
+					} else {
 
-					// otherwise apply it to a GO with the given role ...
+						// otherwise apply it to a GO with the given role ...
+	
+						LOGGER.finer("Applying submapping to GO with the role " + roleURI + " based on triple part "
+								+ triplePartURI);
 
-					LOGGER.finer("Applying submapping to GO with the role " + roleURI + " based on triple part "
-							+ triplePartURI);
-
-					GraphicObjectX goToApplySubmapping = AVMUtils.getGOForRole(modelAVM, graphicRelation, roleURI);
-					// TODO this is a simplification: multiple GOs may be affected, not only one
-
+						goToApplySubmapping = AVMUtils.getGOForRole(modelAVM, graphicRelation, roleURI);
+						// TODO this is a simplification: multiple GOs may be affected, not only one
+					}
+					
 					applySubmappingToGraphicObject(mainStatement, triplePartURI, goToApplySubmapping, subMappingPM);
 					// this does not use the cashed mappings somehow:
-					// goToApplySubmapping.setLabel(roleURI + " with an applied submapping: " + smr.toStringSummary());
-
+					// goToApplySubmapping.setLabel(roleURI + " with an applied submapping: " + smr.toStringSummary());					
 				}
 
 			} catch (InsufficientMappingSpecificationException e) {

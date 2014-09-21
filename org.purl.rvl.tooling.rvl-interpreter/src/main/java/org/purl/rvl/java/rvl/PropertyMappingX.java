@@ -1,5 +1,6 @@
 package org.purl.rvl.java.rvl;
 
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
@@ -21,14 +22,13 @@ import org.purl.rvl.tooling.util.AVMUtils;
 public class PropertyMappingX extends
 		org.purl.rvl.java.gen.rvl.PropertyMapping  implements MappingIF {
 	
-/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4491101288581389956L;
 
-private final static Logger LOGGER = Logger.getLogger(PropertyMappingX.class .getName()); 
-
-static final String NL =  System.getProperty("line.separator");
+	private final static Logger LOGGER = Logger.getLogger(PropertyMappingX.class .getName()); 
+	
+	static final String NL =  System.getProperty("line.separator");
+	
+	private Set<SubMappingRelationX> subMappings; 
 	
 	public PropertyMappingX(Model model, URI classURI,
 			Resource instanceIdentifier, boolean write) {
@@ -248,6 +248,39 @@ static final String NL =  System.getProperty("line.separator");
 			LOGGER.severe("Will ignore filter. Reason: " + e.getMessage());
 			return "";
 		}
+	}
+	
+	public Set<SubMappingRelationX> getSubMappings() {
+		
+		if (null != subMappings) {
+			return subMappings;
+		}
+		
+		Set<SubMappingRelationX> subMappingRelationsX = new HashSet<SubMappingRelationX>();
+		if (this.hasSub_mapping()) {
+			ClosableIterator<Sub_mappingrelation> subMappingRelations =  getAllSub_mapping_as().asClosableIterator();
+			while (subMappingRelations.hasNext()) {
+				
+				Sub_mappingrelation rel = (Sub_mappingrelation) subMappingRelations
+						.next();
+				
+				SubMappingRelationX relX = new SubMappingRelationX(rel);
+				
+				if (!relX.hasSubMapping() || !relX.hasOnRole()) {
+					LOGGER.warning("Ignored incomplete submapping " + relX.toString() + ", since no submapping was found or onRole is not specified.");
+					continue;
+				}
+				
+				subMappingRelationsX.add(relX);
+			}
+			
+			subMappings = subMappingRelationsX;
+			
+			return subMappings;
+			
+		} else  {
+			return null;
+		}	
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.Node;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.MappingException;
@@ -11,6 +12,7 @@ import org.purl.rvl.exception.NotImplementedMappingFeatureException;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
+import org.purl.rvl.java.gen.viso.graphic.Object_to_ObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
 import org.purl.rvl.java.rvl.IdentityMappingX;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
@@ -190,8 +192,6 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		LOGGER.fine("The size of the Resource-to-GraphicObjectX map is "
 				+ resourceGraphicObjectMap.size() + ".");
 
-	}
-
-	
+	}	
 
 }

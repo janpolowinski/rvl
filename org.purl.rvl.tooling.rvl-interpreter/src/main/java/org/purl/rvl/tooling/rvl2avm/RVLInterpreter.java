@@ -11,7 +11,7 @@ import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.gen.viso.graphic.Object_to_ObjectRelation;
-import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
+import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 
@@ -48,7 +48,39 @@ public interface RVLInterpreter {
 	 */
 	abstract Set<GraphicObjectX> getMainGraphicObjectSet();
 
-	public abstract void applySubmappings(PropertyToGO2ORMappingX p2go2orm, Statement mainStatement, Object_to_ObjectRelation graphicRelation);
+	/**
+	 * The normal version of this method, with no concrete graphic object to apply the submappings.
+	 * 
+	 * @param mapping
+	 * @param mainStatement
+	 * @param graphicRelation
+	 */
+	public abstract void applySubmappings(PropertyMappingX mapping,
+			Statement mainStatement, Object_to_ObjectRelation graphicRelation);
+
+	/**
+	 * A version of the method to be called from P2GAM, where there is no graphic relation,
+	 * but a concrete graphic object, to base the submappings on.
+	 * 
+	 * @param mapping
+	 * @param mainStatement
+	 * @param graphicRelation
+	 * @param parentGO
+	 */
+	public abstract void applySubmappings(PropertyMappingX mapping,
+			Statement mainStatement, GraphicObjectX parentGO);
+	
+	/**
+	 * The complete method being able to work with a graphic relation or a graphic 
+	 * object (for mappings to graphic attributes, where no graphic relation object was created)
+	 * 
+	 * @param mapping
+	 * @param mainStatement
+	 * @param graphicRelation
+	 * @param parentGO
+	 */
+	abstract void applySubmappings(PropertyMappingX mapping,
+			Statement mainStatement, Object_to_ObjectRelation graphicRelation, GraphicObjectX parentGO);
 
 	public abstract void applyGraphicValueToGOsRepresentingNodesRelatedVia(GraphicAttribute tga, Node tv, Resource mappedNode, Property inheritedBy);
 
@@ -67,7 +99,4 @@ public interface RVLInterpreter {
 
 	public abstract void applyInheritanceOfTargetValue(PropertyToGraphicAttributeMappingX p2gam, Resource baseResource, Node tv)
 			throws InsufficientMappingSpecificationException;
-
-
-
 }

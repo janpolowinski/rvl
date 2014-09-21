@@ -238,6 +238,15 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
 			LOGGER.fine("Source or target (graphic) value was null, couldn't apply target value " + targetValue
 					+ " to the source value " + sourceValue + ".");
 		}
+    	
+    	// TODO call submappings here: problem: we dont have graphic relation here as expected by the applySubmappingsMethod.
+    	// create additional method, or a graphic relation to be consistent here?
+    	// submappings
+		if (mapping.hasSub_mapping()) {
+			rvlInterpreter.applySubmappings(mapping, statement, graphicObjectToApplyMapping);
+		} else {
+			LOGGER.warning("Submapping existed, but could not be applied, since no parent graphic relation was provided.");
+		}
 		
 	}
 
