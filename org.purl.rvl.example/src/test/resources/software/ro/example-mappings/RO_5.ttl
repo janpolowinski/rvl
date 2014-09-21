@@ -105,4 +105,46 @@ rvl:valueMapping
 		rvl:targetValue "100"^^xsd:float; # create some space for contained labels
       ]
       . 
+      
+##########################
+# second label ###########
+##########################
 
+:PriceLabeling
+      rvl:disabled "false"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty ro:hasCost ;
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:subMapping 
+      [
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :PriceIdentityMapping;
+      ],[
+        rvl:subMapping-onRole vg:this; # use role "this" to apply submappings to the n-ary relation itself (not yet part of RVL spec!)
+        rvl:subMapping-onTriplePart rdf:predicate;
+        rvl:subMapping-mapping :LabelPositionMapping;
+      ]
+      .      
+      
+ :PriceIdentityMapping
+	  rvl:disabled "true"^^xsd:boolean ;
+      a rvl:IdentityMapping ;
+      rvl:sourceProperty ro:hasCost ;
+      rvl:targetAttribute
+              vg:text_value ;
+      .      
+      
+:LabelPositionMapping
+	  rvl:disabled "true";
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rdf:ID ;
+      rvl:targetAttribute
+              vg:labeling_position ; # (not yet part of RVL spec!)
+      rvl:valueMapping 
+      [
+      	a rvl:valueMapping;
+      	rvl:sourceValue ro:hasCost;
+      	rvl:targetValue vg:BottomCenter;
+      ]
+      . 
