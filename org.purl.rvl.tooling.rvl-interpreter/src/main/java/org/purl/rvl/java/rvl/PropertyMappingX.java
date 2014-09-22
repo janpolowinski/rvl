@@ -1,8 +1,10 @@
 package org.purl.rvl.java.rvl;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.BlankNode;
@@ -12,6 +14,7 @@ import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.UnsupportedSelectorTypeException;
+import org.purl.rvl.java.gen.rvl.Sub_mappingrelation;
 import org.purl.rvl.java.rvl.filter.SubjectFilter;
 import org.purl.rvl.tooling.util.AVMUtils;
 
