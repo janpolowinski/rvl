@@ -415,7 +415,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			new MappingToP2GAMHandler(modelSet, this, modelAVM)
 				.handleP2GAMMapping(p2gam, graphicObjToApplySubmapping, newWorkResource);
 	
-		} else if (subMapping.isInstanceof(PropertyToGO2ORMappingX.RDFS_CLASS)) {
+		} else if (subMapping.isInstanceof(MappingX.RDFS_CLASS)) {
 	
 			PropertyToGO2ORMappingX p2go2orm = (PropertyToGO2ORMappingX) subMapping.castTo(PropertyToGO2ORMappingX.class);
 	

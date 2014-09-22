@@ -14,6 +14,7 @@ import org.purl.rvl.java.gen.rvl.Identitymapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
 import org.purl.rvl.java.rvl.IdentityMappingX;
+import org.purl.rvl.java.rvl.MappingX;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
 import org.purl.rvl.java.rvl.ValueMappingX;
@@ -111,7 +112,7 @@ public class MappingQuery {
 		
 		MappingQueryBuilder queryBuilder = new MappingQueryBuilder();
 		//queryBuilder.constrainToGraph(OGVICProcess.GRAPH_MAPPING);
-		queryBuilder.constrainToType(PropertyToGO2ORMappingX.RDFS_CLASS);
+		queryBuilder.constrainToType(MappingX.RDFS_CLASS);
 		// constraining target GOTOR is optional
 		if (null != gotor) queryBuilder.constrainToTargetGR(gotor);
 		String queryString = queryBuilder.buildQuery();

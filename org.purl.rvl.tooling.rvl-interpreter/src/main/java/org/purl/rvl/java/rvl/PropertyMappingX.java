@@ -14,6 +14,7 @@ import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.UnsupportedSelectorTypeException;
+import org.purl.rvl.java.gen.rvl.PropertyMapping;
 import org.purl.rvl.java.gen.rvl.Sub_mappingrelation;
 import org.purl.rvl.java.rvl.filter.SubjectFilter;
 import org.purl.rvl.tooling.util.AVMUtils;
@@ -22,8 +23,9 @@ import org.purl.rvl.tooling.util.AVMUtils;
  * @author Jan Polowinski
  *
  */
-public class PropertyMappingX extends
-		org.purl.rvl.java.gen.rvl.PropertyMapping  implements MappingIF {
+public class PropertyMappingX extends MappingX {
+	
+	private PropertyMapping delegatee;
 	
 	private static final long serialVersionUID = 4491101288581389956L;
 
@@ -32,40 +34,13 @@ public class PropertyMappingX extends
 	static final String NL =  System.getProperty("line.separator");
 	
 	private Set<SubMappingRelationX> subMappings; 
-	
-	public PropertyMappingX(Model model, URI classURI,
-			Resource instanceIdentifier, boolean write) {
-		super(model, classURI, instanceIdentifier, write);
-		// TODO Auto-generated constructor stub
-	}
 
-	public PropertyMappingX(Model model, Resource instanceIdentifier,
-			boolean write) {
-		super(model, instanceIdentifier, write);
-		// TODO Auto-generated constructor stub
-	}
-
-	public PropertyMappingX(Model model, String uriString, boolean write)
-			throws ModelRuntimeException {
-		super(model, uriString, write);
-		// TODO Auto-generated constructor stub
-	}
-
-	public PropertyMappingX(Model model, BlankNode bnode, boolean write) {
-		super(model, bnode, write);
-		// TODO Auto-generated constructor stub
-	}
-
-	public PropertyMappingX(Model model, boolean write) {
-		super(model, write);
-		// TODO Auto-generated constructor stub
-	}
 	
 	public String toStringDetailed() {
 		String s ="";
 		
 		// try to get the string description from the (manual) MappingX class, which is not in the super-class hierarchy
-		MappingX m = (MappingX) this.castTo(MappingX.class);
+		MappingX m = (MappingX) delegatee.castTo(MappingX.class);
 		s += m.toStringDetailed();
 
 		/*// letting the mapping print the affected resources is bad, since this depends on the used data model now, which may be unavailable in test scenarios
@@ -82,12 +57,16 @@ public class PropertyMappingX extends
 			//e.printStackTrace();
 		} */
 		
-		Property sp = this.getAllSourceproperty_as().firstValue();
+		try {
+			Property sp = getSourceProperty();
+			s += "     source property: " + sp.asURI() + NL;
+		} catch (InsufficientMappingSpecificationException e) {
+			s += "     source property missing!" + NL;
+		}
 		//Property tgr = this.getAllTargetgraphicrelation_abstract__as().firstValue();
-		s += "     source property: " + sp.asURI() + NL;
+		
 		//s += "     target graphic relation: " + this.getAllTargetgraphicrelation_abstract__as().firstValue() + NL ;
-
-				
+		
 		return s;
 	}
 	
@@ -199,42 +178,41 @@ public class PropertyMappingX extends
 		return subjectSet;
 	} */
 
-	public boolean isDisabled() {
-		if (this.hasDisabled()) {
-			return this.getAllDisabled_as().firstValue();
-		} else return false;
-	}
 
 	public Property getSourceProperty() throws InsufficientMappingSpecificationException {
 		if (hasSourceproperty())
-			return this.getAllSourceproperty_as().firstValue();
+			return delegatee.getAllSourceproperty_as().firstValue();
 		else 
 			throw new InsufficientMappingSpecificationException();
 	}
 
+	private boolean hasSourceproperty() {
+		return false;
+	}
+
 	public Property getTargetGraphicRelation() throws InsufficientMappingSpecificationException {
-		if (hasTargetgraphicrelation_abstract_())
-			return (Property)this.getAllTargetgraphicrelation_abstract__as().firstValue().castTo(Property.class);
+		if (delegatee.hasTargetgraphicrelation_abstract_())
+			return (Property)delegatee.getAllTargetgraphicrelation_abstract__as().firstValue().castTo(Property.class);
 		else 
 			throw new InsufficientMappingSpecificationException();
 	}
 	
 	
 	public Literal getSubjectFilter(){
-		if (hasSubjectfilter()) {
-			return getAllSubjectfilter_asNode_().firstValue().asLiteral();
+		if (delegatee.hasSubjectfilter()) {
+			return delegatee.getAllSubjectfilter_asNode_().firstValue().asLiteral();
 		} else return null;
 	}
 
 	// TODO multiple inheritedBy values should be allowed
 	public Property getInheritedBy() {
-		if (this.hasInheritedby()) {
-			return (Property)getAllInheritedby_as().firstValue().castTo(Property.class);
+		if (delegatee.hasInheritedby()) {
+			return (Property)delegatee.getAllInheritedby_as().firstValue().castTo(Property.class);
 		} else return null;
 	}
 
 	public String toStringSummary() {
-		return AVMUtils.getGoodNodeLabel(this, model);
+		return AVMUtils.getGoodNodeLabel(delegatee, delegatee.getModel());
 	}
 
 	/**
@@ -260,8 +238,8 @@ public class PropertyMappingX extends
 		}
 		
 		Set<SubMappingRelationX> subMappingRelationsX = new HashSet<SubMappingRelationX>();
-		if (this.hasSub_mapping()) {
-			ClosableIterator<Sub_mappingrelation> subMappingRelations =  getAllSub_mapping_as().asClosableIterator();
+		if (delegatee.hasSub_mapping()) {
+			ClosableIterator<Sub_mappingrelation> subMappingRelations =  delegatee.getAllSub_mapping_as().asClosableIterator();
 			while (subMappingRelations.hasNext()) {
 				
 				Sub_mappingrelation rel = (Sub_mappingrelation) subMappingRelations
@@ -284,6 +262,10 @@ public class PropertyMappingX extends
 		} else  {
 			return null;
 		}	
+	}
+	
+	public boolean hasSubmapping(){
+		return delegatee.hasSub_mapping();
 	}
 
 }

@@ -37,9 +37,9 @@ import org.purl.rvl.tooling.util.RVLUtils;
  * @author Jan Polowinski
  *
  */
-public class PropertyToGraphicAttributeMappingX extends
-		Property_to_Graphic_AttributeMapping implements MappingIF {
+public class PropertyToGraphicAttributeMappingX extends PropertyMappingX {
 	
+	private Property_to_Graphic_AttributeMapping  delegatee;
 	
 	private final static Logger LOGGER = Logger.getLogger(PropertyToGraphicAttributeMappingX.class .getName()); 
 	
@@ -53,22 +53,9 @@ public class PropertyToGraphicAttributeMappingX extends
 
 
 	private ValueMappingX getFirstValueMapping() {
-		return (ValueMappingX)this.getAllValuemapping_as().firstValue().castTo(ValueMappingX.class);
+		return (ValueMappingX)delegatee.getAllValuemapping_as().firstValue().castTo(ValueMappingX.class);
 	}
 
-	public PropertyToGraphicAttributeMappingX(Model model, boolean write) {
-		super(model, write);
-	}
-
-	public PropertyToGraphicAttributeMappingX(Model model,
-			Resource instanceIdentifier, boolean write) {
-		super(model, instanceIdentifier, write);
-	}
-
-	public PropertyToGraphicAttributeMappingX(Model model, URI classURI,
-			Resource instanceIdentifier, boolean write) {
-		super(model, classURI, instanceIdentifier, write);
-	}
 	
 	/**
 	 * TODO: clean up
@@ -79,6 +66,8 @@ public class PropertyToGraphicAttributeMappingX extends
 	 * @return
 	 */
 	public Map<Node, Node> getExplicitlyMappedValues() {
+		
+		Model model = delegatee.getModel();
 
 		if (null == explicitlyMappedValues || explicitlyMappedValues.isEmpty()) {
 			
@@ -91,11 +80,12 @@ public class PropertyToGraphicAttributeMappingX extends
 			}
 			
 			// TODO get value mappings without using sparql
-			Property_to_Graphic_AttributeMapping thisGen = ( (Property_to_Graphic_AttributeMapping)this.castTo(Property_to_Graphic_AttributeMapping.class));
+			Property_to_Graphic_AttributeMapping thisGen = ( (Property_to_Graphic_AttributeMapping)delegatee.castTo(Property_to_Graphic_AttributeMapping.class));
 			
 			try {
+				
 				BlankNode thisBlank = thisGen.asBlankNode();
-				ClosableIterator<Statement> stmtIt =  model.findStatements(thisBlank,VALUEMAPPING,Variable.ANY);
+				ClosableIterator<Statement> stmtIt =  model.findStatements(thisBlank,delegatee.VALUEMAPPING,Variable.ANY);
 				
 				while (stmtIt.hasNext()) {
 					
@@ -120,7 +110,7 @@ public class PropertyToGraphicAttributeMappingX extends
 			
 			// TODO mappings that are blank nodes issue a class cast exception when toSPARQLed below!
 			try {
-				this.toSPARQL();
+				delegatee.toSPARQL();
 			}
 			catch (UnsupportedOperationException e) {
 				LOGGER.severe("Problem creating the SPARQL representation of the mapping " + this);
@@ -131,7 +121,7 @@ public class PropertyToGraphicAttributeMappingX extends
 			String querySubjectsAndSVtoTVMapForGivenProperty = "" +
 					"SELECT DISTINCT ?sv ?tv " +
 					"WHERE { " +
-				    	toSPARQL() + " <" + VALUEMAPPING + "> ?vm ." + 
+						delegatee.toSPARQL() + " <" + delegatee.VALUEMAPPING + "> ?vm ." + 
 				    "	?vm <" + ValueMappingX.SOURCEVALUE + "> ?sv . " +
 				    "	?vm <" + ValueMappingX.TARGETVALUE + "> ?tv . " + 
 					"} ";
@@ -202,7 +192,7 @@ public class PropertyToGraphicAttributeMappingX extends
 			calculatedMappedValues = new HashMap<Node, Node>();
 			
 			Collection<CalculatedValueMapping> cvms = getFirstValueMapping()
-					.getCalculatedValueMappings(affectedStatements, (PropertyMappingX)this.castTo(PropertyMappingX.class));
+					.getCalculatedValueMappings(affectedStatements, (PropertyMappingX)delegatee.castTo(PropertyMappingX.class));
 			
 			for (Iterator<CalculatedValueMapping> iterator = cvms.iterator(); iterator.hasNext();) {
 				CalculatedValueMapping calculatedValueMapping = (CalculatedValueMapping) iterator.next();
@@ -218,7 +208,7 @@ public class PropertyToGraphicAttributeMappingX extends
 	 */
 	private Map<Node, Node> getCalculatedValues(Set<Statement> affectedStatements) throws InsufficientMappingSpecificationException {
 		
-		if ((null == calculatedMappedValues || calculatedMappedValues.isEmpty()) && hasValuemapping()) {
+		if ((null == calculatedMappedValues || calculatedMappedValues.isEmpty()) && delegatee.hasValuemapping()) {
 
 			calculateValues(affectedStatements);
 		}
@@ -249,7 +239,7 @@ public class PropertyToGraphicAttributeMappingX extends
 			
 			mappedValues = new HashMap<Node, Node>();
 			
-			if (hasValuemapping()) {
+			if (delegatee.hasValuemapping()) {
 				
 				mappedValues.putAll(getCalculatedValues());
 				mappedValues.putAll(getExplicitlyMappedValues());
@@ -300,28 +290,23 @@ public class PropertyToGraphicAttributeMappingX extends
 		
 	}
 
-	/* (non-Javadoc)
-	 * @see org.purl.rvl.java.rvl.MappingIF#isDisabled()
-	 */
-	public boolean isDisabled() {
-		if (this.hasDisabled()) {
-			return this.getAllDisabled_as().firstValue();
-		} else return false;
-	}
-
 	public String toStringDetailed(){
 		
 		String s = "";
 		
 		// try to get the string description from the (manual) PropertyMappingX class, which is not in the super-class hierarchy
-		PropertyMappingX pm = (PropertyMappingX) this.castTo(PropertyMappingX.class);
+		PropertyMappingX pm = (PropertyMappingX) delegatee.castTo(PropertyMappingX.class);
 		s += pm.toStringDetailed();
 		
 		//targetAttribute is specific to P2GAM
-		GraphicAttribute tga = (GraphicAttribute) this.getAllTargetattribute_as().firstValue().castTo(GraphicAttribute.class);
-		String tgaString = tga.getAllLabel_as().count()>0 ? tga.getAllLabel_as().firstValue() : tga.toString();
-		s += "     Target graphic attribute: " + tgaString + NL ;
-		
+		try {
+			GraphicAttribute tga = getTargetAttribute();
+			String tgaString = tga.getAllLabel_as().count()>0 ? tga.getAllLabel_as().firstValue() : tga.toString();
+			s += "     Target graphic attribute: " + tgaString + NL ;
+		} catch (InsufficientMappingSpecificationException e1) {
+			s += "     Target graphic attribute missing." + NL ;
+		}
+
 		if (this.hasValuemapping()) {
 
 			try {
@@ -334,7 +319,7 @@ public class PropertyToGraphicAttributeMappingX extends
 				
 			s += "     Value mappings:" + NL;
 			
-			ClosableIterator<Valuemapping> vmIterator = this.getAllValuemapping_as().asClosableIterator();
+			ClosableIterator<Valuemapping> vmIterator = getValueMappingsAsCI();
 			
 			while (vmIterator.hasNext()) {
 				ValueMappingX vm = (ValueMappingX) vmIterator.next().castTo(ValueMappingX.class);
@@ -358,15 +343,25 @@ public class PropertyToGraphicAttributeMappingX extends
 		return s;
 	}
 
+	public boolean hasValuemapping() {
+		return delegatee.hasValuemapping();
+	}
+
+
 	public GraphicAttribute getTargetAttribute() throws InsufficientMappingSpecificationException {
-		if (hasTargetattribute()) {
-			return (GraphicAttribute) this.getAllTargetattribute_as().firstValue().castTo(GraphicAttribute.class);
+		if (hasTargetAttribute()) {
+			return (GraphicAttribute) delegatee.getAllTargetattribute_as().firstValue().castTo(GraphicAttribute.class);
 		} else 
 			throw new InsufficientMappingSpecificationException("No target graphic attribute set, but this is mandatory.");
 	}
 
+	private boolean hasTargetAttribute() {
+		return delegatee.hasTargetattribute();
+	}
+
+
 	public Property getSourceProperty() throws InsufficientMappingSpecificationException {
-		return ((PropertyMappingX) this.castTo(PropertyMappingX.class)).getSourceProperty();
+		return ((PropertyMappingX) delegatee.castTo(PropertyMappingX.class)).getSourceProperty();
 	}
 
 	public String explicitlyMappedValuesToString() {
@@ -390,7 +385,7 @@ public class PropertyToGraphicAttributeMappingX extends
 	}
 
 	public String toStringSummary() {
-		return AVMUtils.getGoodNodeLabel(this, model);
+		return AVMUtils.getGoodNodeLabel(delegatee, delegatee.getModel());
 	}
 	
 	/**
@@ -438,7 +433,7 @@ public class PropertyToGraphicAttributeMappingX extends
 		
 		List<ValueMappingX> valueMappingsX = new ArrayList<ValueMappingX>();
 		
-		List<Valuemapping> valueMappings = getAllValuemapping_as().asList();
+		List<Valuemapping> valueMappings = delegatee.getAllValuemapping_as().asList();
 		
 		for (Valuemapping valuemapping : valueMappings) {
 			valueMappingsX.add((ValueMappingX)valuemapping.castTo(ValueMappingX.class));
@@ -448,6 +443,11 @@ public class PropertyToGraphicAttributeMappingX extends
 	}
 
 	
+	private ClosableIterator<Valuemapping> getValueMappingsAsCI() {
+		return delegatee.getAllValuemapping_as().asClosableIterator();
+	}
+
+
 	public static String valueMapToString(Map<Node, Node> valueMap) {
 		
 		String s = "";

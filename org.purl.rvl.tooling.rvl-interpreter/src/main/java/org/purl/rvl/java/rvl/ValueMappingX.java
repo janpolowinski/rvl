@@ -33,7 +33,7 @@ import org.purl.rvl.tooling.util.RVLUtils;
  * @author Jan Polowinski
  * 
  */
-public class ValueMappingX extends Valuemapping implements MappingIF {
+public class ValueMappingX extends Valuemapping {
 	
 	private static final long serialVersionUID = 1L;
 	static final String NL = System.getProperty("line.separator");

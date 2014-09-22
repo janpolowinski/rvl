@@ -79,7 +79,7 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
 			Set<Statement> stmtSet = DataQuery.findRelationsOnInstanceOrClassLevel(
 					modelSet,
 					OGVICProcess.GRAPH_DATA,
-					(PropertyMappingX) mapping.castTo(PropertyMappingX.class),
+					mapping,
 					true, // only most specific relations (e.g. only A citesCritical B, not A cites B if both exist)
 					workResource,
 					null
@@ -242,7 +242,7 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
     	// TODO call submappings here: problem: we dont have graphic relation here as expected by the applySubmappingsMethod.
     	// create additional method, or a graphic relation to be consistent here?
     	// submappings
-		if (mapping.hasSub_mapping()) {
+		if (mapping.hasSubmapping()) {
 			rvlInterpreter.applySubmappings(mapping, statement, graphicObjectToApplyMapping);
 		} else {
 			LOGGER.warning("Submapping existed, but could not be applied, since no parent graphic relation was provided.");

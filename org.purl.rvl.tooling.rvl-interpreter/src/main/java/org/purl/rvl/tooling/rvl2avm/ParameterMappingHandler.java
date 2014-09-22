@@ -73,7 +73,7 @@ public class ParameterMappingHandler extends MappingToP2GAMHandler {
 			final Set<Statement> stmtSet = DataQuery.findRelationsOnInstanceOrClassLevel(
 					modelSet,
 					OGVICProcess.GRAPH_DATA,
-					(PropertyMappingX) mapping.castTo(PropertyMappingX.class),
+					mapping,
 					true, // only most specific relations (e.g. only A citesCritical B, not A cites B if both exist)
 					workResource,
 					null

@@ -39,7 +39,7 @@ public abstract class MappingToP2GOTORHandler extends MappingHandlerBase {
 		try {
 			stmtSetIterator = DataQuery.findRelationsOnInstanceOrClassLevel(
 					modelSet, OGVICProcess.GRAPH_DATA,
-					(PropertyMappingX) mapping.castTo(PropertyMappingX.class),
+					mapping,
 					true, null, null).iterator();
 			
 		} catch (InsufficientMappingSpecificationException e) {

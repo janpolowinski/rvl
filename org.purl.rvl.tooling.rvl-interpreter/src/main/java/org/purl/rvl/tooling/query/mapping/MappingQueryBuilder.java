@@ -4,7 +4,7 @@
 package org.purl.rvl.tooling.query.mapping;
 
 import org.ontoware.rdf2go.model.node.URI;
-import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
+import org.purl.rvl.java.rvl.MappingX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.query.SPARQLQueryBuilder;
 
@@ -40,7 +40,7 @@ public class MappingQueryBuilder extends SPARQLQueryBuilder {
 
 	protected void constrainToTargetGRsparql(){
 		query.append(" ?mapping " 
-			+ PropertyToGO2ORMappingX.TARGETOBJECT_TO_OBJECTRELATION.toSPARQL() 
+			+ MappingX.TARGETOBJECT_TO_OBJECTRELATION.toSPARQL() 
 			+ targetGraphicRelation.toSPARQL() + " . ");
 	}
 	
