@@ -1,15 +1,21 @@
-package org.purl.rvl.interpreter.test;
+package org.purl.rvl.interpreter.test.newtests;
 
 import java.io.FileNotFoundException;
 
 import org.junit.Test;
 import org.ontoware.rdf2go.Reasoning;
+import org.purl.rvl.interpreter.test.TestOGVICProcess;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorTreeJSON;
 import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
 
 @SuppressWarnings("unused")
 public class RDFidTest extends TestOGVICProcess {
+	
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		return "rdf-id.json";
+	}
 	
 	@Test
 	public void testOGVICProcess() throws FileNotFoundException {

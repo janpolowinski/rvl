@@ -7,7 +7,7 @@ package org.purl.rvl.exception;
  * @author Jan Polowinski
  *
  */
-public class NotImplementedMappingFeatureException extends Exception {
+public class NotImplementedMappingFeatureException extends MappingException {
 
 	static String GENERAL_MESSAGE = "Mapping feature not implemented: ";
 

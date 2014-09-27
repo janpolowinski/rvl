@@ -26,7 +26,13 @@ public class UseCasePO_9_Containment extends TestOGVICProcess {
 		project.setD3GraphicFile("circle-packing-zoomable/index.html");
 		
 		loadProjectAndRunProcess();
+		
+		//assertGeneratedJSONEqualsExpected();
 	}
-
+	
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		return null;
+	}
 
 }

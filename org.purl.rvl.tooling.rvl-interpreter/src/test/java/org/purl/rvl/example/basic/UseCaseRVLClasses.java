@@ -30,5 +30,11 @@ public class UseCaseRVLClasses extends TestOGVICProcess {
 		loadProjectAndRunProcess();
 	}
 
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

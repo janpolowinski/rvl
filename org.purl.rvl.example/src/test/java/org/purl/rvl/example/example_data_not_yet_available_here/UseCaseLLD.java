@@ -22,6 +22,14 @@ public class UseCaseLLD extends TestOGVICProcess {
 
 		
 		loadProjectAndRunProcess();
+		
+		//assertGeneratedJSONEqualsExpected();
+	}
+
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

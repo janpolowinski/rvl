@@ -25,6 +25,13 @@ public class LabelingTest extends TestOGVICProcess {
 		//project.setD3Generator(new D3GeneratorTreeJSON());
 		
 		loadProjectAndRunProcess();
+		
+		assertGeneratedJSONEqualsExpected();
+	}
+
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		return "labeling.json";
 	}
 
 

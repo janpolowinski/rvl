@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.ontoware.rdf2go.Reasoning;
 import org.purl.rvl.interpreter.test.TestOGVICProcess;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
-import org.purl.rvl.tooling.avm2d3.D3GeneratorTreeJSON;
 
 public class UseCaseROInstancesSocialNetwork extends TestOGVICProcess {
 	
@@ -28,6 +27,13 @@ public class UseCaseROInstancesSocialNetwork extends TestOGVICProcess {
 		
 		loadProjectAndRunProcess();
 		
+		//assertGeneratedJSONEqualsExpected();
+		
+	}
+	
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		return null;
 	}
 
 

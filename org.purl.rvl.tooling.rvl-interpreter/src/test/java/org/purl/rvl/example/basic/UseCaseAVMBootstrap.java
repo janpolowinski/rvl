@@ -24,5 +24,11 @@ public class UseCaseAVMBootstrap extends TestOGVICProcess {
 		loadProjectAndRunProcess();
 	}
 
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

@@ -18,7 +18,13 @@ public class UseCaseAA_3_and_4 extends TestOGVICProcess {
 		//process.setD3Generator(new D3GeneratorTreeJSON());
 
 		loadProjectAndRunProcess();
+		
+		assertGeneratedJSONEqualsExpected();
 	}
 
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		return "use-case-aa-3-and-4.json";
+	}
 
 }

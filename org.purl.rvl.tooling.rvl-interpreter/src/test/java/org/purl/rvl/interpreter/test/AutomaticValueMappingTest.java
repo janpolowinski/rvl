@@ -19,6 +19,13 @@ public class AutomaticValueMappingTest extends TestOGVICProcess {
 		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		
 		loadProjectAndRunProcess();
+		
+		assertGeneratedJSONEqualsExpected();
+	}
+
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		return "automatic-value-mapping.json";
 	}
 
 

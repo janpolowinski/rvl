@@ -26,7 +26,13 @@ public class UseCasePO_9 extends TestOGVICProcess {
 		//process.setD3Generator(new D3GeneratorSimpleJSON());
 		
 		loadProjectAndRunProcess();
+		
+		assertGeneratedJSONEqualsExpected();
 	}
-
+	
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		return "use-case-po-9.json";
+	}
 
 }

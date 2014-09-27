@@ -556,7 +556,7 @@ private int determineAdressedSourceValues() throws InsufficientMappingSpecificat
  * @return
  * @throws InsufficientMappingSpecificationException 
  */
-public Boolean isManualValueMapping() throws InsufficientMappingSpecificationException {
+/*public Boolean isManualValueMapping() throws InsufficientMappingSpecificationException {
 	
 	if (addressedSourceValueSituation == NOT_CALCULATED || addressedTargetValueSituation == NOT_CALCULATED) {
 		determineAdressedSourceValues();
@@ -568,7 +568,7 @@ public Boolean isManualValueMapping() throws InsufficientMappingSpecificationExc
 		return true;
 	else
 		return false;
-}
+}*/
 
 
 private int calculateMappingSituation() throws InsufficientMappingSpecificationException{

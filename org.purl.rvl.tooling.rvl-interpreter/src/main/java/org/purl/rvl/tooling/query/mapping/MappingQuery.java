@@ -29,6 +29,32 @@ public class MappingQuery {
 	final static Logger LOGGER = Logger.getLogger(MappingQuery.class.getName());
 	static final String NL =  System.getProperty("line.separator");
 
+	
+		/**
+		 * TODO: cannot handle blank nodes!
+		 * Check if a mapping has a value mapping that defines exactly 1 source value 
+		 */
+		public static boolean askIfHasExplicitValueMapping(Model modelMappings, PropertyToGraphicAttributeMappingX mapping) {
+	
+			String queryString = "" + NL + 
+					"ASK " + NL + 
+					"WHERE { " + NL + 
+					"    " + mapping.asURI().toSPARQL() + " " + PropertyToGraphicAttributeMappingX.VALUEMAPPING.toSPARQL() + "  ?vm . " + NL + 
+					"	{ " + NL + 
+					"	SELECT ?vm  (COUNT(?sv) AS ?svCount) " + NL + 
+					"       WHERE " + NL + 
+					"       { " + NL + 
+					"	 		  ?vm <" + ValueMappingX.SOURCEVALUE + "> ?sv  " + NL + 
+					"       } " + NL + 
+					"        GROUP BY ?vm " + NL + 
+					"	} " + NL + 
+					"    FILTER (?svCount = 1 ) " + NL + 
+					"} " + NL ;
+	
+			return modelMappings.sparqlAsk(queryString);
+		}
+	
+	
 		/**
 		 * Get all the mappings that require no calculation, 
 		 * because they only have explicit 1-1-value-mappings
@@ -54,12 +80,13 @@ public class MappingQuery {
 			return getP2GAMappings(modelMappings, queryString);
 		}
 
-	/**
-		 * Get all the mappings that require calculation, because they have not only explicit 1-1-value-mappings
-		 * TODO: this currently gets all mappings, including the 1-1, therefore it should actually only be called when it is clear that
-		 *  the 1-1 case does not apply. 
+		/**
+		 * Get all PropertyToGraphicAttributeMappings that have at least one value mapping.
+		 * 
+		 * @param mappingModel
+		 * @return a Set of PropertyToGraphicAttributeMappingX
 		 */
-		public static Set<PropertyToGraphicAttributeMappingX> getAllP2GAMappingsWithSomeValueMappings(Model modelMappings){
+		public static Set<PropertyToGraphicAttributeMappingX> getP2GAMappingsWithAtLeastOneValueMapping(Model mappingModel){
 	
 			String queryString = "" +
 					"SELECT DISTINCT ?mapping " + NL + 
@@ -77,8 +104,7 @@ public class MappingQuery {
 	//				"    FILTER (!(?svCount = 1 )) " +
 					"} " + NL ;
 			
-			
-			return getP2GAMappings(modelMappings, queryString);
+			return getP2GAMappings(mappingModel, queryString);
 		}
 	
 	public static Set<PropertyToGO2ORMappingX> getAllP2GOTORMappingsTo(Model modelMappings, URI gotor) {

@@ -20,7 +20,13 @@ public class UseCaseZFA extends TestOGVICProcess {
 		//project.setD3Generator(new D3GeneratorSimpleJSON());
 		
 		loadProjectAndRunProcess();
+		
+		assertGeneratedJSONEqualsExpected();
 	}
 
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		return "use-case-zfa.json";
+	}
 
 }

@@ -10,6 +10,7 @@ import org.ontoware.rdf2go.model.QueryRow;
 import org.ontoware.rdf2go.model.Sparqlable;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.impl.StatementImpl;
+import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
@@ -29,11 +30,30 @@ public class DataQuery {
 	final static Logger LOGGER = Logger.getLogger(DataQuery.class.getName());
 	static final String NL =  System.getProperty("line.separator");
 	
+	
 	public static Set<Statement> findStatementsPreferingThoseUsingASubProperty(
 			Sparqlable modelOrModelSet,
 			URI fromGraph,
 			URI spURI,
 			String selectorSPARQLString
+			) {
+		return findStatementsPreferingThoseUsingASubProperty(
+				modelOrModelSet,
+				fromGraph,
+				spURI,
+				selectorSPARQLString,
+				null,
+				null
+				);
+			}
+	
+	public static Set<Statement> findStatementsPreferingThoseUsingASubProperty(
+			final Sparqlable modelOrModelSet,
+			final URI fromGraph,
+			final URI spURI,
+			final String selectorSPARQLString,
+			final Resource subject,
+			final Node object
 			) {
 		
 			Set<Statement> stmtSet = new HashSet<Statement>();
@@ -42,6 +62,8 @@ public class DataQuery {
 			
 			DataQueryBuilder queryBuilder = new DataQueryBuilder(spURI);
 			queryBuilder.constrainToGraph(fromGraph);
+			queryBuilder.constrainToSubject(subject);
+			queryBuilder.constrainToObject(object);
 			queryBuilder.constrainToSubjectBySelector(selectorSPARQLString);
 			String queryString = queryBuilder.buildQuery();
 	
@@ -76,23 +98,27 @@ public class DataQuery {
 		
 		return stmtSet;
 	}
+	
+	
 	public static Set<Statement> findRelationsOnClassLevel(
 			Sparqlable modelOrModelSet,
 			URI fromGraph,
 			URI spURI, 
 			String selectorSPARQLString,
-			org.ontoware.rdfreactor.schema.rdfs.Property inheritedBy
+			Property inheritedBy
 			) {
 		return findRelationsOnClassLevel(modelOrModelSet, fromGraph, spURI, selectorSPARQLString, inheritedBy, null, null);
 	}
+	
+	
 	public static Set<Statement> findRelationsOnClassLevel(
 			Sparqlable modelOrModelSet,
 			URI fromGraph,
 			URI spURI, 
 			String selectorSPARQLString,
-			org.ontoware.rdfreactor.schema.rdfs.Property inheritedBy,
-			org.ontoware.rdf2go.model.node.Resource subject,
-			org.ontoware.rdf2go.model.node.Node object
+			Property inheritedBy,
+			Resource subject,
+			Node object
 			) {
 		
 		QueryResultTable results = null;
@@ -127,6 +153,7 @@ public class DataQuery {
 			
 		queryBuilder.constrainToGraph(fromGraph);
 		queryBuilder.constrainToSubjectBySelector(selectorSPARQLString);
+		queryBuilder.constrainToSubject(subject);
 		query = queryBuilder.buildQuery();
 	
 		try {			
@@ -163,6 +190,8 @@ public class DataQuery {
 		
 		return stmtSet;
 	}
+	
+	
 	/** NOTE: Hack: Reflexive edges are ignored at filtering
 	 * @param modelOrModelSet
 	 * @param fromGraph
@@ -178,8 +207,8 @@ public class DataQuery {
 			URI fromGraph,
 			PropertyMappingX pm,
 			boolean onlyMostSpecific, 
-			org.ontoware.rdf2go.model.node.Resource subject,
-			org.ontoware.rdf2go.model.node.Node object) throws InsufficientMappingSpecificationException {
+			Resource subject,
+			Node object) throws InsufficientMappingSpecificationException {
 		
 			Set<Statement> statementSet = new HashSet<Statement>();
 		
@@ -188,52 +217,69 @@ public class DataQuery {
 			String selectorSPARQLString = "";
 			
 			if (pm.hasSubjectfilter()) {
-				
+	
 				selectorSPARQLString = pm.getSubjectFilterString();
 			
 			}
 			
 			if (spURI.equals(RDF.ID)) {
 				
-				// in the special case when rdf:ID was used as a source property, we query for a set of triples (<ID>, rdf:type, rdfs:Resource).
-				//statementSet.addAll(DataQuery.findResourceStatements(modelOrModelSet, fromGraph, spURI, selectorSPARQLString)); 
-				statementSet.addAll(DataQuery.findRDFidStatements(modelOrModelSet, fromGraph, selectorSPARQLString)); 
-				
+				if (null == subject) {
+					
+					// in the special case when rdf:ID was used as a source property, we query for a set of triples (<ID>, rdf:type, rdfs:Resource).
+					//statementSet.addAll(DataQuery.findResourceStatements(modelOrModelSet, fromGraph, spURI, selectorSPARQLString)); 
+					statementSet.addAll(DataQuery.findRDFidStatements(modelOrModelSet, fromGraph, selectorSPARQLString)); 
+
+				} else {
+
+					// create a single rdf:ID statement when the query is restricted with a subject
+					statementSet.add(new StatementImpl(fromGraph, subject, spURI, subject));
+
+				}
+							
 			} else if (onlyMostSpecific) {
 				
 				 // get only the most specific statements and exclude those using a super-property instead
-				statementSet.addAll(DataQuery.findStatementsPreferingThoseUsingASubProperty(modelOrModelSet, fromGraph, spURI, selectorSPARQLString)); 
+				statementSet.addAll(DataQuery.findStatementsPreferingThoseUsingASubProperty(
+						modelOrModelSet,
+						fromGraph,
+						spURI,
+						selectorSPARQLString,
+						subject,
+						object
+						)); 
 				
 			} else {
 				
 				// old code for getting statements directly with the API without SPARQL. maybe reuse later, when performance should matter
 				// not usable in most cases, since many filter and restrictions usually apply for statement selection
 				LOGGER.severe("Finding statements including less specific statements not implemented.");
-				System.exit(1);
+				
+				// TODO what should happen here??? can most specific and inheritedBy already be used at the same time? or only XOR?
+				//System.exit(1);
 				//statementSet.addAll(findStatementsIncludingSubPropertyStatementsWithoutSPARQL(
 				//		modelOrModelSet, subject, object, spURI,classSelector));
 				
 			}
 			
+			// WARNING!
+			// if inherited by is set statement set will be extended, not replaced! :
+			
 			// consider inherited relations, including those between classes (someValueFrom ...)
-			if(pm.hasInheritedby()) {
+			if (pm.hasInheritedby()) {
 				
-				try{
+				try {
 				
-				Property inheritedBy = pm.getInheritedBy();
-				
-				// temp only support some and all values from ...
-				if (!(
+					Property inheritedBy = pm.getInheritedBy();
+
+					if (
 						inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
 						|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())
 						|| inheritedBy.toString().equals(RVL.TBOX_RESTRICTION)
 						|| inheritedBy.toString().equals(RVL.TBOX_DOMAIN_RANGE)	
-					)) {
-					LOGGER.finest("inheritedBy set to a value not defining a class level relation or value not yet supported. Will be ignored as a class level relation.");
-					return statementSet;
-				}
-	
-				statementSet.addAll(findRelationsOnClassLevel(
+					) {
+					
+					statementSet.addAll(findRelationsOnClassLevel(
 							modelOrModelSet,
 							fromGraph,
 							spURI,
@@ -242,6 +288,12 @@ public class DataQuery {
 							subject,
 							object)
 							);
+					
+					} else {
+						LOGGER.finest("inheritedBy set to a value not defining a class level relation or value not yet supported." +
+								" Will be ignored as a class level relation.");
+					}
+				
 				} catch (Exception e) {
 					LOGGER.warning("Problem evaluating inheritedBy setting or getting relations on class level");
 				}
@@ -249,6 +301,7 @@ public class DataQuery {
 			
 			return statementSet;
 	}
+	
 	
 	/**
 	 * TODO: directly query for the special statements with the pattern <RESOURCE_URI> rdf:ID <RESOURCE_URI>
@@ -414,7 +467,5 @@ public class DataQuery {
 		return resourceSet;
 	
 	}
-	
 
-	
 }

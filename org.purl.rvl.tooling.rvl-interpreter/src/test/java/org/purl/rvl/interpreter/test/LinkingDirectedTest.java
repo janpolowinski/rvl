@@ -24,6 +24,13 @@ public class LinkingDirectedTest extends TestOGVICProcess {
 		//project.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		
 		loadProjectAndRunProcess();
+		
+		assertGeneratedJSONEqualsExpected();
+	}
+
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		return "linking-directed.json";
 	}
 
 

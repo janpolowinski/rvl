@@ -1,7 +1,11 @@
 package org.purl.rvl.interpreter.test;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
+import org.apache.commons.io.FileUtils;
+import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
@@ -10,12 +14,15 @@ import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.process.VisProject;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 /**
  * @author Jan Polowinski
  *
  */
-public class TestOGVICProcess {
+public abstract class TestOGVICProcess {
+	
+	private static final String PATH_TO_RESOURCES = "src/test/resources/d3-json";
 	
 	protected OGVICProcess process;
 	protected VisProject project = new VisProject("test");
@@ -52,6 +59,7 @@ public class TestOGVICProcess {
 
 		process.loadProject(project);
 		process.runOGVICProcess();
+		//process.runOGVICProcessForTesting();
 	}
 	/*
 	@Test
@@ -74,5 +82,48 @@ public class TestOGVICProcess {
 		fail("Not yet implemented");
 	}
 	*/
+	
+	protected String getGeneratedD3json(){
+		return process.getGeneratedD3json();
+	}
 
+	protected String getExpectedD3json(String fileNameWithoutPath) throws IOException {
+		
+		File file = new File(PATH_TO_RESOURCES + "/" + fileNameWithoutPath);
+		
+		return FileUtils.readFileToString(file);
+	}
+
+	/**
+	 * Checks if the generated D3 JSON equals the expected JSON from the test result file
+	 */
+	protected void assertGeneratedJSONEqualsExpected() {
+		
+		try {
+			
+			String actual = getGeneratedD3json();
+			String expected = getExpectedD3json(getExpectedD3JSONFileName());
+			
+			// length seems not always to be the same ?!
+			//Assert.assertEquals(null, expected, actual);
+			//Assert.assertEquals(null, expected.length(), actual.length());
+			
+			try {
+				
+				// this works fine (when non-strict), except for sub-mapping test case which is very large atm
+				JSONAssert.assertEquals(expected, actual, false);
+				
+			}  catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		}
+	}
+
+	protected abstract String getExpectedD3JSONFileName();
+	
 }

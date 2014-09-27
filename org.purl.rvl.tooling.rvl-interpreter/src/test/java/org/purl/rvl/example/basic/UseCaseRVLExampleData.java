@@ -29,7 +29,13 @@ public class UseCaseRVLExampleData extends TestOGVICProcess {
 		project.setD3GraphicFile("circle-packing-zoomable/index.html");
 		
 		loadProjectAndRunProcess();
+		
+		assertGeneratedJSONEqualsExpected();
 	}
 
+	@Override
+	protected String getExpectedD3JSONFileName() {
+		return "rvl-example-data.json";
+	}
 
 }

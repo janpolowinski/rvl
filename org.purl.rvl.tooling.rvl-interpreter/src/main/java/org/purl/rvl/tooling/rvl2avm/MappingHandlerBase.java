@@ -10,6 +10,7 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.exception.MappingException;
 import org.purl.rvl.exception.NotImplementedMappingFeatureException;
 import org.purl.rvl.tooling.util.AVMUtils;
 
@@ -36,8 +37,17 @@ public abstract class MappingHandlerBase implements MappingHandler  {
 		this.modelAVM = modelAvm;
 	}
 
-	protected abstract void encodeStatement(Statement statement)
-			throws InsufficientMappingSpecificationException, NotImplementedMappingFeatureException;
+	/**
+	 * Visually encodes a Statement in the domain data and creates the necessary
+	 * graphic objects for the subject (and object if necessary) and if they do not already exist.
+	 * 
+	 * @param statement
+	 * @throws InsufficientMappingSpecificationException
+	 * @throws NotImplementedMappingFeatureException
+	 * @throws MappingException
+	 */
+	abstract void encodeStatement(Statement statement)
+			throws InsufficientMappingSpecificationException, NotImplementedMappingFeatureException, MappingException;
 
 	
 	

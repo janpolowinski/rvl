@@ -3,6 +3,7 @@
  */
 package org.purl.rvl.tooling.query.data;
 
+import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.vocabulary.OWL;
@@ -19,7 +20,7 @@ public class DataQueryBuilder extends SPARQLQueryBuilder {
 
 	private Resource subject;
 	private Resource predicate;
-	private Resource object;
+	private Node object;
 	private URI spURI;
 	private String selectorSPARQLString;
 
@@ -48,7 +49,7 @@ public class DataQueryBuilder extends SPARQLQueryBuilder {
 		query.append(" FILTER (?p = " +  predicate.toSPARQL() + ") ");
 	}
 
-	private void constrainToObjectSPARQL(Resource object) {
+	private void constrainToObjectSPARQL(Node object) {
 		query.append(" FILTER (?o = " +  object.toSPARQL() + ") ");
 	}
 
@@ -73,7 +74,7 @@ public class DataQueryBuilder extends SPARQLQueryBuilder {
 		this.predicate = predicate;
 	}
 
-	public void constrainToObject(Resource object) {
+	public void constrainToObject(Node object) {
 		this.object = object;
 	}
 
