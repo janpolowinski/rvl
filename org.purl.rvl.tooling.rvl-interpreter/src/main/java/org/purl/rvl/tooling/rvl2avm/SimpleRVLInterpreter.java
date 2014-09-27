@@ -127,9 +127,9 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			PropertyToGraphicAttributeMappingX p2gam = (PropertyToGraphicAttributeMappingX) iterator.next();
 			
 			// caching
-			p2gam = (PropertyToGraphicAttributeMappingX) 
-					RVLUtils.tryReplaceWithCashedInstanceForSameURI(p2gam, PropertyToGraphicAttributeMappingX.class)
-					.castTo(PropertyToGraphicAttributeMappingX.class);
+			// TODO reenable caching?
+			//p2gam = (PropertyToGraphicAttributeMappingX) 
+			//		RVLUtils.tryReplaceWithCashedInstanceForSameURI(p2gam, PropertyToGraphicAttributeMappingX.class);
 			
 			if (p2gam.isDisabled()) {
 				LOGGER.info("Ignored disabled P2GAM mapping " + p2gam.toStringSummary() );
@@ -174,7 +174,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			//System.out.println(ModelUtils.getTypes(modelSet.getModel(OGVICProcess.GRAPH_MAPPING), mapping));
 
 			// caching
-			mapping = RVLUtils.tryReplaceWithCashedInstanceForSameURI(mapping, IdentityMappingX.class);
+			//mapping = RVLUtils.tryReplaceWithCashedInstanceForSameURI(mapping, IdentityMappingX.class);
 
 			if (mapping.isDisabled()) {
 				LOGGER.info("Ignored disabled mapping "

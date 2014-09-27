@@ -312,7 +312,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			// subclass-hierarchy (wrappers inherit from generated classes instead!)
 			// short time solution: only store PM to cash, not subclasses
 			// long term solution restructure subclass-hierarchy. all wrappers use delegation instead of inheritance
-			PropertyMappingX subMappingPM = (PropertyMappingX) subMapping.castTo(PropertyMappingX.class);
+			PropertyMappingX subMappingPM = (PropertyMappingX) subMapping;
 
 			// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
 			// not already here, we need to know first, what kind of mapping we want to receive P2GAM, P2GOTORM? ... ) : 
@@ -395,17 +395,18 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	
 		Resource newWorkResource = determineWorkResource(mainStatement, triplePartURI);
 	
-		if (subMapping.isInstanceof(IdentityMappingX.RDFS_CLASS)) { 
+		if (subMapping instanceof IdentityMappingX) { 
 	
-			IdentityMappingX idMapping = (IdentityMappingX) subMapping.castTo(IdentityMappingX.class);
+			IdentityMappingX idMapping = (IdentityMappingX) subMapping;
 			
 			new IdentityMappingHandler(modelSet, this, modelAVM)
 				.encodeStatement(mainStatement, idMapping, graphicObjToApplySubmapping, newWorkResource);
 	
-		} else if (subMapping.isInstanceof(PropertyToGraphicAttributeMappingX.RDFS_CLASS)) {
+		} else if (subMapping instanceof PropertyToGraphicAttributeMappingX) {
 	
 			// check if already cached in the extra java object cache for resource (rdf2go itself is stateless!)
-			PropertyToGraphicAttributeMappingX p2gam = RVLUtils.tryReplaceWithCashedInstanceForSameURI(subMapping, PropertyToGraphicAttributeMappingX.class);
+			//PropertyToGraphicAttributeMappingX p2gam = RVLUtils.tryReplaceWithCashedInstanceForSameURI(subMapping, PropertyToGraphicAttributeMappingX.class);
+			PropertyToGraphicAttributeMappingX p2gam = (PropertyToGraphicAttributeMappingX) subMapping;
 			
 			if (!p2gam.hasValuemapping()) {
 				throw new InsufficientMappingSpecificationException(
@@ -415,9 +416,9 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			new MappingToP2GAMHandler(modelSet, this, modelAVM)
 				.handleP2GAMMapping(p2gam, graphicObjToApplySubmapping, newWorkResource);
 	
-		} else if (subMapping.isInstanceof(MappingX.RDFS_CLASS)) {
+		} else if (subMapping instanceof MappingX ) {
 	
-			PropertyToGO2ORMappingX p2go2orm = (PropertyToGO2ORMappingX) subMapping.castTo(PropertyToGO2ORMappingX.class);
+			PropertyToGO2ORMappingX p2go2orm = (PropertyToGO2ORMappingX) subMapping;
 	
 			// TODO: Refactor VISO/RVL: we have to use the generic type Node here since there is a mismatch between the
 			// generated types returned by getTargetGraphicRelation and the superclass of Labeling
@@ -467,14 +468,13 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			PropertyMappingX mapping) throws UnsupportedMappingParameterValueException, MappingException {
 	
 			// there is not yet a special parameter-mapping, so we use P2GAMs here
-			if (!mapping.isInstanceof(PropertyToGraphicAttributeMappingX.RDFS_CLASS)) {
+			if (!(mapping instanceof PropertyToGraphicAttributeMappingX)) {
 				
 				throw new MappingException("Use P2GAM for value mappings of parameters until " +
 						"a special paramter mapping class exists. Other mapping types are not supported.");
 			}
 	
-			final PropertyToGraphicAttributeMappingX parameterMapping = (PropertyToGraphicAttributeMappingX) mapping
-					.castTo(PropertyToGraphicAttributeMappingX.class);
+			final PropertyToGraphicAttributeMappingX parameterMapping = (PropertyToGraphicAttributeMappingX) mapping;
 	
 			final GraphicAttribute targetParameter = parameterMapping.getTargetAttribute();
 	
@@ -615,7 +615,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	public void applyInheritanceOfTargetValue(PropertyToGraphicAttributeMappingX p2gam, Resource baseResource, Node tv)
 			throws InsufficientMappingSpecificationException {
 
-		Property inheritedBy = ((PropertyMappingX) p2gam.castTo(PropertyMappingX.class)).getInheritedBy();
+		Property inheritedBy = ((PropertyMappingX) p2gam).getInheritedBy();
 
 		// temp only support some and allValuesFrom ... // TODO these checks are also done in findRelationsOnClassLevel
 		if (null != inheritedBy

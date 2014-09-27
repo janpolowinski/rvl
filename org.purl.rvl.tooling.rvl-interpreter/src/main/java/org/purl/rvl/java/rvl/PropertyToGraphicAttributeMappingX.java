@@ -52,8 +52,13 @@ public class PropertyToGraphicAttributeMappingX extends PropertyMappingX {
 	private Map<Property,Map<Node, Node>> extendedMappedValuesByExtensionProperty;
 
 
+	public PropertyToGraphicAttributeMappingX(Property_to_Graphic_AttributeMapping mapping) {
+		delegatee = mapping;
+	}
+
+
 	private ValueMappingX getFirstValueMapping() {
-		return (ValueMappingX)delegatee.getAllValuemapping_as().firstValue().castTo(ValueMappingX.class);
+		return (ValueMappingX) delegatee.getAllValuemapping_as().firstValue().castTo(ValueMappingX.class);
 	}
 
 	

@@ -63,7 +63,8 @@ public class MappingX {
 					(PropertyToGraphicAttributeMappingX) delegatee.castTo(PropertyToGraphicAttributeMappingX.class);
 			
 			// caching
-			p2gam = RVLUtils.tryReplaceWithCashedInstanceForSameURI(p2gam, PropertyToGraphicAttributeMappingX.class);
+			// TODO reenable caching? 
+			//p2gam = RVLUtils.tryReplaceWithCashedInstanceForSameURI(p2gam, PropertyToGraphicAttributeMappingX.class);
 			
 			s += p2gam.toStringDetailed();
 		}
@@ -75,7 +76,8 @@ public class MappingX {
 					(PropertyToGO2ORMappingX) delegatee.castTo(PropertyToGO2ORMappingX.class);
 			
 			// caching
-			p2go2orm = RVLUtils.tryReplaceWithCashedInstanceForSameURI(p2go2orm, PropertyToGO2ORMappingX.class);
+			// TODO reenable caching? 
+			//p2go2orm = RVLUtils.tryReplaceWithCashedInstanceForSameURI(p2go2orm, PropertyToGO2ORMappingX.class);
 						
 			s += p2go2orm.toStringDetailed();
 		}

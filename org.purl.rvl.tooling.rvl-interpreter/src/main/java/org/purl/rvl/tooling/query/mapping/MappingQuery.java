@@ -11,6 +11,7 @@ import org.ontoware.rdf2go.model.QueryResultTable;
 import org.ontoware.rdf2go.model.QueryRow;
 import org.ontoware.rdf2go.model.node.URI;
 import org.purl.rvl.java.gen.rvl.Identitymapping;
+import org.purl.rvl.java.gen.rvl.Mapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
 import org.purl.rvl.java.rvl.IdentityMappingX;
@@ -40,7 +41,7 @@ public class MappingQuery {
 			String queryString = "" + NL + 
 					"ASK " + NL + 
 					"WHERE { " + NL + 
-					"    " + mapping.asURI().toSPARQL() + " " + PropertyToGraphicAttributeMappingX.VALUEMAPPING.toSPARQL() + "  ?vm . " + NL + 
+					"    " + mapping.asURI().toSPARQL() + " " + Property_to_Graphic_AttributeMapping.VALUEMAPPING.toSPARQL() + "  ?vm . " + NL + 
 					"	{ " + NL + 
 					"	SELECT ?vm  (COUNT(?sv) AS ?svCount) " + NL + 
 					"       WHERE " + NL + 
@@ -65,8 +66,8 @@ public class MappingQuery {
 			String queryString = "" + NL + 
 					"SELECT DISTINCT ?mapping " + NL + 
 					"WHERE { " + NL + 
-					"    ?mapping a <" + PropertyToGraphicAttributeMappingX.RDFS_CLASS + "> . " + NL + 
-					"    ?mapping <" + PropertyToGraphicAttributeMappingX.VALUEMAPPING + "> ?vm . " + NL + 
+					"    ?mapping a <" + Property_to_Graphic_AttributeMapping.RDFS_CLASS + "> . " + NL + 
+					"    ?mapping <" + Property_to_Graphic_AttributeMapping.VALUEMAPPING + "> ?vm . " + NL + 
 					"	{ " + NL + 
 					"	SELECT ?vm  (COUNT(?sv) AS ?svCount) " + NL + 
 					"       WHERE " + NL + 
@@ -92,8 +93,8 @@ public class MappingQuery {
 			String queryString = "" +
 					"SELECT DISTINCT ?mapping " + NL + 
 					"WHERE { " + NL + 
-					"    ?mapping a <" + PropertyToGraphicAttributeMappingX.RDFS_CLASS + "> . " + NL + 
-					"    ?mapping <" + PropertyToGraphicAttributeMappingX.VALUEMAPPING + "> ?vm . " + NL + 
+					"    ?mapping a <" + Property_to_Graphic_AttributeMapping.RDFS_CLASS + "> . " + NL + 
+					"    ?mapping <" + Property_to_Graphic_AttributeMapping.VALUEMAPPING + "> ?vm . " + NL + 
 	//				"	{ " +
 	//				"	SELECT ?vm  (COUNT(?sv) AS ?svCount) " +
 	//				"       WHERE " +
@@ -112,7 +113,7 @@ public class MappingQuery {
 		
 		MappingQueryBuilder queryBuilder = new MappingQueryBuilder();
 		//queryBuilder.constrainToGraph(OGVICProcess.GRAPH_MAPPING);
-		queryBuilder.constrainToType(MappingX.RDFS_CLASS);
+		queryBuilder.constrainToType(Mapping.RDFS_CLASS);
 		// constraining target GOTOR is optional
 		if (null != gotor) queryBuilder.constrainToTargetGR(gotor);
 		String queryString = queryBuilder.buildQuery();
@@ -155,7 +156,8 @@ public class MappingQuery {
 		
 		for (QueryRow row : results) {
 				Property_to_Graphic_AttributeMapping mapping = Property_to_Graphic_AttributeMapping.getInstance(modelMappings, row.getValue("mapping").asResource());
-				mappingSet.add((PropertyToGraphicAttributeMappingX)mapping.castTo(PropertyToGraphicAttributeMappingX.class));
+				//mappingSet.add((PropertyToGraphicAttributeMappingX)mapping.castTo(PropertyToGraphicAttributeMappingX.class));
+				PropertyToGraphicAttributeMappingX mappingX = new PropertyToGraphicAttributeMappingX(mapping);
 				continue;
 		}
 		

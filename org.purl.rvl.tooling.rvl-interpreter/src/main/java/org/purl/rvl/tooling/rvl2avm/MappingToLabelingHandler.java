@@ -81,7 +81,7 @@ public class MappingToLabelingHandler extends MappingToP2GOTORHandler {
 
 		// 2. call the submapping method with the same unchanged statement to set label text_value or
 		// icon_shape etc ...
-		if (mapping.hasSubmapping()) {
+		if (mapping.hasSubMapping()) {
 			rvlInterpreter.applySubmappings(mapping, statement, rel);
 		}
 

@@ -126,7 +126,7 @@ public class MappingToLinkingHandler extends MappingToP2GOTORHandler {
 		}
 
 		// submappings
-		if (mapping.hasSubmapping()) {
+		if (mapping.hasSubMapping()) {
 
 			if (null != rel) {
 				rvlInterpreter.applySubmappings(mapping, statement, rel);

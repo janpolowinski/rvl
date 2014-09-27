@@ -9,6 +9,7 @@ import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Resource;
+import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.runtime.ReactorRuntimeEntity;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
@@ -47,7 +48,7 @@ public class PropertyToGO2ORMappingX extends PropertyMappingX {
 		String tgrString = tgo2or.getAllLabel_as().count()>0 ? tgo2or.getAllLabel_as().firstValue() : tgo2or.toString();
 		s += "     target GOTOR: " + tgrString + NL ;
 		
-		if (pm.hasSubmapping()) {
+		if (pm.hasSubMapping()) {
 			// list sub-mappings
 			// TODO only first submapping listed here
 			SubMappingRelationX smr = new SubMappingRelationX(delegatee.getAllSub_mapping_as().firstValue());
@@ -68,9 +69,10 @@ public class PropertyToGO2ORMappingX extends PropertyMappingX {
 		return ((PropertyMappingX) delegatee.castTo(PropertyMappingX.class)).getSourceProperty();
 	}
 
-	public GraphicObjectToObjectRelation getTargetGraphicRelation() throws InsufficientMappingSpecificationException {
+	public Property getTargetGraphicRelation() throws InsufficientMappingSpecificationException {
 		if (delegatee.hasTargetobject_to_objectrelation()) {
-			return delegatee.getAllTargetobject_to_objectrelation_as().firstValue();
+			URI uri = delegatee.getAllTargetobject_to_objectrelation_as().firstValue().asURI(); 
+			return new Property(delegatee.getModel(), uri, false);
 		} else throw new InsufficientMappingSpecificationException("Missing target graphic relation.");
 	}
 
@@ -87,7 +89,7 @@ public class PropertyToGO2ORMappingX extends PropertyMappingX {
 		}
 		
 		Set<SubMappingRelationX> subMappingRelationsX = new HashSet<SubMappingRelationX>();
-		if (hasSubmapping()) {
+		if (hasSubMapping()) {
 			ClosableIterator<Sub_mappingrelation> subMappingRelations =  delegatee.getAllSub_mapping_as().asClosableIterator();
 			while (subMappingRelations.hasNext()) {
 				

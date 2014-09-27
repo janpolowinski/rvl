@@ -264,8 +264,16 @@ public class PropertyMappingX extends MappingX {
 		}	
 	}
 	
-	public boolean hasSubmapping(){
+	public boolean hasSubMapping(){
 		return delegatee.hasSub_mapping();
+	}
+
+	public boolean hasSubjectFilter() {
+		return delegatee.hasSubjectfilter();
+	}
+
+	public boolean hasInheritedby() {
+		return delegatee.hasInheritedby();
 	}
 
 }

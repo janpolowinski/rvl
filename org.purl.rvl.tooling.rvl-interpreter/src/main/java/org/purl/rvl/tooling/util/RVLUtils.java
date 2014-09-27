@@ -72,6 +72,13 @@ public class RVLUtils {
 		T castedInstance = (T) instance.castTo(clasz);
 		
 		return (T) ResourcesCache.getInstance().tryReplaceOrCache(castedInstance);
+		
+		/*	if (T extends Thing1) {
+			castedInstance = (T) instance.castTo(clasz);
+		}
+		else {
+			castedInstance = (T) instance;
+		}*/
 	}
 	
 	public static <T extends org.purl.rvl.java.gen.viso.graphic.Thing1> T tryReplaceWithCashedInstanceForSameURI_for_VISO_Resources(org.purl.rvl.java.gen.viso.graphic.Thing1 instance, Class<T> clasz) {
@@ -80,6 +87,21 @@ public class RVLUtils {
 		
 		return (T) ResourcesCache.getInstance().tryReplaceOrCache(castedInstance);
 	}
+	
+	/**
+	 * After changing mappings to not inherit from the generated classes
+	 * @param instance
+	 * @param clasz
+	 * @return
+	 */
+//	public static <T extends Object> T tryReplaceWithCashedInstanceForSameURI_2(Object instance, Class<T> clasz) {
+//		
+//		T castedInstance = (T) instance;
+//		
+//		return (T) ResourcesCache.getInstance().tryReplaceOrCache(castedInstance);
+//		
+//		// sinnvoll für nicht-resourcen?
+//	}
 
 	/**
 	 * Extends a value mapping table to include source values related to the explicitly mapped source value 

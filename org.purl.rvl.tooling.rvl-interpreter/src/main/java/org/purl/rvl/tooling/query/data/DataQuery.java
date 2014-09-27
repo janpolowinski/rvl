@@ -216,7 +216,7 @@ public class DataQuery {
 			
 			String selectorSPARQLString = "";
 			
-			if (pm.hasSubjectfilter()) {
+			if (pm.hasSubjectFilter()) {
 	
 				selectorSPARQLString = pm.getSubjectFilterString();
 			

@@ -9,6 +9,7 @@ import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.ontoware.rdfreactor.runtime.ReactorResult;
 import org.ontoware.rdfreactor.schema.rdfs.Resource;
+import org.purl.rvl.java.gen.rvl.Mapping;
 import org.purl.rvl.java.gen.viso.graphic.Color;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObject;
 import org.purl.rvl.java.rvl.MappingX;
@@ -38,8 +39,8 @@ public class PrintUtils {
 			System.out.println("Trying to get and print mapping with the URI " + uriString + ":");
 			System.out.println("");
 			
-		  	org.purl.rvl.java.gen.rvl.Mapping mapping = MappingX.getInstance(model, new URIImpl(uriString));
-		  	System.out.println(((MappingX) mapping.castTo(MappingX.class)).toStringAsSpecificAsPossible());
+		  	org.purl.rvl.java.gen.rvl.Mapping mapping = Mapping.getInstance(model, new URIImpl(uriString));
+		  	System.out.println(mapping);
 	  }
 
 	public static void printMapping(org.purl.rvl.java.gen.rvl.Mapping mapping){  
@@ -52,7 +53,7 @@ public class PrintUtils {
 			System.out.println("Mapping details: ");
 			System.out.println("");
 			
-		  	System.out.println(((MappingX) mapping.castTo(MappingX.class)).toStringAsSpecificAsPossible());
+		  	System.out.println(mapping.toStringAsSpecificAsPossible());
 	  }
 
 	public static void listAllMappings(Model model) {
@@ -63,7 +64,7 @@ public class PrintUtils {
 		System.out.println("");
 	
 		// get references for all objects of the MappingX class
-		ReactorResult<? extends org.purl.rvl.java.gen.rvl.Mapping> rrMappings = MappingX
+		ReactorResult<? extends org.purl.rvl.java.gen.rvl.Mapping> rrMappings = Mapping
 				.getAllInstances_as(model);
 	
 		// get and print all mapping instances

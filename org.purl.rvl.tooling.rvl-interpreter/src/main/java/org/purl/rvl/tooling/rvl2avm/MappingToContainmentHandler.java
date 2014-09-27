@@ -86,7 +86,7 @@ public class MappingToContainmentHandler extends MappingToP2GOTORHandler {
 		rel = containmentRel;
 
 		// submappings
-		if (mapping.hasSubmapping()) {
+		if (mapping.hasSubMapping()) {
 			
 			// Containment etc need to be subclasses of (n-ary)
 			// GraphicRelation
