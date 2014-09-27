@@ -17,6 +17,7 @@ import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.MappingException;
 import org.purl.rvl.exception.NotImplementedMappingFeatureException;
+import org.purl.rvl.exception.SubmappingException;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
@@ -156,9 +157,10 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
 	 * @param workNode - the node to work with (use as source value, apply base further mappings on ...)
 	 * It is one of the nodes used in the statement.
 	 * @throws InsufficientMappingSpecificationException
+	 * @throws SubmappingException 
 	 */
 	public void encodeStatement(Statement statement, PropertyToGraphicAttributeMappingX mapping,
-			GraphicObjectX graphicObjectToApplyMapping, Node workNode) throws InsufficientMappingSpecificationException {
+			GraphicObjectX graphicObjectToApplyMapping, Node workNode) throws InsufficientMappingSpecificationException, SubmappingException {
 		
 		this.mapping = mapping;
 		

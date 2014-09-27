@@ -5,15 +5,11 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import org.ontoware.aifbcommons.collection.ClosableIterator;
-import org.ontoware.rdf2go.exception.ModelRuntimeException;
-import org.ontoware.rdf2go.model.Model;
-import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Literal;
-import org.ontoware.rdf2go.model.node.Resource;
-import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.UnsupportedSelectorTypeException;
+import org.purl.rvl.java.gen.rvl.Mapping;
 import org.purl.rvl.java.gen.rvl.PropertyMapping;
 import org.purl.rvl.java.gen.rvl.Sub_mappingrelation;
 import org.purl.rvl.java.rvl.filter.SubjectFilter;
@@ -25,9 +21,7 @@ import org.purl.rvl.tooling.util.AVMUtils;
  */
 public class PropertyMappingX extends MappingX {
 	
-	private PropertyMapping delegatee;
-	
-	private static final long serialVersionUID = 4491101288581389956L;
+	//protected PropertyMapping delegatee;
 
 	private final static Logger LOGGER = Logger.getLogger(PropertyMappingX.class .getName()); 
 	
@@ -36,11 +30,20 @@ public class PropertyMappingX extends MappingX {
 	private Set<SubMappingRelationX> subMappings; 
 
 	
+	public PropertyMappingX(PropertyMapping delegatee) {
+		super((Mapping) delegatee.castTo(Mapping.class)); // TODO this cast is only necessary because PropertyMapping does not extend Mapping but A1. This is a bug in the RVL schema or the generator.
+		//this.delegatee = delegatee;
+	}
+	
+	//protected PropertyMapping getDelegegatee(){
+	//	return delegatee;
+	//}
+
 	public String toStringDetailed() {
 		String s ="";
 		
 		// try to get the string description from the (manual) MappingX class, which is not in the super-class hierarchy
-		MappingX m = (MappingX) delegatee.castTo(MappingX.class);
+		MappingX m = (MappingX) getDelegatee().castTo(MappingX.class);
 		s += m.toStringDetailed();
 
 		/*// letting the mapping print the affected resources is bad, since this depends on the used data model now, which may be unavailable in test scenarios
@@ -180,39 +183,39 @@ public class PropertyMappingX extends MappingX {
 
 
 	public Property getSourceProperty() throws InsufficientMappingSpecificationException {
-		if (hasSourceproperty())
-			return delegatee.getAllSourceproperty_as().firstValue();
+		if (hasSourceProperty())
+			return getDelegatee().getAllSourceproperty_as().firstValue();
 		else 
-			throw new InsufficientMappingSpecificationException();
+			throw new InsufficientMappingSpecificationException("No source property could be found.");
 	}
 
-	private boolean hasSourceproperty() {
-		return false;
+	private boolean hasSourceProperty() {
+		return getDelegatee().hasSourceproperty();
 	}
 
 	public Property getTargetGraphicRelation() throws InsufficientMappingSpecificationException {
-		if (delegatee.hasTargetgraphicrelation_abstract_())
-			return (Property)delegatee.getAllTargetgraphicrelation_abstract__as().firstValue().castTo(Property.class);
+		if (getDelegatee().hasTargetgraphicrelation_abstract_())
+			return (Property)getDelegatee().getAllTargetgraphicrelation_abstract__as().firstValue().castTo(Property.class);
 		else 
 			throw new InsufficientMappingSpecificationException();
 	}
 	
 	
 	public Literal getSubjectFilter(){
-		if (delegatee.hasSubjectfilter()) {
-			return delegatee.getAllSubjectfilter_asNode_().firstValue().asLiteral();
+		if (getDelegatee().hasSubjectfilter()) {
+			return getDelegatee().getAllSubjectfilter_asNode_().firstValue().asLiteral();
 		} else return null;
 	}
 
 	// TODO multiple inheritedBy values should be allowed
 	public Property getInheritedBy() {
-		if (delegatee.hasInheritedby()) {
-			return (Property)delegatee.getAllInheritedby_as().firstValue().castTo(Property.class);
+		if (getDelegatee().hasInheritedby()) {
+			return (Property)getDelegatee().getAllInheritedby_as().firstValue().castTo(Property.class);
 		} else return null;
 	}
 
 	public String toStringSummary() {
-		return AVMUtils.getGoodNodeLabel(delegatee, delegatee.getModel());
+		return AVMUtils.getGoodNodeLabel(getDelegatee(), getDelegatee().getModel());
 	}
 
 	/**
@@ -238,8 +241,8 @@ public class PropertyMappingX extends MappingX {
 		}
 		
 		Set<SubMappingRelationX> subMappingRelationsX = new HashSet<SubMappingRelationX>();
-		if (delegatee.hasSub_mapping()) {
-			ClosableIterator<Sub_mappingrelation> subMappingRelations =  delegatee.getAllSub_mapping_as().asClosableIterator();
+		if (getDelegatee().hasSub_mapping()) {
+			ClosableIterator<Sub_mappingrelation> subMappingRelations =  getDelegatee().getAllSub_mapping_as().asClosableIterator();
 			while (subMappingRelations.hasNext()) {
 				
 				Sub_mappingrelation rel = (Sub_mappingrelation) subMappingRelations
@@ -265,15 +268,19 @@ public class PropertyMappingX extends MappingX {
 	}
 	
 	public boolean hasSubMapping(){
-		return delegatee.hasSub_mapping();
+		return getDelegatee().hasSub_mapping();
 	}
 
 	public boolean hasSubjectFilter() {
-		return delegatee.hasSubjectfilter();
+		return getDelegatee().hasSubjectfilter();
 	}
 
 	public boolean hasInheritedby() {
-		return delegatee.hasInheritedby();
+		return getDelegatee().hasInheritedby();
+	}
+	
+	protected PropertyMapping getDelegatee() {
+		return (PropertyMapping) delegatee.castTo(PropertyMapping.class);
 	}
 
 }

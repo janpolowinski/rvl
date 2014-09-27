@@ -1,14 +1,9 @@
 package org.purl.rvl.java.rvl;
 
-import org.ontoware.rdf2go.exception.ModelRuntimeException;
-import org.ontoware.rdf2go.model.Model;
-import org.ontoware.rdf2go.model.node.BlankNode;
-import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.purl.rvl.java.gen.rvl.Mapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
-import org.purl.rvl.tooling.util.RVLUtils;
 
 /**
  * @author Jan Polowinski
@@ -16,19 +11,19 @@ import org.purl.rvl.tooling.util.RVLUtils;
  */
 public class MappingX {
 	
-	private Mapping delegatee;
+	protected Mapping delegatee;
 
 	static final String NL =  System.getProperty("line.separator");
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1457148355972827796L;
+	public MappingX(Mapping delegatee) {
+		super();
+		this.delegatee = delegatee;
+	}
 
 	public String toStringDetailed() {
 		String s = "################################################" + NL;
-		String label = delegatee.getAllLabel_as().firstValue();
-		Boolean includeInLegend = delegatee.getAllIncludeinlegend_as().firstValue();
+		String label = getDelegatee().getAllLabel_as().firstValue();
+		Boolean includeInLegend = getDelegatee().getAllIncludeinlegend_as().firstValue();
 		
 			s += "     ID: " + this.toString() + NL;
 		
@@ -47,8 +42,8 @@ public class MappingX {
 	}
 
 	public boolean isDisabled() {
-		if (delegatee.hasDisabled()) {
-			return delegatee.getAllDisabled_as().firstValue();
+		if (getDelegatee().hasDisabled()) {
+			return getDelegatee().getAllDisabled_as().firstValue();
 		} else return false;
 	}
 
@@ -57,10 +52,10 @@ public class MappingX {
 		 String s = "";
 		  
 		// print as P2GAM (value mappings ... )
-		if(delegatee.isInstanceof(Property_to_Graphic_AttributeMapping.RDFS_CLASS)) {
+		if(getDelegatee().isInstanceof(Property_to_Graphic_AttributeMapping.RDFS_CLASS)) {
 
 			PropertyToGraphicAttributeMappingX p2gam = 
-					(PropertyToGraphicAttributeMappingX) delegatee.castTo(PropertyToGraphicAttributeMappingX.class);
+					(PropertyToGraphicAttributeMappingX) getDelegatee().castTo(PropertyToGraphicAttributeMappingX.class);
 			
 			// caching
 			// TODO reenable caching? 
@@ -70,10 +65,10 @@ public class MappingX {
 		}
 		
 		// print as P2GO2ORM (submappings ... )
-		else if(delegatee.isInstanceof(Property_to_Graphic_Object_to_Object_RelationMapping.RDFS_CLASS)) {
+		else if(getDelegatee().isInstanceof(Property_to_Graphic_Object_to_Object_RelationMapping.RDFS_CLASS)) {
 			
 			PropertyToGO2ORMappingX p2go2orm = 
-					(PropertyToGO2ORMappingX) delegatee.castTo(PropertyToGO2ORMappingX.class);
+					(PropertyToGO2ORMappingX) getDelegatee().castTo(PropertyToGO2ORMappingX.class);
 			
 			// caching
 			// TODO reenable caching? 
@@ -91,8 +86,25 @@ public class MappingX {
 		
 	  }
 
-	public URI asURI() {
-		return delegatee.asURI();
+	public URI asURI() throws ClassCastException {
+		return getDelegatee().asURI();
+	}
+
+	/** Access the wrapped/adapted generated mapping 
+	 * @return the delegatee
+	 */
+	protected Mapping getDelegatee() {
+		return delegatee;
+	}
+
+	/*
+	protected void setDelegatee(Mapping delegatee) {
+		this.delegatee = delegatee;
+	}*/
+	
+	@Override
+	public String toString() {
+		return "wrapped " + delegatee.toString();
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.junit.Assert;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.Node;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
@@ -63,18 +64,21 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		for (Iterator<PropertyToGO2ORMappingX> iterator = mappings
 				.iterator(); iterator.hasNext();) {
 			
-			PropertyToGO2ORMappingX p2go2orm = (PropertyToGO2ORMappingX) iterator.next();
+			PropertyToGO2ORMappingX p2go2orm = iterator.next();
 			
 			// skip disabled
 			if (p2go2orm.isDisabled()) {
-				LOGGER.info("Ignored disabled P2GO2OR mapping " + p2go2orm.asURI());
+				LOGGER.info("Ignored disabled P2GO2OR mapping " + p2go2orm);
 				continue;
 			}
 			
-			LOGGER.info("Interpret P2GOTOR mapping " + p2go2orm.asURI() );
+			LOGGER.info("Interpret P2GOTOR mapping " + p2go2orm );
+			LOGGER.info("Details: ");
 			try {
 				LOGGER.info(p2go2orm.toStringDetailed() );
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				LOGGER.info("Details could not be printed due to errors during the evaluation.");
+			}
 			
 			try {
 				
@@ -101,6 +105,8 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			} 
 			catch (MappingException e) {
 				LOGGER.severe("P2GOTOR mapping " + p2go2orm + " could not be interpreted: " + e.getMessage());
+				e.printStackTrace();
+				Assert.fail("Mapping could not be interpreted: " + e.getMessage());
 			}
 
 		}
@@ -143,7 +149,9 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				new MappingToP2GAMHandler(modelSet, this, modelAVM).handleP2GAMMapping(p2gam);
 				
 			} catch (MappingException e) {
-				LOGGER.warning("No resources will be affected by mapping " + p2gam.asURI() + " (" + e.getMessage() + ")" );
+				LOGGER.severe("P2GA mapping " + p2gam + " could not be interpreted: " + e.getMessage());
+				e.printStackTrace();
+				Assert.fail("Mapping " + p2gam + " could not be interpreted: " + e.getMessage());
 			} 
 
 		}
@@ -185,7 +193,9 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 			try {
 				new IdentityMappingHandler(modelSet, this, modelAVM).handleIdentityMapping(mapping);
 			} catch (MappingException e) {
-				LOGGER.severe("Identity mapping could not be interpreted: " + e.getMessage());
+				LOGGER.severe("Identity mapping " + mapping + " could not be interpreted: " + e.getMessage());
+				e.printStackTrace();
+				Assert.fail("Identity mapping " + mapping + " could not be interpreted: " + e.getMessage());
 			}
 		}
 

@@ -12,6 +12,7 @@ import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.NotImplementedMappingFeatureException;
+import org.purl.rvl.exception.SubmappingException;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.Object_to_ObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
@@ -32,7 +33,7 @@ public class MappingToLinkingHandler extends MappingToP2GOTORHandler {
 	private final static Logger LOGGER = Logger.getLogger(MappingToLinkingHandler.class.getName());
 
 	@Override
-	public void encodeStatement(Statement statement) throws InsufficientMappingSpecificationException, NotImplementedMappingFeatureException {
+	public void encodeStatement(Statement statement) throws InsufficientMappingSpecificationException, NotImplementedMappingFeatureException, SubmappingException {
 		
 		try {
 			statement.getObject().asResource();

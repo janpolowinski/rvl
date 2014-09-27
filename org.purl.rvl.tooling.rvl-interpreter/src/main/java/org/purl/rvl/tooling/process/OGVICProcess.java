@@ -108,7 +108,7 @@ public class OGVICProcess {
         handler.setLevel(Level.FINEST);
         
         CustomRecordFormatter formatter = new CustomRecordFormatter();
-        handler.setFormatter(formatter); // out-comment this line to use the normal formatting with method and date
+        //handler.setFormatter(formatter); // out-comment this line to use the normal formatting with method and date
         
         LOGGER_RVL_PACKAGE.setUseParentHandlers(false); // otherwise double output of log entries
         LOGGER_RVL_PACKAGE.addHandler(handler);

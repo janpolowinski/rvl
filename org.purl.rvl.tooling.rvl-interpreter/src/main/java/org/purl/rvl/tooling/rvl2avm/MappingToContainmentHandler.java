@@ -12,6 +12,7 @@ import org.ontoware.rdf2go.model.node.Resource;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.MappingException;
 import org.purl.rvl.exception.NotImplementedMappingFeatureException;
+import org.purl.rvl.exception.SubmappingException;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.Object_to_ObjectRelation;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
@@ -31,7 +32,7 @@ public class MappingToContainmentHandler extends MappingToP2GOTORHandler {
 			.getLogger(MappingToContainmentHandler.class.getName());
 
 	public void encodeStatement(Statement statement) throws InsufficientMappingSpecificationException,
-		NotImplementedMappingFeatureException {
+		NotImplementedMappingFeatureException, SubmappingException {
 		
 		try {
 			statement.getObject().asResource();

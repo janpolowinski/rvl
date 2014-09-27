@@ -5,27 +5,19 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import org.ontoware.aifbcommons.collection.ClosableIterator;
-import org.ontoware.rdf2go.exception.ModelRuntimeException;
-import org.ontoware.rdf2go.model.Model;
-import org.ontoware.rdf2go.model.node.BlankNode;
-import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
-import org.ontoware.rdfreactor.runtime.ReactorRuntimeEntity;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.GraphicObjectToObjectRelation;
+import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
 import org.purl.rvl.java.gen.rvl.Sub_mappingrelation;
-
-import com.hp.hpl.jena.rdf.arp.states.HasSubjectFrameI;
 
 /**
  * @author Jan Polowinski
  *
  */
 public class PropertyToGO2ORMappingX extends PropertyMappingX {
-	
-	private static final long serialVersionUID = 1L;
 
 	static final String NL =  System.getProperty("line.separator");
 	
@@ -33,25 +25,30 @@ public class PropertyToGO2ORMappingX extends PropertyMappingX {
 
 	private Set<SubMappingRelationX> subMappings;
 
-	Property_to_Graphic_Object_to_Object_RelationMapping delegatee; 
+	//protected Property_to_Graphic_Object_to_Object_RelationMapping delegatee; 
 	
+	public PropertyToGO2ORMappingX(Property_to_Graphic_Object_to_Object_RelationMapping delegatee) {
+		super(delegatee);
+		//this.delegatee = delegatee;
+	}
+
 	public String toStringDetailed(){
 		
 		String s = "";
 		
 		// try to get the string description from the (manual) PropertyMappingX class, which is not in the super-class hierarchy
-		PropertyMappingX pm = (PropertyMappingX) delegatee.castTo(PropertyMappingX.class);
+		PropertyMappingX pm = (PropertyMappingX) getDelegatee().castTo(PropertyMappingX.class);
 		s += pm.toStringDetailed();
 		
 		// targetAttribute is specific to P2GAM
-		GraphicObjectToObjectRelation tgo2or = delegatee.getAllTargetobject_to_objectrelation_as().firstValue();
+		GraphicObjectToObjectRelation tgo2or = getDelegatee().getAllTargetobject_to_objectrelation_as().firstValue();
 		String tgrString = tgo2or.getAllLabel_as().count()>0 ? tgo2or.getAllLabel_as().firstValue() : tgo2or.toString();
 		s += "     target GOTOR: " + tgrString + NL ;
 		
 		if (pm.hasSubMapping()) {
 			// list sub-mappings
 			// TODO only first submapping listed here
-			SubMappingRelationX smr = new SubMappingRelationX(delegatee.getAllSub_mapping_as().firstValue());
+			SubMappingRelationX smr = new SubMappingRelationX(getDelegatee().getAllSub_mapping_as().firstValue());
 			s += "     Submapping relation (only first shown): " + smr + NL;
 			s += smr.toStringDetailed(true);
 		}
@@ -60,25 +57,22 @@ public class PropertyToGO2ORMappingX extends PropertyMappingX {
 	}
 
 	public boolean isInvertSourceProperty() {
-		if (delegatee.hasInvertsourceproperty()) {
-			return delegatee.getAllInvertsourceproperty_as().firstValue();
+		if (getDelegatee().hasInvertsourceproperty()) {
+			return getDelegatee().getAllInvertsourceproperty_as().firstValue();
 		} else return false;
 	}
-	
-	public Property getSourceProperty() throws InsufficientMappingSpecificationException {
-		return ((PropertyMappingX) delegatee.castTo(PropertyMappingX.class)).getSourceProperty();
-	}
+
 
 	public Property getTargetGraphicRelation() throws InsufficientMappingSpecificationException {
-		if (delegatee.hasTargetobject_to_objectrelation()) {
-			URI uri = delegatee.getAllTargetobject_to_objectrelation_as().firstValue().asURI(); 
-			return new Property(delegatee.getModel(), uri, false);
-		} else throw new InsufficientMappingSpecificationException("Missing target graphic relation.");
+		if (getDelegatee().hasTargetobject_to_objectrelation()) {
+			URI uri = getDelegatee().getAllTargetobject_to_objectrelation_as().firstValue().asURI(); 
+			return new Property(getDelegatee().getModel(), uri, false);
+		} else throw new InsufficientMappingSpecificationException("Missing target graphic relation for mapping " + this);
 	}
 
 	public Property getInheritedBy() {
-		if (delegatee.hasInvertsourceproperty()) {
-			return (Property)delegatee.getAllInheritedby_as().firstValue().castTo(Property.class);
+		if (getDelegatee().hasInvertsourceproperty()) {
+			return (Property)getDelegatee().getAllInheritedby_as().firstValue().castTo(Property.class);
 		} else return null;
 	}
 
@@ -90,7 +84,7 @@ public class PropertyToGO2ORMappingX extends PropertyMappingX {
 		
 		Set<SubMappingRelationX> subMappingRelationsX = new HashSet<SubMappingRelationX>();
 		if (hasSubMapping()) {
-			ClosableIterator<Sub_mappingrelation> subMappingRelations =  delegatee.getAllSub_mapping_as().asClosableIterator();
+			ClosableIterator<Sub_mappingrelation> subMappingRelations =  getDelegatee().getAllSub_mapping_as().asClosableIterator();
 			while (subMappingRelations.hasNext()) {
 				
 				Sub_mappingrelation rel = (Sub_mappingrelation) subMappingRelations
@@ -113,6 +107,10 @@ public class PropertyToGO2ORMappingX extends PropertyMappingX {
 		} else  {
 			return null;
 		}	
+	}
+	
+	protected Property_to_Graphic_Object_to_Object_RelationMapping getDelegatee() {
+		return (Property_to_Graphic_Object_to_Object_RelationMapping) delegatee.castTo(Property_to_Graphic_Object_to_Object_RelationMapping.class);
 	}
 
 }

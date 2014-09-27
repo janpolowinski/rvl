@@ -11,6 +11,7 @@ import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.exception.SubmappingException;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
 import org.purl.rvl.java.gen.viso.graphic.Superimposition;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
@@ -31,7 +32,7 @@ public class MappingToLabelingHandler extends MappingToP2GOTORHandler {
 	private final static Logger LOGGER = Logger.getLogger(MappingToLabelingHandler.class.getName());
 
 	@Override
-	void encodeStatement(Statement statement) throws InsufficientMappingSpecificationException {
+	void encodeStatement(Statement statement) throws InsufficientMappingSpecificationException, SubmappingException {
 
 		Resource subject = statement.getSubject();
 		
@@ -49,9 +50,10 @@ public class MappingToLabelingHandler extends MappingToP2GOTORHandler {
 	 * @param statement
 	 * @param mapping
 	 * @throws InsufficientMappingSpecificationException
+	 * @throws SubmappingException 
 	 */
 	public void encodeStatement(Statement statement, PropertyToGO2ORMappingX mapping, GraphicObjectX graphicObjectToApplyMapping) 
-			throws InsufficientMappingSpecificationException {
+			throws InsufficientMappingSpecificationException, SubmappingException {
 		
 		// TODO triple part not passed???? 
 		// sv = triplePart; // TODO when sp rdf:ID: ID actually only fine when URIs!

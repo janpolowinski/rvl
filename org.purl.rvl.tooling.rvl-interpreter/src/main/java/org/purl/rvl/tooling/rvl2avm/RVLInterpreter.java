@@ -9,6 +9,7 @@ import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.exception.SubmappingException;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.gen.viso.graphic.Object_to_ObjectRelation;
 import org.purl.rvl.java.rvl.PropertyMappingX;
@@ -54,9 +55,10 @@ public interface RVLInterpreter {
 	 * @param mapping
 	 * @param mainStatement
 	 * @param graphicRelation
+	 * @throws SubmappingException 
 	 */
 	public abstract void applySubmappings(PropertyMappingX mapping,
-			Statement mainStatement, Object_to_ObjectRelation graphicRelation);
+			Statement mainStatement, Object_to_ObjectRelation graphicRelation) throws SubmappingException;
 
 	/**
 	 * A version of the method to be called from P2GAM, where there is no graphic relation,
@@ -66,9 +68,10 @@ public interface RVLInterpreter {
 	 * @param mainStatement
 	 * @param graphicRelation
 	 * @param parentGO
+	 * @throws SubmappingException 
 	 */
 	public abstract void applySubmappings(PropertyMappingX mapping,
-			Statement mainStatement, GraphicObjectX parentGO);
+			Statement mainStatement, GraphicObjectX parentGO) throws SubmappingException;
 	
 	/**
 	 * The complete method being able to work with a graphic relation or a graphic 
@@ -78,9 +81,10 @@ public interface RVLInterpreter {
 	 * @param mainStatement
 	 * @param graphicRelation
 	 * @param parentGO
+	 * @throws SubmappingException 
 	 */
 	abstract void applySubmappings(PropertyMappingX mapping,
-			Statement mainStatement, Object_to_ObjectRelation graphicRelation, GraphicObjectX parentGO);
+			Statement mainStatement, Object_to_ObjectRelation graphicRelation, GraphicObjectX parentGO) throws SubmappingException;
 
 	public abstract void applyGraphicValueToGOsRepresentingNodesRelatedVia(GraphicAttribute tga, Node tv, Resource mappedNode, Property inheritedBy);
 

@@ -21,6 +21,7 @@ import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.MappingException;
 import org.purl.rvl.exception.NotImplementedMappingFeatureException;
+import org.purl.rvl.exception.SubmappingException;
 import org.purl.rvl.exception.UnsupportedMappingParameterValueException;
 import org.purl.rvl.java.RDF;
 import org.purl.rvl.java.RVL;
@@ -253,7 +254,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	 */
 	@Override
 	public void applySubmappings(PropertyMappingX mapping,
-			Statement mainStatement, Object_to_ObjectRelation graphicRelation) {
+			Statement mainStatement, Object_to_ObjectRelation graphicRelation) throws SubmappingException {
 		
 		applySubmappings(mapping, mainStatement, graphicRelation, null);
 	}
@@ -263,12 +264,13 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	 */
 	@Override
 	public void applySubmappings(PropertyMappingX p2go2orm,
-			Statement mainStatement, GraphicObjectX parentGO) {
+			Statement mainStatement, GraphicObjectX parentGO) throws SubmappingException {
 		
 		applySubmappings(p2go2orm, mainStatement, null, parentGO);
 	}
 
 	/**
+	 * @throws SubmappingException 
 	 * Applies sub-mappings (if any exist) based on a "main" statement. An existing GO to append the sub-mapping, as
 	 * well as a triple part (S,P,O) of the main statement (as a base for the mapping) is determined by the sub-mapping
 	 * relation (if not provided). TODO: linking-specific! only works on top of P2GOTORMs and only for sub-mappings that are P2GAMs
@@ -280,7 +282,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	 */
 	@Override
 	public void applySubmappings(PropertyMappingX mapping, Statement mainStatement,
-			Object_to_ObjectRelation graphicRelation, GraphicObjectX goToApplySubmappingArg) {
+			Object_to_ObjectRelation graphicRelation, GraphicObjectX goToApplySubmappingArg) throws SubmappingException {
 
 		// TODO derive GO by onRole settings and the mainStatement? or just check if correct?
 
@@ -364,15 +366,15 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 
 			} catch (InsufficientMappingSpecificationException e) {
 
-				LOGGER.warning("Submapping " + subMappingPM + " could not be applied. Reason: " + e.getMessage());
+				throw new SubmappingException("Submapping " + subMappingPM + " could not be applied. Reason: " + e.getMessage());
 
 			} catch (UnsupportedMappingParameterValueException e) {
 
-				LOGGER.warning("Submapping " + subMappingPM + " could not be applied. Reason: " + e.getMessage());
+				throw new SubmappingException("Submapping " + subMappingPM + " could not be applied. Reason: " + e.getMessage());
 
 			} catch (MappingException e) {
 
-				LOGGER.warning("Submapping " + subMappingPM + " could not be applied. Reason: " + e.getMessage());
+				throw new SubmappingException("Submapping " + subMappingPM + " could not be applied. Reason: " + e.getMessage());
 			}
 
 		}
@@ -416,7 +418,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			new MappingToP2GAMHandler(modelSet, this, modelAVM)
 				.handleP2GAMMapping(p2gam, graphicObjToApplySubmapping, newWorkResource);
 	
-		} else if (subMapping instanceof MappingX ) {
+		} else if (subMapping instanceof PropertyToGO2ORMappingX ) {
 	
 			PropertyToGO2ORMappingX p2go2orm = (PropertyToGO2ORMappingX) subMapping;
 	
