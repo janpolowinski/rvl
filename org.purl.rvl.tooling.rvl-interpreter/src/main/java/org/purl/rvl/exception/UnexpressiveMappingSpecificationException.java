@@ -7,7 +7,7 @@ package org.purl.rvl.exception;
  * @author Jan Polowinski
  *
  */
-public class UnexpressiveMappingSpecificationException extends Exception {
+public class UnexpressiveMappingSpecificationException extends MappingException {
 	
 	static String GENERAL_MESSAGE = "Mapping cannot express the mapped values correctly.";
 

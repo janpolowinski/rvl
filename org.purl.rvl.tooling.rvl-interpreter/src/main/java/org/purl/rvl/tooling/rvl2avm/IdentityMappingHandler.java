@@ -183,16 +183,16 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 			
 		} catch (InsufficientMappingSpecificationException e) {
 			throw new MappingException("Problem getting Identity-mapping-statements " +
-					"for " + mapping.asURI() + ": " + e.getMessage());
+					"for " + mapping + ": " + e.getMessage());
 		}
 
 
 		if (null == stmtSetIterator) {
 			LOGGER.severe("Statement iterator was null, no relations could be interpreted for "
-					+ mapping.asURI());
+					+ mapping);
 		} else if (!stmtSetIterator.hasNext()) {
 			LOGGER.severe("Statement iterator was empty, no relations could be interpreted for "
-					+ mapping.asURI());
+					+ mapping);
 		} else {
 
 			while (stmtSetIterator.hasNext()
@@ -204,7 +204,7 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 						encodeStatement(statement);
 					} catch (InsufficientMappingSpecificationException e) {
 						throw new MappingException("Problem encoding statement " 
-							+ statement.toString() + ": " + e.getMessage());
+							+ statement + ": " + e.getMessage());
 					}
 
 				processedGraphicRelations++;

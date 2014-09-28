@@ -22,7 +22,6 @@ import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.util.RDFTool;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
-import org.purl.rvl.java.gen.rvl.PropertyMapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Valuemapping;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
@@ -37,11 +36,8 @@ import org.purl.rvl.tooling.util.RVLUtils;
  */
 public class PropertyToGraphicAttributeMappingX extends PropertyMappingX {
 	
-	//protected Property_to_Graphic_AttributeMapping  delegatee;
-	
 	private final static Logger LOGGER = Logger.getLogger(PropertyToGraphicAttributeMappingX.class .getName()); 
 	
-	private static final long serialVersionUID = 5391124674649010787L;
 	static final String NL =  System.getProperty("line.separator");
 	
 	private Map<Node, Node> explicitlyMappedValues;
@@ -52,7 +48,6 @@ public class PropertyToGraphicAttributeMappingX extends PropertyMappingX {
 
 	public PropertyToGraphicAttributeMappingX(Property_to_Graphic_AttributeMapping delegatee) {
 		super(delegatee);
-		//this.delegatee = delegatee;
 	}
 
 
@@ -294,59 +289,6 @@ public class PropertyToGraphicAttributeMappingX extends PropertyMappingX {
 		
 	}
 
-	public String toStringDetailed(){
-		
-		String s = "";
-		
-		// try to get the string description from the (manual) PropertyMappingX class, which is not in the super-class hierarchy
-		PropertyMappingX pm = (PropertyMappingX) getDelegatee().castTo(PropertyMappingX.class);
-		s += pm.toStringDetailed();
-		
-		//targetAttribute is specific to P2GAM
-		try {
-			GraphicAttribute tga = getTargetAttribute();
-			String tgaString = tga.getAllLabel_as().count()>0 ? tga.getAllLabel_as().firstValue() : tga.toString();
-			s += "     Target graphic attribute: " + tgaString + NL ;
-		} catch (InsufficientMappingSpecificationException e1) {
-			s += "     Target graphic attribute missing." + NL ;
-		}
-
-		if (this.hasValuemapping()) {
-
-			try {
-				if(!getMappedValues().isEmpty()){
-					//s += mappedValuesToString();
-				}
-			} catch (InsufficientMappingSpecificationException e) {
-				s += "     An insuffiently specified mapping was found." +NL;
-			}
-				
-			s += "     Value mappings:" + NL;
-			
-			ClosableIterator<Valuemapping> vmIterator = getValueMappingsAsCI();
-			
-			while (vmIterator.hasNext()) {
-				ValueMappingX vm = (ValueMappingX) vmIterator.next().castTo(ValueMappingX.class);
-				s += "" + vm + NL;
-			}
-		}
-		else {
-			s += "     (with no value mappings)" + NL;
-		}
-		
-		/*
-		// seems to cause an exception, but not on every machine?! "java.lang.UnsupportedOperationException: Variable (Singleton) cannot be used for SPARQL queries"
-		s += "Explicit (simple 1-1) VMs:" + NL;
-		Map<Node, Node> map = getExplicitlyMappedValues();
-		Set<Entry<Node, Node>> set = map.entrySet();
-		for (Iterator<Entry<Node, Node>> iterator = set.iterator(); iterator.hasNext();) {
-			Entry<Node, Node> svURItvURIPair = (Entry<Node, Node>) iterator.next();
-			s+= "	" + svURItvURIPair.getKey() + " --> " + svURItvURIPair.getValue() + NL;
-		}
-		*/
-		return s;
-	}
-
 	public boolean hasValuemapping() {
 		return getDelegatee().hasValuemapping();
 	}
@@ -387,6 +329,58 @@ public class PropertyToGraphicAttributeMappingX extends PropertyMappingX {
 		return AVMUtils.getGoodNodeLabel(getDelegatee(), getDelegatee().getModel());
 	}
 	
+	public String toStringDetailed(){
+		
+		String s = "";
+		
+		s += super.toStringDetailed();
+		
+		//targetAttribute is specific to P2GAM
+		try {
+			GraphicAttribute tga = getTargetAttribute();
+			String tgaString = tga.getAllLabel_as().count()>0 ? tga.getAllLabel_as().firstValue() : tga.toString();
+			s += "     Target graphic attribute: " + tgaString + NL ;
+		} catch (InsufficientMappingSpecificationException e1) {
+			s += "     Target graphic attribute missing." + NL ;
+		}
+	
+		if (this.hasValuemapping()) {
+	
+			try {
+				if(!getMappedValues().isEmpty()){
+					//s += mappedValuesToString();
+				}
+			} catch (InsufficientMappingSpecificationException e) {
+				s += "     An insuffiently specified mapping was found." +NL;
+			}
+				
+			s += "     Value mappings:" + NL;
+			
+			ClosableIterator<Valuemapping> vmIterator = getValueMappingsAsCI();
+			
+			while (vmIterator.hasNext()) {
+				ValueMappingX vm = (ValueMappingX) vmIterator.next().castTo(ValueMappingX.class);
+				s += "" + vm + NL;
+			}
+		}
+		else {
+			s += "     (with no value mappings)" + NL;
+		}
+		
+		/*
+		// seems to cause an exception, but not on every machine?! "java.lang.UnsupportedOperationException: Variable (Singleton) cannot be used for SPARQL queries"
+		s += "Explicit (simple 1-1) VMs:" + NL;
+		Map<Node, Node> map = getExplicitlyMappedValues();
+		Set<Entry<Node, Node>> set = map.entrySet();
+		for (Iterator<Entry<Node, Node>> iterator = set.iterator(); iterator.hasNext();) {
+			Entry<Node, Node> svURItvURIPair = (Entry<Node, Node>) iterator.next();
+			s+= "	" + svURItvURIPair.getKey() + " --> " + svURItvURIPair.getValue() + NL;
+		}
+		*/
+		return s;
+	}
+
+
 	/**
 	 * Check if a mapping has at least one value mapping that defines exactly 1 source value 
 	 * -> then it will probably not have implicit value mappings that require calculation.

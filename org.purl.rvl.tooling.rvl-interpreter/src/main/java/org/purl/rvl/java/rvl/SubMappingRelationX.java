@@ -57,13 +57,16 @@ public class SubMappingRelationX {
 			//List<org.ontoware.rdfreactor.schema.rdfs.Class> types = subMapping.getAllType_as().asList();
 			
 			if (subMapping.isInstanceof(Property_to_Graphic_AttributeMapping.RDFS_CLASS)) {
-				return new PropertyToGraphicAttributeMappingX((Property_to_Graphic_AttributeMapping)subMapping.castTo(Property_to_Graphic_AttributeMapping.class));
+				return new PropertyToGraphicAttributeMappingX((Property_to_Graphic_AttributeMapping)subMapping
+						.castTo(Property_to_Graphic_AttributeMapping.class));
 			} 
 			else if (subMapping.isInstanceof(Property_to_Graphic_Object_to_Object_RelationMapping.RDFS_CLASS)) {
-				return new PropertyToGO2ORMappingX((Property_to_Graphic_Object_to_Object_RelationMapping)subMapping.castTo(Property_to_Graphic_Object_to_Object_RelationMapping.class));
+				return new PropertyToGO2ORMappingX((Property_to_Graphic_Object_to_Object_RelationMapping)subMapping
+						.castTo(Property_to_Graphic_Object_to_Object_RelationMapping.class));
 			}
 			else if (subMapping.isInstanceof(Identitymapping.RDFS_CLASS)) {
-				return new IdentityMappingX((Identitymapping)subMapping.castTo(Identitymapping.class));
+				return new IdentityMappingX((Identitymapping)subMapping
+						.castTo(Identitymapping.class));
 			} else {
 				throw new SubmappingException("Submappings may only be one of P2GAM, P2GOTOR or Identity mapping. ");
 			}

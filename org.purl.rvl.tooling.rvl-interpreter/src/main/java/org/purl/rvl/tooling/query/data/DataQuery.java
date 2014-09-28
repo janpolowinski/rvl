@@ -16,6 +16,7 @@ import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.exception.UnsupportedMappingParameterValueException;
 import org.purl.rvl.java.RDF;
 import org.purl.rvl.java.RVL;
 import org.purl.rvl.java.rvl.PropertyMappingX;
@@ -201,6 +202,7 @@ public class DataQuery {
 	 * @param object
 	 * @return
 	 * @throws InsufficientMappingSpecificationException
+	 * @throws UnsupportedMappingParameterValueException 
 	 */
 	public static Set<Statement> findRelationsOnInstanceOrClassLevel(
 			Sparqlable modelOrModelSet,
@@ -208,7 +210,7 @@ public class DataQuery {
 			PropertyMappingX pm,
 			boolean onlyMostSpecific, 
 			Resource subject,
-			Node object) throws InsufficientMappingSpecificationException {
+			Node object) throws InsufficientMappingSpecificationException, UnsupportedMappingParameterValueException {
 		
 			Set<Statement> statementSet = new HashSet<Statement>();
 		
@@ -263,40 +265,39 @@ public class DataQuery {
 			}
 			
 			// WARNING!
-			// if inherited by is set statement set will be extended, not replaced! :
+			// if inherited by is set, statement set will be extended, not replaced! :
 			
 			// consider inherited relations, including those between classes (someValueFrom ...)
 			if (pm.hasInheritedby()) {
 				
-				try {
-				
-					Property inheritedBy = pm.getInheritedBy();
+				Property inheritedBy = pm.getInheritedBy();
 
-					if (
-						inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
-						|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())
-						|| inheritedBy.toString().equals(RVL.TBOX_RESTRICTION)
-						|| inheritedBy.toString().equals(RVL.TBOX_DOMAIN_RANGE)	
-					) {
-					
-					statementSet.addAll(findRelationsOnClassLevel(
-							modelOrModelSet,
-							fromGraph,
-							spURI,
-							selectorSPARQLString,
-							inheritedBy,
-							subject,
-							object)
-							);
-					
-					} else {
-						LOGGER.finest("inheritedBy set to a value not defining a class level relation or value not yet supported." +
-								" Will be ignored as a class level relation.");
-					}
+				if (
+					inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
+					|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())
+					|| inheritedBy.toString().equals(RVL.TBOX_RESTRICTION)
+					|| inheritedBy.toString().equals(RVL.TBOX_DOMAIN_RANGE)	
+				) {
 				
-				} catch (Exception e) {
-					LOGGER.warning("Problem evaluating inheritedBy setting or getting relations on class level");
+				statementSet.addAll(findRelationsOnClassLevel(
+						modelOrModelSet,
+						fromGraph,
+						spURI,
+						selectorSPARQLString,
+						inheritedBy,
+						subject,
+						object)
+						);
+				
+				} else {
+					
+					String message = "inheritedBy is set to a value not defining a class level relation or the value is not yet supported. " 
+							//+ "Will be ignored as a class level relation."
+							;
+					//LOGGER.severe(message);
+					throw new UnsupportedMappingParameterValueException(message);
 				}
+
 			} 
 			
 			return statementSet;

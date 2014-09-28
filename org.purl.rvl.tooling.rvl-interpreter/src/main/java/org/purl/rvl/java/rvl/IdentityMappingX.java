@@ -11,8 +11,6 @@ import org.purl.rvl.java.gen.rvl.Identitymapping;
  *
  */
 public class IdentityMappingX extends PropertyMappingX {
-	
-	//protected Identitymapping delegatee;
 
 	public String toStringSummary() {
 		return "Identity Mapping " + this.toString();
@@ -20,7 +18,6 @@ public class IdentityMappingX extends PropertyMappingX {
 	
 	public IdentityMappingX(Identitymapping delegatee) {
 		super(delegatee);
-		//this.delegatee = delegatee;
 	}
 	
 	protected Identitymapping getDelegatee() {

@@ -90,21 +90,16 @@ public class MappingX {
 		return getDelegatee().asURI();
 	}
 
+	@Override
+	public String toString() {
+		return "wrapped " + delegatee.toString();
+	}
+
 	/** Access the wrapped/adapted generated mapping 
 	 * @return the delegatee
 	 */
 	protected Mapping getDelegatee() {
 		return delegatee;
-	}
-
-	/*
-	protected void setDelegatee(Mapping delegatee) {
-		this.delegatee = delegatee;
-	}*/
-	
-	@Override
-	public String toString() {
-		return "wrapped " + delegatee.toString();
 	}
 
 }

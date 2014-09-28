@@ -18,8 +18,8 @@ import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.MappingException;
 import org.purl.rvl.exception.NotImplementedMappingFeatureException;
 import org.purl.rvl.exception.SubmappingException;
+import org.purl.rvl.exception.UnsupportedMappingParameterValueException;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
-import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
@@ -95,10 +95,10 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
 			
 			if (null == stmtSetIterator) {
 				LOGGER.severe("Statement iterator was null, no relations could be interpreted for "
-						+ mapping.asURI());
+						+ mapping);
 			} else if (!stmtSetIterator.hasNext()) {
 				LOGGER.severe("Statement iterator was empty, no relations could be interpreted for "
-						+ mapping.asURI());
+						+ mapping);
 			} else {
 		    
 			    while (stmtSetIterator.hasNext() 
@@ -119,13 +119,12 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
 		    
 			}
 			
-		} catch (InsufficientMappingSpecificationException e) {
-			LOGGER.warning("No resources will be affected by mapping " + mapping.asURI() 
-					+ " (" + e.getMessage() + ")" );
+//		} catch (InsufficientMappingSpecificationException e) {
+//			LOGGER.warning("No resources will be affected by mapping " + mapping 
+//					+ " (" + e.getMessage() + ")" );
 		} catch (ClassCastException e) {
-			LOGGER.warning("No resources will be affected by mapping. Maybe the submapping was " +
-					"accidentally applied to literal? " + mapping.asURI() 
-					+ " (" + e.getMessage() + ")" );
+			throw new UnsupportedMappingParameterValueException(mapping, "Maybe the submapping was " +
+					"accidentally applied to a literal? :" + e.getMessage());
 		}
 
 	}

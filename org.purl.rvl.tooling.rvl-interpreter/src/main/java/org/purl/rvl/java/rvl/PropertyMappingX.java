@@ -20,8 +20,6 @@ import org.purl.rvl.tooling.util.AVMUtils;
  *
  */
 public class PropertyMappingX extends MappingX {
-	
-	//protected PropertyMapping delegatee;
 
 	private final static Logger LOGGER = Logger.getLogger(PropertyMappingX.class .getName()); 
 	
@@ -32,19 +30,13 @@ public class PropertyMappingX extends MappingX {
 	
 	public PropertyMappingX(PropertyMapping delegatee) {
 		super((Mapping) delegatee.castTo(Mapping.class)); // TODO this cast is only necessary because PropertyMapping does not extend Mapping but A1. This is a bug in the RVL schema or the generator.
-		//this.delegatee = delegatee;
 	}
-	
-	//protected PropertyMapping getDelegegatee(){
-	//	return delegatee;
-	//}
 
 	public String toStringDetailed() {
+		
 		String s ="";
 		
-		// try to get the string description from the (manual) MappingX class, which is not in the super-class hierarchy
-		MappingX m = (MappingX) getDelegatee().castTo(MappingX.class);
-		s += m.toStringDetailed();
+		s += super.toStringDetailed();
 
 		/*// letting the mapping print the affected resources is bad, since this depends on the used data model now, which may be unavailable in test scenarios
 		// affected resources:
@@ -73,6 +65,10 @@ public class PropertyMappingX extends MappingX {
 		return s;
 	}
 	
+	private boolean hasSourceProperty() {
+		return getDelegatee().hasSourceproperty();
+	}
+
 	/**
 	 * TODO: not in use at the moment. DELETE? Merge?
 	 * Get the resources affected by this property mapping, i.e.,
@@ -187,10 +183,6 @@ public class PropertyMappingX extends MappingX {
 			return getDelegatee().getAllSourceproperty_as().firstValue();
 		else 
 			throw new InsufficientMappingSpecificationException("No source property could be found.");
-	}
-
-	private boolean hasSourceProperty() {
-		return getDelegatee().hasSourceproperty();
 	}
 
 	public Property getTargetGraphicRelation() throws InsufficientMappingSpecificationException {

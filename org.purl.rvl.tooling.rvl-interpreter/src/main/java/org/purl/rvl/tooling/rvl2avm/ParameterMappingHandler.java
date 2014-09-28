@@ -17,9 +17,9 @@ import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.MappingException;
 import org.purl.rvl.exception.NotImplementedMappingFeatureException;
+import org.purl.rvl.exception.UnsupportedMappingParameterValueException;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.gen.viso.graphic.Object_to_ObjectRelation;
-import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.query.data.DataQuery;
@@ -88,10 +88,10 @@ public class ParameterMappingHandler extends MappingToP2GAMHandler {
 			
 			if (null == stmtSetIterator) {
 				LOGGER.severe("Statement iterator was null, no relations could be interpreted for "
-						+ mapping.asURI());
+						+ mapping);
 			} else if (!stmtSetIterator.hasNext()) {
 				LOGGER.severe("Statement iterator was empty, no relations could be interpreted for "
-						+ mapping.asURI());
+						+ mapping);
 			} else {
 		    
 			    while (stmtSetIterator.hasNext() 
@@ -108,13 +108,12 @@ public class ParameterMappingHandler extends MappingToP2GAMHandler {
 		    
 			}
 			
-		} catch (InsufficientMappingSpecificationException e) {
-			LOGGER.warning("No resources will be affected by mapping " + mapping.asURI() 
-					+ " (" + e.getMessage() + ")" );
+//		} catch (InsufficientMappingSpecificationException e) {
+//			LOGGER.warning("No resources will be affected by mapping " + mapping 
+//					+ " (" + e.getMessage() + ")" );
 		} catch (ClassCastException e) {
-			LOGGER.warning("No resources will be affected by mapping. Maybe the submapping was " +
-					"accidentally applied to literal? " + mapping.asURI() 
-					+ " (" + e.getMessage() + ")" );
+			throw new UnsupportedMappingParameterValueException(mapping, "Maybe the submapping was " +
+					"accidentally applied to a literal? :" + e.getMessage());
 		}
 		
 	}
