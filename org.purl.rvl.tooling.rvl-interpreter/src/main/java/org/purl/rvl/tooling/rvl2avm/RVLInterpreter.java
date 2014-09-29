@@ -32,8 +32,8 @@ public interface RVLInterpreter {
 	public abstract GraphicObjectX createOrGetGraphicObject(org.ontoware.rdf2go.model.node.Resource resource);
 
 	/**
-	 * The set of "main" graphic objects, e.g. excluding those only created to represent labels, and not directly an rdfs:Resource. Connector objects
-	 * are included, because the represent properties/predicates.
+	 * The set of "main" graphic objects, e.g. excluding those only created to represent labels and not directly an rdfs:Resource. Connector objects
+	 * are included, because they directly represent properties/predicates.
 	 * 
 	 * Unlike the Resource-GraphicObject-map, this set may store multiple GOs for the same resource (as it may be desired in some cases. The map is
 	 * not sufficient, since currently GraphicObjects are NOT reused in the context of labeling, for example, though this could be changed in future

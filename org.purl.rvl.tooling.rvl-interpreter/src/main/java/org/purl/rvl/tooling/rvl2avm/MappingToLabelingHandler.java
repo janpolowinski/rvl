@@ -10,6 +10,7 @@ import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
+import org.ontoware.rdf2go.model.node.URI;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.SubmappingException;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
@@ -68,6 +69,14 @@ public class MappingToLabelingHandler extends MappingToP2GOTORHandler {
 				+ rvlInterpreter.createNewInternalID(), false);
 		LOGGER.finest("Created new Label-GO for (label) object: " + object.toString());
 		// TODO when sp rdf:ID: not created for object in all cases?!
+		
+		// set represented resource and store as a main GraphicObject (will enable automatic labeling, for example)
+		URI predicateURI = statement.getPredicate();
+		// set represented resource - we may want this > otherwise warnings, when graphic objects without 
+		// represented resource exist:
+		label.setRepresents(predicateURI);
+		//(we probably dont't want this:
+		//rvlInterpreter.addToMainGraphicObjectSet(label);
 
 		Labeling rel = new Labeling(modelAVM, "http://purl.org/rvl/example-avm/LabelingRelation_"
 				+ rvlInterpreter.createNewInternalID(), true);
