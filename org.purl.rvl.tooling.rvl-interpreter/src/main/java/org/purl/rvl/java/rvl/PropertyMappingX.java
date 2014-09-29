@@ -27,7 +27,6 @@ public class PropertyMappingX extends MappingX {
 	
 	private Set<SubMappingRelationX> subMappings; 
 
-	
 	public PropertyMappingX(PropertyMapping delegatee) {
 		super((Mapping) delegatee.castTo(Mapping.class)); // TODO this cast is only necessary because PropertyMapping does not extend Mapping but A1. This is a bug in the RVL schema or the generator.
 	}
