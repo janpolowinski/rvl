@@ -66,7 +66,7 @@ public class MappingToLinkingHandler extends MappingToP2GOTORHandler {
 
 		// set represented resource and store as a main GraphicObject (will enable automatic labeling, for example)
 		URI predicateURI = statement.getPredicate();
-		connector.setRepresents(predicateURI);
+		connector.setRepresentedResource(predicateURI);
 		rvlInterpreter.addToMainGraphicObjectSet(connector);
 
 		// label the GraphicObject itself (only used for bootstrapping purposes,

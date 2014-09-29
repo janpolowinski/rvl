@@ -125,7 +125,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			// add to cache
 			go = RVLUtils.tryReplaceWithCashedInstanceForSameURI_for_VISO_Resources(go, GraphicObjectX.class);
 
-			go.setRepresents(resource);
+			go.setRepresentedResource(resource);
 
 			// set default shape here hardcoded to circles // TODO: make more flexible
 			// the default shape will be removed, when a text-value is set by another mapping,

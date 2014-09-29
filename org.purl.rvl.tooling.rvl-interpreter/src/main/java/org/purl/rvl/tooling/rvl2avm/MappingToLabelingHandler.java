@@ -74,7 +74,7 @@ public class MappingToLabelingHandler extends MappingToP2GOTORHandler {
 		URI predicateURI = statement.getPredicate();
 		// set represented resource - we may want this > otherwise warnings, when graphic objects without 
 		// represented resource exist:
-		label.setRepresents(predicateURI);
+		label.setRepresentedResource(predicateURI);
 		//(we probably dont't want this:
 		//rvlInterpreter.addToMainGraphicObjectSet(label);
 
