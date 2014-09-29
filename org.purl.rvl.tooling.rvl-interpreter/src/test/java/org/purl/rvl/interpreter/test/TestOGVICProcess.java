@@ -6,8 +6,10 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import org.json.JSONException;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.purl.rvl.exception.d3.D3GeneratorException;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
 import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.process.ExampleData;
@@ -58,7 +60,12 @@ public abstract class TestOGVICProcess {
 	public void loadProjectAndRunProcess(){
 
 		process.loadProject(project);
-		process.runOGVICProcess();
+		try {
+			process.runOGVICProcess();
+		} catch (D3GeneratorException e) {
+			e.printStackTrace();
+			Assert.fail(e.getMessage());
+		}
 		//process.runOGVICProcessForTesting();
 	}
 	/*

@@ -13,6 +13,7 @@ import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.util.RDFTool;
+import org.purl.rvl.exception.d3.D3GeneratorException;
 import org.purl.rvl.java.VISOGRAPHIC;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
@@ -87,7 +88,7 @@ public abstract class D3GeneratorBase implements D3Generator {
 	/* (non-Javadoc)
 	 * @see org.purl.rvl.tooling.avm2d3.D3Generator#generateJSONforD3()
 	 */
-	public abstract String generateJSONforD3();
+	public abstract String generateJSONforD3() throws D3GeneratorException;
 	
 	/* (non-Javadoc)
 	 * @see org.purl.rvl.tooling.avm2d3.D3Generator#getGenJSONFileName()

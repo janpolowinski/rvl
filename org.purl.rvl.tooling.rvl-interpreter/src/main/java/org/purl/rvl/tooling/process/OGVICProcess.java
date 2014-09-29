@@ -19,6 +19,7 @@ import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Syntax;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
+import org.purl.rvl.exception.d3.D3GeneratorException;
 import org.purl.rvl.tooling.ModelBuilder;
 import org.purl.rvl.tooling.avm2d3.D3Generator;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
@@ -311,7 +312,7 @@ public class OGVICProcess {
 		}
 	}
 
-	public void runOGVICProcess(){
+	public void runOGVICProcess() throws D3GeneratorException{
 		interpreteRVL2AVM();	
 		transformAVMToD3();
 		populateD3HTMLFolder();
@@ -319,7 +320,7 @@ public class OGVICProcess {
 		if (isWriteMappingModel()) writeMappingModelToFile();
 	}
 	
-	public void runOGVICProcessForTesting(){
+	public void runOGVICProcessForTesting() throws D3GeneratorException{
 		interpreteRVL2AVM();	
 		transformAVMToD3();
 	}
@@ -339,8 +340,9 @@ public class OGVICProcess {
 	 * Writing it to a file at the same time can be seen as an unwanted side-effect now.
 	 * 
 	 * @return - the AVM as JSON to be used as d3 "data"
+	 * @throws D3GeneratorException 
 	 */
-	private void transformAVMToD3() {
+	private void transformAVMToD3() throws D3GeneratorException {
 		d3Generator.init(getModelAVM());
 		generatedD3json = d3Generator.generateJSONforD3();
 		try {

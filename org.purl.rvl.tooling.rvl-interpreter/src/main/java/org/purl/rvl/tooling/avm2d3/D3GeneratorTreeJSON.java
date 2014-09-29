@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 import org.json.simple.JSONObject;
 import org.ontoware.rdf2go.model.Model;
+import org.purl.rvl.exception.d3.D3GeneratorException;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
@@ -46,8 +47,9 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 
 	/**
 	 * Generates JSON using SimpleJSON
+	 * @throws D3GeneratorException 
 	 */
-	public String generateJSONforD3(){
+	public String generateJSONforD3() throws D3GeneratorException{
 		
 		// generate empty JSON root object, containing all actual root nodes
 		JSONObject d3data = new JSONObject();
@@ -99,7 +101,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 			d3data.put("children", listOfRootNodes);
 		}
 		else {
-			LOGGER.severe("No root nodes found!");
+			throw new D3GeneratorException("No root nodes found!");
 		}
 
 		return d3data.toJSONString();
@@ -185,8 +187,8 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		return child;
 	}
 
-// cloned from linking, much redundant, similar code
-private Map<String,Object> generateObjectFor(Containment rel) {
+	// cloned from linking, much redundant, similar code
+	private Map<String,Object> generateObjectFor(Containment rel) {
 		
 		GraphicObjectX containee = (GraphicObjectX) rel.getAllContainmentcontainee_as().firstValue().castTo(GraphicObjectX.class);
 		
@@ -206,15 +208,13 @@ private Map<String,Object> generateObjectFor(Containment rel) {
 		return child;
 	}
 
-@Override
-public String getGenJSONFileName() {
-	return "tree-data.json";
-}
-
-public String getDefaultD3GraphicFile(){
-	return "collapsible_tree/index.html";
-}
+	@Override
+	public String getGenJSONFileName() {
+		return "tree-data.json";
+	}
 	
-
+	public String getDefaultD3GraphicFile(){
+		return "collapsible_tree/index.html";
+	}
 	
 }
