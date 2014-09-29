@@ -236,7 +236,7 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
 	    	//rvlInterpreter.applyInheritanceOfTargetValue(mapping, statement.getSubject(), targetValue);
 	    	
     	} else {
-			LOGGER.fine("Source or target (graphic) value was null, couldn't apply target value " + targetValue
+			LOGGER.finest("Source or target (graphic) value was null, couldn't apply target value " + targetValue
 					+ " to the source value " + sourceValue + ".");
 		}
     	
@@ -244,9 +244,12 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
     	// create additional method, or a graphic relation to be consistent here?
     	// submappings
 		if (mapping.hasSubMapping()) {
-			rvlInterpreter.applySubmappings(mapping, statement, graphicObjectToApplyMapping);
-		} else {
-			LOGGER.warning("Submapping existed, but could not be applied, since no parent graphic relation was provided.");
+			
+			if (null != graphicObjectToApplyMapping) {
+				rvlInterpreter.applySubmappings(mapping, statement, graphicObjectToApplyMapping);
+			} else {
+				LOGGER.warning("Submapping existed, but could not be applied, since no graphic object to apply the mapping to was provided.");
+			}	
 		}
 		
 	}
