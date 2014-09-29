@@ -127,7 +127,9 @@ public class AVMUtils {
 //				"	?someRelation " + DirectedLinking.STARTNODE.toSPARQL() + " ?go ." +
 				"	FILTER NOT EXISTS { ?someRelation " + DirectedLinking.LINKINGCONNECTOR.toSPARQL() + " ?go . }" +
 				"	FILTER NOT EXISTS { ?someRelation " + Labeling.LABELINGLABEL.toSPARQL() + " ?go . }" +
-				"}";
+				"   ?go " + GraphicObject.REPRESENTS.toSPARQL() + " ?representedResource . " + 
+				"} " +
+				"ORDER BY ?representedResource ";
 		LOGGER.finest("query for relevant GOs: " + query);
 
 		QueryResultTable explMapResults = model.sparqlSelect(query);
