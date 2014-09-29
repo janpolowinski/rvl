@@ -33,7 +33,8 @@ public class MappingToLinkingHandler extends MappingToP2GOTORHandler {
 	private final static Logger LOGGER = Logger.getLogger(MappingToLinkingHandler.class.getName());
 
 	@Override
-	public void encodeStatement(Statement statement) throws InsufficientMappingSpecificationException, NotImplementedMappingFeatureException, SubmappingException {
+	public void encodeStatement(Statement statement) throws InsufficientMappingSpecificationException,
+		NotImplementedMappingFeatureException, SubmappingException {
 		
 		try {
 			statement.getObject().asResource();
