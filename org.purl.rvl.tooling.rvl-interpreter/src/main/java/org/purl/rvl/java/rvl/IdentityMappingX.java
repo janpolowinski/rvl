@@ -21,6 +21,6 @@ public class IdentityMappingX extends PropertyMappingX {
 	}
 	
 	protected Identitymapping getDelegatee() {
-		return (Identitymapping) delegatee.castTo(Identitymapping.class);
+		return (Identitymapping) super.getDelegatee().castTo(Identitymapping.class);
 	}
 }

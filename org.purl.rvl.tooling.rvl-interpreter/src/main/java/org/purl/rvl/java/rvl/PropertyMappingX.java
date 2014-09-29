@@ -271,7 +271,7 @@ public class PropertyMappingX extends MappingX {
 	}
 	
 	protected PropertyMapping getDelegatee() {
-		return (PropertyMapping) delegatee.castTo(PropertyMapping.class);
+		return (PropertyMapping) super.getDelegatee().castTo(PropertyMapping.class);
 	}
 
 }

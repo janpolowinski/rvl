@@ -63,7 +63,7 @@ public class PropertyToGO2ORMappingX extends PropertyMappingX {
 //	}
 	
 	protected Property_to_Graphic_Object_to_Object_RelationMapping getDelegatee() {
-		return (Property_to_Graphic_Object_to_Object_RelationMapping) delegatee.castTo(Property_to_Graphic_Object_to_Object_RelationMapping.class);
+		return (Property_to_Graphic_Object_to_Object_RelationMapping) super.getDelegatee().castTo(Property_to_Graphic_Object_to_Object_RelationMapping.class);
 	}
 
 }

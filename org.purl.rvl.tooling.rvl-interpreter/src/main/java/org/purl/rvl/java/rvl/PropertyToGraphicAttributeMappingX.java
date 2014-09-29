@@ -469,7 +469,7 @@ public class PropertyToGraphicAttributeMappingX extends PropertyMappingX {
 	}
 	
 	protected Property_to_Graphic_AttributeMapping getDelegatee() {
-		return (Property_to_Graphic_AttributeMapping) delegatee.castTo(Property_to_Graphic_AttributeMapping.class);
+		return (Property_to_Graphic_AttributeMapping) super.getDelegatee().castTo(Property_to_Graphic_AttributeMapping.class);
 	}
 
 }

@@ -2,8 +2,6 @@ package org.purl.rvl.java.rvl;
 
 import org.ontoware.rdf2go.model.node.URI;
 import org.purl.rvl.java.gen.rvl.Mapping;
-import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
-import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
 
 /**
  * @author Jan Polowinski
@@ -11,7 +9,7 @@ import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMa
  */
 public class MappingX {
 	
-	protected Mapping delegatee;
+	private Mapping delegatee;
 
 	static final String NL =  System.getProperty("line.separator");
 
@@ -48,14 +46,13 @@ public class MappingX {
 	}
 
 	public String toStringAsSpecificAsPossible(){
-		
-		 String s = "";
+	
+	 String s = "";
 		  
 		// print as P2GAM (value mappings ... )
-		if(getDelegatee().isInstanceof(Property_to_Graphic_AttributeMapping.RDFS_CLASS)) {
+		if (this instanceof PropertyToGraphicAttributeMappingX) {
 
-			PropertyToGraphicAttributeMappingX p2gam = 
-					(PropertyToGraphicAttributeMappingX) getDelegatee().castTo(PropertyToGraphicAttributeMappingX.class);
+			PropertyToGraphicAttributeMappingX p2gam = (PropertyToGraphicAttributeMappingX) this;
 			
 			// caching
 			// TODO reenable caching? 
@@ -65,10 +62,9 @@ public class MappingX {
 		}
 		
 		// print as P2GO2ORM (submappings ... )
-		else if(getDelegatee().isInstanceof(Property_to_Graphic_Object_to_Object_RelationMapping.RDFS_CLASS)) {
+		else if (this instanceof PropertyToGO2ORMappingX) {
 			
-			PropertyToGO2ORMappingX p2go2orm = 
-					(PropertyToGO2ORMappingX) getDelegatee().castTo(PropertyToGO2ORMappingX.class);
+			PropertyToGO2ORMappingX p2go2orm =  (PropertyToGO2ORMappingX) this;
 			
 			// caching
 			// TODO reenable caching? 
@@ -83,7 +79,6 @@ public class MappingX {
 		}
 		
 		return s;
-		
 	  }
 
 	public URI asURI() throws ClassCastException {
