@@ -163,7 +163,7 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
 		
 		this.mapping = mapping;
 		
-		GraphicAttribute tga = mapping.getTargetAttribute();
+		Property tga = mapping.getTargetGraphicRelation();
 		//Property sp = mapping.getSourceProperty();
 		
 		// get the mapping table SV->TV (the calculation of mapped values from data dependent (!) implicit

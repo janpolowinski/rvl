@@ -478,7 +478,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	
 			final PropertyToGraphicAttributeMappingX parameterMapping = (PropertyToGraphicAttributeMappingX) mapping;
 	
-			final GraphicAttribute targetParameter = parameterMapping.getTargetAttribute();
+			final Property targetParameter = parameterMapping.getTargetGraphicRelation();
 	
 			if (null == targetParameter) {
 				throw new InsufficientMappingSpecificationException("No target parameter set.");
@@ -498,7 +498,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	}
 
 	@Override
-	public void applyGraphicValueToGO(GraphicAttribute tga, Node tv, Node sv, GraphicObjectX go) {
+	public void applyGraphicValueToGO(Property tga, Node tv, Node sv, GraphicObjectX go) {
 
 		if (null != tga && null != tv && null != sv && null != go) {
 
@@ -557,7 +557,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	 * @param inheritedBy - the required relation between the mapped node and nodes inheriting the mapping
 	 */
 	@Override
-	public void applyGraphicValueToGOsRepresentingNodesRelatedVia(GraphicAttribute tga, Node tv, Resource mappedNode,
+	public void applyGraphicValueToGOsRepresentingNodesRelatedVia(Property tga, Node tv, Resource mappedNode,
 			Property inheritedBy) {
 
 		Set<Resource> relatedResources = DataQuery.getRelatedResources(modelSet, mappedNode, inheritedBy);
@@ -630,7 +630,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 					+ AVMUtils.getGoodNodeLabel(baseResource, modelSet.getModel(OGVICProcess.GRAPH_DATA)) + ") via "
 					+ inheritedBy);
 
-			GraphicAttribute tga = p2gam.getTargetAttribute();
+			Property tga = p2gam.getTargetGraphicRelation();
 			applyGraphicValueToGOsRepresentingNodesRelatedVia(tga, tv, baseResource, inheritedBy);
 
 		}

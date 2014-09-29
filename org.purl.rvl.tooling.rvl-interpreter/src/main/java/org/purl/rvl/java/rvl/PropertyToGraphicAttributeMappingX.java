@@ -25,6 +25,7 @@ import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Valuemapping;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
+import org.purl.rvl.java.gen.viso.graphic.Thing1;
 import org.purl.rvl.java.rvl.mapping.CalculatedValueMapping;
 import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.RVLUtils;
@@ -293,17 +294,30 @@ public class PropertyToGraphicAttributeMappingX extends PropertyMappingX {
 		return getDelegatee().hasValuemapping();
 	}
 
+// using this more specific method does not yet work, since it was apparentely 
+// not inferred that some graphic relations are graphic attributes (not sure whether this is possible at all)
+// for now always the (actually "abstract") supertype is used, but this works for both GAs and GOTORs
+//
+//	public GraphicAttribute getTargetAttribute() throws InsufficientMappingSpecificationException {
+//		
+////		testing ... 
+////		for (org.purl.rvl.java.gen.rvl.Thing1 node : getDelegatee().getAllTargetgraphicrelation_abstract__as().asArray()) {
+////			System.out.println(node);
+////			
+////			for (Node clasz : node.getAllType_asNode_().asArray()){
+////				System.out.println(clasz);
+////			}
+////		}
+//		
+//		if (hasTargetAttribute()) {
+//			return (GraphicAttribute) getDelegatee().getAllTargetattribute_as().firstValue().castTo(GraphicAttribute.class);
+//		} else 
+//			throw new InsufficientMappingSpecificationException(this, "Missing target graphic attribute.");
+//	}
 
-	public GraphicAttribute getTargetAttribute() throws InsufficientMappingSpecificationException {
-		if (hasTargetAttribute()) {
-			return (GraphicAttribute) getDelegatee().getAllTargetattribute_as().firstValue().castTo(GraphicAttribute.class);
-		} else 
-			throw new InsufficientMappingSpecificationException("No target graphic attribute set, but this is mandatory.");
-	}
-
-	private boolean hasTargetAttribute() {
-		return getDelegatee().hasTargetattribute();
-	}
+//	private boolean hasTargetAttribute() {
+//		return getDelegatee().hasTargetattribute();
+//	}
 
 	public String explicitlyMappedValuesToString() {
 		
@@ -337,7 +351,7 @@ public class PropertyToGraphicAttributeMappingX extends PropertyMappingX {
 		
 		//targetAttribute is specific to P2GAM
 		try {
-			GraphicAttribute tga = getTargetAttribute();
+			Property tga = getTargetGraphicRelation();
 			String tgaString = tga.getAllLabel_as().count()>0 ? tga.getAllLabel_as().firstValue() : tga.toString();
 			s += "     Target graphic attribute: " + tgaString + NL ;
 		} catch (InsufficientMappingSpecificationException e1) {

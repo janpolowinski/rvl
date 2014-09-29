@@ -52,13 +52,15 @@ public class PropertyToGO2ORMappingX extends PropertyMappingX {
 		} else return false;
 	}
 
-
-	public Property getTargetGraphicRelation() throws InsufficientMappingSpecificationException {
-		if (getDelegatee().hasTargetobject_to_objectrelation()) {
-			URI uri = getDelegatee().getAllTargetobject_to_objectrelation_as().firstValue().asURI(); 
-			return new Property(getDelegatee().getModel(), uri, false);
-		} else throw new InsufficientMappingSpecificationException("Missing target graphic relation for mapping " + this);
-	}
+// seems to be sufficiently handled by super-class
+//
+//	public Property getTargetGraphicRelation() throws InsufficientMappingSpecificationException {
+//		if (getDelegatee().hasTargetobject_to_objectrelation()) {
+//			URI uri = getDelegatee().getAllTargetobject_to_objectrelation_as().firstValue().asURI(); 
+//			return new Property(getDelegatee().getModel(), uri, false);
+//		} else 
+//			throw new InsufficientMappingSpecificationException(this, "Missing target graphic relation.");
+//	}
 	
 	protected Property_to_Graphic_Object_to_Object_RelationMapping getDelegatee() {
 		return (Property_to_Graphic_Object_to_Object_RelationMapping) delegatee.castTo(Property_to_Graphic_Object_to_Object_RelationMapping.class);

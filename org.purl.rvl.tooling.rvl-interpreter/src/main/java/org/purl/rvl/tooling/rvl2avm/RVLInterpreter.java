@@ -86,9 +86,9 @@ public interface RVLInterpreter {
 	abstract void applySubmappings(PropertyMappingX mapping,
 			Statement mainStatement, Object_to_ObjectRelation graphicRelation, GraphicObjectX parentGO) throws SubmappingException;
 
-	public abstract void applyGraphicValueToGOsRepresentingNodesRelatedVia(GraphicAttribute tga, Node tv, Resource mappedNode, Property inheritedBy);
+	public abstract void applyGraphicValueToGOsRepresentingNodesRelatedVia(Property tga, Node tv, Resource mappedNode, Property inheritedBy);
 
-	public abstract void applyGraphicValueToGO(GraphicAttribute tga, Node tv, Node sv, GraphicObjectX go);
+	public abstract void applyGraphicValueToGO(Property tga, Node tv, Node sv, GraphicObjectX go);
 	
 	/**
 	 * Similar to applyGraphicValueToGO(...), but sets parameters of graphic relations rather than attributes of graphic objects

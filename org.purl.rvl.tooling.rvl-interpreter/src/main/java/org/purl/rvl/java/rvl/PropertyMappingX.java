@@ -188,7 +188,7 @@ public class PropertyMappingX extends MappingX {
 		if (getDelegatee().hasTargetgraphicrelation_abstract_())
 			return (Property)getDelegatee().getAllTargetgraphicrelation_abstract__as().firstValue().castTo(Property.class);
 		else 
-			throw new InsufficientMappingSpecificationException();
+			throw new InsufficientMappingSpecificationException(this, "Missing target graphic relation.");
 	}
 	
 	
