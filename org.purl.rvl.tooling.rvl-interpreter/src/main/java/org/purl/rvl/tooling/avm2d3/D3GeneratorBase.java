@@ -284,17 +284,20 @@ public abstract class D3GeneratorBase implements D3Generator {
 
 
 	/**
+	 * Combined method for setting attributes, labels and the represented resource.
+	 * 
 	 * @param graphicObject
 	 * @param jsonObject
 	 */
 	protected void putAttributesLabelsRepresentedResource(GraphicObjectX graphicObject, Map<String, Object> jsonObject) {
 
 		putRepresentedResource(jsonObject, graphicObject);
-		putGraphicAttributes(jsonObject, graphicObject);
+		putGraphicAttributes(jsonObject, graphicObject);	
 		
-		// width (used for calculating label size)
+		// width (used for calculating label size) // the defaults, which are set when values are missing 
+		// could also be stored in the AVM, but the generator should not change the AVM, so a copy 
+		// had to be used
 		float startNodeWidth = graphicObject.hasWidth()? graphicObject.getWidth() : getDefaultWidthNodes();
-		
 		putLabels(graphicObject, startNodeWidth, jsonObject); // TODO width OK?
 	}
 }

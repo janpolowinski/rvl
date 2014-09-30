@@ -62,11 +62,11 @@ public abstract class TestOGVICProcess {
 		process.loadProject(project);
 		try {
 			process.runOGVICProcess();
+			//process.runOGVICProcessForTesting();
 		} catch (D3GeneratorException e) {
 			e.printStackTrace();
 			Assert.fail(e.getMessage());
 		}
-		//process.runOGVICProcessForTesting();
 	}
 	/*
 	@Test
