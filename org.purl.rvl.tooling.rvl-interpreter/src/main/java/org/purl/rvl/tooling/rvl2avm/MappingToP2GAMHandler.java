@@ -207,19 +207,16 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
 	    	// TODO enable again : 
 	    	//rvlInterpreter.applyInheritanceOfTargetValue(mapping, statement.getSubject(), targetValue);
 	    	
+	    	// TODO call submappings here: problem: we dont have graphic relation here as expected by the applySubmappingsMethod.
+	    	// create additional method, or a graphic relation to be consistent here?
+	    	// submappings
+			if (mapping.hasSubMapping()) {
+				LOGGER.finest("Applying submapping ... ");
+				rvlInterpreter.applySubmappings(mapping, statement, graphicObjectToApplyMapping);
+			}
+	    	
     	} else {
-			LOGGER.warning("Source or target (graphic) value was null, couldn't apply target value " + targetValue
-					+ " to the source value " + sourceValueWorkNode + "." + NL);
-		}
-    	
-    	// TODO call submappings here: problem: we dont have graphic relation here as expected by the applySubmappingsMethod.
-    	// create additional method, or a graphic relation to be consistent here?
-    	// submappings
-		if (mapping.hasSubMapping()) {
-			LOGGER.finest("Applying submapping ... ");
-			rvlInterpreter.applySubmappings(mapping, statement, graphicObjectToApplyMapping);
-		}
-		
+			LOGGER.fine("No target value found for source value " + sourceValueWorkNode + ".");
+		}	
 	}
-
 }

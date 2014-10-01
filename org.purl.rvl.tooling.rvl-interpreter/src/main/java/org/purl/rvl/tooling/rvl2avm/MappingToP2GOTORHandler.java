@@ -50,7 +50,7 @@ public abstract class MappingToP2GOTORHandler extends MappingHandlerBase {
 		if (null == stmtSetIterator) {
 			throw new MappingException(mapping, "Statement iterator was null. ");
 		} else if (!stmtSetIterator.hasNext()) {
-			LOGGER.warning("Statement iterator was empty for "+ mapping);
+			LOGGER.warning("Statement iterator was empty for " + mapping);
 		} else {
 
 			while (stmtSetIterator.hasNext()

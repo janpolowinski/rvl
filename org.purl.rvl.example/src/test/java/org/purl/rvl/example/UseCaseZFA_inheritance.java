@@ -2,13 +2,14 @@ package org.purl.rvl.example;
 
 import java.io.FileNotFoundException;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.ontoware.rdf2go.Reasoning;
 import org.purl.rvl.interpreter.test.TestOGVICProcess;
 
-@SuppressWarnings("unused")
 public class UseCaseZFA_inheritance extends TestOGVICProcess {
 	
+	@Ignore
 	@Test
 	public void testOGVICProcess() throws FileNotFoundException {
 
@@ -19,7 +20,7 @@ public class UseCaseZFA_inheritance extends TestOGVICProcess {
 		
 		
 		//project.setRvlInterpreter(new SimpleRVLInterpreter());
- // requires better filtering!
+		// requires better filtering!
 		//project.setD3Generator(new D3GeneratorTreeJSON());
 		
 		loadProjectAndRunProcess();
