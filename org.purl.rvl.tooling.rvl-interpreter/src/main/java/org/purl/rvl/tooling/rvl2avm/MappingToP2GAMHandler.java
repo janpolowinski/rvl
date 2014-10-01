@@ -153,13 +153,21 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
 	 * @param statement - the statement to visually encode
 	 * @param mapping
 	 * @param go - the graphic object to use as a base for applying the additional visual encoding
-	 * @param workNode - the node to work with (use as source value, apply base further mappings on ...)
+	 * @param sourceValueWorkNode - the node to work with (use as source value, apply base further mappings on ...)
 	 * It is one of the nodes used in the statement.
 	 * @throws InsufficientMappingSpecificationException
 	 * @throws SubmappingException 
 	 */
 	public void encodeStatement(Statement statement, PropertyToGraphicAttributeMappingX mapping,
-			GraphicObjectX graphicObjectToApplyMapping, Node workNode) throws InsufficientMappingSpecificationException, SubmappingException {
+			GraphicObjectX graphicObjectToApplyMapping, Node sourceValueWorkNode) throws InsufficientMappingSpecificationException, SubmappingException {
+		
+		// checks ...
+		if (null == sourceValueWorkNode) {
+			throw new SubmappingException("Work node may not be null. (Statement: " + statement + ")");
+		}
+		if (null == graphicObjectToApplyMapping) {
+			throw new SubmappingException("Graphic object to apply the mapping may not be null. (Statement: " + statement + ", work node: " + sourceValueWorkNode + ")");
+		}
 		
 		this.mapping = mapping;
 		
@@ -184,72 +192,32 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
 			return;
 		}
 
-    	Node targetValue = null;
-    	Node sourceValue = null;
-
+		LOGGER.fine("Encoding statement " + statement);
+		
 		// special treatment of rdf:ID not necessary anymore since special triples <ID> rdf:ID <ID> are now provided
-		sourceValue = workNode;
 		
 		// get the target value for the sv
-		targetValue = svUriTVuriMap.get(sourceValue); 
-		
-		
-		// should now be obsolete since done in handle method
-		// delete soon
-		/*
-		TupleSourceValueTargetValue<Node, Node> svWithItsTv;
-		//ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, subjectResource,
-		//		sp.asURI(), Variable.ANY);
-		
-		Iterator<Statement> it = DataQuery.findRelationsOnInstanceOrClassLevel(
-				modelSet,
-				OGVICProcess.GRAPH_DATA,
-				(PropertyMappingX)mapping.castTo(PropertyMappingX.class),
-				true,
-				workNode.asResource(),
-				null)
-				.iterator();
-		
-		LOGGER.severe("Getting Statement iterator for (" + workNode + " " + sp.asURI() + " ANY)");
-		
-		try {
-
-			// TODO Multiple objects may match a mapped target value. For now only the first match will win!
-			svWithItsTv = rvlInterpreter.lookUpTvForSv(it, svUriTVuriMap);
-			sourceValue = svWithItsTv.sourceValue; 
-			targetValue = svWithItsTv.targetValue;
-
-		} catch (Exception e) {
-			LOGGER.fine("Could not get value for source property " + sp + " for subject "
-					+ workNode);
-			return;
-		}
-		*/
-		
+		Node targetValue = svUriTVuriMap.get(sourceValueWorkNode); 
 
     	// if we found a tv for the sv
-    	if (null != targetValue && null != sourceValue) {
+    	if (null != targetValue) {
     		
-	    	rvlInterpreter.applyGraphicValueToGO(tga, targetValue, sourceValue, graphicObjectToApplyMapping);	
+	    	rvlInterpreter.applyGraphicValueToGO(tga, targetValue, sourceValueWorkNode, graphicObjectToApplyMapping);	
 	    	
 	    	// TODO enable again : 
 	    	//rvlInterpreter.applyInheritanceOfTargetValue(mapping, statement.getSubject(), targetValue);
 	    	
     	} else {
 			LOGGER.warning("Source or target (graphic) value was null, couldn't apply target value " + targetValue
-					+ " to the source value " + sourceValue + ".");
+					+ " to the source value " + sourceValueWorkNode + "." + NL);
 		}
     	
     	// TODO call submappings here: problem: we dont have graphic relation here as expected by the applySubmappingsMethod.
     	// create additional method, or a graphic relation to be consistent here?
     	// submappings
 		if (mapping.hasSubMapping()) {
-			
-			if (null != graphicObjectToApplyMapping) {
-				rvlInterpreter.applySubmappings(mapping, statement, graphicObjectToApplyMapping);
-			} else {
-				LOGGER.warning("Submapping existed, but could not be applied, since no graphic object to apply the mapping to was provided.");
-			}	
+			LOGGER.finest("Applying submapping ... ");
+			rvlInterpreter.applySubmappings(mapping, statement, graphicObjectToApplyMapping);
 		}
 		
 	}

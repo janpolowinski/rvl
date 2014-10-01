@@ -23,6 +23,7 @@ public class DataQueryBuilder extends SPARQLQueryBuilder {
 	private Node object;
 	private URI spURI;
 	private String selectorSPARQLString;
+	private boolean onlyStmtsBetweenIRIs;
 
 	public DataQueryBuilder(URI spURI) {
 		super();
@@ -57,9 +58,12 @@ public class DataQueryBuilder extends SPARQLQueryBuilder {
 		query.append(" " + selectorSPARQLString + " " ); // this string is expected to be a set of " s? <p> <o> . " triples)
 	}
 
+	/**
+	 * Stops blank nodes as subject and objects
+	 */
 	private void filterOnlyIRIsForSubjectAndObjectSPARQL() {
-		query.append(" FILTER isIRI(?s) "); // TODO: this stops blank nodes as subjects ... ;
-		query.append(" FILTER isIRI(?o) "); // TODO: this stops blank nodes as objects ... ;
+		query.append(" FILTER isIRI(?s) ");
+		query.append(" FILTER isIRI(?o) ");
 	}
 
 	private void filterNoReflexiveStatementsSPARQL() {
@@ -82,6 +86,11 @@ public class DataQueryBuilder extends SPARQLQueryBuilder {
 		this.selectorSPARQLString = selectorSPARQLString;
 	}
 	
+	public void constrainToStatementsBetweenIRIs(boolean onlyStmtsBetweenIRIs) {
+		this.onlyStmtsBetweenIRIs = onlyStmtsBetweenIRIs;
+	}
+
+
 	protected void statementSPARQL(URI spURI){
 		query
 
@@ -236,7 +245,7 @@ public class DataQueryBuilder extends SPARQLQueryBuilder {
 		if (null!=predicate) 			constrainToPredicateSPARQL(predicate);
 		if (null!=object) 				constrainToObjectSPARQL(object);
 										filterNoReflexiveStatementsSPARQL();
-										//filterOnlyIRIsForSubjectAndObjectSPARQL();
+										filterOnlyIRIsForSubjectAndObjectSPARQL();
 		if (null!=graphURI) 		closeGraphSPARQL();
 								endQuerySPARQL();
 								limitSPARQL();

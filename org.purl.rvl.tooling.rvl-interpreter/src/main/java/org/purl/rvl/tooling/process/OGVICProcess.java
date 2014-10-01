@@ -106,10 +106,10 @@ public class OGVICProcess {
 		// In order to show log entrys of the fine level, we need to create a new handler as well
         ConsoleHandler handler = new ConsoleHandler();
         // PUBLISH this level
-        handler.setLevel(Level.FINE);
+        handler.setLevel(Level.FINEST);
         
         CustomRecordFormatter formatter = new CustomRecordFormatter();
-        //handler.setFormatter(formatter); // out-comment this line to use the normal formatting with method and date
+        handler.setFormatter(formatter); // out-comment this line to use the normal formatting with method and date
         
         LOGGER_RVL_PACKAGE.setUseParentHandlers(false); // otherwise double output of log entries
         LOGGER_RVL_PACKAGE.addHandler(handler);

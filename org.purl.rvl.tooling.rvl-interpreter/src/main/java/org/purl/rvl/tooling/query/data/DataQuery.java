@@ -155,6 +155,7 @@ public class DataQuery {
 		queryBuilder.constrainToGraph(fromGraph);
 		queryBuilder.constrainToSubjectBySelector(selectorSPARQLString);
 		queryBuilder.constrainToSubject(subject);
+		queryBuilder.constrainToStatementsBetweenIRIs(true);
 		query = queryBuilder.buildQuery();
 	
 		try {			
@@ -173,7 +174,8 @@ public class DataQuery {
 						context = row.getValue("src").asURI();
 					}*/
 					
-					Statement stmt = new StatementImpl(fromGraph, row.getValue("s").asURI(), row.getValue("p").asURI(), row.getValue("o"));
+					Statement stmt = new StatementImpl(fromGraph, row.getValue("s").asResource(), row.getValue("p").asURI(), row.getValue("o"));
+					//Statement stmt = new StatementImpl(fromGraph, row.getValue("s").asURI(), row.getValue("p").asURI(), row.getValue("o"));
 					LOGGER.finer("build Statement: " + stmt.toString());
 					
 					stmtSet.add(stmt);
@@ -185,8 +187,8 @@ public class DataQuery {
 				
 		} catch (UnsupportedOperationException e){
 			LOGGER.warning("Problem with query to get relations on class level (blank node?): " + e.getMessage());
-		} catch (Exception e){
-			LOGGER.warning("Problem with query to get relations on class level: " + e.getMessage());
+//		} catch (Exception e){
+//			LOGGER.warning("Problem with query to get relations on class level: " + e.getMessage());
 		}
 		
 		return stmtSet;
