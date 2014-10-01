@@ -18,10 +18,12 @@ import org.ontoware.rdf2go.model.Sparqlable;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.BlankNode;
 import org.ontoware.rdf2go.model.node.Node;
+import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.util.RDFTool;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.exception.MappingException;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Valuemapping;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
@@ -79,13 +81,13 @@ public class PropertyToGraphicAttributeMappingX extends PropertyMappingX {
 				return explicitlyMappedValues;
 			}
 			
-			// TODO get value mappings without using sparql
-			Property_to_Graphic_AttributeMapping thisGen = ( (Property_to_Graphic_AttributeMapping)getDelegatee().castTo(Property_to_Graphic_AttributeMapping.class));
+			// when this mapping is a blank node, get the value mappings without using SPARQL
+			// (blank node cannot be referenced in SPARQL query)
 			
 			try {
 				
-				BlankNode thisBlank = thisGen.asBlankNode();
-				ClosableIterator<Statement> stmtIt =  model.findStatements(thisBlank,getDelegatee().VALUEMAPPING,Variable.ANY);
+				BlankNode thisBlank = getDelegatee().asBlankNode();
+				ClosableIterator<Statement> stmtIt =  model.findStatements(thisBlank,Property_to_Graphic_AttributeMapping.VALUEMAPPING,Variable.ANY);
 				
 				while (stmtIt.hasNext()) {
 					
@@ -103,9 +105,7 @@ public class PropertyToGraphicAttributeMappingX extends PropertyMappingX {
 				
 				return explicitlyMappedValues;
 				
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
+			} catch (ClassCastException e) {}
 			
 			
 			// TODO mappings that are blank nodes issue a class cast exception when toSPARQLed below!
@@ -121,7 +121,7 @@ public class PropertyToGraphicAttributeMappingX extends PropertyMappingX {
 			String querySubjectsAndSVtoTVMapForGivenProperty = "" +
 					"SELECT DISTINCT ?sv ?tv " +
 					"WHERE { " +
-						getDelegatee().toSPARQL() + " <" + getDelegatee().VALUEMAPPING + "> ?vm ." + 
+						getDelegatee().toSPARQL() + " <" + Property_to_Graphic_AttributeMapping.VALUEMAPPING + "> ?vm ." + 
 				    "	?vm <" + ValueMappingX.SOURCEVALUE + "> ?sv . " +
 				    "	?vm <" + ValueMappingX.TARGETVALUE + "> ?tv . " + 
 					"} ";
@@ -259,31 +259,33 @@ public class PropertyToGraphicAttributeMappingX extends PropertyMappingX {
 	}
 
 	/**
-	 * Returns the extended mapping table offering also tv for subclasses of the sv.
+	 * Returns the extended mapping table offering also tv for subclasses of the sv if the source value is a resource.
+	 * If its only a literal only the orginal, explicitly mapped values will be returned.
 	 * Values are cached per extension property.
 	 * 
 	 * @param modelSet
-	 * @param property
-	 * @return the extended value mappings for the given extension property
+	 * @param extensionProperty
+	 * @return the (if possible) extended value mappings for the given extension property
 	 * @throws InsufficientMappingSpecificationException 
+	 * @throws MappingException 
 	 */
-	public Map<Node, Node> getExtendedMappedValues(Sparqlable modelSet, Property property) throws InsufficientMappingSpecificationException {
+	public Map<Node, Node> getExtendedMappedValues(Sparqlable modelSet, Property extensionProperty) throws InsufficientMappingSpecificationException {
 		
 		if (null == extendedMappedValuesByExtensionProperty) {
 			
 			extendedMappedValuesByExtensionProperty = new HashMap<Property, Map<Node,Node>>();
 		} 
 		
-		if (extendedMappedValuesByExtensionProperty.containsKey(property)) {
+		if (extendedMappedValuesByExtensionProperty.containsKey(extensionProperty)) {
 			
-			return extendedMappedValuesByExtensionProperty.get(property);
+			return extendedMappedValuesByExtensionProperty.get(extensionProperty);
 			
 		} else {
 			
 			Map<Node, Node> svUriTVuriMap = RVLUtils.extendMappingTable(
-					modelSet, this.getMappedValues(), property );
+					modelSet, this.getMappedValues(), extensionProperty );
 			
-			extendedMappedValuesByExtensionProperty.put(property, svUriTVuriMap);
+			extendedMappedValuesByExtensionProperty.put(extensionProperty, svUriTVuriMap);
 	
 			return svUriTVuriMap;
 		}

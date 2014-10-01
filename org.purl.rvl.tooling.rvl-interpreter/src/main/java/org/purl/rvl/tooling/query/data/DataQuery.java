@@ -390,7 +390,8 @@ public class DataQuery {
 			for (QueryRow row : explMapResults) {
 				
 				try {
-						
+					
+					// this ignores blank nodes! but why are there no blank nodes here for use case AA_4?
 					Resource relatedResource = 	row.getValue("r").asURI();
 					LOGGER.finest("added related resource: " + relatedResource.toString());
 					resourceSet.add(relatedResource);

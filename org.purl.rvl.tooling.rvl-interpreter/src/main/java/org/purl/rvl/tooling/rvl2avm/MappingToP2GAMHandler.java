@@ -170,13 +170,13 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
 		// value mappings must have been triggered before!)
 		
 		// mapping table SV->TV
-		Map<Node, Node> svUriTVuriMap;
 
 		final Model modelData = modelSet.getModel(OGVICProcess.GRAPH_DATA);
+		
 		// TODO: automatically extend by other relations than subClassOf ? subPropertyOf? 
 		final Property extensionProperty = new Property(modelData, RDFS.subClassOf, false);
 
-		svUriTVuriMap = mapping.getExtendedMappedValues(modelSet, extensionProperty);
+		Map<Node, Node> svUriTVuriMap = mapping.getExtendedMappedValues(modelSet, extensionProperty);
 		//svUriTVuriMap = mapping.getMappedValues();	
 		
 		if (null == svUriTVuriMap || svUriTVuriMap.isEmpty()) {
@@ -236,7 +236,7 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
 	    	//rvlInterpreter.applyInheritanceOfTargetValue(mapping, statement.getSubject(), targetValue);
 	    	
     	} else {
-			LOGGER.finest("Source or target (graphic) value was null, couldn't apply target value " + targetValue
+			LOGGER.warning("Source or target (graphic) value was null, couldn't apply target value " + targetValue
 					+ " to the source value " + sourceValue + ".");
 		}
     	

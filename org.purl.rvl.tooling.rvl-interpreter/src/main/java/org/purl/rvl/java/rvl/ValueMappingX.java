@@ -666,7 +666,7 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 		
 	} else if (SS == caseID){
 		
-		LOGGER.info("1-1 Value mappings should currently  be handled separately as simple PGAM and will not be considered here.");
+		LOGGER.info("1-1 Value mappings should currently be handled separately and will not be considered here.");
 		return cvms;
 		
 	} else if (OO == caseID){

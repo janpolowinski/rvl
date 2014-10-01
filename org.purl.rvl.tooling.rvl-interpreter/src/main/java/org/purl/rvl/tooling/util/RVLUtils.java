@@ -13,6 +13,7 @@ import org.ontoware.rdf2go.model.Sparqlable;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
+import org.purl.rvl.exception.MappingException;
 import org.purl.rvl.java.gen.rvl.Thing1;
 import org.purl.rvl.tooling.process.ResourcesCache;
 import org.purl.rvl.tooling.query.data.DataQuery;
@@ -109,14 +110,14 @@ public class RVLUtils {
 	 * 
 	 * @param modelOrModelSet
 	 * @param explicitlyMappedValues
-	 * @param property
+	 * @param extensionProperty - the property to use for extending the explicitly mapped values
 	 * @return the extended value mapping map
+	 * @throws MappingException 
 	 */
 	public static Map<Node, Node> extendMappingTable(Sparqlable modelOrModelSet,
-			Map<Node, Node> explicitlyMappedValues, Property property) {
+			Map<Node, Node> explicitlyMappedValues, Property extensionProperty) {
 		
-		// storing new implicitly mapped values
-		Map<Resource, Node> implicitlyMappedValues = new HashMap<Resource, Node>();
+		Map<Node, Node> extendedMappedValues = new HashMap<Node, Node>();
 		
 		// iterate explicitly mapped values and store related values 
 		// to the implicitly mapped values (using the same target value)
@@ -124,31 +125,42 @@ public class RVLUtils {
 		
 		for (Entry<Node, Node> mappedValuePair : explicitlyMappedValuesSet) {
 			
-			try {
+			// check if mapped value is a resource (otherwise the mapping cannot be extended to related resources) 
 			
+			LOGGER.fine("Extending mapped value pair " + mappedValuePair);
+			
+			Resource mappedResource = null;
+			
+			try {
+				mappedResource =  mappedValuePair.getKey().asResource();
+
+			} catch (ClassCastException e) {
+				LOGGER.warning("Could not extend value pair " + mappedValuePair + ". " +
+						"Probably " + mappedValuePair.getKey() + " is not a resource but a literal.");
+			}
+
+			if (null != mappedResource) {
+				
 				// TODO use getDirectlyRelatedResources  
 				// to avoid assigning a more general value after a specific values has already be assigned
 				// this needs recursion when only directly related resources are returned
-				Set<Resource> directSubValues = DataQuery.getRelatedResources(modelOrModelSet, mappedValuePair.getKey().asResource(), property);
+				Set<Resource> subValues = DataQuery.getRelatedResources(modelOrModelSet, mappedResource, extensionProperty);
 				//Set<Resource> directSubValues = DataQuery.getDirectlyRelatedResources(modelOrModelSet, mappedValuePair.getKey().asResource(), property);
 				
-				for (Resource directSubValue : directSubValues) {
+				for (Resource directOrIndirectSubValue : subValues) {
 					
-					implicitlyMappedValues.put(directSubValue, mappedValuePair.getValue());
+					LOGGER.fine("  ... with value " + directOrIndirectSubValue);
 					
+					extendedMappedValues.put(directOrIndirectSubValue, mappedValuePair.getValue());
 				}
-				
-			} catch (ClassCastException e ) {
-				// not all key are resources, there may also be literals
 			}
-			
 		}
 		
-		explicitlyMappedValues.putAll(implicitlyMappedValues);
-		return explicitlyMappedValues;
-		
-	}
+		// add also the orginal values
+		extendedMappedValues.putAll(explicitlyMappedValues);
 
+		return extendedMappedValues;
+	}
 }
 
 
