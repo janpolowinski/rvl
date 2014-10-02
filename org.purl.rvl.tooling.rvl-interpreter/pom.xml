@@ -48,7 +48,7 @@
       <configuration>
         <archive>
           <manifest>
-            <mainClass>org.purl.rvl.tooling.process.OGVICConsole</mainClass>
+            <mainClass>org.purl.rvl.tooling.process.OGVICConsoleFiles</mainClass>
           </manifest>
         </archive>
         <descriptorRefs>

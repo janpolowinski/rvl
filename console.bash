@@ -1,5 +1,5 @@
 #!/bin/bash
 
-echo "Run use case tests ... "
+echo "Start RVL tooling console ... "
 
-java -cp rvl-tooling.jar org.purl.rvl.tooling.process.OGVICConsole
+java -cp rvl-tooling.jar org.purl.rvl.tooling.process.OGVICConsoleFiles
