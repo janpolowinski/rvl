@@ -1,8 +1,8 @@
 #!/bin/bash
 
-echo "Run use case tests ... "
+echo "Run core tests ... "
 
-cd "org.purl.rvl.example"
+cd "org.purl.rvl.tooling.rvl-interpreter"
 mvn install -DskipTests
 mvn test
 cd ../
