@@ -209,6 +209,8 @@ public class OGVICProcess {
 		
 		modelBuilder.clearMappingAndDataModels();
 		modelBuilder.clearAVMModel();
+		setDefaultInterpreter();
+		setDefaultD3Generator();
 		
 		/*
 		if (null !=  getModelAVM() && 
@@ -233,25 +235,17 @@ public class OGVICProcess {
 			e.printStackTrace();
 			return;
 		}
-
-		// create and set an interpreter, if not already set
-		if (null == rvlInterpreter) {
-			LOGGER.warning("RVL interpreter was not set, using default one.");
-			// rvlInterpreter = new FakeRVLInterpreter();
-			rvlInterpreter = new SimpleRVLInterpreter();
-		}
+		
+		// try to get interpreter from project
+//		if (null != project.getInterpreter()){
+//			setD3Interpreter(project.getInterpreter());
+//		}
 		
 		// try to get generator from project
 		if (null != project.getD3Generator()){
 			setD3Generator(project.getD3Generator());
 		}
 
-		// create and set a generator, if not already set
-		if (null == d3Generator) {
-			LOGGER.warning("JSON generator was not set, using default one.");
-			setD3Generator(new D3GeneratorDeepLabelsJSON());
-		}
-		
 		// try to get html file for d3 rendering from project
 		if (null != project.getD3GraphicFile()){
 			setD3GraphicFile(project.getD3GraphicFile());
@@ -261,8 +255,7 @@ public class OGVICProcess {
 			LOGGER.severe("D3 html file was not set, using default one.");
 			System.exit(0);
 		}
-			
-			
+		
 	}
 
 	private Model readAVMFromFile(ModelBuilder modelBuilder) {
@@ -376,6 +369,17 @@ public class OGVICProcess {
 		}
 	}
 	
+	private void setDefaultInterpreter() {
+		LOGGER.info("Setting interpreter to default.");
+		// rvlInterpreter = new FakeRVLInterpreter();
+		setRvlInterpreter(new SimpleRVLInterpreter());
+	}
+
+	private void setDefaultD3Generator() {
+		LOGGER.info("Setting D3-generator to default.");
+		setD3Generator(new D3GeneratorDeepLabelsJSON());
+	}
+
 	/**
 	 * @return the rvlInterpreter
 	 */

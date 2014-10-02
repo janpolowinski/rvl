@@ -49,7 +49,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 	 * Generates JSON using SimpleJSON
 	 * @throws D3GeneratorException 
 	 */
-	public String generateJSONforD3() throws D3GeneratorException{
+	public String generateJSONforD3() throws D3GeneratorException {
 		
 		// generate empty JSON root object, containing all actual root nodes
 		JSONObject d3data = new JSONObject();
