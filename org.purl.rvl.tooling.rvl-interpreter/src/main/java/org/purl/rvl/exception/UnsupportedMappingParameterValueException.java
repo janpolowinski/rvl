@@ -3,11 +3,14 @@
  */
 package org.purl.rvl.exception;
 
+import org.purl.rvl.java.rvl.MappingX;
+import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
+
 /**
  * @author Jan Polowinski
  *
  */
-public class UnsupportedMappingParameterValueException extends Exception {
+public class UnsupportedMappingParameterValueException extends MappingException {
 
 	static String GENERAL_MESSAGE = "Mapping parameter value not supported: ";
 
@@ -21,6 +24,10 @@ public class UnsupportedMappingParameterValueException extends Exception {
 
 	public UnsupportedMappingParameterValueException(String string) {
 		super(GENERAL_MESSAGE + " " + string);
+	}
+
+	public UnsupportedMappingParameterValueException(MappingX mapping, String string) {
+		super(mapping, GENERAL_MESSAGE + " " + string);
 	}
 
 	/**

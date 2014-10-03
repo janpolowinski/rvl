@@ -11,14 +11,13 @@ import org.ontoware.rdf2go.model.QueryResultTable;
 import org.ontoware.rdf2go.model.QueryRow;
 import org.ontoware.rdf2go.model.node.URI;
 import org.purl.rvl.java.gen.rvl.Identitymapping;
+import org.purl.rvl.java.gen.rvl.Mapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_AttributeMapping;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
 import org.purl.rvl.java.rvl.IdentityMappingX;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
 import org.purl.rvl.java.rvl.ValueMappingX;
-import org.purl.rvl.tooling.process.OGVICProcess;
-import org.purl.rvl.tooling.query.data.DataQueryBuilder;
 
 /**
  * @author Jan Polowinski
@@ -39,7 +38,7 @@ public class MappingQuery {
 			String queryString = "" + NL + 
 					"ASK " + NL + 
 					"WHERE { " + NL + 
-					"    " + mapping.asURI().toSPARQL() + " " + PropertyToGraphicAttributeMappingX.VALUEMAPPING.toSPARQL() + "  ?vm . " + NL + 
+					"    " + mapping.asURI().toSPARQL() + " " + Property_to_Graphic_AttributeMapping.VALUEMAPPING.toSPARQL() + "  ?vm . " + NL + 
 					"	{ " + NL + 
 					"	SELECT ?vm  (COUNT(?sv) AS ?svCount) " + NL + 
 					"       WHERE " + NL + 
@@ -64,8 +63,8 @@ public class MappingQuery {
 			String queryString = "" + NL + 
 					"SELECT DISTINCT ?mapping " + NL + 
 					"WHERE { " + NL + 
-					"    ?mapping a <" + PropertyToGraphicAttributeMappingX.RDFS_CLASS + "> . " + NL + 
-					"    ?mapping <" + PropertyToGraphicAttributeMappingX.VALUEMAPPING + "> ?vm . " + NL + 
+					"    ?mapping a <" + Property_to_Graphic_AttributeMapping.RDFS_CLASS + "> . " + NL + 
+					"    ?mapping <" + Property_to_Graphic_AttributeMapping.VALUEMAPPING + "> ?vm . " + NL + 
 					"	{ " + NL + 
 					"	SELECT ?vm  (COUNT(?sv) AS ?svCount) " + NL + 
 					"       WHERE " + NL + 
@@ -91,8 +90,8 @@ public class MappingQuery {
 			String queryString = "" +
 					"SELECT DISTINCT ?mapping " + NL + 
 					"WHERE { " + NL + 
-					"    ?mapping a <" + PropertyToGraphicAttributeMappingX.RDFS_CLASS + "> . " + NL + 
-					"    ?mapping <" + PropertyToGraphicAttributeMappingX.VALUEMAPPING + "> ?vm . " + NL + 
+					"    ?mapping a <" + Property_to_Graphic_AttributeMapping.RDFS_CLASS + "> . " + NL + 
+					"    ?mapping <" + Property_to_Graphic_AttributeMapping.VALUEMAPPING + "> ?vm . " + NL + 
 	//				"	{ " +
 	//				"	SELECT ?vm  (COUNT(?sv) AS ?svCount) " +
 	//				"       WHERE " +
@@ -111,7 +110,7 @@ public class MappingQuery {
 		
 		MappingQueryBuilder queryBuilder = new MappingQueryBuilder();
 		//queryBuilder.constrainToGraph(OGVICProcess.GRAPH_MAPPING);
-		queryBuilder.constrainToType(PropertyToGO2ORMappingX.RDFS_CLASS);
+		queryBuilder.constrainToType(Property_to_Graphic_Object_to_Object_RelationMapping.RDFS_CLASS);
 		// constraining target GOTOR is optional
 		if (null != gotor) queryBuilder.constrainToTargetGR(gotor);
 		String queryString = queryBuilder.buildQuery();
@@ -154,7 +153,7 @@ public class MappingQuery {
 		
 		for (QueryRow row : results) {
 				Property_to_Graphic_AttributeMapping mapping = Property_to_Graphic_AttributeMapping.getInstance(modelMappings, row.getValue("mapping").asResource());
-				mappingSet.add((PropertyToGraphicAttributeMappingX)mapping.castTo(PropertyToGraphicAttributeMappingX.class));
+				mappingSet.add(new PropertyToGraphicAttributeMappingX(mapping));
 				continue;
 		}
 		
@@ -179,8 +178,8 @@ public class MappingQuery {
 		QueryResultTable results = modelMappings.sparqlSelect(queryString);
 		
 		for(QueryRow row : results) {
-			Property_to_Graphic_Object_to_Object_RelationMapping mapping = Property_to_Graphic_Object_to_Object_RelationMapping.getInstance(modelMappings, (URI)row.getValue("mapping"));
-			mappingSet.add((PropertyToGO2ORMappingX)mapping.castTo(PropertyToGO2ORMappingX.class));
+			Property_to_Graphic_Object_to_Object_RelationMapping mapping = Property_to_Graphic_Object_to_Object_RelationMapping.getInstance(modelMappings, row.getValue("mapping").asResource());
+			mappingSet.add(new PropertyToGO2ORMappingX(mapping));
 		}
 		
 		return mappingSet;
@@ -194,8 +193,8 @@ public class MappingQuery {
 		QueryResultTable results = modelMappings.sparqlSelect(queryString);
 		
 		for(QueryRow row : results) {
-			Identitymapping mapping = Identitymapping.getInstance(modelMappings, (URI)row.getValue("mapping"));
-			mappingSet.add((IdentityMappingX)mapping.castTo(IdentityMappingX.class));
+			Identitymapping mapping = Identitymapping.getInstance(modelMappings, row.getValue("mapping").asResource());
+			mappingSet.add(new IdentityMappingX(mapping));
 		}
 		
 		return mappingSet;

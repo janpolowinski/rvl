@@ -51,13 +51,13 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 	 */
 	public String generateJSONforD3(){
 		
-		Set<GraphicObjectX> goSet = AVMUtils.getRelevantGraphicObjects(modelAVM);
-		GraphicObjectX[] goArray = new GraphicObjectX[goSet.size()];
+		List<GraphicObjectX> goList = AVMUtils.getRelevantGraphicObjects(modelAVM);
+		GraphicObjectX[] goArray = new GraphicObjectX[goList.size()];
 		Map<GraphicObjectX, Integer> goMap = new HashMap<GraphicObjectX, Integer>(50);	
 		
 		// we need an array, not a set below ...
 		int j = 0;
-		for (Iterator<GraphicObjectX> iterator = goSet.iterator(); iterator.hasNext();) {
+		for (Iterator<GraphicObjectX> iterator = goList.iterator(); iterator.hasNext();) {
 			GraphicObjectX graphicObject = iterator.next();
 			goArray[j] = graphicObject;
 			j++;

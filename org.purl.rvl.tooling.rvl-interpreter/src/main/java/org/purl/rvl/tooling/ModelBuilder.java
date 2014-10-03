@@ -1,6 +1,8 @@
 package org.purl.rvl.tooling;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -8,6 +10,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.io.IOUtils;
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
@@ -17,6 +20,7 @@ import org.ontoware.rdf2go.model.NamespaceSupport;
 import org.ontoware.rdf2go.vocabulary.OWL;
 import org.ontoware.rdf2go.vocabulary.RDF;
 import org.ontoware.rdf2go.vocabulary.RDFS;
+import org.purl.rvl.exception.OGVICRepositoryException;
 import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
@@ -102,33 +106,42 @@ public class ModelBuilder {
 	
 	
 	/** Extra model for VISO
+	 * @throws OGVICRepositoryException 
 	 * 
 	 */
-	public void initVISOModel() {
+	public void initVISOModel() throws OGVICRepositoryException {
 		modelVISO = RDF2Go.getModelFactory().createModel(Reasoning.none); // no reasoning seems to be OK here 
 		// temp. turned on reasoning to allow for reasoning that linking_node subPropertyOf linkingDirected_endNode, 
 		// however that does not seem to work due to other issues (e.g. Linking_Directed is not a subclass of Linking_Undirected) anyway.
 		
 		modelVISO.open();
 		String visoFileName = OntologyFile.VISO_GRAPHIC;
-		ModelUtils.readFromAnySyntax(modelVISO,visoFileName);
+		try {
+			ModelUtils.readFromAnySyntax(modelVISO, visoFileName);
+		} catch (Exception e) {
+			throw new OGVICRepositoryException("VISO model", e.getMessage());
+		}
 		LOGGER.info("Read VISO-graphic into VISO model: " + visoFileName);
 	
 		modelSet.addModel(modelVISO, OGVICProcess.GRAPH_VISO);
 	}
 
-	public void initRVLModel() {
+	public void initRVLModel() throws OGVICRepositoryException {
 		// extra model for RVL (schema)
 		modelRVLSchema = RDF2Go.getModelFactory().createModel(Reasoning.none); // no reasoning seems to be OK here
 		modelRVLSchema.open();
 		String rvlFileName = OntologyFile.RVL;
-		ModelUtils.readFromAnySyntax(modelRVLSchema,rvlFileName);
+		try {
+			ModelUtils.readFromAnySyntax(modelRVLSchema,rvlFileName);
+		} catch (Exception e) {
+			throw new OGVICRepositoryException("RVL model", e.getMessage());
+		}
 		LOGGER.info("Read RVL schmema into RVL schema model: " + rvlFileName);
 		
 		modelSet.addModel(modelRVLSchema, OGVICProcess.GRAPH_RVL_SCHEMA);
 	}
 
-	public void initMappingsModel(FileRegistry mappingFileRegistry )  {
+	public void initMappingsModel(FileRegistry mappingFileRegistry ) throws OGVICRepositoryException  {
 		
 		modelSet.removeModel(OGVICProcess.GRAPH_MAPPING);
 		
@@ -140,7 +153,11 @@ public class ModelBuilder {
 			for (Iterator<File> iterator = mappingFileRegistry.getFiles().iterator(); iterator.hasNext();) {
 				File file = (File) iterator.next();
 				LOGGER.info("Reading file into mappings model: " + file.getAbsolutePath());
-				ModelUtils.readFromAnySyntax(modelMappings,file);
+				try {
+					ModelUtils.readFromAnySyntax(modelMappings, file);
+				} catch (Exception e) {
+					throw new OGVICRepositoryException("mapping model", e.getMessage());
+				}
 			}
 		}
 
@@ -169,8 +186,9 @@ public class ModelBuilder {
 	/**
 	 * @param dataFileRegistry
 	 * @param reasoning
+	 * @throws OGVICRepositoryException 
 	 */
-	public void initDataModel(FileRegistry dataFileRegistry, Reasoning reasoning)  {
+	public void initDataModel(FileRegistry dataFileRegistry, Reasoning reasoning) throws OGVICRepositoryException  {
 		
 		// clean up
 		modelSet.removeModel(OGVICProcess.GRAPH_DATA);
@@ -184,7 +202,12 @@ public class ModelBuilder {
 			for (Iterator<File> iterator = dataFileRegistry.getFiles().iterator(); iterator.hasNext();) {
 				File file = (File) iterator.next();
 				LOGGER.info("Reading file into temp data model (Reasoning " + reasoning + " ): " + file.getAbsolutePath());
-				ModelUtils.readFromAnySyntax(reasoningDataModel,file);
+				try {
+					ModelUtils.readFromAnySyntax(reasoningDataModel,file);
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new OGVICRepositoryException("data model", e.getMessage());
+				}
 			}
 		}
 	

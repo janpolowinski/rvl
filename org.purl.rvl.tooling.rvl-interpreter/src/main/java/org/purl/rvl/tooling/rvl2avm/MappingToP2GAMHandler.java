@@ -17,8 +17,9 @@ import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.MappingException;
 import org.purl.rvl.exception.NotImplementedMappingFeatureException;
+import org.purl.rvl.exception.SubmappingException;
+import org.purl.rvl.exception.UnsupportedMappingParameterValueException;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
-import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.process.OGVICProcess;
@@ -79,7 +80,7 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
 			Set<Statement> stmtSet = DataQuery.findRelationsOnInstanceOrClassLevel(
 					modelSet,
 					OGVICProcess.GRAPH_DATA,
-					(PropertyMappingX) mapping.castTo(PropertyMappingX.class),
+					mapping,
 					true, // only most specific relations (e.g. only A citesCritical B, not A cites B if both exist)
 					workResource,
 					null
@@ -94,10 +95,10 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
 			
 			if (null == stmtSetIterator) {
 				LOGGER.severe("Statement iterator was null, no relations could be interpreted for "
-						+ mapping.asURI());
+						+ mapping);
 			} else if (!stmtSetIterator.hasNext()) {
 				LOGGER.severe("Statement iterator was empty, no relations could be interpreted for "
-						+ mapping.asURI());
+						+ mapping);
 			} else {
 		    
 			    while (stmtSetIterator.hasNext() 
@@ -118,13 +119,12 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
 		    
 			}
 			
-		} catch (InsufficientMappingSpecificationException e) {
-			LOGGER.warning("No resources will be affected by mapping " + mapping.asURI() 
-					+ " (" + e.getMessage() + ")" );
+//		} catch (InsufficientMappingSpecificationException e) {
+//			LOGGER.warning("No resources will be affected by mapping " + mapping 
+//					+ " (" + e.getMessage() + ")" );
 		} catch (ClassCastException e) {
-			LOGGER.warning("No resources will be affected by mapping. Maybe the submapping was " +
-					"accidentally applied to literal? " + mapping.asURI() 
-					+ " (" + e.getMessage() + ")" );
+			throw new UnsupportedMappingParameterValueException(mapping, "Maybe the submapping was " +
+					"accidentally applied to a literal? :" + e.getMessage());
 		}
 
 	}
@@ -153,29 +153,38 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
 	 * @param statement - the statement to visually encode
 	 * @param mapping
 	 * @param go - the graphic object to use as a base for applying the additional visual encoding
-	 * @param workNode - the node to work with (use as source value, apply base further mappings on ...)
+	 * @param sourceValueWorkNode - the node to work with (use as source value, apply base further mappings on ...)
 	 * It is one of the nodes used in the statement.
 	 * @throws InsufficientMappingSpecificationException
+	 * @throws SubmappingException 
 	 */
 	public void encodeStatement(Statement statement, PropertyToGraphicAttributeMappingX mapping,
-			GraphicObjectX graphicObjectToApplyMapping, Node workNode) throws InsufficientMappingSpecificationException {
+			GraphicObjectX graphicObjectToApplyMapping, Node sourceValueWorkNode) throws InsufficientMappingSpecificationException, SubmappingException {
+		
+		// checks ...
+		if (null == sourceValueWorkNode) {
+			throw new SubmappingException("Work node may not be null. (Statement: " + statement + ")");
+		}
+		if (null == graphicObjectToApplyMapping) {
+			throw new SubmappingException("Graphic object to apply the mapping may not be null. (Statement: " + statement + ", work node: " + sourceValueWorkNode + ")");
+		}
 		
 		this.mapping = mapping;
 		
-		GraphicAttribute tga = mapping.getTargetAttribute();
+		Property tga = mapping.getTargetGraphicRelation();
 		//Property sp = mapping.getSourceProperty();
 		
 		// get the mapping table SV->TV (the calculation of mapped values from data dependent (!) implicit
 		// value mappings must have been triggered before!)
 		
 		// mapping table SV->TV
-		Map<Node, Node> svUriTVuriMap;
 
 		final Model modelData = modelSet.getModel(OGVICProcess.GRAPH_DATA);
+		
 		// TODO: automatically extend by other relations than subClassOf ? subPropertyOf? 
 		final Property extensionProperty = new Property(modelData, RDFS.subClassOf, false);
 
-		svUriTVuriMap = mapping.getExtendedMappedValues(modelSet, extensionProperty);
+		Map<Node, Node> svUriTVuriMap = mapping.getExtendedMappedValues(modelSet, extensionProperty);
 		//svUriTVuriMap = mapping.getMappedValues();	
 		
 		if (null == svUriTVuriMap || svUriTVuriMap.isEmpty()) {
@@ -183,62 +192,31 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
 			return;
 		}
 
-    	Node targetValue = null;
-    	Node sourceValue = null;
-
+		LOGGER.fine("Encoding statement " + statement);
+		
 		// special treatment of rdf:ID not necessary anymore since special triples <ID> rdf:ID <ID> are now provided
-		sourceValue = workNode;
 		
 		// get the target value for the sv
-		targetValue = svUriTVuriMap.get(sourceValue); 
-		
-		
-		// should now be obsolete since done in handle method
-		// delete soon
-		/*
-		TupleSourceValueTargetValue<Node, Node> svWithItsTv;
-		//ClosableIterator<Statement> it = modelSet.findStatements(OGVICProcess.GRAPH_DATA, subjectResource,
-		//		sp.asURI(), Variable.ANY);
-		
-		Iterator<Statement> it = DataQuery.findRelationsOnInstanceOrClassLevel(
-				modelSet,
-				OGVICProcess.GRAPH_DATA,
-				(PropertyMappingX)mapping.castTo(PropertyMappingX.class),
-				true,
-				workNode.asResource(),
-				null)
-				.iterator();
-		
-		LOGGER.severe("Getting Statement iterator for (" + workNode + " " + sp.asURI() + " ANY)");
-		
-		try {
-
-			// TODO Multiple objects may match a mapped target value. For now only the first match will win!
-			svWithItsTv = rvlInterpreter.lookUpTvForSv(it, svUriTVuriMap);
-			sourceValue = svWithItsTv.sourceValue; 
-			targetValue = svWithItsTv.targetValue;
-
-		} catch (Exception e) {
-			LOGGER.fine("Could not get value for source property " + sp + " for subject "
-					+ workNode);
-			return;
-		}
-		*/
-		
+		Node targetValue = svUriTVuriMap.get(sourceValueWorkNode); 
 
     	// if we found a tv for the sv
-    	if (null != targetValue && null != sourceValue) {
+    	if (null != targetValue) {
     		
-	    	rvlInterpreter.applyGraphicValueToGO(tga, targetValue, sourceValue, graphicObjectToApplyMapping);	
+	    	rvlInterpreter.applyGraphicValueToGO(tga, targetValue, sourceValueWorkNode, graphicObjectToApplyMapping);	
 	    	
 	    	// TODO enable again : 
 	    	//rvlInterpreter.applyInheritanceOfTargetValue(mapping, statement.getSubject(), targetValue);
 	    	
+	    	// TODO call submappings here: problem: we dont have graphic relation here as expected by the applySubmappingsMethod.
+	    	// create additional method, or a graphic relation to be consistent here?
+	    	// submappings
+			if (mapping.hasSubMapping()) {
+				LOGGER.finest("Applying submapping ... ");
+				rvlInterpreter.applySubmappings(mapping, statement, graphicObjectToApplyMapping);
+			}
+	    	
     	} else {
-			LOGGER.fine("Source or target (graphic) value was null, couldn't apply target value " + targetValue
-					+ " to the source value " + sourceValue + ".");
-		}
-		
+			LOGGER.fine("No target value found for source value " + sourceValueWorkNode + ".");
+		}	
 	}
-
 }

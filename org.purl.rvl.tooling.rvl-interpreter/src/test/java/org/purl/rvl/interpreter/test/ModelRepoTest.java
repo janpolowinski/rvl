@@ -1,5 +1,6 @@
 package org.purl.rvl.interpreter.test;
 
+import java.io.IOException;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -7,6 +8,7 @@ import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
+import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Diff;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
@@ -53,8 +55,10 @@ public class ModelRepoTest {
 
 	/**
 	 * @param args
+	 * @throws IOException 
+	 * @throws ModelRuntimeException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ModelRuntimeException, IOException {
 		
 		// we use sesame here, since jena seems not to properly support SPARQL queries on model sets (e.g. named graph queries caused problems)
 		//RDF2Go.register( new org.ontoware.rdf2go.impl.jena.ModelFactoryImpl() );
@@ -71,7 +75,7 @@ public class ModelRepoTest {
 		
 	}
 	
-	public static void owlReasoningTest() {
+	public static void owlReasoningTest() throws ModelRuntimeException, IOException {
 
 		// extendee
 		Model extendeeModel = RDF2Go.getModelFactory().createModel(
@@ -85,7 +89,7 @@ public class ModelRepoTest {
 		
 	}
 	
-	public static void newTest() {
+	public static void newTest() throws ModelRuntimeException, IOException {
 
 		// extendee
 		Model extendeeModel = RDF2Go.getModelFactory().createModel(
@@ -110,7 +114,7 @@ public class ModelRepoTest {
 	}
 
 	
-	public static void oldTest(){
+	public static void oldTest() throws ModelRuntimeException, IOException{
 		
 		ModelSet modelSet = RDF2Go.getModelFactory().createModelSet();
 		modelSet.open();

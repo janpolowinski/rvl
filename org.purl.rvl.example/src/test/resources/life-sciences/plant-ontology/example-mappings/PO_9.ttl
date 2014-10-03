@@ -33,14 +33,6 @@
         rvl:subMapping-onRole vg:linking_connector;
         rvl:subMapping-onTriplePart rdf:predicate;
         rvl:subMapping-mapping :ArrowShapeMapping;
-      ],[
-        rvl:subMapping-onRole vg:linkingDirected_startNode;
-        rvl:subMapping-onTriplePart rdf:subject;
-        rvl:subMapping-mapping :LabelMapping2;
-      ],[
-        rvl:subMapping-onRole vg:linkingDirected_endNode;
-        rvl:subMapping-onTriplePart rdf:object;
-        rvl:subMapping-mapping :LabelMapping1;
       ]
       .
 

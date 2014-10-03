@@ -9,3 +9,20 @@ owl:topObjectProperty a owl:ObjectProperty , rdf:Property.
 ro:isRefinementOf rdfs:subPropertyOf owl:topObjectProperty .
 ro:isAuthoredBy rdfs:subPropertyOf owl:topObjectProperty .
 ro:isDescribedByUseCase rdfs:subPropertyOf owl:topObjectProperty .
+
+
+# some fictional prices to have a value for hasCost (integer version) labeling:
+
+ro:UsingOracleDatabase ro:hasCost "100".
+ro:StoreInformation ro:hasCost "70".
+ro:AdvertisementOnProfilePage ro:hasCost "10".
+ro:AccessibleToBlindUsers ro:hasCost "20".
+ro:StoreUserDataInDatabase ro:hasCost "20".
+ro:ServerWithSufficientPerformance ro:hasCost "20".
+ro:HighNumberOfUsers ro:hasCost "20".
+ro:UserHasProfilePage ro:hasCost "20".
+ro:IntegratedInstantMessaging ro:hasCost "20".
+ro:UserHasPhotoAlbum ro:hasCost "20".
+ro:EarnMoney ro:hasCost "20".
+ro:WellArrangedLayout ro:hasCost "20".
+ro:UserCanHideData ro:hasCost "20".

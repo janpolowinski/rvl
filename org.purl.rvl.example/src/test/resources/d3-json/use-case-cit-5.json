@@ -1,7 +1,7 @@
 {
   "nodes":[
     {
-      "uri":"http://purl.org/rvl/example/data/cito/Document_E",
+      "uri":"http://purl.org/rvl/example/data/cito/Document_A",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
@@ -9,11 +9,11 @@
       "labels":[
         {
           "position":"centerRight",
-          "text_value":"Document_E",
+          "text_value":"Document_A",
           "width":"8.5",
           "color_rgb_hex_combined":null,
           "type":"text_label",
-          "text_value_full":"Document_E"
+          "text_value_full":"Document_A"
         }
       ]
     },
@@ -31,40 +31,6 @@
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Document_B"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example/data/cito/Document_F",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Document_F",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Document_F"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example/data/cito/Document_A",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Document_A",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Document_A"
         }
       ]
     },
@@ -101,6 +67,40 @@
           "text_value_full":"Document_D"
         }
       ]
+    },
+    {
+      "uri":"http://purl.org/rvl/example/data/cito/Document_E",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"circle",
+      "width":17.0,
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"Document_E",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"Document_E"
+        }
+      ]
+    },
+    {
+      "uri":"http://purl.org/rvl/example/data/cito/Document_F",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"circle",
+      "width":17.0,
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"Document_F",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"Document_F"
+        }
+      ]
     }
   ],
   "links":[
@@ -125,9 +125,10 @@
           "type":"icon_label"
         }
       ],
+      "uri":"http://purl.org/spar/cito/critiques",
       "type":"Directed",
-      "source":5,
-      "target":2,
+      "source":3,
+      "target":5,
       "value":"1"
     },
     {
@@ -151,9 +152,10 @@
           "type":"icon_label"
         }
       ],
+      "uri":"http://purl.org/spar/cito/confirms",
       "type":"Directed",
-      "source":4,
-      "target":5,
+      "source":2,
+      "target":3,
       "value":"1"
     },
     {
@@ -177,8 +179,9 @@
           "type":"icon_label"
         }
       ],
+      "uri":"http://purl.org/spar/cito/cites",
       "type":"Directed",
-      "source":3,
+      "source":0,
       "target":1,
       "value":"1"
     },
@@ -203,9 +206,10 @@
           "type":"icon_label"
         }
       ],
+      "uri":"http://purl.org/spar/cito/critiques",
       "type":"Directed",
       "source":1,
-      "target":0,
+      "target":4,
       "value":"1"
     },
     {
@@ -229,9 +233,10 @@
           "type":"icon_label"
         }
       ],
+      "uri":"http://purl.org/spar/cito/critiques",
       "type":"Directed",
-      "source":5,
-      "target":0,
+      "source":3,
+      "target":4,
       "value":"1"
     },
     {
@@ -255,9 +260,10 @@
           "type":"icon_label"
         }
       ],
+      "uri":"http://purl.org/spar/cito/cites",
       "type":"Directed",
       "source":1,
-      "target":4,
+      "target":2,
       "value":"1"
     }
   ]

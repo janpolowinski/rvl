@@ -16,6 +16,7 @@ import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.exception.UnsupportedMappingParameterValueException;
 import org.purl.rvl.java.RDF;
 import org.purl.rvl.java.RVL;
 import org.purl.rvl.java.rvl.PropertyMappingX;
@@ -154,6 +155,7 @@ public class DataQuery {
 		queryBuilder.constrainToGraph(fromGraph);
 		queryBuilder.constrainToSubjectBySelector(selectorSPARQLString);
 		queryBuilder.constrainToSubject(subject);
+		queryBuilder.constrainToStatementsBetweenIRIs(true);
 		query = queryBuilder.buildQuery();
 	
 		try {			
@@ -172,7 +174,8 @@ public class DataQuery {
 						context = row.getValue("src").asURI();
 					}*/
 					
-					Statement stmt = new StatementImpl(fromGraph, row.getValue("s").asURI(), row.getValue("p").asURI(), row.getValue("o"));
+					Statement stmt = new StatementImpl(fromGraph, row.getValue("s").asResource(), row.getValue("p").asURI(), row.getValue("o"));
+					//Statement stmt = new StatementImpl(fromGraph, row.getValue("s").asURI(), row.getValue("p").asURI(), row.getValue("o"));
 					LOGGER.finer("build Statement: " + stmt.toString());
 					
 					stmtSet.add(stmt);
@@ -184,8 +187,8 @@ public class DataQuery {
 				
 		} catch (UnsupportedOperationException e){
 			LOGGER.warning("Problem with query to get relations on class level (blank node?): " + e.getMessage());
-		} catch (Exception e){
-			LOGGER.warning("Problem with query to get relations on class level: " + e.getMessage());
+//		} catch (Exception e){
+//			LOGGER.warning("Problem with query to get relations on class level: " + e.getMessage());
 		}
 		
 		return stmtSet;
@@ -201,6 +204,7 @@ public class DataQuery {
 	 * @param object
 	 * @return
 	 * @throws InsufficientMappingSpecificationException
+	 * @throws UnsupportedMappingParameterValueException 
 	 */
 	public static Set<Statement> findRelationsOnInstanceOrClassLevel(
 			Sparqlable modelOrModelSet,
@@ -208,7 +212,7 @@ public class DataQuery {
 			PropertyMappingX pm,
 			boolean onlyMostSpecific, 
 			Resource subject,
-			Node object) throws InsufficientMappingSpecificationException {
+			Node object) throws InsufficientMappingSpecificationException, UnsupportedMappingParameterValueException {
 		
 			Set<Statement> statementSet = new HashSet<Statement>();
 		
@@ -216,7 +220,7 @@ public class DataQuery {
 			
 			String selectorSPARQLString = "";
 			
-			if (pm.hasSubjectfilter()) {
+			if (pm.hasSubjectFilter()) {
 	
 				selectorSPARQLString = pm.getSubjectFilterString();
 			
@@ -263,40 +267,39 @@ public class DataQuery {
 			}
 			
 			// WARNING!
-			// if inherited by is set statement set will be extended, not replaced! :
+			// if inherited by is set, statement set will be extended, not replaced! :
 			
 			// consider inherited relations, including those between classes (someValueFrom ...)
 			if (pm.hasInheritedby()) {
 				
-				try {
-				
-					Property inheritedBy = pm.getInheritedBy();
+				Property inheritedBy = pm.getInheritedBy();
 
-					if (
-						inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
-						|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())
-						|| inheritedBy.toString().equals(RVL.TBOX_RESTRICTION)
-						|| inheritedBy.toString().equals(RVL.TBOX_DOMAIN_RANGE)	
-					) {
-					
-					statementSet.addAll(findRelationsOnClassLevel(
-							modelOrModelSet,
-							fromGraph,
-							spURI,
-							selectorSPARQLString,
-							inheritedBy,
-							subject,
-							object)
-							);
-					
-					} else {
-						LOGGER.finest("inheritedBy set to a value not defining a class level relation or value not yet supported." +
-								" Will be ignored as a class level relation.");
-					}
+				if (
+					inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
+					|| inheritedBy.toString().equals(Restriction.ALLVALUESFROM.toString())
+					|| inheritedBy.toString().equals(RVL.TBOX_RESTRICTION)
+					|| inheritedBy.toString().equals(RVL.TBOX_DOMAIN_RANGE)	
+				) {
 				
-				} catch (Exception e) {
-					LOGGER.warning("Problem evaluating inheritedBy setting or getting relations on class level");
+				statementSet.addAll(findRelationsOnClassLevel(
+						modelOrModelSet,
+						fromGraph,
+						spURI,
+						selectorSPARQLString,
+						inheritedBy,
+						subject,
+						object)
+						);
+				
+				} else {
+					
+					String message = "inheritedBy is set to a value not defining a class level relation or the value is not yet supported. " 
+							//+ "Will be ignored as a class level relation."
+							;
+					//LOGGER.severe(message);
+					throw new UnsupportedMappingParameterValueException(message);
 				}
+
 			} 
 			
 			return statementSet;
@@ -389,7 +392,8 @@ public class DataQuery {
 			for (QueryRow row : explMapResults) {
 				
 				try {
-						
+					
+					// this ignores blank nodes! but why are there no blank nodes here for use case AA_4?
 					Resource relatedResource = 	row.getValue("r").asURI();
 					LOGGER.finest("added related resource: " + relatedResource.toString());
 					resourceSet.add(relatedResource);

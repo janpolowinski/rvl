@@ -1,9 +1,9 @@
 {
   "nodes":[
     {
-      "uri":"http://purl.org/ro/ont#ServerWithSufficientPerformance",
-      "color_rgb_hex":"#ff0000",
-      "color_rgb_hex_combined":"#ff0000",
+      "uri":"http://purl.org/ro/ont#WellArrangedLayout",
+      "color_rgb_hex":"#00aa00",
+      "color_rgb_hex_combined":"#00aa00",
       "shape_d3_name":"square",
       "width":100.0,
       "labels":[
@@ -13,7 +13,7 @@
           "width":"50.0",
           "color_rgb_hex_combined":null,
           "type":"text_label",
-          "text_value_full":"http://purl.org/ro/ont#ServerWithSufficientPerformance"
+          "text_value_full":"http://purl.org/ro/ont#WellArrangedLayout"
         }
       ]
     },
@@ -52,142 +52,6 @@
       ]
     },
     {
-      "uri":"http://purl.org/ro/ont#IntegratedInstantMessaging",
-      "color_rgb_hex":"#00aa00",
-      "color_rgb_hex_combined":"#00aa00",
-      "shape_d3_name":"square",
-      "width":100.0,
-      "labels":[
-        {
-          "position":"centerCenter",
-          "text_value":"http://purl.org...",
-          "width":"50.0",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"http://purl.org/ro/ont#IntegratedInstantMessaging"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/ro/ont#UserHasPhotoAlbum",
-      "color_rgb_hex":"#00aa00",
-      "color_rgb_hex_combined":"#00aa00",
-      "shape_d3_name":"square",
-      "width":100.0,
-      "labels":[
-        {
-          "position":"centerCenter",
-          "text_value":"http://purl.org...",
-          "width":"50.0",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"http://purl.org/ro/ont#UserHasPhotoAlbum"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/ro/ont#AccessibleToBlindUsers",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"square",
-      "width":100.0,
-      "labels":[
-        {
-          "position":"centerCenter",
-          "text_value":"http://purl.org...",
-          "width":"50.0",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"http://purl.org/ro/ont#AccessibleToBlindUsers"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/ro/ont#AdvertisementOnProfilePage",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"square",
-      "width":100.0,
-      "labels":[
-        {
-          "position":"centerCenter",
-          "text_value":"http://purl.org...",
-          "width":"50.0",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"http://purl.org/ro/ont#AdvertisementOnProfilePage"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/ro/ont#HighNumberOfUsers",
-      "color_rgb_hex":"#00aa00",
-      "color_rgb_hex_combined":"#00aa00",
-      "shape_d3_name":"square",
-      "width":100.0,
-      "labels":[
-        {
-          "position":"centerCenter",
-          "text_value":"http://purl.org...",
-          "width":"50.0",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"http://purl.org/ro/ont#HighNumberOfUsers"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/ro/ont#WellArrangedLayout",
-      "color_rgb_hex":"#00aa00",
-      "color_rgb_hex_combined":"#00aa00",
-      "shape_d3_name":"square",
-      "width":100.0,
-      "labels":[
-        {
-          "position":"centerCenter",
-          "text_value":"http://purl.org...",
-          "width":"50.0",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"http://purl.org/ro/ont#WellArrangedLayout"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/ro/ont#UserCanHideData",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"square",
-      "width":100.0,
-      "labels":[
-        {
-          "position":"centerCenter",
-          "text_value":"http://purl.org...",
-          "width":"50.0",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"http://purl.org/ro/ont#UserCanHideData"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/ro/ont#StoreUserDataInDatabase",
-      "color_rgb_hex":"#00aa00",
-      "color_rgb_hex_combined":"#00aa00",
-      "shape_d3_name":"square",
-      "width":100.0,
-      "labels":[
-        {
-          "position":"centerCenter",
-          "text_value":"http://purl.org...",
-          "width":"50.0",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"http://purl.org/ro/ont#StoreUserDataInDatabase"
-        }
-      ]
-    },
-    {
       "uri":"http://purl.org/ro/ont#StoreInformation",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
@@ -222,6 +86,57 @@
       ]
     },
     {
+      "uri":"http://purl.org/ro/ont#UserHasProfilePage",
+      "color_rgb_hex":"#00aa00",
+      "color_rgb_hex_combined":"#00aa00",
+      "shape_d3_name":"square",
+      "width":100.0,
+      "labels":[
+        {
+          "position":"centerCenter",
+          "text_value":"http://purl.org...",
+          "width":"50.0",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"http://purl.org/ro/ont#UserHasProfilePage"
+        }
+      ]
+    },
+    {
+      "uri":"http://purl.org/ro/ont#ServerWithSufficientPerformance",
+      "color_rgb_hex":"#ff0000",
+      "color_rgb_hex_combined":"#ff0000",
+      "shape_d3_name":"square",
+      "width":100.0,
+      "labels":[
+        {
+          "position":"centerCenter",
+          "text_value":"http://purl.org...",
+          "width":"50.0",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"http://purl.org/ro/ont#ServerWithSufficientPerformance"
+        }
+      ]
+    },
+    {
+      "uri":"http://purl.org/ro/ont#AdvertisementOnProfilePage",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"square",
+      "width":100.0,
+      "labels":[
+        {
+          "position":"centerCenter",
+          "text_value":"http://purl.org...",
+          "width":"50.0",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"http://purl.org/ro/ont#AdvertisementOnProfilePage"
+        }
+      ]
+    },
+    {
       "uri":"http://purl.org/ro/ont#UsingOracleDatabase",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
@@ -239,7 +154,7 @@
       ]
     },
     {
-      "uri":"http://purl.org/ro/ont#UserHasProfilePage",
+      "uri":"http://purl.org/ro/ont#IntegratedInstantMessaging",
       "color_rgb_hex":"#00aa00",
       "color_rgb_hex_combined":"#00aa00",
       "shape_d3_name":"square",
@@ -251,7 +166,92 @@
           "width":"50.0",
           "color_rgb_hex_combined":null,
           "type":"text_label",
-          "text_value_full":"http://purl.org/ro/ont#UserHasProfilePage"
+          "text_value_full":"http://purl.org/ro/ont#IntegratedInstantMessaging"
+        }
+      ]
+    },
+    {
+      "uri":"http://purl.org/ro/ont#UserCanHideData",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"square",
+      "width":100.0,
+      "labels":[
+        {
+          "position":"centerCenter",
+          "text_value":"http://purl.org...",
+          "width":"50.0",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"http://purl.org/ro/ont#UserCanHideData"
+        }
+      ]
+    },
+    {
+      "uri":"http://purl.org/ro/ont#AccessibleToBlindUsers",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"square",
+      "width":100.0,
+      "labels":[
+        {
+          "position":"centerCenter",
+          "text_value":"http://purl.org...",
+          "width":"50.0",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"http://purl.org/ro/ont#AccessibleToBlindUsers"
+        }
+      ]
+    },
+    {
+      "uri":"http://purl.org/ro/ont#StoreUserDataInDatabase",
+      "color_rgb_hex":"#00aa00",
+      "color_rgb_hex_combined":"#00aa00",
+      "shape_d3_name":"square",
+      "width":100.0,
+      "labels":[
+        {
+          "position":"centerCenter",
+          "text_value":"http://purl.org...",
+          "width":"50.0",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"http://purl.org/ro/ont#StoreUserDataInDatabase"
+        }
+      ]
+    },
+    {
+      "uri":"http://purl.org/ro/ont#HighNumberOfUsers",
+      "color_rgb_hex":"#00aa00",
+      "color_rgb_hex_combined":"#00aa00",
+      "shape_d3_name":"square",
+      "width":100.0,
+      "labels":[
+        {
+          "position":"centerCenter",
+          "text_value":"http://purl.org...",
+          "width":"50.0",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"http://purl.org/ro/ont#HighNumberOfUsers"
+        }
+      ]
+    },
+    {
+      "uri":"http://purl.org/ro/ont#UserHasPhotoAlbum",
+      "color_rgb_hex":"#00aa00",
+      "color_rgb_hex_combined":"#00aa00",
+      "shape_d3_name":"square",
+      "width":100.0,
+      "labels":[
+        {
+          "position":"centerCenter",
+          "text_value":"http://purl.org...",
+          "width":"50.0",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"http://purl.org/ro/ont#UserHasPhotoAlbum"
         }
       ]
     }
@@ -272,8 +272,8 @@
         }
       ],
       "type":"Directed",
-      "source":4,
-      "target":3,
+      "source":9,
+      "target":12,
       "value":"1"
     },
     {
@@ -292,7 +292,7 @@
       ],
       "type":"Directed",
       "source":8,
-      "target":12,
+      "target":3,
       "value":"1"
     }
   ]

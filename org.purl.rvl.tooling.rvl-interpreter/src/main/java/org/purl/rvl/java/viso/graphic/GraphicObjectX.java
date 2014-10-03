@@ -12,7 +12,6 @@ import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.purl.rvl.exception.IncompleteColorValuesException;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.tooling.process.OGVICProcess;
-import org.purl.rvl.tooling.process.ResourcesCache;
 import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.ColorUtils;
 import org.purl.rvl.tooling.util.RVLUtils;
@@ -28,7 +27,7 @@ public class GraphicObjectX extends org.purl.rvl.java.gen.viso.graphic.GraphicOb
 	private final static Logger LOGGER = Logger.getLogger(GraphicObjectX.class.getName());
 	static final String NL = System.getProperty("line.separator");
 
-	Resource representedResource;
+	//Resource representedResource; // now passed to AVM and stored directly in AVM 
 
 	public GraphicObjectX(Model model, URI classURI, Resource instanceIdentifier, boolean write) {
 		super(model, classURI, instanceIdentifier, write);
@@ -143,12 +142,20 @@ public class GraphicObjectX extends org.purl.rvl.java.gen.viso.graphic.GraphicOb
 		return shapeD3Name;
 	}
 
-	public void setRepresents(org.ontoware.rdf2go.model.node.Resource resource) {
-		this.representedResource = resource;
+	public void setRepresentedResource(Resource resource) {
+		if (null != resource) {
+			setRepresents(resource);
+		} else {
+			removeAllRepresents();
+		}
 	}
 
 	public Resource getRepresentedResource() {
-		return representedResource;
+		if (hasRepresents()) {
+			return getAllRepresents_as().firstValue();
+		} else {
+			return null;
+		}
 	}
 
 	public ColorX getColorNamed() {

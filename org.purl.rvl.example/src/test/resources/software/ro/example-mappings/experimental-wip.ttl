@@ -119,8 +119,8 @@ viso-graphic:BicolorList
 :IsRefinementOfToLinkingDirected
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
       rdfs:label "PM from ro:isRefinementOf to Linking Directed"^^xsd:string ;
-      #rvl:sourceProperty ro:isRefinementOf ;
-      rvl:sourceProperty semvis-example:justifiedBy ;
+      rvl:sourceProperty ro:isRefinementOf ;
+      #rvl:sourceProperty semvis-example:justifiedBy ;
       rvl:invertSourceProperty
               "true"^^xsd:boolean ;
       rvl:targetObjToObjRelation viso-graphic:Linking_Directed_Relation ;

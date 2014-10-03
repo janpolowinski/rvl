@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.HashSet;
 
 /**
+ * NOTE: not yet in use
  * @author Jan Polowinski
  *
  */

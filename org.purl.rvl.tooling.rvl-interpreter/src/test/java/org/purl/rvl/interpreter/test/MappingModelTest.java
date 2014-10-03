@@ -62,7 +62,8 @@ public class MappingModelTest {
 		model = modelBuilder.getMappingsModel();
 	}
 
-	@Test @Ignore
+	@Ignore
+	@Test
 	public void create10Mappings() {
 		
 		Random random = new Random();
@@ -89,12 +90,14 @@ public class MappingModelTest {
 
 	}
 	
+	@Ignore
 	@Test
 	public void testListAllMappings() {
 		PrintUtils.listAllMappings(model);
 	}
 	
-	@Test @Ignore
+	@Ignore
+	@Test
 	public void testPrintMappingWithURI(){
 		//RVLUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithNamedSubmappingToNamedMappingOnConnector");
 		//RVLUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithAnonymousSubmappingToNamedMappingOnConnector");
@@ -102,7 +105,8 @@ public class MappingModelTest {
 		PrintUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithValueMappingOfRanges");
 	}
 	
-	@Test @Ignore 
+	@Ignore
+	@Test 
 	public void testJena(){
 		System.out.println("Access via Jena:");
 		System.out.println();
