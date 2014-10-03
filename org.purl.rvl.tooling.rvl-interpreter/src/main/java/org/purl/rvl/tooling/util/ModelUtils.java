@@ -50,18 +50,20 @@ public class ModelUtils {
 			
 		String extension = FilenameUtils.getExtension(file.getName());
 
+		Syntax syntax;
+		
 		if (extension.equals("ttl") || extension.equals("n3")) {
-			
-			Syntax syntax = Syntax.Turtle; 
-			
-			if (file.isAbsolute()) {
-				model.readFrom(getFromWithinJars(file), syntax);
-			} else {
-				model.readFrom(new FileReader(file), syntax);
-			}
-
+			syntax = Syntax.Turtle; 
+		} else if (extension.equals("owl")) {
+			syntax = Syntax.RdfXml; 
 		} else {
-			//model.readFrom(new FileReader(file), Syntax.RdfXml);
+			throw new IOException("Unsupported file extension '" + extension + "'");
+		}
+		
+		if (file.isAbsolute()) {
+			model.readFrom(getFromWithinJars(file), syntax);
+		} else {
+			model.readFrom(new FileReader(file), syntax);
 		}
 
 	}

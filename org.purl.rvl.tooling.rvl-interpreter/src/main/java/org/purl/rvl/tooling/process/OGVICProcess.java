@@ -48,14 +48,17 @@ public class OGVICProcess {
 	public static boolean WRITE_MAPPING_MODEL = false;
 	public static boolean WRITE_JSON = true;
 	
+	public static final String WEB_SERVER_ROOT = "../org.purl.rvl.tooling.d3vis/"; // use for local testing with a webserver reading this dir
+	//public static final String WEB_SERVER_ROOT = ""; // standard for jar building and deployment
+	
 	// TMP LOCAL FILES AND FOLDER SETTINGS
 	//public static String USE_CASE_FOLDER = ""; // now use cases in examples project ; now set in properties-file
 	public static final String GEN_MODEL_FILE_FOLDER = "gen";
-	public static final String GEN_MODEL_FILE_FOLDER_D3_JSON = GEN_MODEL_FILE_FOLDER + "/" + "json";
+	public static final String GEN_MODEL_FILE_FOLDER_D3_JSON = WEB_SERVER_ROOT + GEN_MODEL_FILE_FOLDER + "/" + "json";
 	protected static final String TMP_RVL_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempRvl.ttl";
 	protected static final String TMP_MAPPING_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempMappingModel.ttl";
 	public static final String TMP_AVM_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempAVM.ttl";
-	public static final String D3_HTML_FOLDER_NAME = GEN_MODEL_FILE_FOLDER + "/" + "html";
+	public static final String D3_HTML_FOLDER_NAME = WEB_SERVER_ROOT + GEN_MODEL_FILE_FOLDER + "/" + "html";
 	
 	// FOLDERS TO CALL WITHIN JARS
 	private static final String D3_EXAMPLE_GRAPHICS_FOLDER_NAME = "/examples";
