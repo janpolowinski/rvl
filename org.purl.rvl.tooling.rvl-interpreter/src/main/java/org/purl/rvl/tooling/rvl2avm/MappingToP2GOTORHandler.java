@@ -39,22 +39,18 @@ public abstract class MappingToP2GOTORHandler extends MappingHandlerBase {
 		try {
 			stmtSetIterator = DataQuery.findRelationsOnInstanceOrClassLevel(
 					modelSet, OGVICProcess.GRAPH_DATA,
-					(PropertyMappingX) mapping.castTo(PropertyMappingX.class),
+					mapping,
 					true, null, null).iterator();
 			
 		} catch (InsufficientMappingSpecificationException e) {
-			throw new MappingException("Problem getting P2GOTOR-mapping-statements " +
-					"for " + mapping.asURI() + ": " + e.getMessage());
+			throw new MappingException(mapping, "Problem getting mapping-statements " +
+					"for P2GOTOR mapping: " + e.getMessage());
 		}
 
-		
-
 		if (null == stmtSetIterator) {
-			LOGGER.severe("Statement iterator was null, no relations could be interpreted for "
-					+ mapping.asURI());
+			throw new MappingException(mapping, "Statement iterator was null. ");
 		} else if (!stmtSetIterator.hasNext()) {
-			LOGGER.severe("Statement iterator was empty, no relations could be interpreted for "
-					+ mapping.asURI());
+			LOGGER.warning("Statement iterator was empty for " + mapping);
 		} else {
 
 			while (stmtSetIterator.hasNext()

@@ -1,6 +1,23 @@
 {
   "nodes":[
     {
+      "uri":"http://purl.org/rvl/example/data/cito/Document_A",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"circle",
+      "width":17.0,
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"Document_A",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"Document_A"
+        }
+      ]
+    },
+    {
       "uri":"http://purl.org/rvl/example/data/cito/Document_B",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
@@ -52,40 +69,6 @@
       ]
     },
     {
-      "uri":"http://purl.org/rvl/example/data/cito/Document_F",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Document_F",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Document_F"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example/data/cito/Document_A",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Document_A",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Document_A"
-        }
-      ]
-    },
-    {
       "uri":"http://purl.org/rvl/example/data/cito/Document_E",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
@@ -99,6 +82,23 @@
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Document_E"
+        }
+      ]
+    },
+    {
+      "uri":"http://purl.org/rvl/example/data/cito/Document_F",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"circle",
+      "width":17.0,
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"Document_F",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"Document_F"
         }
       ]
     }
@@ -118,9 +118,10 @@
           "text_value_full":"critiques"
         }
       ],
+      "uri":"http://purl.org/spar/cito/critiques",
       "type":"Directed",
-      "source":2,
-      "target":3,
+      "source":3,
+      "target":5,
       "value":"1"
     },
     {
@@ -137,66 +138,10 @@
           "text_value_full":"confirms"
         }
       ],
-      "type":"Directed",
-      "source":1,
-      "target":2,
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"#ffff00",
-      "color_rgb_hex_combined":"#ffff00",
-      "shape_d3_name":"arrow_small_triangle",
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"cites",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"cites"
-        }
-      ],
-      "type":"Directed",
-      "source":4,
-      "target":0,
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"#ff0000",
-      "color_rgb_hex_combined":"#ff0000",
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"critiques",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"critiques"
-        }
-      ],
-      "type":"Directed",
-      "source":0,
-      "target":5,
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"#ff0000",
-      "color_rgb_hex_combined":"#ff0000",
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"critiques",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"critiques"
-        }
-      ],
+      "uri":"http://purl.org/spar/cito/confirms",
       "type":"Directed",
       "source":2,
-      "target":5,
+      "target":3,
       "value":"1"
     },
     {
@@ -213,9 +158,70 @@
           "text_value_full":"cites"
         }
       ],
+      "uri":"http://purl.org/spar/cito/cites",
       "type":"Directed",
       "source":0,
       "target":1,
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"#ff0000",
+      "color_rgb_hex_combined":"#ff0000",
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"critiques",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"critiques"
+        }
+      ],
+      "uri":"http://purl.org/spar/cito/critiques",
+      "type":"Directed",
+      "source":1,
+      "target":4,
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"#ff0000",
+      "color_rgb_hex_combined":"#ff0000",
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"critiques",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"critiques"
+        }
+      ],
+      "uri":"http://purl.org/spar/cito/critiques",
+      "type":"Directed",
+      "source":3,
+      "target":4,
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"#ffff00",
+      "color_rgb_hex_combined":"#ffff00",
+      "shape_d3_name":"arrow_small_triangle",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"cites",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"cites"
+        }
+      ],
+      "uri":"http://purl.org/spar/cito/cites",
+      "type":"Directed",
+      "source":1,
+      "target":2,
       "value":"1"
     }
   ]

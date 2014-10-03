@@ -11,6 +11,7 @@ import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.Variable;
 import org.ontoware.rdf2go.model.node.impl.PlainLiteralImpl;
+import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.MappingException;
 import org.purl.rvl.exception.NotImplementedMappingFeatureException;
@@ -76,7 +77,8 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 		
 		// TODO hack: we are always settings textvalue here
 		// (as will be the case in 99%), while also color values may have been passed!
-		GraphicAttribute tga = GraphicAttribute.getInstance(OGVICProcess.getInstance().getModelAVM(), GraphicObject.TEXTVALUE);
+		//GraphicAttribute tga = GraphicAttribute.getInstance(OGVICProcess.getInstance().getModelAVM(), GraphicObject.TEXTVALUE);
+		Property tga = new Property(OGVICProcess.getInstance().getModelAVM(), GraphicObject.TEXTVALUE, false);
 		
 		if (tga.asURI() == GraphicObject.TEXTVALUE) {
 
@@ -178,21 +180,21 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 		try {
 			stmtSetIterator = DataQuery.findRelationsOnInstanceOrClassLevel(
 					modelSet, OGVICProcess.GRAPH_DATA,
-					(PropertyMappingX) mapping.castTo(PropertyMappingX.class),
+					(PropertyMappingX) mapping,
 					true, null, null).iterator();
 			
 		} catch (InsufficientMappingSpecificationException e) {
 			throw new MappingException("Problem getting Identity-mapping-statements " +
-					"for " + mapping.asURI() + ": " + e.getMessage());
+					"for " + mapping + ": " + e.getMessage());
 		}
 
 
 		if (null == stmtSetIterator) {
 			LOGGER.severe("Statement iterator was null, no relations could be interpreted for "
-					+ mapping.asURI());
+					+ mapping);
 		} else if (!stmtSetIterator.hasNext()) {
 			LOGGER.severe("Statement iterator was empty, no relations could be interpreted for "
-					+ mapping.asURI());
+					+ mapping);
 		} else {
 
 			while (stmtSetIterator.hasNext()
@@ -204,7 +206,7 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 						encodeStatement(statement);
 					} catch (InsufficientMappingSpecificationException e) {
 						throw new MappingException("Problem encoding statement " 
-							+ statement.toString() + ": " + e.getMessage());
+							+ statement + ": " + e.getMessage());
 					}
 
 				processedGraphicRelations++;

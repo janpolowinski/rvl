@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
@@ -12,6 +13,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
 import org.ontoware.rdf2go.model.Model;
@@ -19,6 +21,8 @@ import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Syntax;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
+import org.purl.rvl.exception.OGVICRepositoryException;
+import org.purl.rvl.exception.d3.D3GeneratorException;
 import org.purl.rvl.tooling.ModelBuilder;
 import org.purl.rvl.tooling.avm2d3.D3Generator;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
@@ -44,15 +48,20 @@ public class OGVICProcess {
 	public static boolean WRITE_MAPPING_MODEL = false;
 	public static boolean WRITE_JSON = true;
 	
-	// LOCAL FILES AND FOLDER SETTINGS
+	public static final String WEB_SERVER_ROOT = "../org.purl.rvl.tooling.d3vis/"; // use for local testing with a webserver reading this dir
+	//public static final String WEB_SERVER_ROOT = ""; // standard for jar building and deployment
+	
+	// TMP LOCAL FILES AND FOLDER SETTINGS
 	//public static String USE_CASE_FOLDER = ""; // now use cases in examples project ; now set in properties-file
-	public static final String GEN_MODEL_FILE_FOLDER = "../org.purl.rvl.tooling.rvl-interpreter/gen"; // new
-	public static final String GEN_MODEL_FILE_FOLDER_D3_JSON = "../org.purl.rvl.tooling.d3vis/gen/json";
+	public static final String GEN_MODEL_FILE_FOLDER = "gen";
+	public static final String GEN_MODEL_FILE_FOLDER_D3_JSON = WEB_SERVER_ROOT + GEN_MODEL_FILE_FOLDER + "/" + "json";
 	protected static final String TMP_RVL_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempRvl.ttl";
 	protected static final String TMP_MAPPING_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempMappingModel.ttl";
 	public static final String TMP_AVM_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempAVM.ttl";
-	public static final String D3_HTML_FOLDER_NAME = "../org.purl.rvl.tooling.d3vis/gen/html";
-	private static final String D3_EXAMPLE_GRAPHICS_FOLDER_NAME = "../org.purl.rvl.tooling.d3vis/examples";;
+	public static final String D3_HTML_FOLDER_NAME = WEB_SERVER_ROOT + GEN_MODEL_FILE_FOLDER + "/" + "html";
+	
+	// FOLDERS TO CALL WITHIN JARS
+	private static final String D3_EXAMPLE_GRAPHICS_FOLDER_NAME = "/examples";
 	
 	
 	// GRAPH URIs
@@ -176,11 +185,19 @@ public class OGVICProcess {
 
 		modelBuilder = new ModelBuilder();
 		
-		initInternalModels();
+		try {
+			initInternalModels();
+		} catch (OGVICRepositoryException e) {
+			LOGGER.severe("Problem initialising internal models " +  e.getMessage());
+		}
 	}
 	
-	// init AVM, RVL and VISO models
-	private void initInternalModels(){
+
+	/**
+	 * Init models like AVM, RVL and VISO model - not data and mapping models
+	 * @throws OGVICRepositoryException 
+	 */
+	private void initInternalModels() throws OGVICRepositoryException {
 		
 		//if (REGENERATE_AVM) {
 		//	this.modelAVM = modelBuilder.initAVMModel();
@@ -195,12 +212,12 @@ public class OGVICProcess {
 		
 	}
 	
-	public void initDataAndMappingsModel(VisProject project) {
+	public void initDataAndMappingsModel(VisProject project) throws OGVICRepositoryException {
 		modelBuilder.initDataModel(project.getDataFileRegistry(),project.getReasoningDataModel());
 		modelBuilder.initMappingsModel(project.getMappingFileRegistry());
 	}
 	
-	public void loadProject(VisProject project) {
+	public void loadProject(VisProject project) throws OGVICRepositoryException {
 		
 		//this.currentProject = project; // TODO: think about just referencing a current project instead of copying all settings to the process
 		
@@ -208,6 +225,8 @@ public class OGVICProcess {
 		
 		modelBuilder.clearMappingAndDataModels();
 		modelBuilder.clearAVMModel();
+		setDefaultInterpreter();
+		setDefaultD3Generator();
 		
 		/*
 		if (null !=  getModelAVM() && 
@@ -225,32 +244,18 @@ public class OGVICProcess {
 		}*/
 
 		// build the RDF models needed for the process
-		try {
-			initDataAndMappingsModel(project);
-		} catch (Exception e) {
-			LOGGER.severe("Problem building the data or mapping models.");
-			e.printStackTrace();
-			return;
-		}
-
-		// create and set an interpreter, if not already set
-		if (null == rvlInterpreter) {
-			LOGGER.warning("RVL interpreter was not set, using default one.");
-			// rvlInterpreter = new FakeRVLInterpreter();
-			rvlInterpreter = new SimpleRVLInterpreter();
-		}
+		initDataAndMappingsModel(project);
+		
+		// try to get interpreter from project
+//		if (null != project.getInterpreter()){
+//			setD3Interpreter(project.getInterpreter());
+//		}
 		
 		// try to get generator from project
 		if (null != project.getD3Generator()){
 			setD3Generator(project.getD3Generator());
 		}
 
-		// create and set a generator, if not already set
-		if (null == d3Generator) {
-			LOGGER.warning("JSON generator was not set, using default one.");
-			setD3Generator(new D3GeneratorDeepLabelsJSON());
-		}
-		
 		// try to get html file for d3 rendering from project
 		if (null != project.getD3GraphicFile()){
 			setD3GraphicFile(project.getD3GraphicFile());
@@ -260,8 +265,7 @@ public class OGVICProcess {
 			LOGGER.severe("D3 html file was not set, using default one.");
 			System.exit(0);
 		}
-			
-			
+		
 	}
 
 	private Model readAVMFromFile(ModelBuilder modelBuilder) {
@@ -311,7 +315,7 @@ public class OGVICProcess {
 		}
 	}
 
-	public void runOGVICProcess(){
+	public void runOGVICProcess() throws D3GeneratorException{
 		interpreteRVL2AVM();	
 		transformAVMToD3();
 		populateD3HTMLFolder();
@@ -319,7 +323,7 @@ public class OGVICProcess {
 		if (isWriteMappingModel()) writeMappingModelToFile();
 	}
 	
-	public void runOGVICProcessForTesting(){
+	public void runOGVICProcessForTesting() throws D3GeneratorException{
 		interpreteRVL2AVM();	
 		transformAVMToD3();
 	}
@@ -339,8 +343,9 @@ public class OGVICProcess {
 	 * Writing it to a file at the same time can be seen as an unwanted side-effect now.
 	 * 
 	 * @return - the AVM as JSON to be used as d3 "data"
+	 * @throws D3GeneratorException 
 	 */
-	private void transformAVMToD3() {
+	private void transformAVMToD3() throws D3GeneratorException {
 		d3Generator.init(getModelAVM());
 		generatedD3json = d3Generator.generateJSONforD3();
 		try {
@@ -359,7 +364,17 @@ public class OGVICProcess {
 		
 		try {
 			
-			FileUtils.copyFile(originLocation, targetLocation);
+			// TODO get from jar as input stream ... PROBLEM: resources of d3vis project still missing!!
+			
+			InputStream htmlFileStream = this.getClass().getResourceAsStream(originLocation.getPath());
+			String htmlFileContent = IOUtils.toString(htmlFileStream, "utf-8");
+			
+			//FileUtils.copyFile(originLocation, targetLocation);
+			
+			FileWriter writer = new FileWriter(targetLocation);
+			writer.write(htmlFileContent);
+			writer.flush();
+			writer.close();
 			
 			LOGGER.finest(
 					"D3 HTML file copied from " + 
@@ -374,6 +389,17 @@ public class OGVICProcess {
 		}
 	}
 	
+	private void setDefaultInterpreter() {
+		LOGGER.info("Setting interpreter to default.");
+		// rvlInterpreter = new FakeRVLInterpreter();
+		setRvlInterpreter(new SimpleRVLInterpreter());
+	}
+
+	private void setDefaultD3Generator() {
+		LOGGER.info("Setting D3-generator to default.");
+		setD3Generator(new D3GeneratorDeepLabelsJSON());
+	}
+
 	/**
 	 * @return the rvlInterpreter
 	 */

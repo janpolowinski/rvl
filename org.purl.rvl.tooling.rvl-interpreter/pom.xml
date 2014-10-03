@@ -20,19 +20,61 @@
 		<jackson.version>2.2.3</jackson.version>
 	</properties>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
-        <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+	<build>
+		<resources>
+			<resource>
+				<directory>src/test/resources</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>**/*.ttl</include>
+					<include>**/*.json</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>gen</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>**/*.ttl</include>
+				</includes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>org.purl.rvl.tooling.process.OGVICConsoleFiles</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 
 	<dependencies>
@@ -48,25 +90,43 @@
 			<artifactId>codegen.rdfreactor</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.purl.rvl</groupId>
+			<artifactId>rvl-vocabulary</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.purl.viso</groupId>
+			<artifactId>viso-ontology</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.purl.rvl.tooling</groupId>
+			<artifactId>rvl-d3vis</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
 			<artifactId>json-simple</artifactId>
 			<version>1.1</version>
 		</dependency>
-		
+
 		<!-- pretty printing is missing in json-simple -->
 		<dependency>
-  			<groupId>com.cedarsoftware</groupId>
-  			<artifactId>json-io</artifactId>
-  			<version>2.6.0</version>
+			<groupId>com.cedarsoftware</groupId>
+			<artifactId>json-io</artifactId>
+			<version>2.6.0</version>
 		</dependency>
-		
+
 		<!-- simplify testing with large JSON strings -->
 		<dependency>
-    		<groupId>org.skyscreamer</groupId>
-    		<artifactId>jsonassert</artifactId>
-    		<version>1.2.3</version>
+			<groupId>org.skyscreamer</groupId>
+			<artifactId>jsonassert</artifactId>
+			<version>1.2.3</version>
 			<scope>test</scope>
 		</dependency>
 

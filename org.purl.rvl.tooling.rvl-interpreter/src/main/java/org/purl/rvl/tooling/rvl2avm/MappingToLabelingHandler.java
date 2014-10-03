@@ -10,7 +10,9 @@ import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
+import org.ontoware.rdf2go.model.node.URI;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.exception.SubmappingException;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
 import org.purl.rvl.java.gen.viso.graphic.Superimposition;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
@@ -31,7 +33,7 @@ public class MappingToLabelingHandler extends MappingToP2GOTORHandler {
 	private final static Logger LOGGER = Logger.getLogger(MappingToLabelingHandler.class.getName());
 
 	@Override
-	void encodeStatement(Statement statement) throws InsufficientMappingSpecificationException {
+	void encodeStatement(Statement statement) throws InsufficientMappingSpecificationException, SubmappingException {
 
 		Resource subject = statement.getSubject();
 		
@@ -49,9 +51,10 @@ public class MappingToLabelingHandler extends MappingToP2GOTORHandler {
 	 * @param statement
 	 * @param mapping
 	 * @throws InsufficientMappingSpecificationException
+	 * @throws SubmappingException 
 	 */
 	public void encodeStatement(Statement statement, PropertyToGO2ORMappingX mapping, GraphicObjectX graphicObjectToApplyMapping) 
-			throws InsufficientMappingSpecificationException {
+			throws InsufficientMappingSpecificationException, SubmappingException {
 		
 		// TODO triple part not passed???? 
 		// sv = triplePart; // TODO when sp rdf:ID: ID actually only fine when URIs!
@@ -66,6 +69,14 @@ public class MappingToLabelingHandler extends MappingToP2GOTORHandler {
 				+ rvlInterpreter.createNewInternalID(), false);
 		LOGGER.finest("Created new Label-GO for (label) object: " + object.toString());
 		// TODO when sp rdf:ID: not created for object in all cases?!
+		
+		// set represented resource and store as a main GraphicObject (will enable automatic labeling, for example)
+		URI predicateURI = statement.getPredicate();
+		// set represented resource - we may want this > otherwise warnings, when graphic objects without 
+		// represented resource exist:
+		label.setRepresentedResource(predicateURI);
+		//(we probably dont't want this:
+		//rvlInterpreter.addToMainGraphicObjectSet(label);
 
 		Labeling rel = new Labeling(modelAVM, "http://purl.org/rvl/example-avm/LabelingRelation_"
 				+ rvlInterpreter.createNewInternalID(), true);
@@ -81,7 +92,7 @@ public class MappingToLabelingHandler extends MappingToP2GOTORHandler {
 
 		// 2. call the submapping method with the same unchanged statement to set label text_value or
 		// icon_shape etc ...
-		if (mapping.hasSub_mapping()) {
+		if (mapping.hasSubMapping()) {
 			rvlInterpreter.applySubmappings(mapping, statement, rel);
 		}
 

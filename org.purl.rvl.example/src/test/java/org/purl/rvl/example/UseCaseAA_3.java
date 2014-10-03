@@ -19,12 +19,13 @@ public class UseCaseAA_3 extends TestOGVICProcess {
 		//process.setD3Generator(new D3GeneratorTreeJSON());
 
 		loadProjectAndRunProcess();
+		
+		assertGeneratedJSONEqualsExpected();
 	}
 
 	@Override
 	protected String getExpectedD3JSONFileName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "use-case-aa-3.json";
 	}
 
 

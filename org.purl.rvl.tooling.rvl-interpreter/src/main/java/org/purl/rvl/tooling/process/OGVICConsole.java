@@ -67,18 +67,17 @@ public class OGVICConsole {
 	        // load the project (use case)
 	        try {
 	        	interactiveProcess.loadProject(library.getProject(useCaseName));
-	        	System.out.println("Loaded project " + useCaseName);
+	        	LOGGER.info("Loaded project " + useCaseName);
 
 	        } catch(Exception e){
-	        	System.err.println("Could not load the project " + useCaseName);
+	        	LOGGER.severe("Could not load the project " + useCaseName);
 	        }
 
 	        // run the process
 	        try {
 	        	interactiveProcess.runOGVICProcess();
 	        } catch(Exception e){
-	        	System.err.println("Could not run the project " + useCaseName);
-	        	LOGGER.severe("Reason: " + e.getMessage());
+	        	LOGGER.severe("Could not run the project " + useCaseName + " Reason: " + e.getMessage());
 	        }
 	        
 	        firstRun = false;

@@ -115,9 +115,9 @@ public class AVMUtils {
 	 * 
 	 * @return
 	 */
-	public static Set<GraphicObjectX> getRelevantGraphicObjects(Model model) {
+	public static List<GraphicObjectX> getRelevantGraphicObjects(Model model) {
 
-		Set<GraphicObjectX> gos = new HashSet<GraphicObjectX>();
+		List<GraphicObjectX> graphicObjects = new ArrayList<GraphicObjectX>();
 
 		// get all subjects and the sv/tv table via SPARQL
 		String query = "" + 
@@ -127,18 +127,20 @@ public class AVMUtils {
 //				"	?someRelation " + DirectedLinking.STARTNODE.toSPARQL() + " ?go ." +
 				"	FILTER NOT EXISTS { ?someRelation " + DirectedLinking.LINKINGCONNECTOR.toSPARQL() + " ?go . }" +
 				"	FILTER NOT EXISTS { ?someRelation " + Labeling.LABELINGLABEL.toSPARQL() + " ?go . }" +
-				"} ";
+				"   ?go " + GraphicObject.REPRESENTS.toSPARQL() + " ?representedResource . " + 
+				"} " +
+				"ORDER BY ?representedResource ";
 		LOGGER.finest("query for relevant GOs: " + query);
 
 		QueryResultTable explMapResults = model.sparqlSelect(query);
 		for (QueryRow row : explMapResults) {
 			GraphicObjectX go = (GraphicObjectX) GraphicObjectX.getInstance(model, row
 					.getValue("go").asURI()).castTo(GraphicObjectX.class);
-			gos.add(go);
+			graphicObjects.add(go);
 			LOGGER.finest("Found relevant GO: " + row.getValue("go").toString() + " (" + go.getLabel() + ")");
 		}
 
-		return gos;
+		return graphicObjects;
 	}
 
 	/**

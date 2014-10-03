@@ -1,16 +1,17 @@
 package org.purl.rvl.java.rvl;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 
-import org.ontoware.rdf2go.exception.ModelRuntimeException;
-import org.ontoware.rdf2go.model.Model;
-import org.ontoware.rdf2go.model.node.BlankNode;
+import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.node.Literal;
-import org.ontoware.rdf2go.model.node.Resource;
-import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.UnsupportedSelectorTypeException;
+import org.purl.rvl.java.gen.rvl.Mapping;
+import org.purl.rvl.java.gen.rvl.PropertyMapping;
+import org.purl.rvl.java.gen.rvl.Sub_mappingrelation;
 import org.purl.rvl.java.rvl.filter.SubjectFilter;
 import org.purl.rvl.tooling.util.AVMUtils;
 
@@ -18,52 +19,23 @@ import org.purl.rvl.tooling.util.AVMUtils;
  * @author Jan Polowinski
  *
  */
-public class PropertyMappingX extends
-		org.purl.rvl.java.gen.rvl.PropertyMapping  implements MappingIF {
+public class PropertyMappingX extends MappingX {
+
+	private final static Logger LOGGER = Logger.getLogger(PropertyMappingX.class .getName()); 
 	
-/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4491101288581389956L;
-
-private final static Logger LOGGER = Logger.getLogger(PropertyMappingX.class .getName()); 
-
-static final String NL =  System.getProperty("line.separator");
+	static final String NL =  System.getProperty("line.separator");
 	
-	public PropertyMappingX(Model model, URI classURI,
-			Resource instanceIdentifier, boolean write) {
-		super(model, classURI, instanceIdentifier, write);
-		// TODO Auto-generated constructor stub
+	private Set<SubMappingRelationX> subMappings; 
+
+	public PropertyMappingX(PropertyMapping delegatee) {
+		super((Mapping) delegatee.castTo(Mapping.class)); // TODO this cast is only necessary because PropertyMapping does not extend Mapping but A1. This is a bug in the RVL schema or the generator.
 	}
 
-	public PropertyMappingX(Model model, Resource instanceIdentifier,
-			boolean write) {
-		super(model, instanceIdentifier, write);
-		// TODO Auto-generated constructor stub
-	}
-
-	public PropertyMappingX(Model model, String uriString, boolean write)
-			throws ModelRuntimeException {
-		super(model, uriString, write);
-		// TODO Auto-generated constructor stub
-	}
-
-	public PropertyMappingX(Model model, BlankNode bnode, boolean write) {
-		super(model, bnode, write);
-		// TODO Auto-generated constructor stub
-	}
-
-	public PropertyMappingX(Model model, boolean write) {
-		super(model, write);
-		// TODO Auto-generated constructor stub
-	}
-	
 	public String toStringDetailed() {
+		
 		String s ="";
 		
-		// try to get the string description from the (manual) MappingX class, which is not in the super-class hierarchy
-		MappingX m = (MappingX) this.castTo(MappingX.class);
-		s += m.toStringDetailed();
+		s += super.toStringDetailed();
 
 		/*// letting the mapping print the affected resources is bad, since this depends on the used data model now, which may be unavailable in test scenarios
 		// affected resources:
@@ -79,15 +51,23 @@ static final String NL =  System.getProperty("line.separator");
 			//e.printStackTrace();
 		} */
 		
-		Property sp = this.getAllSourceproperty_as().firstValue();
+		try {
+			Property sp = getSourceProperty();
+			s += "     source property: " + sp.asURI() + NL;
+		} catch (InsufficientMappingSpecificationException e) {
+			s += "     source property missing!" + NL;
+		}
 		//Property tgr = this.getAllTargetgraphicrelation_abstract__as().firstValue();
-		s += "     source property: " + sp.asURI() + NL;
+		
 		//s += "     target graphic relation: " + this.getAllTargetgraphicrelation_abstract__as().firstValue() + NL ;
-
-				
+		
 		return s;
 	}
 	
+	private boolean hasSourceProperty() {
+		return getDelegatee().hasSourceproperty();
+	}
+
 	/**
 	 * TODO: not in use at the moment. DELETE? Merge?
 	 * Get the resources affected by this property mapping, i.e.,
@@ -196,42 +176,37 @@ static final String NL =  System.getProperty("line.separator");
 		return subjectSet;
 	} */
 
-	public boolean isDisabled() {
-		if (this.hasDisabled()) {
-			return this.getAllDisabled_as().firstValue();
-		} else return false;
-	}
 
 	public Property getSourceProperty() throws InsufficientMappingSpecificationException {
-		if (hasSourceproperty())
-			return this.getAllSourceproperty_as().firstValue();
+		if (hasSourceProperty())
+			return getDelegatee().getAllSourceproperty_as().firstValue();
 		else 
-			throw new InsufficientMappingSpecificationException();
+			throw new InsufficientMappingSpecificationException("No source property could be found.");
 	}
 
 	public Property getTargetGraphicRelation() throws InsufficientMappingSpecificationException {
-		if (hasTargetgraphicrelation_abstract_())
-			return (Property)this.getAllTargetgraphicrelation_abstract__as().firstValue().castTo(Property.class);
+		if (getDelegatee().hasTargetgraphicrelation_abstract_())
+			return (Property)getDelegatee().getAllTargetgraphicrelation_abstract__as().firstValue().castTo(Property.class);
 		else 
-			throw new InsufficientMappingSpecificationException();
+			throw new InsufficientMappingSpecificationException(this, "Missing target graphic relation.");
 	}
 	
 	
 	public Literal getSubjectFilter(){
-		if (hasSubjectfilter()) {
-			return getAllSubjectfilter_asNode_().firstValue().asLiteral();
+		if (getDelegatee().hasSubjectfilter()) {
+			return getDelegatee().getAllSubjectfilter_asNode_().firstValue().asLiteral();
 		} else return null;
 	}
 
 	// TODO multiple inheritedBy values should be allowed
 	public Property getInheritedBy() {
-		if (this.hasInheritedby()) {
-			return (Property)getAllInheritedby_as().firstValue().castTo(Property.class);
+		if (getDelegatee().hasInheritedby()) {
+			return (Property)getDelegatee().getAllInheritedby_as().firstValue().castTo(Property.class);
 		} else return null;
 	}
 
 	public String toStringSummary() {
-		return AVMUtils.getGoodNodeLabel(this, model);
+		return AVMUtils.getGoodNodeLabel(getDelegatee(), getDelegatee().getModel());
 	}
 
 	/**
@@ -248,6 +223,55 @@ static final String NL =  System.getProperty("line.separator");
 			LOGGER.severe("Will ignore filter. Reason: " + e.getMessage());
 			return "";
 		}
+	}
+	
+	public Set<SubMappingRelationX> getSubMappings() {
+		
+		if (null != subMappings) {
+			return subMappings;
+		}
+		
+		Set<SubMappingRelationX> subMappingRelationsX = new HashSet<SubMappingRelationX>();
+		if (getDelegatee().hasSub_mapping()) {
+			ClosableIterator<Sub_mappingrelation> subMappingRelations =  getDelegatee().getAllSub_mapping_as().asClosableIterator();
+			while (subMappingRelations.hasNext()) {
+				
+				Sub_mappingrelation rel = (Sub_mappingrelation) subMappingRelations
+						.next();
+				
+				SubMappingRelationX relX = new SubMappingRelationX(rel);
+				
+				if (!relX.hasSubMapping() || !relX.hasOnRole()) {
+					LOGGER.warning("Ignored incomplete submapping " + relX.toString() + ", since no submapping was found or onRole is not specified.");
+					continue;
+				}
+				
+				subMappingRelationsX.add(relX);
+			}
+			
+			subMappings = subMappingRelationsX;
+			
+			return subMappings;
+			
+		} else  {
+			return null;
+		}	
+	}
+	
+	public boolean hasSubMapping(){
+		return getDelegatee().hasSub_mapping();
+	}
+
+	public boolean hasSubjectFilter() {
+		return getDelegatee().hasSubjectfilter();
+	}
+
+	public boolean hasInheritedby() {
+		return getDelegatee().hasInheritedby();
+	}
+	
+	protected PropertyMapping getDelegatee() {
+		return (PropertyMapping) super.getDelegatee().castTo(PropertyMapping.class);
 	}
 
 }

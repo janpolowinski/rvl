@@ -7,7 +7,7 @@ package org.purl.rvl.exception;
  * @author Jan Polowinski
  *
  */
-public class UnsupportedSelectorTypeException extends Exception {
+public class UnsupportedSelectorTypeException extends MappingException {
 	
 	/**
 	 * 

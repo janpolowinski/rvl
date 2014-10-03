@@ -1,10 +1,10 @@
-package org.purl.rvl.interpreter.test.newtests;
+package org.purl.rvl.interpreter.test;
 
 import java.io.FileNotFoundException;
 
 import org.junit.Test;
 import org.ontoware.rdf2go.Reasoning;
-import org.purl.rvl.interpreter.test.TestOGVICProcess;
+import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorTreeJSON;
 import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
@@ -28,7 +28,7 @@ public class RDFidTest extends TestOGVICProcess {
 		
 		//project.setRvlInterpreter(new SimpleRVLInterpreter());
 		
-		//project.setD3Generator(new D3GeneratorTreeJSON());
+		//project.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		
 		loadProjectAndRunProcess();
 	}
