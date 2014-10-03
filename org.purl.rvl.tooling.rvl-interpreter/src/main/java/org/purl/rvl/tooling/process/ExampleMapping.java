@@ -29,21 +29,21 @@ public class ExampleMapping {
 //	public static final String CIT_blog = OGVICProcess.USE_CASE_FOLDER + "/Publication/SPAR/MappingExample/CIT_blog.ttl";
 //	public static final String LLD = OGVICProcess.USE_CASE_FOLDER + "/Publication/LLD/lld-data-mapping-example.ttl";
 	
-	public static final String RVL_TEST_TEMP = "../org.purl.rvl.vocabulary/example-mappings/temp-test.ttl";
-	public static final String RVL_TEST_RDF_ID = "../org.purl.rvl.vocabulary/example-mappings/rdf-id-test.ttl";
-	public static final String RVL_TEST_SUBMAPPING = "../org.purl.rvl.vocabulary/example-mappings/submapping-test.ttl";
-	public static final String RVL_EXAMPLE = "../org.purl.rvl.vocabulary/example-mappings/rvl-example-mappings.ttl";
-	public static final String RVL_EXAMPLE_FILTERING = "../org.purl.rvl.vocabulary/experiments/example-mappings/rvl-example-filtering.ttl";
-	public static final String RVL_EXAMPLE_LABELING = "../org.purl.rvl.vocabulary/example-mappings/labeling-test.ttl";
-	public static final String RVL_EXAMPLE_IDENTITY = "../org.purl.rvl.vocabulary/example-mappings/identity-mapping-test.ttl";
-	public static final String RVL_EXAMPLE_AUTOMATIC_VM = "../org.purl.rvl.vocabulary/example-mappings/auto-value-mapping-test.ttl";
-	public static final String RVL_EXAMPLE_CONTAINMENT = "../org.purl.rvl.vocabulary/example-mappings/containment-test.ttl";
-	public static final String RVL_EXAMPLE_LINKING = "../org.purl.rvl.vocabulary/example-mappings/linking-test.ttl";
+	public static final String RVL_TEST_TEMP = "/example-mappings/temp-test.ttl";
+	public static final String RVL_TEST_RDF_ID = "/example-mappings/rdf-id-test.ttl";
+	public static final String RVL_TEST_SUBMAPPING = "/example-mappings/submapping-test.ttl";
+	public static final String RVL_EXAMPLE = "/example-mappings/rvl-example-mappings.ttl";
+	public static final String RVL_EXAMPLE_FILTERING = "/experiments/example-mappings/rvl-example-filtering.ttl";
+	public static final String RVL_EXAMPLE_LABELING = "/example-mappings/labeling-test.ttl";
+	public static final String RVL_EXAMPLE_IDENTITY = "/example-mappings/identity-mapping-test.ttl";
+	public static final String RVL_EXAMPLE_AUTOMATIC_VM = "/example-mappings/auto-value-mapping-test.ttl";
+	public static final String RVL_EXAMPLE_CONTAINMENT = "/example-mappings/containment-test.ttl";
+	public static final String RVL_EXAMPLE_LINKING = "/example-mappings/linking-test.ttl";
 	
 	// problem (no root nodes found) here probably because subClassOf etc. are reflexiv and our method for finding root nodes does not work here! -> exlude direct "loop" relations
-	public static final String RVL_EXAMPLE_BOOTSTRAP = "../org.purl.rvl.vocabulary/example-mappings/rvl-bootstrap.ttl";
-	public static final String AVM_EXAMPLE_BOOTSTRAP = "../org.purl.rvl.vocabulary/example-mappings/avm-bootstrap.ttl";
-	public static final String VISO_EXAMPLE_BOOTSTRAP = "../org.purl.rvl.vocabulary/example-mappings/viso-bootstrap.ttl";
+	public static final String RVL_EXAMPLE_BOOTSTRAP = "/example-mappings/rvl-bootstrap.ttl";
+	public static final String AVM_EXAMPLE_BOOTSTRAP = "/example-mappings/avm-bootstrap.ttl";
+	public static final String VISO_EXAMPLE_BOOTSTRAP = "/example-mappings/viso-bootstrap.ttl";
 
 
 }

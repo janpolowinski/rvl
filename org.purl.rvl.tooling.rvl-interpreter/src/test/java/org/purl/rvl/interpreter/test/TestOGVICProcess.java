@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.purl.rvl.exception.OGVICRepositoryException;
 import org.purl.rvl.exception.d3.D3GeneratorException;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
 import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
@@ -59,13 +60,19 @@ public abstract class TestOGVICProcess {
 	
 	public void loadProjectAndRunProcess(){
 
-		process.loadProject(project);
+		try {
+			process.loadProject(project);
+		} catch (OGVICRepositoryException e1) {
+			e1.printStackTrace();
+			Assert.fail("Project could not be loaded: " + e1.getMessage());
+		}
+		
 		try {
 			process.runOGVICProcess();
 			//process.runOGVICProcessForTesting();
 		} catch (D3GeneratorException e) {
 			e.printStackTrace();
-			Assert.fail(e.getMessage());
+			Assert.fail("OGVIC Process could not be run: " + e.getMessage());
 		}
 	}
 	/*

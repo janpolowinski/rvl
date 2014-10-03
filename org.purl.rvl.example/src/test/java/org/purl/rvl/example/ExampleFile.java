@@ -4,7 +4,7 @@ import java.io.File;
 
 public class ExampleFile {
 	
-	public static String EXAMPLE_FOLDER = "src/test/resources";
+	public static String EXAMPLE_FOLDER = "/";
 	
 	public static String get(String pathRelativeToResourcesFolder){
 		

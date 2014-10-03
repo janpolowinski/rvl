@@ -8,14 +8,18 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
+import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Diff;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
@@ -30,38 +34,46 @@ import org.ontoware.rdf2go.vocabulary.RDF;
  *
  */
 public class ModelUtils {
+	
+	private static ModelUtils instance = new ModelUtils(); // only for resource localisation via getClass().getResourceAsStream()...
 
 	private final static Logger LOGGER = Logger.getLogger(ModelUtils.class.getName());
 
-	public static void readFromAnySyntax(Model model, String fileName) {
+	public static void readFromAnySyntax(Model model, String fileName) throws ModelRuntimeException, IOException {
 		
 		File file = new File(fileName);
 		readFromAnySyntax(model, file);
 	
 	}
 
-	public static void readFromAnySyntax(Model model, File file) {
-	
-		try {
+	public static void readFromAnySyntax(Model model, File file) throws ModelRuntimeException, IOException {
 			
-			String extension = FilenameUtils.getExtension(file.getName());
+		String extension = FilenameUtils.getExtension(file.getName());
+
+		if (extension.equals("ttl") || extension.equals("n3")) {
 			
-			if (extension.equals("ttl") || extension.equals("n3")) {
-				model.readFrom(new FileReader(file),
-						Syntax.Turtle);
+			Syntax syntax = Syntax.Turtle; 
+			
+			if (file.isAbsolute()) {
+				model.readFrom(getFromWithinJars(file), syntax);
 			} else {
-				model.readFrom(new FileReader(file),
-						Syntax.RdfXml);
+				model.readFrom(new FileReader(file), syntax);
 			}
-			
-		} catch (FileNotFoundException e) {
-			LOGGER.info("File could not be read into the model, since it wasn't found: " +  file.getPath());
-		} catch (IOException e) {
-			LOGGER.info("File could not be read into the model: " +  file.getPath());
-			e.printStackTrace();
+
+		} else {
+			//model.readFrom(new FileReader(file), Syntax.RdfXml);
 		}
-	
+
 	}
+
+	private static InputStream getFromWithinJars(File file) {
+		
+		InputStream absolutePath = instance.getClass().getResourceAsStream(file.getPath());
+//		String theString = IOUtils.toString(absolutePath, "utf-8");
+		
+		return absolutePath;
+	}
+	
 
 	private static void listModelStatements(String context, Model model){
 		
