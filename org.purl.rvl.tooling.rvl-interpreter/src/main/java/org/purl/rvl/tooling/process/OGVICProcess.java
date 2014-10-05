@@ -48,7 +48,7 @@ public class OGVICProcess {
 	public static boolean WRITE_MAPPING_MODEL = false;
 	public static boolean WRITE_JSON = true;
 	
-	public static final String WEB_SERVER_ROOT = "../org.purl.rvl.tooling.d3vis/"; // use for local testing with a webserver reading this dir
+	public static final String WEB_SERVER_ROOT = "../org.purl.rvl.tooling.d3vis/src/main/resources/web/"; // use for local testing with a webserver reading this dir
 	//public static final String WEB_SERVER_ROOT = ""; // standard for jar building and deployment
 	
 	// TMP LOCAL FILES AND FOLDER SETTINGS
@@ -61,7 +61,7 @@ public class OGVICProcess {
 	public static final String D3_HTML_FOLDER_NAME = WEB_SERVER_ROOT + GEN_MODEL_FILE_FOLDER + "/" + "html";
 	
 	// FOLDERS TO CALL WITHIN JARS
-	private static final String D3_EXAMPLE_GRAPHICS_FOLDER_NAME = "/examples";
+	private static final String D3_EXAMPLE_GRAPHICS_FOLDER_NAME = "/web/example-html";
 	
 	
 	// GRAPH URIs
@@ -364,7 +364,7 @@ public class OGVICProcess {
 		
 		try {
 			
-			// TODO get from jar as input stream ... PROBLEM: resources of d3vis project still missing!!
+			// TODO get from jar as input stream ...
 			
 			InputStream htmlFileStream = this.getClass().getResourceAsStream(originLocation.getPath());
 			String htmlFileContent = IOUtils.toString(htmlFileStream, "utf-8");
@@ -376,7 +376,7 @@ public class OGVICProcess {
 			writer.flush();
 			writer.close();
 			
-			LOGGER.finest(
+			LOGGER.finer(
 					"D3 HTML file copied from " + 
 					originLocation.getPath() + 
 					" to " + 
@@ -384,8 +384,11 @@ public class OGVICProcess {
 					);
 			
 		} catch (IOException e) {
-			LOGGER.severe("Could not copy HTML file for D3.");
+			LOGGER.severe("Could not copy HTML file for D3: " + e.getMessage());
 			e.printStackTrace();
+		} catch (NullPointerException e1) {
+			LOGGER.severe("Could not copy HTML file for D3: " + e1.getMessage());
+			e1.printStackTrace();
 		}
 	}
 	

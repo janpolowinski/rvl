@@ -20,7 +20,7 @@ public class SubMappingTest extends TestOGVICProcess {
 
 		// TODO combine tests when the 2nd one works:
 		//project.registerMappingFile(ExampleMapping.RVL_TEST_SUBMAPPING);
-		project.registerMappingFile("../org.purl.rvl.vocabulary/example-mappings/submapping-on-p2gam-test.ttl");
+		project.registerMappingFile("/example-mappings/submapping-on-p2gam-test.ttl");
 		project.registerDataFile(ExampleData.RVL_EXAMPLE);
 		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		
