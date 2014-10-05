@@ -8,8 +8,8 @@
   
   	<build>
 		<resources>
-			<resource>
-				<directory>${basedir}</directory>
+			<!-- <resource>
+				<directory>${basedir}/web</directory>
 				<filtering>true</filtering>
 				<includes>
 					<include>**/*.html</include>
@@ -17,7 +17,14 @@
 					<include>**/*.js</include>
 					<include>**/*.svg</include>
 				</includes>
-			</resource>
+			</resource>-->
 		</resources>
 	</build>
+	<dependencies>
+	<dependency>
+		<groupId>org.eclipse.jetty</groupId>
+		<artifactId>jetty-server</artifactId>
+		<version>9.3.0.M0</version>
+	</dependency>
+	</dependencies>
 </project>
