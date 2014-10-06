@@ -19,7 +19,15 @@ public class OGVICConsoleFiles {
 	
     public static void main(String[] args) throws IOException { 
 
-    	// set up interactive process
+    	runConsole();
+        
+    }
+
+	/**
+	 * @throws IOException
+	 */
+	public static void runConsole() throws IOException {
+		// set up interactive process
     	OGVICProcess interactiveProcess = OGVICProcess.getInstance();
     	
     	boolean stop = false;
@@ -84,7 +92,6 @@ public class OGVICConsoleFiles {
 	        firstRun = false;
 	        	
     	}
-        
-    }
+	}
     
 }
