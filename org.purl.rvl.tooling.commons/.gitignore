@@ -1,0 +1,13 @@
+*.DS_Store
+
+target/
+/bin
+
+pom.properties
+/.classpath
+
+/gen/temp*.*
+/gen/docs/*
+*-javadoc.xml
+
+ogvic.properties
