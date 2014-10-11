@@ -11,10 +11,9 @@ import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.purl.rvl.exception.IncompleteColorValuesException;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
-import org.purl.rvl.tooling.process.OGVICProcess;
+import org.purl.rvl.tooling.commons.utils.ModelUtils;
 import org.purl.rvl.tooling.util.AVMUtils;
 import org.purl.rvl.tooling.util.ColorUtils;
-import org.purl.rvl.tooling.util.RVLUtils;
 
 /**
  * @author Jan Polowinski
@@ -100,11 +99,11 @@ public class GraphicObjectX extends org.purl.rvl.java.gen.viso.graphic.GraphicOb
 	}
 
 	// @XmlElement(name="color_rgb_hex")
-	public String getColorHex() {
+	public String getColorHex(Model modelVISO) {
 		String colorHex = "";
 
 		if (this.hasColornamed()) {
-			ColorX colorNamed = getColorNamed();
+			ColorX colorNamed = getColorNamed(modelVISO);
 
 			try {
 				colorHex = colorNamed.toHexString();
@@ -158,7 +157,7 @@ public class GraphicObjectX extends org.purl.rvl.java.gen.viso.graphic.GraphicOb
 		}
 	}
 
-	public ColorX getColorNamed() {
+	public ColorX getColorNamed(Model modelVISO) {
 		if (hasColornamed()) {
 
 			// TODO: problem: when AVM does not include VISO, a GO cannot calculate its color values. merge models? or
@@ -166,12 +165,11 @@ public class GraphicObjectX extends org.purl.rvl.java.gen.viso.graphic.GraphicOb
 			ColorX colorInCurrentModel = (ColorX) this.getAllColornamed_as().firstValue().castTo(ColorX.class);
 
 			// "enrich" the color object by data from the VISO model
-			Model modelVISO = OGVICProcess.getInstance().getModelVISO();
 			ColorX colorInVISO = (ColorX) ColorX.getInstance(modelVISO, colorInCurrentModel.asURI()).castTo(
 					ColorX.class);
 
 			// get cached named color
-			colorInVISO = RVLUtils.tryReplaceWithCashedInstanceForSameURI_for_VISO_Resources(colorInVISO, ColorX.class);
+			colorInVISO = ModelUtils.tryReplaceWithCashedInstanceForSameURI_for_VISO_Resources(colorInVISO, ColorX.class);
 
 			return colorInVISO;
 		} else
@@ -198,7 +196,7 @@ public class GraphicObjectX extends org.purl.rvl.java.gen.viso.graphic.GraphicOb
 	 * 
 	 * @return
 	 */
-	public String getColorRGBHexCombinedWithHSLValues() {
+	public String getColorRGBHexCombinedWithHSLValues(Model modelVISO) {
 
 		ColorX baseColor;
 		String colorHexString = "";
@@ -214,9 +212,9 @@ public class GraphicObjectX extends org.purl.rvl.java.gen.viso.graphic.GraphicOb
 
 		// get the base color from a named color (if there is one) or the default color otherwise
 		if (hasColornamed()) {
-			baseColor = getColorNamed();
+			baseColor = getColorNamed(modelVISO);
 		} else {
-			baseColor = ColorX.getDefaultColor(OGVICProcess.getInstance().getModelVISO());
+			baseColor = ColorX.getDefaultColor(modelVISO);
 		}
 		// TODO check for RGB-hex and R,G,B values directly added to the GO
 

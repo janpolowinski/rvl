@@ -4,9 +4,10 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.vocabulary.RDFS;
-import org.purl.rvl.tooling.process.OGVICProcess;
+import org.purl.rvl.tooling.commons.Settings;
 
 /**
  * @author Jan Polowinski
@@ -28,14 +29,14 @@ public abstract class SPARQLQueryBuilder {
 		
 	}
 	
-	protected void addPrefixesFromDataModel() {
+	protected void addPrefixesFromDataModel(Model modelData) {
 
 		// getting the namespace from the model set does not seem to work (at least not when jena impl used)
 		//ModelSet modelSet = OGVICProcess.getInstance().getModelSet();
 		//Set<Entry<String, String>> namespacesfromDataModel = modelSet.getModel(OGVICProcess.GRAPH_DATA).getNamespaces().entrySet();
 		
 		// instead we get them from the data model directly
-		Set<Entry<String, String>> namespacesfromDataModel = OGVICProcess.getInstance().getModelData().getNamespaces().entrySet();
+		Set<Entry<String, String>> namespacesfromDataModel = modelData.getNamespaces().entrySet();
 		
 		for (Entry<String, String> entry : namespacesfromDataModel) {
 			addPrefix(entry.getKey(), entry.getValue());
@@ -75,10 +76,10 @@ public abstract class SPARQLQueryBuilder {
 	}
 	
 	protected void limitSPARQL(){
-		query.append(" LIMIT " + OGVICProcess.MAX_GRAPHIC_RELATIONS_PER_MAPPING + " ");
+		query.append(" LIMIT " + Settings.MAX_GRAPHIC_RELATIONS_PER_MAPPING + " ");
 	}
 
-	abstract public String buildQuery();
+	abstract public String buildQuery(Model dataModel);
 
 	public void constrainToGraph(URI graphURI){
 		this.graphURI = graphURI;

@@ -11,9 +11,9 @@ import org.ontoware.rdf2go.model.Statement;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.MappingException;
 import org.purl.rvl.exception.NotImplementedMappingFeatureException;
-import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
-import org.purl.rvl.tooling.process.OGVICProcess;
+import org.purl.rvl.tooling.commons.Graph;
+import org.purl.rvl.tooling.commons.Settings;
 import org.purl.rvl.tooling.query.data.DataQuery;
 
 /**
@@ -38,7 +38,7 @@ public abstract class MappingToP2GOTORHandler extends MappingHandlerBase {
 		
 		try {
 			stmtSetIterator = DataQuery.findRelationsOnInstanceOrClassLevel(
-					modelSet, OGVICProcess.GRAPH_DATA,
+					modelSet, Graph.GRAPH_DATA,
 					mapping,
 					true, null, null).iterator();
 			
@@ -54,7 +54,7 @@ public abstract class MappingToP2GOTORHandler extends MappingHandlerBase {
 		} else {
 
 			while (stmtSetIterator.hasNext()
-					&& processedGraphicRelations < OGVICProcess.MAX_GRAPHIC_RELATIONS_PER_MAPPING) {
+					&& processedGraphicRelations < Settings.MAX_GRAPHIC_RELATIONS_PER_MAPPING) {
 
 				Statement statement = (Statement) stmtSetIterator.next();
 

@@ -53,22 +53,13 @@
   </build>
   
   <dependencies>
-    
-    <dependency>
-		<groupId>org.purl.rvl.tooling</groupId>
-		<artifactId>rvl-interpreter</artifactId>
+  
+	  <dependency>
+	  	<groupId>org.purl.rvl.tooling</groupId>
+		<artifactId>process</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-    </dependency>
-    
-   	<!-- extra dependency to have test classes also available -->
-    <dependency>
-		<groupId>org.purl.rvl.tooling</groupId>
-		<artifactId>rvl-interpreter</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-		<type>test-jar</type>
-		<scope>test</scope>
-    </dependency>
-    
+	  </dependency>
+
     		<!-- simplify testing with large JSON strings -->
 		<dependency>
     		<groupId>org.skyscreamer</groupId>

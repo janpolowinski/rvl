@@ -20,7 +20,7 @@ import org.purl.rvl.exception.UnsupportedMappingParameterValueException;
 import org.purl.rvl.java.RDF;
 import org.purl.rvl.java.RVL;
 import org.purl.rvl.java.rvl.PropertyMappingX;
-import org.purl.rvl.tooling.process.OGVICProcess;
+import org.purl.rvl.tooling.commons.Graph;
 
 /**
  * @author Jan Polowinski
@@ -156,7 +156,7 @@ public class DataQuery {
 		queryBuilder.constrainToSubjectBySelector(selectorSPARQLString);
 		queryBuilder.constrainToSubject(subject);
 		queryBuilder.constrainToStatementsBetweenIRIs(true);
-		query = queryBuilder.buildQuery();
+		query = queryBuilder.buildQuery(modelData);
 	
 		try {			
 						
@@ -324,7 +324,7 @@ public class DataQuery {
 			DataQueryBuilder queryBuilder = new RDFidSPARQLQueryBuilder();
 			queryBuilder.constrainToGraph(fromGraph);
 			queryBuilder.constrainToSubjectBySelector(selectorSPARQLString);
-			String queryString = queryBuilder.buildQuery();
+			String queryString = queryBuilder.buildQuery(modelData);
 	
 			LOGGER.fine("Query ID-statements");
 			LOGGER.finest("Query :" + queryString);
@@ -378,7 +378,7 @@ public class DataQuery {
 			String queryString = "" + 
 					" SELECT DISTINCT ?r " + 
 					" WHERE { " +
-					" GRAPH " + OGVICProcess.GRAPH_DATA.toSPARQL() + " { " +
+					" GRAPH " + Graph.GRAPH_DATA.toSPARQL() + " { " +
 					//" ?r " + inheritedBy.toSPARQL()+"* " + subject.toSPARQL() + " . " +  TODO: overwrites everything when owl:Class is mapped
 					" ?r " + relation.toSPARQL()+" " + baseResource.toSPARQL()  + 
 					" } " +
@@ -434,7 +434,7 @@ public class DataQuery {
 			String queryString = "" + 
 					" SELECT DISTINCT ?r " + 
 					" WHERE { " +
-					" GRAPH " + OGVICProcess.GRAPH_DATA.toSPARQL() + " { " +
+					" GRAPH " + Graph.GRAPH_DATA.toSPARQL() + " { " +
 					" ?r " + relation.toSPARQL() + " " + baseResource.toSPARQL()  + 
 					" FILTER NOT EXISTS { " +
 					  " ?r " + relation.toSPARQL() + " ?intermediateNode . " + 

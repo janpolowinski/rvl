@@ -45,10 +45,10 @@ import org.purl.rvl.java.rvl.SubMappingRelationX;
 import org.purl.rvl.java.rvl.mapping.TupleSourceValueTargetValue;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.java.viso.graphic.ShapeX;
-import org.purl.rvl.tooling.process.OGVICProcess;
+import org.purl.rvl.tooling.commons.Graph;
+import org.purl.rvl.tooling.commons.utils.ModelUtils;
 import org.purl.rvl.tooling.query.data.DataQuery;
 import org.purl.rvl.tooling.util.AVMUtils;
-import org.purl.rvl.tooling.util.RVLUtils;
 
 /**
  * @author Jan Polowinski
@@ -65,7 +65,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	protected Set<GraphicObjectX> graphicObjects;
 	protected Random random;
 
-	protected OGVICProcess ogvicProcess = OGVICProcess.getInstance();
+//	protected OGVICProcess ogvicProcess = OGVICProcess.getInstance();
 
 	private final static Logger LOGGER = Logger.getLogger(RVLInterpreterBase.class.getName());
 	static final String NL = System.getProperty("line.separator");
@@ -83,9 +83,9 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	public void init(Model modelAVM, ModelSet modelSet) {
 		this.modelAVM = modelAVM;
 		this.modelSet = modelSet;
-		this.modelData = modelSet.getModel(OGVICProcess.GRAPH_DATA);
-		this.modelMappings = modelSet.getModel(OGVICProcess.GRAPH_MAPPING);
-		this.modelVISO = modelSet.getModel(OGVICProcess.GRAPH_VISO);
+		this.modelData = modelSet.getModel(Graph.GRAPH_DATA);
+		this.modelMappings = modelSet.getModel(Graph.GRAPH_MAPPING);
+		this.modelVISO = modelSet.getModel(Graph.GRAPH_VISO);
 		this.random = new Random();
 		this.resourceGraphicObjectMap = new HashMap<Resource, GraphicObjectX>();
 		this.graphicObjects = new HashSet<GraphicObjectX>();
@@ -123,7 +123,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 					true);
 
 			// add to cache
-			go = RVLUtils.tryReplaceWithCashedInstanceForSameURI_for_VISO_Resources(go, GraphicObjectX.class);
+			go = ModelUtils.tryReplaceWithCashedInstanceForSameURI_for_VISO_Resources(go, GraphicObjectX.class);
 
 			go.setRepresentedResource(resource);
 
@@ -627,7 +627,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 						RVL.TBOX_DOMAIN_RANGE))) {
 			LOGGER.fine("Mapped value " + tv + " will be inherited to GOs representing nodes related to "
 					+ baseResource + "("
-					+ AVMUtils.getGoodNodeLabel(baseResource, modelSet.getModel(OGVICProcess.GRAPH_DATA)) + ") via "
+					+ AVMUtils.getGoodNodeLabel(baseResource, modelSet.getModel(Graph.GRAPH_DATA)) + ") via "
 					+ inheritedBy);
 
 			Property tga = p2gam.getTargetGraphicRelation();

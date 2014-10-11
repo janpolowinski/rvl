@@ -14,8 +14,6 @@ import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.MappingException;
-import org.purl.rvl.java.gen.rvl.Thing1;
-import org.purl.rvl.tooling.process.ResourcesCache;
 import org.purl.rvl.tooling.query.data.DataQuery;
 
 /**
@@ -68,26 +66,7 @@ public class RVLUtils {
 		
 	}
 	
-	public static <T extends Thing1> T tryReplaceWithCashedInstanceForSameURI(Thing1 instance, Class<T> clasz) {
-		
-		T castedInstance = (T) instance.castTo(clasz);
-		
-		return (T) ResourcesCache.getInstance().tryReplaceOrCache(castedInstance);
-		
-		/*	if (T extends Thing1) {
-			castedInstance = (T) instance.castTo(clasz);
-		}
-		else {
-			castedInstance = (T) instance;
-		}*/
-	}
 	
-	public static <T extends org.purl.rvl.java.gen.viso.graphic.Thing1> T tryReplaceWithCashedInstanceForSameURI_for_VISO_Resources(org.purl.rvl.java.gen.viso.graphic.Thing1 instance, Class<T> clasz) {
-		
-		T castedInstance = (T) instance.castTo(clasz);
-		
-		return (T) ResourcesCache.getInstance().tryReplaceOrCache(castedInstance);
-	}
 	
 	/**
 	 * After changing mappings to not inherit from the generated classes
@@ -156,7 +135,7 @@ public class RVLUtils {
 			}
 		}
 		
-		// add also the orginal values
+		// add also the original values
 		extendedMappedValues.putAll(explicitlyMappedValues);
 
 		return extendedMappedValues;

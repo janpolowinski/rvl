@@ -19,10 +19,10 @@ import org.purl.rvl.exception.MappingException;
 import org.purl.rvl.exception.NotImplementedMappingFeatureException;
 import org.purl.rvl.exception.SubmappingException;
 import org.purl.rvl.exception.UnsupportedMappingParameterValueException;
-import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
-import org.purl.rvl.tooling.process.OGVICProcess;
+import org.purl.rvl.tooling.commons.Graph;
+import org.purl.rvl.tooling.commons.Settings;
 import org.purl.rvl.tooling.query.data.DataQuery;
 
 /**
@@ -79,7 +79,7 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
 			// get a statement set 
 			Set<Statement> stmtSet = DataQuery.findRelationsOnInstanceOrClassLevel(
 					modelSet,
-					OGVICProcess.GRAPH_DATA,
+					Graph.GRAPH_DATA,
 					mapping,
 					true, // only most specific relations (e.g. only A citesCritical B, not A cites B if both exist)
 					workResource,
@@ -102,7 +102,7 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
 			} else {
 		    
 			    while (stmtSetIterator.hasNext() 
-			    		&& processedGraphicRelations < OGVICProcess.MAX_GRAPHIC_RELATIONS_PER_MAPPING) {
+			    		&& processedGraphicRelations < Settings.MAX_GRAPHIC_RELATIONS_PER_MAPPING) {
 			    	
 			    	Statement statement = stmtSetIterator.next();
 			    	Node valueNode = statement.getObject();
@@ -179,7 +179,7 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
 		
 		// mapping table SV->TV
 
-		final Model modelData = modelSet.getModel(OGVICProcess.GRAPH_DATA);
+		final Model modelData = modelSet.getModel(Graph.GRAPH_DATA);
 		
 		// TODO: automatically extend by other relations than subClassOf ? subPropertyOf? 
 		final Property extensionProperty = new Property(modelData, RDFS.subClassOf, false);

@@ -3,11 +3,9 @@
  */
 package org.purl.rvl.tooling.query.mapping;
 
+import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.URI;
 import org.purl.rvl.java.gen.rvl.Property_to_Graphic_Object_to_Object_RelationMapping;
-import org.purl.rvl.java.rvl.MappingX;
-import org.purl.rvl.java.rvl.PropertyMappingX;
-import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.query.SPARQLQueryBuilder;
 
 /**
@@ -55,12 +53,12 @@ public class MappingQueryBuilder extends SPARQLQueryBuilder {
 	 * @see org.purl.rvl.tooling.query.SPARQLQueryBuilder#buildQuery()
 	 */
 	@Override
-	public String buildQuery() {
+	public String buildQuery(Model modelData) {
 		
 		query = new SPARQLStringBuilder();
 		
 									//addCommonPrefixes();
-									addPrefixesFromDataModel();
+									addPrefixesFromDataModel(modelData);
 
 									startQuerySPARQL();
 		if (null!=graphURI) 			constrainToGraphSPARQL(graphURI);

@@ -3,6 +3,7 @@
  */
 package org.purl.rvl.tooling.query.data;
 
+import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
@@ -229,12 +230,12 @@ public class DataQueryBuilder extends SPARQLQueryBuilder {
 	
 	
 	@Override
-	public String buildQuery(){
+	public String buildQuery(Model modelData){
 		
 		query = new SPARQLStringBuilder();
 								
 								//addCommonPrefixes();
-								addPrefixesFromDataModel();
+								addPrefixesFromDataModel(modelData);
 		
 								startQuerySPARQL();
 		if (null!=graphURI) 		constrainToGraphSPARQL(graphURI);

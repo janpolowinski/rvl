@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.purl.rvl.tooling</groupId>
+	<artifactId>process</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>OGVIC process</name>
+	<description>Processes RDF(S)/OWL data based on RVL-mappings</description>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.purl.rvl.tooling</groupId>
+			<artifactId>rvl-d3vis</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<!-- simplify testing with large JSON strings -->
+		<dependency>
+			<groupId>org.skyscreamer</groupId>
+			<artifactId>jsonassert</artifactId>
+			<version>1.2.3</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>

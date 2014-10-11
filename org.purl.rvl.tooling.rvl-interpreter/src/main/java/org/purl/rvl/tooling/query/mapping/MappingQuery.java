@@ -113,7 +113,7 @@ public class MappingQuery {
 		queryBuilder.constrainToType(Property_to_Graphic_Object_to_Object_RelationMapping.RDFS_CLASS);
 		// constraining target GOTOR is optional
 		if (null != gotor) queryBuilder.constrainToTargetGR(gotor);
-		String queryString = queryBuilder.buildQuery();
+		String queryString = queryBuilder.buildQuery(modelData);
 		
 		return getP2GOTORMappings(modelMappings, queryString);
 	}
@@ -129,7 +129,7 @@ public class MappingQuery {
 		MappingQueryBuilder queryBuilder = new MappingQueryBuilder();
 		//queryBuilder.constrainToGraph(OGVICProcess.GRAPH_MAPPING);
 		queryBuilder.constrainToType(Identitymapping.RDFS_CLASS);
-		String queryString = queryBuilder.buildQuery();
+		String queryString = queryBuilder.buildQuery(modelData);
 		
 		return getIdentityMappings(modelMappings, queryString);
 	}

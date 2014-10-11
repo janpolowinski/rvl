@@ -22,10 +22,11 @@ import org.purl.rvl.java.gen.viso.graphic.GraphicObject;
 import org.purl.rvl.java.rvl.IdentityMappingX;
 import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
-import org.purl.rvl.tooling.process.OGVICProcess;
+import org.purl.rvl.tooling.commons.Graph;
+import org.purl.rvl.tooling.commons.Settings;
+import org.purl.rvl.tooling.commons.utils.ModelUtils;
 import org.purl.rvl.tooling.query.data.DataQuery;
 import org.purl.rvl.tooling.util.AVMUtils;
-import org.purl.rvl.tooling.util.ModelUtils;
 
 public class IdentityMappingHandler extends MappingHandlerBase {
 	
@@ -72,13 +73,13 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 		
 		Node sp = statement.getPredicate();
 		
-		Model modelData = modelSet.getModel(OGVICProcess.GRAPH_DATA);
+		Model modelData = modelSet.getModel(Graph.GRAPH_DATA);
 
 		
 		// TODO hack: we are always settings textvalue here
 		// (as will be the case in 99%), while also color values may have been passed!
 		//GraphicAttribute tga = GraphicAttribute.getInstance(OGVICProcess.getInstance().getModelAVM(), GraphicObject.TEXTVALUE);
-		Property tga = new Property(OGVICProcess.getInstance().getModelAVM(), GraphicObject.TEXTVALUE, false);
+		Property tga = new Property(modelAVM, GraphicObject.TEXTVALUE, false);
 		
 		if (tga.asURI() == GraphicObject.TEXTVALUE) {
 
@@ -138,7 +139,7 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 					// for all other source properties, get the first (random) value
 	
 					ClosableIterator<Statement> it = modelSet.findStatements(
-							OGVICProcess.GRAPH_DATA,
+							Graph.GRAPH_DATA,
 							sourceResource,
 							sp.asURI(),
 							Variable.ANY
@@ -179,7 +180,7 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 		
 		try {
 			stmtSetIterator = DataQuery.findRelationsOnInstanceOrClassLevel(
-					modelSet, OGVICProcess.GRAPH_DATA,
+					modelSet, Graph.GRAPH_DATA,
 					(PropertyMappingX) mapping,
 					true, null, null).iterator();
 			
@@ -198,7 +199,7 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 		} else {
 
 			while (stmtSetIterator.hasNext()
-					&& processedGraphicRelations < OGVICProcess.MAX_GRAPHIC_RELATIONS_PER_MAPPING) {
+					&& processedGraphicRelations < Settings.MAX_GRAPHIC_RELATIONS_PER_MAPPING) {
 
 				Statement statement = (Statement) stmtSetIterator.next();
 

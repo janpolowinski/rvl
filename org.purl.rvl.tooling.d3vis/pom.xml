@@ -41,7 +41,6 @@
 	</build>
 	<dependencies>
 		
-		<!-- causes cycles atm:
 		<dependency>
 			<groupId>org.purl.rvl.tooling</groupId>
 			<artifactId>rvl-interpreter</artifactId>
@@ -53,7 +52,13 @@
 			<version>0.0.1-SNAPSHOT</version>
 			<type>test-jar</type>
 			<scope>test</scope>
-	    </dependency>-->
+	    </dependency>
+		
+		<dependency>
+			<groupId>org.purl.rvl.tooling</groupId>
+  			<artifactId>rvl-commons</artifactId>
+  			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 
 		<!-- embedded HTML-Server (D3 requires files beeing
 		 served from a server, to overcome restrictions on accessing the parent
