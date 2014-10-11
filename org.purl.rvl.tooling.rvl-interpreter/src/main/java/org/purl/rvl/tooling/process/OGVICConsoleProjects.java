@@ -9,13 +9,21 @@ import java.util.logging.Logger;
  * @author Jan Polowinski
  *
  */
-public class OGVICConsole {
+public class OGVICConsoleProjects {
 	
-	private final static Logger LOGGER = Logger.getLogger(OGVICConsole.class.getName()); 
+	private final static Logger LOGGER = Logger.getLogger(OGVICConsoleProjects.class.getName()); 
 	
     public static void main(String[] args) throws IOException { 
     	
-    	VisProjectLibrary library = new VisProjectLibrary();
+    	runConsole();
+        
+    }
+
+	/**
+	 * @throws IOException
+	 */
+	public static void runConsole() throws IOException {
+		VisProjectLibrary library = new VisProjectLibrary();
     	
     	// set up interactive process
     	OGVICProcess interactiveProcess = OGVICProcess.getInstance();
@@ -23,7 +31,7 @@ public class OGVICConsole {
     	boolean stop = false;
     	boolean firstRun = true;
     	String inputString;
-    	String useCaseName;
+    	String projectName;
     	
     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     	
@@ -34,26 +42,25 @@ public class OGVICConsole {
     		
     		if (firstRun) {
     			// start getting user input
-		        System.out.print("Enter use case name: ");
+		        System.out.print("Enter project name: ");
 	    	} else {
 		        // offer to stop program or run again
-		        System.out.print("Stop program (q) or run further visualisation project (use case name)? : ");
+		        System.out.print("Stop program (q) or run further visualisation project (p)? : ");
 	    	}
     		
     		inputString = br.readLine();
     		
-	        if(inputString.equals("q")) {
+	        if (inputString.equals("q")) {
 	        	stop = true;
 	        	continue;
 	        } else {
-	        	useCaseName = inputString;
-	        	if (!library.contains(useCaseName)) {
-	        		System.err.println("Couldn't find project '" + useCaseName + "'. Typo?");
+	        	projectName = inputString;
+	        	if (!library.contains(projectName)) {
+	        		System.err.println("Couldn't find project '" + projectName + "'. Typo?");
 	        		continue;
 	        	}
 	        }
-    	
-	        	
+
 	        /*
 		        // max relations
 		        System.out.print("Enter number of max relations:");
@@ -64,26 +71,25 @@ public class OGVICConsole {
 		            System.err.println("Invalid Format!");
 		        }*/
 
-	        // load the project (use case)
+	        // load the project
 	        try {
-	        	interactiveProcess.loadProject(library.getProject(useCaseName));
-	        	LOGGER.info("Loaded project " + useCaseName);
+	        	interactiveProcess.loadProject(library.getProject(projectName));
+	        	LOGGER.info("Loaded project " + projectName);
 
 	        } catch(Exception e){
-	        	LOGGER.severe("Could not load the project " + useCaseName);
+	        	LOGGER.severe("Could not load the project " + projectName);
 	        }
 
 	        // run the process
 	        try {
 	        	interactiveProcess.runOGVICProcess();
 	        } catch(Exception e){
-	        	LOGGER.severe("Could not run the project " + useCaseName + " Reason: " + e.getMessage());
+	        	LOGGER.severe("Could not run the project " + projectName + " Reason: " + e.getMessage());
 	        }
 	        
 	        firstRun = false;
 	        	
     	}
-        
-    }
+	}
     
 }

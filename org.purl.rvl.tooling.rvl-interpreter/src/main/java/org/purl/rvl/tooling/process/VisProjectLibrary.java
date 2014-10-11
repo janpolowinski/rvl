@@ -38,28 +38,7 @@ public class VisProjectLibrary {
 	public void initWithUseCaseTestProjects() throws FileNotFoundException {
 		
 		//////////////////////////////////////////////////////////////////
-		// Amino-Acids
-		///////////////////////////////////////////////////////////////////
-		VisProject useCaseAA = new VisProject("aa");
-		useCaseAA.registerMappingFile("../org.purl.rvl.example/src/test/resources/life-sciences/amino-acid/example-mappings/experimental-wip.ttl");
-		useCaseAA.registerDataFile("../org.purl.rvl.example/src/test/resources/life-sciences/amino-acid/example-data/amino-acid.owl");
-		//useCaseAA.setD3Generator(new D3GeneratorTreeJSON());
-		useCaseAA.setD3Generator(new D3GeneratorDeepLabelsJSON());
-		storeProject(useCaseAA);
-		
-		//////////////////////////////////////////////////////////////////
-		// Zebra-fishs
-		///////////////////////////////////////////////////////////////////
-		VisProject useCaseZFA = new VisProject("zfa");
-		useCaseZFA.registerMappingFile("../org.purl.rvl.example/src/test/resources/life-sciences/zebra-fish-anatomy/example-mappings/experimental-wip.ttl");
-		useCaseZFA.registerDataFile("../org.purl.rvl.example/src/test/resources/life-sciences/zebra-fish-anatomy/example-data/ZFA_subset.ttl");
-		//useCaseAA.setRvlInterpreter(new SimpleRVLInterpreter());
-		useCaseZFA.setD3Generator(new D3GeneratorTreeJSON());
-		//useCaseAA.setD3Generator(new D3GeneratorSimpleJSON());
-		storeProject(useCaseZFA);
-		
-		//////////////////////////////////////////////////////////////////
-		// AVM Bootstrap
+		// "Bootstrapping" the latest generated AVM
 		///////////////////////////////////////////////////////////////////
 		VisProject avmBootstrap = new VisProject("avm");
 		//avmBootstrap.setWriteAVM(false);
@@ -72,7 +51,7 @@ public class VisProjectLibrary {
 		storeProject(avmBootstrap);
 				
 		//////////////////////////////////////////////////////////////////
-		// RVL
+		// "Bootstrapping" RVL Classes
 		///////////////////////////////////////////////////////////////////
 		VisProject useCaseRVLClasses = new VisProject("rvl");
 		useCaseRVLClasses.registerMappingFile(ExampleMapping.RVL_EXAMPLE_BOOTSTRAP);
@@ -82,6 +61,18 @@ public class VisProjectLibrary {
 		useCaseRVLClasses.setD3Generator(new D3GeneratorTreeJSON());
 		//useCaseRVLClasses.setD3Generator(new D3GeneratorSimpleJSON());
 		storeProject(useCaseRVLClasses);
+		
+		//////////////////////////////////////////////////////////////////
+		// "Bootstrapping" VISO_GRAPHIC Classes
+		///////////////////////////////////////////////////////////////////
+		VisProject useCaseVISOClasses = new VisProject("viso");
+		useCaseVISOClasses.registerMappingFile(ExampleMapping.VISO_EXAMPLE_BOOTSTRAP);
+		useCaseVISOClasses.registerDataFile(OntologyFile.VISO_GRAPHIC);
+		useCaseVISOClasses.registerDataFile(ExampleData.VISO_EXTRA_DATA);
+		//useCaseVISOClasses.setRvlInterpreter(new SimpleRVLInterpreter());
+		useCaseVISOClasses.setD3Generator(new D3GeneratorTreeJSON());
+		//useCaseVISOClasses.setD3Generator(new D3GeneratorSimpleJSON());
+		storeProject(useCaseVISOClasses);
 		
 		//////////////////////////////////////////////////////////////////
 		// RVL Example Data
@@ -96,18 +87,47 @@ public class VisProjectLibrary {
 		useCaseRVLExampleData.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		//useCaseRVLExampleData.setD3Generator(new D3GeneratorTreeJSON());
 		storeProject(useCaseRVLExampleData);
-				
+		
 		//////////////////////////////////////////////////////////////////
-		// VISO_GRAPHIC Classes
+		// Containment Test
 		///////////////////////////////////////////////////////////////////
-		VisProject useCaseVISOClasses = new VisProject("viso");
-		useCaseVISOClasses.registerMappingFile(ExampleMapping.VISO_EXAMPLE_BOOTSTRAP);
-		useCaseVISOClasses.registerDataFile(OntologyFile.VISO_GRAPHIC);
-		useCaseVISOClasses.registerDataFile(ExampleData.VISO_EXTRA_DATA);
-		//useCaseVISOClasses.setRvlInterpreter(new SimpleRVLInterpreter());
-		useCaseVISOClasses.setD3Generator(new D3GeneratorTreeJSON());
-		//useCaseVISOClasses.setD3Generator(new D3GeneratorSimpleJSON());
-		storeProject(useCaseVISOClasses);
+		VisProject containmentTest = new VisProject("containment-test");
+		containmentTest.registerMappingFile("/example-mappings/containment-test.ttl");
+		containmentTest.registerDataFile(ExampleData.RVL_EXAMPLE);
+		containmentTest.setD3Generator(new D3GeneratorTreeJSON());
+		containmentTest.setD3GraphicFile("circle-packing-zoomable/index.html");
+		storeProject(containmentTest);
+		
+		//////////////////////////////////////////////////////////////////
+		// Labeling Test
+		///////////////////////////////////////////////////////////////////
+		VisProject labelingTest = new VisProject("labeling-test");
+		labelingTest.registerMappingFile("/example-mappings/labeling-test.ttl");
+		labelingTest.registerDataFile(ExampleData.RVL_EXAMPLE);
+		labelingTest.setD3Generator(new D3GeneratorDeepLabelsJSON());
+		//labelingTest.setD3GraphicFile("circle-packing-zoomable/index.html");
+		storeProject(labelingTest);
+		
+//		//////////////////////////////////////////////////////////////////
+//		// Amino-Acids
+//		///////////////////////////////////////////////////////////////////
+//		VisProject useCaseAA = new VisProject("aa");
+//		useCaseAA.registerMappingFile("/life-sciences/amino-acid/example-mappings/experimental-wip.ttl");
+//		useCaseAA.registerDataFile("/life-sciences/amino-acid/example-data/amino-acid.owl");
+//		//useCaseAA.setD3Generator(new D3GeneratorTreeJSON());
+//		useCaseAA.setD3Generator(new D3GeneratorDeepLabelsJSON());
+//		storeProject(useCaseAA);
+//		
+//		//////////////////////////////////////////////////////////////////
+//		// Zebra-fishs
+//		///////////////////////////////////////////////////////////////////
+//		VisProject useCaseZFA = new VisProject("zfa");
+//		useCaseZFA.registerMappingFile("/life-sciences/zebra-fish-anatomy/example-mappings/experimental-wip.ttl");
+//		useCaseZFA.registerDataFile("/life-sciences/zebra-fish-anatomy/example-data/ZFA_subset.ttl");
+//		//useCaseAA.setRvlInterpreter(new SimpleRVLInterpreter());
+//		useCaseZFA.setD3Generator(new D3GeneratorTreeJSON());
+//		//useCaseAA.setD3Generator(new D3GeneratorSimpleJSON());
+//		storeProject(useCaseZFA);
 		
 	}
 	
