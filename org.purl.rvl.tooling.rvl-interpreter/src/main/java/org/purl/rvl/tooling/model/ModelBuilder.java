@@ -260,7 +260,7 @@ public class ModelBuilder {
 	 * @param sourceModel - the model to get the namespaces from
 	 * @param targetModel - the model to add the namespace
 	 */
-	private void transferNamespaces(Model sourceModel,
+	private static void transferNamespaces(Model sourceModel,
 			Model targetModel) {
 	
 		Set<Entry<String, String>> nameSpaces = sourceModel.getNamespaces().entrySet();
