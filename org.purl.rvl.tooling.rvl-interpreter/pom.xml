@@ -108,12 +108,6 @@
 			<artifactId>viso-ontology</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		
-		<!--<dependency>
-			<groupId>org.purl.rvl.tooling</groupId>
-			<artifactId>rvl-d3vis</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>-->
 
 		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>

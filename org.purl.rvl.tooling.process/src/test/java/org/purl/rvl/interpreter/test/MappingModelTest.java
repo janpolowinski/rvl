@@ -13,7 +13,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.ontoware.rdf2go.model.Model;
 import org.purl.rvl.tooling.commons.utils.CustomRecordFormatter;
-import org.purl.rvl.tooling.model.ModelBuilder;
+import org.purl.rvl.tooling.model.ModelManager;
 import org.purl.rvl.tooling.util.PrintUtils;
 
 import com.hp.hpl.jena.rdf.model.Property;
@@ -56,10 +56,10 @@ public class MappingModelTest {
 	@Before
 	public void setUp() throws Exception {
 		
-		ModelBuilder modelBuilder = new ModelBuilder();
-		//modelBuilder.initTestModels();
+		ModelManager modelManager = ModelManager.getInstance();
+		//modelManager.initTestModels();
 		
-		model = modelBuilder.getMappingsModel();
+		model = modelManager.getVISOModel();
 	}
 
 	@Ignore

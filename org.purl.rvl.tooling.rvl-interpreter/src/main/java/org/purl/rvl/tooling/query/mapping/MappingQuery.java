@@ -18,6 +18,7 @@ import org.purl.rvl.java.rvl.IdentityMappingX;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
 import org.purl.rvl.java.rvl.ValueMappingX;
+import org.purl.rvl.tooling.model.ModelManager;
 
 /**
  * @author Jan Polowinski
@@ -113,7 +114,7 @@ public class MappingQuery {
 		queryBuilder.constrainToType(Property_to_Graphic_Object_to_Object_RelationMapping.RDFS_CLASS);
 		// constraining target GOTOR is optional
 		if (null != gotor) queryBuilder.constrainToTargetGR(gotor);
-		String queryString = queryBuilder.buildQuery(modelData);
+		String queryString = queryBuilder.buildQuery(ModelManager.getInstance().getDataModel());
 		
 		return getP2GOTORMappings(modelMappings, queryString);
 	}
@@ -129,7 +130,7 @@ public class MappingQuery {
 		MappingQueryBuilder queryBuilder = new MappingQueryBuilder();
 		//queryBuilder.constrainToGraph(OGVICProcess.GRAPH_MAPPING);
 		queryBuilder.constrainToType(Identitymapping.RDFS_CLASS);
-		String queryString = queryBuilder.buildQuery(modelData);
+		String queryString = queryBuilder.buildQuery(ModelManager.getInstance().getDataModel());
 		
 		return getIdentityMappings(modelMappings, queryString);
 	}

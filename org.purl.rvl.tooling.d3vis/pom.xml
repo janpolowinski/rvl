@@ -41,6 +41,7 @@
 	</build>
 	<dependencies>
 		
+		<!-- ideally this dependency to the interpreter should be removed -->
 		<dependency>
 			<groupId>org.purl.rvl.tooling</groupId>
 			<artifactId>rvl-interpreter</artifactId>

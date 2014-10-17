@@ -19,6 +19,7 @@ import org.ontoware.rdf2go.Reasoning;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Syntax;
+import org.purl.rvl.exception.OGVICModelsException;
 import org.purl.rvl.exception.OGVICRepositoryException;
 import org.purl.rvl.exception.d3.D3GeneratorException;
 import org.purl.rvl.tooling.avm2d3.D3Generator;
@@ -26,7 +27,7 @@ import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
 import org.purl.rvl.tooling.commons.FileRegistry;
 import org.purl.rvl.tooling.commons.Settings;
 import org.purl.rvl.tooling.commons.utils.CustomRecordFormatter;
-import org.purl.rvl.tooling.model.ModelBuilder;
+import org.purl.rvl.tooling.model.ModelManager;
 import org.purl.rvl.tooling.rvl2avm.RVLInterpreter;
 import org.purl.rvl.tooling.rvl2avm.SimpleRVLInterpreter;
 
@@ -61,14 +62,9 @@ public class OGVICProcess {
 	// FOLDERS TO CALL WITHIN JARS
 	private static final String D3_EXAMPLE_GRAPHICS_FOLDER_NAME = "/web/example-html";
 	
-	
-	// MODELS AND MODELSETS
-	protected Model modelAVM;
-	
 	// OTHER MEMBERS
-	ModelBuilder modelBuilder;
 	String generatedD3json;
-
+	private ModelManager modelManager;
 	//protected VisProject currentProject; // TODO always use settings from project directly?
 	//protected static FakeRVLInterpreter avmBuilder;
 	protected D3Generator d3Generator;
@@ -151,42 +147,22 @@ public class OGVICProcess {
 		
 		// explicitly specify to use a specific ontology api here:
 		 RDF2Go.register( new org.ontoware.rdf2go.impl.jena.ModelFactoryImpl());
-		 //RDF2Go.register( new org.openrdf.rdf2go.RepositoryModelFactory() ); // must be called as early as this - too late in modelBuilder // sesame backend causes problems when getting target value lists!! probably because of targetvalues_abstract property ...
+		 //RDF2Go.register( new org.openrdf.rdf2go.RepositoryModelFactory() ); // must be called as early as this - too late in modelManager // sesame backend causes problems when getting target value lists!! probably because of targetvalues_abstract property ...
 		// if not specified, RDF2Go.getModelFactory() looks into your classpath
 		// for ModelFactoryImpls to register.
 
-		modelBuilder = new ModelBuilder();
-		
+		modelManager = ModelManager.getInstance();
 		try {
-			initInternalModels();
+			modelManager.initInternalModels();
 		} catch (OGVICRepositoryException e) {
-			LOGGER.severe("Problem initialising internal models " +  e.getMessage());
+			e.printStackTrace();
 		}
-	}
-	
-
-	/**
-	 * Init models like AVM, RVL and VISO model - not data and mapping models
-	 * @throws OGVICRepositoryException 
-	 */
-	private void initInternalModels() throws OGVICRepositoryException {
-		
-		//if (REGENERATE_AVM) {
-		//	this.modelAVM = modelBuilder.initAVMModel();
-		//}
-		//else {
-		//	this.modelAVM = readAVMFromFile(modelBuilder);
-		//}
-		
-		modelBuilder.initVISOModel();
-		this.modelAVM = modelBuilder.initAVMModel();
-		modelBuilder.initRVLModel();
 		
 	}
 	
 	public void initDataAndMappingsModel(VisProject project) throws OGVICRepositoryException {
-		modelBuilder.initDataModel(project.getDataFileRegistry(),project.getReasoningDataModel());
-		modelBuilder.initMappingsModel(project.getMappingFileRegistry());
+		modelManager.initDataModel(project.getDataFileRegistry(),project.getReasoningDataModel());
+		modelManager.initMappingsModel(project.getMappingFileRegistry());
 	}
 	
 	public void loadProject(VisProject project) throws OGVICRepositoryException {
@@ -195,8 +171,8 @@ public class OGVICProcess {
 		
 		LOGGER.finest("Clearing internal models (AVM, data, mappings)");
 		
-		modelBuilder.clearMappingAndDataModels();
-		modelBuilder.clearAVMModel();
+		modelManager.clearMappingAndDataModels();
+		modelManager.clearAVMModel();
 		setDefaultInterpreter();
 		setDefaultD3Generator();
 		
@@ -240,10 +216,9 @@ public class OGVICProcess {
 		
 	}
 
-	private Model readAVMFromFile(ModelBuilder modelBuilder) {
+	private void readAVMFromFile(ModelManager modelBuilder) {
 		LOGGER.info("AVM regeneration OFF! Will not interpret any new mappings, but load AVM from " + TMP_AVM_MODEL_FILE_NAME);	
-		modelAVM = modelBuilder.initAVMModelFromFile(OGVICProcess.TMP_AVM_MODEL_FILE_NAME);
-		return modelAVM;
+		modelBuilder.initAVMModelFromFile(OGVICProcess.TMP_AVM_MODEL_FILE_NAME);
 	}
 
 	/**
@@ -252,19 +227,7 @@ public class OGVICProcess {
 	 */
 	public void writeAVMToFile() {
 	
-		try {
-			String fileName = OGVICProcess.TMP_AVM_MODEL_FILE_NAME;
-			FileWriter writer = new FileWriter(fileName);
-			
-			getModelAVM().writeTo(writer, Syntax.Turtle);
-			writer.flush();
-			writer.close();
-			
-			LOGGER.info("AVM written to " + fileName + " as Turtle");
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		modelManager.writeAVMToFile(OGVICProcess.TMP_AVM_MODEL_FILE_NAME);
 	}
 	
 	/**
@@ -287,7 +250,7 @@ public class OGVICProcess {
 		}
 	}
 
-	public void runOGVICProcess() throws D3GeneratorException{
+	public void runOGVICProcess() throws D3GeneratorException, OGVICModelsException {
 		interpreteRVL2AVM();	
 		transformAVMToD3();
 		populateD3HTMLFolder();
@@ -295,7 +258,7 @@ public class OGVICProcess {
 		if (isWriteMappingModel()) writeMappingModelToFile();
 	}
 	
-	public void runOGVICProcessForTesting() throws D3GeneratorException{
+	public void runOGVICProcessForTesting() throws D3GeneratorException, OGVICModelsException {
 		interpreteRVL2AVM();	
 		transformAVMToD3();
 	}
@@ -306,7 +269,7 @@ public class OGVICProcess {
 
 
 	private void interpreteRVL2AVM() {
-		rvlInterpreter.init(getModelAVM(), getModelSet());
+		rvlInterpreter.init(modelManager);
 		rvlInterpreter.interpretMappings();
 	}
 
@@ -316,9 +279,10 @@ public class OGVICProcess {
 	 * 
 	 * @return - the AVM as JSON to be used as d3 "data"
 	 * @throws D3GeneratorException 
+	 * @throws OGVICModelsException 
 	 */
-	private void transformAVMToD3() throws D3GeneratorException {
-		d3Generator.init(getModelAVM());
+	private void transformAVMToD3() throws D3GeneratorException, OGVICModelsException {
+		d3Generator.init(modelManager);
 		generatedD3json = d3Generator.generateJSONforD3();
 		try {
 			generatedD3json = JsonWriter.formatJson(generatedD3json);
@@ -335,8 +299,6 @@ public class OGVICProcess {
 		File targetLocation = new File (D3_HTML_FOLDER_NAME + "/index.html");
 		
 		try {
-			
-			// TODO get from jar as input stream ...
 			
 			InputStream htmlFileStream = this.getClass().getResourceAsStream(originLocation.getPath());
 			String htmlFileContent = IOUtils.toString(htmlFileStream, "utf-8");
@@ -406,29 +368,26 @@ public class OGVICProcess {
 	}
 
 	public Model getModelVISO() {
-		return modelBuilder.getVISOModel();
+		return modelManager.getVISOModel();
 	}
 	
 	public Model getModelData() {
-		return modelBuilder.getDataModel();
+		return modelManager.getDataModel();
 	}
 	
 	public Model getModelMappings() {
-		return modelBuilder.getMappingsModel();
+		return modelManager.getMappingsModel();
 	}
 	
 	/*
 	public Model getModel() {
-		return modelBuilder.getModel();
+		return modelManager.getModel();
 	}*/
 	
 	public ModelSet getModelSet() {
-		return modelBuilder.getModelSet();
+		return modelManager.getModelSet();
 	}
 	
-	public Model getModelAVM() {
-		return this.modelAVM;
-	}
 
 	private boolean isWriteAVM() {
 		return this.writeAVM;

@@ -15,6 +15,7 @@ import org.purl.rvl.java.gen.viso.graphic.Object_to_ObjectRelation;
 import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
+import org.purl.rvl.tooling.model.ModelManager;
 
 /**
  * @author Jan Polowinski
@@ -22,7 +23,7 @@ import org.purl.rvl.java.viso.graphic.GraphicObjectX;
  */
 public interface RVLInterpreter {
 
-	public abstract void init(Model modelAVM, ModelSet modelSet);
+	public abstract void init(ModelManager modelManger);
 
 	/**
 	 * Interpret all supported RVL mappings

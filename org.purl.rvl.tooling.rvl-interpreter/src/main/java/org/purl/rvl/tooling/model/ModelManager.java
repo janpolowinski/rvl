@@ -1,39 +1,34 @@
 package org.purl.rvl.tooling.model;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.apache.commons.collections.MapUtils;
-import org.apache.commons.io.IOUtils;
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
-import org.ontoware.rdf2go.model.NamespaceSupport;
-import org.ontoware.rdf2go.vocabulary.OWL;
-import org.ontoware.rdf2go.vocabulary.RDF;
-import org.ontoware.rdf2go.vocabulary.RDFS;
+import org.ontoware.rdf2go.model.Syntax;
 import org.purl.rvl.exception.OGVICRepositoryException;
 import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
-import org.purl.rvl.tooling.commons.Graph;
 import org.purl.rvl.tooling.commons.FileRegistry;
+import org.purl.rvl.tooling.commons.Graph;
 import org.purl.rvl.tooling.commons.utils.ModelUtils;
-
-import com.hp.hpl.jena.query.Dataset;
 
 
 /**
  * @author Jan Polowinski
  *
  */
-public class ModelBuilder {
+public class ModelManager {
+	
+	private static ModelManager instance = null;
 	
 	//private Model model;
 	private Model modelVISO;
@@ -44,19 +39,38 @@ public class ModelBuilder {
 	
 	private ModelSet modelSet;
 	
-	private final static Logger LOGGER = Logger.getLogger(ModelBuilder.class.getName()); 
+	private final static Logger LOGGER = Logger.getLogger(ModelManager.class.getName()); 
 	static final String NL =  System.getProperty("line.separator");
 	
 
 	/**
+	 * Inits only the (empty) model set. Call public method initInternalModels when needed.
 	 * 
+	 * @throws OGVICRepositoryException 
 	 */
-	public ModelBuilder() {
+	private ModelManager() {
 		super();
 		initModelSet();
 	}
 	
-	public void initModelSet(){
+	public static ModelManager getInstance() {
+		if (instance == null) {
+	        instance = new ModelManager();
+	    }
+	    return instance;
+	}
+	
+	/**
+	 * Inits models like AVM, RVL and VISO model - but not data and mapping models
+	 * @throws OGVICRepositoryException
+	 */
+	public void initInternalModels() throws OGVICRepositoryException{
+		initVISOModel();
+		initAVMModel();
+		initRVLModel();
+	}
+	
+	private void initModelSet(){
 		
 		modelSet = RDF2Go.getModelFactory().createModelSet();
 		modelSet.open();
@@ -107,7 +121,7 @@ public class ModelBuilder {
 	 * @throws OGVICRepositoryException 
 	 * 
 	 */
-	public void initVISOModel() throws OGVICRepositoryException {
+	private void initVISOModel() throws OGVICRepositoryException {
 		modelVISO = RDF2Go.getModelFactory().createModel(Reasoning.none); // no reasoning seems to be OK here 
 		// temp. turned on reasoning to allow for reasoning that linking_node subPropertyOf linkingDirected_endNode, 
 		// however that does not seem to work due to other issues (e.g. Linking_Directed is not a subclass of Linking_Undirected) anyway.
@@ -124,7 +138,7 @@ public class ModelBuilder {
 		modelSet.addModel(modelVISO, Graph.GRAPH_VISO);
 	}
 
-	public void initRVLModel() throws OGVICRepositoryException {
+	private void initRVLModel() throws OGVICRepositoryException {
 		// extra model for RVL (schema)
 		modelRVLSchema = RDF2Go.getModelFactory().createModel(Reasoning.none); // no reasoning seems to be OK here
 		modelRVLSchema.open();
@@ -137,6 +151,41 @@ public class ModelBuilder {
 		LOGGER.info("Read RVL schmema into RVL schema model: " + rvlFileName);
 		
 		modelSet.addModel(modelRVLSchema, Graph.GRAPH_RVL_SCHEMA);
+	}
+
+	private void initAVMModel() {
+		
+		modelSet.removeModel(Graph.GRAPH_AVM);
+		
+		// empty model to hold the AVM
+		modelAVM = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		modelAVM.open();	
+		// modelAVM.addModel(modelVISO); enable when needed (cf. comment at VISO model)
+		
+		modelSet.addModel(modelAVM, Graph.GRAPH_AVM);
+	}
+
+	/**
+	 * Only reads the AVM from the tmp file into the model
+	 * @return 
+	 * 
+	 * @throws ModelRuntimeException
+	 */
+	public void initAVMModelFromFile(String fileName) throws ModelRuntimeException {
+		
+		modelSet.removeModel(Graph.GRAPH_AVM);
+		
+		modelAVM = RDF2Go.getModelFactory().createModel(Reasoning.none);
+		modelAVM.open();
+	
+		try {
+			ModelUtils.readFromAnySyntax(modelAVM,fileName);
+			LOGGER.info("Read AVM from file: " + fileName);
+		} catch (Exception e) {
+			LOGGER.severe("Problem reading the tmp AVM model from file: " + e);
+		}
+		
+		modelSet.addModel(modelAVM, Graph.GRAPH_AVM);
 	}
 
 	public void initMappingsModel(FileRegistry mappingFileRegistry ) throws OGVICRepositoryException  {
@@ -300,41 +349,6 @@ public class ModelBuilder {
 			modelData.removeAll();
 	}
 
-	public Model initAVMModel() {
-		
-		modelSet.removeModel(Graph.GRAPH_AVM);
-		
-		// empty model to hold the AVM
-		modelAVM = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
-		modelAVM.open();	
-		// modelAVM.addModel(modelVISO); enable when needed (cf. comment at VISO model)
-		
-		modelSet.addModel(modelAVM, Graph.GRAPH_AVM);
-		
-		return modelAVM;
-	}
-
-	/**
-	 * Only reads the AVM from the tmp file into the model
-	 * @return 
-	 * 
-	 * @throws ModelRuntimeException
-	 */
-	public Model initAVMModelFromFile(String fileName) throws ModelRuntimeException {
-		
-		modelAVM = RDF2Go.getModelFactory().createModel(Reasoning.none);
-		modelAVM.open();
-	
-		try {
-			ModelUtils.readFromAnySyntax(modelAVM,fileName);
-			LOGGER.info("Read AVM from file: " + fileName);
-		} catch (Exception e) {
-			LOGGER.severe("Problem reading the tmp AVM model from file: " + e);
-		}
-		
-		return modelAVM;
-	}
-
 	public void clearAVMModel() {
 		if (null!= modelAVM)
 			modelAVM.removeAll();
@@ -374,6 +388,24 @@ public class ModelBuilder {
 		return modelAVM;
 	}
 
-
-
+	/**
+	 * Saves the AVM Model to a tmp file 
+	 * TODO: does not currently filter out non-avm triples!
+	 */
+	public void writeAVMToFile(String fileName) {
+	
+		try {
+			FileWriter writer = new FileWriter(fileName);
+			
+			modelAVM.writeTo(writer, Syntax.Turtle);
+			writer.flush();
+			writer.close();
+			
+			LOGGER.info("AVM written to " + fileName + " as Turtle");
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

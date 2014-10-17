@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 import org.json.simple.JSONObject;
 import org.ontoware.rdf2go.model.Model;
+import org.purl.rvl.exception.OGVICModelsException;
 import org.purl.rvl.exception.d3.D3GeneratorException;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
@@ -36,20 +37,13 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 	public D3GeneratorTreeJSON() {
 		super();
 	}
-	
-	/**
-	 * @param modelAVM
-	 * @param modelVISO
-	 */
-	public D3GeneratorTreeJSON(Model model, Model modelVISO) {
-		super(model, modelVISO);
-	}
 
 	/**
 	 * Generates JSON using SimpleJSON
 	 * @throws D3GeneratorException 
+	 * @throws OGVICModelsException 
 	 */
-	public String generateJSONforD3() throws D3GeneratorException {
+	public String generateJSONforD3() throws D3GeneratorException, OGVICModelsException {
 		
 		// generate empty JSON root object, containing all actual root nodes
 		JSONObject d3data = new JSONObject();
@@ -107,7 +101,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		return d3data.toJSONString();
 	}
 
-	private List<Map<String,Object>> generateChildrenListFor4Linking(GraphicObjectX parentGO) {
+	private List<Map<String,Object>> generateChildrenListFor4Linking(GraphicObjectX parentGO) throws OGVICModelsException {
 		
 		List<Map<String,Object>> listOfChildren = new LinkedList<Map<String,Object>>();
 		
@@ -131,7 +125,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 	}
 	
 	// cloned from linking, much redundant, similar code	
-	private List<Map<String,Object>> generateChildrenListFor4Containment(GraphicObjectX parentGO) {
+	private List<Map<String,Object>> generateChildrenListFor4Containment(GraphicObjectX parentGO) throws OGVICModelsException {
 		
 		List<Map<String,Object>> listOfChildren = new LinkedList<Map<String,Object>>();
 		
@@ -155,7 +149,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 	}
 	
 	
-	private Map<String,Object> generateObjectFor(DirectedLinking directedLinking) {
+	private Map<String,Object> generateObjectFor(DirectedLinking directedLinking) throws OGVICModelsException {
 		
 		GraphicObjectX endNode = (GraphicObjectX) directedLinking.getAllEndnode_as().firstValue().castTo(GraphicObjectX.class);
 		GraphicObjectX connector = (GraphicObjectX) directedLinking.getAllLinkingconnector_as().firstValue().castTo(GraphicObjectX.class);
@@ -188,7 +182,7 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 	}
 
 	// cloned from linking, much redundant, similar code
-	private Map<String,Object> generateObjectFor(Containment rel) {
+	private Map<String,Object> generateObjectFor(Containment rel) throws OGVICModelsException {
 		
 		GraphicObjectX containee = (GraphicObjectX) rel.getAllContainmentcontainee_as().firstValue().castTo(GraphicObjectX.class);
 		

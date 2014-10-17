@@ -21,6 +21,7 @@ import org.purl.rvl.java.RDF;
 import org.purl.rvl.java.RVL;
 import org.purl.rvl.java.rvl.PropertyMappingX;
 import org.purl.rvl.tooling.commons.Graph;
+import org.purl.rvl.tooling.model.ModelManager;
 
 /**
  * @author Jan Polowinski
@@ -66,7 +67,7 @@ public class DataQuery {
 			queryBuilder.constrainToSubject(subject);
 			queryBuilder.constrainToObject(object);
 			queryBuilder.constrainToSubjectBySelector(selectorSPARQLString);
-			String queryString = queryBuilder.buildQuery();
+			String queryString = queryBuilder.buildQuery(ModelManager.getInstance().getDataModel());
 	
 			LOGGER.fine("Query statements with property (respectively most specific subproperty of) :" + spURI);
 			LOGGER.finest("Query :" + queryString);
@@ -156,7 +157,7 @@ public class DataQuery {
 		queryBuilder.constrainToSubjectBySelector(selectorSPARQLString);
 		queryBuilder.constrainToSubject(subject);
 		queryBuilder.constrainToStatementsBetweenIRIs(true);
-		query = queryBuilder.buildQuery(modelData);
+		query = queryBuilder.buildQuery(ModelManager.getInstance().getDataModel());
 	
 		try {			
 						
@@ -324,7 +325,7 @@ public class DataQuery {
 			DataQueryBuilder queryBuilder = new RDFidSPARQLQueryBuilder();
 			queryBuilder.constrainToGraph(fromGraph);
 			queryBuilder.constrainToSubjectBySelector(selectorSPARQLString);
-			String queryString = queryBuilder.buildQuery(modelData);
+			String queryString = queryBuilder.buildQuery(ModelManager.getInstance().getDataModel());
 	
 			LOGGER.fine("Query ID-statements");
 			LOGGER.finest("Query :" + queryString);

@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import org.json.simple.JSONObject;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
+import org.purl.rvl.exception.OGVICModelsException;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.Thing1;
@@ -37,19 +38,12 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 		super();
 	}
 	
-	/**
-	 * @param modelAVM
-	 * @param modelVISO
-	 */
-	public D3GeneratorDeepLabelsJSON(Model model, Model modelVISO) {
-		super(model, modelVISO);
-	}
-	
 
 	/**
 	 * Generates JSON using SimpleJSON (Jackson JSON-Binding-Version also exists)
+	 * @throws OGVICModelsException 
 	 */
-	public String generateJSONforD3(){
+	public String generateJSONforD3() throws OGVICModelsException{
 		
 		List<GraphicObjectX> goList = AVMUtils.getRelevantGraphicObjects(modelAVM);
 		GraphicObjectX[] goArray = new GraphicObjectX[goList.size()];

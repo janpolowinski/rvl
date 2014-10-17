@@ -47,6 +47,7 @@ import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.java.viso.graphic.ShapeX;
 import org.purl.rvl.tooling.commons.Graph;
 import org.purl.rvl.tooling.commons.utils.ModelUtils;
+import org.purl.rvl.tooling.model.ModelManager;
 import org.purl.rvl.tooling.query.data.DataQuery;
 import org.purl.rvl.tooling.util.AVMUtils;
 
@@ -80,9 +81,9 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 	 * @see org.purl.rvl.tooling.rvl2avm.RVLInterpreter#init(org.ontoware.rdf2go.model.Model,
 	 * org.ontoware.rdf2go.model.ModelSet)
 	 */
-	public void init(Model modelAVM, ModelSet modelSet) {
-		this.modelAVM = modelAVM;
-		this.modelSet = modelSet;
+	public void init(ModelManager modelManager) {
+		this.modelAVM = modelManager.getAVMModel();
+		this.modelSet = modelManager.getModelSet();
 		this.modelData = modelSet.getModel(Graph.GRAPH_DATA);
 		this.modelMappings = modelSet.getModel(Graph.GRAPH_MAPPING);
 		this.modelVISO = modelSet.getModel(Graph.GRAPH_VISO);

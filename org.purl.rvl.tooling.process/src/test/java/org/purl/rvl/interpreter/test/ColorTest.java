@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.ontoware.rdf2go.model.Model;
 import org.purl.rvl.exception.IncompleteColorValuesException;
 import org.purl.rvl.java.viso.graphic.ColorX;
-import org.purl.rvl.tooling.model.ModelBuilder;
+import org.purl.rvl.tooling.model.ModelManager;
 import org.purl.rvl.tooling.util.PrintUtils;
 
 /**
@@ -21,10 +21,10 @@ public class ColorTest {
 	@Before
 	public void setUp() throws Exception {
 		
-		ModelBuilder modelBuilder = new ModelBuilder();
-		//modelBuilder.initTestModels();
+		ModelManager modelManager = ModelManager.getInstance();
+		//modelManager.initTestModels();
 		
-		model = modelBuilder.getVISOModel();
+		model = modelManager.getVISOModel();
 	}
 
 	@Test

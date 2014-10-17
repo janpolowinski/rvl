@@ -3,12 +3,15 @@ package org.purl.rvl.interpreter.test;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.purl.rvl.exception.OGVICModelsException;
 import org.purl.rvl.exception.OGVICRepositoryException;
 import org.purl.rvl.exception.d3.D3GeneratorException;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
@@ -25,7 +28,7 @@ import org.skyscreamer.jsonassert.JSONAssert;
  */
 public abstract class TestOGVICProcess {
 	
-	private static final String PATH_TO_RESOURCES = "src/test/resources/d3-json";
+	private static final String RESULT_JSON_FOLDER = "d3-json";
 	
 	protected OGVICProcess process;
 	protected VisProject project = new VisProject("test");
@@ -58,7 +61,7 @@ public abstract class TestOGVICProcess {
 	}
 
 	
-	public void loadProjectAndRunProcess(){
+	public void loadProjectAndRunProcess() {
 
 		try {
 			process.loadProject(project);
@@ -71,6 +74,9 @@ public abstract class TestOGVICProcess {
 			process.runOGVICProcess();
 			//process.runOGVICProcessForTesting();
 		} catch (D3GeneratorException e) {
+			e.printStackTrace();
+			Assert.fail("OGVIC Process could not be run: " + e.getMessage());
+		} catch (OGVICModelsException e) {
 			e.printStackTrace();
 			Assert.fail("OGVIC Process could not be run: " + e.getMessage());
 		}
@@ -103,9 +109,15 @@ public abstract class TestOGVICProcess {
 
 	protected String getExpectedD3json(String fileNameWithoutPath) throws IOException {
 		
-		File file = new File(PATH_TO_RESOURCES + "/" + fileNameWithoutPath);
+		String combinedResourceName = "/" + RESULT_JSON_FOLDER + "/" + fileNameWithoutPath;
 		
-		return FileUtils.readFileToString(file);
+		// this won't work!!
+//		String jsonTestResultFile = this.getClass().getResource(combined).toExternalForm(); 
+//		File file = new File(jsonTestResultFile);
+//		return FileUtils.readFileToString(file);
+		
+		InputStream htmlFileStream = this.getClass().getResourceAsStream(combinedResourceName);
+		return IOUtils.toString(htmlFileStream, "utf-8");
 	}
 
 	/**
@@ -130,11 +142,13 @@ public abstract class TestOGVICProcess {
 			}  catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				Assert.fail(e.getMessage());
 			}
 			
 		} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
+				Assert.fail(e.getMessage());
 		}
 	}
 

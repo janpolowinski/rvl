@@ -13,12 +13,14 @@ import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.util.RDFTool;
+import org.purl.rvl.exception.OGVICModelsException;
 import org.purl.rvl.exception.d3.D3GeneratorException;
 import org.purl.rvl.java.VISOGRAPHIC;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
+import org.purl.rvl.tooling.model.ModelManager;
 import org.purl.rvl.tooling.util.D3Utils;
 
 
@@ -45,20 +47,6 @@ public abstract class D3GeneratorBase implements D3Generator {
 		super();
 	}
 
-	
-	/**
-	 * @param modelAVM
-	 * @param modelVISO
-	 */
-	public D3GeneratorBase(Model modelAVM, Model modelVISO) {
-		super();
-		this.modelAVM = modelAVM;
-		this.modelVISO = modelVISO;
-	}
-
-
-
-
 	/* (non-Javadoc)
 	 * @see org.purl.rvl.tooling.avm2d3.D3Generator#writeJSONToFile(java.lang.String)
 	 */
@@ -78,14 +66,15 @@ public abstract class D3GeneratorBase implements D3Generator {
 	/* (non-Javadoc)
 	 * @see org.purl.rvl.tooling.avm2d3.D3Generator#init(org.ontoware.rdf2go.model.Model)
 	 */
-	public void init(Model modelAVM) {
-		this.modelAVM = modelAVM;
+	public void init(ModelManager modelManager) {
+		this.modelAVM = modelManager.getAVMModel();
+		this.modelVISO = modelManager.getVISOModel();
 	}
 	
 	/* (non-Javadoc)
 	 * @see org.purl.rvl.tooling.avm2d3.D3Generator#generateJSONforD3()
 	 */
-	public abstract String generateJSONforD3() throws D3GeneratorException;
+	public abstract String generateJSONforD3() throws D3GeneratorException, OGVICModelsException;
 	
 	/* (non-Javadoc)
 	 * @see org.purl.rvl.tooling.avm2d3.D3Generator#getGenJSONFileName()
@@ -101,8 +90,13 @@ public abstract class D3GeneratorBase implements D3Generator {
 	/**
 	 * @param map
 	 * @param graphicObject
+	 * @throws OGVICModelsException 
 	 */
-	protected void putGraphicAttributes(Map map, GraphicObjectX graphicObject) {
+	protected void putGraphicAttributes(Map map, GraphicObjectX graphicObject) throws OGVICModelsException {
+		
+		if (null == modelVISO) {
+			throw new OGVICModelsException("VISO model was null.");
+		}
 		
 		//color
 		String colorRGBHex = graphicObject.getColorHex(modelVISO);
@@ -285,8 +279,9 @@ public abstract class D3GeneratorBase implements D3Generator {
 	 * 
 	 * @param graphicObject
 	 * @param jsonObject
+	 * @throws OGVICModelsException 
 	 */
-	protected void putAttributesLabelsRepresentedResource(GraphicObjectX graphicObject, Map<String, Object> jsonObject) {
+	protected void putAttributesLabelsRepresentedResource(GraphicObjectX graphicObject, Map<String, Object> jsonObject) throws OGVICModelsException {
 
 		putRepresentedResource(jsonObject, graphicObject);
 		putGraphicAttributes(jsonObject, graphicObject);	
