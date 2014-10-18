@@ -16,6 +16,8 @@ import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
  */
 public class VisProjectLibrary {
 	
+	private static VisProjectLibrary instance = null;
+	
 	Map<String,VisProject> library = new HashMap<String,VisProject>();
 	
 	private final static Logger LOGGER = Logger.getLogger(VisProjectLibrary.class.getName()); 
@@ -23,8 +25,9 @@ public class VisProjectLibrary {
 	/**
 	 * @throws FileNotFoundException 
 	 * 
+	 * TODO setting this protected is against the singleton pattern, avoid inheritance between the concrete libraries  
 	 */
-	public VisProjectLibrary() {
+	protected VisProjectLibrary() {
 		super();
 		try {
 			initWithUseCaseTestProjects();
@@ -165,4 +168,11 @@ public class VisProjectLibrary {
 		return library.containsKey(projectName);
 	}
 
+	public static VisProjectLibrary getInstance() {
+		if (instance == null) {
+	        instance = new VisProjectLibrary();
+	    }
+	    return instance;
+	}
+	
 }

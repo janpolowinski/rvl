@@ -95,7 +95,7 @@ public class OGVICConsoleProjects {
 	}
 
 	protected VisProjectLibrary getVisProjectLibrary() {
-		VisProjectLibrary library = new VisProjectLibrary();
+		VisProjectLibrary library = VisProjectLibrary.getInstance();
 		return library;
 	}
     

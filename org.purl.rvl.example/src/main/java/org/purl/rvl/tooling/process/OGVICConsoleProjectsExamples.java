@@ -21,7 +21,7 @@ public class OGVICConsoleProjectsExamples extends OGVICConsoleProjects {
     }
 	
 	protected VisProjectLibrary getVisProjectLibrary() {
-		VisProjectLibraryExamples library = new VisProjectLibraryExamples();
+		VisProjectLibraryExamples library = VisProjectLibraryExamples.getInstance();
 		return library;
 	}
 
