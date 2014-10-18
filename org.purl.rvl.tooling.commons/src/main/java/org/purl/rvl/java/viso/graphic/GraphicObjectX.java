@@ -11,9 +11,8 @@ import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.purl.rvl.exception.IncompleteColorValuesException;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
+import org.purl.rvl.tooling.commons.utils.ColorUtils;
 import org.purl.rvl.tooling.commons.utils.ModelUtils;
-import org.purl.rvl.tooling.util.AVMUtils;
-import org.purl.rvl.tooling.util.ColorUtils;
 
 /**
  * @author Jan Polowinski
@@ -92,7 +91,7 @@ public class GraphicObjectX extends org.purl.rvl.java.gen.viso.graphic.GraphicOb
 	// @XmlElement(name="label")
 	public String getLabel() {
 
-		return AVMUtils.getGoodNodeLabel(this.asURI(), model);
+		return ModelUtils.getGoodNodeLabel(this.asURI(), model);
 		// sending a GraphicObjectX instead of a URI, causes class cast problems
 		// this.getAllLabel_as().firstValue().toString();
 

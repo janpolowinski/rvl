@@ -1,4 +1,4 @@
-package org.purl.rvl.tooling.util;
+package org.purl.rvl.tooling.commons.utils;
 
 import java.util.logging.Logger;
 

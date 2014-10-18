@@ -18,7 +18,7 @@ import org.purl.rvl.java.gen.viso.graphic.Superimposition;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.java.viso.graphic.ShapeX;
-import org.purl.rvl.tooling.util.AVMUtils;
+import org.purl.rvl.tooling.commons.utils.ModelUtils;
 
 /**
  * @author Jan Polowinski
@@ -80,7 +80,7 @@ public class MappingToLabelingHandler extends MappingToP2GOTORHandler {
 
 		Labeling rel = new Labeling(modelAVM, "http://purl.org/rvl/example-avm/LabelingRelation_"
 				+ rvlInterpreter.createNewInternalID(), true);
-		rel.setLabel(AVMUtils.getGoodNodeLabel(mapping.getTargetGraphicRelation(), modelAVM));
+		rel.setLabel(ModelUtils.getGoodNodeLabel(mapping.getTargetGraphicRelation(), modelAVM));
 
 		graphicObjectToApplyMapping.addLabeledwith(rel);
 		rel.setLabelinglabel(label);

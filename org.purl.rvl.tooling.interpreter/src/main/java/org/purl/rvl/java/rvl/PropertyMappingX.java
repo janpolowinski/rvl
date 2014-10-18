@@ -13,7 +13,7 @@ import org.purl.rvl.java.gen.rvl.Mapping;
 import org.purl.rvl.java.gen.rvl.PropertyMapping;
 import org.purl.rvl.java.gen.rvl.Sub_mappingrelation;
 import org.purl.rvl.java.rvl.filter.SubjectFilter;
-import org.purl.rvl.tooling.util.AVMUtils;
+import org.purl.rvl.tooling.commons.utils.ModelUtils;
 
 /**
  * @author Jan Polowinski
@@ -206,7 +206,7 @@ public class PropertyMappingX extends MappingX {
 	}
 
 	public String toStringSummary() {
-		return AVMUtils.getGoodNodeLabel(getDelegatee(), getDelegatee().getModel());
+		return ModelUtils.getGoodNodeLabel(getDelegatee(), getDelegatee().getModel());
 	}
 
 	/**

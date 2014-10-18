@@ -18,7 +18,7 @@ import org.purl.rvl.java.gen.viso.graphic.Object_to_ObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.java.viso.graphic.ShapeX;
-import org.purl.rvl.tooling.util.AVMUtils;
+import org.purl.rvl.tooling.commons.utils.ModelUtils;
 
 /**
  * @author Jan Polowinski
@@ -71,7 +71,7 @@ public class MappingToLinkingHandler extends MappingToP2GOTORHandler {
 
 		// label the GraphicObject itself (only used for bootstrapping purposes,
 		// when looking at the generated Abstract Visual Model)
-		connector.setLabel("Connector ( " + AVMUtils.getGoodNodeLabel(predicateURI, modelAVM) + " or sub-property)");
+		connector.setLabel("Connector ( " + ModelUtils.getGoodNodeLabel(predicateURI, modelAVM) + " or sub-property)");
 
 		// generic graphic relation needed for submappings
 		// (could also be some super class of directed linking, undirected
@@ -85,7 +85,7 @@ public class MappingToLinkingHandler extends MappingToP2GOTORHandler {
 			// DirectedLinking dlRel = new DirectedLinking(modelAVM, true);
 			DirectedLinking dlRel = new DirectedLinking(modelAVM, "http://purl.org/rvl/example-avm/GR_"
 					+ rvlInterpreter.createNewInternalID(), true);
-			dlRel.setLabel(AVMUtils.getGoodNodeLabel(mapping.getTargetGraphicRelation(), modelAVM));
+			dlRel.setLabel(ModelUtils.getGoodNodeLabel(mapping.getTargetGraphicRelation(), modelAVM));
 
 			// configure the relation
 			if (mapping.isInvertSourceProperty()) {
@@ -112,7 +112,7 @@ public class MappingToLinkingHandler extends MappingToP2GOTORHandler {
 			// UndirectedLinking udlRel = new UndirectedLinking(modelAVM, true);
 			UndirectedLinking udlRel = new UndirectedLinking(modelAVM, "http://purl.org/rvl/example-avm/GR_"
 					+ rvlInterpreter.createNewInternalID(), true);
-			udlRel.setLabel(AVMUtils.getGoodNodeLabel(mapping.getTargetGraphicRelation(), modelAVM));
+			udlRel.setLabel(ModelUtils.getGoodNodeLabel(mapping.getTargetGraphicRelation(), modelAVM));
 
 			// configure the relation
 			udlRel.addLinkingnode(subjectNode);

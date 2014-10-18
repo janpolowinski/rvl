@@ -234,7 +234,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 		// create an additional object here, don't reuse existing ones!
 		GraphicObjectX label = new GraphicObjectX(modelAVM, "http://purl.org/rvl/example-avm/GO_Label_"
 				+ this.createNewInternalID(), false);
-		label.setTextvalue(AVMUtils.getGoodNodeLabel(resource, modelData));
+		label.setTextvalue(ModelUtils.getGoodNodeLabel(resource, modelData));
 
 		LOGGER.finest("Created new Label-GO for resource: " + resource.toString());
 
@@ -628,7 +628,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 						RVL.TBOX_DOMAIN_RANGE))) {
 			LOGGER.fine("Mapped value " + tv + " will be inherited to GOs representing nodes related to "
 					+ baseResource + "("
-					+ AVMUtils.getGoodNodeLabel(baseResource, modelSet.getModel(Graph.GRAPH_DATA)) + ") via "
+					+ ModelUtils.getGoodNodeLabel(baseResource, modelSet.getModel(Graph.GRAPH_DATA)) + ") via "
 					+ inheritedBy);
 
 			Property tga = p2gam.getTargetGraphicRelation();

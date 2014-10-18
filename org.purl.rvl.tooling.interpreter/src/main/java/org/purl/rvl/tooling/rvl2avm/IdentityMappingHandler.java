@@ -26,7 +26,6 @@ import org.purl.rvl.tooling.commons.Graph;
 import org.purl.rvl.tooling.commons.Settings;
 import org.purl.rvl.tooling.commons.utils.ModelUtils;
 import org.purl.rvl.tooling.query.data.DataQuery;
-import org.purl.rvl.tooling.util.AVMUtils;
 
 public class IdentityMappingHandler extends MappingHandlerBase {
 	
@@ -105,7 +104,7 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 
 					// special treatment of the source property rvl:label
 					// (will use rdfs:label or use the local name for URIs instead)
-					targetValue =  new PlainLiteralImpl(AVMUtils.getGoodNodeLabel(sourceResource, modelData));
+					targetValue =  new PlainLiteralImpl(ModelUtils.getGoodNodeLabel(sourceResource, modelData));
 
 				} else if (sp.asURI().toString().equals(RVL.ID_AND_TYPES)) {
 					
@@ -118,11 +117,11 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 						types = " (untyped)";
 					} else {
 						for (Resource resource : typesSet) {
-							types += " : " + AVMUtils.getGoodNodeLabel(resource, modelData);
+							types += " : " + ModelUtils.getGoodNodeLabel(resource, modelData);
 						}
 					}
 
-					targetValue = new PlainLiteralImpl(AVMUtils.getGoodNodeLabel(sourceResource, modelData) + types); //TODO: handle blank nodes!
+					targetValue = new PlainLiteralImpl(ModelUtils.getGoodNodeLabel(sourceResource, modelData) + types); //TODO: handle blank nodes!
 
 				} else if (sp.equals(RDF.ID)) {
 					
