@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.purl.rvl.exception.d3;
+package org.purl.rvl.exception;
 
 
 /**

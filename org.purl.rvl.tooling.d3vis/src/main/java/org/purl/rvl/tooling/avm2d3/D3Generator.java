@@ -1,7 +1,7 @@
 package org.purl.rvl.tooling.avm2d3;
 
+import org.purl.rvl.exception.D3GeneratorException;
 import org.purl.rvl.exception.OGVICModelsException;
-import org.purl.rvl.exception.d3.D3GeneratorException;
 import org.purl.rvl.tooling.model.ModelManager;
 
 /**

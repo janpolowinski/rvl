@@ -53,20 +53,6 @@
 	</build>
 	<dependencies>
 		
-		<!-- ideally this dependency to the interpreter should be removed -->
-		<dependency>
-			<groupId>org.purl.rvl.tooling</groupId>
-			<artifactId>rvl-interpreter</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-	    </dependency>
-	    <dependency>
-			<groupId>org.purl.rvl.tooling</groupId>
-			<artifactId>rvl-interpreter</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<type>test-jar</type>
-			<scope>test</scope>
-	    </dependency>
-		
 		<dependency>
 			<groupId>org.purl.rvl.tooling</groupId>
   			<artifactId>rvl-commons</artifactId>

@@ -13,8 +13,8 @@ import java.util.logging.Logger;
 
 import org.json.simple.JSONObject;
 import org.ontoware.rdf2go.model.Model;
+import org.purl.rvl.exception.D3GeneratorException;
 import org.purl.rvl.exception.OGVICModelsException;
-import org.purl.rvl.exception.d3.D3GeneratorException;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
