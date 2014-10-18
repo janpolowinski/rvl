@@ -7,6 +7,7 @@ import org.ontoware.rdf2go.Reasoning;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorTreeJSON;
 import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.ExampleMapping;
+import org.purl.rvl.tooling.process.VisProjectLibrary;
 
 @SuppressWarnings("unused")
 public class TempTest extends TestOGVICProcess {
@@ -14,23 +15,14 @@ public class TempTest extends TestOGVICProcess {
 	@Test
 	public void testOGVICProcess() throws FileNotFoundException {
 		
-		project.setReasoningDataModel(Reasoning.rdfs);
+		project = VisProjectLibrary.getInstance().getProject(getProjectName());	
 
-		project.registerMappingFile(ExampleMapping.RVL_TEST_TEMP);
-		project.registerDataFile(ExampleData.RVL_EXAMPLE);
-		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
-		
-		//project.setRvlInterpreter(new SimpleRVLInterpreter());
-		
-		//project.setD3Generator(new D3GeneratorTreeJSON());
-		
 		loadProjectAndRunProcess();
 	}
 
 	@Override
-	protected String getExpectedD3JSONFileName() {
-		return null;
+	protected String getProjectName() {
+		return "temp-test";
 	}
-
 
 }

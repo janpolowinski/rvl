@@ -12,12 +12,10 @@ import org.junit.Test;
 import org.purl.rvl.exception.OGVICModelsException;
 import org.purl.rvl.exception.OGVICRepositoryException;
 import org.purl.rvl.exception.d3.D3GeneratorException;
-import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
 import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
-import org.purl.rvl.tooling.process.ExampleData;
-import org.purl.rvl.tooling.process.ExampleMapping;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.process.VisProject;
+import org.purl.rvl.tooling.process.VisProjectLibrary;
 import org.skyscreamer.jsonassert.JSONAssert;
 
 /**
@@ -43,19 +41,19 @@ public abstract class TestOGVICProcess {
 
 	@Test
 	public void testOGVICProcess() throws FileNotFoundException {
-		
-		//public static final String REXD_URI = "http://purl.org/rvl/example-data";
-		//public static final String REXD_URI = "http://purl.org/rvl";
-		//public static final String REXD_URI = "http://purl.org/ro/semvis-example/";
-		//public static final String REXD_URI = "http://purl.org/obo/owl/";
 
-		project.registerMappingFile(ExampleMapping.RVL_EXAMPLE);
-		project.registerDataFile(ExampleData.RVL_EXAMPLE);
-		
-		//project.setRvlInterpreter(new SimpleRVLInterpreter());
-		project.setD3Generator(new D3GeneratorDeepLabelsJSON());
-		
+		project = getVisProjectLibrary().getProject(getProjectName());
+			
 		loadProjectAndRunProcess();
+		
+		assertGeneratedJSONEqualsExpected();
+	}
+
+	/**
+	 * @return
+	 */
+	protected VisProjectLibrary getVisProjectLibrary() {
+		return VisProjectLibrary.getInstance();
 	}
 
 	
@@ -150,6 +148,15 @@ public abstract class TestOGVICProcess {
 		}
 	}
 
-	protected abstract String getExpectedD3JSONFileName();
+	protected String getExpectedD3JSONFileName() {
+		return getProjectName() + ".json"; 
+	}
+	
+	protected abstract String getProjectName();
+	
+	protected void simplyRunWithoutTesting() {
+		project = getVisProjectLibrary().getProject(getProjectName());	
+		loadProjectAndRunProcess();
+	}
 	
 }

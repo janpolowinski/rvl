@@ -25,9 +25,8 @@ public class UseCaseAVMBootstrap extends TestOGVICProcess {
 	}
 
 	@Override
-	protected String getExpectedD3JSONFileName() {
-		// TODO Auto-generated method stub
-		return null;
+	protected String getProjectName() {
+		return "avm";
 	}
 
 

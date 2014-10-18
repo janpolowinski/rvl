@@ -10,29 +10,10 @@ import org.purl.rvl.tooling.process.ExampleMapping;
 
 @SuppressWarnings("unused")
 public class LabelingTest extends TestOGVICProcess {
-	
-	@Test
-	public void testOGVICProcess() throws FileNotFoundException {
-		
-		project.setReasoningDataModel(Reasoning.rdfs);
-
-		project.registerMappingFile(ExampleMapping.RVL_EXAMPLE_LABELING);
-		project.registerDataFile(ExampleData.RVL_EXAMPLE);
-		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
-		
-		//project.setRvlInterpreter(new SimpleRVLInterpreter());
-		
-		//project.setD3Generator(new D3GeneratorTreeJSON());
-		
-		loadProjectAndRunProcess();
-		
-		assertGeneratedJSONEqualsExpected();
-	}
 
 	@Override
-	protected String getExpectedD3JSONFileName() {
-		return "labeling.json";
+	protected String getProjectName() {
+		return "labeling-test";
 	}
-
-
+	
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.ontoware.rdf2go.Reasoning;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorTreeJSON;
 
@@ -66,23 +67,33 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 		storeProject(useCaseZFA);
 		
 		VisProject useCaseZFA_inheritance = new VisProject("zfa-inheritance");
+		useCaseZFA_inheritance.setReasoningDataModel(Reasoning.rdfs);
 		useCaseZFA_inheritance.registerMappingFile("/life-sciences/zebra-fish-anatomy/example-mappings/ZFA-inheritance.ttl");
 		useCaseZFA_inheritance.registerDataFile("/life-sciences/zebra-fish-anatomy/example-data/ZFA_subset.ttl");
 		useCaseZFA_inheritance.setD3Generator(new D3GeneratorTreeJSON());
+		//project.setRvlInterpreter(new SimpleRVLInterpreter());
+		// requires better filtering!
+		//project.setD3Generator(new D3GeneratorTreeJSON());
 		storeProject(useCaseZFA_inheritance);
 		
 		//////////////////////////////////////////////////////////////////
 		// Plants
 		///////////////////////////////////////////////////////////////////
 		VisProject useCasePO_8 = new VisProject("po-8");
+		useCasePO_8.setReasoningDataModel(Reasoning.rdfs); // setting to rdfs makes it necessary to remove the transitive hull (default setting at the moment),
+		   											   // but shape is not evaluated otherwise
 		useCasePO_8.registerMappingFile("/life-sciences/plant-ontology/example-mappings/PO_8.ttl");
 		useCasePO_8.registerDataFile("/life-sciences/plant-ontology/example-data/po_anatomy.owl");
+		useCasePO_8.registerDataFile("/life-sciences/plant-ontology/example-mappings/extra-data.ttl");
 		useCasePO_8.setD3Generator(new D3GeneratorTreeJSON());
 		storeProject(useCasePO_8);
 		
 		VisProject useCasePO_9 = new VisProject("po-9");
+		useCasePO_8.setReasoningDataModel(Reasoning.rdfs); // setting to rdfs makes it necessary to remove the transitive hull (default setting at the moment),
+		   // but shape is not evaluated otherwise
 		useCasePO_9.registerMappingFile("/life-sciences/plant-ontology/example-mappings/PO_9.ttl");
 		useCasePO_9.registerDataFile("/life-sciences/plant-ontology/example-data/po_anatomy.owl");
+		useCasePO_9.registerDataFile("/life-sciences/plant-ontology/example-mappings/extra-data.ttl");
 		useCasePO_9.setD3Generator(new D3GeneratorTreeJSON());
 		storeProject(useCasePO_9);
 		
@@ -107,8 +118,89 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 		useCaseCIT_blog.registerMappingFile("/library-and-publication/cito/example-mappings/CIT_blog.ttl");
 		useCaseCIT_blog.registerDataFile("/library-and-publication/cito/example-data/cito.owl");
 		useCaseCIT_blog.registerDataFile("/library-and-publication/cito/example-data/cito-example-data.ttl");
-		useCaseCIT_blog.setD3Generator(new D3GeneratorDeepLabelsJSON());
+		useCaseCIT_blog.setD3Generator(new D3GeneratorTreeJSON());
 		storeProject(useCaseCIT_blog);
+		
+		VisProject project;
+		
+		project = storeProject("ro");
+		project.registerMappingFile("/software/ro/example-mappings/experimental-wip.ttl");
+		//project.registerDataFile("/software/ro/example-mappings/extra-data.ttl"));
+		project.registerDataFile("/software/ro/example-data/ro_v_1_4_1_incl_social_network_example.owl");
+		project.setD3Generator(new D3GeneratorTreeJSON());
+
+		project = storeProject("ro-4b");
+		project.registerMappingFile("/software/ro/example-mappings/RO_4b.ttl");
+		project.registerDataFile("/software/ro/example-mappings/extra-data.ttl");
+		project.registerDataFile("/software/ro/example-data/ro_v_1_4_1_incl_social_network_example.owl");
+
+		project = storeProject("ro-5");
+		project.registerMappingFile("/software/ro/example-mappings/RO_5.ttl");
+		project.registerDataFile("/software/ro/example-mappings/extra-data.ttl");
+		project.registerDataFile("/software/ro/example-data/ro_v_1_4_1_incl_social_network_example.owl");
+
+		project = storeProject("ro-6");
+		project.registerMappingFile("/software/ro/example-mappings/RO_6.ttl");
+		//project.registerMappingFile("/software/ro/example-mappings/RO_type_shape_test.ttl"));
+		project.registerDataFile("/software/ro/example-mappings/extra-data.ttl");
+		project.registerDataFile("/software/ro/example-data/ro_v_1_4_1_incl_social_network_example.owl");		
+		//project.setD3Generator(new D3GeneratorSimpleJSON());
+		project.setD3Generator(new D3GeneratorDeepLabelsJSON());
+		
+		project = storeProject("ro-7");
+		project.registerMappingFile("/software/ro/example-mappings/RO_7.ttl");
+		//project.registerMappingFile("/software/ro/example-mappings/RO_type_shape_test.ttl"));
+		project.registerDataFile("/software/ro/example-mappings/extra-data.ttl");
+		project.registerDataFile("/software/ro/example-data/ro_v_1_4_1_incl_social_network_example.owl");		
+		//project.setD3Generator(new D3GeneratorSimpleJSON());
+		//project.setD3Generator(new D3GeneratorDeepLabelsJSON());
+		project.setD3Generator(new D3GeneratorTreeJSON());
+		project.setD3GraphicFile("circle-packing-zoomable/index.html");
+		
+		project = storeProject("ro-instances-social-network");
+		project.setReasoningDataModel(Reasoning.rdfs);
+		project.registerMappingFile("/software/ro/example-mappings/ro-instances-social-network.ttl");
+		project.registerDataFile("/software/ro/example-mappings/extra-data.ttl");
+		project.registerDataFile("/software/ro/example-data/ro_v_1_4_1_incl_social_network_example.owl");
+		//project.setRvlInterpreter(new SimpleRVLInterpreter());
+		project.setD3Generator(new D3GeneratorDeepLabelsJSON());
+		
+		project = storeProject("ogvic-requirements");
+		project.registerMappingFile("/software/ro/example-mappings/ro-ogvic-requirements.ttl");
+		//project.registerDataFile("/software/ro/example-mappings/extra-data.ttl"));
+		project.registerDataFile("/software/ro/example-data/ogvic-requirements.ttl");
+		project.registerDataFile("/software/ro/example-data/ro_v_1_4_1_incl_social_network_example.owl");
+		project.setD3Generator(new D3GeneratorTreeJSON());
+		
+		project = storeProject("po");
+		project.registerMappingFile("/life-sciences/plant-ontology/example-mappings/experimental-wip.ttl");
+		project.registerDataFile("/life-sciences/plant-ontology/example-data/po_anatomy.owl");
+		project.registerDataFile("/life-sciences/plant-ontology/example-mappings/extra-data.ttl");
+		//project.setRvlInterpreter(new SimpleRVLInterpreter());
+		project.setD3Generator(new D3GeneratorTreeJSON());
+		//process.setD3Generator(new D3GeneratorSimpleJSON());
+
+		project = storeProject("po-9-containment");
+		project.setReasoningDataModel(Reasoning.rdfs); // setting to rdfs makes it necessary to remove the transitive hull (default setting at the moment),
+		// but shape is not evaluated otherwise
+		project.registerMappingFile("/life-sciences/plant-ontology/example-mappings/PO_9_containment.ttl");
+		project.registerDataFile("/life-sciences/plant-ontology/example-data/po_anatomy.owl");
+		project.registerDataFile("/life-sciences/plant-ontology/example-mappings/extra-data.ttl");
+		//project.setRvlInterpreter(new SimpleRVLInterpreter());
+		project.setD3Generator(new D3GeneratorTreeJSON());
+		project.setD3GraphicFile("circle-packing-zoomable/index.html");
+		
+		project = storeProject("aa-3-and-4");
+		project.registerMappingFile("/life-sciences/amino-acid/example-mappings/AA_4.ttl");
+		project.registerMappingFile("/life-sciences/amino-acid/example-mappings/AA_3.ttl");
+		project.registerDataFile("/life-sciences/amino-acid/example-data/amino-acid.owl");
+
+		project = storeProject("lld");
+		//project.registerDataFile(ExampleData.LLD_TEST);
+		//project.registerDataFile(ExampleData.LLD_EXTRA_DATA);
+		//project.registerMappingFile(ExampleMapping.LLD);
+		//project.setRvlInterpreter(new SimpleRVLInterpreter());
+		//project.setD3Generator(new D3GeneratorTreeJSON());
 		
 	}
 	
