@@ -11,7 +11,8 @@ public class ConsoleProjects {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-		OGVICConsoleProjects.runConsole();
+		OGVICConsoleProjects console = new OGVICConsoleProjects();
+		console.runConsole();
 	}
 
 }

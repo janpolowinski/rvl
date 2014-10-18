@@ -13,17 +13,19 @@ public class OGVICConsoleProjects {
 	
 	private final static Logger LOGGER = Logger.getLogger(OGVICConsoleProjects.class.getName()); 
 	
-    public static void main(String[] args) throws IOException { 
+    public static void main(String[] args) throws IOException {
     	
-    	runConsole();
+    	OGVICConsoleProjects console =  new OGVICConsoleProjects();
+    	console.runConsole();
         
     }
 
 	/**
 	 * @throws IOException
 	 */
-	public static void runConsole() throws IOException {
-		VisProjectLibrary library = new VisProjectLibrary();
+	public void runConsole() throws IOException {
+		
+		VisProjectLibrary library = getVisProjectLibrary();
     	
     	// set up interactive process
     	OGVICProcess interactiveProcess = OGVICProcess.getInstance();
@@ -90,6 +92,11 @@ public class OGVICConsoleProjects {
 	        firstRun = false;
 	        	
     	}
+	}
+
+	protected VisProjectLibrary getVisProjectLibrary() {
+		VisProjectLibrary library = new VisProjectLibrary();
+		return library;
 	}
     
 }
