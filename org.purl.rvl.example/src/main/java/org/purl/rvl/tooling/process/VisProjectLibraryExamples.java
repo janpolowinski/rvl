@@ -14,9 +14,19 @@ import org.purl.rvl.tooling.avm2d3.D3GeneratorTreeJSON;
  */
 public class VisProjectLibraryExamples extends VisProjectLibrary {
 	
+	private static VisProjectLibraryExamples instance;
+
 	Map<String,VisProject> library = new HashMap<String,VisProject>();
 	
 	private final static Logger LOGGER = Logger.getLogger(VisProjectLibraryExamples.class.getName()); 
+	
+	/**
+	 * @throws FileNotFoundException 
+	 * 
+	 */
+	private VisProjectLibraryExamples() {
+		super();
+	}
 	
 	public void initWithUseCaseTestProjects() throws FileNotFoundException {
 		
@@ -58,7 +68,7 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 		VisProject useCaseZFA_inheritance = new VisProject("zfa-inheritance");
 		useCaseZFA_inheritance.registerMappingFile("/life-sciences/zebra-fish-anatomy/example-mappings/ZFA-inheritance.ttl");
 		useCaseZFA_inheritance.registerDataFile("/life-sciences/zebra-fish-anatomy/example-data/ZFA_subset.ttl");
-		useCaseZFA_inheritance.setD3Generator(new D3GeneratorDeepLabelsJSON());
+		useCaseZFA_inheritance.setD3Generator(new D3GeneratorTreeJSON());
 		storeProject(useCaseZFA_inheritance);
 		
 		//////////////////////////////////////////////////////////////////
@@ -82,24 +92,31 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 		VisProject useCaseCIT_1 = new VisProject("cit-1");
 		useCaseCIT_1.registerMappingFile("/library-and-publication/cito/example-mappings/CIT_1.ttl");
 		useCaseCIT_1.registerDataFile("/library-and-publication/cito/example-data/cito.owl");
-		useCaseCIT_1.registerDataFile("/library-and-publication/cito/example-data/cito-example-data.owl");
-		useCaseCIT_1.setD3Generator(new D3GeneratorTreeJSON());
+		useCaseCIT_1.registerDataFile("/library-and-publication/cito/example-data/cito-example-data.ttl");
+		useCaseCIT_1.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		storeProject(useCaseCIT_1);
 		
 		VisProject useCaseCIT_5 = new VisProject("cit-5");
 		useCaseCIT_5.registerMappingFile("/library-and-publication/cito/example-mappings/CIT_5.ttl");
 		useCaseCIT_5.registerDataFile("/library-and-publication/cito/example-data/cito.owl");
-		useCaseCIT_5.registerDataFile("/library-and-publication/cito/example-data/cito-example-data.owl");
-		useCaseCIT_5.setD3Generator(new D3GeneratorTreeJSON());
+		useCaseCIT_5.registerDataFile("/library-and-publication/cito/example-data/cito-example-data.ttl");
+		useCaseCIT_5.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		storeProject(useCaseCIT_5);
 		
 		VisProject useCaseCIT_blog = new VisProject("cit-blog");
 		useCaseCIT_blog.registerMappingFile("/library-and-publication/cito/example-mappings/CIT_blog.ttl");
 		useCaseCIT_blog.registerDataFile("/library-and-publication/cito/example-data/cito.owl");
-		useCaseCIT_blog.registerDataFile("/library-and-publication/cito/example-data/cito-example-data.owl");
-		useCaseCIT_blog.setD3Generator(new D3GeneratorTreeJSON());
+		useCaseCIT_blog.registerDataFile("/library-and-publication/cito/example-data/cito-example-data.ttl");
+		useCaseCIT_blog.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		storeProject(useCaseCIT_blog);
 		
+	}
+	
+	public static VisProjectLibraryExamples getInstance() {
+		if (instance == null) {
+	        instance = new VisProjectLibraryExamples();
+	    }
+	    return instance;
 	}
 
 }
