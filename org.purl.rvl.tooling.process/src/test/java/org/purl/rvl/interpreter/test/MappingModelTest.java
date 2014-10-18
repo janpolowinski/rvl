@@ -14,7 +14,7 @@ import org.junit.Test;
 import org.ontoware.rdf2go.model.Model;
 import org.purl.rvl.tooling.commons.utils.CustomRecordFormatter;
 import org.purl.rvl.tooling.model.ModelManager;
-import org.purl.rvl.tooling.util.PrintUtils;
+import org.purl.rvl.tooling.util.RVLPrintUtils;
 
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
@@ -93,7 +93,7 @@ public class MappingModelTest {
 	@Ignore
 	@Test
 	public void testListAllMappings() {
-		PrintUtils.listAllMappings(model);
+		RVLPrintUtils.listAllMappings(model);
 	}
 	
 	@Ignore
@@ -102,7 +102,7 @@ public class MappingModelTest {
 		//RVLUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithNamedSubmappingToNamedMappingOnConnector");
 		//RVLUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithAnonymousSubmappingToNamedMappingOnConnector");
 		//RVLUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithAnonSubmappingOnConnector");
-		PrintUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithValueMappingOfRanges");
+		RVLPrintUtils.printMappingWithURI(model, "http://purl.org/rvl/example-mappings/PMwithValueMappingOfRanges");
 	}
 	
 	@Ignore

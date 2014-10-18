@@ -46,10 +46,10 @@ import org.purl.rvl.java.rvl.mapping.TupleSourceValueTargetValue;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.java.viso.graphic.ShapeX;
 import org.purl.rvl.tooling.commons.Graph;
+import org.purl.rvl.tooling.commons.utils.AVMUtils;
 import org.purl.rvl.tooling.commons.utils.ModelUtils;
 import org.purl.rvl.tooling.model.ModelManager;
 import org.purl.rvl.tooling.query.data.DataQuery;
-import org.purl.rvl.tooling.util.AVMUtils;
 
 /**
  * @author Jan Polowinski

@@ -21,8 +21,8 @@ import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.Thing1;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
+import org.purl.rvl.tooling.commons.utils.AVMUtils;
 import org.purl.rvl.tooling.commons.utils.ModelUtils;
-import org.purl.rvl.tooling.util.AVMUtils;
 
 
 /**
