@@ -4,6 +4,4 @@
 
 ./open-fe.bash &
 
-./jar.bash
-
 ./console-projects.bash
