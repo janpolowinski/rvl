@@ -1,8 +1,8 @@
 package org.purl.rvl.tooling.codegen.rdfreactor;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
@@ -27,25 +27,21 @@ public class VISOapiGenerator {
 		Model model = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		model.open();
 		
-		// read VISO_GRAPHIC/graphic into its own model and into the main model
-		File file = new File(OntologyFile.VISO_GRAPHIC);
-		
-		if (file.exists()) {
-			try {
-				model.readFrom(new FileReader(file), Syntax.Turtle);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
+		// read VISO/graphic
+		InputStream visoStream = new VISOapiGenerator().getClass().getResourceAsStream(OntologyFile.VISO_GRAPHIC);
 		// add extra triples useful for code generation
-		File fileVisoExtra = new File(OntologyFile.VISO_GRAPHIC_EXTRA);
-		
-		if (file.exists()) {
+		InputStream visoExtraStream = new VISOapiGenerator().getClass().getResourceAsStream(OntologyFile.VISO_GRAPHIC_EXTRA);
+
+		if (null == visoStream) {
+			throw new Exception("VISO ontology not available.");
+		} else if (null == visoExtraStream) {
+			throw new Exception("VISO extra triples for code generation not available.");
+		} else {
 			try {
-				model.readFrom(new FileReader(fileVisoExtra), Syntax.Turtle);
+				model.readFrom(visoStream, Syntax.Turtle);
+				model.readFrom(visoExtraStream, Syntax.Turtle);
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new Exception("Problem reading VISO files: " + e.getMessage());
 			}
 		}
 

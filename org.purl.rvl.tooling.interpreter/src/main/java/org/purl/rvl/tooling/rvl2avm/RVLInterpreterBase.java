@@ -46,10 +46,10 @@ import org.purl.rvl.java.rvl.mapping.TupleSourceValueTargetValue;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.java.viso.graphic.ShapeX;
 import org.purl.rvl.tooling.commons.Graph;
+import org.purl.rvl.tooling.commons.utils.AVMUtils;
 import org.purl.rvl.tooling.commons.utils.ModelUtils;
 import org.purl.rvl.tooling.model.ModelManager;
 import org.purl.rvl.tooling.query.data.DataQuery;
-import org.purl.rvl.tooling.util.AVMUtils;
 
 /**
  * @author Jan Polowinski
@@ -234,7 +234,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 		// create an additional object here, don't reuse existing ones!
 		GraphicObjectX label = new GraphicObjectX(modelAVM, "http://purl.org/rvl/example-avm/GO_Label_"
 				+ this.createNewInternalID(), false);
-		label.setTextvalue(AVMUtils.getGoodNodeLabel(resource, modelData));
+		label.setTextvalue(ModelUtils.getGoodNodeLabel(resource, modelData));
 
 		LOGGER.finest("Created new Label-GO for resource: " + resource.toString());
 
@@ -628,7 +628,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 						RVL.TBOX_DOMAIN_RANGE))) {
 			LOGGER.fine("Mapped value " + tv + " will be inherited to GOs representing nodes related to "
 					+ baseResource + "("
-					+ AVMUtils.getGoodNodeLabel(baseResource, modelSet.getModel(Graph.GRAPH_DATA)) + ") via "
+					+ ModelUtils.getGoodNodeLabel(baseResource, modelSet.getModel(Graph.GRAPH_DATA)) + ") via "
 					+ inheritedBy);
 
 			Property tga = p2gam.getTargetGraphicRelation();

@@ -7,8 +7,8 @@ import org.junit.Test;
 import org.ontoware.rdf2go.model.Model;
 import org.purl.rvl.exception.IncompleteColorValuesException;
 import org.purl.rvl.java.viso.graphic.ColorX;
+import org.purl.rvl.tooling.commons.utils.AVMPrintUtils;
 import org.purl.rvl.tooling.model.ModelManager;
-import org.purl.rvl.tooling.util.PrintUtils;
 
 /**
  * @author Jan Polowinski
@@ -42,7 +42,7 @@ public class ColorTest {
 	
 	//@Test
 	public void testListAllColors() {
-		PrintUtils.listAllColors(model);
+		AVMPrintUtils.listAllColors(model);
 	}
 
 }

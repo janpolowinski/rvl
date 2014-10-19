@@ -12,7 +12,7 @@ import org.ontoware.rdf2go.model.Statement;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
 import org.purl.rvl.exception.MappingException;
 import org.purl.rvl.exception.NotImplementedMappingFeatureException;
-import org.purl.rvl.tooling.util.AVMUtils;
+import org.purl.rvl.tooling.commons.utils.ModelUtils;
 
 /**
  * @author Jan Polowinski
@@ -54,8 +54,8 @@ public abstract class MappingHandlerBase implements MappingHandler  {
 	protected void logStatementDetails(Logger logger, Statement statement) {
 		
 		logger.fine(NL + "Encoding statement " + statement);
-		logger.finest("  Subject label: " + AVMUtils.getGoodNodeLabel(statement.getSubject(), modelAVM));
-		logger.finest("  Object label: " + AVMUtils.getGoodNodeLabel(statement.getObject(), modelAVM));
+		logger.finest("  Subject label: " + ModelUtils.getGoodNodeLabel(statement.getSubject(), modelAVM));
+		logger.finest("  Object label: " + ModelUtils.getGoodNodeLabel(statement.getObject(), modelAVM));
 	}
 	
 }

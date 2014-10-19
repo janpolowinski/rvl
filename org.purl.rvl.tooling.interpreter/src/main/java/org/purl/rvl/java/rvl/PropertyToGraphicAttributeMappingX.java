@@ -29,7 +29,7 @@ import org.purl.rvl.java.gen.rvl.Valuemapping;
 import org.purl.rvl.java.gen.viso.graphic.GraphicAttribute;
 import org.purl.rvl.java.gen.viso.graphic.Thing1;
 import org.purl.rvl.java.rvl.mapping.CalculatedValueMapping;
-import org.purl.rvl.tooling.util.AVMUtils;
+import org.purl.rvl.tooling.commons.utils.ModelUtils;
 import org.purl.rvl.tooling.util.RVLUtils;
 
 
@@ -342,7 +342,7 @@ public class PropertyToGraphicAttributeMappingX extends PropertyMappingX {
 	}
 
 	public String toStringSummary() {
-		return AVMUtils.getGoodNodeLabel(getDelegatee(), getDelegatee().getModel());
+		return ModelUtils.getGoodNodeLabel(getDelegatee(), getDelegatee().getModel());
 	}
 	
 	public String toStringDetailed(){

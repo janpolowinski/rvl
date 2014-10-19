@@ -16,7 +16,7 @@ import org.purl.rvl.exception.SubmappingException;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.Object_to_ObjectRelation;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
-import org.purl.rvl.tooling.util.AVMUtils;
+import org.purl.rvl.tooling.commons.utils.ModelUtils;
 
 /**
  * @author Jan Polowinski TODO cloned from linking, much duplicated code
@@ -68,7 +68,7 @@ public class MappingToContainmentHandler extends MappingToP2GOTORHandler {
 		Containment containmentRel = new Containment(modelAVM,
 				"http://purl.org/rvl/example-avm/GR_"
 						+ rvlInterpreter.createNewInternalID(), true);
-		containmentRel.setLabel(AVMUtils.getGoodNodeLabel(
+		containmentRel.setLabel(ModelUtils.getGoodNodeLabel(
 				mapping.getTargetGraphicRelation(), modelAVM));
 
 		// configure the relation

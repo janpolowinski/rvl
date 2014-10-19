@@ -1,4 +1,4 @@
-package org.purl.rvl.tooling.util;
+package org.purl.rvl.tooling.d3vis.utils;
 
 import java.util.logging.Logger;
 

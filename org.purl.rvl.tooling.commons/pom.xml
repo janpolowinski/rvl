@@ -19,10 +19,33 @@
 		</plugins>
 	</build>
 	<dependencies>
+	
 		<dependency>
 			<groupId>org.purl.rvl</groupId>
 			<artifactId>codegen.rdfreactor</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1</version>
+		</dependency>
+		
+		<!-- pretty printing is missing in json-simple -->
+		<dependency>
+			<groupId>com.cedarsoftware</groupId>
+			<artifactId>json-io</artifactId>
+			<version>2.6.0</version>
+		</dependency>
+
+		<!-- simplify testing with large JSON strings -->
+		<dependency>
+			<groupId>org.skyscreamer</groupId>
+			<artifactId>jsonassert</artifactId>
+			<version>1.2.3</version>
+			<scope>test</scope>
+		</dependency>
+		
 	</dependencies>
 </project>

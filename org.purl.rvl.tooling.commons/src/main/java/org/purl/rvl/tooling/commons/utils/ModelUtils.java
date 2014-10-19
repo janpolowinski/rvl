@@ -25,8 +25,10 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.Syntax;
+import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.Variable;
+import org.ontoware.rdf2go.util.RDFTool;
 import org.ontoware.rdf2go.vocabulary.RDF;
 import org.purl.rvl.java.gen.rvl.Thing1;
 import org.purl.rvl.tooling.commons.ResourcesCache;
@@ -263,6 +265,47 @@ public class ModelUtils {
 		T castedInstance = (T) instance.castTo(clasz);
 		
 		return (T) ResourcesCache.getInstance().tryReplaceOrCache(castedInstance);
+	}
+
+	public static String getGoodNodeLabel(Node node, Model model){
+		
+		
+		String label;
+		
+		try {	 
+			// somehow causes runtime exception with jena when not casted to resource as below
+			label =  RDFTool.getGoodLabel(node.asResource(), model);
+			
+		} catch (ClassCastException e) {
+			
+			// when this didn't work for some reason, but it's still a resource
+			
+			try {
+				
+				// get the local/short name after # or the last /
+				label = RDFTool.getShortName(node.asURI().toString());
+				
+			} catch (Exception e1) {
+				
+				// seems not to be a resource ...
+				
+				try {
+					
+					label = node.asLiteral().getValue();
+					
+				} catch (Exception e2) {
+					
+					// when nothing helps, toString it
+					
+					label = node.toString();
+	
+				}
+				
+			}
+			
+		}
+	
+		return label;
 	}
 	
 }

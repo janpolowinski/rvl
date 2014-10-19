@@ -1,4 +1,4 @@
-package org.purl.rvl.tooling.util;
+package org.purl.rvl.tooling.commons.utils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,9 +13,7 @@ import org.ontoware.rdf2go.model.QueryRow;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.impl.StatementImpl;
 import org.ontoware.rdf2go.model.node.Node;
-import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
-import org.ontoware.rdf2go.util.RDFTool;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObject;
@@ -80,15 +78,15 @@ public class AVMUtils {
 				//LOGGER.finest("fetched SPARQL result row: " + row);
 				try {
 					Statement stmt = new StatementImpl(null, row.getValue("s").asURI(), row.getValue("p").asURI(), row.getValue("o"));
-					RVLUtils.LOGGER.finest("build Statement: " + stmt.toString());
+					LOGGER.finest("build Statement: " + stmt.toString());
 					stmtList.add(stmt);
 				} catch (ClassCastException e){
-					RVLUtils.LOGGER.finer("Skipped statement (blank node casting to URI?): " + e.getMessage());
+					LOGGER.finer("Skipped statement (blank node casting to URI?): " + e.getMessage());
 				}
 			}
 		
 		} catch (UnsupportedOperationException e){
-			RVLUtils.LOGGER.warning("Problem with query to get statements: " + e.getMessage());
+			LOGGER.warning("Problem with query to get statements: " + e.getMessage());
 		} 
 		
 		return stmtList;
@@ -258,47 +256,6 @@ public class AVMUtils {
 		
 		return relFromHere;
 
-	}
-	
-	public static String getGoodNodeLabel(Node node, Model model){
-		
-		
-		String label;
-		
-		try {	 
-			// somehow causes runtime exception with jena when not casted to resource as below
-			label =  RDFTool.getGoodLabel(node.asResource(), model);
-			
-		} catch (ClassCastException e) {
-			
-			// when this didn't work for some reason, but it's still a resource
-			
-			try {
-				
-				// get the local/short name after # or the last /
-				label = RDFTool.getShortName(node.asURI().toString());
-				
-			} catch (Exception e1) {
-				
-				// seems not to be a resource ...
-				
-				try {
-					
-					label = node.asLiteral().getValue();
-					
-				} catch (Exception e2) {
-					
-					// when nothing helps, toString it
-					
-					label = node.toString();
-
-				}
-				
-			}
-			
-		}
-
-		return label;
 	}
 
 
