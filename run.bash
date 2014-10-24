@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./start-fe-server.bash &
+./start-fe-server-without-UI.bash &
 
 ./open-fe.bash &
 

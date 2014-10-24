@@ -1,5 +1,7 @@
 #!/bin/bash
 
+./install.bash
+
 # build jar without examples
 #cd "org.purl.rvl.tooling.process"
 
