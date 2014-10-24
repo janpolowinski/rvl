@@ -8,14 +8,14 @@
   
   	<build>
 		<resources>
-			<resource>
+			<!--<resource>
 				<directory>${basedir}</directory>
 				<filtering>true</filtering>
 				<includes>
 					<include>**/*.ttl</include>
 					<include>**/*.n3</include>
 				</includes>
-			</resource>
+			</resource>-->
 		</resources>
 	</build>
 </project>

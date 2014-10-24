@@ -1,8 +1,8 @@
 package org.purl.rvl.tooling.codegen.rdfreactor;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
@@ -29,23 +29,22 @@ public class RVLapiGenerator {
 		// create the RDF2GO Model
 		Model model = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		model.open();
-		File file = new File(OntologyFile.RVL);
-		if (file.exists()) {
+		
+		// read RVL vocabulary
+		InputStream rvlStream = new RVLapiGenerator().getClass().getResourceAsStream(OntologyFile.RVL);
+		// add extra triples useful for code generation
+		InputStream rvlExtraStream = new RVLapiGenerator().getClass().getResourceAsStream(OntologyFile.RVL_EXTRA);
+
+		if (null == rvlStream) {
+			throw new Exception("RVL ontology not available.");
+		} else if (null == rvlExtraStream) {
+			throw new Exception("RVL extra triples for code generation not available.");
+		} else {
 			try {
-				model.readFrom(new FileReader(file),
-						Syntax.Turtle);
+				model.readFrom(rvlStream, Syntax.Turtle);
+				model.readFrom(rvlExtraStream, Syntax.Turtle);
 			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		// add extra triples only for code generation which are wrong with respect to RDFS or OWL semantics
-		File fileExtra = new File(OntologyFile.RVL_EXTRA);
-		if (fileExtra.exists()) {
-			try {
-				model.readFrom(new FileReader(fileExtra),
-						Syntax.Turtle);
-			} catch (IOException e) {
-				e.printStackTrace();
+				throw new Exception("Problem reading RVL files: " + e.getMessage());
 			}
 		}
 

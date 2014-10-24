@@ -11,9 +11,11 @@
 	<name>codegen.rdfreactor</name>
 	<url>http://maven.apache.org</url>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.source.version>1.7</java.source.version>
+	<java.target.version>1.7</java.target.version>
+  </properties>
 
 	<build>
 		<plugins>
@@ -22,8 +24,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>${java.source.version}</source>
+					<target>${java.target.version}</target>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -49,7 +51,16 @@
 			<artifactId>rdfreactor.generator</artifactId>
 			<version>4.8.3</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.purl.rvl</groupId>
+			<artifactId>rvl-vocabulary</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.purl.viso</groupId>
+			<artifactId>viso-ontology</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<repositories>

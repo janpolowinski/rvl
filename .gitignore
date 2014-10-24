@@ -1,4 +1,5 @@
 *.class
+*.log
 
 # Package Files #
 *.jar
@@ -15,3 +16,6 @@
 *.project
 
 gen
+ogvic.properties
+build-javadoc.xml
+target
