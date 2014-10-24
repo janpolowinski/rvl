@@ -17,6 +17,7 @@ public class VisProject {
 	private D3Generator d3Generator;
 	private Reasoning reasoningDataModel = Reasoning.rdfs;
 	private String name;
+	private String description;
 	private String d3GraphicFile;
 
 	
@@ -55,6 +56,16 @@ public class VisProject {
 
 	public String getName() {
 		return this.name;
+	}
+
+
+	public String getDescription() {
+		return description;
+	}
+
+	
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 

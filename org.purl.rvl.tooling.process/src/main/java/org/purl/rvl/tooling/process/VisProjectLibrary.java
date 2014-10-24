@@ -3,6 +3,7 @@ package org.purl.rvl.tooling.process;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -42,17 +43,9 @@ public class VisProjectLibrary {
 	public void initWithUseCaseTestProjects() throws FileNotFoundException {
 		
 		//////////////////////////////////////////////////////////////////
-		// "Bootstrapping" the latest generated AVM
+		// "Bootstrapping" the latest generated AVM (if there is one already)
 		///////////////////////////////////////////////////////////////////
-		VisProject avmBootstrap = new VisProject("avm");
-		//avmBootstrap.setWriteAVM(false);
-		avmBootstrap.registerMappingFile(ExampleMapping.AVM_EXAMPLE_BOOTSTRAP);
-		avmBootstrap.registerDataFile(ExampleData.AVM);
-		avmBootstrap.registerDataFile(ExampleData.AVM_EXTRA_DATA);
-		//avmBootstrap.setRvlInterpreter(new SimpleRVLInterpreter());
-		avmBootstrap.setD3Generator(new D3GeneratorDeepLabelsJSON());
-		//avmBootstrap.setD3Generator(new D3GeneratorTreeJSON());
-		storeProject(avmBootstrap);
+		initAVMBootstrappingProject();
 				
 		//////////////////////////////////////////////////////////////////
 		// "Bootstrapping" RVL Classes
@@ -197,30 +190,55 @@ public class VisProjectLibrary {
 
 	public void listProjects() {
 		
-		System.out.println("Available Visualization Projects: ");	
+		System.out.println("Available Visualization Projects: ");		
 		
-		/*Set<Entry<String,VisProject>> projects = library.entrySet();
+		Set<Entry<String, VisProject>> projects = library.entrySet();
 		
-		for (Iterator<Entry<String,VisProject>> iterator = projects.iterator(); iterator.hasNext();) {
-			Entry<String, VisProject> entry = (Entry<String, VisProject>) iterator
-					.next();
+		for (Entry<String, VisProject> project : projects) {
 			
-			System.out.println(entry.getValue());	
-		}*/
-		
-		
-		Set<String> projectNames = library.keySet();
-		
-		for (String projectName : projectNames) {
-			System.out.println(projectName);	
+			String line = project.getKey();
+			
+			String description = project.getValue().getDescription();
+			
+			if (null != description) {
+				line += " - " + description;
+			}
+			
+			System.out.println(line);	
 		}
 		
 	}
 
 	public VisProject getProject(String useCaseName) {
+		if (useCaseName.equals("avm")) {
+			try {
+				initAVMBootstrappingProject();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
 		return library.get(useCaseName);
 	}
 	
+	private void initAVMBootstrappingProject() throws FileNotFoundException {
+		
+		VisProject avmBootstrap = new VisProject("avm");
+		//avmBootstrap.setWriteAVM(false);
+		avmBootstrap.registerMappingFile(ExampleMapping.AVM_EXAMPLE_BOOTSTRAP);
+		try {
+			avmBootstrap.registerDataFile(ExampleData.AVM);
+			avmBootstrap.setDescription("available");
+		} catch (FileNotFoundException e) {
+			LOGGER.fine("AVM file was not not found, probably because this is the first run.");
+			avmBootstrap.setDescription("Make sure to run some other project first.");
+		}
+		avmBootstrap.registerDataFile(ExampleData.AVM_EXTRA_DATA);
+		//avmBootstrap.setRvlInterpreter(new SimpleRVLInterpreter());
+		avmBootstrap.setD3Generator(new D3GeneratorDeepLabelsJSON());
+		//avmBootstrap.setD3Generator(new D3GeneratorTreeJSON());
+		storeProject(avmBootstrap);
+	}
+
 	public boolean contains(String projectName){
 		return library.containsKey(projectName);
 	}
