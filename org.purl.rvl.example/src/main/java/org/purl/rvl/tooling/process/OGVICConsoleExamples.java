@@ -11,11 +11,11 @@ import java.io.IOException;
  * @author Jan Polowinski
  *
  */
-public class OGVICConsoleProjectsExamples extends OGVICConsoleProjects {
+public class OGVICConsoleExamples extends OGVICConsole {
 	
     public static void main(String[] args) throws IOException {
     	
-    	OGVICConsoleProjects console =  new OGVICConsoleProjectsExamples();
+    	OGVICConsole console =  new OGVICConsoleExamples();
     	console.runConsole();
         
     }

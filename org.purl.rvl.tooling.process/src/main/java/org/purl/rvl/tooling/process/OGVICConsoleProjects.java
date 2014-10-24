@@ -5,10 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.logging.Logger;
 
-import org.eclipse.jetty.server.handler.ContextHandlerCollection;
-import org.purl.rvl.tooling.d3vis.embeddedserver.context.ContextUtils;
-import org.purl.rvl.tooling.d3vis.embeddedserver.server.JettyServer;
-
 /**
  * @author Jan Polowinski
  *
@@ -17,27 +13,34 @@ public class OGVICConsoleProjects {
 	
 	private final static Logger LOGGER = Logger.getLogger(OGVICConsoleProjects.class.getName()); 
 	
-    public static void main(String[] args) throws IOException {
+	static final String NL = System.getProperty("line.separator");
+
+	private VisProjectLibrary library;
+	
+    public OGVICConsoleProjects(VisProjectLibrary library) {
+    	super();
+    	this.library =  library;
+	}
+
+	public static void main(String[] args) throws IOException {
     	
-    	OGVICConsoleProjects console =  new OGVICConsoleProjects();
+    	OGVICConsoleProjects console =  new OGVICConsoleProjects(new VisProjectLibrary());
     	console.runConsole();
         
     }
 
-	private JettyServer jettyServer;
+	private boolean firstRun = true;
+
 
 	/**
 	 * @throws IOException
 	 */
 	public void runConsole() throws IOException {
-		
-		VisProjectLibrary library = getVisProjectLibrary();
     	
     	// set up interactive process
     	OGVICProcess interactiveProcess = OGVICProcess.getInstance();
     	
     	boolean stop = false;
-    	boolean firstRun = true;
     	String inputString;
     	String projectName;
     	
@@ -51,19 +54,12 @@ public class OGVICConsoleProjects {
     		library.listProjects();
     		System.out.println();
     		
-    		if (firstRun) {
-    			// start getting user input
-		        System.out.print("Enter project name: ");
-	    	} else {
-		        // offer to stop program or run again
-		        System.out.print("Stop program (q) or run further visualisation project (p)? : ");
-	    	}
+    		printLegend();
     		
     		inputString = br.readLine();
     		
-	        if (inputString.equals("q")) {
+    		if (inputString.equals("q")) {
 	        	stop = true;
-	        	onExit();
 	        	continue;
 	        } else {
 	        	projectName = inputString;
@@ -72,16 +68,6 @@ public class OGVICConsoleProjects {
 	        		continue;
 	        	}
 	        }
-
-	        /*
-		        // max relations
-		        System.out.print("Enter number of max relations:");
-		        try {
-		            int i = Integer.parseInt(br.readLine());
-		            System.out.print("Will ignore other than the first " + i + " relations.");
-		        } catch(NumberFormatException nfe){
-		            System.err.println("Invalid Format!");
-		        }*/
 
 	        // load the project
 	        try {
@@ -102,48 +88,42 @@ public class OGVICConsoleProjects {
 	        firstRun = false;
 	        	
     	}
+    	onExit();
+	}
+
+	private void printLegend() {
+		
+		String legend = "";
+		
+		String manualModeSelection = "Enter a visualisation project name from the above list. ";
+		String manualQuit = "Entering (q) will take you to the main menu.";
+		String hl = "###########################################" + NL;
+		
+		if (firstRun) {
+			legend += hl;
+			legend += "Visualisation Library mode" + NL;
+			legend += "(for selecting from the shipped tests and use-case examples)" + NL;
+			legend += hl;
+			// start getting user input
+	        legend += manualModeSelection + " " + manualQuit + ":" + NL;
+    	} else {
+	        // offer to stop program or run again
+	        legend += manualModeSelection + " " + manualQuit + ":" + NL;
+    	}
+		
+		System.out.print(legend);
 	}
 
 	private void onInit() {
-		ContextHandlerCollection contexts = ContextUtils.getContexts();
-		jettyServer = new JettyServer();
-		jettyServer.setHandler(contexts);
+
 	}
 
 	private void onStart() {
-		try {
-			startFrontEndServer();
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(0);
-		}
+
 	}
 	
 	private void onExit() {
-		try {
-			stopFrontEndServer();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
-	private void startFrontEndServer() throws Exception {
-		LOGGER.info("Starting Frontend-Server ...");
-		jettyServer.start();
-		LOGGER.info("Started Frontend-Server");
-	}
-	
-	private void stopFrontEndServer() throws Exception {
-		if (jettyServer.isStarted()) {
-			LOGGER.info("Stopping Frontend-Server ...");
-			jettyServer.stop();
-			LOGGER.info("Stopped Frontend-Server");
-		}
-	}
-
-	protected VisProjectLibrary getVisProjectLibrary() {
-		VisProjectLibrary library = VisProjectLibrary.getInstance();
-		return library;
 	}
     
 }

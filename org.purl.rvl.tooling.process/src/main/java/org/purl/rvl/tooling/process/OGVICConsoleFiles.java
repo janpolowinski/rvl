@@ -15,23 +15,26 @@ import java.util.logging.Logger;
  */
 public class OGVICConsoleFiles {
 	
-	private final static Logger LOGGER = Logger.getLogger(OGVICConsoleFiles.class.getName()); 
+	private final static Logger LOGGER = Logger.getLogger(OGVICConsoleFiles.class.getName());
+	static final String NL = System.getProperty("line.separator");
 	
     public static void main(String[] args) throws IOException { 
 
-    	runConsole();
+    	new OGVICConsoleFiles().runConsole();
         
     }
+
+	private boolean firstRun = true;
 
 	/**
 	 * @throws IOException
 	 */
-	public static void runConsole() throws IOException {
+	public void runConsole() throws IOException {
+		
 		// set up interactive process
     	OGVICProcess interactiveProcess = OGVICProcess.getInstance();
     	
     	boolean stop = false;
-    	boolean firstRun = true;
     	String inputString;
     	String projectName = "adhoc project";
 
@@ -43,7 +46,7 @@ public class OGVICConsoleFiles {
     		
     		if (!firstRun) {
 		        // offer to stop program or run (again)
-		        System.out.print("Stop program (q) or run (further) visualization process (v)? : ");
+		        System.out.print("Quit to main menu (q) or run (further) visualization process (v)? : ");
 		        
 		    	inputString = br.readLine();
 	    		
@@ -92,6 +95,7 @@ public class OGVICConsoleFiles {
 	        firstRun = false;
 	        	
     	}
+    		
 	}
-    
+	 
 }
