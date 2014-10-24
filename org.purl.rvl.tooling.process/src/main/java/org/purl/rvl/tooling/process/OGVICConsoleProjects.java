@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.logging.Logger;
 
+import org.eclipse.jetty.server.handler.ContextHandlerCollection;
+import org.purl.rvl.tooling.d3vis.embeddedserver.context.ContextUtils;
+import org.purl.rvl.tooling.d3vis.embeddedserver.server.JettyServer;
+
 /**
  * @author Jan Polowinski
  *
@@ -19,6 +23,8 @@ public class OGVICConsoleProjects {
     	console.runConsole();
         
     }
+
+	private JettyServer jettyServer;
 
 	/**
 	 * @throws IOException
@@ -37,6 +43,9 @@ public class OGVICConsoleProjects {
     	
     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     	
+    	onInit();
+    	onStart();
+    	
     	while (stop == false) {
     		
     		library.listProjects();
@@ -54,6 +63,7 @@ public class OGVICConsoleProjects {
     		
 	        if (inputString.equals("q")) {
 	        	stop = true;
+	        	onExit();
 	        	continue;
 	        } else {
 	        	projectName = inputString;
@@ -92,6 +102,43 @@ public class OGVICConsoleProjects {
 	        firstRun = false;
 	        	
     	}
+	}
+
+	private void onInit() {
+		ContextHandlerCollection contexts = ContextUtils.getContexts();
+		jettyServer = new JettyServer();
+		jettyServer.setHandler(contexts);
+	}
+
+	private void onStart() {
+		try {
+			startFrontEndServer();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
+	}
+	
+	private void onExit() {
+		try {
+			stopFrontEndServer();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void startFrontEndServer() throws Exception {
+		LOGGER.info("Starting Frontend-Server ...");
+		jettyServer.start();
+		LOGGER.info("Started Frontend-Server");
+	}
+	
+	private void stopFrontEndServer() throws Exception {
+		if (jettyServer.isStarted()) {
+			LOGGER.info("Stopping Frontend-Server ...");
+			jettyServer.stop();
+			LOGGER.info("Stopped Frontend-Server");
+		}
 	}
 
 	protected VisProjectLibrary getVisProjectLibrary() {
