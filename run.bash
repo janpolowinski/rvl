@@ -2,4 +2,4 @@
 
 ./open-fe.bash &
 
-./console-projects.bash
+./console.bash
