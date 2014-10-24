@@ -2,11 +2,8 @@ package org.purl.rvl.tooling.d3vis.embeddedserver.main;
 
 import java.awt.EventQueue;
 
-import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
-import org.purl.rvl.tooling.d3vis.embeddedserver.context.AppContextBuilder;
-import org.purl.rvl.tooling.d3vis.embeddedserver.context.GenContextBuilder;
-import org.purl.rvl.tooling.d3vis.embeddedserver.context.StaticContextBuilder;
+import org.purl.rvl.tooling.d3vis.embeddedserver.context.ContextUtils;
 import org.purl.rvl.tooling.d3vis.embeddedserver.server.JettyServer;
 import org.purl.rvl.tooling.d3vis.embeddedserver.ui.ServerRunner;
 
@@ -20,12 +17,8 @@ public class JettyStart {
 
 	public static void main(String[] args) {
 		
-		ContextHandlerCollection contexts = new ContextHandlerCollection();
-
-		contexts.setHandlers(new Handler[] { new StaticContextBuilder().buildWebAppContext() });
-		contexts.addHandler(new GenContextBuilder().buildWebAppContext());
-		contexts.addHandler(new AppContextBuilder().buildWebAppContext());
-
+		ContextHandlerCollection contexts = ContextUtils.getContexts();
+		
 		final JettyServer jettyServer = new JettyServer();
 		
 		jettyServer.setHandler(contexts);
