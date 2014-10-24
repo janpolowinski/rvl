@@ -1,9 +1,7 @@
 #!/bin/bash
 
-./start-fe-server.bash &
-
-./open-fe.bash &
+./install.bash
 
 ./jar.bash
 
-./console-projects.bash
+./run.bash
