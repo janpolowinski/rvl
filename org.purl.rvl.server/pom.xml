@@ -26,18 +26,22 @@
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-grizzly2-http</artifactId>
         </dependency>
-        <!-- uncomment this to get JSON support:
          <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-moxy</artifactId>
         </dependency>
-        -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.9</version>
             <scope>test</scope>
         </dependency>
+		
+		<dependency>
+		  	<groupId>org.purl.rvl</groupId>
+		  	<artifactId>rvl-example</artifactId>
+		  	<version>0.0.1-SNAPSHOT</version>
+		</dependency>
     </dependencies>
 
     <build>
