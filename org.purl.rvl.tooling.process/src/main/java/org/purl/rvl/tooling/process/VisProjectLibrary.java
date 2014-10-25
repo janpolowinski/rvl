@@ -1,6 +1,7 @@
 package org.purl.rvl.tooling.process;
 
 import java.io.FileNotFoundException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -248,6 +249,10 @@ public class VisProjectLibrary {
 	        instance = new VisProjectLibrary();
 	    }
 	    return instance;
+	}
+	
+	public Collection<? extends VisProject> getProjects() {
+		return library.values();
 	}
 	
 }
