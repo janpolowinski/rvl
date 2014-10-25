@@ -1,9 +1,14 @@
 package org.purl.rvl.server;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -54,6 +59,29 @@ public class ProjectsResource {
 		projects.addAll(VisProjectLibraryExamples.getInstance().getProjects());
 		//System.out.println("projects:" + projects);
 		return projects;
+	}
+	
+	@POST
+	@Produces(MediaType.TEXT_HTML)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public void newVisProject(@FormParam("id") String id, @FormParam("name") String name,
+			@FormParam("description") String description, @Context HttpServletResponse servletResponse)
+			throws IOException {
+
+		// System.out.println("hello" + id + description + summary + "");
+
+		VisProject project = new VisProject(id);
+		if (name != null) {
+			project.setDescription(name);
+		}
+		if (description != null) {
+			project.setDescription(description);
+		}
+		VisProjectLibraryExamples.getInstance().storeProject(project);
+
+		// servletResponse.sendRedirect("http://localhost:8585/semvis/forms/form.html");
+		// servletResponse.sendRedirect("testsincenothingworks");
+		servletResponse.setStatus(HttpServletResponse.SC_OK);
 	}
 
 
