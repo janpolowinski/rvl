@@ -72,7 +72,7 @@ public class ProjectsResource {
 
 		VisProject project = new VisProject(id);
 		if (name != null) {
-			project.setDescription(name);
+			project.setName(name);
 		}
 		if (description != null) {
 			project.setDescription(description);

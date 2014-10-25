@@ -14,6 +14,7 @@ import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.process.VisProject;
 import org.purl.rvl.tooling.process.VisProjectLibrary;
+import org.purl.rvl.tooling.process.VisProjectLibraryExamples;
 
 /**
  * Root resource (exposed at "gend3" path)
@@ -35,7 +36,7 @@ public class GeneratedD3Resource {
 			e.printStackTrace();
 		}
 		
-		VisProject project = VisProjectLibrary.getInstance().getProject("rvl");
+		VisProject project = VisProjectLibraryExamples.getInstance().getProject("rvl");
 		
 		try {
 			process.loadProject(project);
