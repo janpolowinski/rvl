@@ -1,5 +1,6 @@
 package org.purl.rvl.server;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
 
+import org.purl.rvl.exception.D3GeneratorException;
+import org.purl.rvl.exception.OGVICModelsException;
+import org.purl.rvl.exception.OGVICRepositoryException;
+import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
+import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.process.VisProject;
+import org.purl.rvl.tooling.process.VisProjectLibrary;
 import org.purl.rvl.tooling.process.VisProjectLibraryExamples;
 
 /**
@@ -83,6 +90,44 @@ public class ProjectsResource {
 		// servletResponse.sendRedirect("testsincenothingworks");
 		servletResponse.setStatus(HttpServletResponse.SC_OK);
 	}
+	
+	@POST
+	@Produces(MediaType.TEXT_HTML)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Path("/run")
+	public void runNewVisProject(@FormParam("id") String id, @FormParam("data") String data,
+			@FormParam("mappings") String mappings, @Context HttpServletResponse servletResponse)
+			throws IOException {
+
+		System.out.println("posted" + id + data + mappings + "");
+
+		VisProject project = new VisProject(id);
+		if (data != null) {
+			//project.setName(name);
+			System.out.println(data);
+		}
+		if (mappings != null) {
+			//project.setDescription(description);
+			System.out.println(mappings);
+		}
+		VisProjectLibraryExamples.getInstance().storeProject(project);
+		
+		runProject(id);
+
+		// servletResponse.sendRedirect("http://localhost:8585/semvis/forms/form.html");
+		// servletResponse.sendRedirect("testsincenothingworks");
+		servletResponse.setStatus(HttpServletResponse.SC_OK);
+	}
+	
+	@GET
+    @Produces(MediaType.TEXT_PLAIN)
+	@Path("/run/{id}")
+    public String runVisProject(@PathParam("id") String id) {
+		
+		System.out.println("/run/" + id);
+
+		return runProject(id);
+    }
 
 
 	// Defines that the next path parameter after projects is
@@ -92,6 +137,46 @@ public class ProjectsResource {
 	@Path("{project}")
 	public ProjectResource getProject(@PathParam("project") String id) {
 		return new ProjectResource(uriInfo, request, id);
+	}
+	
+	
+	private String runProject(String id) {
+	
+		OGVICProcess process = OGVICProcess.getInstance();
+	
+		try {
+			process.registerOntologyFile(OntologyFile.VISO_GRAPHIC);
+			process.registerOntologyFile(OntologyFile.RVL);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		VisProject project = VisProjectLibraryExamples.getInstance().getProject(id);
+		
+		try {
+			process.loadProject(project);
+		} catch (OGVICRepositoryException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		try {
+			process.runOGVICProcess();
+		} catch (D3GeneratorException | OGVICModelsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		String json = "could not be generated";
+		
+		try {
+			json = process.getGeneratedD3json();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	
+		return json;
 	}
 
 }
