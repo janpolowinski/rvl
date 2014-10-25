@@ -31,6 +31,8 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 	
 	public void initWithUseCaseTestProjects() throws FileNotFoundException {
 		
+		LOGGER.fine("Initializing example visualization projects library");
+		
 		// init basic test projects defined in other maven projects
 		super.initWithUseCaseTestProjects();
 		

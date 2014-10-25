@@ -4,9 +4,9 @@ import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 
 public class ContextUtils {
-	
+
 	public static ContextHandlerCollection getContexts() {
-		
+
 		ContextHandlerCollection contexts = new ContextHandlerCollection();
 
 		contexts.setHandlers(new Handler[] { new StaticContextBuilder().buildWebAppContext() });
