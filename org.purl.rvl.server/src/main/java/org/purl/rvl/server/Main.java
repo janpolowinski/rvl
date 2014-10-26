@@ -24,6 +24,7 @@ public class Main {
 		// create a resource config that scans for JAX-RS resources and providers
 		// in org.purl.rvl.server package
 		final ResourceConfig rc = new ResourceConfig().packages("org.purl.rvl.server");
+		rc.register("com.production.resource.ResponseCorsFilter");
 
 		// create and start a new instance of grizzly http server
 		// exposing the Jersey application at BASE_URI

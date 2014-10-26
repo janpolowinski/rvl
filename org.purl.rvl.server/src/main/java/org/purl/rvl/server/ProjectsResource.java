@@ -24,7 +24,6 @@ import org.purl.rvl.exception.OGVICRepositoryException;
 import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.process.VisProject;
-import org.purl.rvl.tooling.process.VisProjectLibrary;
 import org.purl.rvl.tooling.process.VisProjectLibraryExamples;
 
 /**
@@ -117,16 +116,44 @@ public class ProjectsResource {
 		// servletResponse.sendRedirect("http://localhost:8585/semvis/forms/form.html");
 		// servletResponse.sendRedirect("testsincenothingworks");
 		servletResponse.setStatus(HttpServletResponse.SC_OK);
+		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
+		servletResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
 	}
 	
 	@GET
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
 	@Path("/run/{id}")
-    public String runVisProject(@PathParam("id") String id) {
+    public String runVisProject(@PathParam("id") String id, @Context HttpServletResponse servletResponse) {
 		
 		System.out.println("/run/" + id);
-
-		return runProject(id);
+		
+		String jsonResult = runProject(id);
+		
+		if (null!=servletResponse) {
+		
+		//servletResponse.setStatus(HttpServletResponse.SC_OK);
+		servletResponse.addHeader("Access-Control-Allow-Origin", "*");
+		servletResponse.addHeader("Access-Control-Allow-Methods", "GET");
+		} else {
+			System.out.println("servlet response was null");
+		}
+		
+		return jsonResult;
+    }
+	
+	
+	@GET
+    @Produces({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
+	@Path("/latest")
+    public String getLatestGeneratedD3() {
+		
+		System.out.println("/run/latest");
+		
+		String jsonResult = OGVICProcess.getInstance().getGeneratedD3json();
+		
+		System.out.println(jsonResult);
+		
+		return jsonResult;
     }
 
 
