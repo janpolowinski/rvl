@@ -1,9 +1,14 @@
 package org.purl.rvl.server;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -16,8 +21,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.ontoware.rdf2go.Reasoning;
 import org.purl.rvl.exception.D3GeneratorException;
 import org.purl.rvl.exception.OGVICModelsException;
 import org.purl.rvl.exception.OGVICRepositoryException;
@@ -39,20 +47,22 @@ public class ProjectsResource {
 	UriInfo uriInfo;
 	@Context
 	Request request;
+	
+	
+	final static Random random = new Random();
 
+	
 	// Return the list of projects to a browser
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	public List<VisProject> getVisProjectsBrowser() {
 		List<VisProject> projects = new ArrayList<VisProject>();
-		//System.out.println("before getting projects (browser) ");
 		try {
 			projects.addAll(VisProjectLibraryExamples.getInstance().getProjects());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
-		//System.out.println("projects:" + projects);
 		return projects;
 	}
 
@@ -60,10 +70,8 @@ public class ProjectsResource {
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public List<VisProject> getProjects() {
-		//System.out.println("before getting projects (application) ");
 		List<VisProject> projects = new ArrayList<VisProject>();
 		projects.addAll(VisProjectLibraryExamples.getInstance().getProjects());
-		//System.out.println("projects:" + projects);
 		return projects;
 	}
 	
@@ -74,7 +82,7 @@ public class ProjectsResource {
 			@FormParam("description") String description, @Context HttpServletResponse servletResponse)
 			throws IOException {
 
-		// System.out.println("hello" + id + description + summary + "");
+		System.out.println("Creating new project " + id);
 
 		VisProject project = new VisProject(id);
 		if (name != null) {
@@ -85,41 +93,79 @@ public class ProjectsResource {
 		}
 		VisProjectLibraryExamples.getInstance().storeProject(project);
 
-		// servletResponse.sendRedirect("http://localhost:8585/semvis/forms/form.html");
-		// servletResponse.sendRedirect("testsincenothingworks");
+		servletResponse.sendRedirect("http://localhost:8585/semvis/forms/run.html");
 		servletResponse.setStatus(HttpServletResponse.SC_OK);
 	}
 	
 	@POST
-	@Produces(MediaType.TEXT_HTML)
+	@Produces(MediaType.APPLICATION_XML)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Path("/run")
-	public void runNewVisProject(@FormParam("id") String id, @FormParam("data") String data,
-			@FormParam("mappings") String mappings, @Context HttpServletResponse servletResponse)
-			throws IOException {
+	public Response runNewVisProject(
+			@FormParam("id") String id,
+			@FormParam("data") String data,
+			@FormParam("mappings") String mappings,
+			@FormParam("stay") String stay,
+			@Context HttpServletResponse servletResponse
+			)
+			throws IOException, URISyntaxException {
+		
+		System.out.println("Running new project " + id);
 
-		System.out.println("posted" + id + data + mappings + "");
-
+		if (id == null || id.isEmpty()) {
+			return Response.status(Status.BAD_REQUEST).entity("<message>ID is required.</message>").build();
+		} 
+		
 		VisProject project = new VisProject(id);
+		project.setReasoningDataModel(Reasoning.rdfs);
+		
 		if (data != null) {
-			//project.setName(name);
-			System.out.println(data);
+			File newTmpDataFile = saveToTempFile(data);
+			project.registerDataFile(newTmpDataFile.getPath());
 		}
 		if (mappings != null) {
-			//project.setDescription(description);
-			System.out.println(mappings);
+			File newTmpMappingFile = saveToTempFile(mappings);
+			project.registerMappingFile(newTmpMappingFile.getPath());
 		}
+		
 		VisProjectLibraryExamples.getInstance().storeProject(project);
 		
-		runProject(id);
+		System.out.println("Created new project " + project.getId());
+		
+		runProject(project.getId());
 
-		// servletResponse.sendRedirect("http://localhost:8585/semvis/forms/form.html");
-		// servletResponse.sendRedirect("testsincenothingworks");
-		servletResponse.setStatus(HttpServletResponse.SC_OK);
-		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
-		servletResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+		if (null != stay && stay.equals("on")) {
+			// just stay on the page, don't show any new content
+			return Response.status(Status.NO_CONTENT).build();
+		} else {
+			//URI redirectTo = new URI("http://localhost:8080/semvis/projects/");
+			URI redirectTo = new URI("http://localhost:8585/semvis/gen/html/index-rest.html");
+			System.out.println("Redirecting to " + redirectTo);
+			return Response.seeOther(redirectTo).build();		
+		}
+			
+//		code below only works when servlets are available:
+//		"When deploying a JAX-RS application using servlet then ServletConfig, ServletContext, HttpServletRequest and HttpServletResponse are available using @Context. " taken from: 
+//		https://jersey.java.net/documentation/latest/user-guide.html#d0e5169
+//
+//		servletResponse.sendRedirect("http://localhost:8080/semvis/projects");
+//		servletResponse.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
+//		servletResponse.setHeader("Location", "http://localhost:8080/semvis/projects");
+//		servletResponse.setContentType(MediaType.APPLICATION_XML);
+//		servletResponse.setStatus(HttpServletResponse.SC_OK);
+//		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
+//		servletResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
 	}
 	
+	public static File saveToTempFile(String data) throws IOException {
+		File tmpFile = new File("gen/tmp/data/tmp-data-" + random.nextDouble() + System.currentTimeMillis()  + ".tmp");
+		FileWriter writer;
+		writer = new FileWriter(tmpFile);
+		writer.write(data);
+		writer.close();
+		return tmpFile;
+	}
+
 	@GET
     @Produces({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
 	@Path("/run/{id}")
@@ -129,12 +175,7 @@ public class ProjectsResource {
 		
 		String jsonResult = runProject(id);
 		
-		if (null!=servletResponse) {
-		
-		//servletResponse.setStatus(HttpServletResponse.SC_OK);
-		servletResponse.addHeader("Access-Control-Allow-Origin", "*");
-		servletResponse.addHeader("Access-Control-Allow-Methods", "GET");
-		} else {
+		if (null == servletResponse) {
 			System.out.println("servlet response was null");
 		}
 		
