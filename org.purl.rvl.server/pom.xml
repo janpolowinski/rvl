@@ -69,6 +69,10 @@
                 </executions>
                 <configuration>
                     <mainClass>org.purl.rvl.server.Main</mainClass>
+                    <arguments>
+                   	     <argument>-Xms1024m</argument>
+         				 <argument>-Xmx2056m</argument>
+                    </arguments>
                 </configuration>
             </plugin>
         </plugins>

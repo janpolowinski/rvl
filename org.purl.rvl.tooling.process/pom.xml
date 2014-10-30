@@ -44,7 +44,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>org.purl.rvl.tooling.process.OGVICConsoleFiles</mainClass>
+							<mainClass>org.purl.rvl.tooling.process.OGVICConsole</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
@@ -52,6 +52,26 @@
 					</descriptorRefs>
 				</configuration>
 			</plugin>
+			
+			 <plugin>
+		         <groupId>org.codehaus.mojo</groupId>
+		         <artifactId>exec-maven-plugin</artifactId>
+		         <version>1.2.1</version>
+		         <executions>
+		             <execution>
+		                 <goals>
+		                     <goal>java</goal>
+		                 </goals>
+		             </execution>
+		         </executions>
+		         <configuration>
+		             <mainClass>org.purl.rvl.tooling.process.OGVICConsole</mainClass>
+		             <arguments>
+		            	     <argument>-Xms1024m</argument>
+		  				 <argument>-Xmx2056m</argument>
+		             </arguments>
+		         </configuration>
+    		 </plugin>
 		</plugins>
 	</build>
 	
