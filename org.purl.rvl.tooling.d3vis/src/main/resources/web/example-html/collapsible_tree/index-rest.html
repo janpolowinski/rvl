@@ -72,6 +72,7 @@
 		//var mInfo = d3.select("body").append("div");
         
         var svg = d3.select("body").append("svg:svg")
+        	.style("z-index", -1)
        		.attr("id", "svg")
             .attr("width", width)
             .attr("height", height);
@@ -99,7 +100,8 @@
 		/* START DATA DRIVE       */
         /**************************/	
         
-        d3.json("../../gen/json/graph-data.json", function(error, graph) {
+        afterLoading = function(error, graph) {
+        //d3.json("../../gen/json/graph-data.json", function(error, graph) {
 		//d3.json("../../example-data/graph-data-labeling-advanced.json", function(error, graph) {
 		
 			/*********************************/
@@ -386,10 +388,33 @@
 			
 			force.on("tick", tick);
 
+        }
+		
+        reLoad = function() {
+        	d3.json("http://localhost:8080/semvis/projects/latest", afterLoading);
+        }
+
+        loadProject = function(projectID) {
+        	d3.json("http://localhost:8080/semvis/projects/run/" + projectID, afterLoading);
+        }
+		
+        d3.json("http://localhost:8080/semvis/projects", function (error, result) {
+
+        	var projectsEnter = d3.select("body")
+        	.append("div")
+        	//.style("z-index","100000")
+        	//.style("pointer-events","auto")
+        	.selectAll("button")
+            .data(result)
+            .enter().append("button")
+            .attr("onclick", function(d){return "loadProject('" + d.id + "')";})
+            .text(function(d){return d.id;});
+
         });
                                                                         
         </script>
 		
+		<button onclick="reLoad()">Reload</button>
 		
         <!-- somehow MUST NOT be before the script! -->
         <svg id="svg-effects">
