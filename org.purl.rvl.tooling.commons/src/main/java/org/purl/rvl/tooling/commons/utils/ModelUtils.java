@@ -4,18 +4,15 @@
 package org.purl.rvl.tooling.commons.utils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Reader;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
@@ -60,6 +57,9 @@ public class ModelUtils {
 			syntax = Syntax.Turtle; 
 		} else if (extension.equals("owl")) {
 			syntax = Syntax.RdfXml; 
+		} else if (extension.equals("tmp")) {
+			syntax = Syntax.Turtle; 
+			LOGGER.warning("assuming turtle syntax"); // FIXME
 		} else {
 			throw new IOException("Unsupported file extension '" + extension + "'");
 		}
