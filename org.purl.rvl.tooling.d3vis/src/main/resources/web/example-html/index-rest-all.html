@@ -15,8 +15,8 @@
     	<script type="text/javascript" src="../../js/ogvic.d3.utils.js"></script>
     	<!-- supported graphic types -->
     	<script type="text/javascript" src="../../js/force-directed-graph.js"></script>
-    	<script type="text/javascript" src="../../js/collapsible-tree.js"></script>
     	<script type="text/javascript" src="../../js/circle-packing-zoomable.js"></script>
+    	<script type="text/javascript" src="../../js/collapsible-tree.js"></script>
     </head>
     <body>
         
@@ -29,9 +29,9 @@
 		
 		// OGVIC
         var drawLinks = true; // choose whether only nodes should be drawn and layouted
-        var complexLabeling = true;
-        var simpleLabeling = false;
-        var alignedConnectorLabeling = false;
+        var complexLabeling = true; // may be overridden by graphic loading functions
+        var simpleLabeling = false; // may be overridden by graphic loading functions
+        var alignedConnectorLabeling = false; 
         
 
 						
@@ -93,12 +93,15 @@
         /**************************/	
         
         //afterLoading = loadForceDirectedGraph;
-        afterLoading = loadCirclePackingZoomable;
-        //afterLoading = collapsibleTree;
+        //afterLoading = loadCirclePackingZoomable;
+        afterLoading = loadCollapsibleTree;
         	
         reLoad = function() {
     	 	reInitContainers();
     		d3.json("http://localhost:8080/semvis/projects/latest", afterLoading);
+    		//d3.json("../../gen/json/tree-data.json", afterLoading);
+    		//d3.json("../../gen/json/graph-data.json", function(error, graph) {
+			//d3.json("../../example-data/graph-data-labeling-advanced.json", function(error, graph) {
     	}
 
     	loadProject = function(projectID) {

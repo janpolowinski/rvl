@@ -8,10 +8,6 @@
 /* SETTINGS       */
 /******************/
 
-// labeling
-var complexLabeling = false; // not yet fully implemented
-var simpleLabeling = true;
-
 //shapes as overlayed transparent svg symbol not to destroy circle-packing layout
 var shapeAsOverlay = true;
 
@@ -49,8 +45,12 @@ var pack = d3.layout.pack()
 
 loadCirclePackingZoomable = function(error, root) {
 	
-    var focus = root,
-     nodes = pack.nodes(root);
+	// override global settings
+	complexLabeling = false; // not yet fully implemented
+	simpleLabeling = true;
+	
+     var focus = root,
+     	 nodes = pack.nodes(root);
 	  
  	 var symbolFunction = d3.svg.symbol()
 						.size(2000)

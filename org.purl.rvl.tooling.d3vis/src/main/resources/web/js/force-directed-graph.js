@@ -43,8 +43,10 @@ var force = self.force = d3.layout.force()
 /*****************************************/
 
 loadForceDirectedGraph = function(error, graph) {
-	//d3.json("../../gen/json/graph-data.json", function(error, graph) {
-	//d3.json("../../example-data/graph-data-labeling-advanced.json", function(error, graph) {
+	
+	// override global settings
+	complexLabeling = false; // not yet fully implemented
+	simpleLabeling = true;
 	
 		/*********************************/
 		/* LOCAL ADAPTED PLUGINS         */
