@@ -68,28 +68,47 @@
 		/******************************/
 		/* BASIC PAGE BUILDING        */
         /******************************/
+        
+        var vis;
+		var labelContainerSpace;
+		
+        var svg = d3.select("body").append("svg:svg")
+    	.style("z-index", -1)
+   		.attr("id", "svg")
+        .attr("width", width)
+        .attr("height", height);
+    
+        
+        clearVis = function() {
+        	vis.remove();
+        	//vis.selectAll("*").remove();
+        	labelContainerSpace.remove();
+        }
+        
+        initContainers = function() {
+	        	
+	        vis = svg
+	 	        .append("svg:g")
+	 	        .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
+	 	        ;
+	
+	 		labelContainerSpace = d3.select("body").append("div")
+	 			.attr("id", "labelContainerSpace")
+	 			.style("margin-top", m[0]+"px")
+	 			.style("margin-left", m[3]+"px")
+	 		    .attr("width", width + "px")
+	 		    .attr("height", height + "px");
+        }
+        
+        reInitContainers = function() {
+        	clearVis();
+        	initContainers();
+        }
 		
 		//var mInfo = d3.select("body").append("div");
-        
-        var svg = d3.select("body").append("svg:svg")
-        	.style("z-index", -1)
-       		.attr("id", "svg")
-            .attr("width", width)
-            .attr("height", height);
-        
-        var vis = svg
-	        .append("svg:g")
-	        .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
-	        ;
-		    
-		var labelContainerSpace = d3.select("body").append("div")
-			.attr("id", "labelContainerSpace")
-			.style("margin-top", m[0]+"px")
-			.style("margin-left", m[3]+"px")
-		    .attr("width", width + "px")
-		    .attr("height", height + "px");
-		    
-        	
+		
+		initContainers();
+		
         // Define Markers to be used in arrow paths
         svg.avmProvideMarkerCollection();
         
@@ -391,10 +410,14 @@
         }
 		
         reLoad = function() {
+         	reInitContainers();
         	d3.json("http://localhost:8080/semvis/projects/latest", afterLoading);
         }
+        
+
 
         loadProject = function(projectID) {
+        	reInitContainers();
         	d3.json("http://localhost:8080/semvis/projects/run/" + projectID, afterLoading);
         }
 		
@@ -417,6 +440,8 @@
         </script>
 		
 		<button onclick="reLoad()">Reload</button>
+		<button onclick="reInitContainers()">Re init containers</button>
+		<button onclick="clearVis()">Clear visualization</button>
 		
         <!-- somehow MUST NOT be before the script! -->
         <svg id="svg-effects">
