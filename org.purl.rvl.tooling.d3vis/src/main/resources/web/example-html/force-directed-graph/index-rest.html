@@ -69,10 +69,13 @@
 		/* BASIC PAGE BUILDING        */
         /******************************/
         
+		var visContainer;
         var vis;
 		var labelContainerSpace;
+
+		visContainer = d3.select("body").append("div");
 		
-        var svg = d3.select("body").append("svg:svg")
+        var svg = visContainer.append("svg:svg")
     	.style("z-index", -1)
    		.attr("id", "svg")
         .attr("width", width)
@@ -92,7 +95,7 @@
 	 	        .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
 	 	        ;
 	
-	 		labelContainerSpace = d3.select("body").append("div")
+	 		labelContainerSpace = visContainer.append("div")
 	 			.attr("id", "labelContainerSpace")
 	 			.style("margin-top", m[0]+"px")
 	 			.style("margin-left", m[3]+"px")
