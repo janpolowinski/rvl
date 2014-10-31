@@ -45,8 +45,8 @@ var force = self.force = d3.layout.force()
 loadForceDirectedGraph = function(error, graph) {
 	
 	// override global settings
-	complexLabeling = false; // not yet fully implemented
-	simpleLabeling = true;
+	complexLabeling = true; // not yet fully implemented
+	simpleLabeling = false;
 	
 		/*********************************/
 		/* LOCAL ADAPTED PLUGINS         */

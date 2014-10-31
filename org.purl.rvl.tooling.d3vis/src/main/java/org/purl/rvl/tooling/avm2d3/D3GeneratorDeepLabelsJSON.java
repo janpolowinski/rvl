@@ -241,7 +241,13 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 	}
 	
 	public String getDefaultD3GraphicFile(){
-		return "force-directed-graph/index.html";
+		return getDefaultGraphicType()+ "/index.html";
+	}
+
+
+	@Override
+	public String getDefaultGraphicType() {
+		return "force-directed-graph";
 	}
 	
 }

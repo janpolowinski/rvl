@@ -208,7 +208,12 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 	}
 	
 	public String getDefaultD3GraphicFile(){
-		return "collapsible_tree/index.html";
+		return getDefaultGraphicType() + "/index.html";
+	}
+
+	@Override
+	public String getDefaultGraphicType() {
+		return "collapsible-tree";
 	}
 	
 }

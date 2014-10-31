@@ -205,7 +205,7 @@ public class OGVICProcess {
 		}
 
 		// try to get html file for d3 rendering from project
-		if (null != project.getD3GraphicFile()){
+		if (null != project.getDefaultGraphicType()){
 			setD3GraphicFile(project.getD3GraphicFile());
 		} else if (null != d3Generator) {
 			setD3GraphicFile(d3Generator.getDefaultD3GraphicFile());

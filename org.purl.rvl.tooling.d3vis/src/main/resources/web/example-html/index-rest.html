@@ -86,19 +86,19 @@
         svg.avmProvideMarkerCollection();
         
         
-			
+        var graphicLoadingFunctions = new Array ();
+		graphicLoadingFunctions['force-directed-graph'] = loadForceDirectedGraph;
+		graphicLoadingFunctions['circle-packing-zoomable'] = loadCirclePackingZoomable;
+		graphicLoadingFunctions['collapsible-tree'] = loadCollapsibleTree;
+		graphicLoadingFunctions['undefined'] = loadForceDirectedGraph;
 			
 		/**************************/
 		/* START DATA DRIVE       */
         /**************************/	
-        
-        //afterLoading = loadForceDirectedGraph;
-        //afterLoading = loadCirclePackingZoomable;
-        afterLoading = loadCollapsibleTree;
         	
         reLoad = function() {
     	 	reInitContainers();
-    		d3.json("http://localhost:8080/semvis/projects/latest", afterLoading);
+    		d3.json("http://localhost:8080/semvis/projects/latest", graphicLoadingFunctions['force-directed-graph']);
     		//d3.json("../../gen/json/tree-data.json", afterLoading);
     		//d3.json("../../gen/json/graph-data.json", function(error, graph) {
 			//d3.json("../../example-data/graph-data-labeling-advanced.json", function(error, graph) {
@@ -106,7 +106,12 @@
 
     	loadProject = function(projectID) {
     		reInitContainers();
-    		d3.json("http://localhost:8080/semvis/projects/run/" + projectID, afterLoading);
+    		d3.json("http://localhost:8080/semvis/projects/run/" + projectID, graphicLoadingFunctions['force-directed-graph']);
+    	}
+    	
+    	loadProject2 = function(projectID, defaultGraphicType) {
+    		reInitContainers();
+    		d3.json("http://localhost:8080/semvis/projects/run/" + projectID, graphicLoadingFunctions[defaultGraphicType]);
     	}
     	
     	d3.json("http://localhost:8080/semvis/projects", function (error, result) {
@@ -118,8 +123,8 @@
     		.selectAll("button")
     	    .data(result)
     	    .enter().append("button")
-    	    .attr("onclick", function(d){return "loadProject('" + d.id + "')";})
-    	    .text(function(d){return d.id;});
+    	    .attr("onclick", function(d){return "loadProject2('" + d.id + "','" + d.defaultGraphicType + "')";})
+    	    .text(function(d){return d.id + " " + d.defaultGraphicType ;});
     	
     	});
         

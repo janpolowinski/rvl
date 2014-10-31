@@ -26,4 +26,6 @@ public interface D3Generator {
 
 	public abstract String getDefaultD3GraphicFile();
 
+	public abstract String getDefaultGraphicType();
+
 }

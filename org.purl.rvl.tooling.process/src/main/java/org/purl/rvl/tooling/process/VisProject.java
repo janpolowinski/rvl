@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.ontoware.rdf2go.Reasoning;
 import org.purl.rvl.tooling.avm2d3.D3Generator;
+import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
 import org.purl.rvl.tooling.commons.FileRegistry;
 
 /**
@@ -16,19 +17,15 @@ import org.purl.rvl.tooling.commons.FileRegistry;
 @XmlRootElement
 public class VisProject {
 	
-	@XmlTransient
 	private final  FileRegistry dataFileRegistry = new FileRegistry("data files"); // DATA
-	@XmlTransient
 	private final  FileRegistry mappingFileRegistry = new FileRegistry("mapping files"); // Mapping files (each interpreted as a mapping set)
-	@XmlTransient
 	private D3Generator d3Generator;
-	@XmlTransient
 	private Reasoning reasoningDataModel = Reasoning.rdfs;
 	
 	private String id;
 	private String name;
 	private String description;
-	private String d3GraphicFile;
+	private String defaultGraphicType;
 
 
 	/**
@@ -115,15 +112,46 @@ public class VisProject {
 
 	@XmlTransient
 	public D3Generator getD3Generator() {
+		if (null == d3Generator) {
+			deriveDefaultGenerator();
+		}
 		return d3Generator;
 	}
-	
+
 	public void setD3Generator(D3Generator d3Generator) {
 		this.d3Generator = d3Generator;
 	}
 
+	/**
+	 * @return the defaultGraphicType
+	 */
+	public String getDefaultGraphicType() {
+		if (null == defaultGraphicType) {
+			deriveDefaultGraphicType();
+		}
+		return defaultGraphicType;
+	}
+
+	private void deriveDefaultGraphicType() {
+		this.defaultGraphicType = getD3Generator().getDefaultGraphicType();
+	}
+	
+	private void deriveDefaultGenerator() {
+		if (null == d3Generator) {
+			this.d3Generator = new D3GeneratorDeepLabelsJSON();
+		}
+	}
 
 	/**
+	 * @param defaultGraphicType the defaultGraphicType to set
+	 */
+	public void setDefaultGraphicType(String defaultGraphicType) {
+		this.defaultGraphicType = defaultGraphicType;
+	}
+
+	/**
+	 * @deprecated - work with the default graphic type instead
+	 * 
 	 * Returns the path of the html file to be used for rendering the d3 graphic. When this was not 
 	 * set, the default defined by the generator will be used.
 	 * 
@@ -131,18 +159,10 @@ public class VisProject {
 	 */
 	@XmlTransient
 	public String getD3GraphicFile() {
-		return d3GraphicFile;
+		if (null != defaultGraphicType)
+			return defaultGraphicType + "/index.html";
+		else
+			return null;
 	}
-
-
-	/**
-	 * @param d3GraphicFile - the path of the html file to be used for rendering the d3 graphic.
-	 */
-	public void setD3GraphicFile(String d3GraphicFile) {
-		this.d3GraphicFile = d3GraphicFile;
-	}
-
-	
-
 
 }

@@ -157,7 +157,7 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 		//project.setD3Generator(new D3GeneratorSimpleJSON());
 		//project.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		project.setD3Generator(new D3GeneratorTreeJSON());
-		project.setD3GraphicFile("circle-packing-zoomable/index.html");
+		project.setDefaultGraphicType("circle-packing-zoomable");
 		
 		project = storeProject("ro-instances-social-network");
 		project.setReasoningDataModel(Reasoning.rdfs);
@@ -190,7 +190,7 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 		project.registerDataFile("/life-sciences/plant-ontology/example-mappings/extra-data.ttl");
 		//project.setRvlInterpreter(new SimpleRVLInterpreter());
 		project.setD3Generator(new D3GeneratorTreeJSON());
-		project.setD3GraphicFile("circle-packing-zoomable/index.html");
+		project.setDefaultGraphicType("circle-packing-zoomable");
 		
 		project = storeProject("aa-3-and-4");
 		project.registerMappingFile("/life-sciences/amino-acid/example-mappings/AA_4.ttl");
