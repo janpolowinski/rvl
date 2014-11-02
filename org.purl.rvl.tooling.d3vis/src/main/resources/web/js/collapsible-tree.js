@@ -49,7 +49,7 @@ var diagonal = d3.svg.diagonal()
 /* LOAD AND UPDATE FUNCTIONS             */
 /*****************************************/
 
-loadCollapsibleTree = function(json) {	
+loadCollapsibleTree = function(error, json) {	
 	
 	// override global settings
 	complexLabeling = false; // not yet fully implemented

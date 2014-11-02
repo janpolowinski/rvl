@@ -24,8 +24,12 @@ public interface D3Generator {
 
 	public abstract String getGenJSONFileName();
 
-	public abstract String getDefaultD3GraphicFile();
+	public abstract String getD3GraphicFile();
 
 	public abstract String getDefaultGraphicType();
+
+	public abstract void setGraphicType(String graphicType);
+
+	public abstract String getGraphicType();
 
 }

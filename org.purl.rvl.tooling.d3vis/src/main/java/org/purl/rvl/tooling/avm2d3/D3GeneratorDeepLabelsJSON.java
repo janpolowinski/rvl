@@ -45,7 +45,7 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 		
 		JSONObject d3data = new JSONObject();
 		
-		putDefaultGraphicType(d3data);
+		putGraphicType(d3data);
 		
 		List<GraphicObjectX> goList = AVMUtils.getRelevantGraphicObjects(modelAVM);
 		GraphicObjectX[] goArray = new GraphicObjectX[goList.size()];
@@ -240,10 +240,6 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 	@Override
 	public String getGenJSONFileName() {
 		return "graph-data.json";
-	}
-	
-	public String getDefaultD3GraphicFile(){
-		return getDefaultGraphicType()+ "/index.html";
 	}
 
 

@@ -98,18 +98,17 @@
         	
         reLoad = function() {
     	 	reInitContainers();
-    		d3.json("http://localhost:8080/semvis/projects/latest", graphicLoadingFunctions['force-directed-graph']);
-    		//d3.json("../../gen/json/tree-data.json", afterLoading);
-    		//d3.json("../../gen/json/graph-data.json", function(error, graph) {
-			//d3.json("../../example-data/graph-data-labeling-advanced.json", function(error, graph) {
-    	}
-
-    	loadProject = function(projectID) {
-    		reInitContainers();
-    		d3.json("http://localhost:8080/semvis/projects/run/" + projectID, graphicLoadingFunctions['force-directed-graph']);
+    	 	
+    	 	d3.json("http://localhost:8080/semvis/projects/latest", function(json){
+    	 		//alert(json.graphic_type);
+    	 		graphicLoadingFunctions[json.graphic_type](null, json);
+    	 		});
+    	 	
+    		//d3.json("http://localhost:8080/semvis/projects/latest", graphicLoadingFunctions[defaultGraphicType]);
+    		//"../../gen/json/tree-data.json" , "../../gen/json/graph-data.json", "../../example-data/graph-data-labeling-advanced.json"
     	}
     	
-    	loadProject2 = function(projectID, defaultGraphicType) {
+    	loadProject = function(projectID, defaultGraphicType) {
     		reInitContainers();
     		d3.json("http://localhost:8080/semvis/projects/run/" + projectID, graphicLoadingFunctions[defaultGraphicType]);
     	}
@@ -123,8 +122,8 @@
     		.selectAll("button")
     	    .data(result)
     	    .enter().append("button")
-    	    .attr("onclick", function(d){return "loadProject2('" + d.id + "','" + d.defaultGraphicType + "')";})
-    	    .text(function(d){return d.id + " " + d.defaultGraphicType ;});
+    	    .attr("onclick", function(d){return "loadProject('" + d.id + "','" + d.defaultGraphicType + "')";})
+    	    .text(function(d){return d.id + " - " +  d.defaultGraphicType;});
     	
     	});
         
@@ -133,8 +132,9 @@
         </script>
 		
 		<button onclick="reLoad()">Reload</button>
-		<button onclick="reInitContainers()">Re init containers</button>
-		<button onclick="clearVis()">Clear visualization</button>
+		
+		<!--<button onclick="reInitContainers()">Re init containers</button>-->
+		<!--<button onclick="clearVis()">Clear visualization</button>-->
 		
  		<!-- somehow MUST NOT be before the script! -->
         <svg id="svg-effects">
