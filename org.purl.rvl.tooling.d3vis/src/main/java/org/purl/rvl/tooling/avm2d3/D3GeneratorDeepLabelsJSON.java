@@ -9,12 +9,10 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import org.json.simple.JSONObject;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
-import org.ontoware.rdf2go.model.Model;
 import org.purl.rvl.exception.OGVICModelsException;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
@@ -43,7 +41,11 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 	 * Generates JSON using SimpleJSON (Jackson JSON-Binding-Version also exists)
 	 * @throws OGVICModelsException 
 	 */
-	public String generateJSONforD3() throws OGVICModelsException{
+	public String generateJSONforD3() throws OGVICModelsException {
+		
+		JSONObject d3data = new JSONObject();
+		
+		putDefaultGraphicType(d3data);
 		
 		List<GraphicObjectX> goList = AVMUtils.getRelevantGraphicObjects(modelAVM);
 		GraphicObjectX[] goArray = new GraphicObjectX[goList.size()];
@@ -62,8 +64,7 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 			GraphicObjectX startNode = goArray[i];
 			goMap.put(startNode,i);
 		}
-		
-		JSONObject d3data = new JSONObject();
+
 		List<Map<String,Object>> listOfNodes = new LinkedList<Map<String,Object>>();
 		List<Map<String,Object>> listOfLinks = new LinkedList<Map<String,Object>>();
 		
@@ -234,6 +235,7 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 		
 		return d3data.toJSONString();
 	}
+	
 
 	@Override
 	public String getGenJSONFileName() {

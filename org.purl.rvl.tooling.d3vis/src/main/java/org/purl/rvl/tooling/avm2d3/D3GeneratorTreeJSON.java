@@ -47,6 +47,8 @@ public class D3GeneratorTreeJSON extends D3GeneratorBase {
 		
 		// generate empty JSON root object, containing all actual root nodes
 		JSONObject d3data = new JSONObject();
+		
+		putDefaultGraphicType(d3data);
 
 		Set<GraphicObjectX> rootNodeSet = AVMUtils.getRootNodesGraphicObject(modelAVM); 
 		// TODO SEVERE: only some graphic relations considered by getRootNodesGraphicObject

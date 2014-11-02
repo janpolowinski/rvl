@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.json.simple.JSONObject;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.Resource;
@@ -291,5 +292,9 @@ public abstract class D3GeneratorBase implements D3Generator {
 		// had to be used
 		float startNodeWidth = graphicObject.hasWidth()? graphicObject.getWidth() : getDefaultWidthNodes();
 		putLabels(graphicObject, startNodeWidth, jsonObject); // TODO width OK?
+	}
+	
+	protected void putDefaultGraphicType(JSONObject object) {
+		object.put("graphic_type", getDefaultGraphicType());
 	}
 }
