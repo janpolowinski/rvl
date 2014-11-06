@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Start RVL tooling console ... "
+echo "Start RVL tooling console from single jar … "
 
 cd build
 
