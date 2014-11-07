@@ -42,13 +42,13 @@
   <form action="http://localhost:8080/semvis/projects/run" method="POST">
   
   <label for="id">ID</label>
-  <input name="id" value="new-project-1"/>
+  <input name="id" id="projectID" value="new-project-1"/>
   <br/>
     Data:
-  <TEXTAREA NAME="data" COLS=70 ROWS=12></TEXTAREA>
+  <textarea name="data" id="projectData" cols="70" rows="12">loading example data ... </textarea>
   <br/>
     Mappings:
-  <TEXTAREA NAME="mappings" COLS=70 ROWS=20></TEXTAREA>
+  <textarea name="mappings" id="projectMappings" cols="70" rows="12">loading example mappings ... </textarea>
   <br/>
   <label for="stay">Stay on this page:</label><input name="stay" type="checkbox" checked="checked"/>
   <input type="submit" value="Submit" />
@@ -170,6 +170,30 @@
     	});
         
         reLoad();
+        
+        
+        
+        // menu
+        
+        loadExampleValue = function(endPoint, elementID) {
+    		d3.text(endPoint, 
+				function(error, text) {
+					populateWithExampleValue(error, text, elementID)
+				}
+			);
+    	}
+    	
+    	populateWithExampleValue = function(error, value, elementID) {
+    	
+    		//alert(value);
+    		d3.select(elementID).text(value);
+    	}
+    	
+    	loadExampleValue("http://localhost:8080/semvis/projects/example/data", "#projectData");
+        loadExampleValue("http://localhost:8080/semvis/projects/example/mappings", "#projectMappings");
+        
+        
+        
                                                                         
         </script>
 		
