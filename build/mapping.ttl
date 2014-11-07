@@ -15,304 +15,50 @@
 
 :     rdf:type owl:Ontology ;
       owl:imports rvl: , rexd: ,common-shapes: .
-
-
-
-# explicit value mappings - 
-# PM with explicit value mappings as blank nodes
-rexm:PMWithExplicitValueMappingsAsBlankNodes
-      rvl:disabled "true"^^xsd:boolean ;
-      rdf:type rvl:PropertyMapping ;
-      rdfs:label "PM with explicit VM as blank nodes"^^xsd:string ;
-      rvl:sourceProperty rexd:workingField ;
-      rvl:targetAttribute vg:shape_named ; 
-      rvl:valueMapping [
-        a rvl:ValueMapping ;
-		rvl:sourceValue rexd:Sci-Fi;
-        rvl:targetValue common-shapes:Rhomb;
-      ],[
-        a rvl:ValueMapping ;
-		rvl:sourceValue rexd:Biography;
-        rvl:targetValue common-shapes:Square;
-      ]
-      .
       
-# explicit value mappings - 
-# VARIANT: PM with explicit value mappings as blank nodes (to color named)
-rexm:PMWithExplicitValueMappingsAsBlankNodesToColorNamed
-      rvl:disabled "true"^^xsd:boolean ;
-      rdf:type rvl:PropertyMapping ;
-      rdfs:label "VARIANT: PM with explicit VM as blank nodes (to color named)"^^xsd:string ;
-      rvl:sourceProperty rexd:workingField ;
+
+
+ 
+ 
+ :PartOf2LinkingDirected
+      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:disabled "false"^^xsd:boolean ;
+      rvl:sourceProperty rexd:partOf ;
+      rvl:invertSourceProperty "true"^^xsd:boolean ;
+	  rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
+      .
+
+
+:ColorNamedMapping
+      rvl:disabled "false"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:population ;
       rvl:targetAttribute vg:color_named ; 
       rvl:valueMapping [
         a rvl:ValueMapping ;
-		rvl:sourceValue rexd:Sci-Fi;
-        rvl:targetValue vg:Red;
-      ],[
-        a rvl:ValueMapping ;
-		rvl:sourceValue rexd:Biography;
-        rvl:targetValue vg:Green;
-      ]
-      .      
-      
-# explicit value mappings - 
-# PM with explicit value mappings as extra nodes (non-blank)
-rexm:PMWithExplicitValueMappings
-      rvl:disabled "true"^^xsd:boolean ;
-      rdf:type rvl:PropertyMapping ;
-      rdfs:label "PM with explicit VM as extra (non-blank) nodes"^^xsd:string ;
-      rvl:sourceProperty rexd:workingField ;
-      rvl:targetAttribute vg:shape_named ; 
-      rvl:valueMapping rexm:VMSciFi2Rhomb ;      
-      rvl:valueMapping rexm:VMBiography2Square ;
-      rvl:includeInLegend "true"^^xsd:boolean . 
-      
-rexm:VMSciFi2Rhomb a rvl:ValueMapping ;
-		rvl:sourceValue rexd:Sci-Fi ;
-        rvl:targetValue common-shapes:Rhomb .
-rexm:VMBiography2Square a rvl:ValueMapping ;
-		rvl:sourceValue rexd:Biography ;
-        rvl:targetValue common-shapes:Square .
-
-
-rexm:PMtoContainment
-      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:disabled "true"^^xsd:boolean ;
-      rdfs:label "PM to (n-ary) Containment"^^xsd:string ;
-      rvl:sourceProperty rexd:partOf ;
-      rvl:invertSourceProperty
-              "true"^^xsd:boolean ;
-     rvl:targetObjToObjRelation vg:Containment_Relation ; 
-    .
-    
-rexm:PMtoUndirectedLinking
-      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:disabled "true"^^xsd:boolean ;
-      rdfs:label "PM to Undirected Linking"^^xsd:string ;
-      rvl:sourceProperty rexd:cites ;
-      rvl:targetObjToObjRelation vg:Linking_Undirected_Relation ; 
-     # rvl:subMapping rexm:NamedSubMappingRelation 
-    .
-      
-
-# sub-mapping - supported (also caching)
-rexm:PMwithNamedSubmappingToNamedMappingOnConnector
-      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
-      rdfs:label "PM with a sub-mapping to an existing, named mapping"^^xsd:string ;
-      rvl:sourceProperty rexd:exportsTo ;
-      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
-      rvl:subMapping rexm:NamedSubMappingRelation , rexm:NamedSubMappingRelation2
-      .
-      
-rexm:PMwithNamedSubmappingToNamedMappingOnConnector2
-      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
-      rvl:sourceProperty rexd:partOf ;
-      rvl:invertSourceProperty
-              "false"^^xsd:boolean ;
-      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
-      rvl:subMapping rexm:NamedSubMappingRelation , rexm:NamedSubMappingRelation2
-      .
-      
-rexm:NamedSubMappingRelation
-    rdf:type rvl:SubMappingRelation ;  
-	rvl:subMapping-onRole vg:linking_connector;
-	#rvl:subMapping-onRole vg:linkingDirected_startNode; 
-    rvl:subMapping-onTriplePart rdf:predicate;
-    #rvl:subMapping-mapping rexm:PMfromID2ColorNamedAutomaticUnordered .
-    #rvl:subMapping-mapping rexm:PMfromID2ColorNamed .
-    rvl:subMapping-mapping rexm:PMfromID2ColorNamedAutomaticOrdered .
-    #rvl:subMapping-mapping rexm:PMfromID2ColorNamedAutomaticContinuous .
-    
-rexm:NamedSubMappingRelation2
-    rdf:type rvl:SubMappingRelation ;  
-	rvl:subMapping-onRole vg:linking_connector;
-    rvl:subMapping-onTriplePart rdf:predicate;
-    rvl:subMapping-mapping rexm:ShapeMappingToBeUsedAsSubmapping .
-
-      
-# sub-mapping - supported
-rexm:PMwithAnonymousSubmappingToNamedMappingOnConnector
-      rvl:disabled "true"^^xsd:boolean ;
-      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rdfs:label "PM with an anonymous sub-mapping to an existing, named mapping"^^xsd:string ;
-      rvl:sourceProperty rexd:cites ;
-      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
-      rvl:subMapping [
-        rdf:type rvl:SubMappingRelation ;
-        rvl:subMapping-onRole vg:linking_connector;
-        rvl:subMapping-onTriplePart rdf:predicate;
-        rvl:subMapping-mapping rexm:PMfromID2ColorNamed;
-      ]
-      .  
-      
-# submapping to anonymous - ATTENTION: not yet fully supported whwn the submapping is an explicit 1-1 mapping AND no caching supported
-# CHANGE IN LISTINGS: rdf:predicate, not rvl:predicate ; vg:targetAttribute vs vg:targetGraphicAttribute
-rexm:PMwithAnonSubmappingOnConnectorNotYetSupported
-      rvl:disabled "true"^^xsd:boolean ;
-      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rdfs:label "ATTENTION: not yet supported!! PM with an anonymous, blank node sub-mapping that maps the color of the connector created by the first mapping"^^xsd:string ;
-      rvl:sourceProperty rexd:cites ;
-      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
-      rvl:subMapping [
-        a rvl:SubMappingRelation ;
-        rvl:subMapping-onRole vg:linking_connector;
-        rvl:subMapping-onTriplePart rdf:predicate;
-        rvl:subMapping-mapping [
-			a rvl:PropertyMapping ;
- 			rvl:sourceProperty rdf:ID ;
- 			rvl:targetAttribute vg:color_named ;
- 			
- 			# some value mapping needs to be set, since we do not yet support defaults here!
- 			 rvl:valueMapping [
-		        a rvl:ValueMapping ;
-				rvl:sourceValueOrderedSet (
-					rexd:cites rexd:citesCritical rexd:citesVeryCritical
-					);
-				rvl:targetValueList (
-					vg:Red
-					vg:Orange
-					vg:Yellow
-					);
-      			];
-      			
-   			];
-      ]
-      .
-      
-  
-
-              
-# PM from ID to color (used as a submapping above)
-rexm:PMfromID2ColorNamed
-      rdf:type rvl:PropertyMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
-      rdfs:label "PM from ID to color (used as a submapping)"^^xsd:string ;
- 	  rvl:sourceProperty rdf:ID ;
- 	  rvl:targetAttribute vg:color_named ;
- 	  rvl:valueMapping [
-        a rvl:ValueMapping ;
-		rvl:sourceValue rexd:cites;
-        rvl:targetValue vg:Green;
-      ],[
-        a rvl:ValueMapping ;
-		rvl:sourceValue rexd:citesCritical;
-        rvl:targetValue vg:Yellow;
-      ],[
-        a rvl:ValueMapping ;
-		rvl:sourceValue rexd:citesVeryCritical;
-        rvl:targetValue vg:Red;
-      ]
-      .     
-      
-rexm:PMfromID2ColorNamedAutomaticUnordered
-      rdf:type rvl:PropertyMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
-      rdfs:label "Automatic PM from ID to color unordered (used as a submapping above)"^^xsd:string ;
- 	  rvl:sourceProperty rdf:ID ;
- 	  rvl:targetAttribute vg:color_named ;
- 	  rvl:valueMapping [
-        a rvl:ValueMapping ;
-		rvl:sourceValue rexd:cites;
-		rvl:sourceValue rexd:citesCritical;
-		rvl:sourceValue rexd:citesVeryCritical;
-        rvl:targetValue vg:Green;
-        rvl:targetValue vg:Red;
-        rvl:targetValue vg:Blue;
-      ]
-      .           
-      
-rexm:PMfromID2ColorNamedAutomaticOrdered
-      rdf:type rvl:PropertyMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
-      rdfs:label "Automatic PM from ID to color ordered (used as a submapping above)"^^xsd:string ;
- 	  rvl:sourceProperty rdf:ID ;
- 	  rvl:targetAttribute vg:color_named ;
- 	  rvl:valueMapping [
-        a rvl:ValueMapping ;
-        rvl:invertOrderOfTargetValues "false"^^xsd:boolean;
-		rvl:sourceValueOrderedSet (
-			# rexd:cites rexd:citesCritical rexd:citesVeryCritical
-			rexd:exportsTo rexd:partOf
-		);
+		rvl:sourceValueInterval [
+			a rvl:Interval;
+			rvl:upperBoundIncl "1000";
+			rvl:lowerBoundIncl "0";
+		];
 		rvl:targetValueList (
-			vg:Red
-			vg:Orange
-			vg:Yellow
+			vg:Red vg:Orange vg:Yellow
 		);
-		# rvl:targetValues [a vg:GraphicValueList ; ... ]
-      ].   
+      ]
+      .
       
-      
-rexm:PMfromID2ColorNamedAutomaticContinuous
-      rdf:type rvl:PropertyMapping ;
+:ShapeNamedMapping
       rvl:disabled "false"^^xsd:boolean ;
-      rdfs:label "Automatic PM from ID to color continuous (used as a submapping above)"^^xsd:string ;
- 	  rvl:sourceProperty rdf:ID ;
- 	  rvl:targetAttribute vg:color_hsl_lightness ;
-	  rvl:valueMapping [
-        a rvl:ValueMapping ;
-		rvl:sourceValueOrderedSet (
-			#rexd:cites rexd:citesCritical rexd:citesVeryCritical
-			rexd:exportsTo rexd:partOf
-		);
-		rvl:discretize "true"^^xsd:boolean ;
-		rvl:targetValueInterval [
-        	a rvl:Interval;
-        	rvl:upperBoundIncl "90";
-        	rvl:lowerBoundIncl "30";
-        ];
- 	  ].  
-      
-      
-      
-rexm:ShapeMappingToBeUsedAsSubmapping
-      rvl:disabled "false"^^xsd:boolean ;
-      rdf:type rvl:PropertyMapping ;
-      rdfs:label "ShapeMappingToBeUsedAsSubmapping"^^xsd:string ;
-      rvl:sourceProperty rdf:ID ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:partOf ;
       rvl:targetAttribute vg:shape_named ; 
       rvl:valueMapping [
         a rvl:ValueMapping ;
-		rvl:sourceValue rexd:partOf;
-        rvl:targetValue common-shapes:Rhomb;
+		rvl:sourceValue rexd:Europe;
+        rvl:targetValue common-shapes:CircleP;
       ],[
         a rvl:ValueMapping ;
-		rvl:sourceValue rexd:exportsTo ;
-        rvl:targetValue common-shapes:Square;
+		rvl:sourceValue rexd:Asia;
+        rvl:targetValue common-shapes:Star18;
       ]
       .
-      
-      
-      
-
-
-      
-      
-##### LABELING ######
- 
-:LabelMapping
-      rvl:disabled "false"^^xsd:boolean ;
-      a rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:sourceProperty rexd:partOf ;
-      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
-      rvl:subMapping 
-      [
-        rvl:subMapping-onRole vg:labeling_label;
-        rvl:subMapping-onTriplePart rdf:subject;
-        rvl:subMapping-mapping :LabelTextIdentityMapping;
-      ]
-      .
-      
-:LabelTextIdentityMapping
-	  rvl:disabled "true"^^xsd:boolean ;
-      a rvl:IdentityMapping ;
-      #rvl:sourceProperty rdfs:label ;
-      rvl:sourceProperty rvl:label ;
-      rvl:targetAttribute
-              vg:text_value ;
-      .
-      
-              
