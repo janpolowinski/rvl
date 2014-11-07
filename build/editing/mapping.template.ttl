@@ -13,24 +13,23 @@
 @prefix vg:    <http://purl.org/viso/graphic/> .
 @prefix common-shapes:    <http://purl.org/viso/shape/commons/> .
 
-:     rdf:type owl:Ontology ;
+:     a owl:Ontology ;
       owl:imports rvl: , rexd: ,common-shapes: .
       
 
 
  
  
- :PartOf2LinkingDirected
-      a rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
+:PartOf2LinkingDirected
+      a rvl:PropertyMapping ;
       rvl:sourceProperty rexd:partOf ;
-      rvl:invertSourceProperty "true"^^xsd:boolean ;
+      rvl:invertSourceProperty "true" ;
 	  rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
       .
 
 
 :ColorNamedMapping
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true" ;
       a rvl:PropertyMapping ;
       rvl:sourceProperty rexd:population ;
       rvl:targetAttribute vg:color_named ; 
@@ -48,7 +47,7 @@
       .
       
 :ShapeNamedMapping
-      rvl:disabled "false"^^xsd:boolean ;
+      rvl:disabled "true" ;
       a rvl:PropertyMapping ;
       rvl:sourceProperty rexd:partOf ;
       rvl:targetAttribute vg:shape_named ; 
