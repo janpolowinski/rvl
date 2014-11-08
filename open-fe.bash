@@ -1,5 +1,5 @@
 #!/bin/bash
 
-URL="http://localhost:8585/semvis/gen/html/index.html"
+URL="http://localhost:8585/semvis/example-html/single-page/index-rest.html"
 
 python -mwebbrowser ${URL}

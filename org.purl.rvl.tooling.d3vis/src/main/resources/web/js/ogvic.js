@@ -13,7 +13,7 @@ var width = 1300,
     m = [30, 30, 30, 30]
 	;
 
-var BASE_PATH_SVG_FILE = "../svg/symbols.svg#";
+var BASE_PATH_SVG_FILE = "../../svg/symbols.svg#";
 
 /*************************************************/
 /* own "plugins" to handle AVM based on D3       */
