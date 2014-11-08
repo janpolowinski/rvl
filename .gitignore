@@ -19,3 +19,7 @@ gen
 ogvic.properties
 build-javadoc.xml
 target
+bin
+/build/editing/*.ttl
+!/build/editing/*.template.ttl
+/oldscripts

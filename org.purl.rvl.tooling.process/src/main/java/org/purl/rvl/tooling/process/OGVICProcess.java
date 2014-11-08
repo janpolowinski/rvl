@@ -200,15 +200,20 @@ public class OGVICProcess {
 //		}
 		
 		// try to get generator from project
-		if (null != project.getD3Generator()){
-			setD3Generator(project.getD3Generator());
+		if (null != project.getD3Generator()) {
+			D3Generator d3Generator = project.getD3Generator();
+			String graphicType = project.getDefaultGraphicType();
+			if (null != graphicType && !graphicType.isEmpty()) {
+				d3Generator.setGraphicType(graphicType);
+			}
+			setD3Generator(d3Generator);
 		}
 
 		// try to get html file for d3 rendering from project
-		if (null != project.getD3GraphicFile()){
+		if (null != project.getDefaultGraphicType()){
 			setD3GraphicFile(project.getD3GraphicFile());
 		} else if (null != d3Generator) {
-			setD3GraphicFile(d3Generator.getDefaultD3GraphicFile());
+			setD3GraphicFile(d3Generator.getD3GraphicFile());
 		} else {
 			LOGGER.severe("D3 html file was not set, using default one.");
 			System.exit(0);

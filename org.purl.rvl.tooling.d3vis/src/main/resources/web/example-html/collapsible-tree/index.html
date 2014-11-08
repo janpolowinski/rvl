@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- labeling at various positions works, but is cropped (view box bug) in webkit and is slow in firefox (many objects SVG in HTML in SVG ) -->
+  	<meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+	<link type="text/css" rel="stylesheet" href="../../css/main.css"/>
+	<link type="text/css" rel="stylesheet" href="../../css/theme-bright.css"/>
+	<link type="text/css" rel="stylesheet" href="../../css/labeling.css"/>
+    <link type="text/css" rel="stylesheet" href="../../css/labeling-new-boxmodel.css"/>
+    <link type="text/css" rel="stylesheet" href="../../css/labeling-webkit-old-boxmodel.css"/>
+	<script type="text/javascript" src="../../js/d3.min.js"></script>
+    <script type="text/javascript" src="../../js/d3.layout.js"></script> <!-- causes conflicts when imported to force-directed-graph -->
+    <script type="text/javascript" src="../../js/global-settings.js"></script>
+    <script type="text/javascript" src="../../js/page-layout-pure.js"></script>
+    <!-- own plugins to handle AVM based on D3.js -->
+    <script type="text/javascript" src="../../js/ogvic.js"></script>
+    <script type="text/javascript" src="../../js/ogvic.d3.utils.js"></script>
+    <!-- supported graphic types -->
+    <script type="text/javascript" src="../../js/force-directed-graph.js"></script>
+    <script type="text/javascript" src="../../js/circle-packing-zoomable.js"></script>
+    <script type="text/javascript" src="../../js/collapsible-tree.js"></script>
+</head>
+<body>
+	
+<script type="text/javascript">
+
+buildPageStructure();
+
+    
+/**************************/
+/* START DATA DRIVE       */
+/**************************/
+
+d3.json("../../gen/json/tree-data.json", loadCollapsibleTree);
+	
+</script>
+
+
+</body>
+</html>

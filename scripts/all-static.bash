@@ -4,4 +4,4 @@
 
 ./jar.bash
 
-./run.bash
+./run-static.bash

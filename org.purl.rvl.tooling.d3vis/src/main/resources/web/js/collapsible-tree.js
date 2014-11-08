@@ -1,29 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <!-- labeling at various positions works, but is cropped (view box bug) in webkit and is slow in firefox (many objects SVG in HTML in SVG ) -->
-  	<meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-	<link type="text/css" rel="stylesheet" href="../../css/main.css"/>
-	<link type="text/css" rel="stylesheet" href="../../css/theme-bright.css"/>
-	<link type="text/css" rel="stylesheet" href="../../css/labeling.css"/>
-    <link type="text/css" rel="stylesheet" href="../../css/labeling-new-boxmodel.css"/>
-    <link type="text/css" rel="stylesheet" href="../../css/labeling-webkit-old-boxmodel.css"/>
-	<script type="text/javascript" src="../../js/d3.min.js"></script>
-    <script type="text/javascript" src="../../js/d3.layout.js"></script> <!-- causes conflicts when imported to force-directed-graph -->
-    <!-- own plugins to handle AVM based on D3.js -->
-    <script type="text/javascript" src="../../js/ogvic.js"></script>
-    <script type="text/javascript" src="../../js/ogvic.d3.utils.js"></script>
-</head>
-<body>
-	
-<script type="text/javascript">
-
 /******************************/
 /* CREDITS        			  */
 /******************************/
             	
 /* after an example from http://bl.ocks.org/mbostock/4339083 */
+
 
 /******************/
 /* SETTINGS       */
@@ -36,8 +16,6 @@ var w = width - m[1] - m[3],
     root
     ;
     
-var complexLabeling = false; // not yet fully implemented
-var simpleLabeling = true;
 var alignedConnectorLabeling = false;
     
 //force-directed-graph
@@ -65,57 +43,27 @@ var tree = d3.layout.tree()
 
 var diagonal = d3.svg.diagonal()
     .projection(function(d) { return [d.y, d.x]; });
-    
-/******************************/
-/* BASIC PAGE BUILDING        */
-/******************************/
- 
- 
-//var mInfo = d3.select("body").append("div");
-      
-var svg = d3.select("body").append("svg:svg")
-       		.attr("id", "svg")
-    .attr("width", width)
-    .attr("height", height);
 
-var vis = svg
-    .append("svg:g")
-    .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
-    ;
-    
-var labelContainerSpace = d3.select("body").append("div")
-	.attr("id", "labelContainerSpace")
-	.style("margin-top", m[0]+"px")
-	.style("margin-left", m[3]+"px")
-	.attr("width", width + "px")
-	.attr("height", height + "px");
 
-    
-//Define Markers to be used in arrow paths
-svg.avmProvideMarkerCollection();
-    
-    
-/**************************/
-/* START DATA DRIVE       */
-/**************************/
+/*****************************************/
+/* LOAD AND UPDATE FUNCTIONS             */
+/*****************************************/
 
-d3.json("../../gen/json/tree-data.json", function(json) {
+loadCollapsibleTree = function(error, json) {	
+	
+	// override global settings
+	complexLabeling = false; // not yet fully implemented
+	simpleLabeling = true;
+	
+	root = json;
+	root.x0 = h / 2;
+	root.y0 = 0;
 
-  root = json;
-  root.x0 = h / 2;
-  root.y0 = 0;
+	updateCollapsibleTree(root);
+}
 
-  // Initialize the display to show a few nodes.
-  //root.children.forEach(toggleAll);
-  //toggle(root.children[0]);
-  //toggle(root.children[0].children[0]);
-
-  update(root);
-  
-});
-
-function update(source) {				
-						
+updateCollapsibleTree = function(source) {				
+		
   var duration = d3.event && d3.event.altKey ? 5000 : 500;
 
   // Compute the new tree layout.
@@ -146,7 +94,7 @@ function update(source) {
   var nodeEnter = node.enter().append("svg:g")
       .attr("class", "node")
       .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
-      .on("click", function(d) { toggle(d); update(d); })
+      .on("click", function(d) { toggle(d); updateCollapsibleTree(d); })
 	  .on("mouseover", function(d) {
 	  	
 		    var thisNode = d3.select(this);
@@ -347,28 +295,3 @@ function update(source) {
 		}
 
 	}
-	
-</script>
-
-<!-- somehow MUST NOT be before the script! -->
-<svg id="svg-effects">
-	
-    <filter id="blur-effect-1">
-        <feGaussianBlur stdDeviation="0.9" />
-    </filter>
-
-    <filter id="blur-effect-2">
-        <feGaussianBlur stdDeviation="2" />
-    </filter>
-            <defs>
-                <marker id="markerSquare" markerWidth="7" markerHeight="7" refx="4" refy="4" orient="auto">
-                    <rect x="1" y="1" width="5" height="5" style="stroke: none; fill:#000000;"/>
-                </marker>
-                <marker id="markerArrow" markerWidth="13" markerHeight="13" refx="2" refy="7" orient="auto">
-                    <path d="M2,2 L2,13 L8,7 L2,2" style="fill: #000000;"/>
-                </marker>
-            </defs>
-</svg>
-
-</body>
-</html>

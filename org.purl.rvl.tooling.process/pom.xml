@@ -6,20 +6,22 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>OGVIC process</name>
 	<description>Processes RDF(S)/OWL data based on RVL-mappings</description>
+	
+	 <properties>
+        <jersey.version>2.13</jersey.version>
+        <!-- project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<junit.version>4.11</junit.version>
+		<java.source.version>1.7</java.source.version>
+		<java.target.version>1.7</java.target.version>
+	</properties>
+    
 	<build>
 		<plugins>
-			<!--<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-				</configuration>
-			</plugin>-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>2.5.1</version>
 				<configuration>
 					<source>${java.source.version}</source>
 					<target>${java.target.version}</target>
@@ -42,7 +44,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>org.purl.rvl.tooling.process.OGVICConsoleFiles</mainClass>
+							<mainClass>org.purl.rvl.tooling.process.OGVICConsole</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
@@ -50,8 +52,41 @@
 					</descriptorRefs>
 				</configuration>
 			</plugin>
+			
+			 <plugin>
+		         <groupId>org.codehaus.mojo</groupId>
+		         <artifactId>exec-maven-plugin</artifactId>
+		         <version>1.2.1</version>
+		         <executions>
+		             <execution>
+		                 <goals>
+		                     <goal>java</goal>
+		                 </goals>
+		             </execution>
+		         </executions>
+		         <configuration>
+		             <mainClass>org.purl.rvl.tooling.process.OGVICConsole</mainClass>
+		             <arguments>
+		            	     <argument>-Xms1024m</argument>
+		  				 <argument>-Xmx2056m</argument>
+		             </arguments>
+		         </configuration>
+    		 </plugin>
 		</plugins>
 	</build>
+	
+	    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.glassfish.jersey</groupId>
+                <artifactId>jersey-bom</artifactId>
+                <version>${jersey.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    
 	<dependencies>
 		<dependency>
 			<groupId>org.purl.rvl.tooling</groupId>
@@ -77,5 +112,9 @@
 			<version>1.2.3</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-moxy</artifactId>
+        </dependency>
 	</dependencies>
 </project>
