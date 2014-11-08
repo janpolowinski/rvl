@@ -13,7 +13,7 @@ body {
   }
 
 .layout {
-  /*border: 1px solid red;*/
+  border: 1px solid red;
 }
 
 #row  {
@@ -22,19 +22,30 @@ body {
   }
 
 #footer  {
-  display: table-row;
+  /*display: table-row;*/
   padding: 3px;
+  width:100%;
   }
 
 #left, #right, #middle {
   display: table-cell;
   padding: 3px;
- vertical-align:top;
+  vertical-align:top;
   }
+  
+#left {
+  text-align:left;
+  width:200px
+}
+
+#right {
+  text-align:right;
+  width:500px
+}
   
 #canvas {
   z-index: -10000;
-  width:1300px;
+  width:900px;
   height:800px;
   padding: 3px;
 }
@@ -42,7 +53,13 @@ body {
 #menu {
 	position:absolute;
 	z-index: 3000;
-	width: 200px;
+	width:200px;
+}
+
+#editor {
+	position:absolute;
+	z-index: 3000;
+	width:500px;
 }
 
 button {
