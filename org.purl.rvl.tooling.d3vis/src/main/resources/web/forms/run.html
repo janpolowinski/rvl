@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html>
  <head>
-  <title>Form to create a new project</title>
+  <title>Form to create and run a new project with a single data and mapping file</title>
  </head>
 <body>
+	<!-- the same form is copied to the single page index for now -->
   <form action="http://localhost:8080/semvis/projects/run" method="POST">
   
   <label for="id">ID</label>
-  <input name="id" />
+  <input name="id" id="projectID" value="new-project-1"/>
   <br/>
     Data:
-  <TEXTAREA NAME="data" COLS=70 ROWS=12></TEXTAREA>
+  <textarea name="data" id="projectData" cols="70" rows="12">loading example data ... </textarea>
   <br/>
     Mappings:
-  <TEXTAREA NAME="mappings" COLS=70 ROWS=20></TEXTAREA>
+  <textarea name="mappings" id="projectMappings" cols="70" rows="12">loading example mappings ... </textarea>
   <br/>
   <label for="stay">Stay on this page:</label><input name="stay" type="checkbox" checked="checked"/>
   <input type="submit" value="Submit" />
   
   </form>
+
 </body>
 </html> 
