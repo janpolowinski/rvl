@@ -4,4 +4,4 @@
 
 ./jar.bash
 
-./run.bash
+./run-macos.bash
