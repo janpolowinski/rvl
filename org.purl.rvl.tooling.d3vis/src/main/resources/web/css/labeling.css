@@ -17,16 +17,16 @@ div.labelContainer {
 
 #labelContainerSpace {
 	position:absolute;
-	z-index: 2;
+	z-index: 2000;
     /*border:1px dotted green;*/
     pointer-events: none;
 }
 
+/*
 #svgSpace {
 	position:absolute;
 	z-index: 1;
-	/*border:3px solid red;*/
-}
+}*/
 
 .svgLabelIcon {
 	/*background-color: green;*/

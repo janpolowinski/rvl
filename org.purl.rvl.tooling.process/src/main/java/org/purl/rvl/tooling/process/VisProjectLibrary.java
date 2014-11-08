@@ -59,7 +59,7 @@ public class VisProjectLibrary {
 		//useCaseRVLClasses.setRvlInterpreter(new SimpleRVLInterpreter());
 		useCaseRVLClasses.setD3Generator(new D3GeneratorTreeJSON());
 		//useCaseRVLClasses.setD3Generator(new D3GeneratorSimpleJSON());
-		useCaseRVLClasses.setD3GraphicFile("circle-packing-zoomable/index.html");
+		useCaseRVLClasses.setDefaultGraphicType("circle-packing-zoomable");
 		storeProject(useCaseRVLClasses);
 		
 		//////////////////////////////////////////////////////////////////
@@ -100,7 +100,7 @@ public class VisProjectLibrary {
 		containmentTest.registerDataFile(ExampleData.RVL_EXAMPLE);
 		containmentTest.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		containmentTest.setD3Generator(new D3GeneratorTreeJSON());
-		containmentTest.setD3GraphicFile("circle-packing-zoomable/index.html");
+		containmentTest.setDefaultGraphicType("circle-packing-zoomable");
 		storeProject(containmentTest);
 		
 		//////////////////////////////////////////////////////////////////
@@ -179,13 +179,13 @@ public class VisProjectLibrary {
 		
 	}
 	
-	public void storeProject(VisProject project){
+	public void storeProject(VisProject project) {
 		this.library.put(project.getName(), project);
 	}
 	
 	public VisProject storeProject(String nameOfNewProject) {
 		VisProject project = new VisProject(nameOfNewProject);
-		this.library.put(project.getName(), project);
+		storeProject(project);
 		return project;
 	}
 

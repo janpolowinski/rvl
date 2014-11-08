@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd org.purl.rvl.vocabulary
+cd ../org.purl.rvl.vocabulary
 mvn install -DskipTests
 cd ../org.purl.rvl.tooling.codegen.rdfreactor
 mvn install -DskipTests
@@ -14,4 +14,3 @@ cd ../org.purl.rvl.tooling.process
 mvn install -DskipTests
 cd ../org.purl.rvl.example
 mvn install -DskipTests
-cd ..

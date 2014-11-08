@@ -30,6 +30,8 @@ import org.purl.rvl.exception.D3GeneratorException;
 import org.purl.rvl.exception.OGVICModelsException;
 import org.purl.rvl.exception.OGVICRepositoryException;
 import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
+import org.purl.rvl.tooling.commons.utils.FileResourceUtils;
+import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.process.VisProject;
 import org.purl.rvl.tooling.process.VisProjectLibraryExamples;
@@ -196,6 +198,31 @@ public class ProjectsResource {
 		
 		return jsonResult;
     }
+	
+	@GET
+    @Produces({MediaType.TEXT_PLAIN})
+	@Path("/example/data")
+    public String getExampleData() {
+		try {
+			return FileResourceUtils.getFromExampleData("rvl-example-data.ttl");
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "# example data could not be found.";
+		}
+    }
+	
+	@GET
+    @Produces({MediaType.TEXT_PLAIN})
+	@Path("/example/mappings")
+    public String getExampleMappings() {
+		try {
+			return FileResourceUtils.getFromExampleMappings("rvl-example-mappings.ttl");
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "# example mappings could not be found.";
+		}
+    }
+
 
 
 	// Defines that the next path parameter after projects is

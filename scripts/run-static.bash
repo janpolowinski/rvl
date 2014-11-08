@@ -1,5 +1,5 @@
 #!/bin/bash
 
-./open-fe.bash &
+./open-static-fe.bash &
 
 ./console.bash

@@ -91,12 +91,13 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 		storeProject(useCasePO_8);
 		
 		VisProject useCasePO_9 = new VisProject("po-9");
-		useCasePO_8.setReasoningDataModel(Reasoning.rdfs); // setting to rdfs makes it necessary to remove the transitive hull (default setting at the moment),
+		useCasePO_9.setReasoningDataModel(Reasoning.rdfs); // setting to rdfs makes it necessary to remove the transitive hull (default setting at the moment),
 		   // but shape is not evaluated otherwise
 		useCasePO_9.registerMappingFile("/life-sciences/plant-ontology/example-mappings/PO_9.ttl");
 		useCasePO_9.registerDataFile("/life-sciences/plant-ontology/example-data/po_anatomy.owl");
 		useCasePO_9.registerDataFile("/life-sciences/plant-ontology/example-mappings/extra-data.ttl");
 		useCasePO_9.setD3Generator(new D3GeneratorTreeJSON());
+		useCasePO_9.setDefaultGraphicType("collapsible-tree");
 		storeProject(useCasePO_9);
 		
 		//////////////////////////////////////////////////////////////////
@@ -157,7 +158,7 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 		//project.setD3Generator(new D3GeneratorSimpleJSON());
 		//project.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		project.setD3Generator(new D3GeneratorTreeJSON());
-		project.setD3GraphicFile("circle-packing-zoomable/index.html");
+		project.setDefaultGraphicType("circle-packing-zoomable");
 		
 		project = storeProject("ro-instances-social-network");
 		project.setReasoningDataModel(Reasoning.rdfs);
@@ -188,9 +189,8 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 		project.registerMappingFile("/life-sciences/plant-ontology/example-mappings/PO_9_containment.ttl");
 		project.registerDataFile("/life-sciences/plant-ontology/example-data/po_anatomy.owl");
 		project.registerDataFile("/life-sciences/plant-ontology/example-mappings/extra-data.ttl");
-		//project.setRvlInterpreter(new SimpleRVLInterpreter());
 		project.setD3Generator(new D3GeneratorTreeJSON());
-		project.setD3GraphicFile("circle-packing-zoomable/index.html");
+		project.setDefaultGraphicType("circle-packing-zoomable");
 		
 		project = storeProject("aa-3-and-4");
 		project.registerMappingFile("/life-sciences/amino-acid/example-mappings/AA_4.ttl");

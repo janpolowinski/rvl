@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.json.simple.JSONObject;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.Resource;
@@ -32,6 +33,8 @@ public abstract class D3GeneratorBase implements D3Generator {
 	
 	protected Model modelAVM;
 	protected Model modelVISO;
+	
+	private String graphicType;
 	
 	private final static Logger LOGGER = Logger.getLogger(D3GeneratorBase.class .getName());
 
@@ -81,11 +84,6 @@ public abstract class D3GeneratorBase implements D3Generator {
 	 */
 	public abstract String getGenJSONFileName();
 	
-	/* (non-Javadoc)
-	 * @see org.purl.rvl.tooling.avm2d3.D3Generator#getDefaultD3GraphicFile()
-	 */
-	public abstract String getDefaultD3GraphicFile();
-
 
 	/**
 	 * @param map
@@ -291,5 +289,33 @@ public abstract class D3GeneratorBase implements D3Generator {
 		// had to be used
 		float startNodeWidth = graphicObject.hasWidth()? graphicObject.getWidth() : getDefaultWidthNodes();
 		putLabels(graphicObject, startNodeWidth, jsonObject); // TODO width OK?
+	}
+	
+	protected void putGraphicType(JSONObject object) {
+		object.put("graphic_type", getGraphicType());
+	}
+
+	/**
+	 * @return the defaultGraphicType
+	 */
+	@Override
+	public String getGraphicType() {
+		if (null == graphicType || graphicType.isEmpty()) {
+			return getDefaultGraphicType();
+		} else {
+			return graphicType;
+		}
+	}
+
+	/**
+	 * @param graphicType the graphicType to set
+	 */
+	@Override
+	public void setGraphicType(String graphicType) {
+		this.graphicType = graphicType;
+	}
+	
+	public String getD3GraphicFile(){
+		return getGraphicType() + "/index.html";
 	}
 }

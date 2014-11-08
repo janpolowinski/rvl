@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- labeling at various positions works, but is cropped (view box bug) in webkit and is slow in firefox (many objects SVG in HTML in SVG ) -->
   	<meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 	<link type="text/css" rel="stylesheet" href="../../css/main.css"/>
@@ -9,7 +10,7 @@
     <link type="text/css" rel="stylesheet" href="../../css/labeling-new-boxmodel.css"/>
     <link type="text/css" rel="stylesheet" href="../../css/labeling-webkit-old-boxmodel.css"/>
 	<script type="text/javascript" src="../../js/d3.min.js"></script>
-    <!-- >script type="text/javascript" src="../../js/d3.layout.js"></script--> <!-- causes conflicts when imported -->
+    <script type="text/javascript" src="../../js/d3.layout.js"></script> <!-- causes conflicts when imported to force-directed-graph -->
     <script type="text/javascript" src="../../js/global-settings.js"></script>
     <script type="text/javascript" src="../../js/page-layout-pure.js"></script>
     <!-- own plugins to handle AVM based on D3.js -->
@@ -17,41 +18,24 @@
     <script type="text/javascript" src="../../js/ogvic.d3.utils.js"></script>
     <!-- supported graphic types -->
     <script type="text/javascript" src="../../js/force-directed-graph.js"></script>
-   	<script type="text/javascript" src="../../js/circle-packing-zoomable.js"></script>
+    <script type="text/javascript" src="../../js/circle-packing-zoomable.js"></script>
     <script type="text/javascript" src="../../js/collapsible-tree.js"></script>
-	<style type="text/css">
-	
-	
-	.node {
-	  cursor: pointer;
-	}
-	
-	.label,
-	.node--root {
-	  pointer-events: none;
-	}	
-	
-	.node--leaf {
-	  pointer-events: all; /* problem: when leafs are clickable, we zoom into them instead of showing them (with a label) */
-	  /*pointer-events: none;*/ /* problem: prevents identity highlighting of leaf nodes */
-	}
-	
-	</style>
 </head>
 <body>
-
+	
 <script type="text/javascript">
 
-buildPageStructure();	
-	
+buildPageStructure();
+
+    
 /**************************/
 /* START DATA DRIVE       */
 /**************************/
 
-d3.json("../../gen/json/tree-data.json", loadCirclePackingZoomable);
-
-d3.select(self.frameElement).style("height", outerDiameter + "px");
-
+d3.json("../../gen/json/tree-data.json", loadCollapsibleTree);
+	
 </script>
+
+
 </body>
 </html>
