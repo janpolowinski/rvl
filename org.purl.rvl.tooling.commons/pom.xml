@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.purl.rvl.tooling</groupId>
+	<artifactId>rvl-commons</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>RVL Commons</name>
+	<description>Common classes and resources for all RVL tooling</description>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+	
+		<dependency>
+			<groupId>org.purl.rvl</groupId>
+			<artifactId>codegen.rdfreactor</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1</version>
+		</dependency>
+		
+		<!-- pretty printing is missing in json-simple -->
+		<dependency>
+			<groupId>com.cedarsoftware</groupId>
+			<artifactId>json-io</artifactId>
+			<version>2.6.0</version>
+		</dependency>
+
+		<!-- simplify testing with large JSON strings -->
+		<dependency>
+			<groupId>org.skyscreamer</groupId>
+			<artifactId>jsonassert</artifactId>
+			<version>1.2.3</version>
+			<scope>test</scope>
+		</dependency>
+		
+	</dependencies>
+</project>

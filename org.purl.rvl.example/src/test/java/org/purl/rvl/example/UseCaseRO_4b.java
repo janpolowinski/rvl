@@ -1,24 +1,11 @@
 package org.purl.rvl.example;
 
-import java.io.FileNotFoundException;
 
-import org.junit.Test;
-import org.purl.rvl.interpreter.test.TestOGVICProcess;
+public class UseCaseRO_4b extends TestOGVICProcessExamples {
 
-public class UseCaseRO_4b extends TestOGVICProcess {
-	
-	@Test
-	public void testOGVICProcess() throws FileNotFoundException {
-		
-		project.registerMappingFile(ExampleFile.get("software/ro/example-mappings/RO_4b.ttl"));
-		project.registerDataFile(ExampleFile.get("software/ro/example-mappings/extra-data.ttl"));
-		project.registerDataFile(ExampleFile.get("software/ro/example-data/ro_v_1_4_1_incl_social_network_example.owl"));
-		
-
-		
-		loadProjectAndRunProcess();
-		
+	@Override
+	protected String getProjectName() {
+		return "ro-4b";
 	}
-
 
 }

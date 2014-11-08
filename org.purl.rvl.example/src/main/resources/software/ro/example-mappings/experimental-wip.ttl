@@ -1,0 +1,128 @@
+# Saved by TopBraid on Tue May 28 18:15:20 CEST 2013
+# baseURI: http://purl.org/viso/example/ro/
+# imports: http://purl.org/rvl/spin-constraints/
+# imports: http://purl.org/viso/shape/commons/
+# imports: http://purl.org/ro/ont
+# imports: http://purl.org/rvl/
+# imports: http://purl.org/ro/semvis-example/
+
+@prefix :        <http://purl.org/viso/example/ro/> .
+@prefix commons:  <http://purl.org/viso/shape/commons/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ro:      <http://purl.org/ro/ont#> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix semvis-example:  <http://purl.org/ro/semvis-example/> .
+@prefix spin-constraints:  <http://purl.org/rvl/spin-constraints/> .
+@prefix viso-graphic:  <http://purl.org/viso/graphic/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+rvl:valueMapping
+      rdfs:domain rvl:PropertyMapping .
+
+:     rdf:type owl:Ontology ;
+      owl:imports spin-constraints: , semvis-example: , commons: , <http://purl.org/ro/ont> , rvl: ;
+      owl:versionInfo "Created with TopBraid Composer"^^xsd:string .
+
+:Checked_to_Checked
+      rdf:type rvl:ValueMapping ;
+      rdfs:label "Checked to Checked"^^xsd:string ;
+      rvl:sourceValue ro:Checked ;
+      rvl:targetValue commons:Checked .
+
+:HighPriority_to_Red
+      rdf:type rvl:ValueMapping ;
+      rdfs:label "High priority to Red"^^xsd:string ;
+      rvl:sourceValue ro:HighPriority ;
+      rvl:targetValue viso-graphic:Red .
+
+:IM_50-ue_to_Red
+      rdf:type rvl:IntervalMapping ;
+      rdfs:label "[50,ue] to Red"^^xsd:string ;
+      rvl:intervalLabel "expensive"^^xsd:string ;
+      rvl:sourceValueUpperBoundExcl
+              "50"^^xsd:string ;
+      rvl:targetValue viso-graphic:Green .
+
+:IM_Ue-50_to_Green
+      rdf:type rvl:IntervalMapping ;
+      rdfs:label "[Ue,50) to Green"^^xsd:string ;
+      rvl:intervalLabel "cheap"^^xsd:string ;
+      rvl:sourceValueLowerBoundIncl
+              "50"^^xsd:string ;
+      rvl:targetValue viso-graphic:Red .
+
+:LowPriority_to_Rosa
+      rdf:type rvl:ValueMapping ;
+      rdfs:label "Low priority to Rosa"^^xsd:string ;
+      rvl:sourceValue ro:LowPriority ;
+      rvl:targetValue viso-graphic:Rosa .
+
+:RO-3
+      rdf:type rvl:PropertyMapping ;
+      rdfs:comment "Checked is mapped to the Checked symbol, all other subclasses of ro:State (+ their individuals) shall be mapped to remaining symbols available."^^xsd:string ;
+      rdfs:label "RO-3 (variant, since here type is used to model state)"^^xsd:string ;
+      rvl:sourceProperty rdf:type ;
+      rvl:targetGraphicRelation
+              viso-graphic:shape_named ;
+      rvl:valueMapping :Checked_to_Checked .
+
+:RO-4
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "RO-4, however Priority modelled as type"^^xsd:string ;
+      rvl:sourceProperty rdf:type ;
+      rvl:targetGraphicRelation
+              viso-graphic:color_named ;
+      rvl:valueMapping :HighPriority_to_Red , :LowPriority_to_Rosa .
+
+:RO-5
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "Cost (literal) to Color"^^xsd:string ;
+      rvl:intervalMapping :IM_Ue-50_to_Green , :IM_50-ue_to_Red ;
+      rvl:sourceProperty ro:hasCost ;
+      rvl:targetGraphicRelation
+              viso-graphic:color_named .
+
+:RO-5_Variant_a
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "Cost (literal) to Color (without Interval Mappings but with target value list)"^^xsd:string ;
+      rvl:sourceProperty ro:hasCost ;
+      rvl:targetGraphicRelation
+              viso-graphic:color_named ;
+      rvl:targetValueList
+              [ rdf:type viso-graphic:Visual_Value_List ;
+                rdf:first viso-graphic:Red ;
+                rdf:rest (viso-graphic:Green)
+              ] .
+
+:RO-7
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "RO-7"^^xsd:string ;
+      rvl:invertSourceProperty
+              "true"^^xsd:boolean ;
+      rvl:sourceProperty ro:isRefinementOf ;
+      rvl:targetGraphicRelation
+              viso-graphic:contains .
+
+:Visual_Value_List_1
+      rdf:type viso-graphic:Visual_Value_List ;
+      rdfs:label "Visual Value List 1"^^xsd:string .
+
+viso-graphic:BicolorList
+      rdf:type viso-graphic:Visual_Value_List ;
+      rdf:first viso-graphic:Green ;
+      rdf:rest (viso-graphic:Red viso-graphic:Green) ;
+      rdfs:label "Bicolor list"^^xsd:string .
+
+      
+:IsRefinementOfToLinkingDirected
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rdfs:label "PM from ro:isRefinementOf to Linking Directed"^^xsd:string ;
+      rvl:sourceProperty ro:isRefinementOf ;
+      #rvl:sourceProperty semvis-example:justifiedBy ;
+      rvl:invertSourceProperty
+              "true"^^xsd:boolean ;
+      rvl:targetObjToObjRelation viso-graphic:Linking_Directed_Relation ;
+      .
+      

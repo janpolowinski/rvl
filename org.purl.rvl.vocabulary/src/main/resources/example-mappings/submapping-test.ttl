@@ -1,0 +1,74 @@
+@prefix :        <http://purl.org/rvl/example-mappings/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rexm:    <http://purl.org/rvl/example-mappings/> .
+@prefix rexd:    <http://purl.org/rvl/example-data/> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix vg:    <http://purl.org/viso/graphic/> .
+@prefix common-shapes:    <http://purl.org/viso/shape/commons/> .
+
+:     rdf:type owl:Ontology ;
+      owl:imports rvl: , rexd: ,common-shapes: .
+
+:IconLabeling
+      rvl:disabled "false"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:subMapping 
+      [
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :LabelColorMapping;
+      ]
+      # try using P2GOTOR mappings as sub-mappings:
+      # this one will work on the subjects again (persons that have a working field)
+      ,
+      [
+        rvl:subMapping-onRole vg:labeling_base;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :LinkingAsSubmapping;
+      ]
+      .
+      
+      
+      
+:Linking
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
+      rvl:subMapping 
+      [
+        rvl:subMapping-onRole vg:linkingDirected_startNode;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :LabelColorMapping;
+      ]
+      .
+
+
+:LabelColorMapping
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+		rvl:sourceValue rexd:Sci-Fi;
+        rvl:targetValue vg:Red;
+      ],[
+		rvl:sourceValue rexd:Biography;
+        rvl:targetValue vg:Green;
+      ],[
+      	rvl:sourceValue rexd:Travel;
+      	rvl:targetValue vg:Blue;
+      ]
+      .
+   
+:LinkingAsSubmapping
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:workingField ;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
+      .
