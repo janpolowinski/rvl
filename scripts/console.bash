@@ -2,6 +2,6 @@
 
 echo "Start RVL tooling console ... "
 
-cd build
+cd ../build
 
 java -cp rvl-tooling.jar org.purl.rvl.tooling.process.OGVICConsoleExamples
