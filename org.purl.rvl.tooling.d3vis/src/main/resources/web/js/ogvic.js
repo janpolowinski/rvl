@@ -1,21 +1,4 @@
 /*************************************************/
-/* SETTINGS       								 */
-/*************************************************/
-
-var SYMBOL_WIDTH = 25; // width of the symbols in the Symbols.svg without scaling in px
-
-var NODE_SIZE; // TODO D3 symbol functions consider area using Math.sqrt(). Area of svg symbols in use elements is simply width*height
-var LABEL_ICON_SUPER_IMPOSITION_FAKTOR = 1/1.3; // e.g. 1/2 : Overlap by 1/2 label icon size
-
-// canvas
-var width = 1300,
-    height = 800,
-    m = [30, 30, 30, 30]
-	;
-
-var BASE_PATH_SVG_FILE = "../../svg/symbols.svg#";
-
-/*************************************************/
 /* own "plugins" to handle AVM based on D3       */
 /*************************************************/
 
