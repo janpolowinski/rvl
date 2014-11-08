@@ -10,6 +10,7 @@
         <link type="text/css" rel="stylesheet" href="../../css/labeling-new-boxmodel.css"/>
         <link type="text/css" rel="stylesheet" href="../../css/labeling-webkit-old-boxmodel.css"/>
         <script type="text/javascript" src="../../js/d3.min.js"></script>
+        <script type="text/javascript" src="../../js/global-settings.js"></script>
         <!-- own plugins to handle AVM based on D3.js -->
     	<script type="text/javascript" src="../../js/ogvic.js"></script>
     	<script type="text/javascript" src="../../js/ogvic.d3.utils.js"></script>
@@ -63,31 +64,17 @@
 		</div>
         
         <script type="text/javascript">
-						
-				
-		/**************************/
-		/* GENERAL SETTINGS       */
-        /**************************/
-		
-		// OGVIC
-        var drawLinks = true; // choose whether only nodes should be drawn and layouted
-        var complexLabeling = true; // may be overridden by graphic loading functions
-        var simpleLabeling = false; // may be overridden by graphic loading functions
-        var alignedConnectorLabeling = false; 
-        
 
-						
+					
 		/******************************/
 		/* BASIC PAGE BUILDING        */
         /******************************/
         
 		var visContainer;
-        var vis;
-		var labelContainerSpace;
 
 		visContainer = d3.select("#canvas").append("div");
 		
-        var svg = visContainer.append("svg:svg")
+        svg = visContainer.append("svg:svg")
    		.attr("id", "svg")
         .attr("width", width)
         .attr("height", height);
