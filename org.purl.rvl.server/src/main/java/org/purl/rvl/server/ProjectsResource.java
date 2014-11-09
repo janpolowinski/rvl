@@ -160,7 +160,7 @@ public class ProjectsResource {
 	}
 	
 	public static File saveToTempFile(String data) throws IOException {
-		File tmpFile = new File("gen/tmp/data/tmp-data-" + random.nextDouble() + System.currentTimeMillis()  + ".tmp");
+		File tmpFile = new File("tmp/data/tmp-data-" + random.nextDouble() + System.currentTimeMillis()  + ".tmp");
 		FileWriter writer;
 		writer = new FileWriter(tmpFile);
 		writer.write(data);

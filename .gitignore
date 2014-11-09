@@ -15,7 +15,11 @@
 
 *.project
 
-gen
+/*/gen/*.*
+/*/gen/*/*.*
+/*/tmp/*.*
+/*/tmp/*/*.*
+!.keep
 ogvic.properties
 build-javadoc.xml
 target
