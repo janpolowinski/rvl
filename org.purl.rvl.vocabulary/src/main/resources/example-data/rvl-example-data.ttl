@@ -223,12 +223,14 @@
 :exportsTo
       rdf:type rdf:Property , owl:ObjectProperty ;
       rdfs:range :Place ;
+      rdfs:domain :Place ;
       rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value .
 
 :partOf
       rdf:type rdf:Property , owl:ObjectProperty , owl:TransitiveProperty ;
       rdfs:range :Place ;
-      rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value .
+      rdfs:domain :Place ;
+      rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value, owl:topObjectProperty .
       
 :knows
       rdf:type rdf:Property , owl:ObjectProperty ;
@@ -238,3 +240,9 @@
       rdf:type rdf:Property , owl:DataTypeProperty ;
       rdfs:range xsd:int ;
       rdfs:subPropertyOf :domainProperty , viso-data:has_quantitative_value .
+     
+:workingField
+      rdf:type rdf:Property , owl:ObjectProperty ;
+      rdfs:range :Field ;
+      rdfs:domain :Person ;
+      rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value, owl:topObjectProperty .

@@ -166,6 +166,11 @@ public class VisProjectLibrary {
 		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		//project.setD3Generator(new D3GeneratorTreeJSON());
 		
+		project = storeProject("tbox-domain-range-test");
+		project.setReasoningDataModel(Reasoning.rdfs);
+		project.registerMappingFile("/example-mappings/tbox-domain-range-test.ttl");
+		project.registerDataFile(ExampleData.RVL_EXAMPLE);
+		
 		project = storeProject("temp-test");
 		project.setReasoningDataModel(Reasoning.rdfs);
 		project.registerMappingFile(ExampleMapping.RVL_TEST_TEMP);
