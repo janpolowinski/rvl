@@ -47,7 +47,8 @@ public class OGVICProcess {
 	public static boolean WRITE_MAPPING_MODEL = false;
 	public static boolean WRITE_JSON = true;
 	
-	//public static final String WEB_SERVER_ROOT = "../org.purl.rvl.tooling.d3vis/src/main/resources/web/"; // use for local testing with a webserver reading this dir
+	//public static final String WEB_SERVER_ROOT = "../org.purl.rvl.tooling.d3vis/src/main/resources/web/"; // use for local testing with this folder as the root of a webserver
+	//public static final String WEB_SERVER_ROOT = "../build/"; // use for local testing with the build folder as the root of a webserver
 	public static final String WEB_SERVER_ROOT = ""; // standard for jar building and deployment
 	
 	// TMP LOCAL FILES AND FOLDER SETTINGS
