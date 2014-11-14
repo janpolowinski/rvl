@@ -16,7 +16,7 @@ public class DomainRangeSPARQLQueryBuilder extends DataQueryBuilder {
 	protected void statementSPARQL(URI spURI){
 		query
 			// including statements of subproperties of spURI or spURI itself
-			.append(" ?p " + Property.SUBPROPERTYOF.toSPARQL() + "* " + spURI.toSPARQL() + " ")
+			.append(" ?p " + Property.SUBPROPERTYOF.toSPARQL() + "* " + spURI.toSPARQL() + " . ")
 			.append(" ?p " + org.ontoware.rdf2go.vocabulary.RDFS.domain.toSPARQL() +  " ?s  . ")
 			.append(" ?p " + org.ontoware.rdf2go.vocabulary.RDFS.range.toSPARQL() +  " ?o"  );
 			// only most specific
@@ -26,6 +26,14 @@ public class DomainRangeSPARQLQueryBuilder extends DataQueryBuilder {
 			//.append(" FILTER(?pp != ?p) ")
 			//.append(" } ")
 			;
+	}
+	
+	protected void spoVarTripleSPARQL() {
+		//query.append(" ?s ?p ?o . ");
+	}
+	
+	protected void filterNoReflexiveStatementsSPARQL() {
+		
 	}
 
 }
