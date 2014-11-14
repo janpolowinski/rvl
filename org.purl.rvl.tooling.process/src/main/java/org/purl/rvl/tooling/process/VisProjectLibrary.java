@@ -178,9 +178,11 @@ public class VisProjectLibrary {
 		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		//project.setRvlInterpreter(new SimpleRVLInterpreter());
 		//project.setD3Generator(new D3GeneratorTreeJSON());
-
 		
-
+		project = storeProject("external-editing-test");
+		project.setReasoningDataModel(Reasoning.rdfs);
+		project.registerMappingFile("editing/mapping.ttl");
+		project.registerDataFile("editing/data.ttl");
 		
 	}
 	
