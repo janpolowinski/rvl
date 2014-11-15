@@ -182,6 +182,9 @@ public class VisProjectLibrary {
 		project = storeProject("external-editing-test");
 		project.setReasoningDataModel(Reasoning.rdfs);
 		project.registerMappingFile("editing/mapping.ttl");
+		try {
+			project.registerDataFile("editing/ontology.ttl");
+		} catch (FileNotFoundException e) {}
 		project.registerDataFile("editing/data.ttl");
 		
 	}
