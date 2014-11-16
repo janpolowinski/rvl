@@ -122,7 +122,6 @@ RVL may be extended to support identity mappings also on the level of value mapp
 :Interval
       rdf:type owl:Class ;
       rdfs:label "Interval"^^xsd:string ;
-      rdfs:subClassOf owl:Thing ;
       dct:description "An interval of values of a simple datatype or ordered objects. The interval can be unbounded (infinite) to one direction by not specifying upper or lower bound. An interval may also require a label, when a legend shall be created (use rdfs:label for this)."^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string .
@@ -162,7 +161,6 @@ RVL may be extended to support identity mappings also on the level of value mapp
 :N-AryRelation
       rdf:type owl:Class ;
       rdfs:label "N-ary relation"^^xsd:string ;
-      rdfs:subClassOf owl:Thing ;
       dct:description "A class to be used in modelling the N-ary relation design pattern. For example, the submapping relation is n-ary."^^xsd:string ;
       swstatus:term_status
               "unimportant"^^xsd:string ;
@@ -358,7 +356,6 @@ TODO: Also a cascading mechanism is needed to determine the winning mapping, whe
 :Simplification
       rdf:type owl:Class ;
       rdfs:label "Simplification"^^xsd:string ;
-      rdfs:subClassOf owl:Thing ;
       dct:description "Abstract super-class of all simplifications. A simplification is a transformation on the source RDF graph with the intention to gain a simpler model by removing redundant information. It is not part of the visual mapping, but a pre-step for this."^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string .
