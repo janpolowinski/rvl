@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<!-- copied from index-rest.html - do not modify -->	
+<html>
+    <head>
+        <!-- labeling at various positions works, but is cropped (view box bug) in webkit and is slow in firefox (many objects SVG in HTML in SVG ) -->
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+        <link type="text/css" rel="stylesheet" href="../../css/main.css"/>
+        <link type="text/css" rel="stylesheet" href="../../css/theme-dark.css"/>
+        <link type="text/css" rel="stylesheet" href="../../css/labeling.css"/>
+        <link type="text/css" rel="stylesheet" href="../../css/labeling-new-boxmodel.css"/>
+        <link type="text/css" rel="stylesheet" href="../../css/labeling-webkit-old-boxmodel.css"/>
+        <script type="text/javascript" src="../../js/d3.min.js"></script>
+        <script type="text/javascript" src="../../js/global-settings.js"></script>
+        <!-- own plugins to handle AVM based on D3.js -->
+    	<script type="text/javascript" src="../../js/ogvic.js"></script>
+    	<script type="text/javascript" src="../../js/ogvic.d3.utils.js"></script>
+    	<!-- supported graphic types -->
+    	<script type="text/javascript" src="../../js/force-directed-graph.js"></script>
+    	<script type="text/javascript" src="../../js/circle-packing-zoomable.js"></script>
+    	<script type="text/javascript" src="../../js/collapsible-tree.js"></script>
+    </head>
+    <body>
+    
+        <div id="container" class="layout">
+  			<div id="row" class="layout">
+
+  				<div id="left" class="layout">
+  					<div id="menu" class="layout">
+  						<!--<button onclick="reLoad()">Reload</button>
+  						<br/><br/>-->
+						<button onclick="loadProject('external-editing-test','force-directed-graph')">Reload</button>
+  						<br/><br/>
+  						<!--<button onclick="reInitContainers()">Re init containers</button>-->
+						<!--<button onclick="clearVis()">Clear visualization</button>-->
+  					</div>
+  				</div>
+
+  				<div id="middle" class="layout">
+  					<div id="canvas" class="layout"></div>
+  				</div>
+
+  				
+			</div>
+			
+		</div>
+		
+		<div id="footer" class="layout">RVL Examples. Jan Polowinski. 2014.</div>
+        
+        <script type="text/javascript">
+
+					
+		/******************************/
+		/* BASIC PAGE BUILDING        */
+        /******************************/
+        
+		var visContainer;
+
+		visContainer = d3.select("#canvas").append("div");
+		
+        svg = visContainer.append("svg:svg")
+   		.attr("id", "svg")
+        .attr("width", width)
+        .attr("height", height);
+    
+        
+        clearVis = function() {
+        	vis.remove();
+        	//vis.selectAll("*").remove();
+        	labelContainerSpace.remove();
+        }
+        
+        initContainers = function() {
+	        	
+	        vis = svg
+	 	        .append("svg:g")
+	 	        .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
+	 	        ;
+	
+	 		labelContainerSpace = visContainer.append("div")
+	 			.attr("id", "labelContainerSpace")
+	 			.style("margin-top", m[0]+"px")
+	 			.style("margin-left", m[3]+"px")
+	 		    .attr("width", width + "px")
+	 		    .attr("height", height + "px");
+        }
+        
+        reInitContainers = function() {
+        	clearVis();
+        	initContainers();
+        }
+		
+		//var mInfo = d3.select("body").append("div");
+		
+		initContainers();
+		
+        // Define Markers to be used in arrow paths
+        svg.avmProvideMarkerCollection();
+        
+        
+        var graphicLoadingFunctions = new Array ();
+		graphicLoadingFunctions['force-directed-graph'] = loadForceDirectedGraph;
+		graphicLoadingFunctions['circle-packing-zoomable'] = loadCirclePackingZoomable;
+		graphicLoadingFunctions['collapsible-tree'] = loadCollapsibleTree;
+		graphicLoadingFunctions['undefined'] = loadForceDirectedGraph;
+			
+		/**************************/
+		/* START DATA DRIVE       */
+        /**************************/	
+        	
+        reLoad = function() {
+    	 	reInitContainers();
+    	 	
+    	 	d3.json("http://localhost:8080/semvis/projects/latest", function(json){
+    	 		//alert(json.graphic_type);
+    	 		graphicLoadingFunctions[json.graphic_type](null, json);
+    	 		});
+    	 	
+    		//d3.json("http://localhost:8080/semvis/projects/latest", graphicLoadingFunctions[defaultGraphicType]);
+    		//"../../gen/json/tree-data.json" , "../../gen/json/graph-data.json", "../../example-data/graph-data-labeling-advanced.json"
+    	}
+    	
+    	loadProject = function(projectID, defaultGraphicType) {
+    		reInitContainers();
+    		d3.json("http://localhost:8080/semvis/projects/run/" + projectID, graphicLoadingFunctions[defaultGraphicType]);
+    	}
+    	
+    	d3.json("http://localhost:8080/semvis/projects", function (error, result) {
+    	
+    		 var projectsEnter = d3.select("#menu")
+    		.append("div")
+    		.selectAll("button")
+    		//.datum(function() { return this.dataset; })
+    	    .data(result.sort(function(a, b) { return d3.ascending(a.id, b.id); }))
+    	    //.data(result.sort(function(a, b) { return d3.ascending(a.defaultGraphicType, b.defaultGraphicType); }))
+    	    .enter()
+    	    .append("div")
+    	    .append("button")
+    	    .attr("onclick", function(d){return "loadProject('" + d.id + "','" + d.defaultGraphicType + "')";})
+    	    .text(function(d){return d.id;});    	
+    	});
+        
+        reLoad();
+        
+        
+        
+        // menu
+        
+        loadExampleValue = function(endPoint, elementID) {
+    		d3.text(endPoint, 
+				function(error, text) {
+					populateWithExampleValue(error, text, elementID)
+				}
+			);
+    	}
+    	
+    	populateWithExampleValue = function(error, value, elementID) {
+    	
+    		//alert(value);
+    		d3.select(elementID).text(value);
+    	}
+    	
+    	loadExampleValue("http://localhost:8080/semvis/projects/example/data", "#projectData");
+        loadExampleValue("http://localhost:8080/semvis/projects/example/mappings", "#projectMappings");
+        
+        
+        
+                                                                        
+        </script>
+		
+ 		<!-- somehow MUST NOT be before the script! -->
+        <svg id="svg-effects">
+            <filter id="blur-effect-1">
+                <feGaussianBlur stdDeviation="0.9" />
+            </filter>
+            <filter id="blur-effect-2">
+                <feGaussianBlur stdDeviation="2" />
+            </filter>
+             <!-- causes circle-packing to zoom wrongly -->
+<!--             <defs> -->
+<!--                 <marker id="markerSquare" markerWidth="7" markerHeight="7" refx="4" refy="4" orient="auto"> -->
+<!--                     <rect x="1" y="1" width="5" height="5" style="stroke: none; fill:#000000;"/> -->
+<!--                 </marker> -->
+<!--                 <marker id="markerArrow" markerWidth="13" markerHeight="13" refx="2" refy="7" orient="auto"> -->
+<!--                     <path d="M2,2 L2,13 L8,7 L2,2" style="fill: #000000;"/> -->
+<!--                 </marker> -->
+<!--             </defs> -->
+        </svg>
+	
+    </body>
+</html>
