@@ -19,11 +19,10 @@
 rexm:SubClassOfToLinkingDirected
 	  rvl:disabled "false"^^xsd:boolean ;
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rdfs:label "PM from rdfs:subClassOf to Linking Directed"^^xsd:string ;
       rvl:sourceProperty rdfs:subClassOf ; 
       rvl:invertSourceProperty
               "true"^^xsd:boolean ;
-      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ;
+      rvl:targetObjToObjRelation vg:Containment_Relation ;
 	rvl:subjectFilter " FILTER isIRI(?o) "^^rvl:sparqlSelector;
       .
 
@@ -31,22 +30,20 @@ rexm:SubClassOfToLinkingDirected
 rexm:SubPropertyOfToLinkingDirected
 	  rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rdfs:label "PM from rdfs:subPropertyOf to Linking Directed"^^xsd:string ;
       rvl:sourceProperty rdfs:subPropertyOf ;
       rvl:invertSourceProperty
               "true"^^xsd:boolean ;
-      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ;
+      rvl:targetObjToObjRelation vg:Containment_Relation ;
 	rvl:subjectFilter " FILTER isIRI(?o) "^^rvl:sparqlSelector;
       .
       
 rexm:TypeToLinkingDirected
 	  rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rdfs:label "PM from rdfs:subPropertyOf to Linking Directed"^^xsd:string ;
       rvl:sourceProperty rdf:type ;
       rvl:invertSourceProperty
               "true"^^xsd:boolean ;
-      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ;
+      rvl:targetObjToObjRelation vg:Containment_Relation ;
 	rvl:subjectFilter " FILTER isIRI(?o) "^^rvl:sparqlSelector;
       .
       
@@ -57,11 +54,12 @@ rexm:TypeToLinkingDirected
       a rvl:PropertyToGraphicObjToObjRelationMapping ;
       rvl:disabled "true"^^xsd:boolean ;
       rdfs:label "(Any) domain - range relation to linking"^^xsd:string ;
+	#rvl:subjectFilter " FILTER isIRI(?o) "^^rvl:sparqlSelector;
       rvl:sourceProperty owl:topObjectProperty ;
       #rvl:invertSourceProperty "true"^^xsd:boolean;
       rvl:inheritedBy rvl:tBoxDomainRange;
       rvl:targetObjToObjRelation
-              <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+              <http://purl.org/viso/graphic/vg:Containment_Relation> ;
       #rvl:subMapping [
       #  a rvl:SubMappingRelation ;
       #  rvl:subMapping-onRole vg:linking_connector;
