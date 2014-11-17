@@ -1,6 +1,5 @@
-# Saved by TopBraid on Thu Aug 07 14:14:16 CEST 2014
+# Saved by TopBraid on Mon Nov 17 07:51:29 CET 2014
 # baseURI: http://purl.org/rvl/
-# imports: http://purl.org/viso/graphic/
 
 @prefix :        <http://purl.org/rvl/> .
 @prefix bibo:    <http://purl.org/ontology/bibo/> .
@@ -9,6 +8,7 @@
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rvl-docu:  <http://purl.org/rvl/docu/> .
 @prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
 @prefix swstatus:  <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
 @prefix viso-graphic:  <http://purl.org/viso/graphic/> .
@@ -19,22 +19,7 @@ dct:description
 
 :     rdf:type owl:Ontology ;
       rdfs:label "RDF Visualization Language (RVL)"^^xsd:string ;
-      dct:description """RVL is a declarative language that allows to specify a mapping from RDF(S)/OWL concepts to visual means that are defined in the Visualisation Ontology VISO (http://purl.org/viso/). The syntax is based on RDFS, while the semantics are given by means of SPIN rules.  
-
-RVL was developed in the SemVis project by Jan Polowinski.
-
-<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/rvl_class_diagram.png\">
-
-<h3>Overview of Datatypes used in RVL</h3>
-<b>MissingSourceValueHandlingType:</b> Hide, Ignore, Missing (default), Neutral, Average
-<b>MissingValueMappingHandlingType:</b> Calculate (default), Hide, Neutral, Ignore, No mapping, Average
-<b>NeutralValueHandlingType:</b> Average, Style
-<b>OutOfBoundHandlingType:</b> Cut (default), Clamp
-<b>ScaleTransformationType:</b> Linear (default), Logarithmic
-
-<!--<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/datatypes_rvl.png\"/>-->"""^^xsd:string ;
-#      owl:imports viso-graphic: 
-.
+      owl:imports rvl-docu: .
 
 :Average
       rdf:type :MissingSourceValueHandlingType , :MissingValueMappingHandlingType , :NeutralValueHandlingType ;
@@ -46,13 +31,10 @@ RVL was developed in the SemVis project by Jan Polowinski.
 
 :Clamp
       rdf:type :OutOfBoundHandlingType ;
-      rdfs:label "clamp"^^xsd:string ;
-      dct:description "Values outside the defined interval are set to the boundaries of the interval."^^xsd:string .
+      rdfs:label "clamp"^^xsd:string .
 
 :Cut  rdf:type :OutOfBoundHandlingType ;
-      rdfs:label "cut"^^xsd:string ;
-      dct:description "Values outside the defined interval are cut, i.e. resources with this value are not shown at all (neither will they be considered in calculations, e.g. the overall range of all values). "^^xsd:string ;
-      skos:editorialNote "Merge with Ignore?"^^xsd:string .
+      rdfs:label "cut"^^xsd:string .
 
 :GraphicAttributeInterval
       rdf:type owl:Class ;
@@ -90,7 +72,6 @@ RVL was developed in the SemVis project by Jan Polowinski.
                         ] ;
                 owl:onProperty :upperBoundExcl
               ] ;
-      dct:description "An interval of graphic values, either defined by literals or ordered resources of type Visual_Attribute."^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -103,26 +84,16 @@ RVL was developed in the SemVis project by Jan Polowinski.
       rdfs:comment "Also referred to as \"Passthrough Mapping\" in some tools."^^xsd:string ;
       rdfs:label "Identity mapping"^^xsd:string ;
       rdfs:subClassOf :PropertyMapping ;
-      dct:description "Passes source values through to the target graphic relation without changing the datatype or value. The type of the values in the domain is equal to the type of the values in the co-domain."^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:editorialNote """Except passing strings to labels, also a few other values in the source data may be passed through, e.g. RGB values, sizes in px, positions in px (all other need scaling).   These values do not need to be mapped, but can directly be used as they are. However, it should be possible to perform string-operations in order to do small changes if the datatypes don't match exactly. Setting \"image/uri\" as value in fresnel is similar, however it also instructs how to present. It could be argued that in rare cases relations in the data (when the source data is already about graphic relations) may need to be passed through to GOTORs as well which is not possible at the moment.
-
-RVL may be extended to support identity mappings also on the level of value mappings, in order to allow for splitting the source values and handling  each part with differernt settings (e.g. partly use a calculated mapping, or add additional text for some parts). This has been neglected for now for reasons of overall complexity in favor of this simple PM class. To achieve the above mentioned behavior, complex filters on the PM may be used for now. """^^xsd:string ;
-      skos:example """rdfs:label is passed to Labeling, or rgb-values are passed trough to Color.
-
-<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/passthrough_mapping_va_example.png\">"""^^xsd:string .
+              "stable"^^xsd:string .
 
 :Ignore
       rdf:type :MissingSourceValueHandlingType , :MissingValueMappingHandlingType ;
-      rdfs:label "Ignore"^^xsd:string ;
-      dct:description "Act as if an entities with the given value would not not exist."^^xsd:string ;
-      skos:editorialNote "Merge with cut?"^^xsd:string .
+      rdfs:label "Ignore"^^xsd:string .
 
 :Interval
       rdf:type owl:Class ;
       rdfs:label "Interval"^^xsd:string ;
-      dct:description "An interval of values of a simple datatype or ordered objects. The interval can be unbounded (infinite) to one direction by not specifying upper or lower bound. An interval may also require a label, when a legend shall be created (use rdfs:label for this)."^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -137,10 +108,8 @@ RVL may be extended to support identity mappings also on the level of value mapp
 :Mapping
       rdf:type owl:Class ;
       rdfs:label "Mapping"^^xsd:string ;
-      dct:description "The abstract super-class of all mappings. Both PropertyMapping and ValueMapping are sub-classes of Mapping and inherit the property includeInLegend. This way, it can consistantly be defined, whether they should appear in a legend."^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:editorialNote "add a flag active/inactive"^^xsd:string .
+              "stable"^^xsd:string .
 
 :Missing
       rdf:type :MissingSourceValueHandlingType ;
@@ -149,22 +118,18 @@ RVL may be extended to support identity mappings also on the level of value mapp
 :MissingSourceValueHandlingType
       rdf:type rdfs:Class ;
       rdfs:label "Missing source value handling type"^^xsd:string ;
-      rdfs:subClassOf rdfs:Datatype ;
-      dct:description "Defines how to proceed with entities having no value for some property which is mapped by a property mapping. Cf. rvl:missingSourceValue."^^xsd:string .
+      rdfs:subClassOf rdfs:Datatype .
 
 :MissingValueMappingHandlingType
       rdf:type rdfs:Class ;
       rdfs:label "Missing value mapping handling type"^^xsd:string ;
-      rdfs:subClassOf rdfs:Datatype ;
-      dct:description "Defines how to proceed with entities having a value which is not mapped explicitly by a value mapping. Cf. rvl:missingValueMapping."^^xsd:string .
+      rdfs:subClassOf rdfs:Datatype .
 
 :N-AryRelation
       rdf:type owl:Class ;
       rdfs:label "N-ary relation"^^xsd:string ;
-      dct:description "A class to be used in modelling the N-ary relation design pattern. For example, the submapping relation is n-ary."^^xsd:string ;
       swstatus:term_status
-              "unimportant"^^xsd:string ;
-      skos:editorialNote "This could be reused from another more general vocabulary if available. Also VISO requires such a class. Alternatively it could be deleted, since it has no function besides being a super-class."^^xsd:string .
+              "unimportant"^^xsd:string .
 
 :Neutral
       rdf:type :MissingSourceValueHandlingType , :MissingValueMappingHandlingType ;
@@ -173,28 +138,23 @@ RVL may be extended to support identity mappings also on the level of value mapp
 :NeutralValueHandlingType
       rdf:type rdfs:Class ;
       rdfs:label "Neutral value handling type"^^xsd:string ;
-      rdfs:subClassOf rdfs:Datatype ;
-      skos:editorialNote "How is this exactly used?"^^xsd:string .
+      rdfs:subClassOf rdfs:Datatype .
 
 :NoMapping
       rdf:type :MissingValueMappingHandlingType ;
       rdfs:label "No mapping"^^xsd:string ;
       swstatus:term_status
-              "unstable"^^xsd:string ;
-      skos:editorialNote "Alternative to defining viso-graphic:Not_Set as a default value vor a visual means."^^xsd:string .
+              "unstable"^^xsd:string .
 
 :NoPropertyValueMapping
       rdf:type owl:Class ;
       rdfs:label "No-Property-Value-Mapping"^^xsd:string ;
-      rdfs:subClassOf :PropertyMapping ;
-      dct:description "Behaves like a PropertyMapping, but will apply the defined visual values, when no value for the source property can be found. Since there could always be a value defined in some unknown data set, this is a Closed-World feature."^^xsd:string ;
-      skos:editorialNote "This is an approach to model the non-existence mapping (10.1). It could also simply be modelled by using a specific filter for sourceproperty of a propertymapping. This way, not only the non-existence of any property value, but also of specific values was defineable. Also, usually there will be more filters used in combination (e.g. filter to Persons without e-mail-address and mark them red)."^^xsd:string .
+      rdfs:subClassOf :PropertyMapping .
 
 :OutOfBoundHandlingType
       rdf:type rdfs:Class ;
       rdfs:label "Out of bound handling type"^^xsd:string ;
       rdfs:subClassOf rdfs:Datatype ;
-      dct:description "An option of how to handle the values that are out of bounds of a defined interval."^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -232,51 +192,8 @@ RVL may be extended to support identity mappings also on the level of value mapp
                 owl:qualifiedCardinality
                         "1"^^xsd:nonNegativeInteger
               ] ;
-      dct:description """<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/rvl_class_diagram.png\">
-
-A Property mapping (PM) defines the mapping from one source property (i.e., a relation) to one target graphic relation. Depending on the type of graphic relation different sub-types of PM have to be used. For graphic-object-to-object relations <a href=\"#http://purl.org/rvl/PropertyToGraphicObjToObjRelationMapping\">PropertyToGraphicObjToObjRelationMapping</a> and for graphic attributes <a href=\"#http://purl.org/rvl/PropertyToGraphicAttributeMapping\">PropertyToGraphicAttributeMapping</a>. The latter allows for various settings on the mapping of different values.
-
-<h3>When are PM applied?</h3>
-Property mappings apply, whenever a property instance (i.e. a statement using the property) exists, no matter what is the object or subject. When constraints need to be made on the application of the mapping, filters have to be used on subject and/or object.
-
-The following figure illustrates a PM that is independent of the source values. Only the existence of some value for \"geo:coordinates\" leads to the creation of a world-shaped label:
-<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/mapping_example_mapping_the_existence_of_properties.png\" style=\"width:100%\"/>
-
-<h3>To which Graphic Object is a PM applied?</h3>
-Settings defined by a mapping will by default be applied to the Graphic object (GO) representing the <b>subject</b> of the mapped statement. This means changes to graphic attributes are applied to the subject's GO and the subject's GO is chosen as the starting point for graphic object-to-object relations defined in the mapping. When new graphic objects are implicitly created by a mapping (e.g. as a label) they, too, will be assigned to the subject's GO. When this default behavior is not desired two options are at hand:
-<ol>
-     <li>Map the inverse property instead (e.g., \"updatedBy\" instead of \"updates\")</li>
-     <li>Use a filter-expression to invert the direction of the statement (e.g., \"!updates\" instead of updates) . This will selected objects instead of the subjects.</li>
-     <li>(only usable within sub-mappings:) Use the rvl:onRole parameter to define the graphic object to which the mapping is to be applied.</li>
-</ol>
-
-<h3>How to map multiple values for the same property?</h3>
-This problem frequently occurs, for example, when mapping rdf:type, since multiple inheritance is allowed in RDFS. When multiple values for a source property exist and only one value is possible, the more specific value shall be processed. <i>For PropertyToGraphicAttributeMappings</i>, in case of two equally specific values, a warning shall be issued and the first value that is loaded shall be used. <i>For PropertyToGraphicObjToObjRelationMappings</i>, a warning shall be issued and the graphic object representing the subject shall be duplicated. """^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string , "unstable"^^xsd:string ;
-      skos:editorialNote """EXISTENCE MAPPINGS:
-As described, each property mapping is an \"existence mapping\", so no extra class is needed for this. A PM without filters does exactly the job, when exactly one target vaue is defined (this is inline with semantics of other settings). However, we could improve performance by explicitly stating, that the context (e.g. the value of the object) will not influence the mapping process. Any existence of the property will lead to the mapping described by the property mapping and no value mappings have to be considered (consider that value mappings are only special filters on the object side!!). We first considered to have a new class - Constant mapping - for this kind of property mapping.
-
-NEW GO:
-rvl:newGraphicObject could be used as a targetValue, when a new additional GO needs to be created. Whether this GO can also be a complex CGO having an internal structure (NV/PPR) and/or can have visual attributes already set from the beginning, or whether it should be the instance of a VR needs to be examined.
-
-FILTERS: 
-Besides the objectFilter and the subjectFilter, which are implemented, also an additional predicateFilter could be allowed (resp. we could allow a complex (SPARQL) selector as the range for sourceProperty). When we should introduce a predicateFilter, it has to be clarified whether it may be used in addition to the selection of a sourceProperty (only refining it) or instead of this setting. Since the defininition of property-paths and other complex relations may be achieved on the data side by introducing temporary properties and/or inference (e.g. for handling subproperties), no further filters are allowed for the moment. 
-
-FILTERS - ONE FILTER FOR ALL:
-Instead of separately describing the sourceProperty and various filters, also a complex statement-filter (e.g. a SPARQL selector) could be used to simply select all triples to be mapped. This, however, does not meet our goal of a stepwise and explicit definition of mappings. For example, this would cause problems when it comes to generating legends, since the sourceProperty is not explicitly defined. Having separate filters for subject, object and (possibly, for refinement) predicate, reduces the complexity of the single filter definitions and can more easily be handled.
-
-FILTERS vs. sourceValue... properties:
-While both objectFilter and properties such as sourceValue constrain the set of statements by the resources used as object in these statements, objectFilter is meant to filter via a complex (e.g. SPARQL) selector, while sourceValue defines single valid values. The properties sourceValueSet and sourceValueOrderedSet allow for easily selecting specific resources allowed as objects. SourceValueOrderedSet as well as the properties sourceValueUpper/LowerBound allow for defining ranges and existing sets of values in a more consise way. 
-
-sourceValue... properties and object/subject:
-All properties starting with sourceValue always refer to the object of the source statement that is to be mapped, not the subjects - just as valuemappings do. The object may be a literal or a complex resource on its own.  
-
-MULTIPLE VALUES FOR THE SAME PROPERTY:
-In future versions of RVL, also multiple values could be mapped and property could be introduced that allows for defining how to handle multiple values. Options could include: Use colored stripes, when mapping to multiple colors, mix colors (blue+yellow=green) or somehow calculate in-between values. (TODO: This is more a problem of P2GAMs) """^^xsd:string ;
-      skos:example """
-<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/pm_examples.png\"/>
-Although most frequently OWL object properties will be mapped to graphic object-to-object relations while OWL datatype properties will be mapped to graphic attributes, other constellations are possible. Also, some relations will only be modelled as rdf:Property."""^^xsd:string .
+              "stable"^^xsd:string , "unstable"^^xsd:string .
 
 :PropertyToGraphicAttributeMapping
       rdf:type owl:Class ;
@@ -294,7 +211,6 @@ Although most frequently OWL object properties will be mapped to graphic object-
                 owl:allValuesFrom viso-graphic:GraphicAttribute ;
                 owl:onProperty :targetAttribute
               ] ;
-      dct:description "A Property-to-Graphic-Attribute Mapping (P2GAM) draws a general connection between a (domain) property and the graphic attribute. The interesting part remains the mapping of the values, which is left to <a href=\"#http://purl.org/rvl/ValueMapping\">Value mappings</a> (VM). The default implicit VM, which is assumed, when no other VMs are explicitly defined, maps all source values to all target values. For details, refer to the description of VM."^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -314,39 +230,23 @@ Although most frequently OWL object properties will be mapped to graphic object-
                 owl:allValuesFrom viso-graphic:GraphicObjectToObjectRelation ;
                 owl:onProperty :targetObjToObjRelation
               ] ;
-      dct:description "A Property-to-Graphic-Object-to-Object-Relation (P2GOTOR) mapping maps (domain) properties to relative graphic object-to-object relations."^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:editorialNote """Without this extra class some attributes of mappings would have to be set in dependency on the type of the target graphic relation. 
-
-In contrast to PropertyToGraphicAttribute mappings, which make the language construct of Value Mappings a necessity, for P2GOTOR mappings it would have been sufficient to have source filters on the property mapping level."""^^xsd:string .
+              "stable"^^xsd:string .
 
 :RemoveTransitiveHull
       rdf:type owl:Class ;
       rdfs:label "Remove transitive hull"^^xsd:string ;
       rdfs:subClassOf :Simplification ;
-      dct:description "Simplifies the RDF graph by removing all edges that represent relations which are already implicitly given, because the relation is transitive."^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:example "<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/transitive_simplification_example.png\">"^^xsd:string .
+              "stable"^^xsd:string .
 
 :ResourceMapping
       rdf:type owl:Class ;
       rdfs:label "Resource mapping"^^xsd:string ;
       rdfs:seeAlso :inheritedBy , :passedTo ;
       rdfs:subClassOf :Mapping ;
-      dct:description """A convenience mapping. Stands for the frequently needed case of a property mapping of a resources ID (represented by the property \"rdf:ID\") to a target graphic attribute plus an attached value mapping from a specific source value to a fixed graphic attribute value. It can be used in combination with inheritedBy and passedTo in order to easily transfer the same value to all instances or subclasses of some specific resource.
-
-While the sourceProperty is implicitly clear (the ID), it is necessary to state the target graphic attribute when only a value of a simple data type, is given as a target value. For example take the value \"10.5\" - is it a height or a width? For the target value viso-graphic:red it is clear that it is a named color value, therefore, the target graphic attribute viso-graphic:color_named can be omitted.
-
-Systems interpreting resource mappings may decide whether to internally transform resource mappings to a property mapping and one (or more) value mappings, or directly process them."""^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string , "unstable"^^xsd:string ;
-      skos:editorialNote """NOTE: Regarding the neccasity of explicity specifying a target graphic attribute: Alternatively, as target values only instances of visual attribute, i.e., named attribute values may be allowed. Or, if also literals should be usable, such as \"10.5\"^^viso-graphic:heightValue, these datatypes will have to be introduced first! Standard unit ontologies may have to be considered for reuse in this context!
-
-TEMP NOTE: Class mappings (the predecessor of this) are internally processed to PropertyMappings at the moment (in the prototype - rvl2rvl)
-
-TODO: Also a cascading mechanism is needed to determine the winning mapping, when multiple mappings are applicable to a resource."""^^xsd:string .
+              "stable"^^xsd:string , "unstable"^^xsd:string .
 
 :ScaleTransformationType
       rdf:type rdfs:Class ;
@@ -356,7 +256,6 @@ TODO: Also a cascading mechanism is needed to determine the winning mapping, whe
 :Simplification
       rdf:type owl:Class ;
       rdfs:label "Simplification"^^xsd:string ;
-      dct:description "Abstract super-class of all simplifications. A simplification is a transformation on the source RDF graph with the intention to gain a simpler model by removing redundant information. It is not part of the visual mapping, but a pre-step for this."^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -364,18 +263,12 @@ TODO: Also a cascading mechanism is needed to determine the winning mapping, whe
       rdf:type owl:Class ;
       rdfs:label "Source value interval"^^xsd:string ;
       rdfs:subClassOf :Interval ;
-      dct:description """The setting of bounds for the source values is optional. The properties lowerBound and upperBound define the span of source values which are mapped. Other values, outside this span, are either cut or set to the bounding values, depending on the value for the property sourceValuesOutOfBounds.
-
-If no bounds are defined, the span of source values should be calculated from all available source values.
-
-Please note: The span of source values can also be set LARGER than the span implicitly created by the existing values. This can be used to enlarge the domain of the mapping, e.g. for enforcing a domain to important timespans such as 01.01.1900 - 31.12.2000."""^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string .
 
 :Style
       rdf:type :NeutralValueHandlingType ;
-      rdfs:label "Style"^^xsd:string ;
-      dct:description "Use the visual value defined by styling when no mapping to a graphic attribute exists."^^xsd:string .
+      rdfs:label "Style"^^xsd:string .
 
 :SubMappingRelation
       rdf:type owl:Class ;
@@ -395,131 +288,29 @@ Please note: The span of source values can also be set LARGER than the span impl
                 owl:qualifiedCardinality
                         "1"^^xsd:nonNegativeInteger
               ] ;
-      dct:description """Creates an n-ary relation between a base mapping and a sub-mapping, which is applied on the graphic object playing the role defined by rvl:subMapping-onRole. This allows for reusing existing mappings as sub-mappings. Additionally to the role, also the resource may be defined, the sub-mapping should work with. By default this is the object of the source-data-triple mapped by the \"super-mapping\", but it may be changed to the predicate or subject by using rvl:subMapping-onTriplePart.
-
-Using sub-mappings has the following effects/benefits as opposed to defining a new standalone mapping (simultaneous composition):
-<ul><li>Sub-mappings refine the graphic elements the super-mapping has worked on (each role can be referenced)</li>
-     <li>Sub-mappings always work on the resources already selected by the super-mapping - complex filter settings do not need to be defined once again.</li>
-     <li>Sub-mappings may create new graphic objects</li></ul>"""^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:editorialNote """SUBGRAPHICS: Submappings may also be attached to (constant/static) subgraphics. Here it has to be clarified how the source data can be referenced easily.
-
-TODO: REUSE: How well works reusing mappings with submappings?
-
-TODO PROTOTYPE: Not used in most examples at the moment. Instead hasSubMapping is simply used directly between mappings. However, this simplification, does not allow to reuse mappings in different situations, since onRole is fix and cannot be changed for each use of the mapping in different contexts. The same problem as with onRole applies to selecting the triple part to work on rdf:subject/predicate/object."""^^xsd:string ;
-      skos:example """Example of a sub-mapping, determining the color of the connector that has been created by a mapping to Linking.
-
-<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/mapping_ex_det_subm_on_connector.png\">"""^^xsd:string .
+              "stable"^^xsd:string .
 
 :UnifyWithInverseAndPickOne
       rdf:type owl:Class ;
       rdfs:label "Unify with inverse and pick one"^^xsd:string ;
       rdfs:subClassOf :Simplification ;
-      dct:description "Unifies a property and its inverse for the purpose of graphic representation. This is achieved by replacing one of them with the preferred property."^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:example "<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/inverse_simplification_example.png\">"^^xsd:string .
+              "stable"^^xsd:string .
 
 :ValueMapping
       rdf:type owl:Class ;
       rdfs:comment "Since discrete values on the target site are distinguished and mapped to source values, only mappings to visual attributes - not to other visual relations - will typically have value mappings. In the case of graphic-object-to-object-relations, there are usually no various target values which need to be mapped explicitly. Since most are binary, there are only two - either the graphic relation exists or not. "^^xsd:string ;
       rdfs:label "Value mapping"^^xsd:string ;
       rdfs:subClassOf :Mapping ;
-      dct:description """<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/rvl_class_diagram_value_mappings.png\"/>
-
-Value mappings (VM) define which source values should be mapped to which target values and optionally provide further information on how to do this mapping of values exactly. That way they are a supplement to Property-to-Graphic-Attribute Mappings (P2GAM), which only draw the general connection between the source relation and the target graphic relation. If no VM is defined for a P2GAM, a single default VM with default settings is used, which basically maps all the available source values to all the available target values.
-
-<ul>
-<li>A special case of a VM is a value mapping which requires no calculation and maps exactly one source value to exactly one target value. </li>
-<li>VMs can be seen as a shorthand for simple object filters on the object (value) side of a statement.</li>
-<li>Each value mapping may have its own settings like discreteStepCount.</li>
-</ul>
-
-<h3>Selectors</h3>
-
-<h4>Selecting Intervals (Ranges)</h4>
-VMs may be constrained by creating an <a href=\"#http://purl.org/rvl/Interval\">Interval</a> of values defining a minimum and/or maximum value using <a href=\"#http://purl.org/rvl/sourceValueInterval\">sourceValueInterval</a>. The same can be done for graphic attributes using <a href=\"#http://purl.org/rvl/targetValueInterval\">targetValueInterval</a>.
-
-<h4>Selecting Ordered Sets, Lists and Unordered Sets</h4>
-(Existing) ordered sets of ordered source values can be selected using <a href=\"#http://purl.org/rvl/sourceValueOrderedSet\">sourceValueOrderedSet</a>. <br/> (Existing) unordered sets can be selected using <a href=\"#http://purl.org/rvl/sourceValueSet\">sourceValueSet</a> or simply by using <a href=\"#http://purl.org/rvl/sourceValue\">sourceValue</a> multiple times. All selected values will build an ad-hoc set. <br/>  For the target graphic attribute values the analogeous properties <a href=\"#http://purl.org/rvl/targetValueOrderedSet\">targetValueOrderedSet</a>, <a href=\"#http://purl.org/rvl/targetValueSet\">targetValueSet</a>, <a href=\"#http://purl.org/rvl/targetValueList\">targetValueList</a> and <a href=\"#http://purl.org/rvl/targetValueCycle\">targetValueCycle</a> can be used. Refer to the description of these properties on details on how they differ from each other.
-
-<h4>Exclude single source or target values from the mapping</h4>
-When some specific value shall not be handled by the VM, rather than defining a new set of all desired values, we can reuse an existing set or interval and exclude the value in question using <a href=\"#http://purl.org/rvl/excludeSourceValue\">excludeSourceValue</a> (resp. <a href=\"#http://purl.org/rvl/excludeTargetValue\">excludeTargetValue</a>).
-
-<h4>Complex Source Value Selectors</h4>
-More complex source value selectors can be defined using <a href=\"#http://purl.org/rvl/sourceFilter\">sourceFilter</a> which allows for SPARQL and FSL expressions.
-
-<h4>Valid combinations of source/target selectors in a single VM:</h4>
-In a single value mapping, most source selectors are to be used alternatively - only those selecting an (unordered) set of values can be used in combination and also multiple times. The union of all values selected by sourceValueSet and sourceValue will be used as source values. Further potential exceptions to this have not been specified by now for reasons of simplicity. (This applies equally to target selectors).
-
-<h3>Additional mapping parameters</h3>
-Value mappings can store additional information on the desired mapping process. For example the property <a href=\"#http://purl.org/rvl/discretize\">discretize</a> and <a href=\"#http://purl.org/rvl/discreteStepCount\">discreteStepCount</a> define if and how a discretization of values should be done. Via <a href=\"#http://purl.org/rvl/scaleTransformation\">scaleTransformation</a>, the scaling can be changed from linear scale transformation  (default) to a logarithmic one, for example.
-
-<h3>Giving hints on the scale of measurement</h3>
-By default, VMs are performed based on the scale of measurement that can be derived from the source and target properties as well as from the available values. An ordinal or quantitative scale of measurement may be explicitly stated for the source values by using one of the properties <a href=\"#http://purl.org/rvl/orderSourceValuesBy\">orderSourceValuesBy</a> resp. <a href=\"#http://purl.org/rvl/quantifySourceValuesBy\">quantifySourceValuesBy</a>. Analogeos properties exist to order/quantify the target values.
-
-<h3>Calculation of value mappings / Semantics</h3>
-The figure below gives an overview on the possible combinations between the Scale of measurement (SoM) of source and target values as well as on additional settings that can influence the mapping process. Note that although we allow for selecting continuous source ranges in VM, the RDF resources will always have concrete discrete values!
-
-<h4>SCHEMATIC OVERVIEW OF POSSIBLE MAPPING CASES:</h4>
-
-<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/source_target_vm_combinations_by_som.png\"/>
-
-<h4>PSEUDOCODE:</h4>
-
-<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/source_target_vm_combinations_by_som_pseudo_code.png\"/>
-
-<h3>\"Constant values\"</h3>
-VM will map any source value to a fixed target value, when no source values are defined (this implicitly means all values are selected) and only 1 target graphic attribute is defined. This can be used to show that there exists a value for this property at all, e.g. by using a specific color or adding some specific label when the property ist set.
-
-
-<h3>Overlapping of value mappings:</h3>
-When a source value is mapped by multiple VMs, the priority of the VMs is used to determine the mapping to be applied and a warning is issued. When two value mappings have the same priority, the one that is first mentioned is used and a warning should be issued. Already mapped values are then ignored when evaluating further VMs. The following priorities exist (1 = highest priority):
-
-<ol>
-<li>single value via ..value</li>
-<li>..orderedSet/..List</li>
-<li>set formed by multiple values via ..value</li>
-<li>..Set</li>
-<li>..interval</li>
-</ol>
-
-
-"""^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:editorialNote """CLARIFIED: Should value mappings also be able to work on the subject/predicate part of a statement? By setting \"object\" as default and using an optional parameter, this could be achieved. However, creating a different mapping for each subject value is hardly useful and different predicates can be distinguished via multiple property mappings or by mapping the URI to an additional visual means within a composite mapping. 
-
-INFO: VMs for GO2ORs? - more arguments against:
-For graphic object-to-object relations, we decided not to allow value mappings for the following reasons:
-1 ) The behavior can be achieved by filtering on PM level as well
-2) VM are convenience constructs for filtering statements by object only, but in the case of GO2ORs filtering the subject side is usually equally important. Object side as default makes no sense here.
-3) There is no variety of \"values\" that needs to be distinguished (also stated in the comment above). Limiting a PM by attached VMs (which say relate or relate not, e.g. linked_to and not_linked_to) would contradict the PM's general statement. (-> filters are more logical)
-4) The name \"VM\" would make no sense
-
-TODO: Continuous Color Ranges:
-Ranges of colors are complicated to describe, since color is a multidimensional construct and may be based on various color models (RGB, HSL, ..). Also it has to be possible to map to \"paths\" visiting multiple colors (e.g. from red via white to green). This has to be handled in future by extra mappings and could internally use discrete 1-to-1 value mappings (or an extra class \"PathStep\") to model the steps in such a path. The problem of color paths could be generalized to paths through other spaces than the color space as well. SVG also modells such paths and could be reused/immitated here.
-
-TODO: Should this be abstract as in the diagram?
-
-INFO: Using multiple Selectors at the same time:
-At the moment using multiple selectors is only allowed for those selectors selecting unordered sets. Other considerations on this are noted in the figure below:
-<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/valid_combinations_of_selectors_within_a_single_vm.png\"/>
-
-INFO: Invalid / Discouraged / ... combinations of source/target selectors on a syntactic level:
-Considerations on which selectors can reasonably be used in combination between source and target side are given below. These considerations have to be aligned with later changes. This is not up-to-date.
-<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/overview_valid_source_target_value_mappings.png\"/>"""^^xsd:string ;
-      skos:example """Special case of explicit value mappings:
-
-<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/value_mapping_example.png\"/>"""^^xsd:string .
+              "stable"^^xsd:string .
 
 :disabled
       rdf:type owl:DatatypeProperty ;
       rdfs:domain :Mapping ;
       rdfs:label "disabled"^^xsd:string ;
       rdfs:range xsd:boolean ;
-      dct:description "Defines whether the mapping should be ignored during the evaluation of mappings."^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -528,12 +319,8 @@ Considerations on which selectors can reasonably be used in combination between 
       rdfs:domain :ValueMapping ;
       rdfs:label "discrete step count"^^xsd:string ;
       rdfs:range xsd:int ;
-      dct:description "Defines the number of discrete steps for discretization of a continuous target value interval. If no target interval is explicitly defined, the maximum possible range (e.g., as limited by the available screen space) shall be used."^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:editorialNote "NOTE: Tableau lets the user manually create \"bins\" in order to divide value-ranges into an ordered set of value sets."^^xsd:string ;
-      skos:example "<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/discretestepcount_example.png\"/>"^^xsd:string ;
-      skos:related :discreteStepSize , :discretize .
+              "stable"^^xsd:string .
 
 :discreteStepSize
       rdf:type owl:DatatypeProperty ;
@@ -541,30 +328,16 @@ Considerations on which selectors can reasonably be used in combination between 
       rdfs:label "discrete step size (deprecated)"^^xsd:string ;
       rdfs:range xsd:float ;
       rdfs:seeAlso :discreteStepCount ;
-      dct:description "The step size can be set with the property discreteStepSize or, alternatively, by defining the maximum and minimum values for the target variable."^^xsd:string ;
       swstatus:term_status
-              "unstable"^^xsd:string ;
-      skos:editorialNote "clarify semantics of this. what happens when the range cannot be divided by stepSize without a rest (which will be the common case)?"^^xsd:string .
+              "unstable"^^xsd:string .
 
 :discretize
       rdf:type owl:DatatypeProperty ;
       rdfs:domain :ValueMapping ;
       rdfs:label "discretize"^^xsd:string ;
       rdfs:range xsd:boolean ;
-      dct:description "Divides a continuous range into discrete values. If the numer of discretization steps is not given by discreteStepCount, the number of steps will be calculated on the available data and selected target values. Cf. ValueMapping for details."^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:editorialNote """TODO: Is it correct, that this is only used for discretizing continuous TARGET intervals? 
-
-TODO: Is VM or PM the best domain for this?
-
-NOTE: The term \"discrete\" is used in RVL in three contexts which are compared here for clarity:
-- \"discretize\" divides a continuous range into discrete values
-- We talk of displaying \"discrete\" graphic objects in a graphic (which is the normal case, e.g. a dotplot) vs. drawing continuous graphic elements (e.g. a curve). Cf. the flag <a href=\"#http://purl.org/rvl/drawInterpolated\">drawInterpolated</a> which will cause this behavior. 
-- Finally, \"discrete\" values can be stored as resources to allow for giving them a name. (e.g. lightness_named=vg:Bright vs. vg:color_hsl_lightness=\"100\"^^xsd:float) These resources will usually encapsulate a literal stating the actual value.
-
-ALTERNATIVE: The discretize flag was introduced to replace various classes for mapping from continuous-to-discrete, continuous-to-continuous ... This was done to allow for easier switching between the mapping \"types\". """^^xsd:string ;
-      skos:related :discreteStepCount .
+              "stable"^^xsd:string .
 
 :drawInterpolated
       rdf:type rdf:Property ;
@@ -572,11 +345,8 @@ ALTERNATIVE: The discretize flag was introduced to replace various classes for m
       rdfs:domain :PropertyToGraphicAttributeMapping ;
       rdfs:label "draw interpolated"^^xsd:string ;
       rdfs:range xsd:boolean ;
-      dct:description "States if marks may be drawn interpolated."^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string , "unstable"^^xsd:string ;
-      skos:editorialNote "TODO: A warning should be issued, when this is set to true for discrete values (problem: there is no continuous/discrete flag at the moment)"^^xsd:string ;
-      skos:example "Draw line instead of dots."^^xsd:string .
+              "stable"^^xsd:string , "unstable"^^xsd:string .
 
 :excludeSourceValue
       rdf:type owl:ObjectProperty ;
@@ -584,25 +354,16 @@ ALTERNATIVE: The discretize flag was introduced to replace various classes for m
       rdfs:domain :ValueMapping ;
       rdfs:label "exclude source value"^^xsd:string ;
       rdfs:range rdfs:Resource ;
-      dct:description "Excludes a discrete source value from the mapping."^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:editorialNote """TODO: What is the best term for the user of the mapping vocabulary to understand that the values are not filtered completely? Ignore? Hide? Exclude?  Hide and ignore suggerate filtering.
-
-TODO: Should this also be usable on PropertyMappings directly as a shorthand?
-
-TMPOFF: domain also IdentityMapping"""^^xsd:string ;
-      skos:example "Use the range of source values from HighImportance to LowImportance, but exclude MediumImportance."^^xsd:string .
+              "stable"^^xsd:string .
 
 :excludeTargetValue
       rdf:type owl:ObjectProperty ;
       rdfs:domain :ValueMapping ;
       rdfs:label "exclude target value"^^xsd:string ;
       rdfs:range viso-graphic:Visual_Attribute ;
-      dct:description "Excludes a discrete target value from the mapping."^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:example "Map to {orange, red, blue, black} but exclude black, when mapping to an existing color set. Also values from ranges of discrete ordered values may be excluded: Use the range from shapeNamed:A to shapeNamed:C, but exclude shapeNamed:B."^^xsd:string .
+              "stable"^^xsd:string .
 
 :fallsBackTo
       rdf:type owl:IrreflexiveProperty , owl:ObjectProperty ;
@@ -610,19 +371,14 @@ TMPOFF: domain also IdentityMapping"""^^xsd:string ;
       rdfs:domain :Mapping ;
       rdfs:label "falls back to"^^xsd:string ;
       rdfs:range :Mapping ;
-      dct:description "The mapping that should be used as a \"fall back\", when some constraint, e.g. of the user-model or system-model is not met."^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:example """Example for value mappings: if \"gold\" cannot be displayed -> fall back to \"yellow\". If \"dotted\" lines cannot be drawn, use \"dashed\" lines instead. 
-
-Examples for property mappings:  If color (\"hue\") cannot be displayed -> fall back to \"brightness\" -> if this cannot be displayed either, fall back to \"texture density\"."""^^xsd:string .
+              "stable"^^xsd:string .
 
 :fslSelector
       rdf:type rdfs:Datatype ;
       rdfs:comment "FSL is the selector language used in Fresnel: http://www.w3.org/2005/04/fresnel-info/fsl/"^^xsd:string ;
       rdfs:label "FSL selector"^^xsd:string ;
       rdfs:subClassOf rdfs:Literal ;
-      dct:description "A string representing a FSL path expression"^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string , "unstable"^^xsd:string .
 
@@ -631,7 +387,6 @@ Examples for property mappings:  If color (\"hue\") cannot be displayed -> fall 
       rdfs:domain :Mapping ;
       rdfs:label "include in legend"^^xsd:string ;
       rdfs:range xsd:boolean ;
-      dct:description "Defines whether the Mapping should appear in legends. Value mappings and property mappings may generate entries in a legend. "^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -639,30 +394,14 @@ Examples for property mappings:  If color (\"hue\") cannot be displayed -> fall 
       rdf:type rdf:Property ;
       rdfs:domain :PropertyMapping ;
       rdfs:label "inherited by"^^xsd:string ;
-      dct:description """Setting inheritedBy allows for extending the results of a defined mapping to related resources. The property which inheritedBy defines states how other resources that will inherit the mapping settings have to be related to the originally mapped resource. As an example, in the figure two resources (a class A and B) have been mapped to a traingle and a square. Using inheritedBy rdf:type, we can extend this setting to the instances as well (of course usually you will either hide classes at all or if both instances and classes shall be shown, you will need to distinguish them by another graphic attribute).  Besides inheriting via rdf:type and rdfs:subClassOf inheritance can be defined to happen via any rdf:Property, e.g. dc:partOf.
-
-Mapping settings may also be extended to T-Box relationships using inheritedBy in combination with rvl:tBoxDomainRange, rvl:tBoxRestriction or a specific T-Box relation such as  \"owl:someValuesFrom\", \"owl:allValuesFrom\" or \"owl:hasValue\". The example shows how a mapping from dc:partOf to viso-graphic:contains is extended to domain-range relations and T-Box restrictions. 
-
-inheritedBy can also be used with Resource Mappings. For cases, where the defined mapping shall ONLY be used for the related resources, the property passedTo can be used.
-
-Multiple inheritance: Look at the description of Property Mapping for a discussion of how to handle the case when a resource has multiple values for a property.
-
-<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/inheritedBy.png\"/>"""^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string , "unstable"^^xsd:string ;
-      skos:editorialNote """ALTERNATIVE: We first considered to follow the Fresnel way of having instanceFormatDomain and a classFormatDomain. However, this was rejected in favor of this more general and flexible approach of distinguishing the application to a resource directly vs. the application to its instances.
-
-FUTURE: Evtl. allow this setting on the level of Value Mappings.
-
-TMPOFF: domain also ResourceMapping"""^^xsd:string ;
-      skos:related :passedTo , <http://www.w3.org/2004/09/fresnel#classFormatDomain> , <http://www.w3.org/2004/09/fresnel#classLensDomain> .
+              "stable"^^xsd:string , "unstable"^^xsd:string .
 
 :invertOrderOfTargetValues
       rdf:type rdf:Property ;
       rdfs:domain :ValueMapping ;
       rdfs:label "invert order of target values"^^xsd:string ;
       rdfs:range xsd:boolean ;
-      dct:description "Inverts the span, or list of target values. This can be useful, when mapping to a predefined color range for example, where the range perfectly fits, except the orientation is wrong. Also lists of target values may need to be flipped, in order to better fit some existing conventions or expectations of the user."^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -671,7 +410,6 @@ TMPOFF: domain also ResourceMapping"""^^xsd:string ;
       rdfs:domain :PropertyMapping ;
       rdfs:label "Invert source property"^^xsd:string ;
       rdfs:range xsd:boolean ;
-      dct:description "Uses the inverse of the source property instead of the source property and additionally maps occurences of the source property inverted."^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -680,32 +418,22 @@ TMPOFF: domain also ResourceMapping"""^^xsd:string ;
       rdfs:domain :PropertyMapping ;
       rdfs:label "is existential property mapping"^^xsd:string ;
       rdfs:range xsd:boolean ;
-      dct:description """Could be used to state that the mapping applies whenever there is a value for the given property, no matter which value. This could alternatively be stated by a special value used in a value mapping or for the sourceValue property.
-
-The following VSS depend on existential mappings:
-
-- draw a proportionally repetiton group (the groups count will then be defined by the value, usually calculation needed - is count a VA or something similar we can map to in a continuous to discrete mapping? (count has to be an integer))
-- draw a proportionally division group (the parts proportion will then be defined by the value, calculation needed)
-- draw a label (the labels shape or text_value will then be defined by the value)"""^^xsd:string ;
       swstatus:term_status
-              "unstable"^^xsd:string ;
-      skos:editorialNote ""^^xsd:string .
+              "unstable"^^xsd:string .
 
 :lowerBoundExcl
       rdf:type rdf:Property ;
       rdfs:domain :Interval ;
       rdfs:label "lower bound exclusive"^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:related :lowerBoundIncl , :upperBoundExcl , :upperBoundIncl .
+              "stable"^^xsd:string .
 
 :lowerBoundIncl
       rdf:type rdf:Property ;
       rdfs:domain :Interval ;
       rdfs:label "lower bound inclusive"^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:related :lowerBoundExcl , :upperBoundExcl , :upperBoundIncl .
+              "stable"^^xsd:string .
 
 :mapMissingValuesTo
       rdf:type rdf:Property ;
@@ -713,71 +441,32 @@ The following VSS depend on existential mappings:
       rdfs:domain :PropertyMapping ;
       rdfs:label "map missing values to"^^xsd:string ;
       rdfs:range rdfs:Resource ;
-      dct:description "The visual value to map missing source values to. Related to neutralValue, but not the same. It might happen that a dataset has some entities that do not have a value for a property that others have attached (e.g. when selecting entities with SPARQL the OPTIONAL operator). This setting allows to define which graphic value is chosen in this case. This could be either the neutral value, or a very different value than the others, to stress that the value has to be interpreted differently from the others."^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:example """For a set of persons, it can be stated which value for \"position\" should be chosen, when their geographical position is unknown.
-
-TMPOFF: range better rdfs:Literal or viso-graphic:Visual_Attribute"""^^xsd:string ;
-      skos:related :neutralValue .
+              "stable"^^xsd:string .
 
 :missingSourceValue
       rdf:type owl:DatatypeProperty ;
       rdfs:domain :PropertyMapping ;
       rdfs:label "missing source value"^^xsd:string ;
       rdfs:range :MissingSourceValueHandlingType ;
-      dct:description """When an entity misses some value for a property that should be mapped - which visual value is chosen then? What should happen to the entity?
-
-<b>hide</b> - hide the entity (draw no mark at all), but consider it in calculations (e.g. the calculation of the overall range of all values in a data set) 
-
-<b>ignore</b> - act as if this entity would not exist
-
-<b>neutral</b> - show the entity with a mark and map to the neutralValue in order to minimize the misinterpretation (discouraged)
-
-<b>missing</b> - (default) display a mark for the entity but make clear that the mark does not represent a value for the property, by using the \"rvl:mapMissingValuesTo\" value that was defined for this purpose.
-
-<b>average</b> - an average value is calculated from all target values available"""^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:editorialNote """Should the midrange be chosen here as average? Or another way of calculating an average value?
-
-What is the best default behavior? \"missing\" is better then \"neutral\", but requires \"rvl:mapMissingValuesTo\" to be defined!"""^^xsd:string .
+              "stable"^^xsd:string .
 
 :missingValueMapping
       rdf:type owl:DatatypeProperty ;
       rdfs:domain :PropertyMapping ;
       rdfs:label "missing value mapping"^^xsd:string ;
       rdfs:range :MissingValueMappingHandlingType ;
-      dct:description """If there is at least one value mapping, but not all source values are handled by some value mapping - what should happen to the other source values? 
-
-<b>hide</b> - hide the entity (draw no mark at all), but consider it in calculations (e.g. the calculation of the overall range of all values in a data set) 
-<b>ignore</b> - act as if this entity would not exist
-<b>neutral</b> - show the entity with a mark and map to the neutralValue in order to minimize the misinterpretation (discouraged)
-<b>average</b> - an average value is calculated from all target values available
-<b>calculate</b> - (default) Other source values, without an explicit manual value mapping, get a calculated value mapping assigned (as if no value mappings existed).
-<b>no mapping</b> - perform no mapping when there is no value mapping for the source value. This does not mean, the entity will be hidden or ignored. Please note: since some visual means cannot be unset (such as color) the neutral value will be chosen here, which may not always be the desired effect. This setting is useful, for example, in cases where additional graphic objects would be introduced by the mapping (such as labeling)."""^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:editorialNote "TODO: clarify \"no mapping\""^^xsd:string .
+              "stable"^^xsd:string .
 
 :neutralValue
       rdf:type rdf:Property ;
       rdfs:domain viso-graphic:GraphicRelation ;
       rdfs:label "neutral value"^^xsd:string ;
       rdfs:range rdfs:Resource ;
-      dct:description """The visual value to use, if no semantics should be expressed by the visual means. 
-
-If unset the viso-graphic:default_neutral_value of a visual means is used. The neutralValue owerwrites the default_neutral_value, to allow for different neutral values for different presentations.
-
-If this is also unset, the average value is calculated from all available target values and a warning is issued. 
-
-Calculating an average is only possible for ordered values, therefore, for non-ordered values, it is required that neutralValue or default_neutral_value are defined."""^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:example """1 use case: Missing source values. 
-
-2 use case: No ValueMapping exists (or can be calculated) for a given source value (e.g., when \"source value out of bound\" or \"value mappings only\" is chosen)"""^^xsd:string ;
-      skos:related :mapMissingValuesTo .
+              "stable"^^xsd:string .
 
 :objectFilter
       rdf:type owl:DatatypeProperty ;
@@ -785,34 +474,16 @@ Calculating an average is only possible for ordered values, therefore, for non-o
       rdfs:label "object filter"^^xsd:string ;
       rdfs:range :sparqlSelector ;
       rdfs:seeAlso :sourceFilter , :subjectFilter ;
-      dct:description "Reduces the set of statements to be mapped to those where the OBJECT matches the filter defined by either a SPARQL or FSL selector. "^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:editorialNote """The sourceFilter of value mappings have a similar function as the objectFilter but is used on the level of value mappings, not on property mappings.
-
-TMPOFF: range also fslSelector"""^^xsd:string .
+              "stable"^^xsd:string .
 
 :orderSourceValuesBy
       rdf:type owl:ObjectProperty ;
       rdfs:domain :ValueMapping ;
       rdfs:label "order source values by"^^xsd:string ;
       rdfs:range rdf:Property ;
-      dct:description "Defines a property, that is to be used (for the context of a concrete mapping) for ordering the source values that have been selected for mapping. This may either be a (transitive and acyclic) object property (we refer to as the \"order-relation-property\"), or a datatype property that adds a numeral value to the selected individuals."^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:editorialNote """INFO: Instead of defining an order relation for the context of the mapping, this could also be achieved globally by making the property in question a subproperty of either viso-data:greater_than or viso-data:less_than. Similarily, by making a datatype property in question a subproperty of has_ordinal_value this can be achieved for datatype properties that offer ordinal information about individuals.
-
-CLARIFIED: Is it necessary to have two properties, orderSource- and orderTargetValuesBy? -> Yes, if stated for a mapping.
-
-TODO: Semantics: Does this form an implicit selection (all values related via the property) or should the system return an error, when a resource misses this property and, therefore, cannot be ordered?
-How to handle the case, when the property only offers a weak order, i.e. a DAG topology is created by it, not a list? Should such properties be allowed here?"""^^xsd:string ;
-      skos:example """<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/clear.gif\" style=\"border:none;width:360px;height:583px; background:url(http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/defining_ordinal_quantitative_som_overview.png) -40px -338px\" />
-
-<ul>
-<li>Top example: Assume the property \"ex:size\" shall be mapped. For defining an order between the (named) size values, the (order-relation-property) \"ex:gt\", an ObjectProperty, is selected. Another example would be to order various phases (\"Beginning\" \"Endphase\" \"Middlephase\") by a relation \"ex:followsDirectly\".</i>
-<li>Bottom example: The property \"ex:receivedAward\" shall be mapped. The order of the possible values (\"Bronce\", \"Gold\" and \"Silver\") is determined by the ex:ranked value. This is explicitly stated by setting \"orderSourceValuesBy\" to \"ex:ranked\".</li>
-</ul>"""^^xsd:string ;
-      skos:related :orderTargetValuesBy , :quantifySourceValuesBy .
+              "stable"^^xsd:string .
 
 :orderTargetValuesBy
       rdf:type owl:ObjectProperty ;
@@ -821,31 +492,20 @@ How to handle the case, when the property only offers a weak order, i.e. a DAG t
       rdfs:label "order target values by"^^xsd:string ;
       rdfs:range rdf:Property ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:related :orderSourceValuesBy .
+              "stable"^^xsd:string .
 
 :passedTo
       rdf:type rdf:Property ;
       rdfs:domain :PropertyMapping ;
       rdfs:label "passed to"^^xsd:string ;
-      dct:description "Allows to use a mapping ONLY for the resources related via the property defined by passedTo. The mapping will not be applied directly anymore (use inheritedBy instead). For details look at the description of inheritedBy."^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string , "unstable"^^xsd:string ;
-      skos:editorialNote """TODO: Also allow this on the level of value mappings?
-
-ALTERNATIVE: A subclass of PropertyMapping ClassRestrictionOnPropertyMapping could be introduced which would also allow to apply the mapping ONLY to restrictions. Since we want to keep things simple, this was not done. 
-
-ALTERNATIVE: The mapping could be flagged as doNotUseForABoxRelations  = true
-
-TMPOFF: domain also ResourceMapping"""^^xsd:string ;
-      skos:related :inheritedBy .
+              "stable"^^xsd:string , "unstable"^^xsd:string .
 
 :preferredProperty
       rdf:type owl:ObjectProperty ;
       rdfs:domain :Simplification ;
       rdfs:label "preferred property"^^xsd:string ;
       rdfs:subPropertyOf :simplificationProperty ;
-      dct:description "The property to be chosen, when two properties are \"merged\" for visualisation purposes, for example, when a property and its inverse are represented by a single visual means in the graphic."^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -855,7 +515,6 @@ TMPOFF: domain also ResourceMapping"""^^xsd:string ;
       rdfs:label "property to simplify"^^xsd:string ;
       rdfs:range rdf:Property ;
       rdfs:subPropertyOf :simplificationProperty ;
-      dct:description "A property that shall be simplified for graphic representation. Multiple properties may be selected."^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -864,26 +523,16 @@ TMPOFF: domain also ResourceMapping"""^^xsd:string ;
       rdfs:domain :ValueMapping ;
       rdfs:label "quantify source values by"^^xsd:string ;
       rdfs:range rdf:Property ;
-      dct:description "Defines a property, that is to be used (for the context of a concrete mapping) for assigning a quantitative value to the source objects that have been selected for mapping. "^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:example """<img  src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/clear.gif\"  style=\"border:none;width:360px;height:360px; background:url(http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/defining_ordinal_quantitative_som_overview.png) -440px -560px\" />
-
-<ul>
-<li>\"sizeInMM\" is selected as the quantification property. Values such as Big (sizeInMM=\"10\"), Medium (sizeInMM=\"5\") and Small (sizeInMM=\"1\") are quantified using the quantitative values assigned by sizeInMM.</li>
-</ul>"""^^xsd:string ;
-      skos:related :orderSourceValuesBy , :quantifyTargetValuesBy .
+              "stable"^^xsd:string .
 
 :quantifyTargetValuesBy
       rdf:type owl:ObjectProperty ;
       rdfs:domain :ValueMapping ;
       rdfs:label "quantify target values by"^^xsd:string ;
       rdfs:range rdf:Property ;
-      dct:description "Defines a property, that is to be used (for the context of a concrete mapping) for assigning a quantitative value to the target objects that have been selected for mapping. "^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:example "\"sizeInMM\" is selected as the quantification property. Values such as Big (sizeInMM=\"10\"), Medium (sizeInMM=\"5\") and Small (sizeInMM=\"1\") are quantified using the quantitative values assigned by sizeInMM."^^xsd:string ;
-      skos:related :orderTargetValuesBy , :quantifySourceValuesBy .
+              "stable"^^xsd:string .
 
 :scaleTransformation
       rdf:type owl:DatatypeProperty ;
@@ -891,16 +540,13 @@ TMPOFF: domain also ResourceMapping"""^^xsd:string ;
       rdfs:label "scale transformation type"^^xsd:string ;
       rdfs:range :ScaleTransformationType ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:editorialNote """INFO: Here the enumeration is modelled as owl:Datatype. Values can be selected via Add existing .. in topbraid
-TODO: Also arbitrary transformations of the scale should be possible."""^^xsd:string .
+              "stable"^^xsd:string .
 
 :similarProperty
       rdf:type owl:ObjectProperty ;
       rdfs:domain :UnifyWithInverseAndPickOne ;
       rdfs:label "similar property"^^xsd:string ;
       rdfs:subPropertyOf :simplificationProperty ;
-      dct:description "property that is somehow similar to another"^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -916,13 +562,8 @@ TODO: Also arbitrary transformations of the scale should be possible."""^^xsd:st
       rdfs:label "source filter"^^xsd:string ;
       rdfs:range :sparqlSelector ;
       rdfs:seeAlso :objectFilter , :sourceFilter ;
-      dct:description """Reduces the set of source values to those matching the filter defined by either a SPARQL or FSL selector. 
-"""^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string , "unstable"^^xsd:string ;
-      skos:editorialNote """a targetFilter could also be introduced. This would allow for selecting ad-hoc subset of graphic attribute values such as \"all colors suitable for the color-blind\".
-
-TMPOFF: range also fslSelector"""^^xsd:string .
+              "stable"^^xsd:string , "unstable"^^xsd:string .
 
 :sourceProperty
       rdf:type owl:FunctionalProperty , owl:ObjectProperty ;
@@ -930,26 +571,16 @@ TMPOFF: range also fslSelector"""^^xsd:string .
       rdfs:domain :PropertyMapping ;
       rdfs:label "source property"^^xsd:string ;
       rdfs:range rdf:Property ;
-      dct:description "The property from the data to be mapped."^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:editorialNote """As range also expressions in SPARQL (attach via SPIN?? or as strings??) could be allowed in order to describe selektors (filters) which select triples (similar to the selektors used with FRESNEL propertyFormatDomain) instead of sets of resources. Doing so, it would be possible to define a complex context in which a mapping has to be applied. 
-
-FSL-selectors: If we also allow expressions in a path-language: Can the necessary triples be selected this way? S,P,O need to be known after each matched selektion! FSL always selects a set of nodes or properties, so this will be difficult/impossible?! """^^xsd:string .
+              "stable"^^xsd:string .
 
 :sourceValue
       rdf:type rdf:Property ;
       rdfs:domain :ValueMapping ;
       rdfs:label "source value"^^xsd:string ;
       rdfs:range rdfs:Resource ;
-      dct:description "The value(s) from the source data to be mapped. \"sourceValue\" is used in value mappings (but also in Identity mappings) to allow for the selection of multiple discrete source values alternatively to the selection of a (predefined) set or list."^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:editorialNote """TODO: The range should actually be instances of the classes defined as range of the defined sourceProperty or rdf:literals. This cannot be expressed in owl, but SPIN can be used for this.
-
-INFO: This cannot replace sourceValueSet and sourceValueOrderedSet completely, since we may need to select an existing set/list.
-
-TMPOFF: domain also PropertyToGraphicAttributeMapping"""^^xsd:string .
+              "stable"^^xsd:string .
 
 :sourceValueInterval
       rdf:type owl:FunctionalProperty , owl:ObjectProperty ;
@@ -957,8 +588,7 @@ TMPOFF: domain also PropertyToGraphicAttributeMapping"""^^xsd:string .
       rdfs:label "source interval"^^xsd:string ;
       rdfs:range :SourceValueInterval ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:related :targetValueInterval .
+              "stable"^^xsd:string .
 
 :sourceValueOrderedSet
       rdf:type owl:ObjectProperty ;
@@ -967,7 +597,6 @@ TMPOFF: domain also PropertyToGraphicAttributeMapping"""^^xsd:string .
       rdfs:label "source value ordered set"^^xsd:string ;
       rdfs:range rdf:List ;
       rdfs:subPropertyOf :sourceValueSet ;
-      dct:description "Defines a list that will be interpreted as an ordered set, i.e. no duplicates are allowed. Tools should issue a warning, if the list contains duplicates."^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -975,43 +604,27 @@ TMPOFF: domain also PropertyToGraphicAttributeMapping"""^^xsd:string .
       rdf:type owl:ObjectProperty ;
       rdfs:domain :ValueMapping ;
       rdfs:label "source value set"^^xsd:string ;
-      rdfs:range rdf:List ;
-      dct:description "Chooses the members of an existing container or list as the source values. Since it makes no sense to have duplicates here (we must not have ambigious value mappings), only sets are allowed. If the values are ordered, they have to form an ordered set, not a list. Tools should issue a warning, if the list contains duplicates."^^xsd:string ;
-      skos:editorialNote """Using containers is avoided  completely by using single statements (sourceValue) analogeous to targetValue on the target side. However, if existing, predefined sets of values should be selected for the mapping, it could be beneficial to allow selecting a rdf:Bag by sourceValueSet (to show values are not ordered) or sourceValueOrderedSet (to show values are ordered).
-
-rdfs:Container could also be a range (removed since code generator causes errors then)"""^^xsd:string .
+      rdfs:range rdf:List .
 
 :sourceValuesLabel
       rdf:type owl:DatatypeProperty ;
       rdfs:domain :ValueMapping ;
       rdfs:label "source values label"^^xsd:string ;
       rdfs:range xsd:string ;
-      dct:description "Gives a common label to the selected set of (single) source values."^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:editorialNote "INFO: Became necessary to label the ad-hoc sets which may occur by using sourceValue multiple times."^^xsd:string .
+              "stable"^^xsd:string .
 
 :sourceValuesOutOfBounds
       rdf:type owl:DatatypeProperty ;
       rdfs:domain :PropertyMapping ;
       rdfs:label "source values out of bounds"^^xsd:string ;
-      dct:description """Defines how to handle source values out of the bounds given by interval mappings.
-
-Clamp - map them to the same values as the borders of the interval   
-Cut (default) - don't treat these values with this value mapping"""^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string , "unstable"^^xsd:string ;
-      skos:editorialNote """WARNING: Here it was not possible to modell the enumeration as owl:DataRange generating nice input fields in TopBraid, which is deprecated however. range  should be OutOfBoundHandlingType. However, this generates errors in TopBraid when trying to use it after relaoding .
-
-The domain is PM, not a VM or Interval, since the setting was intented to count for all source intervals associated with a property mapping. Now that only one source interval is allowed it could also be a property of a Value mapping or Interval.
-
-Problem: Clarify meaning of cut! Clarify similarity to missing source values and missing value mapping! In the case of cut, other settings will take control, therefore, this should probably be named differently."""^^xsd:string .
+              "stable"^^xsd:string , "unstable"^^xsd:string .
 
 :sparqlSelector
       rdf:type rdfs:Datatype ;
       rdfs:label "SPARQL selector"^^xsd:string ;
       rdfs:subClassOf rdfs:Literal , xsd:string ;
-      dct:description "A string representing a SPARQL query"^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string , "unstable"^^xsd:string .
 
@@ -1019,21 +632,8 @@ Problem: Clarify meaning of cut! Clarify similarity to missing source values and
       rdf:type rdf:Property ;
       rdfs:domain :PropertyMapping ;
       rdfs:label "has sub-graphic"^^xsd:string ;
-      dct:description "Points to a SubGraphic (Relation instance, not directly to another graphic object) in order to create an n-ary relationship. (Please refer to \"SubGraphicRelation\" for details.)"^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string , "unstable"^^xsd:string ;
-      skos:editorialNote """Sometimes not only the visual attributes or visual relations of existing graphic objects (GOs) (each representing a source data entity) have to be modifed, but new GOs have to be created, which do not represent a source data entity. Several approaches to this could possibly be taken here and have to be clarified:
-
-- WHAT ARE THE USE CASES FOR CONSTANT GRAPHIC OBJECTS?
-     1) The existence of some value for a given property shall be displayed via a new graphic object (a label) (maybe the attributes of this GO will later be defined (statically or dynamically)  
-     2) A complex graphic object shall be created (without its inner graphic relations beeing mapped to any meaning - e.g.: use two rectangles side by side as the standard graphic shape) -> Maybe this can also be achieved by using complex symbols as the shape attribute?? However, constructing these CGO by means of AVM gives us the option of referencing parts via (or own specific?) role-names.
-     3) VRs where this is relevant: Labeling->Label, ProportionalRepetition->Copy, (others rarely)
-
-- WHICH MODELLING APPROACHES DO WE HAVE?
-     - Also use an n-ary Relation here and create a class SubGraphicRelation analogeous to SubMappingRelation?
-     - Use AVM parts (this may cause difficulties in referencing super-mappings, when dynamic graphics (in sub-mappings) should later be created, since the AVM does not have to be a tree
-
-- All VRs that are able to display values of datatype-properties do this by creating new (helper) GOs (Labeling, ProportionalRepetition, MORE???)"""^^xsd:string .
+              "stable"^^xsd:string , "unstable"^^xsd:string .
 
 :subMapping
       rdf:type rdf:Property ;
@@ -1041,13 +641,8 @@ Problem: Clarify meaning of cut! Clarify similarity to missing source values and
       rdfs:label "has sub-mapping"^^xsd:string ;
       rdfs:range :SubMappingRelation ;
       rdfs:subPropertyOf :subMappingRelationProperty ;
-      dct:description "Points to a SubMappingRelation instance, not directly to another Property mapping in order to create an n-ary relationship. Please refer to \"SubMappingRelation\" for details."^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:editorialNote """Often not used correctly; Does often not point to a SubMappingRelation, but directly to other mappings. Cf. SubMappingRelation 
-
-Domain can proabably be P2GO2OR mapping."""^^xsd:string ;
-      skos:related :SubMappingRelation .
+              "stable"^^xsd:string .
 
 :subMapping-mapping
       rdf:type rdf:Property , owl:FunctionalProperty ;
@@ -1055,7 +650,6 @@ Domain can proabably be P2GO2OR mapping."""^^xsd:string ;
       rdfs:label "sub-mapping"^^xsd:string ;
       rdfs:range :Mapping ;
       rdfs:subPropertyOf :subMappingRelationProperty ;
-      dct:description "Points to another mapping, that is used as a sub-mapping. Existing mappings may be reused here. Please refer to \"SubMappingRelation\" for details."^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -1065,25 +659,20 @@ Domain can proabably be P2GO2OR mapping."""^^xsd:string ;
       rdfs:label "on role"^^xsd:string ;
       rdfs:range viso-graphic:SyntacticRole ;
       rdfs:subPropertyOf :subMappingRelationProperty ;
-      dct:description "States the role of graphic objects where this mapping will be applied. (If not set, the default which is \"mark\" will be used.) While submappings refer to a smaller and smaller subset of graphic objects, on the source side, the mappings all refer to the properties of the entity where the basic mapping was applied. Please refer to \"SubMappingRelation\" for details."^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string , "unstable"^^xsd:string ;
-      skos:editorialNote "TODO: Make this optional, when only one new graphic object is introduced where submappings could be applied?! -> Rather not. What about cases where there is no new GO at all??"^^xsd:string .
+              "stable"^^xsd:string , "unstable"^^xsd:string .
 
 :subMapping-onTriplePart
       rdf:type rdf:Property ;
       rdfs:domain :SubMappingRelation ;
       rdfs:label "on triple part"^^xsd:string ;
       rdfs:subPropertyOf :subMappingRelationProperty ;
-      dct:description "Points to a part of an RDF statement to define on which part of a statement, submappings should be applied. Please refer to \"SubMappingRelation\" for details."^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string , "unstable"^^xsd:string ;
-      skos:editorialNote "TMPOFF: range should be (in geschweiften klammern): rdf:object , rdf:subject , rdf:predicate"^^xsd:string .
+              "stable"^^xsd:string , "unstable"^^xsd:string .
 
 :subMappingRelationProperty
       rdf:type rdf:Property ;
-      rdfs:label "sub mapping relation property"^^xsd:string ;
-      dct:description "Only exists for gui-sorting purposes."^^xsd:string .
+      rdfs:label "sub mapping relation property"^^xsd:string .
 
 :subjectFilter
       rdf:type owl:DatatypeProperty ;
@@ -1093,24 +682,14 @@ At the moment a subjectFilter is the only way to create mappings based on cardin
       rdfs:label "subject filter"^^xsd:string ;
       rdfs:range :sparqlSelector ;
       rdfs:seeAlso :objectFilter ;
-      dct:description <http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/filtering_overview.png> , """Reduces the set of statements to be mapped to those where the SUBJECT matches the filter defined by either a SPARQL or FSL selector. 
-Although applying different mappings for the same relation should generally be avoided for reasons of visual inconsistency, there are cases where it perfectly makes sense to use differerent visual means for the the same property: For example, we will probably want represent the age of a person differerently from the age of trees.    """^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:editorialNote """- TopBraid will not display a string field in the form-based editor when a range using OR is used.
-
-- Unlike with objectFilter, there is no alternative to subjectFilter for constraining mapped statements by subject
-
-- TODO LATER: Should filters also be applicable on the target (visual) side of (value) mappings? E.g. a set of suitable visual values could be selected by some criteria such as suitedForTheColorBlind=true 
-
-TODO: range also flselector"""^^xsd:string .
+              "stable"^^xsd:string .
 
 :targetAttribute
       rdf:type owl:FunctionalProperty , owl:ObjectProperty ;
       rdfs:label "target attribute"^^xsd:string ;
       rdfs:range viso-graphic:GraphicAttribute ;
       rdfs:subPropertyOf :targetGraphicRelation ;
-      dct:description "The graphic attribute to be mapped onto."^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -1118,12 +697,8 @@ TODO: range also flselector"""^^xsd:string .
       rdf:type owl:FunctionalProperty , owl:ObjectProperty ;
       rdfs:domain :PropertyMapping ;
       rdfs:label "target graphic relation (abstract)"^^xsd:string ;
-      dct:description "Abstract property. The graphic relation to be used in a mapping. Sub-properties need to be used in mappings - either targetGraphicAttribute or targetObjToObjRelation."^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string , "unstable"^^xsd:string ;
-      skos:editorialNote """TODO: Is the range correct? Should it be OP or only Property? Can it be functional otherwise?
-
-TODO: Do we need the two sub-properties?"""^^xsd:string .
+              "stable"^^xsd:string , "unstable"^^xsd:string .
 
 :targetObjToObjRelation
       rdf:type owl:FunctionalProperty , owl:ObjectProperty ;
@@ -1131,7 +706,6 @@ TODO: Do we need the two sub-properties?"""^^xsd:string .
       rdfs:label "target object-to-object relation"^^xsd:string ;
       rdfs:range viso-graphic:GraphicObjectToObjectRelation ;
       rdfs:subPropertyOf :targetGraphicRelation ;
-      dct:description "The target graphic object-to-object relation to map onto."^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string , "unstable"^^xsd:string .
 
@@ -1140,17 +714,8 @@ TODO: Do we need the two sub-properties?"""^^xsd:string .
       rdfs:domain :ValueMapping ;
       rdfs:label "target value"^^xsd:string ;
       rdfs:range rdfs:Resource ;
-      dct:description """A concrete discrete visual value to map onto.
-
-\"targetValue\" is not only used in value mappings, but also in various property mappings to allow for the selection of multiple discrete target visual values (alternatively to the selection of an existing or adhoc created set or list)."""^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:editorialNote """The domain is mapping, since it is also needed for property mappings, not only value mappings.
-
-This cannot replace targetValues completely, since we may need to select an existing set/list.
-
-
-TMPOFF: rage viso-graphic:Visual_Attribute or rdfs:Literal, domain should also be resource mapping"""^^xsd:string .
+              "stable"^^xsd:string .
 
 :targetValueCycle
       rdf:type owl:FunctionalProperty , owl:ObjectProperty ;
@@ -1159,7 +724,6 @@ TMPOFF: rage viso-graphic:Visual_Attribute or rdfs:Literal, domain should also b
       rdfs:label "target value cycle"^^xsd:string ;
       rdfs:range viso-graphic:Visual_Value_List ;
       rdfs:subPropertyOf :targetValues ;
-      dct:description "The values are to be interpreted as a cycle of ordered values."^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string , "unstable"^^xsd:string .
 
@@ -1178,7 +742,6 @@ TMPOFF: rage viso-graphic:Visual_Attribute or rdfs:Literal, domain should also b
       rdfs:label "target value list"^^xsd:string ;
       rdfs:range viso-graphic:Visual_Value_List ;
       rdfs:subPropertyOf :targetValues ;
-      dct:description "Can be used to assign a list of ordinal target values. The values are to be interpreted as a list of ordered values. As oposed to targetValueOrderedSet, entities may occur multiple times. "^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -1187,8 +750,7 @@ TMPOFF: rage viso-graphic:Visual_Attribute or rdfs:Literal, domain should also b
       rdfs:domain :ValueMapping ;
       rdfs:label "target value ordered set"^^xsd:string ;
       rdfs:range viso-graphic:Visual_Value_List ;
-      rdfs:subPropertyOf :targetValues ;
-      dct:description "Can be used to assign an ordered set of ordinal target values. In contrast to a list the values may only appear once."^^xsd:string .
+      rdfs:subPropertyOf :targetValues .
 
 :targetValueSet
       rdf:type owl:FunctionalProperty , owl:ObjectProperty ;
@@ -1196,7 +758,6 @@ TMPOFF: rage viso-graphic:Visual_Attribute or rdfs:Literal, domain should also b
       rdfs:label "target value set"^^xsd:string ;
       rdfs:range viso-graphic:Visual_Value_List ;
       rdfs:subPropertyOf :targetValues ;
-      dct:description "Assigns a set of target values, which are not interpreted as ordered. Since it is a set of values, each value may only appear once."^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -1209,41 +770,29 @@ TMPOFF: rage viso-graphic:Visual_Attribute or rdfs:Literal, domain should also b
       rdfs:label "target values (abstract)"^^xsd:string ;
       rdfs:range viso-graphic:Visual_Value_List ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:editorialNote """1.Possibility: Use Parameter cycleTargetValues boolean (if true, values in a set are used multiple times, if they are not enough to represent the (discrete) source values)
-2. Possibility: Use cycle-container class, rdf:bag, rdf:list (it is hard to tell which container class to use best, some a deprecate, most are not well supported)
-3. Possibility: Use different property for referencing a list (means list/set/cycle depending on the property). (This is used here)
-
-Is this range fine? It prevents other sets of values than defined with VISO from being used."""^^xsd:string ;
-      skos:example "As an example such a set could define a number of colors that match well. Predefined sets are provided as facts in the graphics ontology."^^xsd:string .
+              "stable"^^xsd:string .
 
 :upperBoundExcl
       rdf:type rdf:Property ;
       rdfs:domain :Interval ;
       rdfs:label "upper bound exclusive"^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string , "unstable"^^xsd:string ;
-      skos:related :lowerBoundExcl , :lowerBoundIncl , :upperBoundIncl .
+              "stable"^^xsd:string , "unstable"^^xsd:string .
 
 :upperBoundIncl
       rdf:type rdf:Property ;
       rdfs:domain :Interval ;
       rdfs:label "upper bound inclusive"^^xsd:string ;
       swstatus:term_status
-              "stable"^^xsd:string ;
-      skos:related :lowerBoundExcl , :lowerBoundIncl , :upperBoundExcl .
+              "stable"^^xsd:string .
 
 :valueMapping
       rdf:type owl:InverseFunctionalProperty , owl:ObjectProperty ;
       rdfs:domain :PropertyToGraphicAttributeMapping ;
       rdfs:label "value mapping"^^xsd:string ;
       rdfs:range :ValueMapping ;
-      dct:description "States that some value is mapped explicitly to some discrete visual value. This overrides implicitly assigned mappings if existent."^^xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string .
-
-<http://purl.org/viso/data/Scale_of_Measurement>
-      skos:editorialNote "In contrast to the subproperty hierarchy of viso-data:has_numeral_value, here no inheritance is modelled. What is better? Be consistent!"^^xsd:string .
 
 viso-graphic:GraphicRelation
       rdf:type owl:Class .
