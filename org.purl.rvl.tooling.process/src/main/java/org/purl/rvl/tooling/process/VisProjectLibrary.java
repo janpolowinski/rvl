@@ -171,6 +171,9 @@ public class VisProjectLibrary {
 		try {
 			project.registerDataFile("editing/ontology.ttl");
 		} catch (FileNotFoundException e) {}
+		try {
+			project.registerMappingFile("editing/commons.ttl");
+		} catch (FileNotFoundException e) {}
 		project.registerDataFile("editing/data.ttl");
 
 		
