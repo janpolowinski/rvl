@@ -1,4 +1,4 @@
-# Saved by TopBraid on Thu Aug 07 14:29:48 CEST 2014
+# Saved by TopBraid on Mon Nov 17 23:24:42 CET 2014
 # baseURI: http://purl.org/rvl/spin-constraints/
 # imports: http://purl.org/rvl/
 # imports: http://spinrdf.org/spin
@@ -24,10 +24,10 @@ rvl:Interval
               [ rdf:type sp:Ask ;
                 rdfs:comment "Upper bound may not be less than lower bound."^^xsd:string ;
                 sp:where ([ sp:object _:b1 ;
-                            sp:predicate rvl:sourceValueLowerBoundDTP ;
+                            sp:predicate rvl:lowerBoundIncl ;
                             sp:subject spin:_this
                           ] [ sp:object _:b2 ;
-                            sp:predicate rvl:sourceValueUpperBoundDTP ;
+                            sp:predicate rvl:upperBoundIncl ;
                             sp:subject spin:_this
                           ] [ rdf:type sp:Filter ;
                             sp:expression
@@ -36,365 +36,9 @@ rvl:Interval
                                       sp:arg2 _:b1
                                     ]
                           ])
-              ] ;
-      spin:constraint
-              [ rdf:type sp:Ask ;
-                rdfs:comment "Upper bound may not be less than lower bound (of target values)."^^xsd:string ;
-                sp:where ([ sp:object _:b3 ;
-                            sp:predicate rvl:targetValueLowerBoundIncl ;
-                            sp:subject spin:_this
-                          ] [ sp:object _:b4 ;
-                            sp:predicate rvl:targetValueUpperBoundIncl ;
-                            sp:subject spin:_this
-                          ] [ rdf:type sp:Filter ;
-                            sp:expression
-                                    [ rdf:type sp:lt ;
-                                      sp:arg1 _:b4 ;
-                                      sp:arg2 _:b3
-                                    ]
-                          ])
               ] .
 
 rvl:PropertyMapping
-      rvl:constraintBasedOnVisoFacts
-              [ rdf:type sp:Construct ;
-                rdfs:comment """Effectiveness - Shows a warning when there are more effective visual means and offers to delete the not-best one
-TODO: offer better ones!"""^^xsd:string ;
-                sp:templates ([ sp:object spin:ConstraintViolation ;
-                            sp:predicate rdf:type ;
-                            sp:subject _:b5
-                          ] [ sp:object spin:_this ;
-                            sp:predicate spin:violationRoot ;
-                            sp:subject _:b5
-                          ] [ sp:object rvl:targetGraphicRelation ;
-                            sp:predicate spin:violationPath ;
-                            sp:subject _:b5
-                          ] [ sp:object _:b6 ;
-                            sp:predicate rdfs:label ;
-                            sp:subject _:b5
-                          ] [ sp:object _:b7 ;
-                            sp:predicate spin:fix ;
-                            sp:subject _:b5
-                          ] [ sp:object rvl-cs:DeleteTriple ;
-                            sp:predicate rdf:type ;
-                            sp:subject _:b7
-                          ] [ sp:object spin:_this ;
-                            sp:predicate rdf:subject ;
-                            sp:subject _:b7
-                          ] [ sp:object rvl:targetGraphicRelation ;
-                            sp:predicate rdf:predicate ;
-                            sp:subject _:b7
-                          ] [ sp:object _:b8 ;
-                            sp:predicate rdf:object ;
-                            sp:subject _:b7
-                          ]) ;
-                sp:where ([ sp:object _:b9 ;
-                            sp:predicate rvl:sourceProperty ;
-                            sp:subject spin:_this
-                          ] [ sp:object _:b8 ;
-                            sp:predicate rvl:targetGraphicRelation ;
-                            sp:subject spin:_this
-                          ] [ rdf:type sp:SubQuery ;
-                            sp:query
-                                    [ rdf:type sp:Select ;
-                                      sp:groupBy (_:b9) ;
-                                      sp:resultVariables (_:b9 [ sp:expression
-                                                          [ rdf:type sp:Count ;
-                                                            sp:expression spin:_this
-                                                          ] ;
-                                                  sp:varName "altCount"^^xsd:string
-                                                ]) ;
-                                      sp:where ([ sp:object _:b9 ;
-                                                  sp:predicate rvl:sourceProperty ;
-                                                  sp:subject spin:_this
-                                                ] [ sp:object _:b8 ;
-                                                  sp:predicate rvl:targetGraphicRelation ;
-                                                  sp:subject spin:_this
-                                                ] [ rdf:type sp:TriplePath ;
-                                                  sp:object _:b10 ;
-                                                  sp:path [ rdf:type sp:SeqPath ;
-                                                            sp:path1 viso-data:has_scale_of_measurement ;
-                                                            sp:path2
-                                                                    [ rdf:type sp:ModPath ;
-                                                                      sp:modMax -2 ;
-                                                                      sp:modMin 0 ;
-                                                                      sp:subPath rdfs:subClassOf
-                                                                    ]
-                                                          ] ;
-                                                  sp:subject _:b9
-                                                ] [ rdf:type sp:TriplePath ;
-                                                  sp:object viso-data:Scale_of_Measurement ;
-                                                  sp:path [ rdf:type sp:ModPath ;
-                                                            sp:modMax -2 ;
-                                                            sp:modMin 1 ;
-                                                            sp:subPath rdfs:subClassOf
-                                                          ] ;
-                                                  sp:subject _:b10
-                                                ] [ rdf:type sp:Optional ;
-                                                  sp:elements ([ rdf:type sp:Bind ;
-                                                              sp:expression viso-data:Nominal_Scale_of_Measurement ;
-                                                              sp:variable _:b10
-                                                            ] [ sp:object _:b11 ;
-                                                              sp:predicate viso-facts:has_effectiveness_ranking_for_nominal_data ;
-                                                              sp:subject _:b8
-                                                            ] [ sp:object _:b12 ;
-                                                              sp:predicate viso-facts:has_effectiveness_ranking_for_nominal_data ;
-                                                              sp:subject _:b13
-                                                            ])
-                                                ] [ rdf:type sp:Optional ;
-                                                  sp:elements ([ rdf:type sp:Bind ;
-                                                              sp:expression viso-data:Ordinal_Scale_of_Measurement ;
-                                                              sp:variable _:b10
-                                                            ] [ sp:object _:b11 ;
-                                                              sp:predicate viso-facts:has_effectiveness_ranking_for_ordinal_data ;
-                                                              sp:subject _:b8
-                                                            ] [ sp:object _:b12 ;
-                                                              sp:predicate viso-facts:has_effectiveness_ranking_for_ordinal_data ;
-                                                              sp:subject _:b13
-                                                            ])
-                                                ] [ rdf:type sp:Optional ;
-                                                  sp:elements ([ rdf:type sp:Bind ;
-                                                              sp:expression viso-data:Quantitative_Scale_of_Measurement ;
-                                                              sp:variable _:b10
-                                                            ] [ sp:object _:b11 ;
-                                                              sp:predicate viso-facts:has_effectiveness_ranking_for_quantitative_data ;
-                                                              sp:subject _:b8
-                                                            ] [ sp:object _:b12 ;
-                                                              sp:predicate viso-facts:has_effectiveness_ranking_for_quantitative_data ;
-                                                              sp:subject _:b13
-                                                            ])
-                                                ] [ rdf:type sp:Filter ;
-                                                  sp:expression
-                                                          [ rdf:type sp:and ;
-                                                            sp:arg1 [ rdf:type sp:bound ;
-                                                                      sp:arg1 _:b11
-                                                                    ] ;
-                                                            sp:arg2 [ rdf:type sp:bound ;
-                                                                      sp:arg1 _:b12
-                                                                    ]
-                                                          ]
-                                                ] [ rdf:type sp:Filter ;
-                                                  sp:expression
-                                                          [ rdf:type sp:ne ;
-                                                            sp:arg1 _:b8 ;
-                                                            sp:arg2 _:b13
-                                                          ]
-                                                ] [ rdf:type sp:Filter ;
-                                                  sp:expression
-                                                          [ rdf:type sp:gt ;
-                                                            sp:arg1 _:b12 ;
-                                                            sp:arg2 _:b11
-                                                          ]
-                                                ])
-                                    ]
-                          ] [ rdf:type sp:Bind ;
-                            sp:expression
-                                    [ rdf:type fn:concat ;
-                                      sp:arg1 "There are " ;
-                                      sp:arg2 _:b14 ;
-                                      sp:arg3 " more effective visual means for visualizing the selected source property"
-                                    ] ;
-                            sp:variable _:b6
-                          ] [ rdf:type sp:Filter ;
-                            sp:expression
-                                    [ rdf:type sp:gt ;
-                                      sp:arg1 _:b14 ;
-                                      sp:arg2 0
-                                    ]
-                          ])
-              ] ;
-      rvl:constraintBasedOnVisoFacts
-              [ rdf:type sp:Ask ;
-                rdfs:comment "Some characteristic of the source property is eventually not supported by the target graphic relation you have chosen"^^xsd:string ;
-                sp:where ([ sp:object _:b15 ;
-                            sp:predicate rvl:sourceProperty ;
-                            sp:subject spin:_this
-                          ] [ sp:object _:b16 ;
-                            sp:predicate rdf:type ;
-                            sp:subject _:b15
-                          ] [ rdf:type sp:Filter ;
-                            sp:expression
-                                    [ rdf:type sp:or ;
-                                      sp:arg1 [ rdf:type sp:eq ;
-                                                sp:arg1 _:b16 ;
-                                                sp:arg2 owl:SymmetricProperty
-                                              ] ;
-                                      sp:arg2 [ rdf:type sp:eq ;
-                                                sp:arg1 _:b16 ;
-                                                sp:arg2 owl:ReflexiveProperty
-                                              ]
-                                    ]
-                          ] [ sp:object _:b17 ;
-                            sp:predicate rvl:targetGraphicRelation ;
-                            sp:subject spin:_this
-                          ] [ rdf:type sp:NotExists ;
-                            sp:elements ([ sp:object _:b16 ;
-                                        sp:predicate viso-facts:expresses ;
-                                        sp:subject _:b17
-                                      ])
-                          ])
-              ] ;
-      rvl:constraintBasedOnVisoFacts
-              [ rdf:type sp:Ask ;
-                rdfs:comment "Expressiveness - The chosen visual means cannot express the given source property (based on it's defined scale of measurement)"^^xsd:string ;
-                sp:where ([ sp:object _:b18 ;
-                            sp:predicate rvl:sourceProperty ;
-                            sp:subject spin:_this
-                          ] [ sp:object _:b19 ;
-                            sp:predicate rvl:targetGraphicRelation ;
-                            sp:subject spin:_this
-                          ] [ rdf:type sp:TriplePath ;
-                            sp:object _:b20 ;
-                            sp:path [ rdf:type sp:SeqPath ;
-                                      sp:path1 viso-data:has_scale_of_measurement ;
-                                      sp:path2
-                                              [ rdf:type sp:ModPath ;
-                                                sp:modMax -2 ;
-                                                sp:modMin 0 ;
-                                                sp:subPath rdfs:subClassOf
-                                              ]
-                                    ] ;
-                            sp:subject _:b18
-                          ] [ rdf:type sp:TriplePath ;
-                            sp:object viso-data:Scale_of_Measurement ;
-                            sp:path [ rdf:type sp:ModPath ;
-                                      sp:modMax -2 ;
-                                      sp:modMin 1 ;
-                                      sp:subPath rdfs:subClassOf
-                                    ] ;
-                            sp:subject _:b20
-                          ] [ sp:object _:b21 ;
-                            sp:predicate rdfs:subClassOf ;
-                            sp:subject _:b22
-                          ] [ sp:object viso-data:has_scale_of_measurement ;
-                            sp:predicate owl:onProperty ;
-                            sp:subject _:b21
-                          ] [ sp:object _:b20 ;
-                            sp:predicate owl:allValuesFrom ;
-                            sp:subject _:b21
-                          ] [ sp:object _:b22 ;
-                            sp:predicate viso-facts:not_expresses ;
-                            sp:subject _:b19
-                          ] [ rdf:type sp:Filter ;
-                            sp:expression "false"^^xsd:boolean
-                          ])
-              ] ;
-      rvl:constraintBasedOnVisoFacts
-              [ rdf:type sp:Construct ;
-                rdfs:comment "Test Fixes - Works."^^xsd:string ;
-                sp:templates ([ sp:object spin:ConstraintViolation ;
-                            sp:predicate rdf:type ;
-                            sp:subject _:b23
-                          ] [ sp:object spin:_this ;
-                            sp:predicate spin:violationRoot ;
-                            sp:subject _:b23
-                          ] [ sp:object rvl:targetGraphicRelation ;
-                            sp:predicate spin:violationPath ;
-                            sp:subject _:b23
-                          ] [ sp:object "This is a test" ;
-                            sp:predicate rdfs:label ;
-                            sp:subject _:b23
-                          ] [ sp:object _:b24 ;
-                            sp:predicate spin:fix ;
-                            sp:subject _:b23
-                          ] [ sp:object rvl-cs:DeleteTriple ;
-                            sp:predicate rdf:type ;
-                            sp:subject _:b24
-                          ] [ sp:object spin:_this ;
-                            sp:predicate rdf:subject ;
-                            sp:subject _:b24
-                          ] [ sp:object rvl:targetGraphicRelation ;
-                            sp:predicate rdf:predicate ;
-                            sp:subject _:b24
-                          ] [ sp:object _:b25 ;
-                            sp:predicate rdf:object ;
-                            sp:subject _:b24
-                          ]) ;
-                sp:where ([ sp:object _:b25 ;
-                            sp:predicate rvl:targetGraphicRelation ;
-                            sp:subject spin:_this
-                          ] [ rdf:type sp:Filter ;
-                            sp:expression "false"^^xsd:boolean
-                          ])
-              ] ;
-      rvl:constraintBasedOnVisoFacts
-              [ rdf:type sp:Ask ;
-                rdfs:comment "Appropriateness - The chosen visual means is not appropriate to visualize the given source property (based on it's defined scale of measurement)"^^xsd:string ;
-                sp:where ([ sp:object _:b26 ;
-                            sp:predicate rvl:sourceProperty ;
-                            sp:subject spin:_this
-                          ] [ sp:object _:b27 ;
-                            sp:predicate rvl:targetGraphicRelation ;
-                            sp:subject spin:_this
-                          ] [ rdf:type sp:TriplePath ;
-                            sp:object _:b28 ;
-                            sp:path [ rdf:type sp:SeqPath ;
-                                      sp:path1 viso-data:has_scale_of_measurement ;
-                                      sp:path2
-                                              [ rdf:type sp:ModPath ;
-                                                sp:modMax -2 ;
-                                                sp:modMin 0 ;
-                                                sp:subPath rdfs:subClassOf
-                                              ]
-                                    ] ;
-                            sp:subject _:b26
-                          ] [ rdf:type sp:TriplePath ;
-                            sp:object viso-data:Scale_of_Measurement ;
-                            sp:path [ rdf:type sp:ModPath ;
-                                      sp:modMax -2 ;
-                                      sp:modMin 1 ;
-                                      sp:subPath rdfs:subClassOf
-                                    ] ;
-                            sp:subject _:b28
-                          ] [ sp:object _:b29 ;
-                            sp:predicate rdfs:subClassOf ;
-                            sp:subject _:b30
-                          ] [ sp:object viso-data:has_scale_of_measurement ;
-                            sp:predicate owl:onProperty ;
-                            sp:subject _:b29
-                          ] [ sp:object _:b28 ;
-                            sp:predicate owl:allValuesFrom ;
-                            sp:subject _:b29
-                          ] [ sp:object _:b30 ;
-                            sp:predicate viso-facts:not_appropriate_to_visualize ;
-                            sp:subject _:b27
-                          ] [ sp:object _:b30 ;
-                            sp:predicate viso-facts:expresses ;
-                            sp:subject _:b27
-                          ] [ rdf:type sp:Filter ;
-                            sp:expression "false"^^xsd:boolean
-                          ])
-              ] ;
-      rvl:constraintBasedOnVisoFacts
-              [ rdf:type sp:Construct ;
-                rdfs:comment "Test CONSTRUCT-CONSTRAINT with Subquery WORKS!! \"this\" is bound and 4 triples created"^^xsd:string ;
-                sp:templates ([ sp:object spin:ConstraintViolation ;
-                            sp:predicate rdf:type ;
-                            sp:subject _:b31
-                          ] [ sp:object spin:_this ;
-                            sp:predicate spin:violationRoot ;
-                            sp:subject _:b31
-                          ] [ sp:object rvl:targetGraphicRelation ;
-                            sp:predicate spin:violationPath ;
-                            sp:subject _:b31
-                          ] [ sp:object "This is a test" ;
-                            sp:predicate rdfs:label ;
-                            sp:subject _:b31
-                          ]) ;
-                sp:where ([ rdf:type sp:SubQuery ;
-                            sp:query
-                                    [ rdf:type sp:Select ;
-                                      sp:where ([ rdf:type sp:Bind ;
-                                                  sp:expression "test" ;
-                                                  sp:variable
-                                                          [ sp:varName "test"^^xsd:string
-                                                          ]
-                                                ])
-                                    ]
-                          ] [ rdf:type sp:Filter ;
-                            sp:expression "false"^^xsd:boolean
-                          ])
-              ] ;
       spin:constraint
               [ rdf:type spl:Attribute ;
                 rdfs:comment "There has to be exactly one target graphic relation."^^xsd:string ;
@@ -404,28 +48,14 @@ TODO: offer better ones!"""^^xsd:string ;
                 spl:valueType viso-graphic:GraphicRelation
               ] ;
       spin:constraint
-              [ rdf:type spl:Attribute ;
-                rdfs:comment "Lower bound for a continuous source value"^^xsd:string ;
-                spl:maxCount 1 ;
-                spl:predicate rvl:sourceValueLowerBoundDTP ;
-                spl:valueType xsd:float
-              ] ;
-      spin:constraint
-              [ rdf:type spl:Attribute ;
-                rdfs:comment "A continous value for the upper bound of source values"^^xsd:string ;
-                spl:maxCount 1 ;
-                spl:predicate rvl:sourceValueUpperBoundDTP ;
-                spl:valueType xsd:float
-              ] ;
-      spin:constraint
               [ rdf:type sp:Ask ;
                 rdfs:comment "value mappings may not be defined, when mapping to a GOTOR"^^xsd:string ;
-                sp:where ([ sp:object _:b32 ;
+                sp:where ([ sp:object _:b3 ;
                             sp:predicate rvl:targetGraphicRelation ;
                             sp:subject spin:_this
                           ] [ sp:object viso-graphic:GraphicObjectToObjectRelation ;
                             sp:predicate rdf:type ;
-                            sp:subject _:b32
+                            sp:subject _:b3
                           ] [ sp:object
                                     [ sp:varName "vm"^^xsd:string
                                     ] ;
@@ -449,20 +79,20 @@ rvl:ValueMapping
 (targetValue may only take values of the range of targetGraphicRelation of the property mapping it belongs to)"""^^xsd:string ;
                 sp:where ([ sp:object spin:_this ;
                             sp:predicate rvl:valueMapping ;
-                            sp:subject _:b33
-                          ] [ sp:object _:b34 ;
+                            sp:subject _:b4
+                          ] [ sp:object _:b5 ;
                             sp:predicate rvl:targetValue ;
                             sp:subject spin:_this
-                          ] [ sp:object _:b35 ;
+                          ] [ sp:object _:b6 ;
                             sp:predicate rvl:targetGraphicRelation ;
-                            sp:subject _:b33
-                          ] [ sp:object _:b36 ;
+                            sp:subject _:b4
+                          ] [ sp:object _:b7 ;
                             sp:predicate rdfs:range ;
-                            sp:subject _:b35
+                            sp:subject _:b6
                           ] [ rdf:type sp:NotExists ;
-                            sp:elements ([ sp:object _:b36 ;
+                            sp:elements ([ sp:object _:b7 ;
                                         sp:predicate rdf:type ;
-                                        sp:subject _:b34
+                                        sp:subject _:b5
                                       ])
                           ])
               ] ;
@@ -476,16 +106,16 @@ TODO: update"""^^xsd:string ;
                             sp:predicate rvl:sourceValueSet ;
                             sp:subject spin:_this
                           ] [ rdf:type sp:Union ;
-                            sp:elements (([ sp:object _:b37 ;
+                            sp:elements (([ sp:object _:b8 ;
                                           sp:predicate rvl:upperBoundIncl ;
                                           sp:subject spin:_this
-                                        ]) ([ sp:object _:b38 ;
+                                        ]) ([ sp:object _:b9 ;
                                           sp:predicate rvl:lowerBoundIncl ;
                                           sp:subject spin:_this
-                                        ]) ([ sp:object _:b37 ;
+                                        ]) ([ sp:object _:b8 ;
                                           sp:predicate rvl:sourceValueUpperBoundDTP ;
                                           sp:subject spin:_this
-                                        ]) ([ sp:object _:b38 ;
+                                        ]) ([ sp:object _:b9 ;
                                           sp:predicate rvl:sourceValueLowerBoundDTP ;
                                           sp:subject spin:_this
                                         ]))
@@ -521,13 +151,13 @@ rvl-cs:DeleteTriple
       rdfs:subClassOf spin:UpdateTemplates ;
       spin:body
               [ rdf:type sp:Modify ;
-                sp:deletePattern ([ sp:object _:b39 ;
-                            sp:predicate _:b40 ;
-                            sp:subject _:b41
+                sp:deletePattern ([ sp:object _:b10 ;
+                            sp:predicate _:b11 ;
+                            sp:subject _:b12
                           ]) ;
-                sp:where ([ sp:object _:b39 ;
-                            sp:predicate _:b40 ;
-                            sp:subject _:b41
+                sp:where ([ sp:object _:b10 ;
+                            sp:predicate _:b11 ;
+                            sp:subject _:b12
                           ])
               ] ;
       spin:constraint
@@ -559,103 +189,29 @@ rvl-cs:List_1
 rvl-cs:List_2
       rdf:type rdf:List .
 
-_:b41
-      sp:varName "subject"^^xsd:string .
+_:b3  sp:varName "tvm"^^xsd:string .
 
-_:b40
-      sp:varName "predicate"^^xsd:string .
+_:b4  sp:varName "pm"^^xsd:string .
 
-_:b39
-      sp:varName "object"^^xsd:string .
+_:b5  sp:varName "tv"^^xsd:string .
 
-_:b36
-      sp:varName "range"^^xsd:string .
+_:b6  sp:varName "tvm"^^xsd:string .
 
-_:b35
-      sp:varName "tvm"^^xsd:string .
+_:b7  sp:varName "range"^^xsd:string .
 
-_:b34
-      sp:varName "tv"^^xsd:string .
+_:b8  sp:varName "ub"^^xsd:string .
 
-_:b33
-      sp:varName "pm"^^xsd:string .
-
-_:b38
-      sp:varName "lb"^^xsd:string .
-
-_:b37
-      sp:varName "ub"^^xsd:string .
-
-_:b32
-      sp:varName "tvm"^^xsd:string .
-
-_:b14
-      sp:varName "altCount"^^xsd:string .
-
-_:b13
-      sp:varName "anyOtherVm"^^xsd:string .
-
-_:b12
-      sp:varName "otherRankValue"^^xsd:string .
-
-_:b11
-      sp:varName "rankValue"^^xsd:string .
+_:b9  sp:varName "lb"^^xsd:string .
 
 _:b10
-      sp:varName "spSoM"^^xsd:string .
+      sp:varName "object"^^xsd:string .
 
-_:b9  sp:varName "sp"^^xsd:string .
+_:b11
+      sp:varName "predicate"^^xsd:string .
 
-_:b8  sp:varName "tvm"^^xsd:string .
-
-_:b6  sp:varName "cvLabel"^^xsd:string .
-
-_:b17
-      sp:varName "tgr"^^xsd:string .
-
-_:b16
-      sp:varName "spType"^^xsd:string .
-
-_:b15
-      sp:varName "sp"^^xsd:string .
-
-_:b22
-      sp:varName "data_kind"^^xsd:string .
-
-_:b21
-      sp:varName "restriction"^^xsd:string .
-
-_:b20
-      sp:varName "spSoM"^^xsd:string .
-
-_:b19
-      sp:varName "tvm"^^xsd:string .
-
-_:b18
-      sp:varName "sp"^^xsd:string .
-
-_:b25
-      sp:varName "tvm"^^xsd:string .
-
-_:b30
-      sp:varName "data_kind"^^xsd:string .
-
-_:b29
-      sp:varName "restriction"^^xsd:string .
-
-_:b28
-      sp:varName "spSoM"^^xsd:string .
-
-_:b27
-      sp:varName "tvm"^^xsd:string .
-
-_:b26
-      sp:varName "sp"^^xsd:string .
-
-_:b2  sp:varName "ub"^^xsd:string .
+_:b12
+      sp:varName "subject"^^xsd:string .
 
 _:b1  sp:varName "lb"^^xsd:string .
 
-_:b4  sp:varName "ub"^^xsd:string .
-
-_:b3  sp:varName "lb"^^xsd:string .
+_:b2  sp:varName "ub"^^xsd:string .
