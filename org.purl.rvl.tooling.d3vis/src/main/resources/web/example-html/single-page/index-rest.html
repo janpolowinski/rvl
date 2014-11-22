@@ -25,12 +25,17 @@
   			<div id="row" class="layout">
 
   				<div id="left" class="layout">
+  					<!--<button onClick="showRVLeditor(true)">Show editor</button>-->
   					<div id="menu" class="layout">
   						<button onclick="reLoad()">Reload</button>
+  						<br/><br/>
+						<button title="(Re)load from external editing folder" onclick="loadProjectExternalEditing('force-directed-graph')">(Re)load external</button>
   						<br/><br/>
   						<!--<button onclick="reInitContainers()">Re init containers</button>-->
 						<!--<button onclick="clearVis()">Clear visualization</button>-->
   					</div>
+					
+					
   				</div>
 
   				<div id="middle" class="layout">
@@ -38,8 +43,10 @@
   				</div>
 
   				<div id="right" class="layout">
+  					
+					<button onClick="showRVLeditor(false)">Hide</button>
   				
-  				<div id="editor" class="layout">
+  					<div id="editor" class="layout">
   				
   				
   <form action="http://localhost:8080/semvis/projects/run" method="POST">
@@ -146,6 +153,11 @@
     		reInitContainers();
     		d3.json("http://localhost:8080/semvis/projects/run/" + projectID, graphicLoadingFunctions[defaultGraphicType]);
     	}
+		
+		loadProjectExternalEditing = function(defaultGraphicType) {
+    		reInitContainers();
+    		d3.json("http://localhost:8080/semvis/projects/run/external", graphicLoadingFunctions[defaultGraphicType]);
+    	}
     	
     	d3.json("http://localhost:8080/semvis/projects", function (error, result) {
     	
@@ -181,6 +193,18 @@
     		//alert(value);
     		d3.select(elementID).text(value);
     	}
+		
+		// editor
+		
+		showRVLeditor = function (show) {
+			if(show==false) {
+				d3.select("#right").style("display", "none");
+			} else {
+				d3.select("#right").style("display", "initial");
+			}
+		}
+		
+		// init
     	
     	loadExampleValue("http://localhost:8080/semvis/projects/example/data", "#projectData");
         loadExampleValue("http://localhost:8080/semvis/projects/example/mappings", "#projectMappings");
