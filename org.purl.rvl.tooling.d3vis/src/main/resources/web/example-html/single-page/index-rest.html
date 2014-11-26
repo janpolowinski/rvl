@@ -25,12 +25,17 @@
   			<div id="row" class="layout">
 
   				<div id="left" class="layout">
+  					<!--<button onClick="showRVLeditor('normal')">Show editor</button>-->
   					<div id="menu" class="layout">
   						<button onclick="reLoad()">Reload</button>
+  						<br/><br/>
+						<button title="(Re)load from external editing folder" onclick="loadProjectExternalEditing('force-directed-graph')">(Re)load external</button>
   						<br/><br/>
   						<!--<button onclick="reInitContainers()">Re init containers</button>-->
 						<!--<button onclick="clearVis()">Clear visualization</button>-->
   					</div>
+					
+					
   				</div>
 
   				<div id="middle" class="layout">
@@ -39,7 +44,11 @@
 
   				<div id="right" class="layout">
   				
-  				<div id="editor" class="layout">
+  					<div id="editor" class="layout">
+  						
+					<button onClick="showRVLeditor('hidden')">Hide</button>
+					<button onClick="showRVLeditor('normal')">Normal</button>
+					<button onClick="showRVLeditor('max')">Maximize</button>
   				
   				
   <form action="http://localhost:8080/semvis/projects/run" method="POST">
@@ -48,10 +57,10 @@
   <input name="id" id="projectID" value="new-project-1"/>
   <br/>
     Data:
-  <textarea name="data" id="projectData" cols="70" rows="12">loading example data ... </textarea>
+  <textarea name="data" id="projectData" rows="12">loading example data ... </textarea>
   <br/>
     Mappings:
-  <textarea name="mappings" id="projectMappings" cols="70" rows="12">loading example mappings ... </textarea>
+  <textarea name="mappings" id="projectMappings" rows="12">loading example mappings ... </textarea>
   <br/>
   <label for="stay">Stay on this page:</label><input name="stay" type="checkbox" checked="checked"/>
   <input type="submit" value="Submit" />
@@ -146,6 +155,11 @@
     		reInitContainers();
     		d3.json("http://localhost:8080/semvis/projects/run/" + projectID, graphicLoadingFunctions[defaultGraphicType]);
     	}
+		
+		loadProjectExternalEditing = function(defaultGraphicType) {
+    		reInitContainers();
+    		d3.json("http://localhost:8080/semvis/projects/run/external", graphicLoadingFunctions[defaultGraphicType]);
+    	}
     	
     	d3.json("http://localhost:8080/semvis/projects", function (error, result) {
     	
@@ -181,6 +195,31 @@
     		//alert(value);
     		d3.select(elementID).text(value);
     	}
+		
+		// editor
+		
+		showRVLeditor = function (show) {
+			if(show=='hidden') {
+				width = 1200;
+				d3.select("#right,#editor").style("display", "none");
+				d3.select("#middle").style("width", "1200px");
+				d3.select("#svg").attr("width", "1200");
+			} else if (show=='max') {
+				width = 700;
+				d3.selectAll("#right,#editor").style("display", "table-cell");
+				d3.selectAll("#right,#editor").style("width", "500px");
+				d3.select("#middle").style("width", "700px");
+				d3.select("#svg").attr("width", "700");
+			} else { // 'normal'
+				width = 900;
+				d3.selectAll("#right,#editor").style("display", "table-cell");
+				d3.selectAll("#right,#editor").style("width", "300px");
+				d3.select("#middle").style("width", "900px");
+				d3.select("#svg").attr("width", "900");
+			}
+		}
+		
+		// init
     	
     	loadExampleValue("http://localhost:8080/semvis/projects/example/data", "#projectData");
         loadExampleValue("http://localhost:8080/semvis/projects/example/mappings", "#projectMappings");

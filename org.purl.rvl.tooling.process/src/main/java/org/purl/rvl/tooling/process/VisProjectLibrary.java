@@ -47,20 +47,6 @@ public class VisProjectLibrary {
 		// "Bootstrapping" the latest generated AVM (if there is one already)
 		///////////////////////////////////////////////////////////////////
 		initAVMBootstrappingProject();
-				
-		//////////////////////////////////////////////////////////////////
-		// "Bootstrapping" RVL Classes
-		///////////////////////////////////////////////////////////////////
-		VisProject useCaseRVLClasses = new VisProject("rvl");
-		useCaseRVLClasses.setReasoningDataModel(Reasoning.rdfs);
-		useCaseRVLClasses.registerMappingFile(ExampleMapping.RVL_EXAMPLE_BOOTSTRAP);
-		useCaseRVLClasses.registerDataFile(OntologyFile.RVL);
-		useCaseRVLClasses.registerDataFile(ExampleData.RVL_EXTRA_DATA);
-		//useCaseRVLClasses.setRvlInterpreter(new SimpleRVLInterpreter());
-		useCaseRVLClasses.setD3Generator(new D3GeneratorTreeJSON());
-		//useCaseRVLClasses.setD3Generator(new D3GeneratorSimpleJSON());
-		useCaseRVLClasses.setDefaultGraphicType("circle-packing-zoomable");
-		storeProject(useCaseRVLClasses);
 		
 		//////////////////////////////////////////////////////////////////
 		// "Bootstrapping" VISO_GRAPHIC Classes
@@ -178,9 +164,25 @@ public class VisProjectLibrary {
 		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		//project.setRvlInterpreter(new SimpleRVLInterpreter());
 		//project.setD3Generator(new D3GeneratorTreeJSON());
-
 		
-
+		//////////////////////////////////////////////////////////////////
+		// "Bootstrapping" RVL Classes
+		///////////////////////////////////////////////////////////////////
+		project = storeProject("rvl");
+		project.setReasoningDataModel(Reasoning.rdfs);
+		project.registerMappingFile("/example-mappings/rvl-bootstrap.ttl");
+		project.registerDataFile(OntologyFile.RVL);
+		project.registerDataFile(ExampleData.RVL_EXTRA_DATA);
+		project.setD3Generator(new D3GeneratorTreeJSON());
+		project.setDefaultGraphicType("collapsible-tree");
+		
+		project = storeProject("rvl-circle-packing");
+		project.setReasoningDataModel(Reasoning.rdfs);
+		project.registerMappingFile("/example-mappings/rvl-bootstrap-containment.ttl");
+		project.registerDataFile(OntologyFile.RVL);
+		project.registerDataFile(ExampleData.RVL_EXTRA_DATA);
+		project.setD3Generator(new D3GeneratorTreeJSON());
+		project.setDefaultGraphicType("circle-packing-zoomable");
 		
 	}
 	

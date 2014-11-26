@@ -1,0 +1,37 @@
+# Saved by TopBraid on Thu Nov 20 00:58:25 CET 2014
+# baseURI: http://purl.org/rvl/example-commons/
+
+@prefix :        <http://purl.org/rvl/example-commons/> .
+@prefix common-shapes:  <http://purl.org/viso/shape/commons/> .
+@prefix rexc:  	  <http://purl.org/rvl/example-commons/> .
+@prefix dct:     <http://purl.org/dc/terms/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix vg:      <http://purl.org/viso/graphic/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+
+
+## This is a temporary example of RVL and VISO resources that may be reused.
+## The URI may change.
+
+rexc:
+      rdf:type owl:Ontology .
+
+rexc:ColorsBlackToWhite
+      rdf:type vg:Visual_Value_List ;
+      rdf:first vg:Black ;
+      rdf:rest (vg:Gray vg:White) .
+
+rexc:ColorsTrafficLight
+      rdf:type vg:Visual_Value_List ;
+      rdf:first vg:Red ;
+      rdf:rest (vg:Yellow vg:Green) .
+
+rexc:ColorsYellowToRed
+      rdf:type vg:Visual_Value_List ;
+      rdf:first vg:Yellow ;
+      rdf:rest (vg:Orange vg:Red) .

@@ -197,7 +197,11 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 		project.registerMappingFile("/life-sciences/amino-acid/example-mappings/AA_3.ttl");
 		project.registerDataFile("/life-sciences/amino-acid/example-data/amino-acid.owl");
 
-		project = storeProject("lld");
+		project = storeProject("tolkien");
+		project.registerDataFile("/library-and-publication/tolkien/example-data/tolkien-example-data.ttl");
+		project.registerMappingFile("/library-and-publication/tolkien/example-mappings/tolkien-example-mappings.ttl");
+		project.setD3Generator(new D3GeneratorTreeJSON());
+		
 		//project.registerDataFile(ExampleData.LLD_TEST);
 		//project.registerDataFile(ExampleData.LLD_EXTRA_DATA);
 		//project.registerMappingFile(ExampleMapping.LLD);

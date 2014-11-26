@@ -25,8 +25,18 @@ public class GeneratedD3Resource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String getIt() {
+    	
+		String json;
         
-    	OGVICProcess process = OGVICProcess.getInstance();
+    	OGVICProcess process;
+    	
+		try {
+			process = OGVICProcess.getInstance();
+		} catch (OGVICRepositoryException e1) {
+			e1.printStackTrace();
+			json = e1.getMessage();
+			return json;
+		}
 
 		try {
 			process.registerOntologyFile(OntologyFile.VISO_GRAPHIC);
@@ -52,12 +62,11 @@ public class GeneratedD3Resource {
 			e.printStackTrace();
 		}
 		
-		String json = "could not be generated";
-		
 		try {
 			json = process.getGeneratedD3json();
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+			json = e.getMessage();
 		}
 
 		return json;

@@ -40,8 +40,6 @@ public class ExampleMapping {
 	public static final String RVL_EXAMPLE_CONTAINMENT = "/example-mappings/containment-test.ttl";
 	public static final String RVL_EXAMPLE_LINKING = "/example-mappings/linking-test.ttl";
 	
-	// problem (no root nodes found) here probably because subClassOf etc. are reflexiv and our method for finding root nodes does not work here! -> exlude direct "loop" relations
-	public static final String RVL_EXAMPLE_BOOTSTRAP = "/example-mappings/rvl-bootstrap.ttl";
 	public static final String AVM_EXAMPLE_BOOTSTRAP = "/example-mappings/avm-bootstrap.ttl";
 	public static final String VISO_EXAMPLE_BOOTSTRAP = "/example-mappings/viso-bootstrap.ttl";
 

@@ -31,7 +31,6 @@ import org.purl.rvl.exception.OGVICModelsException;
 import org.purl.rvl.exception.OGVICRepositoryException;
 import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.commons.utils.FileResourceUtils;
-import org.purl.rvl.tooling.process.ExampleData;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.process.VisProject;
 import org.purl.rvl.tooling.process.VisProjectLibraryExamples;
@@ -134,7 +133,13 @@ public class ProjectsResource {
 		
 		System.out.println("Created new project " + project.getId());
 		
-		runProject(project.getId());
+		try {
+			runProject(project.getId());
+		} catch (OGVICRepositoryException e) {
+			e.printStackTrace();
+			return Response.status(Status.EXPECTATION_FAILED).build();
+			// TODO correct return status?
+		}
 
 		if (null != stay && stay.equals("on")) {
 			// just stay on the page, don't show any new content
@@ -175,11 +180,40 @@ public class ProjectsResource {
 		
 		System.out.println("/run/" + id);
 		
-		String jsonResult = runProject(id);
-		
-		if (null == servletResponse) {
-			System.out.println("servlet response was null");
+		String jsonResult;
+		try {
+			jsonResult = runProject(id);
+		} catch (OGVICRepositoryException e) {
+			jsonResult =  "";
+			e.printStackTrace();
 		}
+		
+//		if (null == servletResponse) {
+//			System.out.println("servlet response was null");
+//		}
+		
+		return jsonResult;
+    }
+	
+	@GET
+    @Produces({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
+	@Path("/run/external")
+    public String runExternalEditingProject(@Context HttpServletResponse servletResponse) {
+
+		String jsonResult;
+		try {
+			jsonResult = runExternalEditingProject();
+		} catch (OGVICRepositoryException e) {
+			jsonResult =  e.getMessage();
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			jsonResult =  e.getMessage();
+			e.printStackTrace();
+		}
+		
+//		if (null == servletResponse) {
+//			System.out.println("servlet response was null");
+//		}
 		
 		return jsonResult;
     }
@@ -192,7 +226,13 @@ public class ProjectsResource {
 		
 		System.out.println("/run/latest");
 		
-		String jsonResult = OGVICProcess.getInstance().getGeneratedD3json();
+		String jsonResult;
+		try {
+			jsonResult = OGVICProcess.getInstance().getGeneratedD3json();
+		} catch (OGVICRepositoryException e) {
+			jsonResult =  "";
+			e.printStackTrace();
+		}
 		
 		System.out.println(jsonResult);
 		
@@ -235,7 +275,7 @@ public class ProjectsResource {
 	}
 	
 	
-	private String runProject(String id) {
+	private String runProject(String id) throws OGVICRepositoryException {
 	
 		OGVICProcess process = OGVICProcess.getInstance();
 	
@@ -269,6 +309,51 @@ public class ProjectsResource {
 			json = process.getGeneratedD3json();
 		} catch (Exception e) {
 			// TODO: handle exception
+		}
+	
+		return json;
+	}
+
+	private String runExternalEditingProject() throws FileNotFoundException, OGVICRepositoryException {
+	
+		String json;
+		OGVICProcess process = OGVICProcess.getInstance();
+	
+		process.registerOntologyFile(OntologyFile.VISO_GRAPHIC);
+		process.registerOntologyFile(OntologyFile.RVL);
+		
+		VisProject project = new VisProject("external-editing-test");
+		project.setReasoningDataModel(Reasoning.rdfs);
+		project.registerDataFile("editing/data.ttl");
+		project.registerMappingFile("editing/mapping.ttl");
+		
+		// load from optional files
+		try {
+			project.registerDataFile("editing/ontology.ttl");
+		} catch (FileNotFoundException e) {}
+		try {
+			project.registerMappingFile("/example-commons/rvl-example-commons.ttl");
+		} catch (FileNotFoundException e) {}
+		
+		try {
+			process.loadProject(project);
+		} catch (OGVICRepositoryException e) {
+			json = e.getMessage();
+			e.printStackTrace();
+		}
+	
+		try {
+			process.runOGVICProcess();
+		} catch (D3GeneratorException | OGVICModelsException e) {
+			json = e.getMessage();
+			e.printStackTrace();
+		}
+
+		try {
+			json = process.getGeneratedD3json();
+		} catch (Exception e) {
+			json = e.getMessage();
+			e.printStackTrace();
 		}
 	
 		return json;

@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.logging.Logger;
 
+import org.purl.rvl.exception.OGVICRepositoryException;
+
 /**
  * @author Jan Polowinski
  *
@@ -22,7 +24,7 @@ public class OGVICConsoleProjects {
     	this.library =  library;
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, OGVICRepositoryException {
     	
     	OGVICConsoleProjects console =  new OGVICConsoleProjects(new VisProjectLibrary());
     	console.runConsole();
@@ -34,8 +36,9 @@ public class OGVICConsoleProjects {
 
 	/**
 	 * @throws IOException
+	 * @throws OGVICRepositoryException 
 	 */
-	public void runConsole() throws IOException {
+	public void runConsole() throws IOException, OGVICRepositoryException {
     	
     	// set up interactive process
     	OGVICProcess interactiveProcess = OGVICProcess.getInstance();

@@ -1,0 +1,69 @@
+SELECT DISTINCT ?p2gam
+WHERE {
+    ?p2gam a rvl:PropertyToGraphicAttributeMapping .
+    ?p2gam rvl:valueMapping ?vm .
+	{
+	SELECT ?vm  (COUNT(?sv) AS ?svCount)
+        WHERE
+        {
+	 		  ?vm rvl:sourceValue ?sv 
+        }
+        GROUP BY ?vm
+	}
+    FILTER (?svCount = 1 )
+}
+
+
+
+
+// alle PM mit anzahl der VMs
+SELECT *
+WHERE {
+    ?p2gam a rvl:PropertyToGraphicAttributeMapping .
+    ?p2gam rvl:valueMapping ?vm .
+{
+
+	SELECT ?vm ?p2gam (COUNT(?vm) AS ?vmCount)
+        WHERE
+        {
+    		?p2gam rvl:valueMapping ?vm .
+        }
+        GROUP BY ?p2gam
+}
+
+
+}
+
+
+
+SELECT DISTINCT ?p2gam WHERE {     ?p2gam a <http://purl.org/rvl/PropertyToGraphicAttributeMapping> .     ?p2gam <http://purl.org/rvl/valueMapping> ?vm . 	{ 	SELECT ?vm  (COUNT(?sv) AS ?svCount)        WHERE        { 	 		  ?vm <http://purl.org/rvl/sourceValue> ?sv         }         GROUP BY ?vm 	}     FILTER (?svCount = 1 ) }
+
+
+
+
+
+
+SELECT ?s ?sp ?o  ?ta  ?tv ?vm
+WHERE {
+    <http://purl.org/rvl/example-mappings/PMWithExplicitValueMappings> rvl:valueMapping ?vm .
+    <http://purl.org/rvl/example-mappings/PMWithExplicitValueMappings> rvl:sourceProperty ?sp.
+    <http://purl.org/rvl/example-mappings/PMWithExplicitValueMappings> rvl:targetAttribute ?ta.
+	?vm rvl:sourceValue ?sv . 
+	?vm rvl:targetValue ?tv . 
+	?s ?sp ?o .
+
+FILTER(?o = ?sv)
+}
+
+
+
+
+SELECT ?s ?sp ?o  ?ta  ?tv ?vm
+WHERE {
+    <http://purl.org/rvl/example-mappings/PMWithExplicitValueMappings> rvl:valueMapping ?vm .
+    <http://purl.org/rvl/example-mappings/PMWithExplicitValueMappings> rvl:sourceProperty ?sp.
+    <http://purl.org/rvl/example-mappings/PMWithExplicitValueMappings> rvl:targetAttribute ?ta.
+	?vm rvl:sourceValue ?o . 
+	?vm rvl:targetValue ?tv . 
+	?s ?sp ?o .
+}
