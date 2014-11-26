@@ -8,12 +8,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Alice",
-          "text_value_full":"Alice",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Alice",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Alice"
         }
       ]
     },
@@ -25,12 +25,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"America",
-          "text_value_full":"America",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"America",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"America"
         }
       ]
     },
@@ -42,12 +42,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Asia",
-          "text_value_full":"Asia",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Asia",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Asia"
         }
       ]
     },
@@ -59,12 +59,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Australia (pop....",
-          "text_value_full":"Australia (pop.: 100)",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Australia (pop....",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Australia (pop.: 100)"
         }
       ]
     },
@@ -76,12 +76,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Auto-Biography",
-          "text_value_full":"Auto-Biography",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Auto-Biography",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Auto-Biography"
         }
       ]
     },
@@ -93,12 +93,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Biography",
-          "text_value_full":"Biography",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Biography",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Biography"
         }
       ]
     },
@@ -110,12 +110,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Bob",
-          "text_value_full":"Bob",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Bob",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Bob"
         }
       ]
     },
@@ -127,12 +127,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"China (pop.: 10...",
-          "text_value_full":"China (pop.: 1000)",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"China (pop.: 10...",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"China (pop.: 1000)"
         }
       ]
     },
@@ -144,12 +144,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Christof",
-          "text_value_full":"Christof",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Christof",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Christof"
         }
       ]
     },
@@ -161,12 +161,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Doctor Who",
-          "text_value_full":"Doctor Who",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Doctor Who",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Doctor Who"
         }
       ]
     },
@@ -178,12 +178,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Dresden",
-          "text_value_full":"Dresden",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Dresden",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Dresden"
         }
       ]
     },
@@ -195,12 +195,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Europe (pop.: 4...",
-          "text_value_full":"Europe (pop.: 400)",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Europe (pop.: 4...",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Europe (pop.: 400)"
         }
       ]
     },
@@ -212,12 +212,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Fiction",
-          "text_value_full":"Fiction",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Fiction",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Fiction"
         }
       ]
     },
@@ -229,12 +229,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Field",
-          "text_value_full":"Field",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Field",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Field"
         }
       ]
     },
@@ -246,12 +246,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Franzi",
-          "text_value_full":"Franzi",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Franzi",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Franzi"
         }
       ]
     },
@@ -263,12 +263,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Gelsenkirchen",
-          "text_value_full":"Gelsenkirchen",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Gelsenkirchen",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Gelsenkirchen"
         }
       ]
     },
@@ -280,12 +280,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Germany",
-          "text_value_full":"Germany",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Germany",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Germany"
         }
       ]
     },
@@ -297,12 +297,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Goethe",
-          "text_value_full":"Goethe",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Goethe",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Goethe"
         }
       ]
     },
@@ -314,12 +314,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"InfoVis",
-          "text_value_full":"InfoVis",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"InfoVis",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"InfoVis"
         }
       ]
     },
@@ -331,12 +331,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Jan",
-          "text_value_full":"Jan",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Jan",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Jan"
         }
       ]
     },
@@ -348,12 +348,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Johannes",
-          "text_value_full":"Johannes",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Johannes",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Johannes"
         }
       ]
     },
@@ -365,12 +365,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"John",
-          "text_value_full":"John",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"John",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"John"
         }
       ]
     },
@@ -382,12 +382,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Lina",
-          "text_value_full":"Lina",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Lina",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Lina"
         }
       ]
     },
@@ -399,12 +399,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Luisa",
-          "text_value_full":"Luisa",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Luisa",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Luisa"
         }
       ]
     },
@@ -416,29 +416,12 @@
       "width":17.0,
       "labels":[
         {
+          "position":"centerRight",
           "text_value":"Person",
-          "text_value_full":"Person",
           "width":"8.5",
-          "position":"centerRight",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example-data/Place",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "text_value":"Place",
-          "text_value_full":"Place",
-          "width":"8.5",
-          "position":"centerRight",
-          "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Person"
         }
       ]
     },
@@ -450,12 +433,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Sci-Fi",
-          "text_value_full":"Sci-Fi",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Sci-Fi",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Sci-Fi"
         }
       ]
     },
@@ -467,12 +450,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Science",
-          "text_value_full":"Science",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Science",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Science"
         }
       ]
     },
@@ -484,12 +467,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Spain (pop.: 40...",
-          "text_value_full":"Spain (pop.: 40)",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Spain (pop.: 40...",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Spain (pop.: 40)"
         }
       ]
     },
@@ -501,12 +484,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Spirituality",
-          "text_value_full":"Spirituality",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Spirituality",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Spirituality"
         }
       ]
     },
@@ -518,12 +501,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Susane",
-          "text_value_full":"Susane",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Susane",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Susane"
         }
       ]
     },
@@ -535,12 +518,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Travel",
-          "text_value_full":"Travel",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Travel",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Travel"
         }
       ]
     },
@@ -552,12 +535,12 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"Turkey",
-          "text_value_full":"Turkey",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"Turkey",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"Turkey"
         }
       ]
     },
@@ -569,16 +552,17 @@
       "width":17.0,
       "labels":[
         {
-          "text_value":"World",
-          "text_value_full":"World",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"World",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"World"
         }
       ]
     }
   ],
+  "graphic_type":"force-directed-graph",
   "links":[
     {
       "color_rgb_hex":"",
@@ -586,97 +570,17 @@
       "shape_d3_name":"arrow",
       "labels":[
         {
-          "text_value":"partOf",
-          "text_value_full":"partOf",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"partOf",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"partOf"
         }
       ],
       "uri":"http://purl.org/rvl/example-data/partOf",
       "type":"Directed",
-      "source":7,
-      "target":2,
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "text_value":"partOf",
-          "text_value_full":"partOf",
-          "width":"8.5",
-          "position":"centerRight",
-          "type":"text_label",
-          "color_rgb_hex_combined":null
-        }
-      ],
-      "uri":"http://purl.org/rvl/example-data/partOf",
-      "type":"Directed",
-      "source":11,
-      "target":33,
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "text_value":"workingField",
-          "text_value_full":"workingField",
-          "width":"8.5",
-          "position":"centerRight",
-          "type":"text_label",
-          "color_rgb_hex_combined":null
-        }
-      ],
-      "uri":"http://purl.org/rvl/example-data/workingField",
-      "type":"Directed",
-      "source":14,
-      "target":31,
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "text_value":"partOf",
-          "text_value_full":"partOf",
-          "width":"8.5",
-          "position":"centerRight",
-          "type":"text_label",
-          "color_rgb_hex_combined":null
-        }
-      ],
-      "uri":"http://purl.org/rvl/example-data/partOf",
-      "type":"Directed",
-      "source":6,
-      "target":1,
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "text_value":"partOf",
-          "text_value_full":"partOf",
-          "width":"8.5",
-          "position":"centerRight",
-          "type":"text_label",
-          "color_rgb_hex_combined":null
-        }
-      ],
-      "uri":"http://purl.org/rvl/example-data/partOf",
-      "type":"Directed",
-      "source":16,
+      "source":31,
       "target":11,
       "value":"1"
     },
@@ -686,212 +590,12 @@
       "shape_d3_name":"arrow",
       "labels":[
         {
+          "position":"centerRight",
           "text_value":"workingField",
-          "text_value_full":"workingField",
           "width":"8.5",
-          "position":"centerRight",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
-        }
-      ],
-      "uri":"http://purl.org/rvl/example-data/workingField",
-      "type":"Directed",
-      "source":9,
-      "target":27,
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "text_value":"workingField",
-          "text_value_full":"workingField",
-          "width":"8.5",
-          "position":"centerRight",
-          "type":"text_label",
-          "color_rgb_hex_combined":null
-        }
-      ],
-      "uri":"http://purl.org/rvl/example-data/workingField",
-      "type":"Directed",
-      "source":30,
-      "target":31,
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "text_value":"workingField",
-          "text_value_full":"workingField",
-          "width":"8.5",
-          "position":"centerRight",
-          "type":"text_label",
-          "color_rgb_hex_combined":null
-        }
-      ],
-      "uri":"http://purl.org/rvl/example-data/workingField",
-      "type":"Directed",
-      "source":20,
-      "target":29,
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "text_value":"partOf",
-          "text_value_full":"partOf",
-          "width":"8.5",
-          "position":"centerRight",
-          "type":"text_label",
-          "color_rgb_hex_combined":null
-        }
-      ],
-      "uri":"http://purl.org/rvl/example-data/partOf",
-      "type":"Directed",
-      "source":1,
-      "target":33,
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "text_value":"workingField",
-          "text_value_full":"workingField",
-          "width":"8.5",
-          "position":"centerRight",
-          "type":"text_label",
-          "color_rgb_hex_combined":null
-        }
-      ],
-      "uri":"http://purl.org/rvl/example-data/workingField",
-      "type":"Directed",
-      "source":21,
-      "target":26,
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "text_value":"workingField",
-          "text_value_full":"workingField",
-          "width":"8.5",
-          "position":"centerRight",
-          "type":"text_label",
-          "color_rgb_hex_combined":null
-        }
-      ],
-      "uri":"http://purl.org/rvl/example-data/workingField",
-      "type":"Directed",
-      "source":24,
-      "target":13,
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "text_value":"partOf",
-          "text_value_full":"partOf",
-          "width":"8.5",
-          "position":"centerRight",
-          "type":"text_label",
-          "color_rgb_hex_combined":null
-        }
-      ],
-      "uri":"http://purl.org/rvl/example-data/partOf",
-      "type":"Directed",
-      "source":28,
-      "target":11,
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "text_value":"partOf",
-          "text_value_full":"partOf",
-          "width":"8.5",
-          "position":"centerRight",
-          "type":"text_label",
-          "color_rgb_hex_combined":null
-        }
-      ],
-      "uri":"http://purl.org/rvl/example-data/partOf",
-      "type":"Directed",
-      "source":25,
-      "target":25,
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "text_value":"workingField",
-          "text_value_full":"workingField",
-          "width":"8.5",
-          "position":"centerRight",
-          "type":"text_label",
-          "color_rgb_hex_combined":null
-        }
-      ],
-      "uri":"http://purl.org/rvl/example-data/workingField",
-      "type":"Directed",
-      "source":22,
-      "target":4,
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "text_value":"workingField",
-          "text_value_full":"workingField",
-          "width":"8.5",
-          "position":"centerRight",
-          "type":"text_label",
-          "color_rgb_hex_combined":null
-        }
-      ],
-      "uri":"http://purl.org/rvl/example-data/workingField",
-      "type":"Directed",
-      "source":17,
-      "target":12,
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "text_value":"workingField",
-          "text_value_full":"workingField",
-          "width":"8.5",
-          "position":"centerRight",
-          "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"workingField"
         }
       ],
       "uri":"http://purl.org/rvl/example-data/workingField",
@@ -906,18 +610,18 @@
       "shape_d3_name":"arrow",
       "labels":[
         {
-          "text_value":"partOf",
-          "text_value_full":"partOf",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"workingField",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"workingField"
         }
       ],
-      "uri":"http://purl.org/rvl/example-data/partOf",
+      "uri":"http://purl.org/rvl/example-data/workingField",
       "type":"Directed",
-      "source":2,
-      "target":33,
+      "source":17,
+      "target":12,
       "value":"1"
     },
     {
@@ -926,12 +630,112 @@
       "shape_d3_name":"arrow",
       "labels":[
         {
-          "text_value":"workingField",
-          "text_value_full":"workingField",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"workingField",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"workingField"
+        }
+      ],
+      "uri":"http://purl.org/rvl/example-data/workingField",
+      "type":"Directed",
+      "source":29,
+      "target":30,
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"partOf",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"partOf"
+        }
+      ],
+      "uri":"http://purl.org/rvl/example-data/partOf",
+      "type":"Directed",
+      "source":3,
+      "target":32,
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"partOf",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"partOf"
+        }
+      ],
+      "uri":"http://purl.org/rvl/example-data/partOf",
+      "type":"Directed",
+      "source":1,
+      "target":32,
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"partOf",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"partOf"
+        }
+      ],
+      "uri":"http://purl.org/rvl/example-data/partOf",
+      "type":"Directed",
+      "source":31,
+      "target":2,
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"partOf",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"partOf"
+        }
+      ],
+      "uri":"http://purl.org/rvl/example-data/partOf",
+      "type":"Directed",
+      "source":6,
+      "target":1,
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"workingField",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"workingField"
         }
       ],
       "uri":"http://purl.org/rvl/example-data/workingField",
@@ -946,17 +750,57 @@
       "shape_d3_name":"arrow",
       "labels":[
         {
-          "text_value":"partOf",
-          "text_value_full":"partOf",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"workingField",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"workingField"
+        }
+      ],
+      "uri":"http://purl.org/rvl/example-data/workingField",
+      "type":"Directed",
+      "source":21,
+      "target":25,
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"workingField",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"workingField"
+        }
+      ],
+      "uri":"http://purl.org/rvl/example-data/workingField",
+      "type":"Directed",
+      "source":22,
+      "target":4,
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"partOf",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"partOf"
         }
       ],
       "uri":"http://purl.org/rvl/example-data/partOf",
       "type":"Directed",
-      "source":32,
+      "source":7,
       "target":2,
       "value":"1"
     },
@@ -966,12 +810,232 @@
       "shape_d3_name":"arrow",
       "labels":[
         {
-          "text_value":"partOf",
-          "text_value_full":"partOf",
-          "width":"8.5",
           "position":"centerRight",
+          "text_value":"workingField",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"workingField"
+        }
+      ],
+      "uri":"http://purl.org/rvl/example-data/workingField",
+      "type":"Directed",
+      "source":23,
+      "target":26,
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"workingField",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"workingField"
+        }
+      ],
+      "uri":"http://purl.org/rvl/example-data/workingField",
+      "type":"Directed",
+      "source":9,
+      "target":26,
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"partOf",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"partOf"
+        }
+      ],
+      "uri":"http://purl.org/rvl/example-data/partOf",
+      "type":"Directed",
+      "source":15,
+      "target":16,
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"partOf",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"partOf"
+        }
+      ],
+      "uri":"http://purl.org/rvl/example-data/partOf",
+      "type":"Directed",
+      "source":2,
+      "target":32,
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"partOf",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"partOf"
+        }
+      ],
+      "uri":"http://purl.org/rvl/example-data/partOf",
+      "type":"Directed",
+      "source":11,
+      "target":32,
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"workingField",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"workingField"
+        }
+      ],
+      "uri":"http://purl.org/rvl/example-data/workingField",
+      "type":"Directed",
+      "source":14,
+      "target":30,
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"workingField",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"workingField"
+        }
+      ],
+      "uri":"http://purl.org/rvl/example-data/workingField",
+      "type":"Directed",
+      "source":8,
+      "target":25,
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"workingField",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"workingField"
+        }
+      ],
+      "uri":"http://purl.org/rvl/example-data/workingField",
+      "type":"Directed",
+      "source":6,
+      "target":26,
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"partOf",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"partOf"
+        }
+      ],
+      "uri":"http://purl.org/rvl/example-data/partOf",
+      "type":"Directed",
+      "source":16,
+      "target":11,
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"workingField",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"workingField"
+        }
+      ],
+      "uri":"http://purl.org/rvl/example-data/workingField",
+      "type":"Directed",
+      "source":20,
+      "target":28,
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"workingField",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"workingField"
+        }
+      ],
+      "uri":"http://purl.org/rvl/example-data/workingField",
+      "type":"Directed",
+      "source":24,
+      "target":13,
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"partOf",
+          "width":"8.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"partOf"
         }
       ],
       "uri":"http://purl.org/rvl/example-data/partOf",
@@ -986,120 +1050,19 @@
       "shape_d3_name":"arrow",
       "labels":[
         {
-          "text_value":"workingField",
-          "text_value_full":"workingField",
-          "width":"8.5",
           "position":"centerRight",
-          "type":"text_label",
-          "color_rgb_hex_combined":null
-        }
-      ],
-      "uri":"http://purl.org/rvl/example-data/workingField",
-      "type":"Directed",
-      "source":6,
-      "target":27,
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
           "text_value":"partOf",
-          "text_value_full":"partOf",
           "width":"8.5",
-          "position":"centerRight",
+          "color_rgb_hex_combined":null,
           "type":"text_label",
-          "color_rgb_hex_combined":null
+          "text_value_full":"partOf"
         }
       ],
       "uri":"http://purl.org/rvl/example-data/partOf",
       "type":"Directed",
-      "source":3,
-      "target":33,
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "text_value":"workingField",
-          "text_value_full":"workingField",
-          "width":"8.5",
-          "position":"centerRight",
-          "type":"text_label",
-          "color_rgb_hex_combined":null
-        }
-      ],
-      "uri":"http://purl.org/rvl/example-data/workingField",
-      "type":"Directed",
-      "source":23,
-      "target":27,
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "text_value":"workingField",
-          "text_value_full":"workingField",
-          "width":"8.5",
-          "position":"centerRight",
-          "type":"text_label",
-          "color_rgb_hex_combined":null
-        }
-      ],
-      "uri":"http://purl.org/rvl/example-data/workingField",
-      "type":"Directed",
-      "source":8,
-      "target":26,
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "text_value":"partOf",
-          "text_value_full":"partOf",
-          "width":"8.5",
-          "position":"centerRight",
-          "type":"text_label",
-          "color_rgb_hex_combined":null
-        }
-      ],
-      "uri":"http://purl.org/rvl/example-data/partOf",
-      "type":"Directed",
-      "source":32,
+      "source":27,
       "target":11,
       "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "text_value":"partOf",
-          "text_value_full":"partOf",
-          "width":"8.5",
-          "position":"centerRight",
-          "type":"text_label",
-          "color_rgb_hex_combined":null
-        }
-      ],
-      "uri":"http://purl.org/rvl/example-data/partOf",
-      "type":"Directed",
-      "source":15,
-      "target":16,
-      "value":"1"
     }
-  ],
-  "graphic_type":"force-directed-graph"
+  ]
 }
