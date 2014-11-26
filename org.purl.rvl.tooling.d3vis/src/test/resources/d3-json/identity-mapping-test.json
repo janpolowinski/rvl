@@ -1,549 +1,230 @@
 {
   "nodes":[
     {
-      "uri":"http://purl.org/rvl/example-data/Travel",
+      "uri":"http://purl.org/rvl/example-data/Alice",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Travel",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Travel"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example-data/Science",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Science",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Science"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example-data/Person",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Person",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Person"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example-data/Jan",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Jan",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Jan"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example-data/China",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"China (pop.: 10...",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"China (pop.: 1000)"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example-data/Author",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Author",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Author"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example-data/Christof",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Christof",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Christof"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example-data/DomainResource",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Domain resource",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Domain resource"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example-data/Bob",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Bob",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Bob"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example-data/Europe",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Europe (pop.: 4...",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Europe (pop.: 400)"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example-data/Fiction",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Fiction",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Fiction"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example-data/Spain",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Spain (pop.: 40...",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Spain (pop.: 40)"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example-data/Book",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Book",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Book"
-        }
-      ]
+      "shape_text_value":"Alice",
+      "width":17.0
     },
     {
       "uri":"http://purl.org/rvl/example-data/Asia",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Asia",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Asia"
-        }
-      ]
+      "shape_text_value":"Asia",
+      "width":17.0
     },
     {
       "uri":"http://purl.org/rvl/example-data/Australia",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Australia (pop....",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Australia (pop.: 100)"
-        }
-      ]
+      "shape_text_value":"Australia (pop.: 100)",
+      "width":17.0
     },
     {
-      "uri":"http://purl.org/rvl/example-data/category",
+      "uri":"http://purl.org/rvl/example-data/Author",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"belongs to cate...",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"belongs to category"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example-data/Franzi",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Franzi",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Franzi"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example-data/Lina",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Lina",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Lina"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example-data/Susane",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Susane",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Susane"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example-data/cites",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Cites to book",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Cites to book"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example-data/Sci-Fi",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Sci-Fi",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Sci-Fi"
-        }
-      ]
+      "shape_text_value":"Author",
+      "width":17.0
     },
     {
       "uri":"http://purl.org/rvl/example-data/AutoBiography",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Auto-Biography",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Auto-Biography"
-        }
-      ]
+      "shape_text_value":"Auto-Biography",
+      "width":17.0
     },
     {
       "uri":"http://purl.org/rvl/example-data/Biography",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Biography",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Biography"
-        }
-      ]
+      "shape_text_value":"Biography",
+      "width":17.0
     },
     {
-      "uri":"http://purl.org/rvl/example-data/Goethe",
+      "uri":"http://purl.org/rvl/example-data/Bob",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Goethe",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Goethe"
-        }
-      ]
+      "shape_text_value":"Bob",
+      "width":17.0
+    },
+    {
+      "uri":"http://purl.org/rvl/example-data/Book",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_text_value":"Book",
+      "width":17.0
+    },
+    {
+      "uri":"http://purl.org/rvl/example-data/China",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_text_value":"China (pop.: 1000)",
+      "width":17.0
+    },
+    {
+      "uri":"http://purl.org/rvl/example-data/Christof",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_text_value":"Christof",
+      "width":17.0
     },
     {
       "uri":"http://purl.org/rvl/example-data/DoctorWho",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Doctor Who",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Doctor Who"
-        }
-      ]
+      "shape_text_value":"Doctor Who",
+      "width":17.0
     },
     {
-      "uri":"http://purl.org/rvl/example-data/Luisa",
+      "uri":"http://purl.org/rvl/example-data/DomainResource",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Luisa",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Luisa"
-        }
-      ]
+      "shape_text_value":"Domain resource",
+      "width":17.0
     },
     {
-      "uri":"http://purl.org/rvl/example-data/Johannes",
+      "uri":"http://purl.org/rvl/example-data/Europe",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Johannes",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Johannes"
-        }
-      ]
+      "shape_text_value":"Europe (pop.: 400)",
+      "width":17.0
+    },
+    {
+      "uri":"http://purl.org/rvl/example-data/Fiction",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_text_value":"Fiction",
+      "width":17.0
     },
     {
       "uri":"http://purl.org/rvl/example-data/Field",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Field",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Field"
-        }
-      ]
+      "shape_text_value":"Field",
+      "width":17.0
+    },
+    {
+      "uri":"http://purl.org/rvl/example-data/Franzi",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_text_value":"Franzi",
+      "width":17.0
+    },
+    {
+      "uri":"http://purl.org/rvl/example-data/Goethe",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_text_value":"Goethe",
+      "width":17.0
+    },
+    {
+      "uri":"http://purl.org/rvl/example-data/Jan",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_text_value":"Jan",
+      "width":17.0
+    },
+    {
+      "uri":"http://purl.org/rvl/example-data/Johannes",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_text_value":"Johannes",
+      "width":17.0
     },
     {
       "uri":"http://purl.org/rvl/example-data/John",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"John",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"John"
-        }
-      ]
+      "shape_text_value":"John",
+      "width":17.0
     },
     {
-      "uri":"http://purl.org/rvl/example-data/Alice",
+      "uri":"http://purl.org/rvl/example-data/Lina",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Alice",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Alice"
-        }
-      ]
+      "shape_text_value":"Lina",
+      "width":17.0
     },
     {
-      "uri":"http://purl.org/rvl/example-data/Place",
+      "uri":"http://purl.org/rvl/example-data/Luisa",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Place",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Place"
-        }
-      ]
+      "shape_text_value":"Luisa",
+      "width":17.0
+    },
+    {
+      "uri":"http://purl.org/rvl/example-data/Person",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_text_value":"Person",
+      "width":17.0
     },
     {
       "uri":"http://purl.org/rvl/example-data/PersonWithoutCharacteristics",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Person without ...",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Person without characteristics"
-        }
-      ]
+      "shape_text_value":"Person without characteristics",
+      "width":17.0
+    },
+    {
+      "uri":"http://purl.org/rvl/example-data/Place",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_text_value":"Place",
+      "width":17.0
+    },
+    {
+      "uri":"http://purl.org/rvl/example-data/Sci-Fi",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_text_value":"Sci-Fi",
+      "width":17.0
+    },
+    {
+      "uri":"http://purl.org/rvl/example-data/Science",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_text_value":"Science",
+      "width":17.0
+    },
+    {
+      "uri":"http://purl.org/rvl/example-data/Spain",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_text_value":"Spain (pop.: 40)",
+      "width":17.0
+    },
+    {
+      "uri":"http://purl.org/rvl/example-data/Susane",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_text_value":"Susane",
+      "width":17.0
+    },
+    {
+      "uri":"http://purl.org/rvl/example-data/Travel",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_text_value":"Travel",
+      "width":17.0
+    },
+    {
+      "uri":"http://purl.org/rvl/example-data/category",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_text_value":"belongs to category",
+      "width":17.0
+    },
+    {
+      "uri":"http://purl.org/rvl/example-data/cites",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_text_value":"Cites to book",
+      "width":17.0
     }
   ],
+  "graphic_type":"force-directed-graph",
   "links":[]
 }

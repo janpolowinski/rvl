@@ -227,7 +227,7 @@ public class DataQuery {
 			
 			}
 			
-			if (spURI.equals(RDF.ID)) {
+			if (spURI.equals(RDF.ID)) { // TODO: check for this special property here already: spURI.toString().equals(RVL.ID_AND_TYPES
 				
 				if (null == subject) {
 					

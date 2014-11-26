@@ -51,7 +51,7 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 		
 		LOGGER.finest("Created GO for subject: " + subject.toString());
 		
-		encodeStatement(statement,this.mapping,subjectNode,sourceValue);
+		encodeStatement(statement, this.mapping, subjectNode, sourceValue);
 	}
 	
 	/**
@@ -80,93 +80,109 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 		//GraphicAttribute tga = GraphicAttribute.getInstance(OGVICProcess.getInstance().getModelAVM(), GraphicObject.TEXTVALUE);
 		Property tga = new Property(modelAVM, GraphicObject.TEXTVALUE, false);
 		
-		if (tga.asURI() == GraphicObject.TEXTVALUE) {
-
-				// if the source value is a literal just use it directly
-				try {
-					
-					targetValue = sourceValue.asLiteral();
-					return;
-					
-				} catch (ClassCastException e ) {}
-				
-				// handle source value as a resource
-				
-				Resource sourceResource;
-				
-				try {
-					sourceResource = sourceValue.asResource();
-				} catch (ClassCastException e) {
-					throw new MappingException("Cannot cast " + sourceValue + "to a Resource. ");
-				}
-
-				if (sp.asURI().toString().equals(RVL.LABEL)) {
-
-					// special treatment of the source property rvl:label
-					// (will use rdfs:label or use the local name for URIs instead)
-					targetValue =  new PlainLiteralImpl(ModelUtils.getGoodNodeLabel(sourceResource, modelData));
-
-				} else if (sp.asURI().toString().equals(RVL.ID_AND_TYPES)) {
-					
-					// special treatment of the source property rvl:IDandTypes
-					
-					Set<Resource> typesSet = ModelUtils.getTypes(modelData, sourceResource);
-					String types = "";
-	
-					if (typesSet.isEmpty()) {
-						types = " (untyped)";
-					} else {
-						for (Resource resource : typesSet) {
-							types += " : " + ModelUtils.getGoodNodeLabel(resource, modelData);
-						}
-					}
-
-					targetValue = new PlainLiteralImpl(ModelUtils.getGoodNodeLabel(sourceResource, modelData) + types); //TODO: handle blank nodes!
-
-				} else if (sp.equals(RDF.ID)) {
-					
-					// special treatment of the source property rdf:ID
-					
-					try {
-						targetValue = new PlainLiteralImpl(sourceResource.asURI().toString()); //TODO: handle blank nodes!
-					} catch (Exception e ) {
-						throw new MappingException("Could not create target text literal for identity mapping from " + sourceValue);
-					}
-					
-				} else {
-	
-					// for all other source properties, get the first (random) value
-	
-					ClosableIterator<Statement> it = modelSet.findStatements(
-							Graph.GRAPH_DATA,
-							sourceResource,
-							sp.asURI(),
-							Variable.ANY
-							);
-	
-					if (it.hasNext()) {
-						
-						Node object = it.next().getObject();
-						
-						try {
-							// if the object is a literal, such as a label
-							targetValue = object.asLiteral();
-						} catch (ClassCastException e ) {
-							// if the object is a URI //TODO: handle blank nodes!
-							targetValue = new PlainLiteralImpl(object.asURI().toString());
-						}
-					}
-				}
-
-			// remove existing shapes (incl. default shape) - these are now overridden by the text-shape
-			go.removeAllShapenamed();
-			
-		} else {
+		if (tga.asURI() != GraphicObject.TEXTVALUE) {
 			throw new NotImplementedMappingFeatureException("Currently only those IdentityMappings can be handled that map to textvalue");
 		}
+		
+		if (isLiteral(sourceValue)) {
 			
-		rvlInterpreter.applyGraphicValueToGO(tga, targetValue, sourceValue, go);
+			// source value is a literal -> just use it directly
+			
+			targetValue = sourceValue.asLiteral();
+			
+		} else {	
+			
+			// handle source value as a resource
+			
+			Resource sourceResource;
+			
+			try {
+				sourceResource = sourceValue.asResource();
+			} catch (ClassCastException e) {
+				throw new MappingException("Cannot cast " + sourceValue + "to a Resource. ");
+			}
+
+			if (sp.asURI().toString().equals(RVL.LABEL)) {
+
+				// special treatment of the source property rvl:label
+				// (will use rdfs:label or use the local name for URIs instead)
+				targetValue =  new PlainLiteralImpl(ModelUtils.getGoodNodeLabel(sourceResource, modelData));
+
+			} else if (sp.asURI().toString().equals(RVL.ID_AND_TYPES)) {
+				
+				// special treatment of the source property rvl:IDandTypes
+				
+				Set<Resource> typesSet = ModelUtils.getTypes(modelData, sourceResource);
+				String types = "";
+
+				if (typesSet.isEmpty()) {
+					types = " (untyped)";
+				} else {
+					for (Resource resource : typesSet) {
+						types += " : " + ModelUtils.getGoodNodeLabel(resource, modelData);
+					}
+				}
+
+				targetValue = new PlainLiteralImpl(ModelUtils.getGoodNodeLabel(sourceResource, modelData) + types); //TODO: handle blank nodes!
+
+			} else if (sp.equals(RDF.ID)) {
+				
+				// special treatment of the source property rdf:ID
+				
+				try {
+					targetValue = new PlainLiteralImpl(sourceResource.asURI().toString()); //TODO: handle blank nodes!
+				} catch (Exception e ) {
+					throw new MappingException("Could not create target text literal for identity mapping from " + sourceValue);
+				}
+				
+			} else {
+
+				// for all other source properties, get the first (random) value
+
+				ClosableIterator<Statement> it = modelSet.findStatements(
+						Graph.GRAPH_DATA,
+						sourceResource,
+						sp.asURI(),
+						Variable.ANY
+						);
+
+				if (it.hasNext()) {
+					
+					Node object = it.next().getObject();
+					
+					try {
+						// if the object is a literal, such as a label
+						targetValue = object.asLiteral();
+					} catch (ClassCastException e ) {
+						// if the object is a URI //TODO: handle blank nodes!
+						targetValue = new PlainLiteralImpl(object.asURI().toString());
+					}
+				}
+			}
+		}
+
+		// remove existing shapes (incl. default shape) - these are now overridden by the text-shape
+		go.removeAllShapenamed();
+		
+		if (null != targetValue) {
+			rvlInterpreter.applyGraphicValueToGO(tga, targetValue, sourceValue, go);
+		} else {
+			LOGGER.warning("target value was null and could not be set while interpreting identity mapping for statement " + statement);
+		}
 	
+	}
+
+	/**
+	 * Helper method for distinguishing literals from resources, since there seems to be no such method in RDF2GO.
+	 * @param sourceValue
+	 * @return
+	 */
+	private static boolean isLiteral(Node sourceValue) {
+		try {
+			sourceValue.asLiteral();
+			return true;
+		} catch (ClassCastException e ) {}
+		return false;
 	}
 
 	/**
@@ -180,7 +196,7 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 		try {
 			stmtSetIterator = DataQuery.findRelationsOnInstanceOrClassLevel(
 					modelSet, Graph.GRAPH_DATA,
-					(PropertyMappingX) mapping,
+					mapping,
 					true, null, null).iterator();
 			
 		} catch (InsufficientMappingSpecificationException e) {
