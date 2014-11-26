@@ -332,7 +332,7 @@ public class ProjectsResource {
 			project.registerDataFile("editing/ontology.ttl");
 		} catch (FileNotFoundException e) {}
 		try {
-			project.registerMappingFile("editing/commons.ttl");
+			project.registerMappingFile("/example-commons/rvl-example-commons.ttl");
 		} catch (FileNotFoundException e) {}
 		
 		try {
