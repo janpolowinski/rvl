@@ -131,20 +131,21 @@ public class OGVICProcess {
 	
 	/**
 	 * @param args
+	 * @throws OGVICRepositoryException 
 	 * @throws IOException 
 	 */
-	private OGVICProcess() {
+	private OGVICProcess() throws OGVICRepositoryException {
 		init();
 	}
 	
-	public static OGVICProcess getInstance() {
+	public static OGVICProcess getInstance() throws OGVICRepositoryException {
 		if (instance == null) {
 	        instance = new OGVICProcess();
 	    }
 	    return instance;
 	}
 
-	private void init() {
+	private void init() throws OGVICRepositoryException {
 		
 		// explicitly specify to use a specific ontology api here:
 		 RDF2Go.register( new org.ontoware.rdf2go.impl.jena.ModelFactoryImpl());
@@ -153,12 +154,7 @@ public class OGVICProcess {
 		// for ModelFactoryImpls to register.
 
 		modelManager = ModelManager.getInstance();
-		try {
-			modelManager.initInternalModels();
-		} catch (OGVICRepositoryException e) {
-			e.printStackTrace();
-		}
-		
+		modelManager.initInternalModels();
 	}
 	
 	public void initDataAndMappingsModel(VisProject project) throws OGVICRepositoryException {

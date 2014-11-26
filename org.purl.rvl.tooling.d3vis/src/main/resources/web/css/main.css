@@ -8,17 +8,17 @@ body {
 
 #container {
   display: table;
-  padding: 3px;
+  padding: 0px;
   width: 100%;
   }
 
 .layout {
-  /*border: 1px solid red;*/
+  /*border: 1px solid yellow;*/
 }
 
 #row  {
   display: table-row;
-  padding: 3px;
+  /*padding: 3px;*/
   }
 
 #footer  {
@@ -29,23 +29,23 @@ body {
 
 #left, #right, #middle {
   display: table-cell;
-  padding: 3px;
+  padding: 0px;
   vertical-align:top;
   }
   
 #left {
   text-align:left;
-  width:200px
+  width:200px;
 }
 
 #right {
   text-align:right;
-  width:500px
+  width:300px;
 }
   
 #canvas {
   z-index: -10000;
-  width:900px;
+  width:auto;
   height:800px;
   padding: 3px;
 }
@@ -59,15 +59,17 @@ body {
 #editor {
 	position:absolute;
 	z-index: 3000;
-	width:500px;
+	width:300px;
+	background-color: #eee;
+	padding: 10px;
 }
 
-button {
+#menu button {
 	width:100%;
 	text-align:left;
 }
 
-button:hover {
+#menu button:hover {
 	font-weight: bold;
 	margin-top: 6px;
 	margin-bottom: 6px;
@@ -77,6 +79,9 @@ form input, form textarea {
 	width:100%;
 }
 
+form textarea {
+	resize: vertical ;
+}
 
 #svg {
 	position:absolute;
