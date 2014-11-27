@@ -29,7 +29,7 @@
 :AllDomainRange2LinkingDirected
       a rvl:PropertyToGraphicObjToObjRelationMapping ;
       rvl:sourceProperty owl:topObjectProperty ;
-	  rvl:inheritedBy rvl:tBoxDomainRange ;
+	  rvl:passedTo rvl:tBoxDomainRange ;
 	  #rvl:invertSourceProperty "true"^^xsd:boolean ;
 	  rvl:targetObjToObjRelation vg:Linking_Directed_Relation ; 
       .

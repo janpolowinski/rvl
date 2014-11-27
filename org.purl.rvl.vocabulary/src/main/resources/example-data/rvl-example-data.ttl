@@ -160,6 +160,11 @@
       rdf:type owl:Class ;
       rdfs:label "Place"^^xsd:string ;
       rdfs:subClassOf :DomainResource .
+      
+:Document
+      rdf:type owl:Class ;
+      rdfs:label "Dokument"@de;
+      rdfs:subClassOf :DomainResource .
 
 :Sci-Fi
       rdf:type :Field ;
@@ -248,4 +253,10 @@
       rdf:type rdf:Property , owl:ObjectProperty ;
       rdfs:range :Field ;
       rdfs:domain :Person ;
+      rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value, owl:topObjectProperty .
+      
+:creator
+      rdf:type rdf:Property , owl:ObjectProperty ;
+      rdfs:range :Person ;
+      rdfs:domain :Document ;
       rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value, owl:topObjectProperty .
