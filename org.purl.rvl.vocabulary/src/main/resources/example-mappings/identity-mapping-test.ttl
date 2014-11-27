@@ -21,7 +21,7 @@
     
 :TextIdentityMapping
       a rvl:IdentityMapping ;
-      rvl:disabled "false";
+      rvl:disabled "true";
       rvl:sourceProperty rdfs:label ;
       #rvl:sourceProperty rdf:ID ;
       
@@ -45,7 +45,7 @@
       
 :TextIdentityMappingDCTTitleLangTagDe
       a rvl:IdentityMapping ;
-      rvl:disabled "true";
+      rvl:disabled "false";
       rvl:sourceProperty dct:title ;
       # filtering to language tags can be done like this for now using a sparql filter:
       rvl:subjectFilter "FILTER (LANG(?o) = 'de')"^^rvl:sparqlSelector ;
