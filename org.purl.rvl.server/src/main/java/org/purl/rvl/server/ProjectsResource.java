@@ -29,6 +29,8 @@ import org.ontoware.rdf2go.Reasoning;
 import org.purl.rvl.exception.D3GeneratorException;
 import org.purl.rvl.exception.OGVICModelsException;
 import org.purl.rvl.exception.OGVICRepositoryException;
+import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
+import org.purl.rvl.tooling.avm2d3.GraphicType;
 import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.commons.utils.FileResourceUtils;
 import org.purl.rvl.tooling.process.OGVICProcess;
@@ -104,6 +106,7 @@ public class ProjectsResource {
 	@Path("/run")
 	public Response runNewVisProject(
 			@FormParam("id") String id,
+			@FormParam("graphicType") String graphicType,
 			@FormParam("data") String data,
 			@FormParam("mappings") String mappings,
 			@FormParam("stay") String stay,
@@ -119,6 +122,7 @@ public class ProjectsResource {
 		
 		VisProject project = new VisProject(id);
 		project.setReasoningDataModel(Reasoning.rdfs);
+		project.setDefaultGraphicType(graphicType);
 		
 		if (data != null) {
 			File newTmpDataFile = saveToTempFile(data);
@@ -202,7 +206,7 @@ public class ProjectsResource {
 
 		String jsonResult;
 		try {
-			jsonResult = runExternalEditingProject();
+			jsonResult = runExternalEditingProject(GraphicType.FORCE_DIRECTED_GRAPH);
 		} catch (OGVICRepositoryException e) {
 			jsonResult =  e.getMessage();
 			e.printStackTrace();
@@ -214,6 +218,25 @@ public class ProjectsResource {
 //		if (null == servletResponse) {
 //			System.out.println("servlet response was null");
 //		}
+		
+		return jsonResult;
+    }
+	
+	@GET
+    @Produces({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
+	@Path("/run/external/{graphicType}")
+    public String runExternalEditingProject(@PathParam("graphicType") String graphicType, @Context HttpServletResponse servletResponse) {
+
+		String jsonResult;
+		try {
+			jsonResult = runExternalEditingProject(graphicType);
+		} catch (OGVICRepositoryException e) {
+			jsonResult =  e.getMessage();
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			jsonResult =  e.getMessage();
+			e.printStackTrace();
+		}
 		
 		return jsonResult;
     }
@@ -314,7 +337,7 @@ public class ProjectsResource {
 		return json;
 	}
 
-	private String runExternalEditingProject() throws FileNotFoundException, OGVICRepositoryException {
+	private String runExternalEditingProject(String defaultGraphicType) throws FileNotFoundException, OGVICRepositoryException {
 	
 		String json;
 		OGVICProcess process = OGVICProcess.getInstance();
@@ -326,6 +349,7 @@ public class ProjectsResource {
 		project.setReasoningDataModel(Reasoning.rdfs);
 		project.registerDataFile("editing/data.ttl");
 		project.registerMappingFile("editing/mapping.ttl");
+		project.setDefaultGraphicType(defaultGraphicType);
 		
 		// load from optional files
 		try {

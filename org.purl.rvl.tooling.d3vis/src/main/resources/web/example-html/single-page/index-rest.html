@@ -28,8 +28,8 @@
   					<!--<button onClick="showRVLeditor('normal')">Show editor</button>-->
   					<div id="menu" class="layout">
   						<button onclick="reLoad()">Reload</button>
-  						<br/><br/>
-						<button title="(Re)load from external editing folder" onclick="loadProjectExternalEditing('force-directed-graph')">(Re)load external</button>
+						<button title="(Re)load from external editing folder (force-directed graph )" onclick="loadProjectExternalEditing('force-directed-graph')">(Re)load ext. graph</button>
+						<button title="(Re)load from external editing folder (collapsible tree) " onclick="loadProjectExternalEditing('collapsible-tree')">(Re)load external tree</button>
   						<br/><br/>
   						<!--<button onclick="reInitContainers()">Re init containers</button>-->
 						<!--<button onclick="clearVis()">Clear visualization</button>-->
@@ -55,6 +55,13 @@
   
   <label for="id">ID</label>
   <input name="id" id="projectID" value="new-project-1"/>
+  <br/>
+    <label for="graphicType">Graphic type</label> 
+    <select name="graphicType" id="projectGraphicType" >
+    	<option value="force-directed-graph" selected="selected">Force-Directed Graph</option>
+		<option value="collapsible-tree">Collapsible Tree</option>
+		<option value="circle-packing-zoomable">Circle Packing (Zoomable)</option>
+    </select>
   <br/>
     Data:
   <textarea name="data" id="projectData" rows="12">loading example data ... </textarea>
@@ -158,7 +165,7 @@
 		
 		loadProjectExternalEditing = function(defaultGraphicType) {
     		reInitContainers();
-    		d3.json("http://localhost:8080/semvis/projects/run/external", graphicLoadingFunctions[defaultGraphicType]);
+    		d3.json("http://localhost:8080/semvis/projects/run/external/" + defaultGraphicType, graphicLoadingFunctions[defaultGraphicType]);
     	}
     	
     	d3.json("http://localhost:8080/semvis/projects", function (error, result) {

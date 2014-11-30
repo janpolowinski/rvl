@@ -5,12 +5,14 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.purl.rvl.tooling.commons.utils.FileResourceUtils;
+import org.purl.rvl.tooling.process.VisProject;
 
 public class ProjectsResourceTest {
 	
@@ -53,6 +55,12 @@ public class ProjectsResourceTest {
 		ProjectsResource res = new ProjectsResource();
 		String result = res.getExampleMappings();
 		assertEquals(mappings, result);
+	}
+	
+	@Test
+	public void testProjectsList() throws IOException, URISyntaxException {
+		ProjectsResource res = new ProjectsResource();
+		List<VisProject> result = res.getProjects();
 	}
 
 }

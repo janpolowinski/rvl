@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.ontoware.rdf2go.Reasoning;
 import org.purl.rvl.tooling.avm2d3.D3Generator;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
+import org.purl.rvl.tooling.avm2d3.D3GeneratorTreeJSON;
+import org.purl.rvl.tooling.avm2d3.GraphicType;
 import org.purl.rvl.tooling.commons.FileRegistry;
 
 /**
@@ -138,7 +140,17 @@ public class VisProject {
 	
 	private void deriveDefaultGenerator() {
 		if (null == d3Generator) {
-			this.d3Generator = new D3GeneratorDeepLabelsJSON();
+			if (
+				null != defaultGraphicType && 
+				(
+				defaultGraphicType.equals(GraphicType.COLLAPSIBLE_TREE) ||
+				defaultGraphicType.equals(GraphicType.CIRCLE_PACKING_ZOOMABLE)
+				)
+			) {
+				d3Generator = new D3GeneratorTreeJSON();
+			} else {
+				d3Generator = new D3GeneratorDeepLabelsJSON();
+			}
 		}
 	}
 
