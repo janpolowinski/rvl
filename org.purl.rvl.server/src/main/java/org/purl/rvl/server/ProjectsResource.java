@@ -26,13 +26,17 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.ontoware.rdf2go.Reasoning;
+import org.ontoware.rdf2go.model.Model;
+import org.ontoware.rdf2go.model.Syntax;
 import org.purl.rvl.exception.D3GeneratorException;
 import org.purl.rvl.exception.OGVICModelsException;
 import org.purl.rvl.exception.OGVICRepositoryException;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
 import org.purl.rvl.tooling.avm2d3.GraphicType;
 import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
+import org.purl.rvl.tooling.commons.FileRegistry;
 import org.purl.rvl.tooling.commons.utils.FileResourceUtils;
+import org.purl.rvl.tooling.model.ModelManager;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.process.VisProject;
 import org.purl.rvl.tooling.process.VisProjectLibraryExamples;
@@ -284,6 +288,40 @@ public class ProjectsResource {
 			e.printStackTrace();
 			return "# example mappings could not be found.";
 		}
+    }
+	
+	@GET
+    @Produces({MediaType.TEXT_PLAIN})
+	@Path("/mappingmodel/{id}")
+    public String getMappingModel(@PathParam("id") String id) throws OGVICRepositoryException {
+		
+		ModelManager modelManager = ModelManager.getInstance();
+		VisProject project = VisProjectLibraryExamples.getInstance().getProject(id);
+		
+		FileRegistry mfr = project.getMappingFileRegistry();
+
+		modelManager.initInternalModels(); // TODO refaktor? actually only RVL model is required here
+		modelManager.initMappingsModel(project.getMappingFileRegistry());
+		
+		Model model = modelManager.getMappingsModel();
+		
+		return model.serialize(Syntax.Turtle);
+		//return "requested mapping model for project " + id;
+    }
+	
+	@GET
+    @Produces({MediaType.TEXT_PLAIN})
+	@Path("/datamodel/{id}")
+    public String getDataModel(@PathParam("id") String id) throws OGVICRepositoryException {
+		
+		ModelManager modelManager = ModelManager.getInstance();
+		VisProject project = VisProjectLibraryExamples.getInstance().getProject(id);
+
+		modelManager.initDataModel(project.getDataFileRegistry(), project.getReasoningDataModel());
+		
+		Model model = modelManager.getDataModel();
+		
+		return model.serialize(Syntax.Turtle);
     }
 
 

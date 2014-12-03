@@ -11,6 +11,8 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
+import org.purl.rvl.exception.OGVICRepositoryException;
+import org.purl.rvl.tooling.avm2d3.GraphicType;
 import org.purl.rvl.tooling.commons.utils.FileResourceUtils;
 import org.purl.rvl.tooling.process.VisProject;
 
@@ -36,7 +38,7 @@ public class ProjectsResourceTest {
 		String mappings = IOUtils.toString(mappingReader);
 		
 		ProjectsResource res = new ProjectsResource();
-		Response response = res.runNewVisProject("test", data, mappings, "on", null);
+		Response response = res.runNewVisProject("test", GraphicType.FORCE_DIRECTED_GRAPH, data, mappings, "on", null);
 		
 		System.out.println(response);
 	}
@@ -63,4 +65,18 @@ public class ProjectsResourceTest {
 		List<VisProject> result = res.getProjects();
 	}
 
+	@Test
+	public void testGetMappingModel() throws OGVICRepositoryException {
+		ProjectsResource res = new ProjectsResource();
+		String serializedMappingModel = res.getMappingModel("aa-3");
+		System.out.println(serializedMappingModel);
+	}
+	
+	@Test
+	public void testGetDataModel() throws OGVICRepositoryException {
+		ProjectsResource res = new ProjectsResource();
+		String serializedDataModel = res.getDataModel("aa-3");
+		System.out.println(serializedDataModel);
+	}
+	
 }
