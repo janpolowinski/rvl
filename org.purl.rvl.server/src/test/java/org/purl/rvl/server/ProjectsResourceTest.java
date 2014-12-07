@@ -79,4 +79,12 @@ public class ProjectsResourceTest {
 		System.out.println(serializedDataModel);
 	}
 	
+	@Test
+	public void testGetMappingFile() throws IOException, URISyntaxException, OGVICRepositoryException {
+		String mappings = FileResourceUtils.getFromExampleMappings("linking-test.ttl");
+		ProjectsResource res = new ProjectsResource();
+		String result = res.getMappingFile("linking-directed-test");
+		assertEquals(mappings, result);
+	}
+	
 }

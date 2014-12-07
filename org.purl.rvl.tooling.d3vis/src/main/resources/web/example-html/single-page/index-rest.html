@@ -30,7 +30,7 @@
   						<button onclick="reLoad()">Reload</button>
 						<button title="(Re)load from external editing folder (force-directed graph )" onclick="loadProjectExternalEditing('force-directed-graph')">(Re)load ext. graph</button>
 						<button title="(Re)load from external editing folder (collapsible tree) " onclick="loadProjectExternalEditing('collapsible-tree')">(Re)load ext. tree</button>
-						<button title="Test: Load mapping model from aa-3" onclick="loadExampleValue('http://localhost:8080/semvis/projects/mappingmodel/aa-3', '#projectMappings');">Test loading mapping model</button>
+						<!--button title="Test: Load mapping model from aa-3" onclick="loadExampleValue('http://localhost:8080/semvis/projects/mappingfile/aa-3', '#projectMappings');">Test loading mapping model</button-->
   						<br/><br/>
   						<!--<button onclick="reInitContainers()">Re init containers</button>-->
 						<!--<button onclick="clearVis()">Clear visualization</button>-->
@@ -180,9 +180,9 @@
     	    .enter()
     	    .append("div")
     	    .append("button")
-    	    //.attr("onclick", function(d){return "loadProject('" + d.id + "','" + d.defaultGraphicType + "')";})
-			.attr("onclick", function(d){
-				return "loadExampleValue('http://localhost:8080/semvis/projects/mappingmodel/" + d.id + "' , '#projectMappings'); loadExampleValue('http://localhost:8080/semvis/projects/datamodel/" + d.id + "' , '#projectData');"
+    	    .attr("onclick", function(d){return "loadProject('" + d.id + "','" + d.defaultGraphicType + "')";})
+			.attr("ondblclick", function(d){
+				return "loadExampleValue('http://localhost:8080/semvis/projects/mappingfile/" + d.id + "' , '#projectMappings'); loadExampleValue('http://localhost:8080/semvis/projects/datamodel/" + d.id + "' , '#projectData');"
 				})
     	    .text(function(d){return d.id;});    	
     	});

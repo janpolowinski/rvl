@@ -39,6 +39,7 @@ import org.purl.rvl.tooling.commons.utils.FileResourceUtils;
 import org.purl.rvl.tooling.model.ModelManager;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.process.VisProject;
+import org.purl.rvl.tooling.process.VisProjectLibrary;
 import org.purl.rvl.tooling.process.VisProjectLibraryExamples;
 
 /**
@@ -186,7 +187,7 @@ public class ProjectsResource {
 	@Path("/run/{id}")
     public String runVisProject(@PathParam("id") String id, @Context HttpServletResponse servletResponse) {
 		
-		System.out.println("/run/" + id);
+		//System.out.println("/run/" + id);
 		
 		String jsonResult;
 		try {
@@ -308,6 +309,30 @@ public class ProjectsResource {
 		return model.serialize(Syntax.Turtle);
 		//return "requested mapping model for project " + id;
     }
+	
+	// TODO, HACK: we assume here, there is only one file!
+	@GET
+    @Produces({MediaType.TEXT_PLAIN})
+	@Path("/mappingfile/{id}")
+    public String getMappingFile(@PathParam("id") String id) throws OGVICRepositoryException, IOException {
+		
+		VisProject project = VisProjectLibraryExamples.getInstance().getProject(id);
+		FileRegistry mfr = project.getMappingFileRegistry();
+		File mappingFile = mfr.getFiles().iterator().next();
+
+		if (null==mappingFile) {
+			throw new OGVICRepositoryException();
+		}
+		
+		final String mappingFilePath = mappingFile.getPath();
+		final String mappingFileContent = FileResourceUtils.getFromWithinJarsAsString(mappingFilePath);
+		
+		return mappingFileContent 
+				//; 
+				+ System.lineSeparator() + System.lineSeparator() 
+				+ "# this mapping file was loaded from: " 
+				+ mappingFilePath + "(" + mappingFile.getAbsolutePath() + ")";
+	    }
 	
 	@GET
     @Produces({MediaType.TEXT_PLAIN})
