@@ -2,6 +2,7 @@ package org.purl.rvl.server;
 
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import java.io.IOException;
@@ -23,8 +24,11 @@ public class Main {
 	public static HttpServer startServer() {
 		// create a resource config that scans for JAX-RS resources and providers
 		// in org.purl.rvl.server package
-		final ResourceConfig rc = new ResourceConfig().packages("org.purl.rvl.server");
-		rc.register("com.production.resource.ResponseCorsFilter");
+		//final ResourceConfig rc = new ResourceConfig().packages("org.purl.rvl.server");
+		//rc.register("com.production.resource.ResponseCorsFilter");
+		//rc.register(MultiPartFeature.class);
+		
+		final ResourceConfig rc = new RVLServerResourceConfiguration();
 
 		// create and start a new instance of grizzly http server
 		// exposing the Jersey application at BASE_URI
