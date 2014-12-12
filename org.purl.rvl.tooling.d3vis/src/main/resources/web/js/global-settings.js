@@ -24,6 +24,8 @@ var width = 900,
 
 var BASE_PATH_SVG_FILE = "../../svg/symbols.svg#";
 
+var baseUrlBackend = "http://localhost:8080/semvis/";
+
 
 /******************************/
 /* GLOBAL "MEMBER" VARS       */

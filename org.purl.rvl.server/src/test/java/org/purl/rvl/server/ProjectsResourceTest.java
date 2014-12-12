@@ -105,6 +105,7 @@ public class ProjectsResourceTest extends JerseyTest {
 	public void testProjectsList() throws IOException, URISyntaxException {
 		ProjectsResource res = new ProjectsResource();
 		List<VisProject> result = res.getProjects();
+		System.out.println(result);
 	}
 
 	@Test

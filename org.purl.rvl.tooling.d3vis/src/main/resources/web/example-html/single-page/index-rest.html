@@ -25,9 +25,9 @@
   			<div id="row" class="layout">
 
   				<div id="left" class="layout">
-  					<!--<button onClick="showRVLeditor('normal')">Show editor</button>-->
   					<div id="menu" class="layout">
-  						<button onclick="reLoad()">Reload</button>
+  						<!--<button onClick="showRVLeditor('normal')">Show editor</button>-->
+  						<!--button onclick="reLoad()">Reload</button-->
 						<button title="(Re)load from external editing folder (force-directed graph )" onclick="loadProjectExternalEditing('force-directed-graph')">(Re)load ext. graph</button>
 						<button title="(Re)load from external editing folder (collapsible tree) " onclick="loadProjectExternalEditing('collapsible-tree')">(Re)load ext. tree</button>
 						<!--button title="Test: Load mapping model from aa-3" onclick="loadExampleValue('http://localhost:8080/semvis/projects/mappingfile/aa-3', '#projectMappings');">Test loading mapping model</button-->
@@ -35,8 +35,6 @@
   						<!--<button onclick="reInitContainers()">Re init containers</button>-->
 						<!--<button onclick="clearVis()">Clear visualization</button>-->
   					</div>
-					
-					
   				</div>
 
   				<div id="middle" class="layout">
@@ -50,39 +48,31 @@
 					<button onClick="showRVLeditor('hidden')">Hide</button>
 					<button onClick="showRVLeditor('normal')">Normal</button>
 					<button onClick="showRVLeditor('max')">Maximize</button>
-  				
-  				
-  <form id="editingForm" action="http://localhost:8080/semvis/projects/run" method="POST" formenctype="multipart/form-data"
->
-  
-  <label for="id">ID</label>
-  <input name="id" id="projectID" value="new-project-1"/>
-  <br/>
-    <label for="graphicType">Graphic type</label> 
-    <select name="graphicType" id="projectGraphicType" >
-    	<option value="force-directed-graph" selected="selected">Force-Directed Graph</option>
-		<option value="collapsible-tree">Collapsible Tree</option>
-		<option value="circle-packing-zoomable">Circle Packing (Zoomable)</option>
-    </select>
-  <br/>
-    Data:
-  <textarea name="data" id="projectData" rows="12">loading example data ... </textarea>
-  <br/>
-    Mappings:
-  <textarea name="mappings" id="projectMappings" rows="12">loading example mappings ... </textarea>
-  <br/>
-  <!--<label for="stay">Stay on this page:</label><input name="stay" type="checkbox" checked="checked"/>-->
-  <input type="submit" value="Submit" />
-  
-  </form>
-  
-  				
-  				</div>
-  				
-  			</div>
 
-			</div>
+					  <form id="editingForm" action="http://localhost:8080/semvis/projects/run" method="POST">
+						  <label for="id">ID</label>
+						  <input name="id" id="projectID" value="new-project-1"/>
+						  <br/>
+						    <label for="graphicType">Graphic type</label> 
+						    <select name="graphicType" id="projectGraphicType" >
+						    	<option value="force-directed-graph" selected="selected">Force-Directed Graph</option>
+								<option value="collapsible-tree">Collapsible Tree</option>
+								<option value="circle-packing-zoomable">Circle Packing (Zoomable)</option>
+						    </select>
+						  <br/>
+						    Data:
+						  <textarea name="data" id="projectData" rows="12">loading example data ... </textarea>
+						  <br/>
+						    Mappings:
+						  <textarea name="mappings" id="projectMappings" rows="12">loading example mappings ... </textarea>
+						  <br/>
+						  <input type="submit" formenctype="multipart/form-data" value="Submit" />
+					  </form>
+
+  				</div>
+  			</div>
 			
+			</div>
 		</div>
 		
 		<div id="footer" class="layout">RVL Examples. Jan Polowinski. 2014.</div>
@@ -151,26 +141,26 @@
         reLoad = function() {
     	 	reInitContainers();
     	 	
-    	 	d3.json("http://localhost:8080/semvis/projects/latest", function(json){
+    	 	d3.json(baseUrlBackend + "projects/latest", function(json){
     	 		//alert(json.graphic_type);
     	 		graphicLoadingFunctions[json.graphic_type](null, json);
     	 		});
     	 	
-    		//d3.json("http://localhost:8080/semvis/projects/latest", graphicLoadingFunctions[defaultGraphicType]);
+    		//d3.json(baseUrlBackend + "projects/latest", graphicLoadingFunctions[defaultGraphicType]);
     		//"../../gen/json/tree-data.json" , "../../gen/json/graph-data.json", "../../example-data/graph-data-labeling-advanced.json"
     	}
     	
     	loadProject = function(projectID, defaultGraphicType) {
     		reInitContainers();
-    		d3.json("http://localhost:8080/semvis/projects/run/" + projectID, graphicLoadingFunctions[defaultGraphicType]);
+    		d3.json(baseUrlBackend + "projects/run/" + projectID, graphicLoadingFunctions[defaultGraphicType]);
     	}
 		
 		loadProjectExternalEditing = function(defaultGraphicType) {
     		reInitContainers();
-    		d3.json("http://localhost:8080/semvis/projects/run/external/" + defaultGraphicType, graphicLoadingFunctions[defaultGraphicType]);
+    		d3.json(baseUrlBackend + "projects/run/external/" + defaultGraphicType, graphicLoadingFunctions[defaultGraphicType]);
     	}
     	
-    	d3.json("http://localhost:8080/semvis/projects", function (error, result) {
+    	d3.json(baseUrlBackend + "projects", function (error, result) {
     	
     		 var projectsEnter = d3.select("#menu")
     		.append("div")
@@ -181,17 +171,14 @@
     	    .enter()
     	    .append("div")
     	    .append("button")
+			.attr("title","double-click to execute, normal-click to load for editing")
     	    .attr("ondblclick", function(d){return "loadProject('" + d.id + "','" + d.defaultGraphicType + "')";})
 			.attr("onclick", function(d){
 				return "loadExampleValue('http://localhost:8080/semvis/projects/mappingfile/" + d.id + "' , '#projectMappings'); loadExampleValue('http://localhost:8080/semvis/projects/datamodel/" + d.id + "' , '#projectData');"
 				})
     	    .text(function(d){return d.id;});    	
     	});
-        
-        reLoad();
-        
-        
-        
+ 
         // menu
         
         loadExampleValue = function(endPoint, elementID) {
@@ -231,77 +218,26 @@
 			}
 		}
 		
-		// init
-    	
-    	//loadExampleValue("http://localhost:8080/semvis/projects/example/data", "#projectData");
-        //loadExampleValue("http://localhost:8080/semvis/projects/example/mappings", "#projectMappings");
-		loadExampleValue("http://localhost:8080/semvis/projects/mappingmodel/aa-3", "#projectMappings");
-        
-        
+		// manipulating the form to post and wait with callback
 		
-		
-		// manipulating the form to post and wait with callback:
-		
-		/*d3.select("#editingForm").on("submit", function() {
-			d3.event.preventDefault();
-			
-		  //var inp = d3.select("#theInput");
-		  //var v = inp.property("value");
-		  //inp.property("value", "");
-		  //socket.emit('sent message', v);
-		  
-		var formElement = document.getElementById("editingForm");
-		alert(formElement);
-		var formData = new FormData(formElement);		
-		//formData.append('id', document.getElementById('projectID').value);
-		//formData.append('graphicType', document.getElementById('projectGraphicType').value);
-		
-		  
-		  postUrl = "http://localhost:8080/semvis/projects/run";
-		  
-		  
-		  d3.json(postUrl,function(error, data) {
- 		 
-		 	alert("posting to" + postUrl);
-		 
+		d3.select("#editingForm").on("submit", function() {
+			d3.event.preventDefault();		
+		  	d3.json(baseUrlBackend + "projects/run",function(error, json) {
+		 		reInitContainers();
+				graphicLoadingFunctions[json.graphic_type](null, json);
 		    })
-		   .header("Content-Type","multipart/form-data")
- 		   .send("POST", formData);*/
-		  
-		 // old: JSON.stringify({id: "test-neu-123", graphicType: "collapsible-tree", projectData: "", projectMappings: ""})
- 		//old: formParameters = "id=test-neu-123&graphicType=collapsible-tree&data=&mappings=";
-		
-		/*
+		   //.header("Content-Type","multipart/form-data") // this causes the request to fail! probably since some additional info (boundary=... is missing)
+		   //.header("Accept","application/json") // not necessary
+ 		   .send("POST", new FormData(this));
+		  return false;
+		});
 
-		  var xhr = new XMLHttpRequest();
-  			xhr.open('POST', postUrl , true);
-  			xhr.onload = function(err, rawData){
-					alert("post call back");
-            		var data = JSON.parse(rawData);
-            		console.log("got response", data);
-      		  	};
-
-			xhr.header("Content-Type", "application/x-www-form-urlencoded");
-  			xhr.send(formData);
-			
-			*/
-		  
-		  /*d3.xhr(postUrl)
-    		.header("Content-Type", "application/x-www-form-urlencoded")
-    		.post(
-        		formData,
-        		function(err, rawData){
-					alert("post call back");
-            		var data = JSON.parse(rawData);
-            		console.log("got response", data);
-      		  	}
-    		);*/
-		  
-		  //alert("end submit pressed");
-		  /*return false;
-		});*/
+		// init vis and editor
 		
-        
+		reLoad();
+    	loadExampleValue(baseUrlBackend + "projects/example/data", "#projectData");
+        loadExampleValue(baseUrlBackend + "projects/example/mappings", "#projectMappings");
+		//loadExampleValue(baseUrlBackend + "projects/mappingmodel/aa-3", "#projectMappings");
                                                                         
         </script>
 		

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -118,8 +117,10 @@ public class ProjectsResource {
 			)
 			throws IOException, URISyntaxException {
 		
-		System.out.println("Running new project " + id);
+		System.out.println("Running new posted project ");
+		//System.out.println("Running new project " + id);
 
+		//return Response.status(Status.OK).entity("<html><body>Some content</body></html>").build();
 		//return Response.status(Status.OK).entity("{\"some message\" : \"test\"}").build();
 		
 		
@@ -312,7 +313,7 @@ public class ProjectsResource {
 		ModelManager modelManager = ModelManager.getInstance();
 		VisProject project = VisProjectLibraryExamples.getInstance().getProject(id);
 		
-		FileRegistry mfr = project.getMappingFileRegistry();
+		//FileRegistry mfr = project.getMappingFileRegistry();
 
 		modelManager.initInternalModels(); // TODO refaktor? actually only RVL model is required here
 		modelManager.initMappingsModel(project.getMappingFileRegistry());
