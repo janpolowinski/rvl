@@ -25,13 +25,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.ontoware.rdf2go.Reasoning;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.Syntax;
 import org.purl.rvl.exception.D3GeneratorException;
 import org.purl.rvl.exception.OGVICModelsException;
 import org.purl.rvl.exception.OGVICRepositoryException;
-import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
 import org.purl.rvl.tooling.avm2d3.GraphicType;
 import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.commons.FileRegistry;
@@ -39,7 +39,6 @@ import org.purl.rvl.tooling.commons.utils.FileResourceUtils;
 import org.purl.rvl.tooling.model.ModelManager;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.process.VisProject;
-import org.purl.rvl.tooling.process.VisProjectLibrary;
 import org.purl.rvl.tooling.process.VisProjectLibraryExamples;
 
 /**
@@ -106,23 +105,27 @@ public class ProjectsResource {
 	}
 	
 	@POST
-	@Produces(MediaType.APPLICATION_XML)
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
+	//@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Path("/run")
 	public Response runNewVisProject(
-			@FormParam("id") String id,
-			@FormParam("graphicType") String graphicType,
-			@FormParam("data") String data,
-			@FormParam("mappings") String mappings,
-			@FormParam("stay") String stay,
+			@FormDataParam("id") String id,
+			@FormDataParam("graphicType") String graphicType,
+			@FormDataParam("data") String data,
+			@FormDataParam("mappings") String mappings,
 			@Context HttpServletResponse servletResponse
 			)
 			throws IOException, URISyntaxException {
 		
 		System.out.println("Running new project " + id);
 
+		//return Response.status(Status.OK).entity("{\"some message\" : \"test\"}").build();
+		
+		
+		
 		if (id == null || id.isEmpty()) {
-			return Response.status(Status.BAD_REQUEST).entity("<message>ID is required.</message>").build();
+			return Response.status(Status.BAD_REQUEST).entity("{'message' : 'ID is required'}").build();
 		} 
 		
 		VisProject project = new VisProject(id);
@@ -142,14 +145,23 @@ public class ProjectsResource {
 		
 		System.out.println("Created new project " + project.getId());
 		
+		String jsonResult = "";
 		try {
-			runProject(project.getId());
+			jsonResult = runProject(project.getId());
 		} catch (OGVICRepositoryException e) {
 			e.printStackTrace();
 			return Response.status(Status.EXPECTATION_FAILED).build();
 			// TODO correct return status?
 		}
 
+		if (jsonResult.isEmpty()) {
+			return Response.status(Status.NO_CONTENT).build();
+		} else {
+			System.out.println(jsonResult);		
+			return Response.status(Status.OK).entity(jsonResult).build();
+		}
+		
+		/*
 		if (null != stay && stay.equals("on")) {
 			// just stay on the page, don't show any new content
 			return Response.status(Status.NO_CONTENT).build();
@@ -159,6 +171,7 @@ public class ProjectsResource {
 			System.out.println("Redirecting to " + redirectTo);
 			return Response.seeOther(redirectTo).build();		
 		}
+		*/
 			
 //		code below only works when servlets are available:
 //		"When deploying a JAX-RS application using servlet then ServletConfig, ServletContext, HttpServletRequest and HttpServletResponse are available using @Context. " taken from: 

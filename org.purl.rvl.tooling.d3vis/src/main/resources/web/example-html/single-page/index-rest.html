@@ -52,7 +52,8 @@
 					<button onClick="showRVLeditor('max')">Maximize</button>
   				
   				
-  <form action="http://localhost:8080/semvis/projects/run" method="POST">
+  <form id="editingForm" action="http://localhost:8080/semvis/projects/run" method="POST" formenctype="multipart/form-data"
+>
   
   <label for="id">ID</label>
   <input name="id" id="projectID" value="new-project-1"/>
@@ -70,7 +71,7 @@
     Mappings:
   <textarea name="mappings" id="projectMappings" rows="12">loading example mappings ... </textarea>
   <br/>
-  <label for="stay">Stay on this page:</label><input name="stay" type="checkbox" checked="checked"/>
+  <!--<label for="stay">Stay on this page:</label><input name="stay" type="checkbox" checked="checked"/>-->
   <input type="submit" value="Submit" />
   
   </form>
@@ -180,8 +181,8 @@
     	    .enter()
     	    .append("div")
     	    .append("button")
-    	    .attr("onclick", function(d){return "loadProject('" + d.id + "','" + d.defaultGraphicType + "')";})
-			.attr("ondblclick", function(d){
+    	    .attr("ondblclick", function(d){return "loadProject('" + d.id + "','" + d.defaultGraphicType + "')";})
+			.attr("onclick", function(d){
 				return "loadExampleValue('http://localhost:8080/semvis/projects/mappingfile/" + d.id + "' , '#projectMappings'); loadExampleValue('http://localhost:8080/semvis/projects/datamodel/" + d.id + "' , '#projectData');"
 				})
     	    .text(function(d){return d.id;});    	
@@ -237,6 +238,69 @@
 		loadExampleValue("http://localhost:8080/semvis/projects/mappingmodel/aa-3", "#projectMappings");
         
         
+		
+		
+		// manipulating the form to post and wait with callback:
+		
+		/*d3.select("#editingForm").on("submit", function() {
+			d3.event.preventDefault();
+			
+		  //var inp = d3.select("#theInput");
+		  //var v = inp.property("value");
+		  //inp.property("value", "");
+		  //socket.emit('sent message', v);
+		  
+		var formElement = document.getElementById("editingForm");
+		alert(formElement);
+		var formData = new FormData(formElement);		
+		//formData.append('id', document.getElementById('projectID').value);
+		//formData.append('graphicType', document.getElementById('projectGraphicType').value);
+		
+		  
+		  postUrl = "http://localhost:8080/semvis/projects/run";
+		  
+		  
+		  d3.json(postUrl,function(error, data) {
+ 		 
+		 	alert("posting to" + postUrl);
+		 
+		    })
+		   .header("Content-Type","multipart/form-data")
+ 		   .send("POST", formData);*/
+		  
+		 // old: JSON.stringify({id: "test-neu-123", graphicType: "collapsible-tree", projectData: "", projectMappings: ""})
+ 		//old: formParameters = "id=test-neu-123&graphicType=collapsible-tree&data=&mappings=";
+		
+		/*
+
+		  var xhr = new XMLHttpRequest();
+  			xhr.open('POST', postUrl , true);
+  			xhr.onload = function(err, rawData){
+					alert("post call back");
+            		var data = JSON.parse(rawData);
+            		console.log("got response", data);
+      		  	};
+
+			xhr.header("Content-Type", "application/x-www-form-urlencoded");
+  			xhr.send(formData);
+			
+			*/
+		  
+		  /*d3.xhr(postUrl)
+    		.header("Content-Type", "application/x-www-form-urlencoded")
+    		.post(
+        		formData,
+        		function(err, rawData){
+					alert("post call back");
+            		var data = JSON.parse(rawData);
+            		console.log("got response", data);
+      		  	}
+    		);*/
+		  
+		  //alert("end submit pressed");
+		  /*return false;
+		});*/
+		
         
                                                                         
         </script>
