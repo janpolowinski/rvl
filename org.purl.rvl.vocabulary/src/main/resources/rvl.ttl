@@ -14,11 +14,14 @@
 @prefix viso-graphic:  <http://purl.org/viso/graphic/> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 
+# editorial note concering code generation from this file: the constraints with "unionOf" used here do not harm rdfReactor, since only domain, range settings seem to be evaluated by rdfReactor
+
 dct:description
       rdf:type owl:AnnotationProperty .
 
 :     rdf:type owl:Ontology ;
       rdfs:label "RDF Visualization Language (RVL)"^^xsd:string ;
+      dct:creator <http://purl.org/viso/JanPolowinski> ;
       owl:imports rvl-docu: .
 
 :Average
@@ -124,12 +127,6 @@ dct:description
       rdf:type rdfs:Class ;
       rdfs:label "Missing value mapping handling type"^^xsd:string ;
       rdfs:subClassOf rdfs:Datatype .
-
-:N-AryRelation
-      rdf:type owl:Class ;
-      rdfs:label "N-ary relation"^^xsd:string ;
-      swstatus:term_status
-              "unimportant"^^xsd:string .
 
 :Neutral
       rdf:type :MissingSourceValueHandlingType , :MissingValueMappingHandlingType ;
@@ -273,7 +270,6 @@ dct:description
 :SubMappingRelation
       rdf:type owl:Class ;
       rdfs:label "Sub-mapping relation"^^xsd:string ;
-      rdfs:subClassOf :N-AryRelation ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
                 owl:onClass :Mapping ;
