@@ -1,4 +1,4 @@
-# baseURI: http://purl.org/rvl/
+# baseURI: http://purl.org/rvl/owl-axioms/
 
 @prefix :        <http://purl.org/rvl/> .
 @prefix bibo:    <http://purl.org/ontology/bibo/> .
@@ -136,3 +136,4 @@
                 owl:qualifiedCardinality
                         "1"^^xsd:nonNegativeInteger
               ] ;
+.
