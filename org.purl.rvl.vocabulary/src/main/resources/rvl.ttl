@@ -162,14 +162,17 @@ dct:description
       rdfs:subClassOf :Mapping ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:onClass rdf:Property ;
                 owl:onProperty :sourceProperty ;
-                owl:qualifiedCardinality
+                owl:cardinality
                         "1"^^xsd:nonNegativeInteger
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:allValuesFrom viso-graphic:GraphicRelation ;
+                 owl:allValuesFrom
+                        [ rdf:type owl:Class ;
+                          # the target value may either be a property (like the GraphicAttribute "color_named") or a (n-ary) Object-to-Object_Relation (like an instance of "Linking_Directed_Relation")
+                          owl:unionOf (viso-graphic:GraphicRelation viso-graphic:Object-to-Object_Relation)
+                        ] ;
                 owl:onProperty :targetGraphicRelation
               ] ;
       rdfs:subClassOf
@@ -184,9 +187,8 @@ dct:description
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:onClass viso-graphic:GraphicRelation ;
                 owl:onProperty :targetGraphicRelation ;
-                owl:qualifiedCardinality
+                owl:cardinality
                         "1"^^xsd:nonNegativeInteger
               ] ;
       swstatus:term_status
@@ -198,9 +200,8 @@ dct:description
       rdfs:subClassOf :PropertyMapping ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:onClass viso-graphic:GraphicAttribute ;
                 owl:onProperty :targetAttribute ;
-                owl:qualifiedCardinality
+                owl:cardinality
                         "1"^^xsd:nonNegativeInteger
               ] ;
       rdfs:subClassOf
@@ -217,14 +218,13 @@ dct:description
       rdfs:subClassOf :PropertyMapping ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:onClass viso-graphic:GraphicObjectToObjectRelation ;
                 owl:onProperty :targetObjToObjRelation ;
-                owl:qualifiedCardinality
+                owl:cardinality
                         "1"^^xsd:nonNegativeInteger
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:allValuesFrom viso-graphic:GraphicObjectToObjectRelation ;
+                owl:allValuesFrom viso-graphic:Object-to-Object_Relation ; # viso-graphic:GraphicObjectToObjectRelation ;
                 owl:onProperty :targetObjToObjRelation
               ] ;
       swstatus:term_status
