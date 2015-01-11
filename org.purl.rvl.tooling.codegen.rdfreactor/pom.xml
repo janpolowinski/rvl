@@ -13,8 +13,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java.source.version>1.6</java.source.version>
-	<java.target.version>1.6</java.target.version>
+    <java.source.version>1.7</java.source.version>
+	<java.target.version>1.7</java.target.version>
 	<!--<rdf-reactor.version>5.0.1</rdf-reactor.version> --><!-- Generated code has problems (colorhsllightness in GraphicObjectX, list in ValueMappingX -->
 	<rdf-reactor.version>4.8.3</rdf-reactor.version>
   </properties>
