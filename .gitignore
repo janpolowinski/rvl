@@ -29,3 +29,6 @@ bin
 /*/editing/*.ttl
 !/*/editing/*.template.ttl
 /oldscripts
+
+*.iml
+.idea
