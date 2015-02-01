@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.purl.rvl.tooling.avm2d3.D3GeneratorBase</OriginalElement>
+  <nodes>
+    <node x="160.25" y="280.0">org.purl.rvl.tooling.avm2d3.D3GeneratorBase</node>
+    <node x="107.25" y="0.0">org.purl.rvl.tooling.avm2d3.D3Generator</node>
+    <node x="546.0" y="-1.0">org.purl.rvl.tooling.avm2d3.GraphicType</node>
+    <node x="328.0" y="516.0">org.purl.rvl.tooling.avm2d3.D3GeneratorTreeJSON</node>
+    <node x="0.0" y="516.0">org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.purl.rvl.tooling.avm2d3.D3GeneratorTreeJSON" target="org.purl.rvl.tooling.avm2d3.D3GeneratorBase">
+      <point x="0.0" y="-60.0" />
+      <point x="459.5" y="491.0" />
+      <point x="380.0" y="491.0" />
+      <point x="73.25" y="93.0" />
+    </edge>
+    <edge source="org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON" target="org.purl.rvl.tooling.avm2d3.D3GeneratorBase">
+      <point x="0.0" y="-60.0" />
+      <point x="154.0" y="491.0" />
+      <point x="233.5" y="491.0" />
+      <point x="-73.25" y="93.0" />
+    </edge>
+    <edge source="org.purl.rvl.tooling.avm2d3.D3GeneratorBase" target="org.purl.rvl.tooling.avm2d3.D3Generator">
+      <point x="0.0" y="-93.0" />
+      <point x="0.0" y="115.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="295.5" y="408.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+
