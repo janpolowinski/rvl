@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.purl.rvl.tooling.process.VisProject</OriginalElement>
+  <nodes>
+    <node x="-394.0" y="243.5">org.purl.rvl.tooling.process.OGVICConsoleFiles</node>
+    <node x="443.26760563380276" y="7.323943661971839">org.purl.rvl.tooling.process.OGVICProcess</node>
+    <node x="0.0" y="492.0">org.purl.rvl.tooling.process.VisProjectLibrary</node>
+    <node x="22.0" y="124.0">org.purl.rvl.tooling.process.VisProject</node>
+    <node x="-391.0" y="327.5">org.purl.rvl.tooling.process.OGVICConsoleProjects</node>
+    <node x="109.5" y="0.0">javax.xml.bind.annotation.XmlRootElement</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.purl.rvl.tooling.process.VisProject" target="javax.xml.bind.annotation.XmlRootElement">
+      <point x="0.0" y="-159.0" />
+      <point x="0.0" y="37.0" />
+    </edge>
+    <edge source="org.purl.rvl.tooling.process.OGVICConsoleFiles" target="org.purl.rvl.tooling.process.VisProject">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="org.purl.rvl.tooling.process.VisProjectLibrary" target="org.purl.rvl.tooling.process.VisProject">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="org.purl.rvl.tooling.process.OGVICConsoleProjects" target="org.purl.rvl.tooling.process.VisProjectLibrary">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="307.5" y="350.0" />
+  <SelectedNodes>
+    <node>org.purl.rvl.tooling.process.VisProject</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Inner Classes</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+
