@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Start RVL tooling console ... "
+echo "Start RVL Web-UI with Jetty ... "
 
 cd ../build
 

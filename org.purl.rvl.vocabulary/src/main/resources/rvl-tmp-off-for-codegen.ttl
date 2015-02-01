@@ -11,7 +11,10 @@
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 
 # blank nodes / collections as ranges will cause RDFreactor to use a A1 class as "domain" for the generated methods
-# these triples should go back to RVL in the end
+# these triples may go back to RVL in the end, but actually the constraint definition with SPIN-constraints (or constraints
+# in some upcoming standard) could also completely replace the axioms below, when reasoning or deriving UIs from the 
+# union statements turns out to add too much complexity. Alternatively the axioms below could stay in this extra "module" and 
+# only be imported to RVL.
 
 :passedTo
       rdfs:domain

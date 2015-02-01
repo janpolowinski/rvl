@@ -19,6 +19,7 @@ dct:description
 
 :     rdf:type owl:Ontology ;
       rdfs:label "RDF Visualization Language (RVL)"^^xsd:string ;
+      dct:creator <http://purl.org/viso/JanPolowinski> ;
       owl:imports rvl-docu: .
 
 :Average
@@ -40,38 +41,6 @@ dct:description
       rdf:type owl:Class ;
       rdfs:label "Graphic attribute interval"^^xsd:string ;
       rdfs:subClassOf :Interval ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:allValuesFrom
-                        [ rdf:type owl:Class ;
-                          owl:unionOf (rdfs:Literal viso-graphic:Visual_Attribute)
-                        ] ;
-                owl:onProperty :lowerBoundIncl
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:allValuesFrom
-                        [ rdf:type owl:Class ;
-                          owl:unionOf (rdfs:Literal viso-graphic:Visual_Attribute)
-                        ] ;
-                owl:onProperty :upperBoundIncl
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:allValuesFrom
-                        [ rdf:type owl:Class ;
-                          owl:unionOf (rdfs:Literal viso-graphic:Visual_Attribute)
-                        ] ;
-                owl:onProperty :lowerBoundExcl
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:allValuesFrom
-                        [ rdf:type owl:Class ;
-                          owl:unionOf (rdfs:Literal viso-graphic:Visual_Attribute)
-                        ] ;
-                owl:onProperty :upperBoundExcl
-              ] ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -125,12 +94,6 @@ dct:description
       rdfs:label "Missing value mapping handling type"^^xsd:string ;
       rdfs:subClassOf rdfs:Datatype .
 
-:N-AryRelation
-      rdf:type owl:Class ;
-      rdfs:label "N-ary relation"^^xsd:string ;
-      swstatus:term_status
-              "unimportant"^^xsd:string .
-
 :Neutral
       rdf:type :MissingSourceValueHandlingType , :MissingValueMappingHandlingType ;
       rdfs:label "Neutral"^^xsd:string .
@@ -163,35 +126,6 @@ dct:description
       rdfs:comment "When a target graphic relation is used in multiple mappings, a warning should be issued, since ambiguities become possible."^^xsd:string ;
       rdfs:label "Property Mapping"^^xsd:string ;
       rdfs:subClassOf :Mapping ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:onClass rdf:Property ;
-                owl:onProperty :sourceProperty ;
-                owl:qualifiedCardinality
-                        "1"^^xsd:nonNegativeInteger
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:allValuesFrom viso-graphic:GraphicRelation ;
-                owl:onProperty :targetGraphicRelation
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:allValuesFrom rdf:Property ;
-                owl:onProperty :sourceProperty
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:allValuesFrom :SubMappingRelation ;
-                owl:onProperty :subMapping
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:onClass viso-graphic:GraphicRelation ;
-                owl:onProperty :targetGraphicRelation ;
-                owl:qualifiedCardinality
-                        "1"^^xsd:nonNegativeInteger
-              ] ;
       swstatus:term_status
               "stable"^^xsd:string , "unstable"^^xsd:string .
 
@@ -199,18 +133,6 @@ dct:description
       rdf:type owl:Class ;
       rdfs:label "Property-to-Graphic-Attribute Mapping"^^xsd:string ;
       rdfs:subClassOf :PropertyMapping ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:onClass viso-graphic:GraphicAttribute ;
-                owl:onProperty :targetAttribute ;
-                owl:qualifiedCardinality
-                        "1"^^xsd:nonNegativeInteger
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:allValuesFrom viso-graphic:GraphicAttribute ;
-                owl:onProperty :targetAttribute
-              ] ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -218,18 +140,6 @@ dct:description
       rdf:type owl:Class ;
       rdfs:label "Property-to-Graphic-Object-to-Object-Relation Mapping"^^xsd:string ;
       rdfs:subClassOf :PropertyMapping ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:onClass viso-graphic:GraphicObjectToObjectRelation ;
-                owl:onProperty :targetObjToObjRelation ;
-                owl:qualifiedCardinality
-                        "1"^^xsd:nonNegativeInteger
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:allValuesFrom viso-graphic:GraphicObjectToObjectRelation ;
-                owl:onProperty :targetObjToObjRelation
-              ] ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -273,21 +183,6 @@ dct:description
 :SubMappingRelation
       rdf:type owl:Class ;
       rdfs:label "Sub-mapping relation"^^xsd:string ;
-      rdfs:subClassOf :N-AryRelation ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:onClass :Mapping ;
-                owl:onProperty :subMapping-mapping ;
-                owl:qualifiedCardinality
-                        "1"^^xsd:nonNegativeInteger
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:onClass viso-graphic:SyntacticRole ;
-                owl:onProperty :subMapping-onRole ;
-                owl:qualifiedCardinality
-                        "1"^^xsd:nonNegativeInteger
-              ] ;
       swstatus:term_status
               "stable"^^xsd:string .
 

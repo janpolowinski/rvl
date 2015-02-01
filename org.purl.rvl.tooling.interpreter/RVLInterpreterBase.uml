@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.purl.rvl.tooling.rvl2avm.RVLInterpreterBase</OriginalElement>
+  <nodes>
+    <node x="1321.8812500000001" y="278.0">org.purl.rvl.java.rvl.mapping.ValueMapper</node>
+    <node x="448.0479166666669" y="1734.0">org.purl.rvl.tooling.rvl2avm.RVLInterpreterBase</node>
+    <node x="0.0" y="1632.0">org.purl.rvl.tooling.rvl2avm.ParameterMappingHandler</node>
+    <node x="474.2104166666668" y="1120.0">org.purl.rvl.tooling.rvl2avm.MappingHandler</node>
+    <node x="738.9999999999999" y="1643.0">org.purl.rvl.java.rvl.mapping.TupleSourceValueTargetValue</node>
+    <node x="770.8812500000001" y="190.0">org.purl.rvl.java.rvl.SubMappingRelationX</node>
+    <node x="902.3812500000001" y="468.0">org.purl.rvl.java.rvl.PropertyMappingX</node>
+    <node x="1252.6729166666667" y="834.0">org.purl.rvl.java.rvl.ValueMappingX</node>
+    <node x="1723.5479166666669" y="0.0">org.purl.rvl.java.rvl.mapping.CalculatedValueMapping</node>
+    <node x="631.2104166666668" y="1010.0">org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX</node>
+    <node x="474.9999999999999" y="1486.0">org.purl.rvl.tooling.rvl2avm.MappingToP2GAMHandler</node>
+    <node x="822.7104166666668" y="2144.0">org.purl.rvl.tooling.rvl2avm.SimpleRVLInterpreter</node>
+    <node x="1458.8812500000001" y="600.0">org.purl.rvl.java.rvl.mapping.ValueMapperCC_CCd</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.purl.rvl.java.rvl.ValueMappingX" target="org.purl.rvl.java.rvl.mapping.CalculatedValueMapping">
+      <point x="267.0" y="-301.0" />
+      <point x="1920.1729166666667" y="809.0" />
+      <point x="1975.3812500000001" y="809.0" />
+      <point x="1975.3812500000001" y="165.0" />
+      <point x="1952.7145833333334" y="165.0" />
+      <point x="91.66666666666674" y="70.0" />
+    </edge>
+    <edge source="org.purl.rvl.java.rvl.mapping.ValueMapperCC_CCd" target="org.purl.rvl.java.rvl.mapping.CalculatedValueMapping">
+      <point x="126.5" y="-26.0" />
+      <point x="1838.3812500000001" y="165.0" />
+      <point x="1861.0479166666669" y="165.0" />
+      <point x="0.0" y="70.0" />
+    </edge>
+    <edge source="org.purl.rvl.tooling.rvl2avm.ParameterMappingHandler" target="org.purl.rvl.tooling.rvl2avm.MappingToP2GAMHandler">
+      <point x="0.0" y="-26.0" />
+      <point x="359.0" y="1607.0" />
+      <point x="559.4999999999999" y="1607.0" />
+      <point x="-169.0" y="48.0" />
+    </edge>
+    <edge source="org.purl.rvl.tooling.rvl2avm.RVLInterpreterBase" target="org.purl.rvl.java.rvl.mapping.TupleSourceValueTargetValue">
+      <point x="161.66666666666663" y="-180.0" />
+      <point x="852.2145833333335" y="1709.0" />
+      <point x="848.4999999999999" y="1709.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="org.purl.rvl.tooling.rvl2avm.RVLInterpreterBase" target="org.purl.rvl.tooling.rvl2avm.ParameterMappingHandler">
+      <point x="-161.66666666666663" y="-180.0" />
+      <point x="528.8812500000003" y="1709.0" />
+      <point x="359.0" y="1709.0" />
+      <point x="0.0" y="26.0" />
+    </edge>
+    <edge source="org.purl.rvl.tooling.rvl2avm.MappingToP2GAMHandler" target="org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX">
+      <point x="126.75" y="-48.0" />
+      <point x="855.2499999999999" y="1461.0" />
+      <point x="898.2104166666668" y="1461.0" />
+      <point x="0.0" y="125.0" />
+    </edge>
+    <edge source="org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX" target="org.purl.rvl.java.rvl.PropertyMappingX">
+      <point x="133.5" y="-125.0" />
+      <point x="1031.7104166666668" y="809.0" />
+      <point x="1013.6312500000001" y="809.0" />
+      <point x="-111.25" y="158.0" />
+    </edge>
+    <edge source="org.purl.rvl.tooling.rvl2avm.SimpleRVLInterpreter" target="org.purl.rvl.tooling.rvl2avm.RVLInterpreterBase">
+      <point x="-41.25" y="-15.0" />
+      <point x="863.9604166666668" y="2119.0" />
+      <point x="690.5479166666669" y="2119.0" />
+      <point x="0.0" y="180.0" />
+    </edge>
+    <edge source="org.purl.rvl.java.rvl.ValueMappingX" target="org.purl.rvl.java.rvl.mapping.ValueMapperCC_CCd">
+      <point x="0.0" y="-301.0" />
+      <point x="1653.1729166666667" y="809.0" />
+      <point x="1711.8812500000001" y="809.0" />
+      <point x="0.0" y="26.0" />
+    </edge>
+    <edge source="org.purl.rvl.tooling.rvl2avm.RVLInterpreterBase" target="org.purl.rvl.tooling.rvl2avm.MappingToP2GAMHandler">
+      <point x="0.0" y="-180.0" />
+      <point x="690.5479166666669" y="1709.0" />
+      <point x="728.4999999999999" y="1709.0" />
+      <point x="0.0" y="48.0" />
+    </edge>
+    <edge source="org.purl.rvl.tooling.rvl2avm.SimpleRVLInterpreter" target="org.purl.rvl.tooling.rvl2avm.MappingToP2GAMHandler">
+      <point x="41.25" y="-15.0" />
+      <point x="946.4604166666668" y="2119.0" />
+      <point x="968.4999999999999" y="2119.0" />
+      <point x="968.4999999999999" y="1607.0" />
+      <point x="897.4999999999999" y="1607.0" />
+      <point x="169.0" y="48.0" />
+    </edge>
+    <edge source="org.purl.rvl.java.rvl.PropertyMappingX" target="org.purl.rvl.java.rvl.SubMappingRelationX">
+      <point x="-111.25" y="-158.0" />
+      <point x="1013.6312500000001" y="443.0" />
+      <point x="1036.3812500000001" y="443.0" />
+      <point x="0.0" y="114.0" />
+    </edge>
+    <edge source="org.purl.rvl.java.rvl.mapping.ValueMapper" target="org.purl.rvl.java.rvl.mapping.CalculatedValueMapping">
+      <point x="0.0" y="-26.0" />
+      <point x="1574.8812500000001" y="165.0" />
+      <point x="1769.38125" y="165.0" />
+      <point x="-91.66666666666674" y="70.0" />
+    </edge>
+    <edge source="org.purl.rvl.java.rvl.mapping.ValueMapperCC_CCd" target="org.purl.rvl.java.rvl.mapping.ValueMapper">
+      <point x="-126.5" y="-26.0" />
+      <point x="1585.3812500000001" y="443.0" />
+      <point x="1574.8812500000001" y="443.0" />
+      <point x="0.0" y="26.0" />
+    </edge>
+    <edge source="org.purl.rvl.java.rvl.ValueMappingX" target="org.purl.rvl.java.rvl.PropertyMappingX">
+      <point x="-267.0" y="-301.0" />
+      <point x="1386.1729166666667" y="809.0" />
+      <point x="1236.1312500000001" y="809.0" />
+      <point x="111.25" y="158.0" />
+    </edge>
+    <edge source="org.purl.rvl.java.rvl.SubMappingRelationX" target="org.purl.rvl.java.rvl.PropertyToGraphicAttributeMappingX">
+      <point x="-177.0" y="114.0" />
+      <point x="859.3812500000001" y="443.0" />
+      <point x="845.3749999999999" y="443.0" />
+      <point x="845.3749999999999" y="809.0" />
+      <point x="764.7104166666668" y="809.0" />
+      <point x="-133.5" y="-125.0" />
+    </edge>
+    <edge source="org.purl.rvl.tooling.rvl2avm.MappingToP2GAMHandler" target="org.purl.rvl.tooling.rvl2avm.MappingHandler">
+      <point x="-126.75" y="-48.0" />
+      <point x="601.7499999999999" y="1461.0" />
+      <point x="542.7104166666668" y="1461.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.5414767547857794" x="1027.9562289562289" y="967.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+

@@ -10,7 +10,8 @@
 @prefix viso-graphic:  <http://purl.org/viso/graphic/> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 
-# multiple ranges will be interpreted as AND and therefore are wrong according to RDFS semantics, but RDFreactor requires this in order to generate appropriate methods:
+# multiple ranges will be interpreted as AND and therefore are wrong according to RDFS semantics,
+# but RDFreactor requires this in order to generate appropriate methods:
 
 :targetValue
       rdfs:range 

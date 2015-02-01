@@ -33,7 +33,7 @@ public class ExampleMapping {
 	public static final String RVL_TEST_RDF_ID = "/example-mappings/rdf-id-test.ttl";
 	public static final String RVL_TEST_SUBMAPPING = "/example-mappings/submapping-test.ttl";
 	public static final String RVL_EXAMPLE = "/example-mappings/rvl-example-mappings.ttl";
-	public static final String RVL_EXAMPLE_FILTERING = "/experiments/example-mappings/rvl-example-filtering.ttl";
+	public static final String RVL_EXAMPLE_FILTERING = "/example-mappings/filtering-test.ttl";
 	public static final String RVL_EXAMPLE_LABELING = "/example-mappings/labeling-test.ttl";
 	public static final String RVL_EXAMPLE_IDENTITY = "/example-mappings/identity-mapping-test.ttl";
 	public static final String RVL_EXAMPLE_AUTOMATIC_VM = "/example-mappings/auto-value-mapping-test.ttl";
