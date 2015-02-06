@@ -55,6 +55,39 @@ loadForceDirectedSimple = function(error, graph) {
 
 
 
+
+
+
+		/* manual node positioning */
+		
+		var node_drag = d3.behavior.drag()
+	        .on("dragstart", dragstart)
+	        .on("drag", dragmove)
+	        .on("dragend", dragend);
+			
+		function dragstart(d, i) {
+	        forceVar.stop(); // stops the force auto positioning before you start dragging
+	        d3.select(this).classed("dragged",true);
+	    }
+	
+	    function dragmove(d, i) {
+	        d.px += d3.event.dx;
+	        d.py += d3.event.dy;
+	        d.x += d3.event.dx;
+	        d.y += d3.event.dy; 
+	        tick(); // this is the key to make it work together with updating both px,py,x,y on d !
+	    }
+	
+	    function dragend(d, i) {
+	        d.fixed = true; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
+	        tick();
+	        forceVar.resume();
+	        d3.select(this).classed("dragged",false);
+	    }
+	    
+	    
+	    
+
 	    
 		/* nodes */ 
 		
@@ -73,6 +106,7 @@ loadForceDirectedSimple = function(error, graph) {
 		var nodeEnter = boundNodes.enter()
 	        .append("g")
 		    .attr("class", "node")
+		    .call(node_drag)
    		    //.transition().duration(10000).styleTween("fill", function() { return d3.interpolate("white", "red"); })
 		    .append("text")
 		    	.style("fill", "green")
