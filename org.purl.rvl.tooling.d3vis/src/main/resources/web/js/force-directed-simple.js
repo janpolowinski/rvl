@@ -58,17 +58,18 @@ loadForceDirectedSimple = function(error, graph) {
 	    
 		/* nodes */ 
 		
+		// DATA JOIN
 		var boundNodes = vis.selectAll(".node")
 	        .data(graph.nodes);
 	        //.data(data, function(d) { return d; });
 	        
-	        
 
-			
-		var nodeUpdate = boundNodes
-      		.style("fill", "green")
+		// UPDATE	
+		boundNodes.selectAll("svg:circle")
+      		.style("fill", "grey")
 			;
 		
+		// ENTER
 		var nodeEnter = boundNodes.enter()
 	        .append("g")
 		    .attr("class", "node")
@@ -77,23 +78,19 @@ loadForceDirectedSimple = function(error, graph) {
    		    //.transition().duration(100000).style("fill", "white")
    		    //.transition().duration(10000).styleTween("fill", function() { return d3.interpolate("white", "red"); })
 			;
-		
-		/* node shape as reuse svg symbol */
-		/*var symbolAsShape = nodeEnter
-			.filter(function(d) { return d.shape_d3_name != null ;})
-			.avmShapedWithUseSVG()
-	      	.attr("transform", function(d) { return "scale(" + d.width/SYMBOL_WIDTH +  ")"; })
-	      	;
-	      	*/
 	      	
-	    var nodeExit = boundNodes.exit()
-	        .append("g")
-		    .append("svg:circle")
-      		.attr("r", 20)
+	    // ENTER + UPDATE
+	      	
+	      	
+	    // EXIT
+	    var nodeExit = boundNodes.exit();
+
+	    nodeExit.selectAll("svg:circle")
       		.style("fill", function(d) { return "lightsteelblue"; })
       		.transition().duration(1000).style("fill", "white")
-		    .remove()
-			;
+      		;
+      		
+		  //nodeExit.remove();
 		
 			
 		  
@@ -105,14 +102,14 @@ loadForceDirectedSimple = function(error, graph) {
 	        });*/
 	        
 	        /* position the nodes */
-	        nodeUpdate.attr("transform", function (d) {
+	        boundNodes.attr("transform", function (d) {
 	            return "translate(" + d.x + "," + d.y + ")";
 	        });
 	        
-	        /*
+	        
 	        nodeExit.attr("transform", function (d) {
 	            return "translate(" + d.x + "," + d.y + ")";
-	        });*/
+	        });
 	
 	    };
 		
