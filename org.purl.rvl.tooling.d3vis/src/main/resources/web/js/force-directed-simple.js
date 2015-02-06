@@ -40,7 +40,7 @@ var force = self.force = d3.layout.force()
 
 loadForceDirectedSimple = function(error, graph) {
 
-		  	    	alert(graph.nodes[0].uri + " " + graph.nodes[1].uri);
+		//alert(graph.nodes[0].uri + " " + graph.nodes[1].uri);
 	
 	
 		/*********************************/
@@ -65,19 +65,23 @@ loadForceDirectedSimple = function(error, graph) {
 	        
 
 		// UPDATE	
-		boundNodes.selectAll("svg:circle")
-      		.style("fill", "grey")
+		boundNodes.selectAll("text")
+      		.style("fill", "gray")
 			;
 		
 		// ENTER
 		var nodeEnter = boundNodes.enter()
 	        .append("g")
 		    .attr("class", "node")
-		    .append("svg:circle").attr("r", 20)
-      		.style("fill", "red")
-   		    //.transition().duration(100000).style("fill", "white")
    		    //.transition().duration(10000).styleTween("fill", function() { return d3.interpolate("white", "red"); })
-			;
+		    .append("text")
+		    	.style("fill", "green")
+		    	.style("opacity", function(d) { return 0; })
+      			.transition().duration(1000).style("opacity", 1)
+		    	//.style("fill", "green")
+		    	//.transition().duration(4000).style("fill", "gray")
+      			.text(function(d){return d.uri ; })
+				;
 	      	
 	    // ENTER + UPDATE
 	      	
@@ -85,9 +89,11 @@ loadForceDirectedSimple = function(error, graph) {
 	    // EXIT
 	    var nodeExit = boundNodes.exit();
 
-	    nodeExit.selectAll("svg:circle")
-      		.style("fill", function(d) { return "lightsteelblue"; })
-      		.transition().duration(1000).style("fill", "white")
+	    nodeExit
+	    	//.selectAll("text")
+      		.style("opacity", function(d) { return 1; })
+      		.transition().duration(2000).style("opacity", 0)
+      		.remove();
       		;
       		
 		  //nodeExit.remove();
