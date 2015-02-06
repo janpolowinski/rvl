@@ -114,11 +114,12 @@ loadForceDirectedSimple = function(error, graph) {
       			.transition().duration(1000).style("opacity", 1)
 		    	//.style("fill", "green")
 		    	//.transition().duration(4000).style("fill", "gray")
-      			.text(function(d){return d.uri ; })
+      			//.text(function(d){return d.uri ; })
 				;
 	      	
 	    // ENTER + UPDATE
-	      	
+	    boundNodes.selectAll("text")
+	    	.text(function(d){return d.uri ; });
 	      	
 	    // EXIT
 	    var nodeExit = boundNodes.exit();
