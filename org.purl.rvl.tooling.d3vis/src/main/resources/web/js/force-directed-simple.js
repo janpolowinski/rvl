@@ -94,7 +94,7 @@ loadForceDirectedSimple = function(error, graph) {
 		// DATA JOIN
 		var boundNodes = vis.selectAll(".node")
 	        //.data(graph.nodes);
-	        .data(graph.nodes, function(d) { return d; });
+	        .data(graph.nodes, function(d) { return d.uri; });
 	        
 
 		// UPDATE	
