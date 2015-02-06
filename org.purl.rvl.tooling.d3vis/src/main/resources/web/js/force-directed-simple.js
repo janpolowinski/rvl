@@ -38,10 +38,10 @@ var force = self.force = d3.layout.force()
 /* UPDATE FUNCTION                       */
 /*****************************************/
 
+
 loadForceDirectedSimple = function(error, graph) {
 
-		//alert(graph.nodes[0].uri + " " + graph.nodes[1].uri);
-	
+	alert("loading");
 	
 		/*********************************/
 		/* LOCAL ADAPTED PLUGINS         */
@@ -53,9 +53,14 @@ loadForceDirectedSimple = function(error, graph) {
 		}
 	    forceVar.start();
 
+	updateForceDirectedSimple(error, graph);
+}
 
+updateForceDirectedSimple = function(error, graph) {
 
-
+		alert("updating");
+		//alert(graph.nodes[0].uri + " " + graph.nodes[1].uri);
+	
 
 
 		/* manual node positioning */
