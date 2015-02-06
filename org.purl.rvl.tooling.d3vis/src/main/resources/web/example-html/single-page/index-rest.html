@@ -16,6 +16,7 @@
     	<script type="text/javascript" src="../../js/ogvic.d3.utils.js"></script>
     	<!-- supported graphic types -->
     	<script type="text/javascript" src="../../js/force-directed-graph.js"></script>
+    	<script type="text/javascript" src="../../js/force-directed-simple.js"></script>
     	<script type="text/javascript" src="../../js/circle-packing-zoomable.js"></script>
     	<script type="text/javascript" src="../../js/collapsible-tree.js"></script>
     </head>
@@ -32,8 +33,8 @@
 						<button title="(Re)load from external editing folder (collapsible tree) " onclick="loadProjectExternalEditing('collapsible-tree')">(Re)load ext. tree</button>
 						<!--button title="Test: Load mapping model from aa-3" onclick="loadExampleValue('http://localhost:8080/semvis/projects/mappingfile/aa-3', '#projectMappings');">Test loading mapping model</button-->
   						<br/><br/>
-  						<!--<button onclick="reInitContainers()">Re init containers</button>-->
-						<!--<button onclick="clearVis()">Clear visualization</button>-->
+  						<button onclick="reInitContainers()">Re init containers</button>
+						<button onclick="clearVis()">Clear visualization</button>
   					</div>
   				</div>
 
@@ -56,7 +57,8 @@
 						  <br/>
 						    <label for="graphicType">Graphic type</label> 
 						    <select name="graphicType" id="projectGraphicType" >
-						    	<option value="force-directed-graph" selected="selected">Force-Directed Graph</option>
+						    	<option value="force-directed-graph">Force-Directed Graph</option>
+						    	<option value="force-directed-simple" selected="selected">Force-Directed Simple</option>
 								<option value="collapsible-tree">Collapsible Tree</option>
 								<option value="circle-packing-zoomable">Circle Packing (Zoomable)</option>
 						    </select>
@@ -131,6 +133,7 @@
         
         var graphicLoadingFunctions = new Array ();
 		graphicLoadingFunctions['force-directed-graph'] = loadForceDirectedGraph;
+		graphicLoadingFunctions['force-directed-simple'] = loadForceDirectedSimple;
 		graphicLoadingFunctions['circle-packing-zoomable'] = loadCirclePackingZoomable;
 		graphicLoadingFunctions['collapsible-tree'] = loadCollapsibleTree;
 		graphicLoadingFunctions['undefined'] = loadForceDirectedGraph;
@@ -224,7 +227,7 @@
 		d3.select("#editingForm").on("submit", function() {
 			d3.event.preventDefault();		
 		  	d3.json(baseUrlBackend + "projects/run",function(error, json) {
-		 		reInitContainers();
+		 		//reInitContainers();
 				graphicLoadingFunctions[json.graphic_type](null, json);
 		    })
 		   //.header("Content-Type","multipart/form-data") // this causes the request to fail! probably since some additional info (boundary=... is missing)
