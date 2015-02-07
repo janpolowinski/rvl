@@ -34,36 +34,39 @@ var force = self.force = d3.layout.force()
     .size([width, height])
 	;				 
 
+var myNodes = [];
+
 /*****************************************/
 /* UPDATE FUNCTION                       */
 /*****************************************/
 
+var loaded = false;
 
 loadForceDirectedSimple = function(error, graph) {
+	
+	if (!loaded) {
 
-	alert("loading");
-	
-		/*********************************/
-		/* LOCAL ADAPTED PLUGINS         */
-	    /*********************************/
-	
-	    var forceVar = force.nodes(graph.nodes);
-		if (drawLinks) {
-		  	forceVar.links(graph.links)
-		}
-	    forceVar.start();
+		//alert("loading");
+		
+			/*********************************/
+			/* LOCAL ADAPTED PLUGINS         */
+		    /*********************************/
+		
+		    var forceVar = force.nodes(myNodes);
+			//if (drawLinks) {
+			//  	forceVar.links(graph.links)
+			//}
+		    
+	    
+	    loaded = true;
+	}
 
 	updateForceDirectedSimple(error, graph);
 }
 
 updateForceDirectedSimple = function(error, graph) {
-
-		alert("updating");
-		//alert(graph.nodes[0].uri + " " + graph.nodes[1].uri);
 	
-
-
-		/* manual node positioning */
+		//myNodes.concat(graph.nodes)
 		
 		var node_drag = d3.behavior.drag()
 	        .on("dragstart", dragstart)
@@ -88,18 +91,46 @@ updateForceDirectedSimple = function(error, graph) {
 	        tick();
 	        forceVar.resume();
 	        d3.select(this).classed("dragged",false);
-	    }
-	    
-	    
-	    
+		var filterFunction = function (element) {
+		    var contains = false;
+		    
+		    for (var i = 0, len = beta.length; i < len; ++i) {
+		        if (beta[i].uri==element.uri) {
+		            return true;
+		        }
+			}
+		    
+		    return false;
+		}
+		
+		var beta = graph.nodes,
+		alpha = myNodes,
+		result;
+		
+		if (myNodes.length==0)
+			result = graph.nodes;
+		else
+			result = alpha.filter(filterFunction);
 
-	    
+		
+		myNodes.length = 0;
+		
+	    for (var i = 0, len = result.length; i < len; ++i) {
+	    	myNodes.push(result[i]);
+	    }
+
+		//alert("updating");
+		//alert(graph.nodes[0].uri + " " + graph.nodes[1].uri);
+	
+		//forceVar = force.nodes(myNodes);
+		//forceVar.start();
+		
 		/* nodes */ 
 		
 		// DATA JOIN
 		var boundNodes = vis.selectAll(".node")
 	        //.data(graph.nodes);
-	        .data(graph.nodes, function(d) { return d.uri; });
+	        .data(myNodes, function(d) { return d.uri; });
 	        
 
 		// UPDATE	
@@ -160,5 +191,7 @@ updateForceDirectedSimple = function(error, graph) {
 	    };
 		
 		force.on("tick", tick);
+		
+		force.start();
 	
 	}
