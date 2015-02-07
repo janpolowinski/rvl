@@ -66,8 +66,8 @@ loadForceDirectedSimple = function(error, graph) {
 
 updateForceDirectedSimple = function(error, graph) {
 	
-		//myNodes.concat(graph.nodes)
-		
+		/** DRAGGING *****************************************/
+	
 		var node_drag = d3.behavior.drag()
 	        .on("dragstart", dragstart)
 	        .on("drag", dragmove)
@@ -91,6 +91,10 @@ updateForceDirectedSimple = function(error, graph) {
 	        tick();
 	        forceVar.resume();
 	        d3.select(this).classed("dragged",false);
+	    }
+	    
+	    /**************************************************/
+	    
 		var filterFunction = function (element) {
 		    var contains = false;
 		    
