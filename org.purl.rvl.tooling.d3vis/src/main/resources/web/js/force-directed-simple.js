@@ -95,6 +95,7 @@ updateForceDirectedSimple = function(error, graph) {
 	    
 	    /**************************************************/
 	    
+	    /*
 		var filterFunction = function (element) {
 		    var contains = false;
 		    
@@ -105,18 +106,38 @@ updateForceDirectedSimple = function(error, graph) {
 			}
 		    
 		    return false;
-		}
-		
-		var beta = graph.nodes,
-		alpha = myNodes,
-		result;
-		
-		if (myNodes.length==0)
-			result = graph.nodes;
-		else
-			result = alpha.filter(filterFunction);
+		} */
 
+	    
+	    var containsArrayThisElement = function (arrayToCheck, element) {
+		    var containedElement = null;
+		    for (var i = 0, len = arrayToCheck.length; i < len; ++i) {
+		        if (arrayToCheck[i].uri==element.uri) {
+		        	containedElement = arrayToCheck[i];
+		        }
+			}
+		    return containedElement;
+		}  
 		
+		var result = [];
+
+		if (myNodes.length==0) {
+			result = graph.nodes;
+		}
+		else {
+			for (var i = 0, len = graph.nodes.length; i < len; ++i) {
+				
+				var newElement = graph.nodes[i];
+				var existingElement = containsArrayThisElement(myNodes, newElement);
+				
+		        if (null!=existingElement) {
+		            result.push(existingElement); // TODO: changes to the properties of this object will be lost!
+		        } else {
+		        	result.push(newElement); // OK: this new object will get defaults on next force tick
+		        }
+			}
+		}
+
 		myNodes.length = 0;
 		
 	    for (var i = 0, len = result.length; i < len; ++i) {
