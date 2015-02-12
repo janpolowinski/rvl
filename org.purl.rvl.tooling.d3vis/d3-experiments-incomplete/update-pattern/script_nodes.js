@@ -1,6 +1,11 @@
     var graph;
     var myNodes = [];
     
+    var newNodes1 = [{"id": "test", "text" : "test1"},{"id": "Emma", "text" : "Emma1"},{"id": "Alex", "text" : "Alex1"}];
+    var newNodes2 = [{"id": "test", "text" : "test2"},{"id": "Emma", "text" : "Emma2"},{"id": "Alex", "text" : "Alex2"}];
+    var newNodes2b = [{"id": "test", "text" : "test2"}];
+
+    
     
     var containsArrayThisElement = function (arrayToCheck, element) {
 	    var containedElement = null;
@@ -10,8 +15,10 @@
 	        }
 		}
 	    
-	    console.log("found array element " + containedElement.id + " when looking for " + element.id);
-	    
+	    if (containedElement!=null) {
+	    	console.log("found array element " + containedElement.text + " when looking for " + element.text);
+	    }
+	    	
 	    return containedElement;
 	}
     
@@ -58,12 +65,11 @@
     	    	myNodes.push(newNodes[i]);
     	    }
     	    
-            update();
+            update(myNodes);
         };
         
-        this.modifyNodes = function () {
+        this.modifyNodes = function (newNodes) {
 
-        	var newNodes = [{"id": "test", "text" : "test1"},{"id": "Emma", "text" : "Emma1"},{"id": "Alex", "text" : "Alex1"}];
         	var result = [];
 
     		if (myNodes.length==0) {
@@ -92,7 +98,7 @@
     	    	myNodes.push(result[i]);
     	    }
     	    
-            update();
+            update(myNodes);
         };
         
         
@@ -124,26 +130,35 @@
         
         force.start();
 
-        var update = function () {
+        var update = function (myNodesArg) {
 
             var node = vis.selectAll("g.node")
-                    .data(myNodes, function (d) {
-                        return d.id;
+                    .data(myNodesArg, function (d) {
+                       return d.id;
                     });
+            
+            node.selectAll(".textClass").text(function (d) {
+                return d.text + " updated";
+            });
 
             var nodeEnter = node.enter().append("g")
                     .attr("class", "node")
                     .call(force.drag);
 
-                nodeEnter.append("svg:text")
+                var nodeEnterText = nodeEnter.append("text")
                     .attr("class", "textClass")
                     .attr("x", 14)
                     .attr("y", ".31em")
                     ;
                 
-                node.selectAll("text").text(function (d) {
-                    return d.text;
+                nodeEnterText.text(function (d) {
+                    return d.text + " entered";
                 });
+                
+                
+//                node.selectAll(".textClass").text(function (d) {
+//                    return d.text;
+//                });
 
             node.exit().remove();
 
@@ -160,7 +175,7 @@
 
 
         // Make it all go
-        update();
+        update(myNodes);
     }
 
     function drawGraph() {
@@ -178,7 +193,7 @@
         function nextval()
         {
             step++;
-            return 2000 + (1500*step); // initial time, wait time
+            return 0 + (1500*step); // initial time, wait time
         }
         
         /*setTimeout(function() {
@@ -189,15 +204,23 @@
 //       	 graph.replaceNodes();
 //       }, nextval());
         
+
         setTimeout(function() {
-          	 graph.modifyNodes();
+          	 graph.modifyNodes(newNodes1);
           }, nextval());
+        
+        
+        
+//        setTimeout(function() {
+//          	 graph.modifyNodes(newNodes2);
+//          }, nextval());
 
     }
-
 
     function addNodes() {
         d3.select("svg")
                 .remove();
          drawGraph();
     }
+    
+    
