@@ -5,15 +5,20 @@
     var containsArrayThisElement = function (arrayToCheck, element) {
 	    var containedElement = null;
 	    for (var i = 0, len = arrayToCheck.length; i < len; ++i) {
-	        if (arrayToCheck[i].uri==element.uri) {
+	        if (arrayToCheck[i].id==element.id) {
 	        	containedElement = arrayToCheck[i];
 	        }
 		}
+	    
+	    console.log("found array element " + containedElement.id + " when looking for " + element.id);
+	    
 	    return containedElement;
 	}
     
     var copyForceSettings = function (positionedObject, newObject) {
-		   
+    	
+    	console.log("positioned object " + positionedObject.index + " " + positionedObject.x + ", " + positionedObject.y + " " + positionedObject.px + ", " + positionedObject.py);
+
     	newObject.index = positionedObject.index ; 
     	newObject.x = positionedObject.x ; 
     	newObject.y = positionedObject.y ; 
@@ -21,6 +26,8 @@
     	newObject.py = positionedObject.py ; 
     	newObject.fixed = positionedObject.fixed ; 
     	newObject.weight = positionedObject.weight ; 
+    	
+    	console.log("new object " + newObject.index + " " + newObject.x + ", " + newObject.y + " " + newObject.px + ", " + newObject.py);
 //    	
 //    	from the docu at https://github.com/mbostock/d3/wiki/Force-Layout:
 //        index - the zero-based index of the node within the nodes array.
@@ -43,23 +50,20 @@
         
         // Add and remove elements on the graph object
         this.replaceNodes = function () {
-        	//alert(nodes);
+        	
         	var newNodes = [{"id": "test", "text" : "testr"},{"id": "Emma", "text" : "Emmar"},{"id": "Alex", "text" : "Alexr"}];
-
     		myNodes.length = 0;
     		
     	    for (var i = 0, len = newNodes.length; i < len; ++i) {
     	    	myNodes.push(newNodes[i]);
     	    }
     	    
-            //alert(newNodes);
             update();
         };
         
         this.modifyNodes = function () {
-        	//alert(nodes);
-        	var newNodes = [{"id": "test", "text" : "test1"},{"id": "Emma", "text" : "Emma1"},{"id": "Alex", "text" : "Alex1"}];
 
+        	var newNodes = [{"id": "test", "text" : "test1"},{"id": "Emma", "text" : "Emma1"},{"id": "Alex", "text" : "Alex1"}];
         	var result = [];
 
     		if (myNodes.length==0) {
@@ -88,7 +92,6 @@
     	    	myNodes.push(result[i]);
     	    }
     	    
-            //alert(newNodes);
             update();
         };
         
@@ -138,7 +141,7 @@
                     .attr("y", ".31em")
                     ;
                 
-            node.selectAll("text").text(function (d) {
+                node.selectAll("text").text(function (d) {
                     return d.text;
                 });
 
@@ -152,7 +155,6 @@
             });
 
             // Restart the force layout.
-            //force.start();
             force.start();
         };
 
@@ -165,9 +167,11 @@
 
         graph = new myGraph("#svgdiv");
 
-        graph.addNode('test');
-        graph.addNode('Emma');
-        graph.addNode('Alex');
+//        graph.addNode('test');
+//        graph.addNode('Emma');
+//        graph.addNode('Alex');
+//        graph.addNode('Alertex');
+//        graph.addNode('Aler33tex');
         
         // callback for the changes in the network
         var step = -1;
