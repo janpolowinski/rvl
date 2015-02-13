@@ -15,6 +15,26 @@ var newNodes1 = [{"id": "test", "text" : "test1", "x" : 100},{"id": "Emma", "tex
 var newNodes2 = [{"id": "Emma", "text" : "Emma2", "x" : 200},{"id": "Alex", "text" : "Alex2", "x" : 300},{"id": "test", "text" : "test2", "x" : 100}];
 var newNodes2b = [{"id": "test", "text" : "test2b", "x" : 100}];
 
+//set up the D3 visualisation in the specified element
+var w = 960, h = 450;
+
+var vis = d3.select("body")
+        .append("svg:svg")
+        .attr("width", w)
+        .attr("height", h)
+        .attr("id", "svg")
+        .attr("pointer-events", "all")
+        .attr("viewBox", "0 0 " + w + " " + h)
+        .attr("perserveAspectRatio", "xMinYMid")
+        .append('svg:g');
+
+//vis
+//.append('svg:text')
+//.attr("class", "textClass")
+//.attr("x", 14)
+//.attr("y", "1em")
+//.text('test');
+
 </script>
 
 <!--
@@ -25,6 +45,10 @@ var newNodes2b = [{"id": "test", "text" : "test2b", "x" : 100}];
 <button onclick="d3.select('#list').call(list, newNodes1);">change list</button>
 <button onclick="d3.select('#list').call(list, newNodes2);">change list</button>
 <button onclick="d3.select('#list').call(list, newNodes2b);">change list</button>
+
+<button onclick="vis.call(posSVG, newNodes1);">change svg</button>
+<button onclick="vis.call(posSVG, newNodes2);">change svg</button>
+<button onclick="vis.call(posSVG, newNodes2b);">change svg</button>
 
 
 
