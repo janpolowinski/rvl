@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Animating Changes in Force Diagram</title>
+    <script type="text/javascript" src="../../src/main/resources/web/js/d3.min.js"></script>
+    <script src="update_complex.js"></script>
+</head>
+<body>
+
+<ul id="list">
+</ul>
+
+<script>
+var newNodes1 = [{"id": "test", "text" : "test1", "x" : 100},{"id": "Emma", "text" : "Emma1", "x" : 200},{"id": "Alex", "text" : "Alex1", "x" : 300}];
+var newNodes2 = [{"id": "Emma", "text" : "Emma2", "x" : 200},{"id": "Alex", "text" : "Alex2", "x" : 300},{"id": "test", "text" : "test2", "x" : 100}];
+var newNodes2b = [{"id": "test", "text" : "test2b", "x" : 100}];
+
+</script>
+
+<!--
+<button onclick="d3.select('#list').call(list, [0, 1, 2, 3, 4]);">init list</button>
+<button onclick="d3.select('#list').call(list, [5, 3]);">change list</button>
+<button onclick="d3.select('#list').call(list, ['0b', '1b', '2', '3', '4b']);">change list</button>
+-->
+<button onclick="d3.select('#list').call(list, newNodes1);">change list</button>
+<button onclick="d3.select('#list').call(list, newNodes2);">change list</button>
+<button onclick="d3.select('#list').call(list, newNodes2b);">change list</button>
+
+
+
+
+</body>
+</html>
