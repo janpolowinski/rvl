@@ -1,9 +1,9 @@
     var graph;
     var myNodes = [];
     
-    var newNodes1 = [{"id": "test", "text" : "test1"},{"id": "Emma", "text" : "Emma1"},{"id": "Alex", "text" : "Alex1"}];
-    var newNodes2 = [{"id": "test", "text" : "test2"},{"id": "Emma", "text" : "Emma2"},{"id": "Alex", "text" : "Alex2"}];
-    var newNodes2b = [{"id": "test", "text" : "test2"}];
+    var newNodes1 = [{"id": "test", "text" : "test1", "x" : 100},{"id": "Emma", "text" : "Emma1", "x" : 200},{"id": "Alex", "text" : "Alex1", "x" : 300}];
+    var newNodes2 = [{"id": "test", "text" : "test2", "x" : 100},{"id": "Emma", "text" : "Emma2", "x" : 200},{"id": "Alex", "text" : "Alex2", "x" : 300}];
+    var newNodes2b = [{"id": "test", "text" : "test2b", "x" : 100}];
 
     
     
@@ -58,7 +58,7 @@
         // Add and remove elements on the graph object
         this.replaceNodes = function () {
         	
-        	var newNodes = [{"id": "test", "text" : "testr"},{"id": "Emma", "text" : "Emmar"},{"id": "Alex", "text" : "Alexr"}];
+        	var newNodes = [{"id": "test", "text" : "testr", "x" : 100},{"id": "Emma", "text" : "Emmar", "x" : 200},{"id": "Alex", "text" : "Alexr", "x" : 300}];
     		myNodes.length = 0;
     		
     	    for (var i = 0, len = newNodes.length; i < len; ++i) {
@@ -128,7 +128,7 @@
         
         force.nodes(myNodes);
         
-        force.start();
+        //force.start();
 
         var update = function (myNodesArg) {
 
@@ -156,6 +156,11 @@
                 });
                 
                 
+                node.attr("transform", function (d) {
+                    return "translate(" + d.x + ",20)";
+                });
+                
+                
 //                node.selectAll(".textClass").text(function (d) {
 //                    return d.text;
 //                });
@@ -170,7 +175,7 @@
             });
 
             // Restart the force layout.
-            force.start();
+            //force.start();
         };
 
 
