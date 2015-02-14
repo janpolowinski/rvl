@@ -15,18 +15,30 @@ function posSVG(el1, data) {
 function posSVGGrouped(el1, data) {
 	
 	  var node = el1.selectAll("g").data(data, function(d) {return d.id ;});
-	  var myText = node.selectAll("text").data(function(d, i) { return d; });
+	  //var myText = node.selectAll("text").data(function(d) { return d; });
 	  
 	  // exit
-	  node.exit().remove();
+//	  node.exit().remove();
 	  
 	  // enter
-	  node.enter().append("svg:g").append("svg:text").attr("x","30").attr("y", "1em").text("entered");
+	  var nodeEnter = node.enter().append("svg:g");
+	  
+	  nodeEnter.append("svg:text")
+		.attr("x","30").attr("y", "1em");//.text(function(d) { return d.text });
+		
+	  var textUpdate = node.selectAll("text").data(function(d) { return d; });
+	  
+	  textUpdate.text(function(d) { return d.text });
+		
+	  
+	  
+//	  var myTextEnter = nodeEnter.selectAll("text").data(function(d) { return d; }).enter().append("svg:text")
+//	  		.attr("x","30").attr("y", "1em").text(function(d) { return "tests entered" });
 	  
 	  // enter + update
-	  node.attr("transform", function (d) {
-          return "translate(" + d.x + ",20)";
-      });
+//	  node.attr("transform", function (d) {
+//          return "translate(" + d.x + ",20)";
+//      });
 	  
 	  //myText.text(function(d) { return "tests" });
 	}
