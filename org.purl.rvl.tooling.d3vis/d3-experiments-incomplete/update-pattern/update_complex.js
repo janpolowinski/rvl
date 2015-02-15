@@ -18,29 +18,31 @@ function posSVGGrouped(el1, data) {
 	  //var myText = node.selectAll("text").data(function(d) { return d; });
 	  
 	  // exit
-//	  node.exit().remove();
+	  node.exit().remove();
 	  
 	  // enter
 	  var nodeEnter = node.enter().append("svg:g");
 	  
-	  nodeEnter.append("svg:text")
-		.attr("x","30").attr("y", "1em");//.text(function(d) { return d.text });
+	  var textEnter = nodeEnter
+	  			.selectAll("text").data(data, function(d) {return d.id ;})
+	  			.enter()
+	  			.append("svg:text").attr("x","30").attr("y", "1em")
+	  			.text(function(d) { return "neu" })
+	  			;
 		
-	  var textUpdate = node.selectAll("text").data(function(d) { return d; });
 	  
-	  textUpdate.text(function(d) { return d.text });
-		
-	  
-	  
-//	  var myTextEnter = nodeEnter.selectAll("text").data(function(d) { return d; }).enter().append("svg:text")
-//	  		.attr("x","30").attr("y", "1em").text(function(d) { return "tests entered" });
+	  // update
+	  var textUpdate = node
+	  			.selectAll("text")
+	  			.data(data, function(d) {return d.id ;})
+	  			.text(function(d) { return d.text })
+	  			;
 	  
 	  // enter + update
-//	  node.attr("transform", function (d) {
-//          return "translate(" + d.x + ",20)";
-//      });
+	  node.attr("transform", function (d) {
+          return "translate(" + d.x + ",20)";
+      });
 	  
-	  //myText.text(function(d) { return "tests" });
 	}
 
 //d3.select("#list").call(list, [0, 1, 2, 3, 4]);
