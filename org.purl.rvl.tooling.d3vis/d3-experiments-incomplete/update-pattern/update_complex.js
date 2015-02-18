@@ -14,28 +14,33 @@ function posSVG(el1, data) {
 
 function posSVGGrouped(el1, data) {
 	
-	  var node = el1.selectAll("g").data(data, function(d) {return d.id ;});
+	  var node = el1
+	  .selectAll("g")
+	  .data(data, function(d) {return d.id ;})
+	  ;
 	  //var myText = node.selectAll("text").data(function(d) { return d; });
 	  
 	  // exit
 	  node.exit().remove();
 	  
 	  // enter
-	  var nodeEnter = node.enter().append("svg:g");
+	  var nodeEnter = node.enter().append("svg:g")
+	  ;
 	  
 	  var textEnter = nodeEnter
-	  			.selectAll("text").data(data, function(d) {return d.id ;})
-	  			.enter()
+	  //		.selectAll("text")
+	  			//.data(function(d) {return d ;})
+	  			//.enter()
 	  			.append("svg:text").attr("x","30").attr("y", "1em")
-	  			.text(function(d) { return "neu" })
+	  			//.text(function(d) { return d.text; })
 	  			;
 		
 	  
 	  // update
 	  var textUpdate = node
-	  			.selectAll("text")
-	  			.data(data, function(d) {return d.id ;})
-	  			.text(function(d) { return d.text })
+	  			.select("text")
+	  			//.data(function(d) {return d ;})
+	  			.text(function(d) { return d.text ;})	
 	  			;
 	  
 	  // enter + update
