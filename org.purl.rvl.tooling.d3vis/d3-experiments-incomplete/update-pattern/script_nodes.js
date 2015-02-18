@@ -128,7 +128,7 @@
         
         force.nodes(myNodes);
         
-        //force.start();
+        force.start();
 
         var update = function (myNodesArg) {
 
@@ -137,7 +137,7 @@
                        return d.id;
                     });
             
-            node.selectAll(".textClass").text(function (d) {
+            node.select(".textClass").text(function (d) {
                 return d.text + " updated";
             });
 
@@ -175,7 +175,7 @@
             });
 
             // Restart the force layout.
-            //force.start();
+            force.start();
         };
 
 

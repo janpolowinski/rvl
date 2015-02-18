@@ -2,8 +2,8 @@
     var myNodes = [];
     
     var newNodes1 = [{"id": "test", "text" : "test1", "x" : 100},{"id": "Emma", "text" : "Emma1", "x" : 200},{"id": "Alex", "text" : "Alex1", "x" : 300}];
-    var newNodes2 = [{"id": "test", "text" : "test2", "x" : 100},{"id": "Emma", "text" : "Emma2", "x" : 200},{"id": "Alex", "text" : "Alex2", "x" : 300}];
-    var newNodes2b = [{"id": "test", "text" : "test2b", "x" : 100}];
+    var newNodes2 = [{"id": "test", "text" : "test2", "x" : 105},{"id": "Emma", "text" : "Emma2", "x" : 205},{"id": "Alex", "text" : "Alex2", "x" : 305}];
+    var newNodes2b = [{"id": "test", "text" : "test2b", "x" : 110}];
 
     
     
@@ -90,7 +90,7 @@
                        return d.id;
                     });
             
-            node.selectAll(".textClass").text(function (d) {
+            node.select(".textClass").text(function (d) {
                 return d.text + " updated";
             });
 
