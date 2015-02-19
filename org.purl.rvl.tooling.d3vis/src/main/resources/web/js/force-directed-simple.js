@@ -188,6 +188,9 @@ updateForceDirectedSimple = function(error, graph) {
 		// UPDATE	
 		boundNodes.select("text") // here (or below in the update) must be select not selectAll
       		//.style("fill", "gray")
+	    	.transition().duration(1000)
+	    	.style("fill", function(d){return d.color_rgb_hex_combined ; })
+	    	 //.transition().duration(10000).styleTween("fill", function() { return d3.interpolate("white", "red"); })
 			;
 		
 		// ENTER
@@ -195,32 +198,35 @@ updateForceDirectedSimple = function(error, graph) {
 	        .append("g")
 		    .attr("class", "node")
 		    .call(node_drag)
-   		    //.transition().duration(10000).styleTween("fill", function() { return d3.interpolate("white", "red"); })
 		    ;
 		    
 		 var textEnter = nodeEnter  
 		     .append("text")
-		    	.style("fill", "green")
-		    	//.style("opacity", function(d) { return 0; })
-      			//.transition().duration(1000).style("opacity", 1)
 		    	//.style("fill", "green")
-		    	//.transition().duration(4000).style("fill", "gray")
-      			.text(function(d){return d.shape_d3_name ; })
+		    	.style("fill", function(d){return d.color_rgb_hex_combined ; })
+		    	.style("opacity", 0.5) // fading in only works when no other transition (e.g. from update gets into the way)
+      			.transition().duration(1000).style("opacity", 1)
 				;
-	      	
+	     
+		 var circleEnter = nodeEnter  
+	        .avmShapedWithUseSVG()
+	    	.style("opacity", 0) // fading in only works when no other transition (e.g. from update gets into the way)
+  			.transition().duration(10000).style("opacity", 1)
+			;
+
+		 
+		 
 	    // ENTER + UPDATE
 	    boundNodes.select("text") // here (or above in the update) must be select not selectAll
-	    	//.style("fill", "red")
-	    	.transition().duration(1000)
-	    	.style("fill", function(d){return d.color_rgb_hex_combined ; })
-	    	//.text(function(d){return d.shape_d3_name ; })
+	    	.text(function(d){return d.shape_d3_name ; })
 	    	;
+	    
+	    boundNodes.avmShapedWithUseSVGUpdate();
 	      	
 	    // EXIT
 	    var nodeExit = boundNodes.exit();
 
 	    nodeExit
-	    	//.selectAll("text")
       		.style("opacity", function(d) { return 1; })
       		.transition().duration(2000).style("opacity", 0)
       		.remove();
