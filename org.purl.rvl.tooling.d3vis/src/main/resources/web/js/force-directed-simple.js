@@ -202,24 +202,46 @@ updateForceDirectedSimple = function(error, graph) {
 		    
 		 var textEnter = nodeEnter  
 		     .append("text")
+		     	.attr("class","text")
 		    	//.style("fill", "green")
 		    	.style("fill", function(d){return d.color_rgb_hex_combined ; })
 		    	.style("opacity", 0.5) // fading in only works when no other transition (e.g. from update gets into the way)
       			.transition().duration(1000).style("opacity", 1)
 				;
+		 
+		  // sub-selection
+		  // must be created after nodeEnter init
+		  var label = boundNodes
+		  			.filter(function(d) { return d.labels != null ; })
+		  			.selectAll(".label")
+		  			.data(function(d) {return d.labels ;})
+		  			;
+		  
+		  var labelEnter = label
+			.enter()
+			.append("svg:text").attr("x","30").attr("y", "3em")
+			.attr("class","label")
+			.attr("fill", "red")
+			;
+	
 	     
 		 var circleEnter = nodeEnter  
 	        .avmShapedWithUseSVG()
 	    	.style("opacity", 0) // fading in only works when no other transition (e.g. from update gets into the way)
-  			.transition().duration(10000).style("opacity", 1)
+  			.transition().duration(1000).style("opacity", 1)
 			;
 
 		 
 		 
 	    // ENTER + UPDATE
-	    boundNodes.select("text") // here (or above in the update) must be select not selectAll
+	    boundNodes.select(".text") // here (or above in the update) must be select not selectAll
 	    	.text(function(d){return d.shape_d3_name ; })
 	    	;
+	    
+		  label
+		    //.filter(function(d) { return d.text_value != null ; })
+			.text(function(d) { return d.text_value; })
+			;
 	    
 	    boundNodes.avmShapedWithUseSVGUpdate();
 	      	
