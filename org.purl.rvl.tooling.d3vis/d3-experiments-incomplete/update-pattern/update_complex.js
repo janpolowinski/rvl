@@ -27,26 +27,45 @@ function posSVGGrouped(el1, data) {
 	  var nodeEnter = node.enter().append("svg:g")
 	  ;
 	  
-	  var textEnter = nodeEnter
-	  //		.selectAll("text")
-	  			//.data(function(d) {return d ;})
-	  			//.enter()
+//	  var textEnter = nodeEnter
+//	  //		.selectAll("text")
+//	  			//.data(function(d) {return d ;})
+//	  			//.enter()
+//	  			.append("svg:text").attr("x","30").attr("y", "1em")
+//	  			//.text(function(d) { return d.text; })
+//	  			;
+//	  
+	  var labels = nodeEnter
+	  			//.filter(function(d) { return d.labels != null ; })
+	  			.selectAll("text")
+	  			.data(function(d) {return d.labels ;})
+	  			;
+	  
+	  var labelEnter = labels
+				.enter()
 	  			.append("svg:text").attr("x","30").attr("y", "1em")
-	  			//.text(function(d) { return d.text; })
+	  			.attr("fill", "red")
+	  			.attr("class", "label")
 	  			;
 		
 	  
-	  // update
-	  var textUpdate = node
-	  			.select("text")
-	  			//.data(function(d) {return d ;})
-	  			.text(function(d) { return d.text ;})	
-	  			;
+//	  // update
+//	  var textUpdate = node
+//	  			.select("text")
+//	  			//.data(function(d) {return d ;})
+//	  			.text(function(d) { return d.text ;})	
+//	  			;
 	  
 	  // enter + update
 	  node.attr("transform", function (d) {
           return "translate(" + d.x + ",20)";
       });
+	  
+	  node.selectAll("text")
+	    //.filter(function(d) { return d.text_value != null ; })
+		.text(function(d) { return d.text_value; })
+		;
+
 	  
 	}
 

@@ -11,9 +11,47 @@
 </ul>
 
 <script>
-var newNodes1 = [{"id": "test", "text" : "test1", "x" : 100},{"id": "Emma", "text" : "Emma1", "x" : 200},{"id": "Alex", "text" : "Alex1", "x" : 300}];
-var newNodes2 = [{"id": "Emma", "text" : "Emma2", "x" : 205},{"id": "Alex", "text" : "Alex2", "x" : 305},{"id": "test", "text" : "test2", "x" : 105}];
-var newNodes2b = [{"id": "test", "text" : "test2b", "x" : 100}];
+var newNodes1 = [
+	{"id": "test", "text" : "test1", "x" : 100,
+		"labels": [
+        {
+          "text_value": "test label 1",
+        }
+	]},
+	{"id": "Emma", "text" : "Emma1", "x" : 200,
+		"labels": [
+        {
+          "text_value": "Emma label 1",
+        }
+	]},
+	{"id": "Alex", "text" : "Alex1", "x" : 300,
+		"labels": [
+        {
+          "text_value": "Alex label 1",
+        }
+	]}];
+var newNodes2 = [
+	{"id": "test", "text" : "test2", "x" : 100,
+		"labels": [
+        {
+          "text_value": "test label 2",
+        }
+	]},
+	{"id": "Emma", "text" : "Emma2", "x" : 200,
+		"labels": [
+        {
+          "text_value": "Emma label 2",
+        }
+	]},
+	{"id": "Alex", "text" : "Alex2", "x" : 300,
+		"labels": [
+        {
+          "text_value": "Alex label 2",
+        }
+	]}];
+var newNodes2b = [
+	{"id": "test", "text" : "test2b", "x" : 100}
+	];
 
 //set up the D3 visualisation in the specified element
 var w = 960, h = 450;
