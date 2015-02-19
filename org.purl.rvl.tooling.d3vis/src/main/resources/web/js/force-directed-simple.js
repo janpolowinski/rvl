@@ -41,6 +41,7 @@ var myNodes = [];
 /*****************************************/
 
 var loaded = false;
+var forceVar;
 
 loadForceDirectedSimple = function(error, graph) {
 	
@@ -52,7 +53,7 @@ loadForceDirectedSimple = function(error, graph) {
 			/* LOCAL ADAPTED PLUGINS         */
 		    /*********************************/
 		
-		    var forceVar = force.nodes(myNodes);
+		    forceVar = force.nodes(myNodes);
 			//if (drawLinks) {
 			//  	forceVar.links(graph.links)
 			//}
@@ -117,7 +118,28 @@ updateForceDirectedSimple = function(error, graph) {
 		        }
 			}
 		    return containedElement;
-		}  
+		}
+	    
+	    var copyForceSettings = function (positionedObject, newObject) {
+		   
+	    	newObject.index = positionedObject.index ; 
+	    	newObject.x = positionedObject.x ; 
+	    	newObject.y = positionedObject.y ; 
+	    	newObject.px = positionedObject.px ; 
+	    	newObject.py = positionedObject.py ; 
+	    	newObject.fixed = positionedObject.fixed ; 
+	    	newObject.weight = positionedObject.weight ; 
+//	    	
+//	    	from the docu at https://github.com/mbostock/d3/wiki/Force-Layout:
+//	        index - the zero-based index of the node within the nodes array.
+//	        x - the x-coordinate of the current node position.
+//	        y - the y-coordinate of the current node position.
+//	        px - the x-coordinate of the previous node position.
+//	        py - the y-coordinate of the previous node position.
+//	        fixed - a boolean indicating whether node position is locked.
+//	        weight - the node weight; the number of associated links.
+		    return newObject;
+		} 
 		
 		var result = [];
 
@@ -131,7 +153,8 @@ updateForceDirectedSimple = function(error, graph) {
 				var existingElement = containsArrayThisElement(myNodes, newElement);
 				
 		        if (null!=existingElement) {
-		            result.push(existingElement); // TODO: changes to the properties of this object will be lost!
+//		            result.push(existingElement); // changes to the properties of this object will be lost!
+		            result.push(copyForceSettings(existingElement, newElement)); // should copy all settings from the old force-positioned object
 		        } else {
 		        	result.push(newElement); // OK: this new object will get defaults on next force tick
 		        }
