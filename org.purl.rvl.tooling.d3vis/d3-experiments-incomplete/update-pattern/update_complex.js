@@ -23,6 +23,9 @@ function posSVGGrouped(el1, data) {
 	  // exit
 	  node.exit().remove();
 	  
+	  // update
+	  // ...
+	  
 	  // enter
 	  var nodeEnter = node.enter().append("svg:g")
 	  ;
@@ -35,13 +38,15 @@ function posSVGGrouped(el1, data) {
 //	  			//.text(function(d) { return d.text; })
 //	  			;
 //	  
-	  var labels = nodeEnter
-	  			//.filter(function(d) { return d.labels != null ; })
+	  // sub-selection
+	  // must be created after nodeEnter init
+	  var label = node
+	  			.filter(function(d) { return d.labels != null ; })
 	  			.selectAll("text")
 	  			.data(function(d) {return d.labels ;})
 	  			;
 	  
-	  var labelEnter = labels
+	  var labelEnter = label
 				.enter()
 	  			.append("svg:text").attr("x","30").attr("y", "1em")
 	  			.attr("fill", "red")
@@ -49,7 +54,6 @@ function posSVGGrouped(el1, data) {
 	  			;
 		
 	  
-//	  // update
 //	  var textUpdate = node
 //	  			.select("text")
 //	  			//.data(function(d) {return d ;})
@@ -61,7 +65,7 @@ function posSVGGrouped(el1, data) {
           return "translate(" + d.x + ",20)";
       });
 	  
-	  node.selectAll("text")
+	  label
 	    //.filter(function(d) { return d.text_value != null ; })
 		.text(function(d) { return d.text_value; })
 		;
