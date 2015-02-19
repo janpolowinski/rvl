@@ -186,8 +186,8 @@ updateForceDirectedSimple = function(error, graph) {
 	        
 
 		// UPDATE	
-		boundNodes.select("text")
-      		.style("fill", "gray")
+		boundNodes.select("text") // here (or below in the update) must be select not selectAll
+      		//.style("fill", "gray")
 			;
 		
 		// ENTER
@@ -196,18 +196,25 @@ updateForceDirectedSimple = function(error, graph) {
 		    .attr("class", "node")
 		    .call(node_drag)
    		    //.transition().duration(10000).styleTween("fill", function() { return d3.interpolate("white", "red"); })
-		    .append("text")
+		    ;
+		    
+		 var textEnter = nodeEnter  
+		     .append("text")
 		    	.style("fill", "green")
-		    	.style("opacity", function(d) { return 0; })
-      			.transition().duration(1000).style("opacity", 1)
+		    	//.style("opacity", function(d) { return 0; })
+      			//.transition().duration(1000).style("opacity", 1)
 		    	//.style("fill", "green")
 		    	//.transition().duration(4000).style("fill", "gray")
-      			.text(function(d){return d.shape_d3_name  ; })
+      			.text(function(d){return d.shape_d3_name ; })
 				;
 	      	
 	    // ENTER + UPDATE
-	    boundNodes.select("text")
-	    	.text(function(d){return d.shape_d3_name ; });
+	    boundNodes.select("text") // here (or above in the update) must be select not selectAll
+	    	//.style("fill", "red")
+	    	.transition().duration(1000)
+	    	.style("fill", function(d){return d.color_rgb_hex_combined ; })
+	    	//.text(function(d){return d.shape_d3_name ; })
+	    	;
 	      	
 	    // EXIT
 	    var nodeExit = boundNodes.exit();
