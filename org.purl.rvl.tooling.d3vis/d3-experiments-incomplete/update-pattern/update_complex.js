@@ -27,40 +27,39 @@ function posSVGGrouped(el1, data) {
 	  // ...
 	  
 	  // enter
+	  
 	  var nodeEnter = node.enter().append("svg:g")
 	  ;
 	  
-//	  var textEnter = nodeEnter
-//	  //		.selectAll("text")
-//	  			//.data(function(d) {return d ;})
-//	  			//.enter()
-//	  			.append("svg:text").attr("x","30").attr("y", "1em")
-//	  			//.text(function(d) { return d.text; })
-//	  			;
-//	  
+	  // simple selection
+	  var textEnter = nodeEnter
+	  			.append("svg:text").attr("x","30").attr("y", "1em")
+	  			.attr("class","text")
+	  			;
+ 
 	  // sub-selection
 	  // must be created after nodeEnter init
 	  var label = node
 	  			.filter(function(d) { return d.labels != null ; })
-	  			.selectAll("text")
+	  			.selectAll(".label")
 	  			.data(function(d) {return d.labels ;})
 	  			;
 	  
 	  var labelEnter = label
 				.enter()
-	  			.append("svg:text").attr("x","30").attr("y", "1em")
+	  			.append("svg:text").attr("x","30").attr("y", "3em")
+	  			.attr("class","label")
 	  			.attr("fill", "red")
-	  			.attr("class", "label")
 	  			;
 		
 	  
-//	  var textUpdate = node
-//	  			.select("text")
-//	  			//.data(function(d) {return d ;})
-//	  			.text(function(d) { return d.text ;})	
-//	  			;
-	  
 	  // enter + update
+	  
+	  node
+		.select(".text")
+		.text(function(d) { return d.text ;})	
+		;
+	  
 	  node.attr("transform", function (d) {
           return "translate(" + d.x + ",20)";
       });
