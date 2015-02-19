@@ -29,8 +29,12 @@ var lineWidth = 7,
 /*****************************************/
 
 var force = self.force = d3.layout.force()
-    .charge(-900)
-    .linkDistance(200)
+//    .charge(-900)
+//    .linkDistance(200)
+     .gravity(.01)
+     .charge(-80000)
+     .friction(0)
+     .linkDistance( function(d) { return d.value * 10 } )
     .size([width, height])
 	;				 
 
@@ -182,7 +186,7 @@ updateForceDirectedSimple = function(error, graph) {
 	        
 
 		// UPDATE	
-		boundNodes.selectAll("text")
+		boundNodes.select("text")
       		.style("fill", "gray")
 			;
 		
@@ -198,12 +202,12 @@ updateForceDirectedSimple = function(error, graph) {
       			.transition().duration(1000).style("opacity", 1)
 		    	//.style("fill", "green")
 		    	//.transition().duration(4000).style("fill", "gray")
-      			.text(function(d){return d.uri ; })
+      			.text(function(d){return d.shape_d3_name  ; })
 				;
 	      	
 	    // ENTER + UPDATE
-	    //boundNodes.selectAll("text")
-	   // 	.text(function(d){return d.uri ; });
+	    boundNodes.select("text")
+	    	.text(function(d){return d.shape_d3_name ; });
 	      	
 	    // EXIT
 	    var nodeExit = boundNodes.exit();
@@ -214,8 +218,7 @@ updateForceDirectedSimple = function(error, graph) {
       		.transition().duration(2000).style("opacity", 0)
       		.remove();
       		;
-      		
-		  //nodeExit.remove();
+//		  nodeExit.remove();
 		
 			
 		  
