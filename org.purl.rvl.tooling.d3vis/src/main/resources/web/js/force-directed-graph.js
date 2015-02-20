@@ -140,9 +140,9 @@ loadForceDirectedGraph = function(error, graph) {
 		/* alternative : very simple labeling of connectors by title-tag */	
 		//path.avmTitled();
 	
-			
-		/* manual node positioning */
-		
+	
+		/** DRAGGING *****************************************/
+	
 		var node_drag = d3.behavior.drag()
 	        .on("dragstart", dragstart)
 	        .on("drag", dragmove)
@@ -214,6 +214,7 @@ loadForceDirectedGraph = function(error, graph) {
 	    
 		/* nodes */ 
 		
+		// DATA JOIN
 		var nodeEnter = vis.selectAll(".node")
 	        .data(graph.nodes).enter()
 	        .append("g")

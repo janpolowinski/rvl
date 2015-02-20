@@ -51,8 +51,23 @@
 		  var text = this
 		  	.append("svg:text")
 			.attr("class", "nodeLabel")
+			//.attr("x","30").attr("y", "3em")
 	 		.attr("dx", 10)
 	     	.attr("dy", 0)
+			//.attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+		    //.text(function(d) { return d.text_value; })
+			;
+		  
+		  return text;
+	  };
+	  
+	  /* labeling with SVG text FDG */
+	  // TODO duplicated code from avmLabeledFDG
+	  d3.selection.prototype.avmLabeledFDGUpdate = function() {
+		  
+		  var text = this
+		  	//.select("text")
+		    .filter(function(d) { return d.text_value != null ; })
 			//.attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
 		    .text(function(d) { return d.text_value; })
 			//.style("visibility", "hidden")
@@ -300,6 +315,14 @@
 			.attr("class", "textNode")
 	 		.attr("dx", 10)
 	     	.attr("dy", 0)
+			;
+	  };
+	  
+	  /* setting the shape as a text based on text_value */
+	  // TODO duplicated code from avmShapedWithText
+	  d3.selection.prototype.avmShapedWithTextUpdate = function() { 	
+		 	return this.select(".textNode")
+		 	.filter(function(d) { return null != d.shape_text_value ;})
 		    .text(function(d) { return d.shape_text_value; })
 			.applyGraphicAttributesNonSpatial2SVG()
 			.filter(function (d) { return null != d.width;})
