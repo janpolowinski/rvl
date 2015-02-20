@@ -29,12 +29,12 @@ var lineWidth = 7,
 /*****************************************/
 
 var force = self.force = d3.layout.force()
-//    .charge(-900)
-//    .linkDistance(200)
+    .charge(-900)
+    .linkDistance(200)
      .gravity(.01)
-     .charge(-80000)
+//     .charge(-80000)
      .friction(0)
-     .linkDistance( function(d) { return d.value * 10 } )
+//     .linkDistance( function(d) { return d.value * 10 } )
     .size([width, height])
 	;				 
 
