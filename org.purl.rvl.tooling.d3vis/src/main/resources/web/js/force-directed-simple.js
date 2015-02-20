@@ -47,6 +47,10 @@ var myNodes = [];
 var loaded = false;
 var forceVar;
 
+loadForceDirectedGraph = function(error, graph) { 
+	// placeholder for a fucntion referenced during startup, probably stored in the project and called by reload
+}
+
 loadForceDirectedSimple = function(error, graph) {
 	
 	if (!loaded) {
