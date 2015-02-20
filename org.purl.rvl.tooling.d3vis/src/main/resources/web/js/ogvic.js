@@ -321,9 +321,9 @@
 	  /* setting graphic attributes on SVG (except position, dimensions ... */
 	  d3.selection.prototype.applyGraphicAttributesNonSpatial2SVG = function() {
 		 	return this
-    		   //.style("fill", function(d) { return d.color_rgb_hex_combined; })
-    		   .transition().duration(1000)
-    		   .style("fill", function(d){return d.color_rgb_hex_combined ; })
+    		   .style("fill", function(d) { return d.color_rgb_hex_combined; })
+    		   //.transition().duration(1000)
+    		   //.style("fill", function(d){return d.color_rgb_hex_combined ; })
 		     ;
 	  };
 	  
