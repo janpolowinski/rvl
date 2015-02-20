@@ -36,4 +36,5 @@ var baseUrlBackend = "http://localhost:8080/semvis/";
 var svg;
 var vis;
 var labelContainerSpace;
+var currentGraphicType = "force-directed-graph";
         

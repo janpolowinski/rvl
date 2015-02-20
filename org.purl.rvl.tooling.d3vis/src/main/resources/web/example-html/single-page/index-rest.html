@@ -155,7 +155,11 @@
     	}
     	
     	loadProject = function(projectID, defaultGraphicType) {
-    		reInitContainers();
+    		// TODO refactor duplicated code
+    		if (currentGraphicType != "force-directed-simple" || currentGraphicType != defaultGraphicType ) {
+	    			reInitContainers();
+	    			currentGraphicType = defaultGraphicType;
+	    	}
     		d3.json(baseUrlBackend + "projects/run/" + projectID, graphicLoadingFunctions[defaultGraphicType]);
     	}
 		
@@ -227,7 +231,10 @@
 		d3.select("#editingForm").on("submit", function() {
 			d3.event.preventDefault();		
 		  	d3.json(baseUrlBackend + "projects/run",function(error, json) {
-		 		//reInitContainers();
+			 	if (currentGraphicType != "force-directed-simple" || currentGraphicType != json.graphic_type ) {
+	    			reInitContainers();
+	    			currentGraphicType = json.graphic_type;
+	    		}
 				graphicLoadingFunctions[json.graphic_type](null, json);
 		    })
 		   //.header("Content-Type","multipart/form-data") // this causes the request to fail! probably since some additional info (boundary=... is missing)
