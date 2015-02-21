@@ -186,15 +186,6 @@ updateForceDirectedSimple = function(error, graph) {
 	    	myLinks.push(graph.links[i]);
 	    }
 	    
-	    /* // alternative: lines instead of paths
-		  var link = vis.selectAll(".link")
-		      .data(myLinks)
-		      .enter().append("line")
-		      .attr("class", "link")
-		      //.style("stroke-width", function(d) { return Math.sqrt(d.value); })
-			  ;
-		*/
-	    
 	    /* links */
 	    
 		var boundConnectorGroups = vis.selectAll(".connectorGroup")
@@ -230,14 +221,7 @@ updateForceDirectedSimple = function(error, graph) {
 		    .style("opacity", 1)
       		.transition().duration(2000).style("opacity", 0)
 			.remove();
-	
-	    
 
-		//alert("updating");
-		//alert(graph.nodes[0].uri + " " + graph.nodes[1].uri);
-	
-		//forceVar = force.nodes(myNodes);
-		//forceVar.start();
 		
 		/* nodes */ 
 		
@@ -248,12 +232,7 @@ updateForceDirectedSimple = function(error, graph) {
 	        
 
 		// UPDATE	
-		/*boundNodes.select("text") // here (or below in the update) must be select not selectAll
-      		//.style("fill", "gray")
-	    	.transition().duration(1000)
-	    	.style("fill", function(d){return d.color_rgb_hex_combined ; })
-	    	 //.transition().duration(10000).styleTween("fill", function() { return d3.interpolate("white", "red"); })
-			;*/
+
 		
 		// ENTER
 		var nodeEnter = boundNodes.enter()
@@ -355,12 +334,7 @@ updateForceDirectedSimple = function(error, graph) {
 				   //" L" + (dr - drSub) + "," + (dr - drSub) +  
 				   //" L" + d.target.x + "," + d.target.y; ; 	
 				   
-	        });
-				        
-			/* position the nodes */
-	        /*nodeEnter.attr("transform", function (d) {
-	            return "translate(" + d.x + "," + d.y + ")";
-	        });*/
+	        });	        
 	        
 	        /* position the nodes */
 	        boundNodes.attr("transform", function (d) {
