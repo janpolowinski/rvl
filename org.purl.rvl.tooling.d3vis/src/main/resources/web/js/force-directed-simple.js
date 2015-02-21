@@ -40,6 +40,7 @@ var force = self.force = d3.layout.force()
 
 var myNodes = [];
 var myLinks = [];
+var node_hash = [];
 
 /*****************************************/
 /* UPDATE FUNCTION                       */
@@ -122,21 +123,6 @@ updateForceDirectedSimple = function(error, graph) {
 		} */
 
 	    
-	    
-	    var node_hash = [];
-
-        // Create a hash that allows access to each node by its id
-        myNodes.forEach(function(d, i) {
-          node_hash[d.uri] = d;
-        });
-      
-        // Append the source object node and the target object node to each link records...
-        myLinks.forEach(function(d, i) {
-          d.source = node_hash[d.source_uri];
-          d.target = node_hash[d.target_uri];
-        });
-
-	    
 	    var containsArrayThisElement = function (arrayToCheck, element) {
 		    var containedElement = null;
 		    for (var i = 0, len = arrayToCheck.length; i < len; ++i) {
@@ -201,6 +187,17 @@ updateForceDirectedSimple = function(error, graph) {
 	    	myLinks.push(graph.links[i]);
 	    }
 	    
+        // Create a hash that allows access to each node by its id
+        myNodes.forEach(function(d, i) {
+          node_hash[d.uri] = d;
+        });
+      
+        // Append the source object node and the target object node to each link records...
+        myLinks.forEach(function(d, i) {
+          d.source = node_hash[d.source_uri];
+          d.target = node_hash[d.target_uri];
+        });
+	    
 	    /* links */
 	    
 		var boundConnectorGroups = vis.selectAll(".connectorGroup")
@@ -213,9 +210,9 @@ updateForceDirectedSimple = function(error, graph) {
 	    
 	    var path = connectorGroupEnter.append("svg:path")
 	    .attr("class", function (d) { return "link link" + d.type + " " +  d.shape_d3_name; })  
-		.attr("id", function(link){
-	    	return createIDForLink(link);
-		})
+//		.attr("id", function(link){
+//	    	return createIDForLink(link);
+//		})
 		;
 	    
 	    // ENTER + UPDATE
@@ -333,7 +330,7 @@ updateForceDirectedSimple = function(error, graph) {
 		tick = function() {
 			
 			/* position the connector paths */
-	        path.attr("d", function (d) {
+			boundPaths.attr("d", function (d) {
 	            var dx = d.target.x - d.source.x,
 	                dy = (d.target.y - d.source.y),
 	                dr = Math.sqrt(dx * dx + dy * dy);

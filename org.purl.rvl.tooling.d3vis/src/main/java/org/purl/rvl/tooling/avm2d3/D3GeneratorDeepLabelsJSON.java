@@ -137,8 +137,10 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 				
 				link.put("type", "Directed");
 				//link.put("type", dlRel.getRDFSClassURI().toString());
-				link.put("source", goMap.get(startNode));
-				link.put("target", goMap.get(endNode));
+				//link.put("source", goMap.get(startNode));
+				//link.put("target", goMap.get(endNode));
+				link.put("source_uri", startNode.getRepresentedResource().toString());
+				link.put("target_uri", endNode.getRepresentedResource().toString());
 				link.put("value", "1");
 				//link.put("text_value", D3Utils.shortenLabel(connector.getLabel()));
 				//link.put("text_value_full", connector.getLabel() + " (ID: " + connector.getRepresentedResource() + ")");

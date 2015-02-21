@@ -495,8 +495,9 @@ var avmDefaultSizeLabelSymbolFunction = d3.svg.symbol()
  }
  
  /* create a unique ID for a link */ 
+ /* for link arrays referencing nodes by IDs, not index */ 
  function createIDForLink(d) {
-	return d.source.index + "_" + d.target.index;
+	return d.source_uri + "_" + d.target_uri;
 	// return "1_0";
  }
  
@@ -505,6 +506,7 @@ var avmDefaultSizeLabelSymbolFunction = d3.svg.symbol()
 		return d.source.id + "_" + d.target.id;
 		// return "1_0";
  }
+
  
 /* toggle nodes in collapsible tree */ 
  
