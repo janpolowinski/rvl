@@ -39,6 +39,7 @@ var force = self.force = d3.layout.force()
 	;				 
 
 var myNodes = [];
+var myLinks = [];
 
 /*****************************************/
 /* UPDATE FUNCTION                       */
@@ -54,6 +55,10 @@ loadForceDirectedGraph = function(error, graph) {
 loadForceDirectedSimple = function(error, graph) {
 	
 	if (!loaded) {
+		
+		// override global settings
+		complexLabeling = false; // not yet fully implemented
+		simpleLabeling = true;
 
 		//alert("loading");
 		
@@ -62,11 +67,10 @@ loadForceDirectedSimple = function(error, graph) {
 		    /*********************************/
 		
 		    forceVar = force.nodes(myNodes);
-			//if (drawLinks) {
-			//  	forceVar.links(graph.links)
-			//}
-		    
-	    
+			if (drawLinks) {
+			  	forceVar.links(myLinks)
+			}
+
 	    loaded = true;
 	}
 
@@ -174,6 +178,60 @@ updateForceDirectedSimple = function(error, graph) {
 	    for (var i = 0, len = result.length; i < len; ++i) {
 	    	myNodes.push(result[i]);
 	    }
+	    
+	    myLinks.length = 0;
+	    
+	    // same for link update
+	    for (var i = 0, len = graph.links.length; i < len; ++i) {
+	    	myLinks.push(graph.links[i]);
+	    }
+	    
+	    /* // alternative: lines instead of paths
+		  var link = vis.selectAll(".link")
+		      .data(myLinks)
+		      .enter().append("line")
+		      .attr("class", "link")
+		      //.style("stroke-width", function(d) { return Math.sqrt(d.value); })
+			  ;
+		*/
+	    
+	    /* links */
+	    
+		var boundConnectorGroups = vis.selectAll(".connectorGroup")
+    		.data(myLinks) ;// , function(d) { return ????????; });
+	    
+		var connectorGroupEnter = boundConnectorGroups
+	    	.enter().append("svg:g")
+	    	.attr("class", function (d) { return "connectorGroup link" + d.type; })  
+	    	;
+	    
+	    var path = connectorGroupEnter.append("svg:path")
+	    .attr("class", function (d) { return "link link" + d.type + " " +  d.shape_d3_name; })  
+		.attr("id", function(link){
+	    	return createIDForLink(link);
+		})
+		;
+	    
+	    // ENTER + UPDATE
+		var boundPaths = boundConnectorGroups.select("path")
+			.style("stroke", function(d) { return d.color_rgb_hex_combined; })
+			.style("stroke-width", function(d) { return d.width })
+			//.attr("marker-end", function (d) {
+		    //	return "url(#" + d.shape_d3_name + ")";
+			//})
+			// approach using mid-markers did not suceed -> a marker on each path-node is not desirable
+			/*.attr("marker-mid", function (d) {
+				return "url(#" + "markerSquare" + ")";
+			})*/
+			;
+		
+		// EXIT
+		boundConnectorGroups.exit()
+		    .style("opacity", 1)
+      		.transition().duration(2000).style("opacity", 0)
+			.remove();
+	
+	    
 
 		//alert("updating");
 		//alert(graph.nodes[0].uri + " " + graph.nodes[1].uri);
@@ -190,12 +248,12 @@ updateForceDirectedSimple = function(error, graph) {
 	        
 
 		// UPDATE	
-		boundNodes.select("text") // here (or below in the update) must be select not selectAll
+		/*boundNodes.select("text") // here (or below in the update) must be select not selectAll
       		//.style("fill", "gray")
 	    	.transition().duration(1000)
 	    	.style("fill", function(d){return d.color_rgb_hex_combined ; })
 	    	 //.transition().duration(10000).styleTween("fill", function() { return d3.interpolate("white", "red"); })
-			;
+			;*/
 		
 		// ENTER
 		var nodeEnter = boundNodes.enter()
@@ -239,7 +297,7 @@ updateForceDirectedSimple = function(error, graph) {
 	    var nodeExit = boundNodes.exit();
 
 	    nodeExit
-      		.style("opacity", function(d) { return 1; })
+      		.style("opacity", 1)
       		.transition().duration(2000).style("opacity", 0)
       		.remove();
       		;
@@ -279,6 +337,25 @@ updateForceDirectedSimple = function(error, graph) {
 		}
 		  
 		tick = function() {
+			
+			/* position the connector paths */
+	        path.attr("d", function (d) {
+	            var dx = d.target.x - d.source.x,
+	                dy = (d.target.y - d.source.y),
+	                dr = Math.sqrt(dx * dx + dy * dy);
+	            
+	            // an arc
+	            return "M" + d.source.x + "," + d.source.y + "A" + (dr - drSub) + "," + (dr - drSub) + " 0 0,1 " + d.target.x + "," + d.target.y;
+	            
+	            // a line
+				//return "M" + d.source.x + "," + d.source.y + " L" + d.target.x + "," + d.target.y; 
+	            
+	         	// a line with an intermediate node
+	            //return "M" + d.source.x + "," + d.source.y +
+				   //" L" + (dr - drSub) + "," + (dr - drSub) +  
+				   //" L" + d.target.x + "," + d.target.y; ; 	
+				   
+	        });
 				        
 			/* position the nodes */
 	        /*nodeEnter.attr("transform", function (d) {
