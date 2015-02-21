@@ -122,6 +122,21 @@ updateForceDirectedSimple = function(error, graph) {
 		} */
 
 	    
+	    
+	    var node_hash = [];
+
+        // Create a hash that allows access to each node by its id
+        myNodes.forEach(function(d, i) {
+          node_hash[d.uri] = d;
+        });
+      
+        // Append the source object node and the target object node to each link records...
+        myLinks.forEach(function(d, i) {
+          d.source = node_hash[d.source_uri];
+          d.target = node_hash[d.target_uri];
+        });
+
+	    
 	    var containsArrayThisElement = function (arrayToCheck, element) {
 		    var containedElement = null;
 		    for (var i = 0, len = arrayToCheck.length; i < len; ++i) {
