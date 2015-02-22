@@ -32,7 +32,7 @@ var lineWidth = 7,
 //.size(2*Math.PI*cRadius*cRadius)
 //;
 
-var force = self.force = d3.layout.force()
+var force = d3.layout.force()
 	.charge(-900)
 	.linkDistance(200)
 	.size([width, height])
