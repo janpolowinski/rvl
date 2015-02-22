@@ -494,6 +494,28 @@ var avmDefaultSizeLabelSymbolFunction = d3.svg.symbol()
     return "translate(" + x + "," + y + ")";
  }
  
+ /* prepare for force layout on update */
+ var copyForceSettings = function (positionedObject, newObject) {
+	   
+ 	newObject.index = positionedObject.index ; 
+ 	newObject.x = positionedObject.x ; 
+ 	newObject.y = positionedObject.y ; 
+ 	newObject.px = positionedObject.px ; 
+ 	newObject.py = positionedObject.py ; 
+ 	newObject.fixed = positionedObject.fixed ; 
+ 	newObject.weight = positionedObject.weight ; 
+// 	
+// 	from the docu at https://github.com/mbostock/d3/wiki/Force-Layout:
+//     index - the zero-based index of the node within the nodes array.
+//     x - the x-coordinate of the current node position.
+//     y - the y-coordinate of the current node position.
+//     px - the x-coordinate of the previous node position.
+//     py - the y-coordinate of the previous node position.
+//     fixed - a boolean indicating whether node position is locked.
+//     weight - the node weight; the number of associated links.
+	    return newObject;
+	} 
+ 
  /* create a unique ID for a link */ 
  /* for link arrays referencing nodes by IDs, not index */ 
  function createIDForLink(d) {
@@ -542,3 +564,17 @@ function toggle(d) {
 	d3.selectAll(".node").selectAll("text.nodeLabel").
 		text(function(d){return d.text_value;});
  }
+ 
+ /* array helper */
+ 
+ var containsArrayThisElement = function (arrayToCheck, element) {
+	    var containedElement = null;
+	    for (var i = 0, len = arrayToCheck.length; i < len; ++i) {
+	        if (arrayToCheck[i].uri==element.uri) {
+	        	containedElement = arrayToCheck[i];
+	        }
+		}
+	    return containedElement;
+ }
+ 
+ 

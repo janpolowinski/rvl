@@ -123,36 +123,7 @@ updateForceDirectedSimple = function(error, graph) {
 		} */
 
 	    
-	    var containsArrayThisElement = function (arrayToCheck, element) {
-		    var containedElement = null;
-		    for (var i = 0, len = arrayToCheck.length; i < len; ++i) {
-		        if (arrayToCheck[i].uri==element.uri) {
-		        	containedElement = arrayToCheck[i];
-		        }
-			}
-		    return containedElement;
-		}
-	    
-	    var copyForceSettings = function (positionedObject, newObject) {
-		   
-	    	newObject.index = positionedObject.index ; 
-	    	newObject.x = positionedObject.x ; 
-	    	newObject.y = positionedObject.y ; 
-	    	newObject.px = positionedObject.px ; 
-	    	newObject.py = positionedObject.py ; 
-	    	newObject.fixed = positionedObject.fixed ; 
-	    	newObject.weight = positionedObject.weight ; 
-//	    	
-//	    	from the docu at https://github.com/mbostock/d3/wiki/Force-Layout:
-//	        index - the zero-based index of the node within the nodes array.
-//	        x - the x-coordinate of the current node position.
-//	        y - the y-coordinate of the current node position.
-//	        px - the x-coordinate of the previous node position.
-//	        py - the y-coordinate of the previous node position.
-//	        fixed - a boolean indicating whether node position is locked.
-//	        weight - the node weight; the number of associated links.
-		    return newObject;
-		} 
+
 		
 		var result = [];
 
