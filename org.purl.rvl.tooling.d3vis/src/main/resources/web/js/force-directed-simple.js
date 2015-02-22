@@ -30,7 +30,7 @@ var lineWidth = 7,
 
 var force = self.force = d3.layout.force()
 //   .charge(-900)
-     .charge(-20000)
+     .charge(-4000)
      .linkDistance(100)
 //   .linkDistance( function(d) { return d.value * 10 } )
      .gravity(.005)
@@ -171,6 +171,8 @@ updateForceDirectedSimple = function(error, graph) {
 	    	return createIDForLink(link);
 		})
 		;
+
+	    /* connector labeling */
 	    
 //		if (alignedConnectorLabeling) { 
 //		
@@ -186,10 +188,38 @@ updateForceDirectedSimple = function(error, graph) {
 //			      	return "#" + createIDForLink(d);
 //			  	}
 //			);
-//	}	
+//	}
+	    
+	    var connectorLabelGroup = connectorGroupEnter.append("svg:g")
+		   .attr("class", "label"); // TODO class needs to be label for CSS reasons. evtl. change later
+
+		/* icon labeling of connectors */ // TODO: not yet updateable!
+		var connectorLabelSymbol = connectorLabelGroup
+		  .filter(function(d) { return d.labels != null ;})
+		  .selectAll(".iconLabelNew")
+		  .data(function(d) { return d.labels }).enter()
+		  .avmShapedWithUseSVG() // enter-version of the function called here!
+	 	  .attr("transform", "scale(1.5)")
+		  .classed("iconLabelNew", true)
+		  ;
+		
+		/* alternative to aligned labeling : simple text labeling of connectors */	// TODO: not yet updateable!
+		var connectorLabelText = connectorLabelGroup
+		  .filter(function(d) { return d.labels != null ;})
+		  .selectAll(".textLabelNew")
+		  .data(function(d) { return d.labels }).enter()
+		  .append("text")
+		  .filter(function(d) { return d.type == "text_label" ;})
+		  .text(function(d){return d.text_value_full ; })
+		  .classed("textLabelNew label", true)
+		  ;
+			
+		// broken? shapes as paths
+		// var connectorLabelSymbol = connectorLabelGroup.avmShapedWithPath();
+		
 	    
 		/* alternative : very simple labeling of connectors by title-tag */	
-		path.avmTitled(); // TODO: not yet updateable!
+//		path.avmTitled(); // TODO: not yet updateable!
 	    
 	    // ENTER + UPDATE
 	    
@@ -199,11 +229,13 @@ updateForceDirectedSimple = function(error, graph) {
 			.attr("marker-end", function (d) {
 		    	return "url(#" + d.shape_d3_name + ")";
 			})
-			// approach using mid-markers did not suceed -> a marker on each path-node is not desirable
+			// approach using mid-markers did not succeed -> a marker on each path-node is not desirable
 			/*.attr("marker-mid", function (d) {
 				return "url(#" + "markerSquare" + ")";
 			})*/
 			;
+		
+	    var boundConnectorLabelGroups = boundConnectorGroups.select("g.label");
 		
 		// EXIT
 		boundConnectorGroups.exit()
@@ -323,7 +355,10 @@ updateForceDirectedSimple = function(error, graph) {
 				   //" L" + (dr - drSub) + "," + (dr - drSub) +  
 				   //" L" + d.target.x + "," + d.target.y; ; 	
 				   
-	        });	        
+	        });
+			
+			boundConnectorLabelGroups.attr("transform", calculateTranslationToArcCenter);
+			//boundConnectorLabelGroups.attr("transform", calculateTranslationToLineCenter);
 	        
 	        /* position the nodes */
 	        boundNodes.attr("transform", function (d) {
