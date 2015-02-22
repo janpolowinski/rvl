@@ -33,14 +33,16 @@ var lineWidth = 7,
 //;
 
 var force = self.force = d3.layout.force()
-//   .charge(-900)
-     .charge(-4000)
-     .linkDistance(100)
-//   .linkDistance( function(d) { return d.value * 10 } )
-     .gravity(.005)
-     .friction(0.075)
-    .size([width, height])
-	;				 
+	.charge(-900)
+	.linkDistance(200)
+	.size([width, height])
+	;
+//force
+//.charge(-4000)
+////.linkDistance( function(d) { return d.value * 10 } )
+//.gravity(.005)
+//.friction(0.075)
+//;
 
 var myNodes = [];
 var myLinks = [];
