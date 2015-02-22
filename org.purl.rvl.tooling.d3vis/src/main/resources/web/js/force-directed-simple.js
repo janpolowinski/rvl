@@ -165,18 +165,18 @@ updateForceDirectedSimple = function(error, graph) {
 	    
 	    var path = connectorGroupEnter.append("svg:path")
 	    .attr("class", function (d) { return "link link" + d.type + " " +  d.shape_d3_name; })  
-//		.attr("id", function(link){
-//	    	return createIDForLink(link);
-//		})
+		.attr("id", function(link){
+	    	return createIDForLink(link);
+		})
 		;
 	    
 	    // ENTER + UPDATE
 		var boundPaths = boundConnectorGroups.select("path")
 			.style("stroke", function(d) { return d.color_rgb_hex_combined; })
 			.style("stroke-width", function(d) { return d.width })
-			//.attr("marker-end", function (d) {
-		    //	return "url(#" + d.shape_d3_name + ")";
-			//})
+			.attr("marker-end", function (d) {
+		    	return "url(#" + d.shape_d3_name + ")";
+			})
 			// approach using mid-markers did not suceed -> a marker on each path-node is not desirable
 			/*.attr("marker-mid", function (d) {
 				return "url(#" + "markerSquare" + ")";
