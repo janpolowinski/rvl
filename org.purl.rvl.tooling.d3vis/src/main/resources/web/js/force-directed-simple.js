@@ -154,9 +154,11 @@ updateForceDirectedSimple = function(error, graph) {
         });
 	    
 	    /* links */
-	    
+
 		var boundConnectorGroups = vis.selectAll(".connectorGroup")
     		.data(myLinks) ;// , function(d) { return ????????; });
+        
+        // ENTER
 	    
 		var connectorGroupEnter = boundConnectorGroups
 	    	.enter().append("svg:g")
@@ -170,7 +172,27 @@ updateForceDirectedSimple = function(error, graph) {
 		})
 		;
 	    
+//		if (alignedConnectorLabeling) { 
+//		
+//		/* text label aligned at the connector path */
+//		var path_label = vis.append("svg:g")
+//	 		.selectAll(".path_label")
+//			.data(force.links()).enter()
+//			.avmLabeledConnectorAligned(
+//				function (d) {
+//	          		 return "not yet implemented";
+//	    		},
+//	    		function(d) {
+//			      	return "#" + createIDForLink(d);
+//			  	}
+//			);
+//	}	
+	    
+		/* alternative : very simple labeling of connectors by title-tag */	
+		path.avmTitled(); // TODO: not yet updateable!
+	    
 	    // ENTER + UPDATE
+	    
 		var boundPaths = boundConnectorGroups.select("path")
 			.style("stroke", function(d) { return d.color_rgb_hex_combined; })
 			.style("stroke-width", function(d) { return d.width })
