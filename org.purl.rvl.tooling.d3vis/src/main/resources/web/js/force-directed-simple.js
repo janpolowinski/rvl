@@ -311,13 +311,17 @@ updateForceDirectedSimple = function(error, graph) {
 	    	 var boundLabelContainerContainers = d3
 				.select("#labelContainerSpace")
 				.selectAll(".labelContainerContainer")
-				.data(myNodes);
+				.data(myNodes, function(d){return d.uri ;});
+	    	 
+	    	 // ENTER
 			 
 			 var labelContainerContainerEnter = boundLabelContainerContainers.enter()
 			 	.append("div")
 			 	.filter(function(d) { return d.labels != null ;}) // must not be before append div!
 				.attr("class","labelContainerContainer")
 				.avmLabeledComplex();
+			 
+			// ENTER + UPDATE
 			
 	        // show tooltip with full label (since extending labels not implemented for complex labels)
 		   	nodeEnter.avmTitled();
@@ -326,6 +330,13 @@ updateForceDirectedSimple = function(error, graph) {
 		   		.filter(function(d) { return d.width != null ;})
 		   		.style("height", function(d) { return d.width + "px";})
 		   		.style("width", function(d) { return d.width + "px";}); // TODO height
+		   			   	
+		   	// EXIT
+		   	boundLabelContainerContainers.exit()
+			    .style("opacity", 1)
+	      		.transition().duration(2000).style("opacity", 0)
+				.remove();
+		   	
 		}
 			
 		else if (simpleLabeling) { // and tooltips
