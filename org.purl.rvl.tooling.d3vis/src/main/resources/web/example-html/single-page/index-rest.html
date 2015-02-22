@@ -15,8 +15,7 @@
     	<script type="text/javascript" src="../../js/ogvic.js"></script>
     	<script type="text/javascript" src="../../js/ogvic.d3.utils.js"></script>
     	<!-- supported graphic types -->
-    	<!--<script type="text/javascript" src="../../js/force-directed-graph.js"></script>-->
-    	<script type="text/javascript" src="../../js/force-directed-simple.js"></script>
+    	<script type="text/javascript" src="../../js/force-directed-graph.js"></script>
     	<script type="text/javascript" src="../../js/circle-packing-zoomable.js"></script>
     	<script type="text/javascript" src="../../js/collapsible-tree.js"></script>
     </head>
@@ -29,7 +28,7 @@
   					<div id="menu" class="layout">
   						<!--<button onClick="showRVLeditor('normal')">Show editor</button>-->
   						<!--button onclick="reLoad()">Reload</button-->
-						<button title="(Re)load from external editing folder (force-directed simple )" onclick="loadProjectExternalEditing('force-directed-simple')">(Re)load ext. graph</button>
+						<button title="(Re)load from external editing folder (force-directed graph )" onclick="loadProjectExternalEditing('force-directed-graph')">(Re)load ext. graph</button>
 						<button title="(Re)load from external editing folder (collapsible tree) " onclick="loadProjectExternalEditing('collapsible-tree')">(Re)load ext. tree</button>
 						<!--button title="Test: Load mapping model from aa-3" onclick="loadExampleValue('http://localhost:8080/semvis/projects/mappingfile/aa-3', '#projectMappings');">Test loading mapping model</button-->
   						<br/><br/>
@@ -57,8 +56,7 @@
 						  <br/>
 						    <label for="graphicType">Graphic type</label> 
 						    <select name="graphicType" id="projectGraphicType" >
-						    	<!--<option value="force-directed-graph">Force-Directed Graph</option>-->
-						    	<option value="force-directed-simple" selected="selected">Force-Directed Simple</option>
+						    	<option value="force-directed-graph" selected="selected">Force-Directed Graph</option>
 								<option value="collapsible-tree">Collapsible Tree</option>
 								<option value="circle-packing-zoomable">Circle Packing (Zoomable)</option>
 						    </select>
@@ -132,8 +130,7 @@
         
         
         var graphicLoadingFunctions = new Array ();
-		//graphicLoadingFunctions['force-directed-graph'] = loadForceDirectedGraph;
-		graphicLoadingFunctions['force-directed-simple'] = loadForceDirectedSimple;
+		graphicLoadingFunctions['force-directed-graph'] = loadForceDirectedGraph;
 		graphicLoadingFunctions['circle-packing-zoomable'] = loadCirclePackingZoomable;
 		graphicLoadingFunctions['collapsible-tree'] = loadCollapsibleTree;
 		graphicLoadingFunctions['undefined'] = loadForceDirectedGraph;
@@ -156,7 +153,7 @@
     	
     	loadProject = function(projectID, defaultGraphicType) {
     		// TODO refactor duplicated code
-    		if (currentGraphicType != "force-directed-simple" || currentGraphicType != defaultGraphicType ) {
+    		if (currentGraphicType != "force-directed-graph" || currentGraphicType != defaultGraphicType ) {
 	    			reInitContainers();
 	    			currentGraphicType = defaultGraphicType;
 	    	}
@@ -231,7 +228,7 @@
 		myOnSubmit = function(formArg) {
 			d3.event.preventDefault();		
 		  	d3.json(baseUrlBackend + "projects/run",function(error, json) {
-			 	if (currentGraphicType != "force-directed-simple" || currentGraphicType != json.graphic_type ) {
+			 	if (currentGraphicType != "force-directed-graph" || currentGraphicType != json.graphic_type ) {
 	    			reInitContainers();
 	    			currentGraphicType = json.graphic_type;
 	    		}
