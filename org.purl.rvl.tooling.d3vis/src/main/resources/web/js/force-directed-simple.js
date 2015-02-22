@@ -109,22 +109,6 @@ updateForceDirectedSimple = function(error, graph) {
 	    
 	    /**************************************************/
 	    
-	    /*
-		var filterFunction = function (element) {
-		    var contains = false;
-		    
-		    for (var i = 0, len = beta.length; i < len; ++i) {
-		        if (beta[i].uri==element.uri) {
-		            return true;
-		        }
-			}
-		    
-		    return false;
-		} */
-
-	    
-
-		
 		var result = [];
 
 		if (myNodes.length==0) {
