@@ -292,9 +292,9 @@
 	  d3.selection.enter.prototype.avmShapedWithUseSVG = function() {
 		 	return this.append("use")
 		 	  .filter(function(d) { return null != d.shape_d3_name ;})
-			  .attr("xlink:href", function(d) { return BASE_PATH_SVG_FILE + d.shape_d3_name; })
-	   	 	  .attr("class", "svgSymbol")
-		      .applyGraphicAttributesNonSpatial2SVG()
+		 	  .attr("class", "svgSymbol")
+			  .attr("xlink:href", function(d) { return BASE_PATH_SVG_FILE + d.shape_d3_name; }) // remove when all shapes support update
+		      .applyGraphicAttributesNonSpatial2SVG() // remove when all shapes support update
 		     ;
 	  };
 	  
@@ -302,9 +302,8 @@
 	  // TODO duplicated code from avmShapedWithUseSVG
 	  d3.selection.prototype.avmShapedWithUseSVGUpdate = function() {
 		 	return this.select(".svgSymbol")
-		 	  .filter(function(d) { return null != d.shape_d3_name ;})
-			  .attr("xlink:href", function(d) { return BASE_PATH_SVG_FILE + d.shape_d3_name; })
-	   	 	  .attr("class", "svgSymbol")
+			  .attr("xlink:href", function(d) { if (null!=d.shape_d3_name) return BASE_PATH_SVG_FILE + d.shape_d3_name; else return ""; }) // do this before the filtering to allow for "removing" shape (when shaped by text instead)
+	   	 	  .filter(function(d) { return null != d.shape_d3_name ;})
 		      .applyGraphicAttributesNonSpatial2SVG()
 		     ;
 	  };
@@ -320,10 +319,10 @@
 	  
 	  /* setting the shape as a text based on text_value */
 	  // TODO duplicated code from avmShapedWithText
-	  d3.selection.prototype.avmShapedWithTextUpdate = function() { 	
+	  d3.selection.prototype.avmShapedWithTextUpdate = function() {
 		 	return this.select(".textNode")
-		 	.filter(function(d) { return null != d.shape_text_value ;})
-		    .text(function(d) { return d.shape_text_value; })
+		    .text(function(d) { if (null!=d.shape_text_value) return d.shape_text_value ; else return ""; }) // do this before the filtering to allow for "removing" text (when shaped by icon instead)
+		    .filter(function(d) { return null != d.shape_text_value ;})
 			.applyGraphicAttributesNonSpatial2SVG()
 			.filter(function (d) { return null != d.width;})
 			.style("font-size", function (d) { return d.width + "px";})

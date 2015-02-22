@@ -313,7 +313,7 @@ updateForceDirectedGraph = function(error, graph) {
 	
 	     /* node shape as reuse svg symbol */
 		 var symbolAsShape = nodeEnter  
-		 	.filter(function(d) { return d.shape_d3_name != null ;})
+		 	//.filter(function(d) { return d.shape_d3_name != null ;}) // TODO this would prevent the shape from being changed to symbol shape later
 	        .avmShapedWithUseSVG()
 	        //.attr("width", "200 px").attr("height", "200 px") // does not seem to work (Firefox at least)
 	      	.attr("transform", function(d) { return "scale(" + d.width/SYMBOL_WIDTH +  ")"; })
@@ -323,7 +323,7 @@ updateForceDirectedGraph = function(error, graph) {
 
 		/* node shape as text */
 		var textAsShape = nodeEnter
-			.filter(function(d) { return d.shape_text_value != null ;})
+			//.filter(function(d) { return d.shape_text_value != null ;}) // TODO this would prevent the shape from being changed to text shape later
 			.avmShapedWithText()
 			.style("opacity", 0) // fading in only works when no other transition (e.g. from update gets into the way)
       		.transition().duration(1000).style("opacity", 1)
