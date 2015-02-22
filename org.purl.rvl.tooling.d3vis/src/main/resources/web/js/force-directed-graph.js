@@ -28,6 +28,10 @@ var lineWidth = 7,
 /* GLOBAL VARS & ADAPTED PLUGINS         */
 /*****************************************/
 
+//var localSymbolFunction = avmDefaultSizeSymbolFunction
+//.size(2*Math.PI*cRadius*cRadius)
+//;
+
 var force = self.force = d3.layout.force()
 //   .charge(-900)
      .charge(-4000)
