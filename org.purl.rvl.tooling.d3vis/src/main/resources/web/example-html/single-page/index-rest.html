@@ -227,8 +227,8 @@
 		}
 		
 		// manipulating the form to post and wait with callback
-		
-		d3.select("#editingForm").on("submit", function() {
+
+		myOnSubmit = function(formArg) {
 			d3.event.preventDefault();		
 		  	d3.json(baseUrlBackend + "projects/run",function(error, json) {
 			 	if (currentGraphicType != "force-directed-simple" || currentGraphicType != json.graphic_type ) {
@@ -239,9 +239,11 @@
 		    })
 		   //.header("Content-Type","multipart/form-data") // this causes the request to fail! probably since some additional info (boundary=... is missing)
 		   //.header("Accept","application/json") // not necessary
- 		   .send("POST", new FormData(this));
+ 		   .send("POST", new FormData(formArg));
 		  return false;
-		});
+		};
+		
+		d3.select("#editingForm").on("submit", function () { return myOnSubmit(this); });
 
 		// init vis and editor
 		
@@ -249,6 +251,19 @@
     	loadExampleValue(baseUrlBackend + "projects/example/data", "#projectData");
         loadExampleValue(baseUrlBackend + "projects/example/mappings", "#projectMappings");
 		//loadExampleValue(baseUrlBackend + "projects/mappingmodel/aa-3", "#projectMappings");
+        
+        
+        // Form-Settings
+        // thanks to http://davidwalsh.name/command-enter-submit-forms
+		d3.select("#editingForm").on('keydown', function() {
+			console.log(d3.event.keyCode);
+		  	if(!(d3.event.keyCode == 13 && d3.event.metaKey)) return;
+
+		  	var target = d3.event.target;
+		  	if(target.form) {
+		  		myOnSubmit(target.form);
+		  	}
+		});
                                                                         
         </script>
 		
