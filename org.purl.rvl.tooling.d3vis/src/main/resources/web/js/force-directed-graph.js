@@ -240,13 +240,14 @@ updateForceDirectedGraph = function(error, graph) {
 
 		/* icon labeling of connectors */ // TODO: not yet updateable!
 		var connectorLabelSymbol = connectorLabelGroup
-		  .filter(function(d) { return d.labels != null ;})
+		  //.filter(function(d) { return d.labels != null ;})
 		  .selectAll(".iconLabelNew")
-		  .data(function(d) { return d.labels }).enter()
+		  .data(function(d) { return d.labels });
+		
+		connectorLabelSymbol.enter()
 		  .avmShapedWithUseSVG() // enter-version of the function called here!
-	 	  .attr("transform", "scale(1.5)")
-		  .classed("iconLabelNew", true)
-		  ;
+		  .classed("iconLabelNew", true);
+
 		
 		/* alternative to aligned labeling : simple text labeling of connectors */	// TODO: not yet updateable!
 		var connectorLabelText = connectorLabelGroup
@@ -281,6 +282,10 @@ updateForceDirectedGraph = function(error, graph) {
 			;
 		
 	    var boundConnectorLabelGroups = boundConnectorGroups.select("g.label");
+	    
+		connectorLabelSymbol
+			.attr("transform", "scale(1.5)")
+			.avmShapedWithUseSVGUpdate();
 		
 		// EXIT
 		boundConnectorGroups.exit()
