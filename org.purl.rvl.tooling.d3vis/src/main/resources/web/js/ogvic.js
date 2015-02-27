@@ -126,11 +126,15 @@
 			.selectAll(".iconLabelContainer")
 			.data(function(d) { return d.labels ; });
 		 
+		 boundIconLabelContainers.avmLabeledSVGIconUpdate();
+			
+		 
 		 boundIconLabelContainers.enter()
 			.avmLabeledSVGIcon()
 			;
 		 
-		 boundIconLabelContainers.avmLabeledSVGIconUpdate();
+ 
+		 //return this;
 		 
 	  };
 	  
@@ -238,25 +242,11 @@
 		var innerSVG = containerDiv
 			.filter(function(d) { return d.type === "icon_label" ;})
 			.append("svg")
-			.attr("class", "svgLabelIcon")
-			.attr("width",function(d){ return d.width + "px"; })
-			.attr("height",function(d){ return d.width + "px"; })
-			.style("margin",function(d){ return -1*d.width*LABEL_ICON_SUPER_IMPOSITION_FAKTOR + "px"; })
-			//.style("margin","0px")
-			
-			.append("svg:g") // translating here allows for using transform two times (for scale, translate. alternative could be use of matrix)
-				.attr("transform", function(d){ return "translate(" + d.width/2 + "," + d.width/2 + ")";});
-				//.attr("x", function(d){ return (d.width)/2;}) // somehow offers other results than translate
-		        //.attr("y", function(d){ return (d.width)/2;})
-			
-				
-			innerSVG.append("use")
-			  .attr("xlink:href", function(d) { return BASE_PATH_SVG_FILE + d.shape_d3_name; })
-			  //.attr("xlink:href", function(d) { return BASE_PATH_SVG_FILE + "clock"; })
-	   	 	  .attr("class", function(d) { return "label svgSymbol"; })
-		      .style("fill", function(d) { return d.color_rgb_hex_combined; })
-		      .attr("transform", function(d) { return "scale(" + (d.width/SYMBOL_WIDTH) +  ")"; })
-			  ;
+				.attr("class", "svgLabelIcon")		
+			.append("svg:g")
+			.append("use")
+	   	 	  	.attr("class", function(d) { return "label svgSymbol"; })
+			;
 		
 		// OLD: path instead of symbol. advantage: shape can be calculated on square-pixels (area) 
 //		.append("path")
@@ -284,8 +274,26 @@
 	  /* updating the labeling with SVG icon (non-enter version!) */
 	  d3.selection.prototype.avmLabeledSVGIconUpdate = function() {
 		  
-		  // TODO: assign label icons attributes here instead on enter
+		  var innerSVG = this
+		  	//.filter(function(d) { return d.type === "icon_label" ;})
+		  	.select("svg.svgLabelIcon")
+			.attr("width",function(d){ return d.width + "px"; })
+			.attr("height",function(d){ return d.width + "px"; })
+			.style("margin",function(d){ return -1*d.width*LABEL_ICON_SUPER_IMPOSITION_FAKTOR + "px"; })
+			//.style("margin","0px")
+		  	;
 		  
+		  var svgGroup = innerSVG.select("g")
+		  	// translating here allows for using transform two times (for scale, translate. alternative could be use of matrix)
+		  	.attr("transform", function(d){ return "translate(" + d.width/2 + "," + d.width/2 + ")";})
+			//.attr("x", function(d){ return (d.width)/2;}) // somehow offers other results than translate
+	        //.attr("y", function(d){ return (d.width)/2;})
+		  	.select("use")
+		  		.attr("xlink:href", function(d) { return BASE_PATH_SVG_FILE + d.shape_d3_name; })
+		  		.style("fill", function(d) { return d.color_rgb_hex_combined; })
+		  		.attr("transform", function(d) { return "scale(" + (d.width/SYMBOL_WIDTH) +  ")"; })
+		  	;
+
 		  return this;
 	  };
 	   
