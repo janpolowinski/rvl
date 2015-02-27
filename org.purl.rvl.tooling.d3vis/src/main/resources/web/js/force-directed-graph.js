@@ -217,7 +217,7 @@ updateForceDirectedGraph = function(error, graph) {
 		})
 		;
 
-	    /* connector labeling */
+	    /* connector labeling */ // TODO: not yet updateable!
 	    
 //		if (alignedConnectorLabeling) { 
 //		
@@ -244,24 +244,23 @@ updateForceDirectedGraph = function(error, graph) {
 			.filter(function(d) { return d.labels != null ;})
 			.selectAll("use.iconLabelNew")
 			.data(function(d) { return d.labels });
+		var boundConnectorLabelTexts = boundConnectorLabelGroups
+			.filter(function(d) { return d.labels != null ;})
+			.selectAll("text.textLabelNew")
+			.data(function(d) { return d.labels }); // TODO bound twice! -> simplify?
 
 		/* icon labeling of connectors */ // TODO: not yet updateable!
 		var connectorLabelSymbolEnter = boundConnectorLabelSymbols.enter()
 		  .avmShapedWithUseSVG()
 		  .classed("iconLabelNew", true);
-
 		
-//		/* alternative to aligned labeling : simple text labeling of connectors */	// TODO: not yet updateable!
-//		var connectorLabelText = connectorLabelGroupEnter
-//		  .filter(function(d) { return d.labels != null ;})
-//		  .selectAll(".textLabelNew")
-//		  .data(function(d) { return d.labels }).enter()
-//		  .append("text")
-//		  .filter(function(d) { return d.type == "text_label" ;})
-//		  .text(function(d){return d.text_value_full ; })
-//		  .classed("textLabelNew label", true)
-//		  ;
-			
+		/* alternative to aligned labeling : simple text labeling of connectors */	// TODO: not yet updateable!
+		var connectorLabelTextEnter = boundConnectorLabelTexts.enter()
+			.append("text")
+			.filter(function(d) { return d.type == "text_label" ;})
+			.classed("textLabelNew label", true)
+			;
+
 		// broken? shapes as paths
 		// var connectorLabelSymbolEnter = connectorLabelGroupEnter.avmShapedWithPath();
 		
@@ -286,6 +285,10 @@ updateForceDirectedGraph = function(error, graph) {
 		boundConnectorLabelSymbols
 			.attr("transform", "scale(1.5)")
 			.avmShapedWithUseSVGUpdateWithoutSelectingSymbol()
+			;
+		boundConnectorLabelTexts
+			.filter(function(d) { return d.type == "text_label" ;})
+			.text(function(d){return d.text_value_full ; })
 			;
 		
 		// EXIT
