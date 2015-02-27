@@ -118,7 +118,7 @@
 	  d3.selection.prototype.avmLabeledComplexUpdate = function() {
 		  
 		 var 
-			addHTMLTextLabel = false,
+			addHTMLTextLabel = true,
 			addSVGTextLabel = true, 
 			addSVGIconLabel = true;
 		 
@@ -211,7 +211,7 @@
 		  	.append("div")
 			.filter(function(d) { return d.type == "text_label" ;})
 			.filter(function(d) { return d.position == "centerCenter" ;})
-			.attr("class", function(d){ return "labelContainer textHTMLLabelContainer " + " " + d.position;})
+			.attr("class", function(d){ return "labelContainer textHTMLLabelContainer ";}) // position set o update
 			.style("text-align","center")
 			.style("height", function(d){return "100%";}) // use the whole area defined by the labeling base 
 			.style("width", function(d){return "100%";})
@@ -219,18 +219,29 @@
 		  
 		  containerDiv.append("div")
 		  			.attr("class", "htmlTextLabel")
-		  			.style("color", function(d){
-		  				var textColor = d.color_rgb_hex_combined;
-		  				var bgColor = this.parentNode.parentNode.__data__.color_rgb_hex_combined;
-		  				//var parentNode2 = this.parentNode.parentNode;
-		  				//console.log(parentNode2.__data__.color_rgb_hex_combined); // TODO why does parentNode2.data() not work???
-		  				if (textColor == null) textColor = calculateHighContrastColor(bgColor);
-		  				return textColor;
-		  				})
 					//.style("width", NODE_SIZE + "px") // does only work well for xCenter position
-					.html(function(d){ return d.text_value_full;});
+					;
 		  
 		  return containerDiv;
+	  };
+	  
+	  /* labeling with HTML text (version for enter-selection-array) */
+	  d3.selection.prototype.avmLabeledHTMLTextUpdate = function() {
+		  
+		  this
+		  	.attr("class", function(d){ return "labelContainer textHTMLLabelContainer " + " " + d.position;}) // classed did not work in combination with a function
+		  
+		  this.select("div.htmlTextLabel")
+		  	.style("color", function(d){
+				var textColor = d.color_rgb_hex_combined;
+				var bgColor = this.parentNode.parentNode.__data__.color_rgb_hex_combined;
+				//var parentNode2 = this.parentNode.parentNode;
+				//console.log(parentNode2.__data__.color_rgb_hex_combined); // TODO why does parentNode2.data() not work???
+				if (textColor == null) textColor = calculateHighContrastColor(bgColor);
+				return textColor;
+				})
+		  	.html(function(d){ return d.text_value_full;});
+
 	  };
 	  
 	 
@@ -246,11 +257,11 @@
 			.filter(function(d) { return d.type == "text_label" ;})
 			.filter(function(d) { return d.position != "centerCenter" ;})
 			.append("svg")
-			.attr("class", "svgLabelText")
-			.attr("width",0 +"px") // text needs to have width and height = 0 for correct positioning atm
-			.attr("height",0 +"px")
-			//.style("margin-left",-100 + "px")
-			//.style("margin-bottom",-0.2*NODE_SIZE + "px");
+				.attr("class", "svgLabelText")
+				.attr("width",0 +"px") // text needs to have width and height = 0 for correct positioning atm
+				.attr("height",0 +"px")
+				//.style("margin-left",-100 + "px")
+				//.style("margin-bottom",-0.2*NODE_SIZE + "px");
 			;
 										
 			// The label and a copy of the label as shadow for better readability
