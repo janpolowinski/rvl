@@ -210,7 +210,7 @@ updateForceDirectedGraph = function(error, graph) {
 	    	.attr("class", function (d) { return "connectorGroup link" + d.type; })  
 	    	;
 	    
-	    var path = connectorGroupEnter.append("svg:path")
+	    var pathEnter = connectorGroupEnter.append("svg:path")
 	    .attr("class", function (d) { return "link link" + d.type + " " +  d.shape_d3_name; })  
 		.attr("id", function(link){
 	    	return createIDForLink(link);
@@ -235,33 +235,35 @@ updateForceDirectedGraph = function(error, graph) {
 //			);
 //	}
 	    
-	    var connectorLabelGroup = connectorGroupEnter.append("svg:g")
+	    var connectorLabelGroupEnter = connectorGroupEnter.append("svg:g")
 		   .attr("class", "label"); // TODO class needs to be label for CSS reasons. evtl. change later
+	    
+	    // must not be positioned before connectorGroupEnter = ...
+	    var boundConnectorLabelGroups = boundConnectorGroups.select("g.label");
+		var boundConnectorLabelSymbols = boundConnectorLabelGroups
+			.filter(function(d) { return d.labels != null ;})
+			.selectAll("use.iconLabelNew")
+			.data(function(d) { return d.labels });
 
 		/* icon labeling of connectors */ // TODO: not yet updateable!
-		var connectorLabelSymbol = connectorLabelGroup
-		  //.filter(function(d) { return d.labels != null ;})
-		  .selectAll(".iconLabelNew")
-		  .data(function(d) { return d.labels });
-		
-		connectorLabelSymbol.enter()
-		  .avmShapedWithUseSVG() // enter-version of the function called here!
+		var connectorLabelSymbolEnter = boundConnectorLabelSymbols.enter()
+		  .avmShapedWithUseSVG()
 		  .classed("iconLabelNew", true);
 
 		
-		/* alternative to aligned labeling : simple text labeling of connectors */	// TODO: not yet updateable!
-		var connectorLabelText = connectorLabelGroup
-		  .filter(function(d) { return d.labels != null ;})
-		  .selectAll(".textLabelNew")
-		  .data(function(d) { return d.labels }).enter()
-		  .append("text")
-		  .filter(function(d) { return d.type == "text_label" ;})
-		  .text(function(d){return d.text_value_full ; })
-		  .classed("textLabelNew label", true)
-		  ;
+//		/* alternative to aligned labeling : simple text labeling of connectors */	// TODO: not yet updateable!
+//		var connectorLabelText = connectorLabelGroupEnter
+//		  .filter(function(d) { return d.labels != null ;})
+//		  .selectAll(".textLabelNew")
+//		  .data(function(d) { return d.labels }).enter()
+//		  .append("text")
+//		  .filter(function(d) { return d.type == "text_label" ;})
+//		  .text(function(d){return d.text_value_full ; })
+//		  .classed("textLabelNew label", true)
+//		  ;
 			
 		// broken? shapes as paths
-		// var connectorLabelSymbol = connectorLabelGroup.avmShapedWithPath();
+		// var connectorLabelSymbolEnter = connectorLabelGroupEnter.avmShapedWithPath();
 		
 	    
 		/* alternative : very simple labeling of connectors by title-tag */	
@@ -280,18 +282,19 @@ updateForceDirectedGraph = function(error, graph) {
 				return "url(#" + "markerSquare" + ")";
 			})*/
 			;
-		
-	    var boundConnectorLabelGroups = boundConnectorGroups.select("g.label");
-	    
-		connectorLabelSymbol
+
+		boundConnectorLabelSymbols
 			.attr("transform", "scale(1.5)")
-			.avmShapedWithUseSVGUpdate();
+			.avmShapedWithUseSVGUpdateWithoutSelectingSymbol()
+			;
 		
 		// EXIT
 		boundConnectorGroups.exit()
 		    .style("opacity", 1)
       		.transition().duration(2000).style("opacity", 0)
 			.remove();
+		
+		boundConnectorLabelSymbols.exit().remove();
 
 		
 		/* nodes */ 

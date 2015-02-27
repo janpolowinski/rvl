@@ -308,6 +308,16 @@
 		     ;
 	  };
 	  
+	  /* version without selecting again */ 
+	  // TODO duplicated code from avmShapedWithUseSVGUpdate
+	  d3.selection.prototype.avmShapedWithUseSVGUpdateWithoutSelectingSymbol = function() {
+		 	return this
+			  .attr("xlink:href", function(d) { if (null!=d.shape_d3_name) return BASE_PATH_SVG_FILE + d.shape_d3_name; else return ""; }) // do this before the filtering to allow for "removing" shape (when shaped by text instead)
+	   	 	  .filter(function(d) { return null != d.shape_d3_name ;})
+		      .applyGraphicAttributesNonSpatial2SVG()
+		     ;
+	  };
+	  
 	  /* setting the shape as a text based on text_value */
 	  d3.selection.prototype.avmShapedWithText = function() { 	
 		 	return this.append("svg:text")
