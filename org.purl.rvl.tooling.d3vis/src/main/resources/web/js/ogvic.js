@@ -114,6 +114,26 @@
 		  return this;
 	  };
 	  
+	  /* updating the complex labeling */
+	  d3.selection.prototype.avmLabeledComplexUpdate = function() {
+		 
+		 var labelContainerContainerEnter = this.enter()
+		 	.append("div")
+		 	.filter(function(d) { return d.labels != null ;}) // must not be before append div!
+			.attr("class","labelContainerContainer");
+		 
+		 var boundIconLabelContainers = this
+			.selectAll(".iconLabelContainer")
+			.data(function(d) { return d.labels ; });
+		 
+		 boundIconLabelContainers.enter()
+			.avmLabeledSVGIcon()
+			;
+		 
+		 boundIconLabelContainers.avmLabeledSVGIconUpdate();
+		 
+	  };
+	  
 	  /* labeling with SVG text FDG 2 */
 	  d3.selection.prototype.avmLabeledFDG2 = function(labelShapeSize) {
 		  return this.append("svg:text").
@@ -258,6 +278,15 @@
 			;
 		
 		  return containerDiv;
+	  };
+	  
+	  
+	  /* updating the labeling with SVG icon (non-enter version!) */
+	  d3.selection.prototype.avmLabeledSVGIconUpdate = function() {
+		  
+		  // TODO: assign label icons attributes here instead on enter
+		  
+		  return this;
 	  };
 	   
 	  

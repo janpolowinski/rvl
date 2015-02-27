@@ -367,13 +367,17 @@ updateForceDirectedGraph = function(error, graph) {
 				.selectAll(".labelContainerContainer")
 				.data(myNodes, function(d){return d.uri ;});
 	    	 
+			   	boundLabelContainerContainers
+			 	//.filter(function(d) { return d.labels != null ;}) // must not be before append div!
+				.avmLabeledComplexUpdate();
+	    	 
 	    	 // ENTER
 			 
-			 var labelContainerContainerEnter = boundLabelContainerContainers.enter()
-			 	.append("div")
-			 	.filter(function(d) { return d.labels != null ;}) // must not be before append div!
-				.attr("class","labelContainerContainer")
-				.avmLabeledComplex();
+//			 var labelContainerContainerEnter = boundLabelContainerContainers.enter()
+//			 	.append("div")
+//			 	.filter(function(d) { return d.labels != null ;}) // must not be before append div!
+//				.attr("class","labelContainerContainer")
+//				.avmLabeledComplex();
 			 
 			// ENTER + UPDATE
 			
@@ -384,6 +388,8 @@ updateForceDirectedGraph = function(error, graph) {
 		   		.filter(function(d) { return d.width != null ;})
 		   		.style("height", function(d) { return d.width + "px";})
 		   		.style("width", function(d) { return d.width + "px";}); // TODO height
+		   	
+
 		   			   	
 		   	// EXIT
 		   	boundLabelContainerContainers.exit()
