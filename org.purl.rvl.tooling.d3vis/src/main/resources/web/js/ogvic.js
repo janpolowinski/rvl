@@ -116,25 +116,54 @@
 	  
 	  /* updating the complex labeling */
 	  d3.selection.prototype.avmLabeledComplexUpdate = function() {
+		  
+		 var 
+			addHTMLTextLabel = false,
+			addSVGTextLabel = true, 
+			addSVGIconLabel = true;
 		 
+		 // append a container for the label container on enter, independent of if there are labels now
 		 var labelContainerContainerEnter = this.enter()
 		 	.append("div")
 		 	.filter(function(d) { return d.labels != null ;}) // must not be before append div!
 			.attr("class","labelContainerContainer");
 		 
-		 var boundIconLabelContainers = this
-			.selectAll(".iconLabelContainer")
-			.data(function(d) { return d.labels ; });
+		// SVG icon label in html div 
+		 if (addSVGIconLabel) {
+
+			 var boundIconLabelContainers = this
+				.selectAll(".iconLabelContainer")
+				.data(function(d) { return d.labels ; });
+			 
+			 boundIconLabelContainers.enter().avmLabeledSVGIcon();
+			 boundIconLabelContainers.avmLabeledSVGIconUpdate();
+		 }
 		 
-		 boundIconLabelContainers.avmLabeledSVGIconUpdate();
-			
+		 // SVG text label in html div (cropped in webkit, maybe create a much bigger SVG inside the div, or modify clipping) 
+		 if (addSVGTextLabel) {
+			 
+			 var boundTextSVGLabelContainers = this
+				.selectAll(".textSVGLabelContainer")
+				.data(function(d) { return d.labels ; });
+			 
+			 boundTextSVGLabelContainers.enter().avmLabeledSVGText();
+			 boundTextSVGLabelContainers.avmLabeledSVGTextUpdate();
+
+		 }
 		 
-		 boundIconLabelContainers.enter()
-			.avmLabeledSVGIcon()
-			;
-		 
- 
-		 //return this;
+		 // HTML label 
+		 if (addHTMLTextLabel) {
+			 
+			 var boundTextHTMLLabelContainers = this
+				.selectAll(".textHTMLLabelContainer")
+				.data(function(d) { return d.labels ; });
+			 
+			 boundTextHTMLLabelContainers.enter().avmLabeledHTMLText();
+			 boundTextHTMLLabelContainers.avmLabeledHTMLTextUpdate();
+
+		 }
+
+		 return this;
 		 
 	  };
 	  
@@ -226,9 +255,22 @@
 										
 			// The label and a copy of the label as shadow for better readability
 			//labelContainerSVG.avmLabeledFDG2(function(d){ return d.width; }).attr("class", "nodeLabelShadow");
-			labelContainerSVG.avmLabeledFDG2(function(d){ return d.width; }).classed("label", true);
+			labelContainerSVG.avmLabeledFDG2(function(d){ return d.width; })
+				.classed("label", true);
 		  
 		    return containerDiv;
+	  };
+	  
+	  /* update the complex labeling with SVG text */
+	  d3.selection.prototype.avmLabeledSVGTextUpdate = function() {
+		  
+		  var labelContainerSVG = this.select("svg.svgLabelText");
+		  
+		  labelContainerSVG.select("text").remove(); // TODO reuse, don't delete?
+		  labelContainerSVG.avmLabeledFDG2(function(d){ return d.width; })
+			.classed("label", true);
+		  
+		  return this;
 	  };
 	  
 	  
@@ -275,7 +317,6 @@
 	  d3.selection.prototype.avmLabeledSVGIconUpdate = function() {
 		  
 		  var innerSVG = this
-		  	//.filter(function(d) { return d.type === "icon_label" ;})
 		  	.select("svg.svgLabelIcon")
 			.attr("width",function(d){ return d.width + "px"; })
 			.attr("height",function(d){ return d.width + "px"; })
