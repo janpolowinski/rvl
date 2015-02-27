@@ -210,14 +210,14 @@ updateForceDirectedGraph = function(error, graph) {
 	    	.attr("class", function (d) { return "connectorGroup link" + d.type; })  
 	    	;
 	    
-	    var path = connectorGroupEnter.append("svg:path")
+	    var pathEnter = connectorGroupEnter.append("svg:path")
 	    .attr("class", function (d) { return "link link" + d.type + " " +  d.shape_d3_name; })  
 		.attr("id", function(link){
 	    	return createIDForLink(link);
 		})
 		;
 
-	    /* connector labeling */
+	    /* connector labeling */ // TODO: not yet updateable!
 	    
 //		if (alignedConnectorLabeling) { 
 //		
@@ -235,32 +235,34 @@ updateForceDirectedGraph = function(error, graph) {
 //			);
 //	}
 	    
-	    var connectorLabelGroup = connectorGroupEnter.append("svg:g")
+	    var connectorLabelGroupEnter = connectorGroupEnter.append("svg:g")
 		   .attr("class", "label"); // TODO class needs to be label for CSS reasons. evtl. change later
+	    
+	    // must not be positioned before connectorGroupEnter = ...
+	    var boundConnectorLabelGroups = boundConnectorGroups.select("g.label");
+		var boundConnectorLabelSymbols = boundConnectorLabelGroups
+			.filter(function(d) { return d.labels != null ;})
+			.selectAll("use.iconLabelNew")
+			.data(function(d) { return d.labels });
+		var boundConnectorLabelTexts = boundConnectorLabelGroups
+			.filter(function(d) { return d.labels != null ;})
+			.selectAll("text.textLabelNew")
+			.data(function(d) { return d.labels }); // TODO bound twice! -> simplify?
 
 		/* icon labeling of connectors */ // TODO: not yet updateable!
-		var connectorLabelSymbol = connectorLabelGroup
-		  .filter(function(d) { return d.labels != null ;})
-		  .selectAll(".iconLabelNew")
-		  .data(function(d) { return d.labels }).enter()
-		  .avmShapedWithUseSVG() // enter-version of the function called here!
-	 	  .attr("transform", "scale(1.5)")
-		  .classed("iconLabelNew", true)
-		  ;
+		var connectorLabelSymbolEnter = boundConnectorLabelSymbols.enter()
+		  .avmShapedWithUseSVG()
+		  .classed("iconLabelNew", true);
 		
 		/* alternative to aligned labeling : simple text labeling of connectors */	// TODO: not yet updateable!
-		var connectorLabelText = connectorLabelGroup
-		  .filter(function(d) { return d.labels != null ;})
-		  .selectAll(".textLabelNew")
-		  .data(function(d) { return d.labels }).enter()
-		  .append("text")
-		  .filter(function(d) { return d.type == "text_label" ;})
-		  .text(function(d){return d.text_value_full ; })
-		  .classed("textLabelNew label", true)
-		  ;
-			
+		var connectorLabelTextEnter = boundConnectorLabelTexts.enter()
+			.append("text")
+			.filter(function(d) { return d.type == "text_label" ;})
+			.classed("textLabelNew label", true)
+			;
+
 		// broken? shapes as paths
-		// var connectorLabelSymbol = connectorLabelGroup.avmShapedWithPath();
+		// var connectorLabelSymbolEnter = connectorLabelGroupEnter.avmShapedWithPath();
 		
 	    
 		/* alternative : very simple labeling of connectors by title-tag */	
@@ -279,14 +281,23 @@ updateForceDirectedGraph = function(error, graph) {
 				return "url(#" + "markerSquare" + ")";
 			})*/
 			;
-		
-	    var boundConnectorLabelGroups = boundConnectorGroups.select("g.label");
+
+		boundConnectorLabelSymbols
+			.attr("transform", "scale(1.5)")
+			.avmShapedWithUseSVGUpdateWithoutSelectingSymbol()
+			;
+		boundConnectorLabelTexts
+			.filter(function(d) { return d.type == "text_label" ;})
+			.text(function(d){return d.text_value_full ; })
+			;
 		
 		// EXIT
 		boundConnectorGroups.exit()
 		    .style("opacity", 1)
       		.transition().duration(2000).style("opacity", 0)
 			.remove();
+		
+		boundConnectorLabelSymbols.exit().remove();
 
 		
 		/* nodes */ 
@@ -315,8 +326,6 @@ updateForceDirectedGraph = function(error, graph) {
 		 var symbolAsShape = nodeEnter  
 		 	//.filter(function(d) { return d.shape_d3_name != null ;}) // TODO this would prevent the shape from being changed to symbol shape later
 	        .avmShapedWithUseSVG()
-	        //.attr("width", "200 px").attr("height", "200 px") // does not seem to work (Firefox at least)
-	      	.attr("transform", function(d) { return "scale(" + d.width/SYMBOL_WIDTH +  ")"; })
 	    	.style("opacity", 0) // fading in only works when no other transition (e.g. from update gets into the way)
   			.transition().duration(1000).style("opacity", 1)
 			;
@@ -333,6 +342,10 @@ updateForceDirectedGraph = function(error, graph) {
 	    boundNodes.select(".text") // here (or above in the update) must be select not selectAll
 	    	.text(function(d){return d.shape_d3_name ; })
 	    	;
+	    boundNodes.select("use")
+	    	//.attr("width", "200 px").attr("height", "200 px") // does not seem to work (Firefox at least)
+      		.attr("transform", function(d) { return "scale(" + d.width/SYMBOL_WIDTH +  ")"; })
+      		;
 	    
 	    boundNodes.avmShapedWithUseSVGUpdate();
 	    boundNodes.avmShapedWithTextUpdate();
@@ -356,13 +369,17 @@ updateForceDirectedGraph = function(error, graph) {
 				.selectAll(".labelContainerContainer")
 				.data(myNodes, function(d){return d.uri ;});
 	    	 
+			   	boundLabelContainerContainers
+			 	//.filter(function(d) { return d.labels != null ;}) // must not be before append div!
+				.avmLabeledComplexUpdate();
+	    	 
 	    	 // ENTER
 			 
-			 var labelContainerContainerEnter = boundLabelContainerContainers.enter()
-			 	.append("div")
-			 	.filter(function(d) { return d.labels != null ;}) // must not be before append div!
-				.attr("class","labelContainerContainer")
-				.avmLabeledComplex();
+//			 var labelContainerContainerEnter = boundLabelContainerContainers.enter()
+//			 	.append("div")
+//			 	.filter(function(d) { return d.labels != null ;}) // must not be before append div!
+//				.attr("class","labelContainerContainer")
+//				.avmLabeledComplex();
 			 
 			// ENTER + UPDATE
 			
@@ -373,13 +390,12 @@ updateForceDirectedGraph = function(error, graph) {
 		   		.filter(function(d) { return d.width != null ;})
 		   		.style("height", function(d) { return d.width + "px";})
 		   		.style("width", function(d) { return d.width + "px";}); // TODO height
-		   			   	
+   	
 		   	// EXIT
 		   	boundLabelContainerContainers.exit()
 			    .style("opacity", 1)
 	      		.transition().duration(2000).style("opacity", 0)
 				.remove();
-		   	
 		}
 			
 		else if (simpleLabeling) { // and tooltips
@@ -403,7 +419,7 @@ updateForceDirectedGraph = function(error, graph) {
 			.avmLabeledFDG().classed("nodeLabelText label", true);
 	    
 		  label
-			.avmLabeledFDGUpdate() ; //.classed("nodeLabelText label", true);
+			.avmLabeledFDGUpdate();
 		}
 		  
 		tick = function() {
