@@ -326,8 +326,6 @@ updateForceDirectedGraph = function(error, graph) {
 		 var symbolAsShape = nodeEnter  
 		 	//.filter(function(d) { return d.shape_d3_name != null ;}) // TODO this would prevent the shape from being changed to symbol shape later
 	        .avmShapedWithUseSVG()
-	        //.attr("width", "200 px").attr("height", "200 px") // does not seem to work (Firefox at least)
-	      	.attr("transform", function(d) { return "scale(" + d.width/SYMBOL_WIDTH +  ")"; })
 	    	.style("opacity", 0) // fading in only works when no other transition (e.g. from update gets into the way)
   			.transition().duration(1000).style("opacity", 1)
 			;
@@ -344,6 +342,10 @@ updateForceDirectedGraph = function(error, graph) {
 	    boundNodes.select(".text") // here (or above in the update) must be select not selectAll
 	    	.text(function(d){return d.shape_d3_name ; })
 	    	;
+	    boundNodes.select("use")
+	    	//.attr("width", "200 px").attr("height", "200 px") // does not seem to work (Firefox at least)
+      		.attr("transform", function(d) { return "scale(" + d.width/SYMBOL_WIDTH +  ")"; })
+      		;
 	    
 	    boundNodes.avmShapedWithUseSVGUpdate();
 	    boundNodes.avmShapedWithTextUpdate();
@@ -388,15 +390,12 @@ updateForceDirectedGraph = function(error, graph) {
 		   		.filter(function(d) { return d.width != null ;})
 		   		.style("height", function(d) { return d.width + "px";})
 		   		.style("width", function(d) { return d.width + "px";}); // TODO height
-		   	
-
-		   			   	
+   	
 		   	// EXIT
 		   	boundLabelContainerContainers.exit()
 			    .style("opacity", 1)
 	      		.transition().duration(2000).style("opacity", 0)
 				.remove();
-		   	
 		}
 			
 		else if (simpleLabeling) { // and tooltips
@@ -420,7 +419,7 @@ updateForceDirectedGraph = function(error, graph) {
 			.avmLabeledFDG().classed("nodeLabelText label", true);
 	    
 		  label
-			.avmLabeledFDGUpdate() ; //.classed("nodeLabelText label", true);
+			.avmLabeledFDGUpdate();
 		}
 		  
 		tick = function() {
