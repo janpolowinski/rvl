@@ -77,7 +77,7 @@
 	  };
 	  
 	  /* labeling with text and/or icon using "complex" labels from the labels-array */
-	  d3.selection.prototype.avmLabeledComplex = function() { // TODO not yet updateable
+	  d3.selection.prototype.avmLabeledComplex = function() { // TODO not updateable, but still used (deactivated) in collapsible-tree
 		  
 		 var 
 			addHTMLTextLabel = true,
