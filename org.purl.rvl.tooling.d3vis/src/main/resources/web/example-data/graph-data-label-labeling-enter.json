@@ -16,6 +16,13 @@
           "text_value_full":"text_value_full"
         },
         {
+          "position":"bottomLeft",
+          "width":"100.0",
+          "color_rgb_hex_combined":"#0000ff",
+          "shape_d3_name":"square",
+          "type":"icon_label"
+        },
+        {
           "position":"topRight",
           "labels":[
             {
