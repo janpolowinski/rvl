@@ -254,8 +254,8 @@
 			.classed("textSVGLabelContainer",true);
 			
 		var labelContainerSVG = containerDiv
-			.filter(function(d) { return d.type == "text_label" ;})
-			.filter(function(d) { return d.position != "centerCenter" ;})
+//			.filter(function(d) { return d.type == "text_label" ;})
+//			.filter(function(d) { return d.position != "centerCenter" ;})
 			.append("svg")
 				.attr("class", "svgLabelText")
 				.attr("width",0 +"px") // text needs to have width and height = 0 for correct positioning atm
