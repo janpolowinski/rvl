@@ -126,7 +126,7 @@
 		 // append a container for the label container on enter, independent of if there are labels now
 		 var labelContainerContainerEnter = this.enter()
 		 	.append("div")
-		 	.filter(function(d) { return d.labels != null ;}) // must not be before append div!
+		 	.filter(function(d) { return d.labels != null ;}, labelKey) // must not be before append div!
 			.attr("class","labelContainerContainer");
 		 
 		// SVG icon label in html div 
@@ -134,7 +134,7 @@
 
 			 var boundIconLabelContainers = this
 				.selectAll(".iconLabelContainer")
-				.data(function(d) { return d.labels.filter(isIconLabel) ; });
+				.data(function(d) { return d.labels.filter(isIconLabel) ; }, labelKey);
 			 
 			 boundIconLabelContainers.enter().avmLabeledSVGIcon();
 			 boundIconLabelContainers.avmLabeledSVGIconUpdate();
@@ -145,7 +145,7 @@
 			 
 			 var boundTextSVGLabelContainers = this
 				.selectAll(".textSVGLabelContainer")
-				.data(function(d) { return d.labels.filter(isTextLabel) ; });
+				.data(function(d) { return d.labels.filter(isTextLabel) ; }, labelKey);
 			 
 			 boundTextSVGLabelContainers.enter().avmLabeledSVGText();
 			 boundTextSVGLabelContainers.avmLabeledSVGTextUpdate();
@@ -244,6 +244,11 @@
 				return textColor;
 				})
 		  	.html(function(d){ return d.text_value_full;});
+		  
+		  // remove whole positioning div for text label
+		  this.exit().remove();
+		  
+		  return this;
 
 	  };
 	  
@@ -283,6 +288,9 @@
 		  labelContainerSVG.select("text").remove(); // TODO reuse, don't delete?
 		  labelContainerSVG.avmLabeledFDG2(function(d){ return d.width; })
 			.classed("label", true);
+		  
+		  // remove whole positioning div for text label
+		  this.exit().remove();
 		  
 		  return this;
 	  };
@@ -363,6 +371,9 @@
 		  labelLabels.exit().remove();
 		  translationGroup.filter(function(d) { return d.labels == null ;})
 		  	.select("g.textLabel").remove();
+		  
+		  // remove whole positioning div for icon label
+		  this.exit().remove();
 
 		  return this;
 	  };
@@ -703,6 +714,9 @@ function toggle(d) {
  }
  function isCenterCenterTextLabel(label) {
 	 return label.type === "text_label"  && label.position == "centerCenter";
+ }
+ function labelKey(label) {
+	 return label.position; // TODO if multiple labels per position needed, use better key here
  }
  
  
