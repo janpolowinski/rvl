@@ -5,12 +5,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"plus",
-      "width":24.0,
+      "width":200.0,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"text_value",
-          "width":"60.0",
+          "width":"50.0",
           "color_rgb_hex_combined":"#00ffff",
           "type":"text_label",
           "text_value_full":"text_value_full"
@@ -21,20 +21,20 @@
             {
               "position":"centerRight",
               "text_value":"clock lab.",
-              "width":"60.0",
+              "width":"50.0",
               "color_rgb_hex_combined":"#0000ff",
               "type":"text_label",
               "text_value_full":"clock label"
             }
           ],
-          "width":"12.0",
+          "width":"50.0",
           "color_rgb_hex_combined":"#0000ff",
           "shape_d3_name":"clock",
           "type":"icon_label"
         },{
           "position":"centerCenter",
           "text_value":"centerCenter",
-          "width":"60.0",
+          "width":"50.0",
           "color_rgb_hex_combined":"#ff00ff",
           "type":"text_label",
           "text_value_full":"centerCenter_full"

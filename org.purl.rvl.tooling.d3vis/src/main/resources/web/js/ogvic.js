@@ -172,8 +172,10 @@
 	  d3.selection.prototype.avmLabeledFDG2 = function(labelShapeSize) {
 		  return this.append("svg:text").
 		  	attr("class", "nodeLabel") // TODO class was label ... clean up various label CSS classes
-			.attr("x", function(d){return labelShapeSize(d)/2;})  // dx is relative positioning, x is absolute
-			.attr("y", function(d){return labelShapeSize(d)/2;})
+//			.attr("x", function(d){return labelShapeSize(d)/2;})  // dx is relative positioning, x is absolute
+//			.attr("y", function(d){return labelShapeSize(d)/2;})
+		  	.attr("x", 0)  // dx is relative positioning, x is absolute
+			.attr("y", 0)
 		    .text(function(d){return d.text_value; })
 			.style("text-anchor", 
 				function(d){
@@ -340,20 +342,20 @@
 		  	;
 		  
 		  	// trial: limited support for labeled labels up to 2 levels:
-//			translationGroup
-//				.selectAll("g.nodeLabel").remove();
-//			translationGroup
-//			    .filter(function(d) { return d.labels != null ;})
-//				.select("g").selectAll("g.nodeLabel")
-//				.data(function(d) { return d.labels; }).enter()
-//				// TODO: this is a hack to quickly allow text labels CENTER/RIGHT from icon labels
-//				.append("svg:g")
-//					.classed("nodeLabel", true)
-//					.attr("transform","translate(17,7.5)")
-//				.avmLabeledFDG()
-//					.classed("label iconLabelText", true)
-//					.avmLabeledFDGUpdate()
-//				;
+//			translationGroup.selectAll("g.nodeLabel").remove(); // TODO not required?
+			translationGroup
+			    .filter(function(d) { return d.labels != null ;})
+			    .selectAll("g.nodeLabel")
+				.data(function(d) { return d.labels; })
+				.enter()
+				// TODO: this is a hack to quickly allow text labels CENTER/RIGHT from icon labels
+				.append("svg:g")
+					.classed("nodeLabel", true)
+					.attr("transform","translate(20,4)")
+				.avmLabeledFDG()
+					.classed("label iconLabelText", true)
+					.avmLabeledFDGUpdate()
+				;
 
 		  return this;
 	  };
