@@ -343,19 +343,26 @@
 		  
 		  	// trial: limited support for labeled labels up to 2 levels:
 //			translationGroup.selectAll("g.nodeLabel").remove(); // TODO not required?
-			translationGroup
+		  
+		  var labelLabels = translationGroup
 			    .filter(function(d) { return d.labels != null ;})
-			    .selectAll("g.nodeLabel")
-				.data(function(d) { return d.labels; })
+			    .selectAll("g.textLabel")
+				.data(function(d) { return d.labels; });
+		  
+		  labelLabels
 				.enter()
 				// TODO: this is a hack to quickly allow text labels CENTER/RIGHT from icon labels
 				.append("svg:g")
-					.classed("nodeLabel", true)
+					.classed("textLabel nodeLabel", true)
 					.attr("transform","translate(20,4)")
 				.avmLabeledFDG()
 					.classed("label iconLabelText", true)
 					.avmLabeledFDGUpdate()
 				;
+		  
+		  labelLabels.exit().remove();
+		  translationGroup.filter(function(d) { return d.labels == null ;})
+		  	.select("g.textLabel").remove();
 
 		  return this;
 	  };

@@ -21,9 +21,7 @@
           "color_rgb_hex_combined":"#0000ff",
           "shape_d3_name":"clock",
           "type":"icon_label"
-        }
-        /*
-        ,{
+        },{
           "position":"centerCenter",
           "text_value":"centerCenter",
           "width":"50.0",
@@ -31,7 +29,6 @@
           "type":"text_label",
           "text_value_full":"centerCenter_full"
         }
-        */
       ]
     }
   ],
