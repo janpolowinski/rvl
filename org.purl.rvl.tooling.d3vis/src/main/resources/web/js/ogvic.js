@@ -76,45 +76,46 @@
 		  return text;
 	  };
 	  
-	  /* labeling with text and/or icon using "complex" labels from the labels-array */
-	  d3.selection.prototype.avmLabeledComplex = function() { // TODO not updateable, but still used (deactivated) in collapsible-tree
-		  
-		 var 
-			addHTMLTextLabel = true,
-			addSVGTextLabel = true, 
-			addSVGIconLabel = true;	
-		  
-		 	// SVG icon label in html div 
-			if (addSVGIconLabel) {
-				
-				this
-					.selectAll(".iconLabelContainer")
-					.data(function(d) { return d.labels ; }).enter()
-					.avmLabeledSVGIcon();
-			}
-   
-			// SVG text label in html div (cropped in webkit, maybe create a much bigger SVG inside the div, or modify clipping) 
-			if (addSVGTextLabel) {
-			    
-			    this
-					.selectAll(".textSVGLabelContainer")
-					.data(function(d) { return d.labels ; }).enter()
-					.avmLabeledSVGText();
-			}
-
-			// HTML label
-			if (addHTMLTextLabel) {
-				
-				this
-					.selectAll(".textHTMLLabelContainer")
-					.data(function(d) { return d.labels ; }).enter()
-					.avmLabeledHTMLText();
-			}
-
-		  return this;
-	  };
+//	  /* labeling with text and/or icon using "complex" labels from the labels-array */
+//	  d3.selection.prototype.avmLabeledComplex = function() { // TODO not updateable, but still used (deactivated) in collapsible-tree
+//		  
+//		 var 
+//			addHTMLTextLabel = true,
+//			addSVGTextLabel = true, 
+//			addSVGIconLabel = true;	
+//		  
+//		 	// SVG icon label in html div 
+//			if (addSVGIconLabel) {
+//				
+//				this
+//					.selectAll(".iconLabelContainer")
+//					.data(function(d) { return d.labels ; }).enter()
+//					.avmLabeledSVGIcon();
+//			}
+//   
+//			// SVG text label in html div (cropped in webkit, maybe create a much bigger SVG inside the div, or modify clipping) 
+//			if (addSVGTextLabel) {
+//			    
+//			    this
+//					.selectAll(".textSVGLabelContainer")
+//					.data(function(d) { return d.labels ; }).enter()
+//					.avmLabeledSVGText();
+//			}
+//
+//			// HTML label
+//			if (addHTMLTextLabel) {
+//				
+//				this
+//					.selectAll(".textHTMLLabelContainer")
+//					.data(function(d) { return d.labels ; }).enter()
+//					.avmLabeledHTMLText();
+//			}
+//
+//		  return this;
+//	  };
 	  
-	  /* updating the complex labeling */
+	  /* updating the complex labeling */ 
+	  // TODO: avoid binding the labels multiple times: bind once and filter then?
 	  d3.selection.prototype.avmLabeledComplexUpdate = function() {
 		  
 		 var 
