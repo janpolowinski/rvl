@@ -171,8 +171,8 @@
 	  d3.selection.prototype.avmLabeledFDG2 = function(labelShapeSize) {
 		  return this.append("svg:text").
 		  	attr("class", "nodeLabel") // TODO class was label ... clean up various label CSS classes
-			.attr("x", function(d){return labelShapeSize/2;})  // dx is relative positioning, x is absolute
-			.attr("y", function(d){return labelShapeSize/2;})
+			.attr("x", function(d){return labelShapeSize(d)/2;})  // dx is relative positioning, x is absolute
+			.attr("y", function(d){return labelShapeSize(d)/2;})
 		    .text(function(d){return d.text_value; })
 			.style("text-anchor", 
 				function(d){
