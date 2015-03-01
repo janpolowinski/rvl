@@ -295,8 +295,10 @@
 		var innerSVG = containerDiv
 			.filter(function(d) { return d.type === "icon_label" ;})
 			.append("svg")
-				.attr("class", "svgLabelIcon")		
-			.append("svg:g")
+				.attr("class", "svgLabelIcon");
+		
+		innerSVG
+			.append("svg:g") // translation group
 			.append("use")
 	   	 	  	.attr("class", function(d) { return "label svgSymbol"; })
 			;
@@ -307,19 +309,7 @@
 // 			.attr("d", avmDefaultSizeLabelSymbolFunction)
 // 			.style("fill", "red")
 //			.attr("transform", function(d){ return "translate(" + labelShapeSize/2 + "," + labelShapeSize/2 + ")";});
-		
-		
-		  // trial: limited support for labeled labels up to 2 levels:
 
-		  innerSVG
-		    .filter(function(d) { return d.labels != null ;})
-			.selectAll(".nodeLabelText")
-			.data(function(d) { return d.labels; }).enter()
-			// TODO: this is a hack to quickly allow text labels CENTER/RIGHT from icon labels
-			.append("svg:g").attr("transform","translate(17,7.5)")
-			.avmLabeledFDG().classed("nodeLabelText label iconLabelText", true)
-			;
-		
 		  return containerDiv;
 	  };
 	  
@@ -335,16 +325,34 @@
 			//.style("margin","0px")
 		  	;
 		  
-		  var svgGroup = innerSVG.select("g")
+		  var translationGroup = innerSVG.select("g")
 		  	// translating here allows for using transform two times (for scale, translate. alternative could be use of matrix)
 		  	.attr("transform", function(d){ return "translate(" + d.width/2 + "," + d.width/2 + ")";})
 			//.attr("x", function(d){ return (d.width)/2;}) // somehow offers other results than translate
 	        //.attr("y", function(d){ return (d.width)/2;})
-		  	.select("use")
+		  ;
+		  
+		  translationGroup.select("use")
 		  		.attr("xlink:href", function(d) { return BASE_PATH_SVG_FILE + d.shape_d3_name; })
 		  		.style("fill", function(d) { return d.color_rgb_hex_combined; })
 		  		.attr("transform", function(d) { return "scale(" + (d.width/SYMBOL_WIDTH) +  ")"; })
 		  	;
+		  
+		  	// trial: limited support for labeled labels up to 2 levels:
+//			translationGroup
+//				.selectAll("g.nodeLabel").remove();
+//			translationGroup
+//			    .filter(function(d) { return d.labels != null ;})
+//				.select("g").selectAll("g.nodeLabel")
+//				.data(function(d) { return d.labels; }).enter()
+//				// TODO: this is a hack to quickly allow text labels CENTER/RIGHT from icon labels
+//				.append("svg:g")
+//					.classed("nodeLabel", true)
+//					.attr("transform","translate(17,7.5)")
+//				.avmLabeledFDG()
+//					.classed("label iconLabelText", true)
+//					.avmLabeledFDGUpdate()
+//				;
 
 		  return this;
 	  };
