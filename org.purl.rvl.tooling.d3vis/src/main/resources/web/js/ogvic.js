@@ -133,7 +133,7 @@
 
 			 var boundIconLabelContainers = this
 				.selectAll(".iconLabelContainer")
-				.data(function(d) { return d.labels ; });
+				.data(function(d) { return d.labels.filter(isIconLabel) ; });
 			 
 			 boundIconLabelContainers.enter().avmLabeledSVGIcon();
 			 boundIconLabelContainers.avmLabeledSVGIconUpdate();
@@ -144,7 +144,7 @@
 			 
 			 var boundTextSVGLabelContainers = this
 				.selectAll(".textSVGLabelContainer")
-				.data(function(d) { return d.labels ; });
+				.data(function(d) { return d.labels.filter(isTextLabel) ; });
 			 
 			 boundTextSVGLabelContainers.enter().avmLabeledSVGText();
 			 boundTextSVGLabelContainers.avmLabeledSVGTextUpdate();
@@ -156,7 +156,7 @@
 			 
 			 var boundTextHTMLLabelContainers = this
 				.selectAll(".textHTMLLabelContainer")
-				.data(function(d) { return d.labels ; });
+				.data(function(d) { return d.labels.filter(isCenterCenterTextLabel) ; });
 			 
 			 boundTextHTMLLabelContainers.enter().avmLabeledHTMLText();
 			 boundTextHTMLLabelContainers.avmLabeledHTMLTextUpdate();
@@ -209,8 +209,8 @@
 		  // TODO: reuse avmLabelPositioning
 		  var containerDiv =  this
 		  	.append("div")
-			.filter(function(d) { return d.type == "text_label" ;})
-			.filter(function(d) { return d.position == "centerCenter" ;})
+//			.filter(function(d) { return d.type == "text_label" ;})
+//			.filter(function(d) { return d.position == "centerCenter" ;})
 			.attr("class", function(d){ return "labelContainer textHTMLLabelContainer ";}) // position set o update
 			.style("text-align","center")
 			.style("height", function(d){return "100%";}) // use the whole area defined by the labeling base 
@@ -287,7 +287,7 @@
 	  
 	  /* labeling with SVG icon (version for enter-selection-array)  */
 	  d3.selection.enter.prototype.avmLabeledSVGIcon = function() {
-		  
+ 
 		var containerDiv = this
 				.avmLabelPositioning()
 				.classed("iconLabelContainer",true);
@@ -674,6 +674,19 @@ function toggle(d) {
 		}
 	    return containedElement;
  }
+ 
+ /* label filtering with normal javascript filters */
+ 
+ function isIconLabel(label) {
+	 return label.type === "icon_label" ;
+ }
+ function isTextLabel(label) {
+	 return label.type === "text_label" && label.position != "centerCenter";
+ }
+ function isCenterCenterTextLabel(label) {
+	 return label.type === "text_label"  && label.position == "centerCenter";
+ }
+ 
  
  
  /*
