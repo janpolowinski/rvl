@@ -76,45 +76,46 @@
 		  return text;
 	  };
 	  
-	  /* labeling with text and/or icon using "complex" labels from the labels-array */
-	  d3.selection.prototype.avmLabeledComplex = function() { // TODO not yet updateable
-		  
-		 var 
-			addHTMLTextLabel = true,
-			addSVGTextLabel = true, 
-			addSVGIconLabel = true;	
-		  
-		 	// SVG icon label in html div 
-			if (addSVGIconLabel) {
-				
-				this
-					.selectAll(".iconLabelContainer")
-					.data(function(d) { return d.labels ; }).enter()
-					.avmLabeledSVGIcon();
-			}
-   
-			// SVG text label in html div (cropped in webkit, maybe create a much bigger SVG inside the div, or modify clipping) 
-			if (addSVGTextLabel) {
-			    
-			    this
-					.selectAll(".textSVGLabelContainer")
-					.data(function(d) { return d.labels ; }).enter()
-					.avmLabeledSVGText();
-			}
-
-			// HTML label
-			if (addHTMLTextLabel) {
-				
-				this
-					.selectAll(".textHTMLLabelContainer")
-					.data(function(d) { return d.labels ; }).enter()
-					.avmLabeledHTMLText();
-			}
-
-		  return this;
-	  };
+//	  /* labeling with text and/or icon using "complex" labels from the labels-array */
+//	  d3.selection.prototype.avmLabeledComplex = function() { // TODO not updateable, but still used (deactivated) in collapsible-tree
+//		  
+//		 var 
+//			addHTMLTextLabel = true,
+//			addSVGTextLabel = true, 
+//			addSVGIconLabel = true;	
+//		  
+//		 	// SVG icon label in html div 
+//			if (addSVGIconLabel) {
+//				
+//				this
+//					.selectAll(".iconLabelContainer")
+//					.data(function(d) { return d.labels ; }).enter()
+//					.avmLabeledSVGIcon();
+//			}
+//   
+//			// SVG text label in html div (cropped in webkit, maybe create a much bigger SVG inside the div, or modify clipping) 
+//			if (addSVGTextLabel) {
+//			    
+//			    this
+//					.selectAll(".textSVGLabelContainer")
+//					.data(function(d) { return d.labels ; }).enter()
+//					.avmLabeledSVGText();
+//			}
+//
+//			// HTML label
+//			if (addHTMLTextLabel) {
+//				
+//				this
+//					.selectAll(".textHTMLLabelContainer")
+//					.data(function(d) { return d.labels ; }).enter()
+//					.avmLabeledHTMLText();
+//			}
+//
+//		  return this;
+//	  };
 	  
-	  /* updating the complex labeling */
+	  /* updating the complex labeling */ 
+	  // TODO: avoid binding the labels multiple times: bind once and filter then?
 	  d3.selection.prototype.avmLabeledComplexUpdate = function() {
 		  
 		 var 
@@ -125,7 +126,7 @@
 		 // append a container for the label container on enter, independent of if there are labels now
 		 var labelContainerContainerEnter = this.enter()
 		 	.append("div")
-		 	.filter(function(d) { return d.labels != null ;}) // must not be before append div!
+		 	.filter(function(d) { return d.labels != null ;}, labelKey) // must not be before append div!
 			.attr("class","labelContainerContainer");
 		 
 		// SVG icon label in html div 
@@ -133,7 +134,7 @@
 
 			 var boundIconLabelContainers = this
 				.selectAll(".iconLabelContainer")
-				.data(function(d) { return d.labels ; });
+				.data(function(d) { return d.labels.filter(isIconLabel) ; }, labelKey);
 			 
 			 boundIconLabelContainers.enter().avmLabeledSVGIcon();
 			 boundIconLabelContainers.avmLabeledSVGIconUpdate();
@@ -144,7 +145,7 @@
 			 
 			 var boundTextSVGLabelContainers = this
 				.selectAll(".textSVGLabelContainer")
-				.data(function(d) { return d.labels ; });
+				.data(function(d) { return d.labels.filter(isTextLabel) ; }, labelKey);
 			 
 			 boundTextSVGLabelContainers.enter().avmLabeledSVGText();
 			 boundTextSVGLabelContainers.avmLabeledSVGTextUpdate();
@@ -156,7 +157,7 @@
 			 
 			 var boundTextHTMLLabelContainers = this
 				.selectAll(".textHTMLLabelContainer")
-				.data(function(d) { return d.labels ; });
+				.data(function(d) { return d.labels.filter(isCenterCenterTextLabel) ; });
 			 
 			 boundTextHTMLLabelContainers.enter().avmLabeledHTMLText();
 			 boundTextHTMLLabelContainers.avmLabeledHTMLTextUpdate();
@@ -171,8 +172,10 @@
 	  d3.selection.prototype.avmLabeledFDG2 = function(labelShapeSize) {
 		  return this.append("svg:text").
 		  	attr("class", "nodeLabel") // TODO class was label ... clean up various label CSS classes
-			.attr("x", function(d){return labelShapeSize/2;})  // dx is relative positioning, x is absolute
-			.attr("y", function(d){return labelShapeSize/2;})
+//			.attr("x", function(d){return labelShapeSize(d)/2;})  // dx is relative positioning, x is absolute
+//			.attr("y", function(d){return labelShapeSize(d)/2;})
+		  	.attr("x", 0)  // dx is relative positioning, x is absolute
+			.attr("y", 0)
 		    .text(function(d){return d.text_value; })
 			.style("text-anchor", 
 				function(d){
@@ -209,8 +212,8 @@
 		  // TODO: reuse avmLabelPositioning
 		  var containerDiv =  this
 		  	.append("div")
-			.filter(function(d) { return d.type == "text_label" ;})
-			.filter(function(d) { return d.position == "centerCenter" ;})
+//			.filter(function(d) { return d.type == "text_label" ;})
+//			.filter(function(d) { return d.position == "centerCenter" ;})
 			.attr("class", function(d){ return "labelContainer textHTMLLabelContainer ";}) // position set o update
 			.style("text-align","center")
 			.style("height", function(d){return "100%";}) // use the whole area defined by the labeling base 
@@ -241,6 +244,11 @@
 				return textColor;
 				})
 		  	.html(function(d){ return d.text_value_full;});
+		  
+		  // remove whole positioning div for text label
+		  this.exit().remove();
+		  
+		  return this;
 
 	  };
 	  
@@ -254,8 +262,8 @@
 			.classed("textSVGLabelContainer",true);
 			
 		var labelContainerSVG = containerDiv
-			.filter(function(d) { return d.type == "text_label" ;})
-			.filter(function(d) { return d.position != "centerCenter" ;})
+//			.filter(function(d) { return d.type == "text_label" ;})
+//			.filter(function(d) { return d.position != "centerCenter" ;})
 			.append("svg")
 				.attr("class", "svgLabelText")
 				.attr("width",0 +"px") // text needs to have width and height = 0 for correct positioning atm
@@ -281,13 +289,16 @@
 		  labelContainerSVG.avmLabeledFDG2(function(d){ return d.width; })
 			.classed("label", true);
 		  
+		  // remove whole positioning div for text label
+		  this.exit().remove();
+		  
 		  return this;
 	  };
 	  
 	  
 	  /* labeling with SVG icon (version for enter-selection-array)  */
 	  d3.selection.enter.prototype.avmLabeledSVGIcon = function() {
-		  
+ 
 		var containerDiv = this
 				.avmLabelPositioning()
 				.classed("iconLabelContainer",true);
@@ -295,8 +306,10 @@
 		var innerSVG = containerDiv
 			.filter(function(d) { return d.type === "icon_label" ;})
 			.append("svg")
-				.attr("class", "svgLabelIcon")		
-			.append("svg:g")
+				.attr("class", "svgLabelIcon");
+		
+		innerSVG
+			.append("svg:g") // translation group
 			.append("use")
 	   	 	  	.attr("class", function(d) { return "label svgSymbol"; })
 			;
@@ -307,19 +320,7 @@
 // 			.attr("d", avmDefaultSizeLabelSymbolFunction)
 // 			.style("fill", "red")
 //			.attr("transform", function(d){ return "translate(" + labelShapeSize/2 + "," + labelShapeSize/2 + ")";});
-		
-		
-		  // trial: limited support for labeled labels up to 2 levels:
 
-		  innerSVG
-		    .filter(function(d) { return d.labels != null ;})
-			.selectAll(".nodeLabelText")
-			.data(function(d) { return d.labels; }).enter()
-			// TODO: this is a hack to quickly allow text labels CENTER/RIGHT from icon labels
-			.append("svg:g").attr("transform","translate(17,7.5)")
-			.avmLabeledFDG().classed("nodeLabelText label iconLabelText", true)
-			;
-		
 		  return containerDiv;
 	  };
 	  
@@ -335,16 +336,44 @@
 			//.style("margin","0px")
 		  	;
 		  
-		  var svgGroup = innerSVG.select("g")
+		  var translationGroup = innerSVG.select("g")
 		  	// translating here allows for using transform two times (for scale, translate. alternative could be use of matrix)
 		  	.attr("transform", function(d){ return "translate(" + d.width/2 + "," + d.width/2 + ")";})
 			//.attr("x", function(d){ return (d.width)/2;}) // somehow offers other results than translate
 	        //.attr("y", function(d){ return (d.width)/2;})
-		  	.select("use")
+		  ;
+		  
+		  translationGroup.select("use")
 		  		.attr("xlink:href", function(d) { return BASE_PATH_SVG_FILE + d.shape_d3_name; })
 		  		.style("fill", function(d) { return d.color_rgb_hex_combined; })
 		  		.attr("transform", function(d) { return "scale(" + (d.width/SYMBOL_WIDTH) +  ")"; })
 		  	;
+		  
+		  	// trial: limited support for labeled labels up to 2 levels:
+//			translationGroup.selectAll("g.nodeLabel").remove(); // TODO not required?
+		  
+		  var labelLabels = translationGroup
+			    .filter(function(d) { return d.labels != null ;})
+			    .selectAll("g.textLabel")
+				.data(function(d) { return d.labels; });
+		  
+		  labelLabels
+				.enter()
+				// TODO: this is a hack to quickly allow text labels CENTER/RIGHT from icon labels
+				.append("svg:g")
+					.classed("textLabel nodeLabel", true)
+					.attr("transform","translate(20,4)")
+				.avmLabeledFDG()
+					.classed("label iconLabelText", true)
+					.avmLabeledFDGUpdate()
+				;
+		  
+		  labelLabels.exit().remove();
+		  translationGroup.filter(function(d) { return d.labels == null ;})
+		  	.select("g.textLabel").remove();
+		  
+		  // remove whole positioning div for icon label
+		  this.exit().remove();
 
 		  return this;
 	  };
@@ -674,6 +703,22 @@ function toggle(d) {
 		}
 	    return containedElement;
  }
+ 
+ /* label filtering with normal javascript filters */
+ 
+ function isIconLabel(label) {
+	 return label.type === "icon_label" ;
+ }
+ function isTextLabel(label) {
+	 return label.type === "text_label" && label.position != "centerCenter";
+ }
+ function isCenterCenterTextLabel(label) {
+	 return label.type === "text_label"  && label.position == "centerCenter";
+ }
+ function labelKey(label) {
+	 return label.position; // TODO if multiple labels per position needed, use better key here
+ }
+ 
  
  
  /*
