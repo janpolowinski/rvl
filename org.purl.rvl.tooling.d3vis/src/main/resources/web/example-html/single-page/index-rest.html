@@ -33,8 +33,11 @@
 						<!--button title="Test: Load mapping model from aa-3" onclick="loadExampleValue('http://localhost:8080/semvis/projects/mappingfile/aa-3', '#projectMappings');">Test loading mapping model</button-->
   						<br/><br/>
   						<button onclick="reInitContainers()">Re init containers</button>
-						<button onclick="clearVis()">Clear visualization</button>
-						<button onclick="exampleJSON()">Use Example-JSON</button>
+						<button onclick="clearVis()">Clear visualization</button><br/>
+						
+						<button onclick="exampleJSON('enter')">Enter Example-JSON</button>
+						<button onclick="exampleJSON('update')">Update Example-JSON</button>
+						<button onclick="exampleJSON('exit')">Exit Example-JSON</button>
   					</div>
   				</div>
 
@@ -122,8 +125,8 @@
         	initContainers();
         }
         
-        exampleJSON = function() {
-        	d3.json("../../example-data/graph-data-label-labeling.json", function(json){
+        exampleJSON = function(d3Event) {
+        	d3.json("../../example-data/graph-data-label-labeling-" + d3Event + ".json", function(json){
     	 		graphicLoadingFunctions[json.graphic_type](null, json);
     	 		});
     		//"../../gen/json/tree-data.json" , "../../gen/json/graph-data.json", "../../example-data/graph-data-labeling-advanced.json"
@@ -250,7 +253,7 @@
 		// init vis and editor
 		
 		//reLoad();
-		exampleJSON();showRVLeditor('hidden');
+		exampleJSON("enter");showRVLeditor("hidden");
     	loadExampleValue(baseUrlBackend + "projects/example/data", "#projectData");
         loadExampleValue(baseUrlBackend + "projects/example/mappings", "#projectMappings");
 		//loadExampleValue(baseUrlBackend + "projects/mappingmodel/aa-3", "#projectMappings");
