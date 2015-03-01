@@ -57,6 +57,9 @@ var forceVar;
 
 loadForceDirectedGraph = function(error, graph) {
 	
+//	console.log(error);
+//	console.log(JSON.stringify(graph.nodes));
+	
 	if (!loaded) {
 		
 		// override global settings
