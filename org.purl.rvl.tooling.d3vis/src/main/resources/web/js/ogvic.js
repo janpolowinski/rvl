@@ -126,13 +126,13 @@
 		 // append a container for the label container on enter, independent of if there are labels now
 		 var labelContainerContainerEnter = this.enter()
 		 	.append("div")
-		 	.filter(function(d) { return d.labels != null ;}, labelKey) // must not be before append div!
 			.attr("class","labelContainerContainer");
 		 
 		// SVG icon label in html div 
 		 if (addSVGIconLabel) {
 
 			 var boundIconLabelContainers = this
+			 	.filter(function(d) { return d.labels != null ;}, labelKey) // TODO pull up to thisFiltered
 				.selectAll(".iconLabelContainer")
 				.data(function(d) { return d.labels.filter(isIconLabel) ; }, labelKey);
 			 
@@ -144,6 +144,7 @@
 		 if (addSVGTextLabel) {
 			 
 			 var boundTextSVGLabelContainers = this
+			 	.filter(function(d) { return d.labels != null ;}, labelKey)
 				.selectAll(".textSVGLabelContainer")
 				.data(function(d) { return d.labels.filter(isTextLabel) ; }, labelKey);
 			 
@@ -156,6 +157,7 @@
 		 if (addHTMLTextLabel) {
 			 
 			 var boundTextHTMLLabelContainers = this
+			 	.filter(function(d) { return d.labels != null ;}, labelKey)
 				.selectAll(".textHTMLLabelContainer")
 				.data(function(d) { return d.labels.filter(isCenterCenterTextLabel) ; });
 			 

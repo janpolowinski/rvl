@@ -375,7 +375,7 @@ updateForceDirectedGraph = function(error, graph) {
 	    	 // ENTER / UPDATE
 			 
 		   	boundLabelContainerContainers
-		   		//.filter(function(d) { return d.labels != null ;}) // must not be before append div!
+		   		// for now don't filter here and simply create a labelContainerContainer in all cases, even when no labels are there atm
 		   		.avmLabeledComplexUpdate();
 			 
 			// ENTER + UPDATE
