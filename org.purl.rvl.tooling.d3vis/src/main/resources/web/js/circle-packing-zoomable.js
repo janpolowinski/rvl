@@ -113,7 +113,8 @@ loadCirclePackingZoomable = function(error, root) {
 		.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
 		;
 	 
-	 	symbolContainer.avmShapedWithUseSVG()		      
+	 	symbolContainer.avmShapedWithUseSVG()
+	 	.avmShapedWithUseSVGUpdateWithoutSelectingSymbol()
 		//.attr("transform", function(d) { return "scale(" + d.width/SYMBOL_WIDTH +  ")"; })
 		.attr("transform", function(d) { return "scale(5)"; })
 		.style("fill-opacity","0.33")
