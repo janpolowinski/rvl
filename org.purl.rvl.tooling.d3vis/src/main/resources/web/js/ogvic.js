@@ -126,7 +126,8 @@
 		 // append a container for the label container on enter, independent of if there are labels now
 		 var labelContainerContainerEnter = this.enter()
 		 	.append("div")
-			.attr("class","labelContainerContainer");
+			.attr("class","labelContainerContainer")
+			.call(fadeIn);
 		 
 		// SVG icon label in html div 
 		 if (addSVGIconLabel) {
@@ -714,6 +715,11 @@ function toggle(d) {
 	selection.style("opacity", value1) 
 	.transition().duration(duration).style("opacity", value2);
 }
+ 
+ fadeIn = function (selection) {
+	selection.style("opacity", 0) 
+	.transition().duration(500).style("opacity", 1);
+ }
  
  /* array helper */
  

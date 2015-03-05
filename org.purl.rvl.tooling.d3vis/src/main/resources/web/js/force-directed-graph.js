@@ -295,11 +295,8 @@ updateForceDirectedGraph = function(error, graph) {
 			;
 		
 		// EXIT
-		boundConnectorGroups.exit()
-			.call(animateOpacity,1000,1,0)
-			.remove();
-		
-		boundConnectorLabelSymbols.exit().remove();
+		boundConnectorGroups.exit().fadeAway();
+		boundConnectorLabelSymbols.exit().fadeAway();
 
 		
 		/* nodes */ 
@@ -322,7 +319,7 @@ updateForceDirectedGraph = function(error, graph) {
 			.on("dblclick",  function(d) { 
 				d.fixed = false;	
 			})
-			.call(animateOpacity,1000,0,1)
+			.call(fadeIn)
 		    ;
 	
 	     /* node shape as reuse svg symbol */
