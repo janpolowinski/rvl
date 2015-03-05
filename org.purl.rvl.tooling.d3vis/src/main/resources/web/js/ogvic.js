@@ -410,7 +410,7 @@
 	  /* setting the shape by reusing an SVG symbol */ 
 	  d3.selection.prototype.avmShapedWithUseSVG = 
 	  d3.selection.enter.prototype.avmShapedWithUseSVG = function() {
-		 	return this.append("use")
+		 	return this.append("g").attr("class","scaleGroup").append("use")
 		 	  .filter(function(d) { return null != d.shape_d3_name ;})
 		 	  .attr("class", "svgSymbol")
 			  //.attr("xlink:href", function(d) { return BASE_PATH_SVG_FILE + d.shape_d3_name; }) // remove when all shapes support update
@@ -421,7 +421,7 @@
 	  /* setting the shape by reusing an SVG symbol (without appending a new "use" object) */ 
 	  // TODO duplicated code from avmShapedWithUseSVG
 	  d3.selection.prototype.avmShapedWithUseSVGUpdate = function() {
-		 	return this.select(".svgSymbol")
+		 	return this.select("g.scaleGroup").select(".svgSymbol")
 			  .attr("xlink:href", function(d) { if (null!=d.shape_d3_name) return BASE_PATH_SVG_FILE + d.shape_d3_name; else return ""; }) // do this before the filtering to allow for "removing" shape (when shaped by text instead)
 	   	 	  .filter(function(d) { return null != d.shape_d3_name ;})
 		      .applyGraphicAttributesNonSpatial2SVG()
@@ -474,7 +474,7 @@
 	  d3.selection.prototype.applyGraphicAttributesNonSpatial2SVG = function() {
 		 	return this
 		 		.transition().duration(2000) // does not work when scale transition is active at the same time
-    		   .style("fill", function(d) { return d.color_rgb_hex_combined; })
+		 		.style("fill", function(d) { return d.color_rgb_hex_combined; })
 		     ;
 	  };
 	  
