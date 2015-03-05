@@ -518,6 +518,13 @@
 		  return defs;
 	};
 	
+	d3.selection.prototype.fadeAway = function () {
+		return this
+//	 	 .select("g.scaleGroup").transition().duration(500).attr("transform", "scale(0.001)") // minimize
+		 .style("opacity", 1).transition().duration(1000).style("opacity", 0) // fade out
+		 .remove();
+	};
+	
 	
 	  
 	})();
@@ -700,13 +707,12 @@ function toggle(d) {
  animateScale = function (selection, duration) {
  	selection.transition().duration(duration)
 	.attr("transform", function(d) { return "scale(" + d.width/SYMBOL_WIDTH +  ")"; });
-// 	return selection;
+ 	// functions called with call(...) will always return the selection!
  }
  
  animateOpacity = function (selection, duration, value1, value2) {
 	selection.style("opacity", value1) 
 	.transition().duration(duration).style("opacity", value2);
-//	return selection;
 }
  
  /* array helper */
