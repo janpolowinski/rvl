@@ -721,6 +721,15 @@ function toggle(d) {
 	.transition().duration(500).style("opacity", 1);
  }
  
+ setConnectorAttributes = function(selection) {
+ 		selection
+ 		.transition().duration(2000)
+ 			.style("stroke", function(d) { return d.color_rgb_hex_combined; })
+ 		.transition().duration(2000)
+ 			.style("stroke-width", function(d) { return d.width })
+ 		;
+};
+ 
  /* array helper */
  
  var containsArrayThisElement = function (arrayToCheck, element) {
