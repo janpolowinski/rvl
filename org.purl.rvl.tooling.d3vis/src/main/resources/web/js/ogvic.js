@@ -473,9 +473,8 @@
 	  /* setting graphic attributes on SVG (except position, dimensions ... */
 	  d3.selection.prototype.applyGraphicAttributesNonSpatial2SVG = function() {
 		 	return this
+		 		.transition().duration(2000) // does not work when scale transition is active at the same time
     		   .style("fill", function(d) { return d.color_rgb_hex_combined; })
-    		   //.transition().duration(1000)
-    		   //.style("fill", function(d){return d.color_rgb_hex_combined ; })
 		     ;
 	  };
 	  
@@ -693,6 +692,22 @@ function toggle(d) {
 	d3.selectAll(".node").selectAll("text.nodeLabel").
 		text(function(d){return d.text_value;});
  }
+ 
+ /* animation */
+ 
+// transitions only work concurrently: http://bl.ocks.org/mbostock/6081914
+ 
+ animateScale = function (selection, duration) {
+ 	selection.transition().duration(duration)
+	.attr("transform", function(d) { return "scale(" + d.width/SYMBOL_WIDTH +  ")"; });
+// 	return selection;
+ }
+ 
+ animateOpacity = function (selection, duration, value1, value2) {
+	selection.style("opacity", value1) 
+	.transition().duration(duration).style("opacity", value2);
+//	return selection;
+}
  
  /* array helper */
  
