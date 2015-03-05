@@ -723,9 +723,9 @@ function toggle(d) {
  
  setConnectorAttributes = function(selection) {
  		selection
- 		.transition().duration(2000)
+ 		.transition().duration(1000)
  			.style("stroke", function(d) { return d.color_rgb_hex_combined; })
- 		.transition().duration(2000)
+ 		.transition().duration(1000)
  			.style("stroke-width", function(d) { return d.width })
  		;
 };

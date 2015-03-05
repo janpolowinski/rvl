@@ -340,7 +340,6 @@ updateForceDirectedGraph = function(error, graph) {
 	    boundNodes.select("g.scaleGroup")
 	    	//.attr("width", "200 px").attr("height", "200 px") // does not seem to work (Firefox at least)
 	    	.call(animateScale,1000)
-//	    	.attr("transform", function(d) { return "scale(" + d.width/SYMBOL_WIDTH +  ")"; });
       		;
 	    
 	    boundNodes.avmShapedWithUseSVGUpdate();
