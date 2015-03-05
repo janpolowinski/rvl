@@ -38,7 +38,7 @@
 						<button onclick="exampleJSON('enter')">Enter Example-JSON</button>
 						<button onclick="exampleJSON('update')">Update Example-JSON</button>
 						<button onclick="exampleJSON('exit')">Exit Example-JSON</button>
-						<input id="useForEditor" type="checkbox" value="true"/>Use for editor
+						<input id="useForEditor" type="checkbox" value="true"/>Use for <a onClick="showRVLeditor('max')">Editor</a>
   					</div>
   				</div>
 
@@ -187,7 +187,7 @@
     	    .append("button")
 			.attr("title","double-click to execute, normal-click to load for editing")
 			.attr("onclick", function(d){
-				return "loadProject('" + d.id + "','" + d.defaultGraphicType + "'); if(populateEditor()){ loadExampleValue('http://localhost:8080/semvis/projects/mappingfile/" + d.id + "' , '#projectMappings'); loadExampleValue('http://localhost:8080/semvis/projects/datamodel/" + d.id + "' , '#projectData');}"
+				return "loadProject('" + d.id + "','" + d.defaultGraphicType + "'); if(populateEditor()){ showRVLeditor('max'); loadExampleValue('http://localhost:8080/semvis/projects/mappingfile/" + d.id + "' , '#projectMappings'); loadExampleValue('http://localhost:8080/semvis/projects/datamodel/" + d.id + "' , '#projectData');}"
 				})
     	    .text(function(d){return d.id;});    	
     	});
