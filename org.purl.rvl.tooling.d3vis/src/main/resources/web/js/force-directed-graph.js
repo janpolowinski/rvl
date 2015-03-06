@@ -244,11 +244,11 @@ updateForceDirectedGraph = function(error, graph) {
 		var boundConnectorLabelSymbols = boundConnectorLabelGroups
 			.filter(function(d) { return d.labels != null ;})
 			.selectAll("use.iconLabelNew")
-			.data(function(d) { return d.labels });
+			.data(function(d) { return d.labels.filter(isIconLabel) });
 		var boundConnectorLabelTexts = boundConnectorLabelGroups
 			.filter(function(d) { return d.labels != null ;})
 			.selectAll("text.textLabelNew")
-			.data(function(d) { return d.labels }); // TODO bound twice! -> simplify?
+			.data(function(d) { return d.labels.filter(isTextLabel) }); // TODO bound twice! -> simplify?
 
 		/* icon labeling of connectors */ // TODO: not yet updateable!
 		var connectorLabelSymbolEnter = boundConnectorLabelSymbols.enter()
