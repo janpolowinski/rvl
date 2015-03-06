@@ -131,7 +131,10 @@ updateCollapsibleTree = function(source) {
 		// shapes as reused svg-groups
 		var symbol = nodeEnter.avmShapedWithUseSVG()		      
 			//.attr("width", "200 px").attr("height", "200 px") // does not seem to work (Firefox at least)
-	       .attr("transform", function(d) { return "scale(" + d.width/SYMBOL_WIDTH +  ")"; })
+			;
+	       
+		nodeEnter.select("g.scaleGroup")
+		   .attr("transform", function(d) { return "scale(" + d.width/SYMBOL_WIDTH +  ")"; })
 	       .avmShapedWithUseSVGUpdateWithoutSelectingSymbol()
 	       ;
 		
