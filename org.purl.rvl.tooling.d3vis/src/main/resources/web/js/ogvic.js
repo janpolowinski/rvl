@@ -412,10 +412,7 @@
 	  d3.selection.prototype.avmShapedWithUseSVG = 
 	  d3.selection.enter.prototype.avmShapedWithUseSVG = function() {
 		 	return this.append("g").attr("class","scaleGroup").append("use")
-		 	  .filter(function(d) { return null != d.shape_d3_name ;})
 		 	  .attr("class", "svgSymbol")
-			  //.attr("xlink:href", function(d) { return BASE_PATH_SVG_FILE + d.shape_d3_name; }) // remove when all shapes support update
-		      //.applyGraphicAttributesNonSpatial2SVG() // remove when all shapes support update
 		     ;
 	  };
 	  
