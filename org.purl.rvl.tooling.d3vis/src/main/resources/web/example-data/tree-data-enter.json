@@ -1,0 +1,240 @@
+{
+  "graphic_type": "collapsible-tree",
+  "children": [
+    {
+      "uri": "http://purl.org/rvl/example-data/World",
+      "color_rgb_hex": "",
+      "color_rgb_hex_combined": null,
+      "shape_d3_name": "circle",
+      "width": 17,
+      "labels": [
+        {
+          "position": "centerRight",
+          "text_value": "World",
+          "width": "21.25",
+          "color_rgb_hex_combined": null,
+          "type": "text_label",
+          "text_value_full": "World"
+        }
+      ],
+      "type": "DirectedLinking",
+      "children": [
+        {
+          "uri": "http://purl.org/rvl/example-data/Europe",
+          "color_rgb_hex": "#ff9900",
+          "color_rgb_hex_combined": "#ff9900",
+          "shape_d3_name": "circle",
+          "width": 17,
+          "labels": [
+            {
+              "position": "centerRight",
+              "text_value": "Europe (pop.: 4...",
+              "width": "21.25",
+              "color_rgb_hex_combined": null,
+              "type": "text_label",
+              "text_value_full": "Europe (pop.: 400)"
+            }
+          ],
+          "connector": {
+            "arrow_type": "arrow",
+            "uri": "http://purl.org/rvl/example-data/partOf",
+            "color_rgb_hex": "",
+            "color_rgb_hex_combined": null,
+            "shape_d3_name": "arrow",
+            "labels": [
+              {
+                "position": "centerRight",
+                "text_value": "partOf",
+                "width": "21.25",
+                "color_rgb_hex_combined": null,
+                "type": "text_label",
+                "text_value_full": "partOf"
+              }
+            ]
+          },
+          "children": [
+            {
+              "uri": "http://purl.org/rvl/example-data/Germany",
+              "color_rgb_hex": "#ff0000",
+              "color_rgb_hex_combined": "#ff0000",
+              "shape_d3_name": "circle-p",
+              "width": 17,
+              "labels": [
+                {
+                  "position": "centerRight",
+                  "text_value": "Germany",
+                  "width": "21.25",
+                  "color_rgb_hex_combined": null,
+                  "type": "text_label",
+                  "text_value_full": "Germany"
+                }
+              ],
+              "connector": {
+                "arrow_type": "arrow",
+                "uri": "http://purl.org/rvl/example-data/partOf",
+                "color_rgb_hex": "",
+                "color_rgb_hex_combined": null,
+                "shape_d3_name": "arrow",
+                "labels": [
+                  {
+                    "position": "centerRight",
+                    "text_value": "partOf",
+                    "width": "21.25",
+                    "color_rgb_hex_combined": null,
+                    "type": "text_label",
+                    "text_value_full": "partOf"
+                  }
+                ]
+              },
+              "children": [
+                {
+                  "uri": "http://purl.org/rvl/example-data/Gelsenkirchen",
+                  "color_rgb_hex": "",
+                  "color_rgb_hex_combined": null,
+                  "shape_d3_name": "circle",
+                  "width": 17,
+                  "labels": [
+                    {
+                      "position": "centerRight",
+                      "text_value": "Gelsenkirchen",
+                      "width": "21.25",
+                      "color_rgb_hex_combined": null,
+                      "type": "text_label",
+                      "text_value_full": "Gelsenkirchen"
+                    }
+                  ],
+                  "connector": {
+                    "arrow_type": "arrow",
+                    "uri": "http://purl.org/rvl/example-data/partOf",
+                    "color_rgb_hex": "",
+                    "color_rgb_hex_combined": null,
+                    "shape_d3_name": "arrow",
+                    "labels": [
+                      {
+                        "position": "centerRight",
+                        "text_value": "partOf",
+                        "width": "21.25",
+                        "color_rgb_hex_combined": null,
+                        "type": "text_label",
+                        "text_value_full": "partOf"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "uri": "http://purl.org/rvl/example-data/Turkey",
+              "color_rgb_hex": "#ff0000",
+              "color_rgb_hex_combined": "#ff0000",
+              "shape_d3_name": "circle-p",
+              "width": 17,
+              "labels": [
+                {
+                  "position": "centerRight",
+                  "text_value": "Turkey",
+                  "width": "21.25",
+                  "color_rgb_hex_combined": null,
+                  "type": "text_label",
+                  "text_value_full": "Turkey"
+                }
+              ],
+              "connector": {
+                "arrow_type": "arrow",
+                "uri": "http://purl.org/rvl/example-data/partOf",
+                "color_rgb_hex": "",
+                "color_rgb_hex_combined": null,
+                "shape_d3_name": "arrow",
+                "labels": [
+                  {
+                    "position": "centerRight",
+                    "text_value": "partOf",
+                    "width": "21.25",
+                    "color_rgb_hex_combined": null,
+                    "type": "text_label",
+                    "text_value_full": "partOf"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "uri": "http://purl.org/rvl/example-data/Asia",
+          "color_rgb_hex": "",
+          "color_rgb_hex_combined": null,
+          "shape_d3_name": "circle",
+          "width": 17,
+          "labels": [
+            {
+              "position": "centerRight",
+              "text_value": "Asia",
+              "width": "21.25",
+              "color_rgb_hex_combined": null,
+              "type": "text_label",
+              "text_value_full": "Asia"
+            }
+          ],
+          "connector": {
+            "arrow_type": "arrow",
+            "uri": "http://purl.org/rvl/example-data/partOf",
+            "color_rgb_hex": "",
+            "color_rgb_hex_combined": null,
+            "shape_d3_name": "arrow",
+            "labels": [
+              {
+                "position": "centerRight",
+                "text_value": "partOf",
+                "width": "21.25",
+                "color_rgb_hex_combined": null,
+                "type": "text_label",
+                "text_value_full": "partOf"
+              }
+            ]
+          },
+          "children": [
+            {
+              "uri": "http://purl.org/rvl/example-data/Turkey",
+              "color_rgb_hex": "#ff0000",
+              "color_rgb_hex_combined": "#ff0000",
+              "shape_d3_name": "circle-p",
+              "width": 17,
+              "labels": [
+                {
+                  "position": "centerRight",
+                  "text_value": "Turkey",
+                  "width": "21.25",
+                  "color_rgb_hex_combined": null,
+                  "type": "text_label",
+                  "text_value_full": "Turkey"
+                }
+              ],
+              "connector": {
+                "arrow_type": "arrow",
+                "uri": "http://purl.org/rvl/example-data/partOf",
+                "color_rgb_hex": "",
+                "color_rgb_hex_combined": null,
+                "shape_d3_name": "arrow",
+                "labels": [
+                  {
+                    "position": "centerRight",
+                    "text_value": "partOf",
+                    "width": "21.25",
+                    "color_rgb_hex_combined": null,
+                    "type": "text_label",
+                    "text_value_full": "partOf"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "connector": {
+        "arrow_type": "line",
+        "width": "0",
+        "color_rgb_hex_combined": "#c00"
+      }
+    }
+  ]
+}
