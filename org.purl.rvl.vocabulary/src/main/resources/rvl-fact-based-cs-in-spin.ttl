@@ -1,0 +1,25 @@
+# Saved by TopBraid on Mon Nov 17 23:24:42 CET 2014
+# baseURI: http://purl.org/rvl/fact-based-spin-constraints/
+
+# TODO: check prefix and imports
+
+@prefix :        <http://purl.org/rvl/spin-constraints/> .
+@prefix fn:      <http://www.w3.org/2005/xpath-functions#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix rvl-fb-cs:  <http://purl.org/rvl/fact-based-spin-constraints/> .
+@prefix sp:      <http://spinrdf.org/sp#> .
+@prefix spin:    <http://spinrdf.org/spin#> .
+@prefix spl:     <http://spinrdf.org/spl#> .
+@prefix viso-data:  <http://purl.org/viso/data/> .
+@prefix viso-facts:  <http://purl.org/viso/facts/> .
+@prefix viso-graphic:  <http://purl.org/viso/graphic/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+
+rvl-fb-cs:
+      rdf:type owl:Ontology ;
+      owl:imports rvl: , viso-facts: , <http://spinrdf.org/spin> ;
+      owl:versionInfo "Created with TopBraid Composer"^^xsd:string .

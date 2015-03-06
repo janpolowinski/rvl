@@ -86,6 +86,7 @@
                     <arguments>
                    	     <argument>-Xms1024m</argument>
          				 <argument>-Xmx2056m</argument>
+         				 <argument>-XX:MaxPermSize=512m</argument>
                     </arguments>
                 </configuration>
             </plugin>
