@@ -258,7 +258,6 @@ updateForceDirectedGraph = function(error, graph) {
 		/* alternative to aligned labeling : simple text labeling of connectors */	// TODO: not yet updateable!
 		var connectorLabelTextEnter = boundConnectorLabelTexts.enter()
 			.append("text")
-//			.filter(function(d) { return d.type == "text_label" ;}) // useless here
 			.classed("textLabelNew label", true)
 			;
 
@@ -287,7 +286,7 @@ updateForceDirectedGraph = function(error, graph) {
 			.avmShapedWithUseSVGUpdateWithoutSelectingSymbol()
 			;
 		boundConnectorLabelTexts
-			.filter(function(d) { return d.type == "text_label" ;})
+//			.filter(function(d) { return d.type == "text_label" ;}) // now already filtered above
 			.text(function(d){return d.text_value_full ; })
 			;
 		
