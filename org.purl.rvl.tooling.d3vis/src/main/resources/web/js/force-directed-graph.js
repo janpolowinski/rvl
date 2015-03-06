@@ -250,7 +250,7 @@ updateForceDirectedGraph = function(error, graph) {
 			.selectAll("text.textLabelNew")
 			.data(function(d) { return d.labels.filter(isTextLabel) }); // TODO bound twice! -> simplify?
 
-		/* icon labeling of connectors */ // TODO: not yet updateable!
+		/* icon labeling of connectors */
 		var connectorLabelSymbolEnter = boundConnectorLabelSymbols.enter()
 		  .avmShapedWithUseSVG()
 		  .classed("iconLabelNew", true);

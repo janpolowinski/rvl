@@ -44,11 +44,11 @@
       "labels": [
         {
           "position": "centerRight",
-          "text_value": "critiques",
+          "text_value": "changed critiques",
           "width": "20",
           "color_rgb_hex_combined": null,
           "type": "text_label",
-          "text_value_full": "critiques"
+          "text_value_full": "changed critiques (full)"
         },
         {
           "position": "topRight",
