@@ -1,0 +1,139 @@
+# baseURI: http://purl.org/rvl/owl-axioms/
+
+@prefix :        <http://purl.org/rvl/> .
+@prefix bibo:    <http://purl.org/ontology/bibo/> .
+@prefix dct:     <http://purl.org/dc/terms/> .
+@prefix event:   <http://purl.org/NET/c4dm/event.owl#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rvl-docu:  <http://purl.org/rvl/docu/> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix swstatus:  <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix viso-graphic:  <http://purl.org/viso/graphic/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+# editorial note concering code generation from this file: the constraints with "unionOf" used here do not harm rdfReactor, since only domain, range settings seem to be evaluated by rdfReactor
+
+<http://purl.org/rvl/owl-axioms/> a owl:Ontology ;
+      rdfs:label "(Additional) OWL-Axioms for the RDF Visualization Language (RVL)"^^xsd:string ;
+      dct:creator <http://purl.org/viso/JanPolowinski> ;
+      owl:imports : , rvl-docu: .
+
+
+:GraphicAttributeInterval
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:allValuesFrom
+                        [ rdf:type owl:Class ;
+                          owl:unionOf (rdfs:Literal viso-graphic:Visual_Attribute)
+                        ] ;
+                owl:onProperty :lowerBoundIncl
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:allValuesFrom
+                        [ rdf:type owl:Class ;
+                          owl:unionOf (rdfs:Literal viso-graphic:Visual_Attribute)
+                        ] ;
+                owl:onProperty :upperBoundIncl
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:allValuesFrom
+                        [ rdf:type owl:Class ;
+                          owl:unionOf (rdfs:Literal viso-graphic:Visual_Attribute)
+                        ] ;
+                owl:onProperty :lowerBoundExcl
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:allValuesFrom
+                        [ rdf:type owl:Class ;
+                          owl:unionOf (rdfs:Literal viso-graphic:Visual_Attribute)
+                        ] ;
+                owl:onProperty :upperBoundExcl
+              ] ;
+.
+
+
+
+:PropertyMapping
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:onProperty :sourceProperty ;
+                owl:cardinality
+                        "1"^^xsd:nonNegativeInteger
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                 owl:allValuesFrom
+                        [ rdf:type owl:Class ;
+                          # the target value may either be a property (like the GraphicAttribute "color_named") or a (n-ary) Object-to-Object_Relation (like an instance of "Linking_Directed_Relation")
+                          owl:unionOf (viso-graphic:GraphicRelation viso-graphic:Object-to-Object_Relation)
+                        ] ;
+                owl:onProperty :targetGraphicRelation
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:allValuesFrom rdf:Property ;
+                owl:onProperty :sourceProperty
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:allValuesFrom :SubMappingRelation ;
+                owl:onProperty :subMapping
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:onProperty :targetGraphicRelation ;
+                owl:cardinality
+                        "1"^^xsd:nonNegativeInteger
+              ] ;
+.
+
+:PropertyToGraphicAttributeMapping
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:onProperty :targetAttribute ;
+                owl:cardinality
+                        "1"^^xsd:nonNegativeInteger
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:allValuesFrom viso-graphic:GraphicAttribute ;
+                owl:onProperty :targetAttribute
+              ] ;
+.
+
+:PropertyToGraphicObjToObjRelationMapping
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:onProperty :targetObjToObjRelation ;
+                owl:cardinality
+                        "1"^^xsd:nonNegativeInteger
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:allValuesFrom viso-graphic:Object-to-Object_Relation ; # viso-graphic:GraphicObjectToObjectRelation ;
+                owl:onProperty :targetObjToObjRelation
+              ] ;
+.
+
+
+:SubMappingRelation
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:onClass :Mapping ;
+                owl:onProperty :subMapping-mapping ;
+                owl:qualifiedCardinality
+                        "1"^^xsd:nonNegativeInteger
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:onClass viso-graphic:SyntacticRole ;
+                owl:onProperty :subMapping-onRole ;
+                owl:qualifiedCardinality
+                        "1"^^xsd:nonNegativeInteger
+              ] ;
+.

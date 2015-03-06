@@ -7,6 +7,7 @@
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix viso-data:  <http://purl.org/viso/data/> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
 
 :     rdf:type owl:Ontology .
 
@@ -113,10 +114,12 @@
       :exportsTo :China ;
       :partOf :Europe ;
       :population "80"^^xsd:int ;
+      dct:title "Deutschland (dct-title with de lang tag, untyped)"@de ;
       .
 
 :Jan  rdf:type :Person ;
       rdfs:label "Jan"^^xsd:string ;
+      dct:title "Jan (dct- title)"^^xsd:string ;
       :workingField :InfoVis ;
       :knows :Lina , :Luisa ;
       .
@@ -156,6 +159,11 @@
 :Place
       rdf:type owl:Class ;
       rdfs:label "Place"^^xsd:string ;
+      rdfs:subClassOf :DomainResource .
+      
+:Document
+      rdf:type owl:Class ;
+      rdfs:label "Dokument"@de;
       rdfs:subClassOf :DomainResource .
 
 :Sci-Fi
@@ -223,12 +231,14 @@
 :exportsTo
       rdf:type rdf:Property , owl:ObjectProperty ;
       rdfs:range :Place ;
+      rdfs:domain :Place ;
       rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value .
 
 :partOf
       rdf:type rdf:Property , owl:ObjectProperty , owl:TransitiveProperty ;
-      rdfs:range :Place ;
-      rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value .
+      #rdfs:range :Place ;
+      #rdfs:domain :Place ;
+      rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value, owl:topObjectProperty .
       
 :knows
       rdf:type rdf:Property , owl:ObjectProperty ;
@@ -238,3 +248,15 @@
       rdf:type rdf:Property , owl:DataTypeProperty ;
       rdfs:range xsd:int ;
       rdfs:subPropertyOf :domainProperty , viso-data:has_quantitative_value .
+     
+:workingField
+      rdf:type rdf:Property , owl:ObjectProperty ;
+      rdfs:range :Field ;
+      rdfs:domain :Person ;
+      rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value, owl:topObjectProperty .
+      
+:creator
+      rdf:type rdf:Property , owl:ObjectProperty ;
+      rdfs:range :Person ;
+      rdfs:domain :Document ;
+      rdfs:subPropertyOf :domainProperty , viso-data:has_nominal_value, owl:topObjectProperty .

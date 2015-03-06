@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.logging.Logger;
 
+import org.purl.rvl.exception.OGVICRepositoryException;
+
 /**
  * Allows for using the OGVIC process with a data and a mapping file as input.
  * Both files will be requested by a dialogue.
@@ -18,7 +20,7 @@ public class OGVICConsoleFiles {
 	private final static Logger LOGGER = Logger.getLogger(OGVICConsoleFiles.class.getName());
 	static final String NL = System.getProperty("line.separator");
 	
-    public static void main(String[] args) throws IOException { 
+    public static void main(String[] args) throws IOException, OGVICRepositoryException { 
 
     	new OGVICConsoleFiles().runConsole();
         
@@ -28,8 +30,9 @@ public class OGVICConsoleFiles {
 
 	/**
 	 * @throws IOException
+	 * @throws OGVICRepositoryException 
 	 */
-	public void runConsole() throws IOException {
+	public void runConsole() throws IOException, OGVICRepositoryException {
 		
 		// set up interactive process
     	OGVICProcess interactiveProcess = OGVICProcess.getInstance();

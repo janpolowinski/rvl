@@ -200,8 +200,15 @@ public class PropertyMappingX extends MappingX {
 
 	// TODO multiple inheritedBy values should be allowed
 	public Property getInheritedBy() {
-		if (getDelegatee().hasInheritedby()) {
+		if (hasInheritedby()) {
 			return (Property)getDelegatee().getAllInheritedby_as().firstValue().castTo(Property.class);
+		} else return null;
+	}
+	
+	// TODO multiple passedTo values should be allowed
+	public Property getPassedTo() {
+		if (hasPassedTo()) {
+			return (Property)getDelegatee().getAllPassedto_as().firstValue().castTo(Property.class);
 		} else return null;
 	}
 
@@ -268,6 +275,10 @@ public class PropertyMappingX extends MappingX {
 
 	public boolean hasInheritedby() {
 		return getDelegatee().hasInheritedby();
+	}
+
+	public boolean hasPassedTo() {
+		return getDelegatee().hasPassedto();
 	}
 	
 	protected PropertyMapping getDelegatee() {

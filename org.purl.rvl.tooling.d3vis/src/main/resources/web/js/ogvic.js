@@ -1,20 +1,4 @@
 /*************************************************/
-/* SETTINGS       								 */
-/*************************************************/
-
-var SYMBOL_WIDTH = 25; // width of the symbols in the Symbols.svg without scaling in px
-
-var NODE_SIZE; // TODO D3 symbol functions consider area using Math.sqrt(). Area of svg symbols in use elements is simply width*height
-var LABEL_ICON_SUPER_IMPOSITION_FAKTOR = 1/1.3; // e.g. 1/2 : Overlap by 1/2 label icon size
-
-// canvas
-var width = 1400,
-    height = 1200,
-    m = [20, 120, 20, 120]
-	;
-
-
-/*************************************************/
 /* own "plugins" to handle AVM based on D3       */
 /*************************************************/
 
@@ -232,8 +216,8 @@ var width = 1400,
 			
 				
 			innerSVG.append("use")
-			  .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.shape_d3_name; })
-			  //.attr("xlink:href", function(d) { return "../../svg/symbols.svg#clock"; })
+			  .attr("xlink:href", function(d) { return BASE_PATH_SVG_FILE + d.shape_d3_name; })
+			  //.attr("xlink:href", function(d) { return BASE_PATH_SVG_FILE + "clock"; })
 	   	 	  .attr("class", function(d) { return "label svgSymbol"; })
 		      .style("fill", function(d) { return d.color_rgb_hex_combined; })
 		      .attr("transform", function(d) { return "scale(" + (d.width/SYMBOL_WIDTH) +  ")"; })
@@ -293,7 +277,7 @@ var width = 1400,
 	  d3.selection.enter.prototype.avmShapedWithUseSVG = function() {
 		 	return this.append("use")
 		 	  .filter(function(d) { return null != d.shape_d3_name ;})
-			  .attr("xlink:href", function(d) { return "../../svg/symbols.svg#" + d.shape_d3_name; })
+			  .attr("xlink:href", function(d) { return BASE_PATH_SVG_FILE + d.shape_d3_name; })
 	   	 	  .attr("class", "svgSymbol")
 		      .applyGraphicAttributesNonSpatial2SVG()
 		     ;

@@ -67,7 +67,7 @@ public class DataQueryBuilder extends SPARQLQueryBuilder {
 		query.append(" FILTER isIRI(?o) ");
 	}
 
-	private void filterNoReflexiveStatementsSPARQL() {
+	protected void filterNoReflexiveStatementsSPARQL() {
 		query.append(" FILTER(?s != ?o) "); // TODO: this stops reflexive arcs completely! make optional
 	}
 

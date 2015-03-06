@@ -14,8 +14,21 @@
 *.pmd
 
 *.project
+/*/.settings/*/*.*
 
-gen
+*.tmp
+/*/gen/*.*
+/*/gen/*/*.*
+/*/tmp/*.*
+/*/tmp/*/*.*
+!.keep
 ogvic.properties
 build-javadoc.xml
 target
+bin
+/*/editing/*.ttl
+!/*/editing/*.template.ttl
+/oldscripts
+
+*.iml
+.idea

@@ -1,10 +1,91 @@
 body {
 	background-color: #334;
+	/*margin: 0px;*/
+  	font-family: Arial, sans-serif;
+	font-size: 0.8em;
+	color: #aaa;
+}
+
+#container {
+  display: table;
+  padding: 0px;
+  width: 100%;
+  }
+
+.layout {
+  /*border: 1px solid yellow;*/
+}
+
+#row  {
+  display: table-row;
+  /*padding: 3px;*/
+  }
+
+#footer  {
+  /*display: table-row;*/
+  padding: 3px;
+  width:100%;
+  }
+
+#left, #right, #middle {
+  display: table-cell;
+  padding: 0px;
+  vertical-align:top;
+  }
+  
+#left {
+  text-align:left;
+  width:200px;
+}
+
+#right {
+  text-align:right;
+  width:300px;
+}
+  
+#canvas {
+  z-index: -10000;
+  width:auto;
+  height:800px;
+  padding: 3px;
+}
+
+#menu {
+	position:absolute;
+	z-index: 3000;
+	width:200px;
+}
+
+#editor {
+	position:absolute;
+	z-index: 3000;
+	width:300px;
+	background-color: #eee;
+	padding: 10px;
+}
+
+#menu button {
+	width:100%;
+	text-align:left;
+}
+
+#menu button:hover {
+	font-weight: bold;
+	margin-top: 6px;
+	margin-bottom: 6px;
+}
+
+form input, form textarea {
+	width:100%;
+}
+
+form textarea {
+	resize: vertical ;
 }
 
 #svg {
 	position:absolute;
-	z-index: 1;
+	z-index: 1000;
 }
 
 /* set to whatever the body-background-color is */

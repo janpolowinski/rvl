@@ -4,18 +4,14 @@
 package org.purl.rvl.tooling.commons.utils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
@@ -39,7 +35,7 @@ import org.purl.rvl.tooling.commons.ResourcesCache;
  */
 public class ModelUtils {
 	
-	private static ModelUtils instance = new ModelUtils(); // only for resource localisation via getClass().getResourceAsStream()...
+	//private static ModelUtils instance = new ModelUtils(); // only for resource localisation via getClass().getResourceAsStream()...
 
 	private final static Logger LOGGER = Logger.getLogger(ModelUtils.class.getName());
 
@@ -60,25 +56,22 @@ public class ModelUtils {
 			syntax = Syntax.Turtle; 
 		} else if (extension.equals("owl")) {
 			syntax = Syntax.RdfXml; 
+		} else if (extension.equals("tmp")) {
+			syntax = Syntax.Turtle; 
+			LOGGER.warning("assuming turtle syntax"); // FIXME
 		} else {
 			throw new IOException("Unsupported file extension '" + extension + "'");
 		}
 		
 		if (file.isAbsolute()) {
-			model.readFrom(getFromWithinJars(file), syntax);
+			model.readFrom(FileResourceUtils.getFromWithinJars(file), syntax);
 		} else {
 			model.readFrom(new FileReader(file), syntax);
 		}
 
 	}
 
-	private static InputStream getFromWithinJars(File file) {
-		
-		InputStream absolutePath = instance.getClass().getResourceAsStream(file.getPath());
-//		String theString = IOUtils.toString(absolutePath, "utf-8");
-		
-		return absolutePath;
-	}
+
 	
 
 	private static void listModelStatements(String context, Model model){

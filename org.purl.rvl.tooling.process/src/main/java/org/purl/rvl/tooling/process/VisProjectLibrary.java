@@ -1,6 +1,7 @@
 package org.purl.rvl.tooling.process;
 
 import java.io.FileNotFoundException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -46,20 +47,6 @@ public class VisProjectLibrary {
 		// "Bootstrapping" the latest generated AVM (if there is one already)
 		///////////////////////////////////////////////////////////////////
 		initAVMBootstrappingProject();
-				
-		//////////////////////////////////////////////////////////////////
-		// "Bootstrapping" RVL Classes
-		///////////////////////////////////////////////////////////////////
-		VisProject useCaseRVLClasses = new VisProject("rvl");
-		useCaseRVLClasses.setReasoningDataModel(Reasoning.rdfs);
-		useCaseRVLClasses.registerMappingFile(ExampleMapping.RVL_EXAMPLE_BOOTSTRAP);
-		useCaseRVLClasses.registerDataFile(OntologyFile.RVL);
-		useCaseRVLClasses.registerDataFile(ExampleData.RVL_EXTRA_DATA);
-		//useCaseRVLClasses.setRvlInterpreter(new SimpleRVLInterpreter());
-		useCaseRVLClasses.setD3Generator(new D3GeneratorTreeJSON());
-		//useCaseRVLClasses.setD3Generator(new D3GeneratorSimpleJSON());
-		useCaseRVLClasses.setD3GraphicFile("circle-packing-zoomable/index.html");
-		storeProject(useCaseRVLClasses);
 		
 		//////////////////////////////////////////////////////////////////
 		// "Bootstrapping" VISO_GRAPHIC Classes
@@ -99,7 +86,7 @@ public class VisProjectLibrary {
 		containmentTest.registerDataFile(ExampleData.RVL_EXAMPLE);
 		containmentTest.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		containmentTest.setD3Generator(new D3GeneratorTreeJSON());
-		containmentTest.setD3GraphicFile("circle-packing-zoomable/index.html");
+		containmentTest.setDefaultGraphicType("circle-packing-zoomable");
 		storeProject(containmentTest);
 		
 		//////////////////////////////////////////////////////////////////
@@ -165,6 +152,11 @@ public class VisProjectLibrary {
 		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		//project.setD3Generator(new D3GeneratorTreeJSON());
 		
+		project = storeProject("tbox-domain-range-test");
+		project.setReasoningDataModel(Reasoning.rdfs);
+		project.registerMappingFile("/example-mappings/tbox-domain-range-test.ttl");
+		project.registerDataFile(ExampleData.RVL_EXAMPLE);
+		
 		project = storeProject("temp-test");
 		project.setReasoningDataModel(Reasoning.rdfs);
 		project.registerMappingFile(ExampleMapping.RVL_TEST_TEMP);
@@ -172,19 +164,35 @@ public class VisProjectLibrary {
 		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		//project.setRvlInterpreter(new SimpleRVLInterpreter());
 		//project.setD3Generator(new D3GeneratorTreeJSON());
-
 		
-
+		//////////////////////////////////////////////////////////////////
+		// "Bootstrapping" RVL Classes
+		///////////////////////////////////////////////////////////////////
+		project = storeProject("rvl");
+		project.setReasoningDataModel(Reasoning.rdfs);
+		project.registerMappingFile("/example-mappings/rvl-bootstrap.ttl");
+		project.registerDataFile(OntologyFile.RVL);
+		project.registerDataFile(ExampleData.RVL_EXTRA_DATA);
+		project.setD3Generator(new D3GeneratorTreeJSON());
+		project.setDefaultGraphicType("collapsible-tree");
+		
+		project = storeProject("rvl-circle-packing");
+		project.setReasoningDataModel(Reasoning.rdfs);
+		project.registerMappingFile("/example-mappings/rvl-bootstrap-containment.ttl");
+		project.registerDataFile(OntologyFile.RVL);
+		project.registerDataFile(ExampleData.RVL_EXTRA_DATA);
+		project.setD3Generator(new D3GeneratorTreeJSON());
+		project.setDefaultGraphicType("circle-packing-zoomable");
 		
 	}
 	
-	public void storeProject(VisProject project){
+	public void storeProject(VisProject project) {
 		this.library.put(project.getName(), project);
 	}
 	
 	public VisProject storeProject(String nameOfNewProject) {
 		VisProject project = new VisProject(nameOfNewProject);
-		this.library.put(project.getName(), project);
+		storeProject(project);
 		return project;
 	}
 
@@ -248,6 +256,10 @@ public class VisProjectLibrary {
 	        instance = new VisProjectLibrary();
 	    }
 	    return instance;
+	}
+	
+	public Collection<? extends VisProject> getProjects() {
+		return library.values();
 	}
 	
 }

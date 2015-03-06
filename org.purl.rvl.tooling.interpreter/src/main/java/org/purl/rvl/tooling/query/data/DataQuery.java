@@ -227,53 +227,64 @@ public class DataQuery {
 			
 			}
 			
-			if (spURI.equals(RDF.ID)) {
-				
-				if (null == subject) {
+			if (!pm.hasPassedTo()) {
+			
+				if (spURI.equals(RDF.ID)) { // TODO: check for this special property here already: spURI.toString().equals(RVL.ID_AND_TYPES
 					
-					// in the special case when rdf:ID was used as a source property, we query for a set of triples (<ID>, rdf:type, rdfs:Resource).
-					//statementSet.addAll(DataQuery.findResourceStatements(modelOrModelSet, fromGraph, spURI, selectorSPARQLString)); 
-					statementSet.addAll(DataQuery.findRDFidStatements(modelOrModelSet, fromGraph, selectorSPARQLString)); 
-
+					if (null == subject) {
+						
+						// in the special case when rdf:ID was used as a source property, we query for a set of triples (<ID>, rdf:type, rdfs:Resource).
+						//statementSet.addAll(DataQuery.findResourceStatements(modelOrModelSet, fromGraph, spURI, selectorSPARQLString)); 
+						statementSet.addAll(DataQuery.findRDFidStatements(modelOrModelSet, fromGraph, selectorSPARQLString)); 
+	
+					} else {
+	
+						// create a single rdf:ID statement when the query is restricted with a subject
+						statementSet.add(new StatementImpl(fromGraph, subject, spURI, subject));
+	
+					}
+								
+				} else if (onlyMostSpecific) {
+					
+					 // get only the most specific statements and exclude those using a super-property instead
+					statementSet.addAll(DataQuery.findStatementsPreferingThoseUsingASubProperty(
+							modelOrModelSet,
+							fromGraph,
+							spURI,
+							selectorSPARQLString,
+							subject,
+							object
+							)); 
+					
 				} else {
-
-					// create a single rdf:ID statement when the query is restricted with a subject
-					statementSet.add(new StatementImpl(fromGraph, subject, spURI, subject));
-
+					
+					// old code for getting statements directly with the API without SPARQL. maybe reuse later, when performance should matter
+					// not usable in most cases, since many filter and restrictions usually apply for statement selection
+					LOGGER.severe("Finding statements including less specific statements not implemented.");
+					
+					// TODO what should happen here??? can most specific and inheritedBy already be used at the same time? or only XOR?
+					//System.exit(1);
+					//statementSet.addAll(findStatementsIncludingSubPropertyStatementsWithoutSPARQL(
+					//		modelOrModelSet, subject, object, spURI,classSelector));
+					
 				}
-							
-			} else if (onlyMostSpecific) {
-				
-				 // get only the most specific statements and exclude those using a super-property instead
-				statementSet.addAll(DataQuery.findStatementsPreferingThoseUsingASubProperty(
-						modelOrModelSet,
-						fromGraph,
-						spURI,
-						selectorSPARQLString,
-						subject,
-						object
-						)); 
-				
-			} else {
-				
-				// old code for getting statements directly with the API without SPARQL. maybe reuse later, when performance should matter
-				// not usable in most cases, since many filter and restrictions usually apply for statement selection
-				LOGGER.severe("Finding statements including less specific statements not implemented.");
-				
-				// TODO what should happen here??? can most specific and inheritedBy already be used at the same time? or only XOR?
-				//System.exit(1);
-				//statementSet.addAll(findStatementsIncludingSubPropertyStatementsWithoutSPARQL(
-				//		modelOrModelSet, subject, object, spURI,classSelector));
-				
+			
 			}
 			
 			// WARNING!
 			// if inherited by is set, statement set will be extended, not replaced! :
 			
 			// consider inherited relations, including those between classes (someValueFrom ...)
-			if (pm.hasInheritedby()) {
+			if (pm.hasInheritedby() || pm.hasPassedTo()) {
 				
-				Property inheritedBy = pm.getInheritedBy();
+				Property inheritedBy;
+				
+				// look if 
+				if (pm.hasPassedTo()) {
+					inheritedBy = pm.getPassedTo();
+				} else {
+					inheritedBy = pm.getInheritedBy();
+				}
 
 				if (
 					inheritedBy.toString().equals(Restriction.SOMEVALUESFROM.toString())
@@ -294,7 +305,7 @@ public class DataQuery {
 				
 				} else {
 					
-					String message = "inheritedBy is set to a value not defining a class level relation or the value is not yet supported. " 
+					String message = "inheritedBy/passedTo is set to a value not defining a class level relation or the value is not yet supported. " 
 							//+ "Will be ignored as a class level relation."
 							;
 					//LOGGER.severe(message);

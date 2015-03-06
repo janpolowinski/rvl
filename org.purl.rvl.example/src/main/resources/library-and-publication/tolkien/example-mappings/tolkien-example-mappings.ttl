@@ -1,0 +1,57 @@
+# Saved by TopBraid on Sat May 25 19:43:31 CEST 2013
+# baseURI: http://purl.org/rvl/example-mappings/
+# imports: http://purl.org/rvl/
+
+@prefix :        <http://purl.org/rvl/example-mappings/> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix vg:    <http://purl.org/viso/graphic/> .
+@prefix common-shapes:    <http://purl.org/viso/shape/commons/> .
+@prefix gold:    <http://purl.org/linguistics/gold/> .
+@prefix dct: <http://purl.org/dc/terms/> . # issued
+@prefix dnb-standards: <http://d-nb.info/standards/elementset/gnd#> . # preferredName
+@prefix bibo: <http://purl.org/ontology/bibo/> . # Document
+
+:     a owl:Ontology ;
+      owl:imports rvl: ,common-shapes: .
+      
+
+
+
+
+
+:CreatorToLinkingDirected
+      rdf:type rvl:PropertyMapping ;
+      rvl:sourceProperty dct:creator ; 
+	rvl:invertSourceProperty "true";
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation .
+
+:LanguageToColor
+      rvl:disabled "false"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty <http://purl.org/dc/terms/language> ;
+      rvl:targetAttribute vg:color_named ; 
+      rvl:valueMapping [
+	rvl:sourceValue <http://id.loc.gov/vocabulary/iso639-2/eng>;
+        rvl:targetValue vg:Orange;
+      ].  
+
+:IssuedToColor
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty <http://purl.org/dc/terms/issued> ;
+      rvl:targetAttribute vg:color_hsl_lightness ; 
+      rvl:valueMapping [
+	rvl:sourceValueInterval [
+    	 rvl:lowerBoundIncl "1800";
+    	 rvl:upperBoundIncl "2015";
+    	];
+	rvl:targetValueInterval [
+    	 rvl:lowerBoundIncl "0";
+    	 rvl:upperBoundIncl "100";
+        ];
+      ].

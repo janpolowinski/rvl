@@ -7,4 +7,12 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<welcome-file-list>
 		<welcome-file>page/index.jsp</welcome-file> 
 	</welcome-file-list>
+	<filter>
+        <filter-name>cross-origin</filter-name>
+        <filter-class>org.eclipse.jetty.servlets.CrossOriginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>cross-origin</filter-name>
+        <url-pattern>http://localhost:8080/semvis/*</url-pattern>
+    </filter-mapping>
 </web-app> 

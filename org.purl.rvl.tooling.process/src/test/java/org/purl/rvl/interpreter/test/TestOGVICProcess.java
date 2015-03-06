@@ -58,6 +58,10 @@ public abstract class TestOGVICProcess {
 
 	
 	public void loadProjectAndRunProcess() {
+		
+		if (null==project) {
+			Assert.fail("Project could not be loaded, since it was null.");
+		}
 
 		try {
 			process.loadProject(project);

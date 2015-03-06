@@ -47,7 +47,8 @@ public class OGVICProcess {
 	public static boolean WRITE_MAPPING_MODEL = false;
 	public static boolean WRITE_JSON = true;
 	
-	//public static final String WEB_SERVER_ROOT = "../org.purl.rvl.tooling.d3vis/src/main/resources/web/"; // use for local testing with a webserver reading this dir
+	//public static final String WEB_SERVER_ROOT = "../org.purl.rvl.tooling.d3vis/src/main/resources/web/"; // use for local testing with this folder as the root of a webserver
+	//public static final String WEB_SERVER_ROOT = "../build/"; // use for local testing (starting test cases from eclipse) with the build folder as the root of a webserver. build with all-static and run with run-static ... 
 	public static final String WEB_SERVER_ROOT = ""; // standard for jar building and deployment
 	
 	// TMP LOCAL FILES AND FOLDER SETTINGS
@@ -130,20 +131,21 @@ public class OGVICProcess {
 	
 	/**
 	 * @param args
+	 * @throws OGVICRepositoryException 
 	 * @throws IOException 
 	 */
-	private OGVICProcess() {
+	private OGVICProcess() throws OGVICRepositoryException {
 		init();
 	}
 	
-	public static OGVICProcess getInstance() {
+	public static OGVICProcess getInstance() throws OGVICRepositoryException {
 		if (instance == null) {
 	        instance = new OGVICProcess();
 	    }
 	    return instance;
 	}
 
-	private void init() {
+	private void init() throws OGVICRepositoryException {
 		
 		// explicitly specify to use a specific ontology api here:
 		 RDF2Go.register( new org.ontoware.rdf2go.impl.jena.ModelFactoryImpl());
@@ -152,12 +154,7 @@ public class OGVICProcess {
 		// for ModelFactoryImpls to register.
 
 		modelManager = ModelManager.getInstance();
-		try {
-			modelManager.initInternalModels();
-		} catch (OGVICRepositoryException e) {
-			e.printStackTrace();
-		}
-		
+		modelManager.initInternalModels();
 	}
 	
 	public void initDataAndMappingsModel(VisProject project) throws OGVICRepositoryException {
@@ -200,15 +197,20 @@ public class OGVICProcess {
 //		}
 		
 		// try to get generator from project
-		if (null != project.getD3Generator()){
-			setD3Generator(project.getD3Generator());
+		if (null != project.getD3Generator()) {
+			D3Generator d3Generator = project.getD3Generator();
+			String graphicType = project.getDefaultGraphicType();
+			if (null != graphicType && !graphicType.isEmpty()) {
+				d3Generator.setGraphicType(graphicType);
+			}
+			setD3Generator(d3Generator);
 		}
 
 		// try to get html file for d3 rendering from project
-		if (null != project.getD3GraphicFile()){
+		if (null != project.getDefaultGraphicType()){
 			setD3GraphicFile(project.getD3GraphicFile());
 		} else if (null != d3Generator) {
-			setD3GraphicFile(d3Generator.getDefaultD3GraphicFile());
+			setD3GraphicFile(d3Generator.getD3GraphicFile());
 		} else {
 			LOGGER.severe("D3 html file was not set, using default one.");
 			System.exit(0);
