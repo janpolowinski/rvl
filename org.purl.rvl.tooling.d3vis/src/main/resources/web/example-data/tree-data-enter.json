@@ -120,40 +120,6 @@
                       }
                     ]
                   }
-                },
-                {
-                  "uri": "http://purl.org/rvl/example-data/Dresden",
-                  "color_rgb_hex": "",
-                  "color_rgb_hex_combined": null,
-                  "shape_d3_name": "circle",
-                  "width": 17,
-                  "labels": [
-                    {
-                      "position": "centerRight",
-                      "text_value": "Dresden",
-                      "width": "21.25",
-                      "color_rgb_hex_combined": null,
-                      "type": "text_label",
-                      "text_value_full": "Dresden"
-                    }
-                  ],
-                  "connector": {
-                    "arrow_type": "arrow",
-                    "uri": "http://purl.org/rvl/example-data/partOf",
-                    "color_rgb_hex": "",
-                    "color_rgb_hex_combined": null,
-                    "shape_d3_name": "arrow",
-                    "labels": [
-                      {
-                        "position": "centerRight",
-                        "text_value": "partOf",
-                        "width": "21.25",
-                        "color_rgb_hex_combined": null,
-                        "type": "text_label",
-                        "text_value_full": "partOf"
-                      }
-                    ]
-                  }
                 }
               ]
             },
@@ -171,40 +137,6 @@
                   "color_rgb_hex_combined": null,
                   "type": "text_label",
                   "text_value_full": "Turkey"
-                }
-              ],
-              "connector": {
-                "arrow_type": "arrow",
-                "uri": "http://purl.org/rvl/example-data/partOf",
-                "color_rgb_hex": "",
-                "color_rgb_hex_combined": null,
-                "shape_d3_name": "arrow",
-                "labels": [
-                  {
-                    "position": "centerRight",
-                    "text_value": "partOf",
-                    "width": "21.25",
-                    "color_rgb_hex_combined": null,
-                    "type": "text_label",
-                    "text_value_full": "partOf"
-                  }
-                ]
-              }
-            },
-            {
-              "uri": "http://purl.org/rvl/example-data/Spain",
-              "color_rgb_hex": "#ff0000",
-              "color_rgb_hex_combined": "#ff0000",
-              "shape_d3_name": "circle-p",
-              "width": 17,
-              "labels": [
-                {
-                  "position": "centerRight",
-                  "text_value": "Spain (pop.: 40...",
-                  "width": "21.25",
-                  "color_rgb_hex_combined": null,
-                  "type": "text_label",
-                  "text_value_full": "Spain (pop.: 40)"
                 }
               ],
               "connector": {
@@ -262,40 +194,6 @@
           },
           "children": [
             {
-              "uri": "http://purl.org/rvl/example-data/China",
-              "color_rgb_hex": "#ffff00",
-              "color_rgb_hex_combined": "#ffff00",
-              "shape_d3_name": "star-18",
-              "width": 17,
-              "labels": [
-                {
-                  "position": "centerRight",
-                  "text_value": "China (pop.: 10...",
-                  "width": "21.25",
-                  "color_rgb_hex_combined": null,
-                  "type": "text_label",
-                  "text_value_full": "China (pop.: 1000)"
-                }
-              ],
-              "connector": {
-                "arrow_type": "arrow",
-                "uri": "http://purl.org/rvl/example-data/partOf",
-                "color_rgb_hex": "",
-                "color_rgb_hex_combined": null,
-                "shape_d3_name": "arrow",
-                "labels": [
-                  {
-                    "position": "centerRight",
-                    "text_value": "partOf",
-                    "width": "21.25",
-                    "color_rgb_hex_combined": null,
-                    "type": "text_label",
-                    "text_value_full": "partOf"
-                  }
-                ]
-              }
-            },
-            {
               "uri": "http://purl.org/rvl/example-data/Turkey",
               "color_rgb_hex": "#ff0000",
               "color_rgb_hex_combined": "#ff0000",
@@ -330,110 +228,6 @@
               }
             }
           ]
-        },
-        {
-          "uri": "http://purl.org/rvl/example-data/America",
-          "color_rgb_hex": "#ff9900",
-          "color_rgb_hex_combined": "#ff9900",
-          "shape_d3_name": "circle",
-          "width": 17,
-          "labels": [
-            {
-              "position": "centerRight",
-              "text_value": "America",
-              "width": "21.25",
-              "color_rgb_hex_combined": null,
-              "type": "text_label",
-              "text_value_full": "America"
-            }
-          ],
-          "connector": {
-            "arrow_type": "arrow",
-            "uri": "http://purl.org/rvl/example-data/partOf",
-            "color_rgb_hex": "",
-            "color_rgb_hex_combined": null,
-            "shape_d3_name": "arrow",
-            "labels": [
-              {
-                "position": "centerRight",
-                "text_value": "partOf",
-                "width": "21.25",
-                "color_rgb_hex_combined": null,
-                "type": "text_label",
-                "text_value_full": "partOf"
-              }
-            ]
-          },
-          "children": [
-            {
-              "uri": "http://purl.org/rvl/example-data/Bob",
-              "color_rgb_hex": "",
-              "color_rgb_hex_combined": null,
-              "shape_d3_name": "circle",
-              "width": 17,
-              "labels": [
-                {
-                  "position": "centerRight",
-                  "text_value": "Bob",
-                  "width": "21.25",
-                  "color_rgb_hex_combined": null,
-                  "type": "text_label",
-                  "text_value_full": "Bob"
-                }
-              ],
-              "connector": {
-                "arrow_type": "arrow",
-                "uri": "http://purl.org/rvl/example-data/partOf",
-                "color_rgb_hex": "",
-                "color_rgb_hex_combined": null,
-                "shape_d3_name": "arrow",
-                "labels": [
-                  {
-                    "position": "centerRight",
-                    "text_value": "partOf",
-                    "width": "21.25",
-                    "color_rgb_hex_combined": null,
-                    "type": "text_label",
-                    "text_value_full": "partOf"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "uri": "http://purl.org/rvl/example-data/Australia",
-          "color_rgb_hex": "#ff0000",
-          "color_rgb_hex_combined": "#ff0000",
-          "shape_d3_name": "circle",
-          "width": 17,
-          "labels": [
-            {
-              "position": "centerRight",
-              "text_value": "Australia (pop....",
-              "width": "21.25",
-              "color_rgb_hex_combined": null,
-              "type": "text_label",
-              "text_value_full": "Australia (pop.: 100)"
-            }
-          ],
-          "connector": {
-            "arrow_type": "arrow",
-            "uri": "http://purl.org/rvl/example-data/partOf",
-            "color_rgb_hex": "",
-            "color_rgb_hex_combined": null,
-            "shape_d3_name": "arrow",
-            "labels": [
-              {
-                "position": "centerRight",
-                "text_value": "partOf",
-                "width": "21.25",
-                "color_rgb_hex_combined": null,
-                "type": "text_label",
-                "text_value_full": "partOf"
-              }
-            ]
-          }
         }
       ],
       "connector": {
