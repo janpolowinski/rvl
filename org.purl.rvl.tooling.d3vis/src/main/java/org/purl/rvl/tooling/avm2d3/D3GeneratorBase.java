@@ -43,7 +43,7 @@ public abstract class D3GeneratorBase implements D3Generator {
 	protected static final float DEFAULT_WIDTH_NODES = 17;
 	protected static final float DEFAULT_WIDTH_CONNECTORS = 17;
 
-	protected static final float LABEL_ICON_SIZE_FACTOR = (float) 0.50; 
+	protected static final float LABEL_ICON_SIZE_FACTOR = (float) 1.25; 
 	
 	
 	public D3GeneratorBase() {
