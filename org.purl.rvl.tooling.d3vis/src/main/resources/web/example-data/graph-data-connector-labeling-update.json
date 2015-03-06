@@ -45,14 +45,14 @@
         {
           "position": "centerRight",
           "text_value": "changed critiques",
-          "width": "20",
+          "width": "60",
           "color_rgb_hex_combined": null,
           "type": "text_label",
           "text_value_full": "changed critiques (full)"
         },
         {
           "position": "topRight",
-          "width": "20",
+          "width": "60",
           "color_rgb_hex_combined": "#ffff00",
           "shape_d3_name": "heart",
           "type": "icon_label"
