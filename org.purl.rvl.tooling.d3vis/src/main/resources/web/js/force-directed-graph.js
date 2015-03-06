@@ -243,7 +243,7 @@ updateForceDirectedGraph = function(error, graph) {
 	    var boundConnectorLabelGroups = boundConnectorGroups.select("g.label");
 		var boundConnectorLabelSymbols = boundConnectorLabelGroups
 			.filter(function(d) { return d.labels != null ;})
-			.selectAll("use.iconLabelNew")
+			.selectAll("g.scaleGroup")
 			.data(function(d) { return d.labels.filter(isIconLabel) });
 		var boundConnectorLabelTexts = boundConnectorLabelGroups
 			.filter(function(d) { return d.labels != null ;})
@@ -282,7 +282,8 @@ updateForceDirectedGraph = function(error, graph) {
 			;
 
 		boundConnectorLabelSymbols
-			.attr("transform", "scale(1.5)")
+//			.attr("transform", "scale(1.5)") // fix size for connector icon labels
+			.call(animateScale,500)
 			.avmShapedWithUseSVGUpdateWithoutSelectingSymbol()
 			;
 		boundConnectorLabelTexts

@@ -409,7 +409,7 @@
 	  /* setting the shape by reusing an SVG symbol (without appending a new "use" object) */ 
 	  // TODO duplicated code from avmShapedWithUseSVG
 	  d3.selection.prototype.avmShapedWithUseSVGUpdate = function() {
-		 	return this.select("g.scaleGroup").select(".svgSymbol")
+		 	return this.select("g.scaleGroup").select("use.svgSymbol")
 			  .attr("xlink:href", function(d) { if (null!=d.shape_d3_name) return BASE_PATH_SVG_FILE + d.shape_d3_name; else return ""; }) // do this before the filtering to allow for "removing" shape (when shaped by text instead)
 	   	 	  .filter(function(d) { return null != d.shape_d3_name ;})
 		      .applyGraphicAttributesNonSpatial2SVG()
@@ -419,7 +419,7 @@
 	  /* version without selecting again */ 
 	  // TODO duplicated code from avmShapedWithUseSVGUpdate
 	  d3.selection.prototype.avmShapedWithUseSVGUpdateWithoutSelectingSymbol = function() {
-		 	return this
+		 	return this.select("use.svgSymbol")
 			  .attr("xlink:href", function(d) { if (null!=d.shape_d3_name) return BASE_PATH_SVG_FILE + d.shape_d3_name; else return ""; }) // do this before the filtering to allow for "removing" shape (when shaped by text instead)
 	   	 	  .filter(function(d) { return null != d.shape_d3_name ;})
 		      .applyGraphicAttributesNonSpatial2SVG()
