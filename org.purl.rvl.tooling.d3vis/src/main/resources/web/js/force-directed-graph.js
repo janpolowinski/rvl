@@ -65,8 +65,6 @@ loadForceDirectedGraph = function(error, graph) {
 		// override global settings
 		complexLabeling = true; // not yet fully implemented
 		simpleLabeling = false;
-
-		//alert("loading");
 		
 			/*********************************/
 			/* LOCAL ADAPTED PLUGINS         */

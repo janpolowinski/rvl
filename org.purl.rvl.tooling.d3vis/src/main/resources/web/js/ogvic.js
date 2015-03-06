@@ -33,8 +33,7 @@
 	  d3.selection.enter.prototype.avmLabeledCT = function(hasChildren) {
 
 		  var text =  this
-		  	.append("svg:text")
-			.attr("class", "nodeLabel")
+		  	.append("svg:text").attr("class", "nodeLabel")
 	 		.attr("x", function() { return hasChildren ? -10 : 10; })
 	     	.attr("dy", ".35em")
 			.attr("text-anchor", function() { return hasChildren ? "end" : "start"; })
@@ -49,13 +48,9 @@
 	  d3.selection.enter.prototype.avmLabeledFDG = d3.selection.prototype.avmLabeledFDG = function() {
 		  
 		  var text = this
-		  	.append("svg:text")
-			.attr("class", "nodeLabel")
-			//.attr("x","30").attr("y", "3em")
+		  	.append("svg:text").attr("class", "nodeLabel")
 	 		.attr("dx", 10)
 	     	.attr("dy", 0)
-			//.attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
-		    //.text(function(d) { return d.text_value; })
 			;
 		  
 		  return text;
@@ -70,7 +65,6 @@
 		    .filter(function(d) { return d.text_value != null ; })
 			//.attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
 		    .text(function(d) { return d.text_value; })
-			//.style("visibility", "hidden")
 			;
 		  
 		  return text;
@@ -215,8 +209,6 @@
 		  // TODO: reuse avmLabelPositioning
 		  var containerDiv =  this
 		  	.append("div")
-//			.filter(function(d) { return d.type == "text_label" ;})
-//			.filter(function(d) { return d.position == "centerCenter" ;})
 			.attr("class", function(d){ return "labelContainer textHTMLLabelContainer ";}) // position set o update
 			.style("text-align","center")
 			.style("height", function(d){return "100%";}) // use the whole area defined by the labeling base 
@@ -265,8 +257,6 @@
 			.classed("textSVGLabelContainer",true);
 			
 		var labelContainerSVG = containerDiv
-//			.filter(function(d) { return d.type == "text_label" ;})
-//			.filter(function(d) { return d.position != "centerCenter" ;})
 			.append("svg")
 				.attr("class", "svgLabelText")
 				.attr("width",0 +"px") // text needs to have width and height = 0 for correct positioning atm
@@ -460,8 +450,6 @@
 	  /* setting the shape by a path object */ // TODO: this also sets color and class node at the moment ; seems broken
 	  d3.selection.prototype.avmShapedWithPath = function(symbolFunction) {
 		 	return this.append("path")
-		 	    //.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
-		 		//.attr("d", d3.svg.symbol());
 			   .attr("class", function(d) { return "node";})
     		   .attr("d", symbolFunction)
 			   .applyGraphicAttributesNonSpatial2SVG()
@@ -477,22 +465,7 @@
 	  };
 	  
 	  
-	  /* // replaced by path from symbol factory below
-      var circle = nodeEnter.append("svg:circle")
-      .attr("r", 1e-6)
-      //.style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
-	  .style("fill", function(d) { return d.color_rgb_hex_combined });  */
-	 
-	 /* // shapes from shape generator
-	 	var symbol = nodeEnter.append("path")
-    //.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
-    //.attr("d", d3.svg.symbol());
-	  .attr("class", function(d) { return "node" })
-	 .attr("d", symbolFunction)
-	 .style("fill", function(d) { return d.color_rgb_hex_combined; })
-	 ;	*/
-	  
-	  /* setting the shape by a path object */ // TODO: this also sets color and class node at the moment ; seems broken
+	  /* setting a collection of path markers (to be called once) */
 	  d3.selection.prototype.avmProvideMarkerCollection = function() {
 
 		  var defs = this.append("svg:defs");
@@ -516,6 +489,7 @@
 		  return defs;
 	};
 	
+	/* fade out (or zoom out) and remove */
 	d3.selection.prototype.fadeAway = function () {
 		return this
 //	 	 .select("g.scaleGroup").transition().duration(500).attr("transform", "scale(0.001)") // minimize
@@ -637,7 +611,7 @@ var avmDefaultSizeLabelSymbolFunction = d3.svg.symbol()
  	newObject.py = positionedObject.py ; 
  	newObject.fixed = positionedObject.fixed ; 
  	newObject.weight = positionedObject.weight ; 
-// 	
+
 // 	from the docu at https://github.com/mbostock/d3/wiki/Force-Layout:
 //     index - the zero-based index of the node within the nodes array.
 //     x - the x-coordinate of the current node position.
@@ -653,13 +627,11 @@ var avmDefaultSizeLabelSymbolFunction = d3.svg.symbol()
  /* for link arrays referencing nodes by IDs, not index */ 
  function createIDForLink(d) {
 	return d.source_uri + "_" + d.target_uri;
-	// return "1_0";
  }
  
  // TODO merge?
  function createIDForLink2(d) {
-		return d.source.id + "_" + d.target.id;
-		// return "1_0";
+	return d.source.id + "_" + d.target.id;
  }
 
  
