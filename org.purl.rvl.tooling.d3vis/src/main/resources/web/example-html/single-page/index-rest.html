@@ -35,10 +35,14 @@
   						<button onclick="reInitContainers()">Re init containers</button>
 						<button onclick="clearVis()">Clear visualization</button><br/>
 						
-						<button onclick="exampleJSON('enter')">Enter Example-JSON</button>
-						<button onclick="exampleJSON('update')">Update Example-JSON</button>
-						<button onclick="exampleJSON('exit')">Exit Example-JSON</button>
-						<button onclick="exampleJSON('empty')">Empty Example-JSON</button>
+						<button onclick="exampleJSON('graph-data-connector-labeling-enter')">Enter Example-JSON (Connector labeling)</button>
+						<button onclick="exampleJSON('graph-data-connector-labeling-update')">Enter Example-JSON (Connector labeling)</button>
+						
+						<button onclick="exampleJSON('graph-data-label-labeling-enter')">Enter Example-JSON (Label labeling)</button>
+						<button onclick="exampleJSON('graph-data-label-labeling-update')">Update Example-JSON (Label labeling)</button>
+						<button onclick="exampleJSON('graph-data-label-labeling-exit')">Exit Example-JSON (Label labeling)</button>
+						<button onclick="exampleJSON('graph-data-empty')">Empty Example-JSON (Label labeling)</button>
+						
 						<input id="useForEditor" type="checkbox" value="true"/>Use for <a onClick="showRVLeditor('max')">Editor</a>
   					</div>
   				</div>
@@ -128,7 +132,7 @@
         }
         
         exampleJSON = function(d3Event) {
-        	d3.json("../../example-data/graph-data-label-labeling-" + d3Event + ".json", function(json){
+        	d3.json("../../example-data/" + d3Event + ".json", function(json){
     	 		graphicLoadingFunctions[json.graphic_type](null, json);
     	 		});
     		//"../../gen/json/tree-data.json" , "../../gen/json/graph-data.json", "../../example-data/graph-data-labeling-advanced.json"
