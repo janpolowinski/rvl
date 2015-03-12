@@ -1,0 +1,12 @@
+{
+  "nodes":[
+    {
+      "uri":"http://purl.org/rvl/example-data/Alice",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"clock",
+      "width":200.0
+    }
+  ],
+  "links":[]
+}

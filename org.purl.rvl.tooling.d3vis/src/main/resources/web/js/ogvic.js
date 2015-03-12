@@ -127,7 +127,7 @@
 		 if (addSVGIconLabel) {
 
 			 var boundIconLabelContainers = this
-			 	.filter(function(d) { return d.labels != null ;}, labelKey) // TODO pull up to thisFiltered
+			 	.filter(function(d) { return d.labels != null ;}) // TODO pull up to thisFiltered
 				.selectAll(".iconLabelContainer")
 				.data(function(d) { return d.labels.filter(isIconLabel) ; }, labelKey);
 			 
@@ -139,7 +139,7 @@
 		 if (addSVGTextLabel) {
 			 
 			 var boundTextSVGLabelContainers = this
-			 	.filter(function(d) { return d.labels != null ;}, labelKey)
+			 	.filter(function(d) { return d.labels != null ;})
 				.selectAll(".textSVGLabelContainer")
 				.data(function(d) { return d.labels.filter(isTextLabel) ; }, labelKey);
 			 
@@ -152,7 +152,7 @@
 		 if (addHTMLTextLabel) {
 			 
 			 var boundTextHTMLLabelContainers = this
-			 	.filter(function(d) { return d.labels != null ;}, labelKey)
+			 	.filter(function(d) { return d.labels != null ;})
 				.selectAll(".textHTMLLabelContainer")
 				.data(function(d) { return d.labels.filter(isCenterCenterTextLabel) ; });
 			 
@@ -161,6 +161,9 @@
 
 		 }
 
+		 this.filter(function(d) { return d.labels == null ;})
+		 	.selectAll(".textSVGLabelContainer,.textHTMLLabelContainer,.iconLabelContainer").remove();
+		 
 		 return this;
 		 
 	  };
