@@ -5,12 +5,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
-      "width":9.045341,
+      "width":10.2065735,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Alice",
-          "width":"11.306676",
+          "width":"12.758217",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Alice"
@@ -22,12 +22,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
-      "width":5.2223296,
+      "width":5.892768,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Bob",
-          "width":"6.527912",
+          "width":"7.36596",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Bob"
@@ -39,12 +39,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
-      "width":6.7419987,
+      "width":7.6075306,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Christof",
-          "width":"8.427498",
+          "width":"9.509413",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Christof"
@@ -56,12 +56,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
-      "width":5.2223296,
+      "width":5.892768,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Doctor Who",
-          "width":"6.527912",
+          "width":"7.36596",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Doctor Who"
@@ -73,12 +73,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
-      "width":10.0,
+      "width":11.283792,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Franzi",
-          "width":"12.5",
+          "width":"14.104739",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Franzi"
@@ -90,12 +90,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
-      "width":3.0151134,
+      "width":3.4021912,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Goethe",
-          "width":"3.7688918",
+          "width":"4.252739",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Goethe"
@@ -124,12 +124,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
-      "width":7.9772406,
+      "width":9.001352,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Johannes",
-          "width":"9.971551",
+          "width":"11.25169",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Johannes"
@@ -141,12 +141,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
-      "width":6.7419987,
+      "width":7.6075306,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"John",
-          "width":"8.427498",
+          "width":"9.509413",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"John"
@@ -158,12 +158,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
-      "width":9.045341,
+      "width":10.2065735,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Lina",
-          "width":"11.306676",
+          "width":"12.758217",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Lina"
@@ -175,12 +175,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
-      "width":5.2223296,
+      "width":5.892768,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Luisa",
-          "width":"6.527912",
+          "width":"7.36596",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Luisa"
@@ -192,12 +192,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
-      "width":10.0,
+      "width":11.283792,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Susane",
-          "width":"12.5",
+          "width":"14.104739",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Susane"

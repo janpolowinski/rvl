@@ -548,7 +548,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			if (tga.asURI().toString().equals("http://purl.org/viso/graphic/area")) {
 				Float area = new Float(tv.asLiteral().getValue());
 				go.setArea(area);
-				Float sqrtOfArea = new Float(Math.sqrt(area));
+				Float sqrtOfArea = new Float(2*Math.sqrt(area/Math.PI)); // TODO simplified: assuming a circle shape all the time
 				go.setWidth(sqrtOfArea);
 //				go.setHeight(sqrtOfArea);
 				LOGGER.finer("Set area to float value " + area + " for sv " + sv + " and manipulated width." + NL);
