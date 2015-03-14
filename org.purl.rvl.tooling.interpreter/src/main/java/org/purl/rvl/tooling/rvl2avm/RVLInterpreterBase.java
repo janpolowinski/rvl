@@ -543,6 +543,16 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 				go.setWidth(width);
 				LOGGER.finer("Set width to float value " + width + " for sv " + sv + NL);
 			}
+			
+			// if we are mapping to area // TODO concurrent setting of width OR height should be allowed
+			if (tga.asURI().toString().equals("http://purl.org/viso/graphic/area")) {
+				Float area = new Float(tv.asLiteral().getValue());
+				go.setArea(area);
+				Float sqrtOfArea = new Float(2*Math.sqrt(area/Math.PI)); // TODO simplified: assuming a circle shape all the time
+				go.setWidth(sqrtOfArea);
+//				go.setHeight(sqrtOfArea);
+				LOGGER.finer("Set area to float value " + area + " for sv " + sv + " and manipulated width." + NL);
+			}
 
 		}
 

@@ -1,0 +1,42 @@
+@prefix :        <http://purl.org/rvl/example-mappings/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rexm:    <http://purl.org/rvl/example-mappings/> .
+@prefix rexd:    <http://purl.org/rvl/example-data/> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix vg:      <http://purl.org/viso/graphic/> .
+@prefix common-shapes:    <http://purl.org/viso/shape/commons/> .
+
+:     rdf:type owl:Ontology ;
+      owl:imports rvl: , rexd: ,common-shapes: .
+      
+
+ 
+      
+      
+:OC_Area
+ 	  rdfs:label "OC - ordinal ordered set 2 (auto-discretized) range - PM with a VM that defines a mapping between an ordered set of source values and a range of target values, automatically discretized into steps according to the number of (differernt) source values"^^xsd:string ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:workingField ; ### TODO: better example values
+      rvl:targetAttribute vg:area ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueOrderedSet (
+			rvl:sourceValue rexd:Fiction
+			rvl:sourceValue rexd:Science
+			rvl:sourceValue rexd:Sci-Fi
+			rvl:sourceValue rexd:Spirituality
+			rvl:sourceValue rexd:Biography
+			rvl:sourceValue rexd:Travel
+		);
+		rvl:targetValueInterval [
+        	a rvl:Interval;
+        	rvl:upperBoundIncl "100";
+        	rvl:lowerBoundIncl "0";
+        ];
+        #rvl:discretize "false"^^xsd:boolean ; ### should be ignored here when set
+        rvl:discreteStepCount "2"^^xsd:int ;  ### TODO: no effect
+      ]
+      .

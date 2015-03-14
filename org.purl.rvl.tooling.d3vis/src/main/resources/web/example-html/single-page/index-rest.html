@@ -41,10 +41,15 @@
 						<button onclick="exampleJSON('graph-data-label-labeling-enter')">Enter Example-JSON (Label labeling)</button>
 						<button onclick="exampleJSON('graph-data-label-labeling-update')">Update Example-JSON (Label labeling)</button>
 						<button onclick="exampleJSON('graph-data-label-labeling-exit')">Exit Example-JSON (Label labeling)</button>
+						
+						<button onclick="exampleJSON('graph-data-no-label')">No labels</button>
+						<button onclick="exampleJSON('graph-data-empty-labels-array')">Empty labels array</button>
+						
 						<button onclick="exampleJSON('graph-data-empty')">Empty Example-JSON (Label labeling)</button>
 						
 						<button onclick="exampleJSON('tree-data-enter')">Enter Example-JSON (Tree)</button>
 						<button onclick="exampleJSON('tree-data-update')">Update Example-JSON (Tree)</button>
+						<button onClick="showMenu('hidden')">Hide this menue</button>
 
 						
 						<input id="useForEditor" type="checkbox" value="true"/>Use for <a onClick="showRVLeditor('max')">Editor</a>
@@ -242,6 +247,19 @@
 		
 		populateEditor = function () {
 			return d3.select("#useForEditor").property("checked");
+		}
+		
+		// menu
+		
+		showMenu = function (show) {
+			if(show=='hidden') {
+				width = 1300;
+				d3.select("#left,#menu").style("display", "none");
+				d3.select("#middle").style("width", "1300px");
+				d3.select("#svg").attr("width", "1300");
+			} else {
+				d3.selectAll("#left,#menu").style("display", "table-cell");
+			}
 		}
 		
 		// manipulating the form to post and wait with callback
