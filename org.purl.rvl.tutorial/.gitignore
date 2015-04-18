@@ -10,3 +10,4 @@ pom.properties
 /gen/*.*
 
 ogvic.properties
+/target/
