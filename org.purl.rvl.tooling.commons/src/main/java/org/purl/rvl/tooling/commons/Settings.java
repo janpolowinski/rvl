@@ -39,7 +39,7 @@ public class Settings {
 	
 	try {
 		
-	  properties.load(new FileInputStream("ogvic.properties")); // TODO: this is taken from the maven project, which executes the program, not always from the interpreter project! 
+	  properties.load(new FileInputStream("/semvis.properties")); // TODO: this is taken from the maven project, which executes the program, not always from the interpreter project! 
 	  
 	  Settings.MAX_GRAPHIC_RELATIONS_PER_MAPPING = Integer.parseInt(properties.get("org.purl.rvl.tooling.max-graphic-relations-per-mapping").toString());
 	  //USE_CASE_FOLDER = properties.get("org.purl.rvl.tooling.use-case-folder").toString();
