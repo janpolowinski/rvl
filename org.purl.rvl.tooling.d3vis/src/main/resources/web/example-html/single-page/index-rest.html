@@ -265,17 +265,16 @@
 		// manipulating the form to post and wait with callback
 
 		myOnSubmit = function(formArg) {
-			d3.event.preventDefault();		
-		  	d3.json(baseUrlBackend + "projects/run",function(error, json) {
-			 	if (currentGraphicType != "force-directed-graph" || currentGraphicType != json.graphic_type ) {
-	    			reInitContainers();
-	    			currentGraphicType = json.graphic_type;
-	    		}
-				graphicLoadingFunctions[json.graphic_type](null, json);
-		    })
-		   //.header("Content-Type","multipart/form-data") // this causes the request to fail! probably since some additional info (boundary=... is missing)
-		   //.header("Accept","application/json") // not necessary
- 		   .send("POST", new FormData(formArg));
+			d3.event.preventDefault();
+			d3.xhr(baseUrlBackend + "projects/run")
+    	    	.post(new FormData(formArg),function(error, responseEnv) {
+    	    		var json = JSON.parse(responseEnv.response);
+    	    		if (currentGraphicType != "force-directed-graph" || currentGraphicType != json.graphic_type ) {
+    	    			reInitContainers();
+    	    			currentGraphicType = json.graphic_type;
+    	    		}
+    	    		graphicLoadingFunctions[json.graphic_type](null, json);
+    	    	});
 		  return false;
 		};
 		
