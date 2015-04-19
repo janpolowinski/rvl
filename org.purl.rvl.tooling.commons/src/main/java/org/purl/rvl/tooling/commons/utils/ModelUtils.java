@@ -63,15 +63,8 @@ public class ModelUtils {
 			throw new IOException("Unsupported file extension '" + extension + "'");
 		}
 		
-		if (file.isAbsolute()) {
-			model.readFrom(FileResourceUtils.getFromWithinJars(file), syntax);
-		} else {
-			model.readFrom(new FileReader(file), syntax);
-		}
-
+		model.readFrom(FileResourceUtils.getInputStream(file), syntax);
 	}
-
-
 	
 
 	private static void listModelStatements(String context, Model model){
