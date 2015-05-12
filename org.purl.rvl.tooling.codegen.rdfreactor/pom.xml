@@ -30,6 +30,42 @@
 					<target>${java.target.version}</target>
 				</configuration>
 			</plugin>
+			<plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                    	<id>generate-viso-api-code</id>
+                    	<phase>install</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    <configuration>
+	                    <mainClass>org.purl.rvl.tooling.codegen.rdfreactor.VISOapiGenerator</mainClass>
+                	</configuration>
+                    </execution>
+                    <execution>
+                    	<id>generate-rvl-api-code</id>
+                    	<phase>install</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    <configuration>
+	                    <mainClass>org.purl.rvl.tooling.codegen.rdfreactor.RVLapiGenerator</mainClass>
+                	</configuration>
+                    </execution>
+                </executions>
+                <!-- Now called from install phase. Note: Setting arguments here will not work for exec:java only exec:exec! Do this by environment variables for exec:java -->
+                <!--<configuration>
+                    <mainClass>org.purl.rvl.tooling.codegen.rdfreactor.VISOapiGenerator</mainClass>
+                    <arguments>
+                   	     <argument>-Xms1024m</argument>
+         				 <argument>-Xmx2056m</argument>
+         				 <argument>-XX:MaxPermSize=512m</argument>
+                    </arguments>
+                </configuration>-->
+            </plugin>
 		</plugins>
 	</build>
 	<dependencies>
