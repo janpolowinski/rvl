@@ -21,17 +21,15 @@
       rvl:subjectFilter " ?s rdfs:subClassOf ?restriction . ?restriction owl:onProperty amino-acid:hasPolarity . ?restriction owl:allValuesFrom  amino-acid:Polar . "^^rvl:sparqlSelector;
       rvl:inheritedBy owl:allValuesFrom ;
       rvl:targetObjToObjRelation vg:Labeling_Relation ; 
-      rvl:subMapping 
-      [
-        rvl:subMapping-onRole vg:labeling_label; 
-        rvl:subMapping-onTriplePart rdf:object;
-        rvl:subMapping-mapping :IconLabelShapeMapping;
+      rvl:subMapping [
+        rvl:subMapping-onRole vg:labeling_label ; 
+        rvl:subMapping-onTriplePart rdf:object ;
+        rvl:subMapping-mapping :IconLabelShapeMapping ;
       ],[
-        rvl:subMapping-onRole vg:labeling_label;
-        rvl:subMapping-onTriplePart rdf:subject;
-        rvl:subMapping-mapping :IncreaseSizeHack2;
-      ]
-      .
+        rvl:subMapping-onRole vg:labeling_label ;
+        rvl:subMapping-onTriplePart rdf:subject ;
+        rvl:subMapping-mapping :IncreaseSizeHack2 ;
+      ] .
       
 :IconLabelShapeMapping
       a rvl:PropertyMapping ;
@@ -40,16 +38,13 @@
       rvl:targetAttribute vg:shape_named ; 
       rvl:valueMapping :Polar_to_CircleP .         
       
-      
 :Polar_to_CircleP
       a rvl:ValueMapping ;
       rvl:sourceValue amino-acid:Polar ;
       rvl:targetValue common-shapes:CircleP .
       
-      
-# set label size 
 :IncreaseSizeHack2
-      rvl:disabled "true"^^xsd:boolean ;
+      rvl:disabled "true" ;
       a rvl:PropertyMapping ;
  	  rvl:sourceProperty rdf:type ;
  	  rvl:targetAttribute vg:width ;
@@ -57,5 +52,4 @@
         a rvl:ValueMapping ;
         rvl:sourceValue rdfs:Resource;
 		rvl:targetValue "10"^^xsd:float; # used like a constant here
-      ]
-      . 
+      ] . 
