@@ -8,67 +8,30 @@
 @prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 @prefix common-shapes:  <http://purl.org/viso/shape/commons/> .
+@prefix rexc:  	  <http://purl.org/rvl/example-commons/> .
 @prefix :        <http://purl.org/rvl/example/mapping/cito/> .
 
 :CIT-1
-      a rvl:PropertyMapping ;
-      rdfs:label "CIT-1"^^xsd:string ;
-      dct:description "Colored arrows represent different citation relations ; Map cites to linking by connector, color the connector depending on which subproperty of this relation is used from green (rather positive citation) to red (rather negative citation)."^^xsd:string ;
-      rvl:sourceProperty cito:cites ;
-      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ;
+      a rvl:PropertyMapping;
+      rvl:sourceProperty cito:cites;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation;
       rvl:subMapping [
-        rdf:type rvl:SubMappingRelation ;
         rvl:subMapping-onRole vg:linking_connector;
         rvl:subMapping-onTriplePart rdf:predicate;
         rvl:subMapping-mapping :PMfromID2ColorNamed;
-      ],[
-        rdf:type rvl:SubMappingRelation ;
-        rvl:subMapping-onRole vg:linking_connector;
-        rvl:subMapping-onTriplePart rdf:predicate;
-        rvl:subMapping-mapping :PMfromID2ShapeNamed;
-      ]
-   	 .
+      ].
 	 
-   	 
-# order a bit misused here, better use single vms
-:PMfromID2ColorNamed
-      rvl:disabled "true"^^xsd:boolean ;
-      a rvl:PropertyMapping ;
-      rdfs:label "PM from ID to color 2 (used as a submapping above)"^^xsd:string ;
- 	  rvl:sourceProperty rdf:ID ;
- 	  rvl:targetAttribute vg:color_named ;
- 	  rvl:valueMapping [
-        a rvl:ValueMapping ;
+:ID2Color
+      a rvl:PropertyMapping;
+      rvl:disabled "true";
+      rvl:sourceProperty rdf:ID;
+      rvl:targetAttribute vg:color_named;
+      rvl:valueMapping [
+        a rvl:ValueMapping;
         rvl:sourceValueOrderedSet (
-        	cito:confirms
-			cito:cites 
-			cito:critiques
-		);
-		rvl:targetValueList (
-			vg:Green
-			vg:Yellow
-			vg:Red
-		);
-      ]
-      . 
-      
-# order a bit misused here, better use single vms
-:PMfromID2ShapeNamed
-      rvl:disabled "true"^^xsd:boolean ;
-      a rvl:PropertyMapping ;
-      rdfs:label "PM from ID to shape (used as a submapping above)"^^xsd:string ;
- 	  rvl:sourceProperty rdf:ID ;
- 	  rvl:targetAttribute vg:shape_named ;
- 	  rvl:valueMapping [
-        a rvl:ValueMapping ;
-        rvl:sourceValueOrderedSet (
-			cito:cites
-		);
-		rvl:targetValueList (
-			common-shapes:ArrowSmall
-		);
-      ]
-      . 
-      
-      
-#### Labeling is done by default when no other text labeling is found .... ####    
+            cito:confirms
+            cito:cites 
+            cito:critiques
+        );
+        rvl:targetValueList rexc:ColorsTrafficLight;
+      ].   
