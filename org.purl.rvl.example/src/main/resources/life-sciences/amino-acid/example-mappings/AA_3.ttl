@@ -16,8 +16,7 @@
 
  
 :AA-3
-      rvl:disabled "false"^^xsd:boolean ;
-      a rvl:PropertyToGraphicObjToObjRelationMapping ;
+      a rvl:PropertyMapping ;
       rvl:sourceProperty amino-acid:hasPolarity ;
       rvl:subjectFilter " ?s rdfs:subClassOf ?restriction . ?restriction owl:onProperty amino-acid:hasPolarity . ?restriction owl:allValuesFrom  amino-acid:Polar . "^^rvl:sparqlSelector;
       rvl:inheritedBy owl:allValuesFrom ;
@@ -35,55 +34,18 @@
       .
       
 :IconLabelShapeMapping
-      rvl:disabled "true"^^xsd:boolean ;
-      # TODO: filter not considered during submapping: # rvl:subjectFilter " ?s rdfs:subClassOf ?restriction . ?restriction owl:onProperty amino-acid:hasPolarity . ?restriction owl:allValuesFrom  amino-acid:Polar . "^^rvl:sparqlSelector;
       a rvl:PropertyMapping ;
+      rvl:disabled "true" ;
       rvl:sourceProperty rdf:ID ;
       rvl:targetAttribute vg:shape_named ; 
-      rvl:valueMapping :Polar_to_CircleP ;
-      .         
+      rvl:valueMapping :Polar_to_CircleP .         
       
       
 :Polar_to_CircleP
       a rvl:ValueMapping ;
-      rdfs:label "Polar to Circle-P"^^xsd:string ;
       rvl:sourceValue amino-acid:Polar ;
-      rvl:targetValue common-shapes:CircleP; 
-      .
+      rvl:targetValue common-shapes:CircleP .
       
-######################## EXTRA ############################
-  
-:Mapping_the_Main_Shape
-      rvl:disabled "true"^^xsd:boolean ;
-      a rvl:PropertyMapping ;
-      rdfs:label "SideChainStructure to Shape"^^xsd:string ;
-      rvl:sourceProperty amino-acid:hasPolarity ;
-      rvl:inheritedBy owl:allValuesFrom ;
-      rvl:targetAttribute
-              <http://purl.org/viso/graphic/shape_named> ;
-      rvl:valueMapping :Polar_to_CircleP .
-  
-:SideChainStructureToLinking
-	  a rvl:PropertyMapping ;
-	  rvl:disabled "true"^^xsd:boolean ;
-	  rdfs:label "Polarity (class level) to Linking"^^xsd:string ;
-	  rvl:sourceProperty amino-acid:hasPolarity ;
-	  rvl:inheritedBy owl:allValuesFrom ;
-	  rvl:targetObjToObjRelation
-	          vg:Linking_Directed_Relation .
-	          
-# set main object size       
-:IncreaseSizeHack
-      rvl:disabled "true"^^xsd:boolean ;
-      a rvl:PropertyMapping ;
- 	  rvl:sourceProperty rdf:type ;
- 	  rvl:targetAttribute vg:width ;
- 	  rvl:valueMapping [
-        a rvl:ValueMapping ;
-        rvl:sourceValue rdfs:Resource;
-		rvl:targetValue "50"^^xsd:float; # used like a constant here
-      ]
-      . 
       
 # set label size 
 :IncreaseSizeHack2
