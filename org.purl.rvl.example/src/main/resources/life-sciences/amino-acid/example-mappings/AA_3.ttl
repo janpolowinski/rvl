@@ -28,7 +28,7 @@
       ],[
         rvl:subMapping-onRole vg:labeling_label ;
         rvl:subMapping-onTriplePart rdf:subject ;
-        rvl:subMapping-mapping :IncreaseSizeHack2 ;
+        rvl:subMapping-mapping :IncreaseSizeHack ;
       ] .
       
 :IconLabelShapeMapping
@@ -43,7 +43,7 @@
       rvl:sourceValue amino-acid:Polar ;
       rvl:targetValue common-shapes:CircleP .
       
-:IncreaseSizeHack2
+:IncreaseSizeHack
       rvl:disabled "true" ;
       a rvl:PropertyMapping ;
  	  rvl:sourceProperty rdf:type ;
