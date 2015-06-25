@@ -18,7 +18,7 @@
       rvl:subMapping [
         rvl:subMapping-onRole vg:linking_connector;
         rvl:subMapping-onTriplePart rdf:predicate;
-        rvl:subMapping-mapping :PMfromID2ColorNamed;
+        rvl:subMapping-mapping :ID2Color;
       ].
 	 
 :ID2Color

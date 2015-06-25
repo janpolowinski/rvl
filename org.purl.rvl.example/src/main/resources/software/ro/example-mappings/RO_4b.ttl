@@ -58,24 +58,24 @@ rvl:valueMapping
       rvl:subMapping [
         rvl:subMapping-onRole vg:labeling_label;
         rvl:subMapping-onTriplePart rdf:subject;
-        rvl:subMapping-mapping :LabelTextIdentityMapping;
+        rvl:subMapping-mapping :LabelTextIdentity;
       ],[
         rvl:subMapping-onRole vg:this;
         rvl:subMapping-onTriplePart rdf:subject;
-        rvl:subMapping-mapping :TypeToLabelStyleMapping;
+        rvl:subMapping-mapping :TypeToLabelStyle;
       ],[
         rvl:subMapping-onRole vg:labeling_base;
         rvl:subMapping-onTriplePart rdf:subject;
-        rvl:subMapping-mapping :PMfromType2Width;
+        rvl:subMapping-mapping :Type2Width;
       ].
       
-:LabelTextIdentityMapping
+:LabelTextIdentity
 	  rvl:disabled "true";
       a rvl:IdentityMapping;
       rvl:sourceProperty rvl:label;
       rvl:targetAttribute vg:text_value. 
       
-:TypeToLabelStyleMapping
+:TypeToLabelStyle
       a rvl:PropertyMapping;
       rvl:disabled "true";
       rvl:sourceProperty rdf:type ;
@@ -85,7 +85,7 @@ rvl:valueMapping
       	rvl:targetValue vg:Containment_Relation;
       ].
       
-:PMfromType2Width
+:Type2Width
       a rvl:PropertyMapping;
       rvl:disabled "true";
  	  rvl:sourceProperty rdf:type;

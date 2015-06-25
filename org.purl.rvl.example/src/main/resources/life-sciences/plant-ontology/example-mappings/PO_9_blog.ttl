@@ -7,49 +7,49 @@
 @prefix spin:    <http://spinrdf.org/spin#> .
 @prefix spl:     <http://spinrdf.org/spl#> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
-@prefix vg:    <http://purl.org/viso/graphic/> .
+@prefix vg:      <http://purl.org/viso/graphic/> .
 @prefix common-shapes:  <http://purl.org/viso/shape/commons/> .
 
-:     rdf:type owl:Ontology ;
+:     rdf:type owl:Ontology;
       owl:imports rvl: .
 
-:PropertyToLinkingByConnectorMapping
-      a rvl:PropertyMapping ;
-      rvl:subjectFilter " ?s rdfs:subClassOf ?restriction . ?restriction owl:onProperty obo:develops_from . ?restriction owl:someValuesFrom  po:PO_0005599 . "^^rvl:sparqlSelector;
-      rvl:sourceProperty <http://purl.org/obo/owl/obo#develops_from> ;
-      rvl:invertSourceProperty "true"^^xsd:boolean;
+:PO-9
+      a rvl:PropertyMapping;
+      rvl:sourceProperty <http://purl.org/obo/owl/obo#develops_from>;
+      rvl:invertSourceProperty "true";
       rvl:inheritedBy owl:someValuesFrom;
-      rvl:targetObjToObjRelation vg:Linking_Directed_Relation ;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation;
+      rvl:subjectFilter " ?s rdfs:subClassOf ?restriction . ?restriction owl:onProperty obo:develops_from . ?restriction owl:someValuesFrom  po:PO_0005599 . "^^rvl:sparqlSelector;
       rvl:subMapping [
         rvl:subMapping-onRole vg:linking_connector;
         rvl:subMapping-onTriplePart rdf:predicate;
-        rvl:subMapping-mapping :PMfromID2Width;
+        rvl:subMapping-mapping :ID2Width;
       ],[
         rvl:subMapping-onRole vg:linking_connector;
         rvl:subMapping-onTriplePart rdf:predicate;
         rvl:subMapping-mapping :ArrowShapeMapping;
       ].
 
-:ShapeMapping a rvl:PropertyMapping ;
-      rvl:sourceProperty rdfs:subClassOf ;
-    	  rvl:subjectFilter "http://www.w3.org/2000/01/rdf-schema#subClassOf::http://purl.org/obo/owl/PO#PO_0025059"^^rvl:fslSelector;
-      rvl:targetAttribute vg:shape_named ;
+:ShapeMapping a rvl:PropertyMapping;
+      rvl:sourceProperty rdfs:subClassOf;
+      rvl:targetAttribute vg:shape_named;
+      rvl:subjectFilter "http://www.w3.org/2000/01/rdf-schema#subClassOf::http://purl.org/obo/owl/PO#PO_0025059"^^rvl:fslSelector;
       rvl:valueMapping [
       	rvl:sourceValue <http://purl.org/obo/owl/PO#PO_0025059>;
-      	rvl:targetValue common-shapes:FlowArrow; ].
+      	rvl:targetValue common-shapes:FlowArrow ].
       
-:PMfromID2Width a rvl:PropertyMapping ;
-      rvl:disabled "true"^^xsd:boolean ;
- 	  rvl:sourceProperty rdf:ID ;
- 	  rvl:targetAttribute vg:width ;
+:ID2Width a rvl:PropertyMapping;
+      rvl:disabled "true";
+ 	  rvl:sourceProperty rdf:ID;
+ 	  rvl:targetAttribute vg:width;
  	  rvl:valueMapping [
-        rvl:sourceValue <http://purl.org/obo/owl/obo#develops_from> ;
-		rvl:targetValue "23"^^xsd:float ; ]. 
+        rvl:sourceValue <http://purl.org/obo/owl/obo#develops_from>;
+	    rvl:targetValue "23"^^xsd:float ]. 
       
-:ArrowShapeMapping a rvl:PropertyMapping ;
-      rvl:disabled "true"^^xsd:boolean ;
-      rvl:sourceProperty rdf:ID ;
-      rvl:targetAttribute vg:shape_named ;
+:ArrowShapeMapping a rvl:PropertyMapping;
+      rvl:disabled "true";
+      rvl:sourceProperty rdf:ID;
+      rvl:targetAttribute vg:shape_named;
       rvl:valueMapping [
-		rvl:sourceValue <http://purl.org/obo/owl/obo#develops_from> ;
-        rvl:targetValue common-shapes:Line ; ]. 
+		rvl:sourceValue <http://purl.org/obo/owl/obo#develops_from>;
+        rvl:targetValue common-shapes:Line; ]. 
