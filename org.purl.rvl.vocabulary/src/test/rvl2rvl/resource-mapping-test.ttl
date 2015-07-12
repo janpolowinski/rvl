@@ -1,0 +1,26 @@
+# Saved by TopBraid on Sat Jul 11 20:53:32 CEST 2015
+# baseURI: http://purl.org/rvl/rvl2rvl/test/
+# imports: http://purl.org/rvl/spin-constraints/
+# imports: http://purl.org/rvl/rvl2rvl/
+
+@prefix :        <http://purl.org/rvl/rvl2rvl/test/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix rvl2rvl-test:  <http://purl.org/rvl/rvl2rvl/test/> .
+@prefix spin-constraints:  <http://purl.org/rvl/spin-constraints/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+rvl2rvl-test:
+      rdf:type owl:Ontology ;
+      owl:imports <http://purl.org/rvl/rvl2rvl/> , spin-constraints: ;
+      owl:versionInfo "Created with TopBraid Composer"^^xsd:string .
+
+rvl2rvl-test:ResourceMapping_1
+      rdf:type rvl:ResourceMapping ;
+      rdfs:label "Resource mapping 1"^^xsd:string ;
+      rvl:sourceValue <http://some.test-source.value> ;
+      rvl:targetGraphicRelation
+              <http://some.test-graphic-relation.value> ;
+      rvl:targetValue <http://some.test-target.value> .
