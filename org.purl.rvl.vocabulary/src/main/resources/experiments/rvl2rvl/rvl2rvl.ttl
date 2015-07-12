@@ -1,4 +1,4 @@
-# Saved by TopBraid on Sun Jul 12 09:53:03 CEST 2015
+# Saved by TopBraid on Sun Jul 12 14:25:44 CEST 2015
 # baseURI: http://purl.org/rvl/rvl2rvl/
 # imports: http://purl.org/rvl/
 # imports: http://purl.org/rvl/generated/
@@ -20,10 +20,9 @@
 <http://purl.org/rvl/ResourceMapping>
       spin:rule
               [ rdf:type sp:Modify ;
-                rdfs:comment """Step 1: Class Mapping 2 PM (Instances) - turn class mappings into value mappings of a property mapping (old ones are overwritten, not deleted first)
+                rdfs:comment """Step 1: ResourceMapping 2 PM - turn resource mappings into value mappings and a property mapping (old ones are overwritten, not deleted first)
 TODO: remaining problem: a new property mapping with the value mappings will be created, even if there is one already ( a manual one with a name differerent from the generated)
 QUESTION: When should named-values be transformed to continuous ones?
-NOTE: This is ONLY on creating a PM for instances, using type as a source property (cf. Class Mapping 2 PM (Classes))
 Somehow now (maybe after removing the USING statements, the generated PMs are only available after saving the mapping file and running the rules again ... )"""^^xsd:string ;
                 sp:insertPattern ([ rdf:type sp:NamedGraph ;
                             sp:elements ([ sp:object <http://purl.org/rvl/PropertyMapping> ;
@@ -56,21 +55,6 @@ Somehow now (maybe after removing the USING statements, the generated PMs are on
                           ] [ rdf:type sp:Bind ;
                             sp:expression rvl-generated: ;
                             sp:variable _:b6
-                          ] [ rdf:type sp:NamedGraph ;
-                            sp:elements ([ sp:object <http://purl.org/rvl/ResourceMapping> ;
-                                        sp:predicate rdf:type ;
-                                        sp:subject _:b8
-                                      ] [ sp:object _:b4 ;
-                                        sp:predicate <http://purl.org/rvl/sourceValue> ;
-                                        sp:subject _:b8
-                                      ] [ sp:object _:b5 ;
-                                        sp:predicate <http://purl.org/rvl/targetValue> ;
-                                        sp:subject _:b8
-                                      ] [ sp:object _:b2 ;
-                                        sp:predicate <http://purl.org/rvl/targetGraphicRelation> ;
-                                        sp:subject _:b8
-                                      ]) ;
-                            sp:graphNameNode _:b7
                           ] [ rdf:type sp:Bind ;
                             sp:expression
                                     [ rdf:type afn:localname ;
@@ -88,6 +72,21 @@ Somehow now (maybe after removing the USING statements, the generated PMs are on
                                     [ sp:varName "localNameRm"^^xsd:string
                                     ]
                           ] [ rdf:type sp:NamedGraph ;
+                            sp:elements ([ sp:object <http://purl.org/rvl/ResourceMapping> ;
+                                        sp:predicate rdf:type ;
+                                        sp:subject _:b8
+                                      ] [ sp:object _:b4 ;
+                                        sp:predicate <http://purl.org/rvl/sourceValue> ;
+                                        sp:subject _:b8
+                                      ] [ sp:object _:b5 ;
+                                        sp:predicate <http://purl.org/rvl/targetValue> ;
+                                        sp:subject _:b8
+                                      ] [ sp:object _:b2 ;
+                                        sp:predicate <http://purl.org/rvl/targetGraphicRelation> ;
+                                        sp:subject _:b8
+                                      ]) ;
+                            sp:graphNameNode _:b7
+                          ] [ rdf:type sp:NamedGraph ;
                             sp:elements ([ rdf:type sp:Bind ;
                                         sp:expression
                                                 [ rdf:type smf:buildURI ;
@@ -102,8 +101,6 @@ Somehow now (maybe after removing the USING statements, the generated PMs are on
                                         sp:variable _:b3
                                       ]) ;
                             sp:graphNameNode _:b6
-                          ] [ rdf:type sp:Filter ;
-                            sp:expression "true"^^xsd:boolean
                           ])
               ] .
 
