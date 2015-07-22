@@ -19,6 +19,7 @@
 @prefix spl:     <http://spinrdf.org/spl#> .
 @prefix viso-data:  <http://purl.org/viso/data/> .
 @prefix viso-facts:  <http://purl.org/viso/facts/> .
+@prefix viso-empiric:  <http://purl.org/viso/facts/empiric/> .
 @prefix viso-graphic:  <http://purl.org/viso/graphic/> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 
@@ -153,7 +154,7 @@ TODO: offer better ones!"""^^xsd:string ;
 
 rvl-fb-cs:
       rdf:type owl:Ontology ;
-      owl:imports rvl: , : , viso-data: , viso-facts: , viso-graphic: , <http://spinrdf.org/spin> ;
+      owl:imports rvl: , : , viso-data: , viso-facts: , viso-graphic: , viso-empiric:, <http://spinrdf.org/spin> ;
       owl:versionInfo "Created with TopBraid Composer"^^xsd:string .
 
 _:b2  sp:varName "cvLabel"^^xsd:string .
