@@ -12,7 +12,7 @@ public class GenContextBuilder {
 		genAppContext = new WebAppContext();
 		// genAppContext.setDescriptor(genAppContext + "/WEB-INF/web.xml");
 		genAppContext.setResourceBase("gen");
-		genAppContext.setContextPath("/semvis/gen");
+		genAppContext.setContextPath("/vis/gen");
 		return genAppContext;
 
 	}
