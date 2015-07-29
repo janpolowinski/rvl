@@ -30,7 +30,7 @@
   						<!--button onclick="reLoad()">Reload</button-->
 						<button title="(Re)load from external editing folder (force-directed graph )" onclick="loadProjectExternalEditing('force-directed-graph')">(Re)load ext. graph</button>
 						<button title="(Re)load from external editing folder (collapsible tree) " onclick="loadProjectExternalEditing('collapsible-tree')">(Re)load ext. tree</button>
-						<!--button title="Test: Load mapping model from aa-3" onclick="loadExampleValue('http://localhost/semvis/projects/mappingfile/aa-3', '#projectMappings');">Test loading mapping model</button-->
+						<!--button title="Test: Load mapping model from aa-3" onclick="loadExampleValue('/semvis/projects/mappingfile/aa-3', '#projectMappings');">Test loading mapping model</button-->
   						<br/><br/>
   						<button onclick="reInitContainers()">Re init containers</button>
 						<button onclick="clearVis()">Clear visualization</button><br/>
@@ -69,7 +69,7 @@
 					<button onClick="showRVLeditor('normal')">Normal</button>
 					<button onClick="showRVLeditor('max')">Maximize</button>
 
-					  <form id="editingForm" action="http://localhost/semvis/projects/run" method="POST">
+					  <form id="editingForm" action="/semvis/projects/run" method="POST">
 					  	<!-- Note: default action above is overridden by attached method! -->
 						  <label for="id">ID</label>
 						  <input name="id" id="projectID" value="new-project-1"/>
@@ -202,7 +202,7 @@
     	    .append("button")
 			.attr("title","double-click to execute, normal-click to load for editing")
 			.attr("onclick", function(d){
-				return "loadProject('" + d.id + "','" + d.defaultGraphicType + "'); if(populateEditor()){ showRVLeditor('max'); loadExampleValue('http://localhost/semvis/projects/mappingfile/" + d.id + "' , '#projectMappings'); loadExampleValue('http://localhost/semvis/projects/datamodel/" + d.id + "' , '#projectData');}"
+				return "loadProject('" + d.id + "','" + d.defaultGraphicType + "'); if(populateEditor()){ showRVLeditor('max'); loadExampleValue('/semvis/projects/mappingfile/" + d.id + "' , '#projectMappings'); loadExampleValue('/semvis/projects/datamodel/" + d.id + "' , '#projectData');}"
 				})
     	    .text(function(d){return d.id;});    	
     	});
