@@ -114,20 +114,19 @@ public class ProjectsResource {
 			@FormDataParam("data") String data,
 			@FormDataParam("mappings") String mappings,
 			@Context HttpServletResponse servletResponse
-			)
-			throws IOException, URISyntaxException {
+			) {
 		
 		System.out.println("Running new posted project ");
-		//System.out.println("Running new project " + id);
 
 		//return Response.status(Status.OK).entity("<html><body>Some content</body></html>").build();
 		//return Response.status(Status.OK).entity("{\"some message\" : \"test\"}").build();
-		
-		
+
 		
 		if (id == null || id.isEmpty()) {
 			return Response.status(Status.BAD_REQUEST).entity("{'message' : 'ID is required'}").build();
 		} 
+			
+		try {
 		
 		VisProject project = new VisProject(id);
 		project.setReasoningDataModel(Reasoning.rdfs);
@@ -135,11 +134,15 @@ public class ProjectsResource {
 		
 		if (data != null) {
 			File newTmpDataFile = saveToTempFile(data);
-			project.registerDataFile(newTmpDataFile.getPath());
+			project.registerDataFile(newTmpDataFile);
+		} else {
+			return Response.status(Status.BAD_REQUEST).entity("{'message' : 'data is required'}").build();
 		}
 		if (mappings != null) {
 			File newTmpMappingFile = saveToTempFile(mappings);
-			project.registerMappingFile(newTmpMappingFile.getPath());
+			project.registerMappingFile(newTmpMappingFile);
+		} else {
+			return Response.status(Status.BAD_REQUEST).entity("{'message' : 'message is required'}").build();
 		}
 		
 		VisProjectLibraryExamples.getInstance().storeProject(project);
@@ -185,10 +188,17 @@ public class ProjectsResource {
 //		servletResponse.setStatus(HttpServletResponse.SC_OK);
 //		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
 //		servletResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+		
+		} catch (IOException e) {
+			e.printStackTrace();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("{'message' : 'io exception (" + e.getMessage() + ")'}").build();
+		}
+	
 	}
 	
 	public static File saveToTempFile(String data) throws IOException {
-		File tmpFile = new File("tmp/data/tmp-data-" + random.nextDouble() + System.currentTimeMillis()  + ".tmp");
+		
+		File tmpFile = new File(System.getProperty("java.io.tmpdir") + "/semvis-tmp-data-or-mapping-" + random.nextDouble() + System.currentTimeMillis()  + ".tmp");
 		FileWriter writer;
 		writer = new FileWriter(tmpFile);
 		writer.write(data);

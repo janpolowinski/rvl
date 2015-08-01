@@ -13,6 +13,6 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
     </filter>
     <filter-mapping>
         <filter-name>cross-origin</filter-name>
-        <url-pattern>http://localhost:8080/semvis/*</url-pattern>
+        <url-pattern>http://localhost/semvis/*</url-pattern>
     </filter-mapping>
 </web-app> 

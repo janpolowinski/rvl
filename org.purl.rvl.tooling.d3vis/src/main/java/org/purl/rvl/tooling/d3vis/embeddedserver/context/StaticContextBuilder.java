@@ -14,7 +14,7 @@ public class StaticContextBuilder {
 		// Create static context to serve static files
 		staticAppContext = new WebAppContext();
 		staticAppContext.setResourceBase(webDir);
-		staticAppContext.setContextPath("/semvis");
+		staticAppContext.setContextPath("/vis");
 		return staticAppContext;
 
 	}

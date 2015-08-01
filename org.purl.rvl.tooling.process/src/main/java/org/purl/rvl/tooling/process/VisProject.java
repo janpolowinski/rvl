@@ -1,5 +1,6 @@
 package org.purl.rvl.tooling.process;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -49,10 +50,19 @@ public class VisProject {
 	public void registerMappingFile(String fileName) throws FileNotFoundException{
 		this.mappingFileRegistry.addFile(fileName);
 	}
+	
+	public void registerMappingFile(File file) {
+		this.mappingFileRegistry.addFile(file);
+	}
 
 	public void registerDataFile(String fileName) throws FileNotFoundException{
 		this.dataFileRegistry.addFile(fileName);
 	}
+	
+	public void registerDataFile(File file) {
+		this.dataFileRegistry.addFile(file);
+	}
+
 	
 	/**
 	 * Turns reasoning on the data model on/off.

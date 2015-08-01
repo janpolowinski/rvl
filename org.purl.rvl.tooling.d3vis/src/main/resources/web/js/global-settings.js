@@ -22,9 +22,9 @@ var width = 900,
     m = [30, 30, 30, 30]
 	;
 
-var BASE_PATH_SVG_FILE = "../../svg/symbols.svg#";
+var BASE_PATH_SVG_FILE = "svg/symbols.svg#"; // this probably does not work for the static-example-files anymore
 
-var baseUrlBackend = "http://localhost:8080/semvis/";
+var baseUrlBackend = "/semvis/";
 
 
 /******************************/
