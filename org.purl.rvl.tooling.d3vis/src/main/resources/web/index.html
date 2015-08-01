@@ -4,20 +4,20 @@
         <!-- labeling at various positions works, but is cropped (view box bug) in webkit and is slow in firefox (many objects SVG in HTML in SVG ) -->
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-        <link type="text/css" rel="stylesheet" href="../../css/main.css"/>
-        <link type="text/css" rel="stylesheet" href="../../css/theme-dark.css"/>
-        <link type="text/css" rel="stylesheet" href="../../css/labeling.css"/>
-        <link type="text/css" rel="stylesheet" href="../../css/labeling-new-boxmodel.css"/>
-        <link type="text/css" rel="stylesheet" href="../../css/labeling-webkit-old-boxmodel.css"/>
-        <script type="text/javascript" src="../../js/d3.min.js"></script>
-        <script type="text/javascript" src="../../js/global-settings.js"></script>
+        <link type="text/css" rel="stylesheet" href="css/main.css"/>
+        <link type="text/css" rel="stylesheet" href="css/theme-dark.css"/>
+        <link type="text/css" rel="stylesheet" href="css/labeling.css"/>
+        <link type="text/css" rel="stylesheet" href="css/labeling-new-boxmodel.css"/>
+        <link type="text/css" rel="stylesheet" href="css/labeling-webkit-old-boxmodel.css"/>
+        <script type="text/javascript" src="js/d3.min.js"></script>
+        <script type="text/javascript" src="js/global-settings.js"></script>
         <!-- own plugins to handle AVM based on D3.js -->
-    	<script type="text/javascript" src="../../js/ogvic.js"></script>
-    	<script type="text/javascript" src="../../js/ogvic.d3.utils.js"></script>
+    	<script type="text/javascript" src="js/ogvic.js"></script>
+    	<script type="text/javascript" src="js/ogvic.d3.utils.js"></script>
     	<!-- supported graphic types -->
-    	<script type="text/javascript" src="../../js/force-directed-graph.js"></script>
-    	<script type="text/javascript" src="../../js/circle-packing-zoomable.js"></script>
-    	<script type="text/javascript" src="../../js/collapsible-tree.js"></script>
+    	<script type="text/javascript" src="js/force-directed-graph.js"></script>
+    	<script type="text/javascript" src="js/circle-packing-zoomable.js"></script>
+    	<script type="text/javascript" src="js/collapsible-tree.js"></script>
     </head>
     <body>
     
@@ -96,7 +96,7 @@
 			</div>
 		</div>
 		
-		<div id="footer" class="layout">Service for experimenting with the prototypical <a href="http://purl.org/rvl/">RVL</a> tooling. Jan Polowinski. 2015. <a href="../../impressum.html">Impressum</a>.</div>
+		<div id="footer" class="layout">Service for experimenting with the prototypical <a href="http://purl.org/rvl/">RVL</a> tooling. Jan Polowinski. 2015. <a href="impressum.html">Impressum</a>.</div>
         
         <script type="text/javascript">
 
@@ -142,10 +142,10 @@
         }
         
         exampleJSON = function(d3Event) {
-        	d3.json("../../example-data/" + d3Event + ".json", function(json){
+        	d3.json("example-data/" + d3Event + ".json", function(json){
     	 		graphicLoadingFunctions[json.graphic_type](null, json);
     	 		});
-    		//"../../gen/json/tree-data.json" , "../../gen/json/graph-data.json", "../../example-data/graph-data-labeling-advanced.json"
+    		//"gen/json/tree-data.json" , "gen/json/graph-data.json", "example-data/graph-data-labeling-advanced.json"
         }
 		
 		//var mInfo = d3.select("body").append("div");
