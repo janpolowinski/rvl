@@ -70,6 +70,6 @@ div.labelContainer {
 
 /* text that labels icons should have the same same height as the icon */
 .iconLabelText {
-	font-size: 20px;
+	/*font-size: 20px;*/
 }
 

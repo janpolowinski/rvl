@@ -61,13 +61,17 @@ public class ProjectsResourceTest extends JerseyTest {
     }
 	
 	@Test
-	public void testCreatingTempFile() throws IOException {
+	public void testCreatingTempFile() {
 		
 		String data = "@prefix :        <http://purl.org/rvl/example-mappings/> .";
 		
-		File file = ProjectsResource.saveToTempFile(data);
-		
-		System.out.println(file);
+		File file;
+		try {
+			file = ProjectsResource.saveToTempFile(data);
+			System.out.println(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Test

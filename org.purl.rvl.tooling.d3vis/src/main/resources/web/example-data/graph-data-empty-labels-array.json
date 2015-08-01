@@ -1,0 +1,13 @@
+{
+  "nodes":[
+    {
+      "uri":"http://purl.org/rvl/example-data/Alice",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_text_value":"empty labels array",
+      "labels" : [] ,
+      "width":200.0
+    }
+  ],
+  "links":[]
+}

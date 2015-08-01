@@ -4,20 +4,20 @@
         <!-- labeling at various positions works, but is cropped (view box bug) in webkit and is slow in firefox (many objects SVG in HTML in SVG ) -->
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-        <link type="text/css" rel="stylesheet" href="../../css/main.css"/>
-        <link type="text/css" rel="stylesheet" href="../../css/theme-dark.css"/>
-        <link type="text/css" rel="stylesheet" href="../../css/labeling.css"/>
-        <link type="text/css" rel="stylesheet" href="../../css/labeling-new-boxmodel.css"/>
-        <link type="text/css" rel="stylesheet" href="../../css/labeling-webkit-old-boxmodel.css"/>
-        <script type="text/javascript" src="../../js/d3.min.js"></script>
-        <script type="text/javascript" src="../../js/global-settings.js"></script>
+        <link type="text/css" rel="stylesheet" href="css/main.css"/>
+        <link type="text/css" rel="stylesheet" href="css/theme-dark.css"/>
+        <link type="text/css" rel="stylesheet" href="css/labeling.css"/>
+        <link type="text/css" rel="stylesheet" href="css/labeling-new-boxmodel.css"/>
+        <link type="text/css" rel="stylesheet" href="css/labeling-webkit-old-boxmodel.css"/>
+        <script type="text/javascript" src="js/d3.min.js"></script>
+        <script type="text/javascript" src="js/global-settings.js"></script>
         <!-- own plugins to handle AVM based on D3.js -->
-    	<script type="text/javascript" src="../../js/ogvic.js"></script>
-    	<script type="text/javascript" src="../../js/ogvic.d3.utils.js"></script>
+    	<script type="text/javascript" src="js/ogvic.js"></script>
+    	<script type="text/javascript" src="js/ogvic.d3.utils.js"></script>
     	<!-- supported graphic types -->
-    	<script type="text/javascript" src="../../js/force-directed-graph.js"></script>
-    	<script type="text/javascript" src="../../js/circle-packing-zoomable.js"></script>
-    	<script type="text/javascript" src="../../js/collapsible-tree.js"></script>
+    	<script type="text/javascript" src="js/force-directed-graph.js"></script>
+    	<script type="text/javascript" src="js/circle-packing-zoomable.js"></script>
+    	<script type="text/javascript" src="js/collapsible-tree.js"></script>
     </head>
     <body>
     
@@ -30,14 +30,34 @@
   						<!--button onclick="reLoad()">Reload</button-->
 						<button title="(Re)load from external editing folder (force-directed graph )" onclick="loadProjectExternalEditing('force-directed-graph')">(Re)load ext. graph</button>
 						<button title="(Re)load from external editing folder (collapsible tree) " onclick="loadProjectExternalEditing('collapsible-tree')">(Re)load ext. tree</button>
-						<!--button title="Test: Load mapping model from aa-3" onclick="loadExampleValue('http://localhost:8080/semvis/projects/mappingfile/aa-3', '#projectMappings');">Test loading mapping model</button-->
+						<!--button title="Test: Load mapping model from aa-3" onclick="loadExampleValue('/semvis/projects/mappingfile/aa-3', '#projectMappings');">Test loading mapping model</button-->
   						<br/><br/>
-  						<!--<button onclick="reInitContainers()">Re init containers</button>-->
-						<!--<button onclick="clearVis()">Clear visualization</button>-->
+  						<button onclick="reInitContainers()">Re init containers</button>
+						<button onclick="clearVis()">Clear visualization</button><br/>
+						
+						<button onclick="exampleJSON('graph-data-connector-labeling-enter')">Enter Example-JSON (Connector labeling)</button>
+						<button onclick="exampleJSON('graph-data-connector-labeling-update')">Update Example-JSON (Connector labeling)</button>
+						
+						<button onclick="exampleJSON('graph-data-label-labeling-enter')">Enter Example-JSON (Label labeling)</button>
+						<button onclick="exampleJSON('graph-data-label-labeling-update')">Update Example-JSON (Label labeling)</button>
+						<button onclick="exampleJSON('graph-data-label-labeling-exit')">Exit Example-JSON (Label labeling)</button>
+						
+						<button onclick="exampleJSON('graph-data-no-label')">No labels</button>
+						<button onclick="exampleJSON('graph-data-empty-labels-array')">Empty labels array</button>
+						
+						<button onclick="exampleJSON('graph-data-empty')">Empty Example-JSON (Label labeling)</button>
+						
+						<button onclick="exampleJSON('tree-data-enter')">Enter Example-JSON (Tree)</button>
+						<button onclick="exampleJSON('tree-data-update')">Update Example-JSON (Tree)</button>
+						<button onClick="showMenu('hidden')">Hide this menue</button>
+
+						
+						<input id="useForEditor" type="checkbox" value="true"/>Use for <a onClick="showRVLeditor('max')">Editor</a>
   					</div>
   				</div>
 
   				<div id="middle" class="layout">
+  					<div id="header" class="layout">Experimental RVL Visualisation Service</div>
   					<div id="canvas" class="layout"></div>
   				</div>
 
@@ -49,7 +69,8 @@
 					<button onClick="showRVLeditor('normal')">Normal</button>
 					<button onClick="showRVLeditor('max')">Maximize</button>
 
-					  <form id="editingForm" action="http://localhost:8080/semvis/projects/run" method="POST">
+					  <form id="editingForm" action="/semvis/projects/run" method="POST">
+					  	<!-- Note: default action above is overridden by attached method! -->
 						  <label for="id">ID</label>
 						  <input name="id" id="projectID" value="new-project-1"/>
 						  <br/>
@@ -75,7 +96,7 @@
 			</div>
 		</div>
 		
-		<div id="footer" class="layout">RVL Examples. Jan Polowinski. 2014.</div>
+		<div id="footer" class="layout">Service for experimenting with the prototypical <a href="http://purl.org/rvl/">RVL</a> tooling. Jan Polowinski. 2015. <a href="impressum.html">Impressum</a>.</div>
         
         <script type="text/javascript">
 
@@ -119,6 +140,13 @@
         	clearVis();
         	initContainers();
         }
+        
+        exampleJSON = function(d3Event) {
+        	d3.json("example-data/" + d3Event + ".json", function(json){
+    	 		graphicLoadingFunctions[json.graphic_type](null, json);
+    	 		});
+    		//"gen/json/tree-data.json" , "gen/json/graph-data.json", "example-data/graph-data-labeling-advanced.json"
+        }
 		
 		//var mInfo = d3.select("body").append("div");
 		
@@ -142,16 +170,17 @@
     	 	reInitContainers();
     	 	
     	 	d3.json(baseUrlBackend + "projects/latest", function(json){
-    	 		//alert(json.graphic_type);
     	 		graphicLoadingFunctions[json.graphic_type](null, json);
     	 		});
-    	 	
     		//d3.json(baseUrlBackend + "projects/latest", graphicLoadingFunctions[defaultGraphicType]);
-    		//"../../gen/json/tree-data.json" , "../../gen/json/graph-data.json", "../../example-data/graph-data-labeling-advanced.json"
     	}
     	
     	loadProject = function(projectID, defaultGraphicType) {
-    		reInitContainers();
+    		// TODO refactor duplicated code
+    		if (currentGraphicType != "force-directed-graph" || currentGraphicType != defaultGraphicType ) {
+	    			reInitContainers();
+	    			currentGraphicType = defaultGraphicType;
+	    	}
     		d3.json(baseUrlBackend + "projects/run/" + projectID, graphicLoadingFunctions[defaultGraphicType]);
     	}
 		
@@ -172,9 +201,8 @@
     	    .append("div")
     	    .append("button")
 			.attr("title","double-click to execute, normal-click to load for editing")
-    	    .attr("ondblclick", function(d){return "loadProject('" + d.id + "','" + d.defaultGraphicType + "')";})
 			.attr("onclick", function(d){
-				return "loadExampleValue('http://localhost:8080/semvis/projects/mappingfile/" + d.id + "' , '#projectMappings'); loadExampleValue('http://localhost:8080/semvis/projects/datamodel/" + d.id + "' , '#projectData');"
+				return "loadProject('" + d.id + "','" + d.defaultGraphicType + "'); if(populateEditor()){ showRVLeditor('max'); loadExampleValue('/semvis/projects/mappingfile/" + d.id + "' , '#projectMappings'); loadExampleValue('/semvis/projects/datamodel/" + d.id + "' , '#projectData');}"
 				})
     	    .text(function(d){return d.id;});    	
     	});
@@ -218,26 +246,61 @@
 			}
 		}
 		
-		// manipulating the form to post and wait with callback
+		populateEditor = function () {
+			return d3.select("#useForEditor").property("checked");
+		}
 		
-		d3.select("#editingForm").on("submit", function() {
-			d3.event.preventDefault();		
-		  	d3.json(baseUrlBackend + "projects/run",function(error, json) {
-		 		reInitContainers();
-				graphicLoadingFunctions[json.graphic_type](null, json);
-		    })
-		   //.header("Content-Type","multipart/form-data") // this causes the request to fail! probably since some additional info (boundary=... is missing)
-		   //.header("Accept","application/json") // not necessary
- 		   .send("POST", new FormData(this));
+		// menu
+		
+		showMenu = function (show) {
+			if(show=='hidden') {
+				width = 1300;
+				d3.select("#left,#menu").style("display", "none");
+				d3.select("#middle").style("width", "1300px");
+				d3.select("#svg").attr("width", "1300");
+			} else {
+				d3.selectAll("#left,#menu").style("display", "table-cell");
+			}
+		}
+		
+		// manipulating the form to post and wait with callback
+
+		myOnSubmit = function(formArg) {
+			d3.event.preventDefault();
+			d3.xhr(baseUrlBackend + "projects/run")
+    	    	.post(new FormData(formArg),function(error, responseEnv) {
+    	    		var json = JSON.parse(responseEnv.response);
+    	    		if (currentGraphicType != "force-directed-graph" || currentGraphicType != json.graphic_type ) {
+    	    			reInitContainers();
+    	    			currentGraphicType = json.graphic_type;
+    	    		}
+    	    		graphicLoadingFunctions[json.graphic_type](null, json);
+    	    	});
 		  return false;
-		});
+		};
+		
+		d3.select("#editingForm").on("submit", function () { return myOnSubmit(this); });
 
 		// init vis and editor
 		
-		reLoad();
+		//reLoad();
+		exampleJSON("graph-data-empty"); //showRVLeditor("hidden");
     	loadExampleValue(baseUrlBackend + "projects/example/data", "#projectData");
         loadExampleValue(baseUrlBackend + "projects/example/mappings", "#projectMappings");
 		//loadExampleValue(baseUrlBackend + "projects/mappingmodel/aa-3", "#projectMappings");
+        
+        
+        // Form-Settings
+        // thanks to http://davidwalsh.name/command-enter-submit-forms
+		d3.select("#editingForm").on('keydown', function() {
+			console.log(d3.event.keyCode);
+		  	if(!(d3.event.keyCode == 13 && d3.event.metaKey)) return;
+
+		  	var target = d3.event.target;
+		  	if(target.form) {
+		  		myOnSubmit(target.form);
+		  	}
+		});
                                                                         
         </script>
 		

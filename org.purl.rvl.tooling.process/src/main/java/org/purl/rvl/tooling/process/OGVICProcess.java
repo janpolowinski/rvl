@@ -255,8 +255,8 @@ public class OGVICProcess {
 	public void runOGVICProcess() throws D3GeneratorException, OGVICModelsException {
 		interpreteRVL2AVM();	
 		transformAVMToD3();
-		populateD3HTMLFolder();
-		if (isWriteAVM()) writeAVMToFile();
+//		populateD3HTMLFolder(); // doesn't work under tomcat (only needed for static copies)
+//		if (isWriteAVM()) writeAVMToFile();  doesn't work under tomcat, define tmp folder?: http://stackoverflow.com/questions/1969711/best-practice-to-store-temporary-data-for-a-webapp
 		if (isWriteMappingModel()) writeMappingModelToFile();
 	}
 	
@@ -292,7 +292,7 @@ public class OGVICProcess {
 			LOGGER.warning("problem with pretty printing JSON (skipped) : " + e.getMessage());
 		}
 		LOGGER.fine("JSON data is: " + NL +  generatedD3json);
-		d3Generator.writeJSONToFile(generatedD3json, getJsonFileNameRel());
+//		d3Generator.writeJSONToFile(generatedD3json, getJsonFileNameRel()); // doesn't work on tomcat, only needed for static vis
 	}
 
 	private void populateD3HTMLFolder() {
