@@ -137,6 +137,13 @@ public class VisProjectLibrary {
 		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		project.setD3Generator(new D3GeneratorTreeJSON());
 		
+		project = storeProject("relative-distance-test");
+		project.setReasoningDataModel(Reasoning.rdfs);
+		project.registerMappingFile(ExampleMapping.RVL_EXAMPLE_RELATIVE_DISTANCE);
+		project.registerDataFile(ExampleData.RVL_EXAMPLE);
+		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
+		project.setD3Generator(new D3GeneratorDeepLabelsJSON());
+		
 		project = storeProject("rdf-id-test");
 		project.setReasoningDataModel(Reasoning.rdfs);
 		project.registerMappingFile(ExampleMapping.RVL_TEST_RDF_ID);
