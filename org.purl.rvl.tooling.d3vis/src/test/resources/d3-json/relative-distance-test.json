@@ -206,5 +206,90 @@
     }
   ],
   "graphic_type":"force-directed-graph",
-  "links":[]
+  "links":[
+    {
+      "type":"Relative_Distance",
+      "source_uri":"http://purl.org/rvl/example-data/Europe",
+      "target_uri":"http://purl.org/rvl/example-data/Spain",
+      "value":1.0,
+      "text_value":"relative distance to"
+    },
+    {
+      "type":"Relative_Distance",
+      "source_uri":"http://purl.org/rvl/example-data/America",
+      "target_uri":"http://purl.org/rvl/example-data/Bob",
+      "value":1.0,
+      "text_value":"relative distance to"
+    },
+    {
+      "type":"Relative_Distance",
+      "source_uri":"http://purl.org/rvl/example-data/World",
+      "target_uri":"http://purl.org/rvl/example-data/Australia",
+      "value":1.0,
+      "text_value":"relative distance to"
+    },
+    {
+      "type":"Relative_Distance",
+      "source_uri":"http://purl.org/rvl/example-data/Asia",
+      "target_uri":"http://purl.org/rvl/example-data/China",
+      "value":1.0,
+      "text_value":"relative distance to"
+    },
+    {
+      "type":"Relative_Distance",
+      "source_uri":"http://purl.org/rvl/example-data/Germany",
+      "target_uri":"http://purl.org/rvl/example-data/Gelsenkirchen",
+      "value":1.0,
+      "text_value":"relative distance to"
+    },
+    {
+      "type":"Relative_Distance",
+      "source_uri":"http://purl.org/rvl/example-data/Asia",
+      "target_uri":"http://purl.org/rvl/example-data/Turkey",
+      "value":1.0,
+      "text_value":"relative distance to"
+    },
+    {
+      "type":"Relative_Distance",
+      "source_uri":"http://purl.org/rvl/example-data/World",
+      "target_uri":"http://purl.org/rvl/example-data/Asia",
+      "value":1.0,
+      "text_value":"relative distance to"
+    },
+    {
+      "type":"Relative_Distance",
+      "source_uri":"http://purl.org/rvl/example-data/World",
+      "target_uri":"http://purl.org/rvl/example-data/Europe",
+      "value":1.0,
+      "text_value":"relative distance to"
+    },
+    {
+      "type":"Relative_Distance",
+      "source_uri":"http://purl.org/rvl/example-data/Germany",
+      "target_uri":"http://purl.org/rvl/example-data/Dresden",
+      "value":1.0,
+      "text_value":"relative distance to"
+    },
+    {
+      "type":"Relative_Distance",
+      "source_uri":"http://purl.org/rvl/example-data/Europe",
+      "target_uri":"http://purl.org/rvl/example-data/Turkey",
+      "value":1.0,
+      "text_value":"relative distance to"
+    },
+    {
+      "type":"Relative_Distance",
+      "source_uri":"http://purl.org/rvl/example-data/Europe",
+      "target_uri":"http://purl.org/rvl/example-data/Germany",
+      "value":1.0,
+      "text_value":"relative distance to"
+    },
+    {
+      "type":"Relative_Distance",
+      "source_uri":"http://purl.org/rvl/example-data/World",
+      "target_uri":"http://purl.org/rvl/example-data/America",
+      "value":1.0,
+      "text_value":"relative distance to"
+    }
+  ]
 }

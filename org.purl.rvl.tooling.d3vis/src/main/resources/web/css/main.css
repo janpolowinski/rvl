@@ -274,6 +274,13 @@ path.link.highlighted {
     stroke: yellow ! important;
 }
 
+path.link.linkRelative_Distance {
+    /*stroke: #0f0;
+    stroke-opacity: .1;
+    stroke-width:1px;*/
+    visibility: hidden;
+}
+
 marker#linkUndirected {
     fill: #0000ff;
 }

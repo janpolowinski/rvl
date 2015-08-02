@@ -16,6 +16,7 @@ import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.purl.rvl.exception.OGVICModelsException;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
+import org.purl.rvl.java.gen.viso.graphic.RelativeDistance;
 import org.purl.rvl.java.gen.viso.graphic.Thing1;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
@@ -196,8 +197,47 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 		} catch (Exception e) {
 			LOGGER.warning("No JSON links could be generated. " + e.getMessage());
 			e.printStackTrace();
-		}	
+		}
 		
+		// relative distance
+		try {
+			ClosableIterator<? extends RelativeDistance> relIt =
+					RelativeDistance.getAllInstances_as(modelAVM).asClosableIterator();
+			while (relIt.hasNext()) {
+				RelativeDistance rel = (RelativeDistance) relIt.next().castTo(RelativeDistance.class); // TODO wieso liess sich GO zu DLRel casten???
+				
+				List<Thing1> relativelyDistantObjects = rel.getAllRelativelydistantobject_as().asList();
+				
+				GraphicObjectX relativelyDistantObject1 = null;
+				GraphicObjectX relativelyDistantObject2 = null;
+				
+				if(relativelyDistantObjects.size() == 2) {
+				
+					relativelyDistantObject1 = (GraphicObjectX) relativelyDistantObjects.get(0).castTo(GraphicObjectX.class);
+					relativelyDistantObject2 = (GraphicObjectX) relativelyDistantObjects.get(1).castTo(GraphicObjectX.class);
+					
+				} else {
+					LOGGER.warning("Relative Distance with a number of objects unequal 2 are not supported");
+					continue;
+				}
+				
+				// get index of the endNode in the above generated Map
+				Map<String,Object> link = new LinkedHashMap<String,Object>();
+
+				//link.put("type", rel.getRDFSClassURI().toString());
+				link.put("type", "Relative_Distance");
+				link.put("source_uri", relativelyDistantObject1.getRepresentedResource().toString());
+				link.put("target_uri", relativelyDistantObject2.getRepresentedResource().toString());
+				link.put("value", rel.getAllRelativeDistancevalue_as().firstValue());
+				link.put("text_value", "relative distance to");
+				
+				listOfLinks.add(link);
+				LOGGER.finer("Generated JSON link for " + rel + " (" + relativelyDistantObject1.getLabel() + " --> " + relativelyDistantObject2.getLabel() +")" );
+				}
+		} catch (Exception e) {
+			LOGGER.warning("No JSON links could be generated. " + e.getMessage());
+			e.printStackTrace();
+		}
 		
 		// containment
 		try {
