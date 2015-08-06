@@ -39,6 +39,7 @@ public class ExampleMapping {
 	public static final String RVL_EXAMPLE_AUTOMATIC_VM = "/example-mappings/auto-value-mapping-test.ttl";
 	public static final String RVL_EXAMPLE_CONTAINMENT = "/example-mappings/containment-test.ttl";
 	public static final String RVL_EXAMPLE_LINKING = "/example-mappings/linking-test.ttl";
+	public static final String RVL_EXAMPLE_RELATIVE_DISTANCE = "/example-mappings/relative-distance-test.ttl";
 	
 	public static final String AVM_EXAMPLE_BOOTSTRAP = "/example-mappings/avm-bootstrap.ttl";
 	public static final String VISO_EXAMPLE_BOOTSTRAP = "/example-mappings/viso-bootstrap.ttl";
