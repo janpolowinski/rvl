@@ -28,31 +28,32 @@
   					<div id="menu" class="layout">
   						<!--<button onClick="showRVLeditor('normal')">Show editor</button>-->
   						<!--button onclick="reLoad()">Reload</button-->
-						<button title="(Re)load from external editing folder (force-directed graph )" onclick="loadProjectExternalEditing('force-directed-graph')">(Re)load ext. graph</button>
-						<button title="(Re)load from external editing folder (collapsible tree) " onclick="loadProjectExternalEditing('collapsible-tree')">(Re)load ext. tree</button>
+  						<!--<button title="(Re)load from external editing folder (force-directed graph )" onclick="loadProjectExternalEditing('force-directed-graph')">(Re)load ext. graph</button>-->
+						<!--<button title="(Re)load from external editing folder (collapsible tree) " onclick="loadProjectExternalEditing('collapsible-tree')">(Re)load ext. tree</button>-->
 						<!--button title="Test: Load mapping model from aa-3" onclick="loadExampleValue('/semvis/projects/mappingfile/aa-3', '#projectMappings');">Test loading mapping model</button-->
   						<br/><br/>
-  						<button onclick="reInitContainers()">Re init containers</button>
-						<button onclick="clearVis()">Clear visualization</button><br/>
+  						<button onclick="reInitContainers()">Reset Visualisation</button>
+						<!--<button onclick="clearVis()">Clear visualization</button><br/>-->
 						
-						<button onclick="exampleJSON('graph-data-connector-labeling-enter')">Enter Example-JSON (Connector labeling)</button>
-						<button onclick="exampleJSON('graph-data-connector-labeling-update')">Update Example-JSON (Connector labeling)</button>
-						
-						<button onclick="exampleJSON('graph-data-label-labeling-enter')">Enter Example-JSON (Label labeling)</button>
-						<button onclick="exampleJSON('graph-data-label-labeling-update')">Update Example-JSON (Label labeling)</button>
-						<button onclick="exampleJSON('graph-data-label-labeling-exit')">Exit Example-JSON (Label labeling)</button>
-						
-						<button onclick="exampleJSON('graph-data-no-label')">No labels</button>
-						<button onclick="exampleJSON('graph-data-empty-labels-array')">Empty labels array</button>
-						
-						<button onclick="exampleJSON('graph-data-empty')">Empty Example-JSON (Label labeling)</button>
-						
-						<button onclick="exampleJSON('tree-data-enter')">Enter Example-JSON (Tree)</button>
-						<button onclick="exampleJSON('tree-data-update')">Update Example-JSON (Tree)</button>
-						
-						<button onclick="exampleJSON('graph-data-linking-undirected')">Undirected Linking</button>
-						<button onclick="exampleJSON('graph-data-relative-distance')">Relative Distance</button>
-						
+					    <select name="loadExampleJSON" id="loadExampleJSON" onChange="exampleJSON(this.value);">
+					    	<option value="graph-data-connector-labeling-enter" selected="selected">Update Example-JSON (Connector labeling</option>
+							<option value="graph-data-connector-labeling-update">Update Example-JSON (Connector labeling)</option>
+							<option value="graph-data-label-labeling-enter">Enter Example-JSON (Label labeling)</option>
+							<option value="graph-data-label-labeling-update">Update Example-JSON (Label labeling)</button>
+							<option value="graph-data-label-labeling-exit">Exit Example-JSON (Label labeling)</button>
+							
+							<option value="graph-data-no-label">No labels</button>
+							<option value="graph-data-empty-labels-array">Empty labels array</button>
+							
+							<option value="graph-data-empty">Empty Example-JSON (Label labeling)</button>
+							
+							<option value="tree-data-enter">Enter Example-JSON (Tree)</button>
+							<option value="tree-data-update">Update Example-JSON (Tree)</button>
+							
+							<option value="graph-data-linking-undirected">Undirected Linking</button>
+							<option value="graph-data-relative-distance">Relative Distance</button>
+						</select>
+
 						<button onClick="showMenu('hidden')">Hide this menue</button>
 
 						
@@ -193,6 +194,7 @@
     		d3.json(baseUrlBackend + "projects/run/external/" + defaultGraphicType, graphicLoadingFunctions[defaultGraphicType]);
     	}
     	
+		/*// call example projects by clicking button:
     	d3.json(baseUrlBackend + "projects", function (error, result) {
     	
     		 var projectsEnter = d3.select("#menu")
@@ -209,6 +211,26 @@
 				return "loadProject('" + d.id + "','" + d.defaultGraphicType + "'); if(populateEditor()){ showRVLeditor('max'); loadExampleValue('/semvis/projects/mappingfile/" + d.id + "' , '#projectMappings'); loadExampleValue('/semvis/projects/datamodel/" + d.id + "' , '#projectData');}"
 				})
     	    .text(function(d){return d.id;});    	
+    	});*/
+		
+		// call example projects on selecting from option list
+    	d3.json(baseUrlBackend + "projects", function (error, result) {
+        	
+   		 var projectsEnter = d3.select("#menu")
+   		.append("div")
+   		.append("select")
+   		//.attr("onChange", "alert('hello' + this.value + this.options[this.selectedIndex].text)")
+   		.attr("onChange", "loadProject(this.options[this.selectedIndex].text, this.value)")
+   		//	return "loadProject('" + d.id + "','" + d.defaultGraphicType + "'); if(populateEditor()){ showRVLeditor('max'); loadExampleValue('/semvis/projects/mappingfile/" + d.id + "' , '#projectMappings'); loadExampleValue('/semvis/projects/datamodel/" + d.id + "' , '#projectData');}"
+   		.selectAll("option")
+   	    .data(result.sort(function(a, b) { return d3.ascending(a.id, b.id); }))
+   	    //.data(result.sort(function(a, b) { return d3.ascending(a.defaultGraphicType, b.defaultGraphicType); }))
+   	    .enter()
+   	    .append("option")
+			.attr("value", function(d){
+				return d.defaultGraphicType;
+				})
+   	    .text(function(d){return d.id;});    	
     	});
  
         // menu
