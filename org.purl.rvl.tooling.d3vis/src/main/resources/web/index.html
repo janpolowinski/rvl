@@ -26,43 +26,50 @@
 
   				<div id="left" class="layout">
   					<div id="menu" class="layout">
-  						<!--<button onClick="showRVLeditor('normal')">Show editor</button>-->
-  						<!--button onclick="reLoad()">Reload</button-->
-  						<!--<button title="(Re)load from external editing folder (force-directed graph )" onclick="loadProjectExternalEditing('force-directed-graph')">(Re)load ext. graph</button>-->
-						<!--<button title="(Re)load from external editing folder (collapsible tree) " onclick="loadProjectExternalEditing('collapsible-tree')">(Re)load ext. tree</button>-->
-						<!--button title="Test: Load mapping model from aa-3" onclick="loadExampleValue('/semvis/projects/mappingfile/aa-3', '#projectMappings');">Test loading mapping model</button-->
-  						<br/><br/>
-  						<button onclick="reInitContainers()">Reset Visualisation</button>
-						<!--<button onclick="clearVis()">Clear visualization</button><br/>-->
+  					
+						<!--<button onClick="showRVLeditor('normal')">Show editor</button>-->
+						<!--<button onClick="showMenu('hidden')">Hide this menue</button>-->
 						
-					    <select name="loadExampleJSON" id="loadExampleJSON" onChange="exampleJSON(this.value);">
-					    	<option value="graph-data-connector-labeling-enter" selected="selected">Update Example-JSON (Connector labeling</option>
-							<option value="graph-data-connector-labeling-update">Update Example-JSON (Connector labeling)</option>
-							<option value="graph-data-label-labeling-enter">Enter Example-JSON (Label labeling)</option>
-							<option value="graph-data-label-labeling-update">Update Example-JSON (Label labeling)</button>
-							<option value="graph-data-label-labeling-exit">Exit Example-JSON (Label labeling)</button>
-							
-							<option value="graph-data-no-label">No labels</button>
-							<option value="graph-data-empty-labels-array">Empty labels array</button>
-							
-							<option value="graph-data-empty">Empty Example-JSON (Label labeling)</button>
-							
-							<option value="tree-data-enter">Enter Example-JSON (Tree)</button>
-							<option value="tree-data-update">Update Example-JSON (Tree)</button>
-							
-							<option value="graph-data-linking-undirected">Undirected Linking</button>
-							<option value="graph-data-relative-distance">Relative Distance</button>
-						</select>
-
-						<button onClick="showMenu('hidden')">Hide this menue</button>
-
+						<!-- external editing -->
+						<!--
+							<button title="(Re)load from external editing folder (force-directed graph )" onclick="loadProjectExternalEditing('force-directed-graph')">(Re)load ext. graph</button>
+							<button title="(Re)load from external editing folder (collapsible tree) " onclick="loadProjectExternalEditing('collapsible-tree')">(Re)load ext. tree</button>
+						-->
+						<!--<button title="Test: Load mapping model from aa-3" onclick="loadExampleValue('/semvis/projects/mappingfile/aa-3', '#projectMappings');">Test loading mapping model</button>-->
 						
-						<input id="useForEditor" type="checkbox" value="true"/>Use for <a onClick="showRVLeditor('max')">Editor</a>
+  						<!-- JSON debugging -->
+  						<!--
+	  						<button onclick="reLoad()">Reload</button>
+	  						<br/><br/>
+	  						<button onclick="reInitContainers()">Reset Visualisation</button>
+							<button onclick="clearVis()">Clear visualization</button><br/>
+							
+						    <select name="loadExampleJSON" id="loadExampleJSON" onChange="exampleJSON(this.value);">
+						    	<option value="graph-data-connector-labeling-enter" selected="selected">Update Example-JSON (Connector labeling</option>
+								<option value="graph-data-connector-labeling-update">Update Example-JSON (Connector labeling)</option>
+								<option value="graph-data-label-labeling-enter">Enter Example-JSON (Label labeling)</option>
+								<option value="graph-data-label-labeling-update">Update Example-JSON (Label labeling)</button>
+								<option value="graph-data-label-labeling-exit">Exit Example-JSON (Label labeling)</button>
+								
+								<option value="graph-data-no-label">No labels</button>
+								<option value="graph-data-empty-labels-array">Empty labels array</button>
+								
+								<option value="graph-data-empty">Empty Example-JSON (Label labeling)</button>
+								
+								<option value="tree-data-enter">Enter Example-JSON (Tree)</button>
+								<option value="tree-data-update">Update Example-JSON (Tree)</button>
+								
+								<option value="graph-data-linking-undirected">Undirected Linking</button>
+								<option value="graph-data-relative-distance">Relative Distance</button>
+							</select>
+						-->
+
+						<input id="useForEditor" type="checkbox" value="true"/>also load for <a onClick="showRVLeditor('max')">editing ...</a>
   					</div>
   				</div>
 
   				<div id="middle" class="layout">
-  					<div id="header" class="layout">Experimental RVL Visualisation Service</div>
+  					<div id="header" class="layout">Experimental RVL Visualization Service</div>
   					<div id="canvas" class="layout"></div>
   				</div>
 
@@ -187,6 +194,7 @@
 	    			currentGraphicType = defaultGraphicType;
 	    	}
     		d3.json(baseUrlBackend + "projects/run/" + projectID, graphicLoadingFunctions[defaultGraphicType]);
+    		 if(populateEditor()){ showRVLeditor('max'); loadExampleValue('/semvis/projects/mappingfile/" + projectID + "' , '#projectMappings'); loadExampleValue('/semvis/projects/datamodel/" + projectID + "' , '#projectData');}
     	}
 		
 		loadProjectExternalEditing = function(defaultGraphicType) {
@@ -217,11 +225,11 @@
     	d3.json(baseUrlBackend + "projects", function (error, result) {
         	
    		 var projectsEnter = d3.select("#menu")
-   		.append("div")
+   		.insert("div", ":first-child")
    		.append("select")
    		//.attr("onChange", "alert('hello' + this.value + this.options[this.selectedIndex].text)")
-   		.attr("onChange", "loadProject(this.options[this.selectedIndex].text, this.value)")
-   		//	return "loadProject('" + d.id + "','" + d.defaultGraphicType + "'); if(populateEditor()){ showRVLeditor('max'); loadExampleValue('/semvis/projects/mappingfile/" + d.id + "' , '#projectMappings'); loadExampleValue('/semvis/projects/datamodel/" + d.id + "' , '#projectData');}"
+   		.attr("onChange", "loadProject(this.options[this.selectedIndex].text, this.value);")
+   		//	return "loadProject('" + d.id + "','" + d.defaultGraphicType + "'); }"
    		.selectAll("option")
    	    .data(result.sort(function(a, b) { return d3.ascending(a.id, b.id); }))
    	    //.data(result.sort(function(a, b) { return d3.ascending(a.defaultGraphicType, b.defaultGraphicType); }))
