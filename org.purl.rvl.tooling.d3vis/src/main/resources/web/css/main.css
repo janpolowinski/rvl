@@ -104,6 +104,14 @@ form textarea {
 	resize: vertical ;
 }
 
+div.infotext {
+	margin-top: 10px;
+	padding: 5px;
+	background-color: #efe;
+	border-radius: 10px;
+}
+
+
 #svg {
 	position:absolute;
 	z-index: 1000;
