@@ -63,16 +63,30 @@
 								<option value="graph-data-relative-distance">Relative Distance</button>
 							</select>
 						-->
-
-						<input id="useForEditor" type="checkbox" value="true"/>also load for <a onClick="showRVLeditor('max')">editing ...</a>
+						
+						<div id="header">Experimental RVL Visualization Service</div>
+						
 						<div class="infotext">Demonstrator for the <a href="https://github.com/semvis/rvl/wiki">RDFS/OWL Visualisation Language</a> (RVL) 
 						using a <a href="https://github.com/semvis/rvl/wiki/RVL-Tooling">prototypical implementation</a> of RVL in Java and
 						<a href="http://d3js.org/">D3.js</a>.</div>
+						
+						<div class="infotext">
+							Get started by loading one of the RVL-examples from our case studies:
+							<div id="loadExampleProject">
+								<div title="Load this project for editing and play around with the RVL settings!"><input id="useForEditor" type="checkbox" value="true"/>also load for <a title="Show editor" href="javascript:showRVLeditor('max')">editing ...</a></div>
+							</div>
+						</div>
+						
+						<div class="infotext">
+							(Meta) visualize ;) the AVM (Abstract Visual Model) of the last generated graphic, which is an RDF model itself.
+							<button onclick="loadProject('avm', 'force-directed-graph');">Show AVM!</button>
+							Also try displaying <a href="javascript:loadProject('rvl','collapsible-tree')">RVL</a> and the <a href="javascript:loadProject('viso','collapsible-tree')">VISO/graphic</a> ontology module.
+						</div>
   					</div>
   				</div>
 
   				<div id="middle" class="layout">
-  					<div id="header" class="layout">Experimental RVL Visualization Service</div>
+  					<!--<div id="header" class="layout"></div>-->
   					<div id="canvas" class="layout"></div>
   				</div>
 
@@ -208,30 +222,11 @@
     		reInitContainers();
     		d3.json(baseUrlBackend + "projects/run/external/" + defaultGraphicType, graphicLoadingFunctions[defaultGraphicType]);
     	}
-    	
-		/*// call example projects by clicking button:
-    	d3.json(baseUrlBackend + "projects", function (error, result) {
-    	
-    		 var projectsEnter = d3.select("#menu")
-    		.append("div")
-    		.selectAll("button")
-    		//.datum(function() { return this.dataset; })
-    	    .data(result.sort(function(a, b) { return d3.ascending(a.id, b.id); }))
-    	    //.data(result.sort(function(a, b) { return d3.ascending(a.defaultGraphicType, b.defaultGraphicType); }))
-    	    .enter()
-    	    .append("div")
-    	    .append("button")
-			.attr("title","double-click to execute, normal-click to load for editing")
-			.attr("onclick", function(d){
-				return "loadProject('" + d.id + "','" + d.defaultGraphicType + "'); if(populateEditor()){ showRVLeditor('max'); loadExampleValue('/semvis/projects/mappingfile/" + d.id + "' , '#projectMappings'); loadExampleValue('/semvis/projects/datamodel/" + d.id + "' , '#projectData');}"
-				})
-    	    .text(function(d){return d.id;});    	
-    	});*/
 		
 		// call example projects on selecting from option list
     	d3.json(baseUrlBackend + "projects", function (error, result) {
         	
-   		 var projectsEnter = d3.select("#menu")
+   		 var projectsEnter = d3.select("#loadExampleProject")
    		.insert("div", ":first-child")
    		.append("select")
    		//.attr("onChange", "alert('hello' + this.value + this.options[this.selectedIndex].text)")
