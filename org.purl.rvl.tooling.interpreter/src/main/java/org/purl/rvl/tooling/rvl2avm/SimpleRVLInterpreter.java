@@ -14,6 +14,7 @@ import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
 import org.purl.rvl.java.gen.viso.graphic.Object_to_ObjectRelation;
+import org.purl.rvl.java.gen.viso.graphic.RelativeDistance;
 import org.purl.rvl.java.gen.viso.graphic.UndirectedLinking;
 import org.purl.rvl.java.rvl.IdentityMappingX;
 import org.purl.rvl.java.rvl.PropertyToGO2ORMappingX;
@@ -94,6 +95,9 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 //				else if (targetGraphicRelation.equals(UndirectedLinking.RDFS_CLASS)) {
 //					LOGGER.info("Ignored Mapping to Undirected Linking. Undirected Linking not yet implemented");
 //				}
+				else if (targetGraphicRelation.equals(RelativeDistance.RDFS_CLASS)) {
+					new MappingToRelativeDistanceHandler(modelSet, this, modelAVM).handleP2GOTORMapping(p2go2orm);
+				}
 				else if (targetGraphicRelation.equals(Containment.RDFS_CLASS)) {
 					new MappingToContainmentHandler(modelSet, this, modelAVM).handleP2GOTORMapping(p2go2orm);
 				}

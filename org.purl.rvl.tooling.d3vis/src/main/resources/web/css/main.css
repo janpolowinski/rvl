@@ -44,7 +44,8 @@ a:hover {
   vertical-align:top;
   text-align:left;
   font-style:normal;
-  font-size:2.5em;
+  font-size:1.4em;
+  text-transform: uppercase;
   }
 
 #left, #right, #middle {
@@ -102,6 +103,14 @@ form input, form textarea {
 form textarea {
 	resize: vertical ;
 }
+
+div.infotext {
+	margin-top: 10px;
+	padding: 5px;
+	background-color: #efe;
+	border-radius: 10px;
+}
+
 
 #svg {
 	position:absolute;
@@ -272,6 +281,13 @@ path.link.tree {
 path.link.highlighted {
     /*stroke-width: 10px;*/
     stroke: yellow ! important;
+}
+
+path.link.linkRelative_Distance {
+    /*stroke: #0f0;
+    stroke-opacity: .1;
+    stroke-width:1px;*/
+    visibility: hidden;
 }
 
 marker#linkUndirected {

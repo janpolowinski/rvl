@@ -2,6 +2,9 @@ body {
 	background-color: #fff;
 }
 
+a:hover {
+	color:blue;
+}
 
 
 /* set to whatever the body-background-color is */

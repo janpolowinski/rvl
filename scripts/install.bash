@@ -14,3 +14,5 @@ cd ../org.purl.rvl.tooling.process
 mvn install -DskipTests
 cd ../org.purl.rvl.example
 mvn install -DskipTests
+cd ../org.purl.rvl.server
+mvn install -DskipTests
