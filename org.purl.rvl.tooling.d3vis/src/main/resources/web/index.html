@@ -215,7 +215,7 @@
 	    			currentGraphicType = defaultGraphicType;
 	    	}
     		d3.json(baseUrlBackend + "projects/run/" + projectID, graphicLoadingFunctions[defaultGraphicType]);
-    		 if(populateEditor()){ showRVLeditor('max'); loadExampleValue('/semvis/projects/mappingfile/" + projectID + "' , '#projectMappings'); loadExampleValue('/semvis/projects/datamodel/" + projectID + "' , '#projectData');}
+    		 if(populateEditor()){ showRVLeditor('max'); loadExampleValue('/semvis/projects/mappingfile/' + projectID, '#projectMappings'); loadExampleValue('/semvis/projects/datamodel/' + projectID , '#projectData');}
     	}
 		
 		loadProjectExternalEditing = function(defaultGraphicType) {
