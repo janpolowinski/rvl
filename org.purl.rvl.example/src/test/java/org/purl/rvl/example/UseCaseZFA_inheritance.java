@@ -4,12 +4,14 @@ import java.io.FileNotFoundException;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.purl.rvl.exception.EmptyGeneratedException;
+import org.purl.rvl.exception.OGVICProcessException;
 
 public class UseCaseZFA_inheritance extends TestOGVICProcessExamples {
 	
 	@Ignore
 	@Test
-	public void testOGVICProcess() throws FileNotFoundException {
+	public void testOGVICProcess() throws FileNotFoundException, OGVICProcessException, EmptyGeneratedException {
 		
 		project = getVisProjectLibrary().getProject(getProjectName());
 	
