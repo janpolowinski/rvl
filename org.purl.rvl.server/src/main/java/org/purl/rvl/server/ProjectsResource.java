@@ -8,6 +8,8 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -46,6 +48,8 @@ import org.purl.rvl.tooling.process.VisProjectLibraryExamples;
  */
 @Path("/projects")
 public class ProjectsResource {
+	
+	private final static Logger LOGGER = Logger.getLogger(ProjectsResource.class.getName()); 
 
 	// Allows to insert contextual objects into the class,
 	// e.g. ServletContext, Request, Response, UriInfo
@@ -67,7 +71,7 @@ public class ProjectsResource {
 			projects.addAll(VisProjectLibraryExamples.getInstance().getProjects());
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println(e.getMessage());
+			LOGGER.severe(e.getMessage());
 		}
 		return projects;
 	}
@@ -88,7 +92,7 @@ public class ProjectsResource {
 			@FormParam("description") String description, @Context HttpServletResponse servletResponse)
 			throws IOException {
 
-		System.out.println("Creating new project " + id);
+		LOGGER.info("Creating new project " + id);
 
 		VisProject project = new VisProject(id);
 		if (name != null) {
@@ -116,7 +120,7 @@ public class ProjectsResource {
 			@Context HttpServletResponse servletResponse
 			) {
 		
-		System.out.println("Running new posted project ");
+		LOGGER.info("Running new posted project ...");
 
 		//return Response.status(Status.OK).entity("<html><body>Some content</body></html>").build();
 		//return Response.status(Status.OK).entity("{\"some message\" : \"test\"}").build();
@@ -222,7 +226,7 @@ public class ProjectsResource {
 		}
 		
 //		if (null == servletResponse) {
-//			System.out.println("servlet response was null");
+//			LOGGER.warning("servlet response was null");
 //		}
 		
 		return jsonResult;
@@ -276,7 +280,7 @@ public class ProjectsResource {
 	@Path("/latest")
     public String getLatestGeneratedD3() {
 		
-		System.out.println("/run/latest");
+		LOGGER.finer("/run/latest");
 		
 		String jsonResult;
 		try {
@@ -286,7 +290,7 @@ public class ProjectsResource {
 			e.printStackTrace();
 		}
 		
-		System.out.println(jsonResult);
+		LOGGER.finest(jsonResult);
 		
 		return jsonResult;
     }
