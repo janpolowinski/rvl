@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -30,8 +29,9 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.ontoware.rdf2go.Reasoning;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.Syntax;
-import org.purl.rvl.exception.D3GeneratorException;
-import org.purl.rvl.exception.OGVICModelsException;
+import org.purl.rvl.exception.EmptyGeneratedException;
+import org.purl.rvl.exception.JsonExceptionWrapper;
+import org.purl.rvl.exception.OGVICProcessException;
 import org.purl.rvl.exception.OGVICRepositoryException;
 import org.purl.rvl.tooling.avm2d3.GraphicType;
 import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
@@ -122,82 +122,64 @@ public class ProjectsResource {
 		
 		LOGGER.info("Running new posted project ...");
 
-		//return Response.status(Status.OK).entity("<html><body>Some content</body></html>").build();
-		//return Response.status(Status.OK).entity("{\"some message\" : \"test\"}").build();
-
-		
-		if (id == null || id.isEmpty()) {
-			return Response.status(Status.BAD_REQUEST).entity("{'message' : 'ID is required'}").build();
-		} 
-			
 		try {
-		
-		VisProject project = new VisProject(id);
-		project.setReasoningDataModel(Reasoning.rdfs);
-		project.setDefaultGraphicType(graphicType);
-		
-		if (data != null) {
-			File newTmpDataFile = saveToTempFile(data);
-			project.registerDataFile(newTmpDataFile);
-		} else {
-			return Response.status(Status.BAD_REQUEST).entity("{'message' : 'data is required'}").build();
-		}
-		if (mappings != null) {
-			File newTmpMappingFile = saveToTempFile(mappings);
-			project.registerMappingFile(newTmpMappingFile);
-		} else {
-			return Response.status(Status.BAD_REQUEST).entity("{'message' : 'message is required'}").build();
-		}
-		
-		VisProjectLibraryExamples.getInstance().storeProject(project);
-		
-		System.out.println("Created new project " + project.getId());
-		
-		String jsonResult = "";
-		try {
-			jsonResult = runProject(project.getId());
-		} catch (OGVICRepositoryException e) {
-			e.printStackTrace();
-			return Response.status(Status.EXPECTATION_FAILED).build();
-			// TODO correct return status?
-		}
-
-		if (jsonResult.isEmpty()) {
-			return Response.status(Status.NO_CONTENT).build();
-		} else {
-			System.out.println(jsonResult);		
-			return Response.status(Status.OK).entity(jsonResult).build();
-		}
-		
-		/*
-		if (null != stay && stay.equals("on")) {
-			// just stay on the page, don't show any new content
-			return Response.status(Status.NO_CONTENT).build();
-		} else {
-			//URI redirectTo = new URI("http://localhost:8080/semvis/projects/");
-			URI redirectTo = new URI("http://localhost:8585/semvis/gen/html/index-rest.html");
-			System.out.println("Redirecting to " + redirectTo);
-			return Response.seeOther(redirectTo).build();		
-		}
-		*/
 			
-//		code below only works when servlets are available:
-//		"When deploying a JAX-RS application using servlet then ServletConfig, ServletContext, HttpServletRequest and HttpServletResponse are available using @Context. " taken from: 
-//		https://jersey.java.net/documentation/latest/user-guide.html#d0e5169
-//
-//		servletResponse.sendRedirect("http://localhost:8080/semvis/projects");
-//		servletResponse.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-//		servletResponse.setHeader("Location", "http://localhost:8080/semvis/projects");
-//		servletResponse.setContentType(MediaType.APPLICATION_XML);
-//		servletResponse.setStatus(HttpServletResponse.SC_OK);
-//		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
-//		servletResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
-		
-		} catch (IOException e) {
-			e.printStackTrace();
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("{'message' : 'io exception (" + e.getMessage() + ")'}").build();
-		}
+			if (id == null || id.isEmpty()) {
+				return Response.status(Status.BAD_REQUEST)
+						.entity(JsonExceptionWrapper.wrapAsJSONException("Couldn't run process. ID is required.")).build();
+			} 
+
+			VisProject project = new VisProject(id);
+			project.setReasoningDataModel(Reasoning.rdfs);
+			project.setDefaultGraphicType(graphicType);
+			
+			if (data != null) {
+				File newTmpDataFile = saveToTempFile(data);
+				project.registerDataFile(newTmpDataFile);
+			} else {
+				return Response.status(Status.BAD_REQUEST).entity(
+						JsonExceptionWrapper.wrapAsJSONException("Couldn't run process for project with id " + id 
+								+ ". Data is required.")).build();
+			}
+			if (mappings != null) {
+				File newTmpMappingFile = saveToTempFile(mappings);
+				project.registerMappingFile(newTmpMappingFile);
+			} else {
+				return Response.status(Status.BAD_REQUEST).entity(
+						JsonExceptionWrapper.wrapAsJSONException("Couldn't run process for project with id " + id 
+								+ ". Mapping is required.")).build();
+			}
+			
+			VisProjectLibraryExamples.getInstance().storeProject(project);
+
+			String jsonResult = runProject(project.getId());
 	
+			if (jsonResult.isEmpty()) {
+				return Response.status(Status.NO_CONTENT).build();
+			} else {
+				LOGGER.finest(jsonResult);
+				return Response.status(Status.OK).entity(jsonResult).build();
+			}
+		
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, e.getMessage(), e);
+			return Response.status(Status.INTERNAL_SERVER_ERROR)
+					.entity(JsonExceptionWrapper.wrapAsJSONException("Couldn't run process "
+						+ "for project with id " + id + ": " + e.getMessage()))
+					.build();
+		}
+		
+		//		code below only works when servlets are available:
+		//		"When deploying a JAX-RS application using servlet then ServletConfig, ServletContext, HttpServletRequest and HttpServletResponse are available using @Context. " taken from: 
+		//		https://jersey.java.net/documentation/latest/user-guide.html#d0e5169
+		//
+		//		servletResponse.sendRedirect("http://localhost:8080/semvis/projects");
+		//		servletResponse.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
+		//		servletResponse.setHeader("Location", "http://localhost:8080/semvis/projects");
+		//		servletResponse.setContentType(MediaType.APPLICATION_XML);
+		//		servletResponse.setStatus(HttpServletResponse.SC_OK);
+		//		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
+		//		servletResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
 	}
 	
 	public static File saveToTempFile(String data) throws IOException {
@@ -213,23 +195,31 @@ public class ProjectsResource {
 	@GET
     @Produces({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
 	@Path("/run/{id}")
-    public String runVisProject(@PathParam("id") String id, @Context HttpServletResponse servletResponse) {
+    public Response runVisProject(@PathParam("id") String id, @Context HttpServletResponse servletResponse) {
 		
-		//System.out.println("/run/" + id);
-		
-		String jsonResult;
 		try {
+			
+			if (id == null || id.isEmpty()) {
+				return Response.status(Status.BAD_REQUEST)
+						.entity(JsonExceptionWrapper.wrapAsJSONException("ID is required")).build();
+			} 
+			
+			String jsonResult = "";
+			
 			jsonResult = runProject(id);
-		} catch (OGVICRepositoryException e) {
-			jsonResult =  "";
-			e.printStackTrace();
+			
+			if (jsonResult.isEmpty()) {
+				return Response.status(Status.NO_CONTENT).build();
+			} else {
+				LOGGER.finest(jsonResult);
+				return Response.status(Status.OK).entity(jsonResult).build();
+			}
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, e.getMessage(), e);
+			return Response.status(Status.INTERNAL_SERVER_ERROR)
+					.entity(JsonExceptionWrapper.wrapAsJSONException("Couldn't run project: " + e.getMessage())).build();
 		}
-		
-//		if (null == servletResponse) {
-//			LOGGER.warning("servlet response was null");
-//		}
-		
-		return jsonResult;
+
     }
 	
 	@GET
@@ -249,7 +239,7 @@ public class ProjectsResource {
 		}
 		
 //		if (null == servletResponse) {
-//			System.out.println("servlet response was null");
+//			LOGGER.warning("servlet response was null");
 //		}
 		
 		return jsonResult;
@@ -285,7 +275,7 @@ public class ProjectsResource {
 		String jsonResult;
 		try {
 			jsonResult = OGVICProcess.getInstance().getGeneratedD3json();
-		} catch (OGVICRepositoryException e) {
+		} catch (OGVICRepositoryException | OGVICProcessException | EmptyGeneratedException e) {
 			jsonResult =  "";
 			e.printStackTrace();
 		}
@@ -389,40 +379,24 @@ public class ProjectsResource {
 	}
 	
 	
-	private String runProject(String id) throws OGVICRepositoryException {
+	private String runProject(String id) throws OGVICRepositoryException, OGVICProcessException {
 	
+		String json = "";
+
 		OGVICProcess process = OGVICProcess.getInstance();
-	
-		try {
-			process.registerOntologyFile(OntologyFile.VISO_GRAPHIC);
-			process.registerOntologyFile(OntologyFile.RVL);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
+		process.registerOntologyFile(OntologyFile.VISO_GRAPHIC);
+		process.registerOntologyFile(OntologyFile.RVL);
+
 		VisProject project = VisProjectLibraryExamples.getInstance().getProject(id);
 		
-		try {
-			process.loadProject(project);
-		} catch (OGVICRepositoryException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	
-		try {
-			process.runOGVICProcess();
-		} catch (D3GeneratorException | OGVICModelsException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		String json = "could not be generated";
-		
+		process.loadProject(project);
+		process.runOGVICProcess();
+
 		try {
 			json = process.getGeneratedD3json();
-		} catch (Exception e) {
-			// TODO: handle exception
+		} catch (EmptyGeneratedException e) {
+			LOGGER.warning(JsonExceptionWrapper.wrapAsJSONException(e.getMessage() + " Proceeding anyway"));
 		}
 	
 		return json;
@@ -459,7 +433,7 @@ public class ProjectsResource {
 	
 		try {
 			process.runOGVICProcess();
-		} catch (D3GeneratorException | OGVICModelsException e) {
+		} catch (OGVICProcessException e) {
 			json = e.getMessage();
 			e.printStackTrace();
 		}

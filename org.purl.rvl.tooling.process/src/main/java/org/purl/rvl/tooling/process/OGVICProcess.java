@@ -1,18 +1,15 @@
 package org.purl.rvl.tooling.process;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Properties;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
@@ -20,12 +17,13 @@ import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Syntax;
 import org.purl.rvl.exception.D3GeneratorException;
+import org.purl.rvl.exception.EmptyGeneratedException;
 import org.purl.rvl.exception.OGVICModelsException;
+import org.purl.rvl.exception.OGVICProcessException;
 import org.purl.rvl.exception.OGVICRepositoryException;
 import org.purl.rvl.tooling.avm2d3.D3Generator;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
 import org.purl.rvl.tooling.commons.FileRegistry;
-import org.purl.rvl.tooling.commons.Settings;
 import org.purl.rvl.tooling.commons.utils.CustomRecordFormatter;
 import org.purl.rvl.tooling.model.ModelManager;
 import org.purl.rvl.tooling.rvl2avm.RVLInterpreter;
@@ -248,16 +246,21 @@ public class OGVICProcess {
 			LOGGER.info("Mapping model written to " + fileName + " as Turtle");
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "Couldn't write mapping model to file: " + e.getMessage(),
+					e.getStackTrace());
 		}
 	}
 
-	public void runOGVICProcess() throws D3GeneratorException, OGVICModelsException {
+	public void runOGVICProcess() throws OGVICProcessException {
 		interpreteRVL2AVM();	
-		transformAVMToD3();
-//		populateD3HTMLFolder(); // doesn't work under tomcat (only needed for static copies)
-//		if (isWriteAVM()) writeAVMToFile();  doesn't work under tomcat, define tmp folder?: http://stackoverflow.com/questions/1969711/best-practice-to-store-temporary-data-for-a-webapp
-		if (isWriteMappingModel()) writeMappingModelToFile();
+		try {
+			transformAVMToD3();
+//			populateD3HTMLFolder(); // doesn't work under tomcat (only needed for static copies)
+//			if (isWriteAVM()) writeAVMToFile();  doesn't work under tomcat, define tmp folder?: http://stackoverflow.com/questions/1969711/best-practice-to-store-temporary-data-for-a-webapp
+			if (isWriteMappingModel()) writeMappingModelToFile();
+		} catch (D3GeneratorException | OGVICModelsException e) {
+			LOGGER.log(Level.SEVERE, e.getMessage(), e.getStackTrace());
+		}
 	}
 	
 	public void runOGVICProcessForTesting() throws D3GeneratorException, OGVICModelsException {
@@ -265,7 +268,11 @@ public class OGVICProcess {
 		transformAVMToD3();
 	}
 
-	public String getGeneratedD3json() {
+	public String getGeneratedD3json() throws OGVICProcessException, EmptyGeneratedException {
+		if (null == generatedD3json)
+			throw new OGVICProcessException("Couldn't retrieve generated D3-JSON. Was null.");
+		if (generatedD3json.isEmpty())
+			throw new EmptyGeneratedException("D3-JSON empty.");
 		return generatedD3json;
 	}
 
@@ -319,12 +326,8 @@ public class OGVICProcess {
 					targetLocation.getPath()
 					);
 			
-		} catch (IOException e) {
-			LOGGER.severe("Could not copy HTML file for D3: " + e.getMessage());
-			e.printStackTrace();
-		} catch (NullPointerException e1) {
-			LOGGER.severe("Could not copy HTML file for D3: " + e1.getMessage());
-			e1.printStackTrace();
+		} catch (IOException | NullPointerException e ) {
+			LOGGER.log(Level.SEVERE, "Could not copy HTML file for D3: " + e.getMessage(), e.getStackTrace());
 		}
 	}
 	
@@ -357,16 +360,28 @@ public class OGVICProcess {
 		this.d3Generator = d3Generator;
 	}
 
-	public void registerMappingFile(String fileName) throws FileNotFoundException{
-		this.mappingFileRegistry.addFile(fileName);
+	public void registerMappingFile(String fileName) throws OGVICRepositoryException {
+		try {
+			this.mappingFileRegistry.addFile(fileName);
+		} catch (FileNotFoundException e) {
+			throw new OGVICRepositoryException("mapping repository", e.getMessage() , e);
+		}
 	}
 	
-	public void registerOntologyFile(String fileName) throws FileNotFoundException{
-		this.ontologyFileRegistry.addFile(fileName);
+	public void registerOntologyFile(String fileName) throws OGVICRepositoryException {
+		try {
+			this.ontologyFileRegistry.addFile(fileName);
+		} catch (FileNotFoundException e) {
+			throw new OGVICRepositoryException("ontology repository", e.getMessage() , e);
+		}
 	}
 	
-	public void registerDataFile(String fileName) throws FileNotFoundException{
-		this.dataFileRegistry.addFile(fileName);
+	public void registerDataFile(String fileName) throws OGVICRepositoryException {
+		try {
+			this.dataFileRegistry.addFile(fileName);
+		} catch (FileNotFoundException e) {
+			throw new OGVICRepositoryException("data repository", e.getMessage() , e);
+		}
 	}
 
 	public Model getModelVISO() {
