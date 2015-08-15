@@ -93,8 +93,8 @@ public class OGVICProcess {
     static {
   	
 		//LOGGER.setLevel(Level.SEVERE); 
-		//LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.SEVERE); 
-		LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.FINER);
+		LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.SEVERE); 
+		//LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.FINER);
 
 		
 		// In order to show log entrys of the fine level, we need to create a new handler as well
@@ -103,7 +103,7 @@ public class OGVICProcess {
         handler.setLevel(Level.FINEST);
         
         CustomRecordFormatter formatter = new CustomRecordFormatter();
-        handler.setFormatter(formatter); // out-comment this line to use the normal formatting with method and date
+        //handler.setFormatter(formatter); // out-comment this line to use the normal formatting with method and date
         
         LOGGER_RVL_PACKAGE.setUseParentHandlers(false); // otherwise double output of log entries
         LOGGER_RVL_PACKAGE.addHandler(handler);

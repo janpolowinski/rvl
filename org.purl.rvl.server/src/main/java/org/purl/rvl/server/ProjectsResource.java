@@ -125,29 +125,38 @@ public class ProjectsResource {
 		try {
 			
 			if (id == null || id.isEmpty()) {
+				LOGGER.warning("Couldn't run process. ID is required.");
 				return Response.status(Status.BAD_REQUEST)
 						.entity(JsonExceptionWrapper.wrapAsJSONException("Couldn't run process. ID is required.")).build();
 			} 
 
 			VisProject project = new VisProject(id);
-			project.setReasoningDataModel(Reasoning.rdfs);
-			project.setDefaultGraphicType(graphicType);
 			
-			if (data != null) {
+			project.setReasoningDataModel(Reasoning.rdfs);
+			
+			if (graphicType != null && !graphicType.isEmpty()) {
+				project.setDefaultGraphicType(graphicType);
+			} else {
+				LOGGER.warning("Not setting the graphic type.");
+			}
+			
+			if (data != null && !data.isEmpty()) {
 				File newTmpDataFile = saveToTempFile(data);
 				project.registerDataFile(newTmpDataFile);
 			} else {
+				LOGGER.warning("Couldn't run process. Some data is required.");
 				return Response.status(Status.BAD_REQUEST).entity(
 						JsonExceptionWrapper.wrapAsJSONException("Couldn't run process for project with id " + id 
-								+ ". Data is required.")).build();
+								+ ". Some data is required.")).build();
 			}
-			if (mappings != null) {
+			if (mappings != null && !mappings.isEmpty()) {
 				File newTmpMappingFile = saveToTempFile(mappings);
 				project.registerMappingFile(newTmpMappingFile);
 			} else {
+				LOGGER.warning("Couldn't run process. At least one mapping is required.");
 				return Response.status(Status.BAD_REQUEST).entity(
 						JsonExceptionWrapper.wrapAsJSONException("Couldn't run process for project with id " + id 
-								+ ". Mapping is required.")).build();
+								+ ". At least one mapping is required.")).build();
 			}
 			
 			VisProjectLibraryExamples.getInstance().storeProject(project);
@@ -157,12 +166,14 @@ public class ProjectsResource {
 			if (jsonResult.isEmpty()) {
 				return Response.status(Status.NO_CONTENT).build();
 			} else {
+				LOGGER.info("Succesfully run project with id " + id);
 				LOGGER.finest(jsonResult);
 				return Response.status(Status.OK).entity(jsonResult).build();
 			}
 		
 		} catch (Exception e) {
-			LOGGER.log(Level.SEVERE, e.getMessage(), e);
+			LOGGER.log(Level.SEVERE, "Couldn't run process "
+					+ "for project with id " + id + ": " + e.getMessage(), e);
 			return Response.status(Status.INTERNAL_SERVER_ERROR)
 					.entity(JsonExceptionWrapper.wrapAsJSONException("Couldn't run process "
 						+ "for project with id " + id + ": " + e.getMessage()))
