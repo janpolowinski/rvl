@@ -3,6 +3,8 @@ package org.purl.rvl.interpreter.test;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
@@ -10,7 +12,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.purl.rvl.exception.D3GeneratorException;
+import org.purl.rvl.exception.EmptyGeneratedException;
 import org.purl.rvl.exception.OGVICModelsException;
+import org.purl.rvl.exception.OGVICProcessException;
 import org.purl.rvl.exception.OGVICRepositoryException;
 import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.process.OGVICProcess;
@@ -28,6 +32,8 @@ public abstract class TestOGVICProcess {
 	
 	protected OGVICProcess process;
 	protected VisProject project = new VisProject("test");
+	
+	private final static Logger LOGGER = Logger.getLogger(TestOGVICProcess.class.getName()); 
 
 	@Before
 	public void setUp() throws Exception {
@@ -40,7 +46,7 @@ public abstract class TestOGVICProcess {
 	}
 
 	@Test
-	public void testOGVICProcess() throws FileNotFoundException {
+	public void testOGVICProcess() throws FileNotFoundException, OGVICProcessException, EmptyGeneratedException {
 
 		project = getVisProjectLibrary().getProject(getProjectName());
 			
@@ -65,19 +71,16 @@ public abstract class TestOGVICProcess {
 
 		try {
 			process.loadProject(project);
-		} catch (OGVICRepositoryException e1) {
-			e1.printStackTrace();
-			Assert.fail("Project could not be loaded: " + e1.getMessage());
+		} catch (OGVICRepositoryException e) {
+			LOGGER.log(Level.SEVERE, e.getMessage(), e);
+			Assert.fail("Project could not be loaded: " + e.getMessage());
 		}
 		
 		try {
 			process.runOGVICProcess();
 			//process.runOGVICProcessForTesting();
-		} catch (D3GeneratorException e) {
-			e.printStackTrace();
-			Assert.fail("OGVIC Process could not be run: " + e.getMessage());
-		} catch (OGVICModelsException e) {
-			e.printStackTrace();
+		} catch (OGVICProcessException e) {
+			LOGGER.log(Level.SEVERE, e.getMessage(), e);
 			Assert.fail("OGVIC Process could not be run: " + e.getMessage());
 		}
 	}
@@ -103,7 +106,7 @@ public abstract class TestOGVICProcess {
 	}
 	*/
 	
-	protected String getGeneratedD3json(){
+	protected String getGeneratedD3json() throws OGVICProcessException, EmptyGeneratedException{
 		return process.getGeneratedD3json();
 	}
 
@@ -122,8 +125,10 @@ public abstract class TestOGVICProcess {
 
 	/**
 	 * Checks if the generated D3 JSON equals the expected JSON from the test result file
+	 * @throws EmptyGeneratedException 
+	 * @throws OGVICProcessException 
 	 */
-	protected void assertGeneratedJSONEqualsExpected() {
+	protected void assertGeneratedJSONEqualsExpected() throws OGVICProcessException, EmptyGeneratedException {
 		
 		try {
 			
@@ -141,13 +146,13 @@ public abstract class TestOGVICProcess {
 				
 			}  catch (JSONException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOGGER.log(Level.SEVERE, e.getMessage(), e);
 				Assert.fail(e.getMessage());
 			}
 			
 		} catch (IOException e) {
 				// TODO Auto-generated catch block
-				//e.printStackTrace();
+				LOGGER.log(Level.SEVERE, e.getMessage(), e);
 				Assert.fail(e.getMessage());
 		}
 	}

@@ -201,6 +201,7 @@ public class VisProjectLibrary {
 	
 	public void storeProject(VisProject project) {
 		this.library.put(project.getName(), project);
+		LOGGER.info("Stored new project " + project.getId());
 	}
 	
 	public VisProject storeProject(String nameOfNewProject) {
@@ -211,7 +212,7 @@ public class VisProjectLibrary {
 
 	public void listProjects() {
 		
-		System.out.println("Available Visualization Projects: ");		
+		System.out.println("Available Visualization Projects: ");
 		
 		Set<Entry<String, VisProject>> projects = library.entrySet();
 		
