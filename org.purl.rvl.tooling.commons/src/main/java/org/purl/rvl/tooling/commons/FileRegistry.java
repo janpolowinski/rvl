@@ -38,7 +38,8 @@ public class FileRegistry {
 			LOGGER.finer("Adding file to the " + name + " registry: " + fileName);
 			addFile(file);
 		} else {
-			throw new FileNotFoundException("File found nowhere (" + name + " registry) : " + fileName);
+			throw new FileNotFoundException("Couldn't add file to " + name + " registry. "
+					+ "File not found anywhere: " + fileName);
 		}			
 	}
 	
