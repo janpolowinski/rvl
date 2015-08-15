@@ -3,33 +3,20 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.purl.rvl</groupId>
+	<groupId>${project.groupId}</groupId>
 	<artifactId>codegen.rdfreactor</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${project.version}</version>
 	<packaging>jar</packaging>
 
-	<name>codegen.rdfreactor</name>
-	<url>http://maven.apache.org</url>
+	<name>Code-Generator for the RVL-API</name>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java.source.version>1.7</java.source.version>
-	<java.target.version>1.7</java.target.version>
 	<!--<rdf-reactor.version>5.0.1</rdf-reactor.version> --><!-- Generated code has problems (colorhsllightness in GraphicObjectX, list in ValueMappingX -->
 	<rdf-reactor.version>4.8.3</rdf-reactor.version>
   </properties>
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-					<source>${java.source.version}</source>
-					<target>${java.target.version}</target>
-				</configuration>
-			</plugin>
 			<plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -70,11 +57,6 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-		</dependency>
-		<dependency>
 			<groupId>org.semweb4j</groupId>
 			<artifactId>rdf2go.impl.jena</artifactId>
 			<version>${rdf-reactor.version}</version>
@@ -90,14 +72,14 @@
 			<version>${rdf-reactor.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.purl.rvl</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>rvl-vocabulary</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.purl.viso</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>viso-ontology</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -116,7 +98,7 @@
 			</releases>
 			<snapshots>
 				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
+				<updatePolicy>daily</updatePolicy>
 				<checksumPolicy>fail</checksumPolicy>
 			</snapshots>
 		</repository>

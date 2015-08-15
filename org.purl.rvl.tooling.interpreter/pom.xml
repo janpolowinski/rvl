@@ -6,19 +6,6 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>RVL Interpreter</name>
 	<description>Java Interpreter for the RDFS/OWL Visualisation Language (RVL). Creates an Abstract Visual Model (AVM) consisting of concepts from the Visualisation Ontology (VISO).</description>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<junit.version>4.11</junit.version>
-		<java.source.version>1.7</java.source.version>
-		<java.target.version>1.7</java.target.version>
-		<slf4j.log4j.version>1.7.5</slf4j.log4j.version>
-		<slf4j.log4j.api.version>1.7.5</slf4j.log4j.api.version>
-		<apache.log4j.version>1.2.17</apache.log4j.version>
-		<commons.logging.version>1.1.3</commons.logging.version>
-		<google.guava.version>14.0.1</google.guava.version>
-		<google.collections.version>1.0</google.collections.version>
-		<jackson.version>2.2.3</jackson.version>
-	</properties>
 
 	<build>
 		<resources>
@@ -42,7 +29,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
 				<configuration>
 					<source>${java.source.version}</source>
 					<target>${java.target.version}</target>

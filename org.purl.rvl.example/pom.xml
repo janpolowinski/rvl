@@ -1,32 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.purl.rvl</groupId>
+  <groupId>${project.groupId}</groupId>
   <artifactId>rvl-example</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>${project.version}</version>
   <name>example</name>
   <description>Example data and mappings for the RDFS/OWL Visualisation Language (RVL).</description>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java.source.version>1.7</java.source.version>
-	<java.target.version>1.7</java.target.version>
-	<maven.compiler.plugin.version>3.2</maven.compiler.plugin.version>
-	<maven.jar.plugin.version>2.5</maven.jar.plugin.version>
-	<maven.assembly.plugin.version>2.2</maven.assembly.plugin.version>
-	<maven.surefire.plugin.version>2.17</maven.surefire.plugin.version>
-  </properties>
-
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven.jar.plugin.version}</version>
-        <configuration>
-          <source>${java.source.version}</source>
-          <target>${java.target.version}</target>
-        </configuration>
-      </plugin>
      <plugin>
        <groupId>org.apache.maven.plugins</groupId>
        <artifactId>maven-jar-plugin</artifactId>
@@ -70,7 +51,7 @@
      <plugin>
          <groupId>org.codehaus.mojo</groupId>
          <artifactId>exec-maven-plugin</artifactId>
-         <version>1.2.1</version>
+         <version>${maven.exec.plugin.version}</version>
          <executions>
              <execution>
                  <goals>
@@ -81,8 +62,8 @@
          <configuration>
              <mainClass>org.purl.rvl.tooling.process.OGVICConsoleExamples</mainClass>
              <arguments>
-            	     <argument>-Xms1024m</argument>
-  				 <argument>-Xmx2056m</argument>
+                <argument>-Xms1024m</argument>
+                <argument>-Xmx2056m</argument>
              </arguments>
          </configuration>
      </plugin>
@@ -91,16 +72,15 @@
   </build>
   
   <dependencies>
-
 		<dependency>
-			<groupId>org.purl.rvl.tooling</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>rvl-process</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.purl.rvl.tooling</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>rvl-process</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 			<type>test-jar</type>
 			<scope>test</scope>
 	    </dependency>
@@ -111,52 +91,5 @@
     		<version>1.2.3</version>
 			<scope>test</scope>
 		</dependency>
-		
   </dependencies>
-  <repositories>
-	  <!--<repository>
-	    <id>apache.snapshots</id>
-	    <name>Apache Development Snapshot Repository</name>
-	    <url>https://repository.apache.org/content/repositories/snapshots/</url>
-	    <releases>
-	        <enabled>false</enabled>
-	    </releases>
-	    <snapshots>
-	        <enabled>true</enabled>
-	    </snapshots>
-	</repository>
-        
-    <repository>
-      <id>codehaus-snapshot</id>
-      <name>Codehaus Snapshot Repo</name>
-      <url>http://snapshots.maven.codehaus.org/maven2</url>
-      <snapshots>
-	        <enabled>true</enabled>
-	    </snapshots>
-    </repository>-->
-	
-</repositories>
-<pluginRepositories>
-<!-- <pluginRepository>
-	    <id>apache.snapshots</id>
-	    <name>Apache Development Snapshot Repository</name>
-	    <url>https://repository.apache.org/content/repositories/snapshots/</url>
-	    <releases>
-	        <enabled>false</enabled>
-	    </releases>
-	    <snapshots>
-	        <enabled>true</enabled>
-	    </snapshots>
-	</pluginRepository>
-        
-    <pluginRepository>
-      <id>codehaus-snapshot</id>
-      <name>Codehaus Snapshot Repo</name>
-      <url>http://snapshots.maven.codehaus.org/maven2</url>
-      	    <snapshots>
-	        <enabled>true</enabled>
-	    </snapshots>
-    </pluginRepository>-->
-
-</pluginRepositories>
 </project>
