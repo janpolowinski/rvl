@@ -1,18 +1,18 @@
 #!/bin/bash
 
 cd ../org.purl.rvl.vocabulary
-mvn install -DskipTests
+mvn clean install -U -DskipTests
 cd ../org.purl.rvl.tooling.codegen.rdfreactor
-mvn install -DskipTests
+mvn clean install -U -DskipTests
 cd ../org.purl.rvl.tooling.commons
-mvn install -DskipTests
+mvn clean install -U -DskipTests
 cd ../org.purl.rvl.tooling.interpreter
-mvn install -DskipTests
+mvn clean install -U -DskipTests
 cd ../org.purl.rvl.tooling.d3vis
-mvn install -DskipTests
+mvn clean install -U -DskipTests
 cd ../org.purl.rvl.tooling.process
-mvn install -DskipTests
+mvn clean install -U -DskipTests
 cd ../org.purl.rvl.example
-mvn install -DskipTests
+mvn clean install -U -DskipTests
 cd ../org.purl.rvl.server
-mvn install -DskipTests
+mvn clean install -U -DskipTests
