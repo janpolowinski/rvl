@@ -32,3 +32,5 @@ bin
 
 *.iml
 .idea
+
+velocity.log.1

@@ -2,10 +2,8 @@
 
 echo "Building and Deploying to Tomcat ... "
 
-./install.bash
-
 cd ../org.purl.rvl.server
-mvn package -DskipTests
+mvn -U package -DskipTests
 
 rm /Library/Tomcat/webapps/semvis.war
 rm -R /Library/Tomcat/webapps/semvis

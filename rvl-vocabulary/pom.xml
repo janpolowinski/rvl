@@ -1,0 +1,28 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.purl.rvl</groupId>
+  <artifactId>rvl-vocabulary</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>RVL Vocabulary</name>
+  <description>The RDFS and OWL Visualization Language (RVL)</description>
+  
+  <parent>
+      <groupId>org.purl.rvl</groupId>
+      <artifactId>rvl-tooling</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  
+  	<build>
+		<resources>
+			<!--<resource>
+				<directory>${basedir}</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/*.ttl</include>
+					<include>**/*.n3</include>
+				</includes>
+			</resource>-->
+		</resources>
+		
+	</build>
+</project>

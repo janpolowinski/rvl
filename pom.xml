@@ -36,8 +36,8 @@
     
     <modules>
         <module>rvl-vocabulary</module>
-        <module>rvl-commons</module>
         <module>codegen.rdfreactor</module>
+        <module>rvl-commons</module>
         <module>rvl-interpreter</module>
         <module>rvl-d3vis</module>
         <module>rvl-process</module>
@@ -79,7 +79,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
-            <scope>test</scope>
+            <!--<scope>test</scope>-->
         </dependency>
         <!-- simplify testing with large JSON strings -->
         <dependency>
