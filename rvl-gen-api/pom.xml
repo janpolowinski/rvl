@@ -1,10 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-    <artifactId>rvl-commons</artifactId>
-    <name>RVL Commons</name>
-	<description>Common classes and resources for all RVL tooling. 
-		Also triggers the code generation of the RVL and VISO API.</description>
+    <artifactId>rvl-gen-api</artifactId>
+    <name>Generated API for RVL and VISO</name>
+	<description>Generated API for RVL and VISO API. Uses codegen.rdfreactor to generate the API via RDFreactor.</description>
     
     <parent>
         <groupId>org.purl.rvl</groupId>
@@ -14,8 +13,8 @@
     
 	<build>
 		<plugins>
-			<!--<plugin>
-			<groupId>org.codehaus.mojo</groupId>
+            <!--<plugin>
+                <groupId>org.codehaus.mojo</groupId>
 			    <artifactId>build-helper-maven-plugin</artifactId>
 			    <executions>
 			        <execution>
@@ -32,13 +31,17 @@
 			        </execution>
 			    </executions>
 			</plugin>-->
-			<!--<plugin>
+			<plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.2.1</version>
                 <executions>
                     <execution>
                     	<id>generate-viso-api-code</id>
+                    	<!--  don't do this in the generate phase for now,
+                    	 since it takes too long + 
+                    	 the generator classes are not compiled during the "generate-sources" phase,
+                    	 at least, when a clean was done before -->
                     	<phase>generate-sources</phase>
                         <goals>
                             <goal>java</goal>
@@ -46,7 +49,8 @@
                     <configuration>
 	                    <mainClass>org.purl.rvl.tooling.codegen.rdfreactor.VISOapiGenerator</mainClass>
 	                    <arguments>
-	                    	<argument>${project.build.directory}/generated-sources/java/</argument>
+	                    	<!--<argument>${project.build.directory}/generated-sources/java/</argument>-->
+                            <argument>src/main/java/</argument>
 	                    </arguments>
                 	</configuration>
                     </execution>
@@ -59,21 +63,22 @@
                     <configuration>
 	                    <mainClass>org.purl.rvl.tooling.codegen.rdfreactor.RVLapiGenerator</mainClass>
 	                    <arguments>
-	                    	<argument>${project.build.directory}/generated-sources/java/</argument>
+                            <!--<argument>${project.build.directory}/generated-sources/java/</argument>-->
+                            <argument>src/main/java/</argument>
 	                    </arguments>
                 	</configuration>
                     </execution>
                 </executions>
-            </plugin>-->
-           	<!-- Now called from install phase. Note: Setting arguments here will not work for exec:java only exec:exec! Do this by environment variables for exec:java -->
-            <!--<configuration>
-                <mainClass>org.purl.rvl.tooling.codegen.rdfreactor.VISOapiGenerator</mainClass>
-                <arguments>
-               	     <argument>-Xms1024m</argument>
-     				 <argument>-Xmx2056m</argument>
-     				 <argument>-XX:MaxPermSize=512m</argument>
-                </arguments>
-            </configuration>-->
+                <!-- Now called from install phase. Note: Setting arguments here will not work for exec:java only exec:exec! Do this by environment variables for exec:java -->
+                <!--<configuration>
+                    <mainClass>org.purl.rvl.tooling.codegen.rdfreactor.VISOapiGenerator</mainClass>
+                    <arguments>
+                   	     <argument>-Xms1024m</argument>
+         				 <argument>-Xmx2056m</argument>
+         				 <argument>-XX:MaxPermSize=512m</argument>
+                    </arguments>
+                </configuration>-->
+            </plugin>
 		</plugins>
 	</build>
 	<dependencies>
@@ -83,27 +88,6 @@
 			<artifactId>codegen.rdfreactor</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
-		<dependency>
-			<groupId>com.googlecode.json-simple</groupId>
-			<artifactId>json-simple</artifactId>
-			<version>1.1</version>
-		</dependency>
-		
-		<!-- pretty printing is missing in json-simple -->
-		<dependency>
-			<groupId>com.cedarsoftware</groupId>
-			<artifactId>json-io</artifactId>
-			<version>2.6.0</version>
-		</dependency>
-
-		<!-- simplify testing with large JSON strings -->
-		<dependency>
-			<groupId>org.skyscreamer</groupId>
-			<artifactId>jsonassert</artifactId>
-			<version>1.2.3</version>
-			<scope>test</scope>
-		</dependency>
-		
+				
 	</dependencies>
 </project>

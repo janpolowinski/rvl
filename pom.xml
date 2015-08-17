@@ -37,6 +37,7 @@
     <modules>
         <module>rvl-vocabulary</module>
         <module>codegen.rdfreactor</module>
+        <module>rvl-gen-api</module>
         <module>rvl-commons</module>
         <module>rvl-interpreter</module>
         <module>rvl-d3vis</module>
@@ -70,6 +71,24 @@
                         </execution>
                     </executions>
                 </plugin>
+                <!--<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+				    <artifactId>build-helper-maven-plugin</artifactId>
+				    <executions>
+				        <execution>
+				            <id>add-source</id>
+				            <phase>generate-sources</phase>
+				            <goals>
+				                <goal>add-source</goal>
+				            </goals>
+				            <configuration>
+				                <sources>
+				                    <source>${project.basedir}/rvl-commons/target/generated-sources/java/</source>
+				                </sources>
+				            </configuration>
+				        </execution>
+				    </executions>
+				</plugin>-->
             </plugins>
         </pluginManagement>
     </build>
