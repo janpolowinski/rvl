@@ -2,12 +2,12 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xml:lang="en"
            targetNamespace="http://purl.org/rvl/">
  <xs:simpleType name='fslSelector'>
-  <xs:restriction base='string'/>
+  <xs:restriction base='xs:string'/>
  </xs:simpleType>
  <xs:simpleType name='sparqlSelector'>
-  <xs:restriction base='string'/>
+  <xs:restriction base='xs:string'/>
  </xs:simpleType>
  <xs:simpleType name='classSelector'>
-  <xs:restriction base='string'/>
+  <xs:restriction base='xs:string'/>
  </xs:simpleType>
 </xs:schema>
