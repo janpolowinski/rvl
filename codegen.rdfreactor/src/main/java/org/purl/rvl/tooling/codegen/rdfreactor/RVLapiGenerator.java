@@ -17,7 +17,8 @@ import org.ontoware.rdfreactor.generator.CodeGenerator;
  */
 public class RVLapiGenerator {
 
-	final public static String PATH_FOR_GEN_CODE = "target/generated-sources/java/";
+//  now passed as a parameter:
+//	final public static String PATH_FOR_GEN_CODE = "target/generated-sources/java/";
 	
 	public static final String PACKAGE = "org.purl.rvl.java.gen.rvl";
 //	public static final String PACKAGE = "org.purl.rvl.test.pizza";
@@ -25,6 +26,15 @@ public class RVLapiGenerator {
 
 	
 	public static void main(String[] args) throws Exception {
+		
+		String pathToGenCodeParam = "";
+		try {
+			pathToGenCodeParam = args[0];
+			System.out.println(pathToGenCodeParam);
+		} catch (Exception e) {
+			System.out.println("No path-to-gen-code parameter found. No RVL code will be generated.");
+			return;
+		}
 		
 		// create the RDF2GO Model
 		Model model = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
@@ -48,8 +58,7 @@ public class RVLapiGenerator {
 			}
 		}
 
-		File pathToGenCode = new File(PATH_FOR_GEN_CODE);
-		CodeGenerator.generate(model, pathToGenCode, PACKAGE, Reasoning.rdfs, true,"");
+		CodeGenerator.generate(model, new File(pathToGenCodeParam), PACKAGE, Reasoning.rdfs, true,"");
 		
 //		CodeGenerator.generate(
 //				ONTOLOGY_URL,
