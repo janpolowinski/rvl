@@ -17,7 +17,7 @@ import org.ontoware.rdfreactor.generator.CodeGenerator;
  */
 public class RVLapiGenerator {
 
-	final public static String PATH_FOR_GEN_CODE = "src/main/java/";
+	final public static String PATH_FOR_GEN_CODE = "target/generated-sources/java/";
 	
 	public static final String PACKAGE = "org.purl.rvl.java.gen.rvl";
 //	public static final String PACKAGE = "org.purl.rvl.test.pizza";
