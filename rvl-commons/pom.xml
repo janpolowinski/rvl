@@ -1,11 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-    <groupId>org.purl.rvl</groupId>
     <artifactId>rvl-commons</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-	<name>RVL Commons</name>
-	<description>Common classes and resources for all RVL tooling</description>
+    <name>RVL Commons</name>
+	<description>Common classes and resources for all RVL tooling. 
+		Also triggers the code generation of the RVL and VISO API.</description>
     
     <parent>
         <groupId>org.purl.rvl</groupId>
@@ -15,6 +14,66 @@
     
 	<build>
 		<plugins>
+		<plugin>
+			<groupId>org.codehaus.mojo</groupId>
+			    <artifactId>build-helper-maven-plugin</artifactId>
+			    <executions>
+			        <execution>
+			            <id>add-source</id>
+			            <phase>generate-sources</phase>
+			            <goals>
+			                <goal>add-source</goal>
+			            </goals>
+			            <configuration>
+			                <sources>
+			                    <source>${project.build.directory}/generated-sources/java/</source>
+			                </sources>
+			            </configuration>
+			        </execution>
+			    </executions>
+			</plugin>
+			<plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                    	<id>generate-viso-api-code</id>
+                    	<!--  don't do this in the generate phase for now,
+                    	 since it takes too long + 
+                    	 the generator classes are not compiled during the "generate-sources" phase,
+                    	 at least, when a clean was done before -->
+                    	<!--<phase>generate-sources</phase>-->
+                    	<phase>generate-sources</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    <configuration>
+	                    <mainClass>org.purl.rvl.tooling.codegen.rdfreactor.VISOapiGenerator</mainClass>
+                	</configuration>
+                    </execution>
+                    <execution>
+                    	<id>generate-rvl-api-code</id>
+                    	<!--<phase>generate-sources</phase>-->
+                    	<phase>generate-sources</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    <configuration>
+	                    <mainClass>org.purl.rvl.tooling.codegen.rdfreactor.RVLapiGenerator</mainClass>
+                	</configuration>
+                    </execution>
+                </executions>
+                <!-- Now called from install phase. Note: Setting arguments here will not work for exec:java only exec:exec! Do this by environment variables for exec:java -->
+                <!--<configuration>
+                    <mainClass>org.purl.rvl.tooling.codegen.rdfreactor.VISOapiGenerator</mainClass>
+                    <arguments>
+                   	     <argument>-Xms1024m</argument>
+         				 <argument>-Xmx2056m</argument>
+         				 <argument>-XX:MaxPermSize=512m</argument>
+                    </arguments>
+                </configuration>-->
+            </plugin>
 		</plugins>
 	</build>
 	<dependencies>
