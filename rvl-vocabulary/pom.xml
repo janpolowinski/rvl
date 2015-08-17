@@ -6,11 +6,11 @@
   <name>RVL Vocabulary</name>
   <description>The RDFS and OWL Visualization Language (RVL)</description>
   
-  <parent>
+  <!--<parent>
       <groupId>org.purl.rvl</groupId>
       <artifactId>rvl-tooling</artifactId>
       <version>0.0.1-SNAPSHOT</version>
-  </parent>
+  </parent>-->
   
   	<build>
 		<resources>

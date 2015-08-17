@@ -6,12 +6,14 @@
     <artifactId>codegen.rdfreactor</artifactId>
     <packaging>jar</packaging>
 	<name>Code-Generator for the RVL-API</name>
+	<groupId>org.purl.rvl</groupId>
+    <version>0.0.1-SNAPSHOT</version>
     
-    <parent>
+    <!--<parent>
         <groupId>org.purl.rvl</groupId>
         <artifactId>rvl-tooling</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-    </parent>
+    </parent>-->
 
   <properties>
 	<!--<rdf-reactor.version>5.0.1</rdf-reactor.version> --><!-- Generated code has problems (colorhsllightness in GraphicObjectX, list in ValueMappingX -->
