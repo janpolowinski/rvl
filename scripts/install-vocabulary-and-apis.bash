@@ -11,7 +11,7 @@ mvn clean install -o -DskipTests
 
 cd ..
 
-cd codegen.rdfreactor
+cd rvl-codegen
 mvn clean install -o -DskipTests
 
 cd ..

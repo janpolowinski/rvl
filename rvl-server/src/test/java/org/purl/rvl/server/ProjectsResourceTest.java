@@ -1,6 +1,7 @@
 package org.purl.rvl.server;
 
 import static org.junit.Assert.*;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -22,6 +23,7 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.test.JerseyTest;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.purl.rvl.exception.OGVICRepositoryException;
 import org.purl.rvl.tooling.avm2d3.GraphicType;
@@ -45,6 +47,7 @@ public class ProjectsResourceTest extends JerseyTest {
         config.register(MultiPartFeature.class);
     }
 	
+    @Ignore
     @Test
     public void testFormDataMultiPart() {
     	
@@ -127,6 +130,7 @@ public class ProjectsResourceTest extends JerseyTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testGetMappingFile() throws IOException, URISyntaxException, OGVICRepositoryException {
 		String mappings = FileResourceUtils.getFromExampleMappings("linking-test.ttl");
 		ProjectsResource res = new ProjectsResource();
