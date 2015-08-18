@@ -20,7 +20,3 @@ cd rvl-gen-api
 mvn clean install -o -DskipTests
 
 cd ..
-
-# always required
-
-mvn clean install -o -DskipTests
