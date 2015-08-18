@@ -10,7 +10,7 @@
         {
           "position":"centerCenter",
           "text_value":"http://purl.org...",
-          "width":"50.0",
+          "width":"125.0",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"http://purl.org/ro/ont#AccessibleToBlindUsers"
@@ -27,7 +27,7 @@
         {
           "position":"centerCenter",
           "text_value":"http://purl.org...",
-          "width":"50.0",
+          "width":"125.0",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"http://purl.org/ro/ont#AdvertisementOnProfilePage"
@@ -44,7 +44,7 @@
         {
           "position":"centerCenter",
           "text_value":"http://purl.org...",
-          "width":"50.0",
+          "width":"125.0",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"http://purl.org/ro/ont#EarnMoney"
@@ -61,7 +61,7 @@
         {
           "position":"centerCenter",
           "text_value":"http://purl.org...",
-          "width":"50.0",
+          "width":"125.0",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"http://purl.org/ro/ont#HighNumberOfUsers"
@@ -78,7 +78,7 @@
         {
           "position":"centerCenter",
           "text_value":"http://purl.org...",
-          "width":"50.0",
+          "width":"125.0",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"http://purl.org/ro/ont#IntegratedInstantMessaging"
@@ -95,7 +95,7 @@
         {
           "position":"centerCenter",
           "text_value":"http://purl.org...",
-          "width":"50.0",
+          "width":"125.0",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"http://purl.org/ro/ont#ServerWithSufficientPerformance"
@@ -112,7 +112,7 @@
         {
           "position":"centerCenter",
           "text_value":"http://purl.org...",
-          "width":"50.0",
+          "width":"125.0",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"http://purl.org/ro/ont#StoreInformation"
@@ -129,7 +129,7 @@
         {
           "position":"centerCenter",
           "text_value":"http://purl.org...",
-          "width":"50.0",
+          "width":"125.0",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"http://purl.org/ro/ont#StoreUserDataInDatabase"
@@ -146,7 +146,7 @@
         {
           "position":"centerCenter",
           "text_value":"http://purl.org...",
-          "width":"50.0",
+          "width":"125.0",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"http://purl.org/ro/ont#UserCanHideData"
@@ -163,7 +163,7 @@
         {
           "position":"centerCenter",
           "text_value":"http://purl.org...",
-          "width":"50.0",
+          "width":"125.0",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"http://purl.org/ro/ont#UserHasPhotoAlbum"
@@ -180,7 +180,7 @@
         {
           "position":"centerCenter",
           "text_value":"http://purl.org...",
-          "width":"50.0",
+          "width":"125.0",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"http://purl.org/ro/ont#UserHasProfilePage"
@@ -197,7 +197,7 @@
         {
           "position":"centerCenter",
           "text_value":"http://purl.org...",
-          "width":"50.0",
+          "width":"125.0",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"http://purl.org/ro/ont#UsingOracleDatabase"
@@ -214,7 +214,7 @@
         {
           "position":"centerCenter",
           "text_value":"http://purl.org...",
-          "width":"50.0",
+          "width":"125.0",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"http://purl.org/ro/ont#WellArrangedLayout"
@@ -222,5 +222,6 @@
       ]
     }
   ],
+  "graphic_type":"force-directed-graph",
   "links":[]
 }

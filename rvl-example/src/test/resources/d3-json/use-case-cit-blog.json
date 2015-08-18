@@ -10,7 +10,7 @@
         {
           "position":"centerRight",
           "text_value":"Document_A",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Document_A"
@@ -28,7 +28,7 @@
             {
               "position":"centerRight",
               "text_value":"Document_B",
-              "width":"8.5",
+              "width":"21.25",
               "color_rgb_hex_combined":null,
               "type":"text_label",
               "text_value_full":"Document_B"
@@ -43,7 +43,7 @@
               {
                 "position":"centerRight",
                 "text_value":"cites",
-                "width":"8.5",
+                "width":"21.25",
                 "color_rgb_hex_combined":null,
                 "type":"text_label",
                 "text_value_full":"cites"
@@ -61,7 +61,7 @@
                 {
                   "position":"centerRight",
                   "text_value":"Document_C",
-                  "width":"8.5",
+                  "width":"21.25",
                   "color_rgb_hex_combined":null,
                   "type":"text_label",
                   "text_value_full":"Document_C"
@@ -76,7 +76,7 @@
                   {
                     "position":"centerRight",
                     "text_value":"cites",
-                    "width":"8.5",
+                    "width":"21.25",
                     "color_rgb_hex_combined":null,
                     "type":"text_label",
                     "text_value_full":"cites"
@@ -94,7 +94,7 @@
                     {
                       "position":"centerRight",
                       "text_value":"Document_D",
-                      "width":"8.5",
+                      "width":"21.25",
                       "color_rgb_hex_combined":null,
                       "type":"text_label",
                       "text_value_full":"Document_D"
@@ -109,7 +109,7 @@
                       {
                         "position":"centerRight",
                         "text_value":"confirms",
-                        "width":"8.5",
+                        "width":"21.25",
                         "color_rgb_hex_combined":null,
                         "type":"text_label",
                         "text_value_full":"confirms"
@@ -127,7 +127,7 @@
                         {
                           "position":"centerRight",
                           "text_value":"Document_E",
-                          "width":"8.5",
+                          "width":"21.25",
                           "color_rgb_hex_combined":null,
                           "type":"text_label",
                           "text_value_full":"Document_E"
@@ -142,7 +142,7 @@
                           {
                             "position":"centerRight",
                             "text_value":"critiques",
-                            "width":"8.5",
+                            "width":"21.25",
                             "color_rgb_hex_combined":null,
                             "type":"text_label",
                             "text_value_full":"critiques"
@@ -160,7 +160,7 @@
                         {
                           "position":"centerRight",
                           "text_value":"Document_F",
-                          "width":"8.5",
+                          "width":"21.25",
                           "color_rgb_hex_combined":null,
                           "type":"text_label",
                           "text_value_full":"Document_F"
@@ -175,7 +175,7 @@
                           {
                             "position":"centerRight",
                             "text_value":"critiques",
-                            "width":"8.5",
+                            "width":"21.25",
                             "color_rgb_hex_combined":null,
                             "type":"text_label",
                             "text_value_full":"critiques"
@@ -197,7 +197,7 @@
                 {
                   "position":"centerRight",
                   "text_value":"Document_E",
-                  "width":"8.5",
+                  "width":"21.25",
                   "color_rgb_hex_combined":null,
                   "type":"text_label",
                   "text_value_full":"Document_E"
@@ -212,7 +212,7 @@
                   {
                     "position":"centerRight",
                     "text_value":"critiques",
-                    "width":"8.5",
+                    "width":"21.25",
                     "color_rgb_hex_combined":null,
                     "type":"text_label",
                     "text_value_full":"critiques"

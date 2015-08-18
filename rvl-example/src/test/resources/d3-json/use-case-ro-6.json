@@ -265,7 +265,7 @@
         {
           "position":"centerRight",
           "text_value":"isInConflictWit...",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"isInConflictWith"
@@ -284,7 +284,7 @@
         {
           "position":"centerRight",
           "text_value":"isRefinementOf",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"isRefinementOf"

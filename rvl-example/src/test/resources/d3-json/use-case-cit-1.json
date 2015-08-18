@@ -10,7 +10,7 @@
         {
           "position":"centerRight",
           "text_value":"Document_A",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Document_A"
@@ -27,7 +27,7 @@
         {
           "position":"centerRight",
           "text_value":"Document_B",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Document_B"
@@ -44,7 +44,7 @@
         {
           "position":"centerRight",
           "text_value":"Document_C",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Document_C"
@@ -61,7 +61,7 @@
         {
           "position":"centerRight",
           "text_value":"Document_D",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Document_D"
@@ -78,7 +78,7 @@
         {
           "position":"centerRight",
           "text_value":"Document_E",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Document_E"
@@ -95,7 +95,7 @@
         {
           "position":"centerRight",
           "text_value":"Document_F",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Document_F"
@@ -103,6 +103,7 @@
       ]
     }
   ],
+  "graphic_type":"force-directed-graph",
   "links":[
     {
       "color_rgb_hex":"#ff0000",
@@ -112,7 +113,7 @@
         {
           "position":"centerRight",
           "text_value":"critiques",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"critiques"
@@ -120,8 +121,8 @@
       ],
       "uri":"http://purl.org/spar/cito/critiques",
       "type":"Directed",
-      "source":3,
-      "target":5,
+      "source_uri":"http://purl.org/rvl/example/data/cito/Document_D",
+      "target_uri":"http://purl.org/rvl/example/data/cito/Document_F",
       "value":"1"
     },
     {
@@ -132,7 +133,7 @@
         {
           "position":"centerRight",
           "text_value":"confirms",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"confirms"
@@ -140,8 +141,8 @@
       ],
       "uri":"http://purl.org/spar/cito/confirms",
       "type":"Directed",
-      "source":2,
-      "target":3,
+      "source_uri":"http://purl.org/rvl/example/data/cito/Document_C",
+      "target_uri":"http://purl.org/rvl/example/data/cito/Document_D",
       "value":"1"
     },
     {
@@ -152,7 +153,7 @@
         {
           "position":"centerRight",
           "text_value":"cites",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"cites"
@@ -160,8 +161,8 @@
       ],
       "uri":"http://purl.org/spar/cito/cites",
       "type":"Directed",
-      "source":0,
-      "target":1,
+      "source_uri":"http://purl.org/rvl/example/data/cito/Document_A",
+      "target_uri":"http://purl.org/rvl/example/data/cito/Document_B",
       "value":"1"
     },
     {
@@ -172,7 +173,7 @@
         {
           "position":"centerRight",
           "text_value":"critiques",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"critiques"
@@ -180,8 +181,8 @@
       ],
       "uri":"http://purl.org/spar/cito/critiques",
       "type":"Directed",
-      "source":1,
-      "target":4,
+      "source_uri":"http://purl.org/rvl/example/data/cito/Document_B",
+      "target_uri":"http://purl.org/rvl/example/data/cito/Document_E",
       "value":"1"
     },
     {
@@ -192,7 +193,7 @@
         {
           "position":"centerRight",
           "text_value":"critiques",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"critiques"
@@ -200,8 +201,8 @@
       ],
       "uri":"http://purl.org/spar/cito/critiques",
       "type":"Directed",
-      "source":3,
-      "target":4,
+      "source_uri":"http://purl.org/rvl/example/data/cito/Document_D",
+      "target_uri":"http://purl.org/rvl/example/data/cito/Document_E",
       "value":"1"
     },
     {
@@ -212,7 +213,7 @@
         {
           "position":"centerRight",
           "text_value":"cites",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"cites"
@@ -220,8 +221,8 @@
       ],
       "uri":"http://purl.org/spar/cito/cites",
       "type":"Directed",
-      "source":1,
-      "target":2,
+      "source_uri":"http://purl.org/rvl/example/data/cito/Document_B",
+      "target_uri":"http://purl.org/rvl/example/data/cito/Document_C",
       "value":"1"
     }
   ]

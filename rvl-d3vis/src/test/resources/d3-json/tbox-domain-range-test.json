@@ -10,7 +10,7 @@
         {
           "position":"centerRight",
           "text_value":"Dokument",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Dokument"
@@ -27,7 +27,7 @@
         {
           "position":"centerRight",
           "text_value":"Field",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Field"
@@ -44,7 +44,7 @@
         {
           "position":"centerRight",
           "text_value":"Person",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Person"
@@ -62,7 +62,7 @@
         {
           "position":"centerRight",
           "text_value":"creator",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"creator"
@@ -70,8 +70,8 @@
       ],
       "uri":"http://purl.org/rvl/example-data/creator",
       "type":"Directed",
-      "source":0,
-      "target":2,
+      "source_uri":"http://purl.org/rvl/example-data/Document",
+      "target_uri":"http://purl.org/rvl/example-data/Person",
       "value":"1"
     },
     {
@@ -82,7 +82,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -90,8 +90,8 @@
       ],
       "uri":"http://purl.org/rvl/example-data/workingField",
       "type":"Directed",
-      "source":2,
-      "target":1,
+      "source_uri":"http://purl.org/rvl/example-data/Person",
+      "target_uri":"http://purl.org/rvl/example-data/Field",
       "value":"1"
     }
   ]

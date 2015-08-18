@@ -10,7 +10,7 @@
         {
           "position": "centerRight",
           "text_value": "Document_A",
-          "width": "8.5",
+          "width": "21.25",
           "color_rgb_hex_combined": null,
           "type": "text_label",
           "text_value_full": "Document_A"
@@ -27,7 +27,7 @@
         {
           "position": "centerRight",
           "text_value": "Document_B",
-          "width": "8.5",
+          "width": "21.25",
           "color_rgb_hex_combined": null,
           "type": "text_label",
           "text_value_full": "Document_B"

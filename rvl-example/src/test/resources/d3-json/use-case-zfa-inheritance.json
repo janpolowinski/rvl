@@ -10,7 +10,7 @@
         {
           "position":"centerRight",
           "text_value":"lateral line pr...",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"lateral line primordium of Fish Nemo"
@@ -27,7 +27,7 @@
         {
           "position":"centerRight",
           "text_value":"posterior later...",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"posterior lateral line primordium"
@@ -44,7 +44,7 @@
         {
           "position":"centerRight",
           "text_value":"lateral line pr...",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"lateral line primordium"
@@ -61,7 +61,7 @@
         {
           "position":"centerRight",
           "text_value":"primary posteri...",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"primary posterior lateral line primordium of Fish Nemo"
@@ -78,7 +78,7 @@
         {
           "position":"centerRight",
           "text_value":"primary posteri...",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"primary posterior lateral line primordium"
@@ -95,7 +95,7 @@
         {
           "position":"centerRight",
           "text_value":"anterior latera...",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"anterior lateral line primordium"
@@ -112,7 +112,7 @@
         {
           "position":"centerRight",
           "text_value":"secondary poste...",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"secondary posterior lateral line primordium"
@@ -129,7 +129,7 @@
         {
           "position":"centerRight",
           "text_value":"NamedIndividual",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"NamedIndividual"
@@ -146,7 +146,7 @@
         {
           "position":"centerRight",
           "text_value":"middle lateral ...",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"middle lateral line primordium"
@@ -163,7 +163,7 @@
         {
           "position":"centerRight",
           "text_value":"subClassOf",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"subClassOf"
@@ -182,7 +182,7 @@
         {
           "position":"centerRight",
           "text_value":"subClassOf",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"subClassOf"
@@ -201,7 +201,7 @@
         {
           "position":"centerRight",
           "text_value":"subClassOf",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"subClassOf"
@@ -220,7 +220,7 @@
         {
           "position":"centerRight",
           "text_value":"subClassOf",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"subClassOf"
@@ -239,7 +239,7 @@
         {
           "position":"centerRight",
           "text_value":"subClassOf",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"subClassOf"
@@ -258,7 +258,7 @@
         {
           "position":"centerRight",
           "text_value":"type",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"type"
@@ -277,7 +277,7 @@
         {
           "position":"centerRight",
           "text_value":"type",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"type"
@@ -296,7 +296,7 @@
         {
           "position":"centerRight",
           "text_value":"type",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"type"
@@ -315,7 +315,7 @@
         {
           "position":"centerRight",
           "text_value":"type",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"type"

@@ -10,7 +10,7 @@
         {
           "position":"centerRight",
           "text_value":"Alice",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Alice"
@@ -27,7 +27,7 @@
         {
           "position":"centerRight",
           "text_value":"Author",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Author"
@@ -44,7 +44,7 @@
         {
           "position":"centerRight",
           "text_value":"Bob",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Bob"
@@ -61,7 +61,7 @@
         {
           "position":"centerRight",
           "text_value":"Christof",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Christof"
@@ -78,7 +78,7 @@
         {
           "position":"centerRight",
           "text_value":"Doctor Who",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Doctor Who"
@@ -95,7 +95,7 @@
         {
           "position":"centerRight",
           "text_value":"Franzi",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Franzi"
@@ -112,7 +112,7 @@
         {
           "position":"centerRight",
           "text_value":"Goethe",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Goethe"
@@ -129,7 +129,7 @@
         {
           "position":"centerRight",
           "text_value":"Jan",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Jan"
@@ -146,7 +146,7 @@
         {
           "position":"centerRight",
           "text_value":"Johannes",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Johannes"
@@ -163,7 +163,7 @@
         {
           "position":"centerRight",
           "text_value":"John",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"John"
@@ -180,7 +180,7 @@
         {
           "position":"centerRight",
           "text_value":"Lina",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Lina"
@@ -197,7 +197,7 @@
         {
           "position":"centerRight",
           "text_value":"Luisa",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Luisa"
@@ -214,7 +214,7 @@
         {
           "position":"centerRight",
           "text_value":"Person",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Person"
@@ -231,7 +231,7 @@
         {
           "position":"centerRight",
           "text_value":"Person without ...",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Person without characteristics"
@@ -248,7 +248,7 @@
         {
           "position":"centerRight",
           "text_value":"Susane",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Susane"
@@ -256,6 +256,7 @@
       ]
     }
   ],
+  "graphic_type":"force-directed-graph",
   "links":[
     {
       "color_rgb_hex":"",
@@ -265,7 +266,7 @@
         {
           "position":"centerRight",
           "text_value":"type",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"type"
@@ -273,8 +274,8 @@
       ],
       "uri":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
       "type":"Directed",
-      "source":3,
-      "target":1,
+      "source_uri":"http://purl.org/rvl/example-data/Goethe",
+      "target_uri":"http://purl.org/rvl/example-data/Person",
       "value":"1"
     },
     {
@@ -285,7 +286,7 @@
         {
           "position":"centerRight",
           "text_value":"type",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"type"
@@ -293,8 +294,8 @@
       ],
       "uri":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
       "type":"Directed",
-      "source":11,
-      "target":1,
+      "source_uri":"http://purl.org/rvl/example-data/John",
+      "target_uri":"http://purl.org/rvl/example-data/Author",
       "value":"1"
     },
     {
@@ -305,7 +306,7 @@
         {
           "position":"centerRight",
           "text_value":"type",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"type"
@@ -313,8 +314,8 @@
       ],
       "uri":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
       "type":"Directed",
-      "source":8,
-      "target":12,
+      "source_uri":"http://purl.org/rvl/example-data/Christof",
+      "target_uri":"http://purl.org/rvl/example-data/Author",
       "value":"1"
     },
     {
@@ -325,7 +326,7 @@
         {
           "position":"centerRight",
           "text_value":"type",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"type"
@@ -333,8 +334,8 @@
       ],
       "uri":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
       "type":"Directed",
-      "source":14,
-      "target":1,
+      "source_uri":"http://purl.org/rvl/example-data/Johannes",
+      "target_uri":"http://purl.org/rvl/example-data/Person",
       "value":"1"
     },
     {
@@ -345,7 +346,7 @@
         {
           "position":"centerRight",
           "text_value":"type",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"type"
@@ -353,8 +354,8 @@
       ],
       "uri":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
       "type":"Directed",
-      "source":4,
-      "target":12,
+      "source_uri":"http://purl.org/rvl/example-data/Jan",
+      "target_uri":"http://purl.org/rvl/example-data/Person",
       "value":"1"
     },
     {
@@ -365,7 +366,7 @@
         {
           "position":"centerRight",
           "text_value":"type",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"type"
@@ -373,8 +374,8 @@
       ],
       "uri":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
       "type":"Directed",
-      "source":2,
-      "target":1,
+      "source_uri":"http://purl.org/rvl/example-data/Franzi",
+      "target_uri":"http://purl.org/rvl/example-data/Author",
       "value":"1"
     },
     {
@@ -385,7 +386,7 @@
         {
           "position":"centerRight",
           "text_value":"type",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"type"
@@ -393,8 +394,8 @@
       ],
       "uri":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
       "type":"Directed",
-      "source":10,
-      "target":1,
+      "source_uri":"http://purl.org/rvl/example-data/Alice",
+      "target_uri":"http://purl.org/rvl/example-data/Author",
       "value":"1"
     },
     {
@@ -405,7 +406,7 @@
         {
           "position":"centerRight",
           "text_value":"type",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"type"
@@ -413,8 +414,8 @@
       ],
       "uri":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
       "type":"Directed",
-      "source":6,
-      "target":12,
+      "source_uri":"http://purl.org/rvl/example-data/Bob",
+      "target_uri":"http://purl.org/rvl/example-data/Author",
       "value":"1"
     },
     {
@@ -425,7 +426,7 @@
         {
           "position":"centerRight",
           "text_value":"type",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"type"
@@ -433,8 +434,8 @@
       ],
       "uri":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
       "type":"Directed",
-      "source":5,
-      "target":1,
+      "source_uri":"http://purl.org/rvl/example-data/Luisa",
+      "target_uri":"http://purl.org/rvl/example-data/Author",
       "value":"1"
     },
     {
@@ -445,7 +446,7 @@
         {
           "position":"centerRight",
           "text_value":"type",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"type"
@@ -453,8 +454,8 @@
       ],
       "uri":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
       "type":"Directed",
-      "source":13,
-      "target":12,
+      "source_uri":"http://purl.org/rvl/example-data/Susane",
+      "target_uri":"http://purl.org/rvl/example-data/Author",
       "value":"1"
     },
     {
@@ -465,7 +466,7 @@
         {
           "position":"centerRight",
           "text_value":"type",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"type"
@@ -473,8 +474,8 @@
       ],
       "uri":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
       "type":"Directed",
-      "source":7,
-      "target":12,
+      "source_uri":"http://purl.org/rvl/example-data/Lina",
+      "target_uri":"http://purl.org/rvl/example-data/Author",
       "value":"1"
     },
     {
@@ -485,7 +486,7 @@
         {
           "position":"centerRight",
           "text_value":"type",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"type"
@@ -493,8 +494,8 @@
       ],
       "uri":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
       "type":"Directed",
-      "source":9,
-      "target":1,
+      "source_uri":"http://purl.org/rvl/example-data/PersonWithoutCharacteristics",
+      "target_uri":"http://purl.org/rvl/example-data/Person",
       "value":"1"
     },
     {
@@ -505,7 +506,7 @@
         {
           "position":"centerRight",
           "text_value":"type",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"type"
@@ -513,8 +514,8 @@
       ],
       "uri":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
       "type":"Directed",
-      "source":0,
-      "target":1,
+      "source_uri":"http://purl.org/rvl/example-data/DoctorWho",
+      "target_uri":"http://purl.org/rvl/example-data/Person",
       "value":"1"
     }
   ]

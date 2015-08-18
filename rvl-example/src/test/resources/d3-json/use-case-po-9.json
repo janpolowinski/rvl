@@ -1,4 +1,5 @@
 {
+  "graphic_type":"collapsible-tree",
   "children":[
     {
       "uri":"http://purl.org/obo/owl/PO#PO_0005599",
@@ -10,7 +11,7 @@
         {
           "position":"centerRight",
           "text_value":"cork cambium",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"cork cambium"
@@ -28,7 +29,7 @@
             {
               "position":"centerRight",
               "text_value":"phellem",
-              "width":"8.5",
+              "width":"21.25",
               "color_rgb_hex_combined":null,
               "type":"text_label",
               "text_value_full":"phellem"
@@ -36,6 +37,7 @@
           ],
           "connector":{
             "arrow_type":"line",
+            "uri":"http://purl.org/obo/owl/obo#develops_from",
             "color_rgb_hex":"",
             "color_rgb_hex_combined":null,
             "shape_d3_name":"line",
@@ -44,7 +46,7 @@
               {
                 "position":"centerRight",
                 "text_value":"develops_from",
-                "width":"11.5",
+                "width":"28.75",
                 "color_rgb_hex_combined":null,
                 "type":"text_label",
                 "text_value_full":"develops_from"
@@ -62,7 +64,7 @@
             {
               "position":"centerRight",
               "text_value":"phelloderm",
-              "width":"8.5",
+              "width":"21.25",
               "color_rgb_hex_combined":null,
               "type":"text_label",
               "text_value_full":"phelloderm"
@@ -70,6 +72,7 @@
           ],
           "connector":{
             "arrow_type":"line",
+            "uri":"http://purl.org/obo/owl/obo#develops_from",
             "color_rgb_hex":"",
             "color_rgb_hex_combined":null,
             "shape_d3_name":"line",
@@ -78,7 +81,7 @@
               {
                 "position":"centerRight",
                 "text_value":"develops_from",
-                "width":"11.5",
+                "width":"28.75",
                 "color_rgb_hex_combined":null,
                 "type":"text_label",
                 "text_value_full":"develops_from"

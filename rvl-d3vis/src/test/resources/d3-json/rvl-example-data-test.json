@@ -10,7 +10,7 @@
         {
           "position":"centerRight",
           "text_value":"http://purl.org...",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -28,7 +28,7 @@
             {
               "position":"centerRight",
               "text_value":"http://purl.org...",
-              "width":"8.5",
+              "width":"21.25",
               "color_rgb_hex_combined":null,
               "type":"text_label",
               "text_value_full":"http://purl.org/rvl/example-data/Europe"
@@ -43,7 +43,7 @@
               {
                 "position":"centerRight",
                 "text_value":"partOf",
-                "width":"8.5",
+                "width":"21.25",
                 "color_rgb_hex_combined":null,
                 "type":"text_label",
                 "text_value_full":"partOf"
@@ -61,7 +61,7 @@
                 {
                   "position":"centerRight",
                   "text_value":"http://purl.org...",
-                  "width":"8.5",
+                  "width":"21.25",
                   "color_rgb_hex_combined":null,
                   "type":"text_label",
                   "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -76,7 +76,7 @@
                   {
                     "position":"centerRight",
                     "text_value":"exportsTo",
-                    "width":"8.5",
+                    "width":"21.25",
                     "color_rgb_hex_combined":null,
                     "type":"text_label",
                     "text_value_full":"exportsTo"
@@ -94,7 +94,7 @@
                     {
                       "position":"centerRight",
                       "text_value":"http://purl.org...",
-                      "width":"8.5",
+                      "width":"21.25",
                       "color_rgb_hex_combined":null,
                       "type":"text_label",
                       "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -102,7 +102,7 @@
                     {
                       "position":"centerRight",
                       "text_value":"http://purl.org...",
-                      "width":"8.5",
+                      "width":"21.25",
                       "color_rgb_hex_combined":null,
                       "type":"text_label",
                       "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -117,7 +117,7 @@
                       {
                         "position":"centerRight",
                         "text_value":"partOf",
-                        "width":"8.5",
+                        "width":"21.25",
                         "color_rgb_hex_combined":null,
                         "type":"text_label",
                         "text_value_full":"partOf"
@@ -135,7 +135,7 @@
                         {
                           "position":"centerRight",
                           "text_value":"World",
-                          "width":"8.5",
+                          "width":"21.25",
                           "color_rgb_hex_combined":null,
                           "type":"text_label",
                           "text_value_full":"World"
@@ -150,7 +150,7 @@
                           {
                             "position":"centerRight",
                             "text_value":"partOf",
-                            "width":"8.5",
+                            "width":"21.25",
                             "color_rgb_hex_combined":null,
                             "type":"text_label",
                             "text_value_full":"partOf"
@@ -170,7 +170,7 @@
                     {
                       "position":"centerRight",
                       "text_value":"http://purl.org...",
-                      "width":"8.5",
+                      "width":"21.25",
                       "color_rgb_hex_combined":null,
                       "type":"text_label",
                       "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -178,7 +178,7 @@
                     {
                       "position":"centerRight",
                       "text_value":"http://purl.org...",
-                      "width":"8.5",
+                      "width":"21.25",
                       "color_rgb_hex_combined":null,
                       "type":"text_label",
                       "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -193,7 +193,7 @@
                       {
                         "position":"centerRight",
                         "text_value":"exportsTo",
-                        "width":"8.5",
+                        "width":"21.25",
                         "color_rgb_hex_combined":null,
                         "type":"text_label",
                         "text_value_full":"exportsTo"
@@ -211,7 +211,7 @@
                         {
                           "position":"centerRight",
                           "text_value":"World",
-                          "width":"8.5",
+                          "width":"21.25",
                           "color_rgb_hex_combined":null,
                           "type":"text_label",
                           "text_value_full":"World"
@@ -226,7 +226,7 @@
                           {
                             "position":"centerRight",
                             "text_value":"partOf",
-                            "width":"8.5",
+                            "width":"21.25",
                             "color_rgb_hex_combined":null,
                             "type":"text_label",
                             "text_value_full":"partOf"
@@ -248,7 +248,7 @@
                 {
                   "position":"centerRight",
                   "text_value":"http://purl.org...",
-                  "width":"8.5",
+                  "width":"21.25",
                   "color_rgb_hex_combined":null,
                   "type":"text_label",
                   "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -256,7 +256,7 @@
                 {
                   "position":"centerRight",
                   "text_value":"http://purl.org...",
-                  "width":"8.5",
+                  "width":"21.25",
                   "color_rgb_hex_combined":null,
                   "type":"text_label",
                   "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -271,7 +271,7 @@
                   {
                     "position":"centerRight",
                     "text_value":"partOf",
-                    "width":"8.5",
+                    "width":"21.25",
                     "color_rgb_hex_combined":null,
                     "type":"text_label",
                     "text_value_full":"partOf"
@@ -289,7 +289,7 @@
                     {
                       "position":"centerRight",
                       "text_value":"World",
-                      "width":"8.5",
+                      "width":"21.25",
                       "color_rgb_hex_combined":null,
                       "type":"text_label",
                       "text_value_full":"World"
@@ -304,7 +304,7 @@
                       {
                         "position":"centerRight",
                         "text_value":"partOf",
-                        "width":"8.5",
+                        "width":"21.25",
                         "color_rgb_hex_combined":null,
                         "type":"text_label",
                         "text_value_full":"partOf"
@@ -333,7 +333,7 @@
         {
           "position":"centerRight",
           "text_value":"http://purl.org...",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"http://purl.org/rvl/example-data/Germany"
@@ -351,7 +351,7 @@
             {
               "position":"centerRight",
               "text_value":"http://purl.org...",
-              "width":"8.5",
+              "width":"21.25",
               "color_rgb_hex_combined":null,
               "type":"text_label",
               "text_value_full":"http://purl.org/rvl/example-data/Europe"
@@ -366,7 +366,7 @@
               {
                 "position":"centerRight",
                 "text_value":"partOf",
-                "width":"8.5",
+                "width":"21.25",
                 "color_rgb_hex_combined":null,
                 "type":"text_label",
                 "text_value_full":"partOf"
@@ -384,7 +384,7 @@
                 {
                   "position":"centerRight",
                   "text_value":"http://purl.org...",
-                  "width":"8.5",
+                  "width":"21.25",
                   "color_rgb_hex_combined":null,
                   "type":"text_label",
                   "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -399,7 +399,7 @@
                   {
                     "position":"centerRight",
                     "text_value":"exportsTo",
-                    "width":"8.5",
+                    "width":"21.25",
                     "color_rgb_hex_combined":null,
                     "type":"text_label",
                     "text_value_full":"exportsTo"
@@ -417,7 +417,7 @@
                     {
                       "position":"centerRight",
                       "text_value":"http://purl.org...",
-                      "width":"8.5",
+                      "width":"21.25",
                       "color_rgb_hex_combined":null,
                       "type":"text_label",
                       "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -425,7 +425,7 @@
                     {
                       "position":"centerRight",
                       "text_value":"http://purl.org...",
-                      "width":"8.5",
+                      "width":"21.25",
                       "color_rgb_hex_combined":null,
                       "type":"text_label",
                       "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -440,7 +440,7 @@
                       {
                         "position":"centerRight",
                         "text_value":"partOf",
-                        "width":"8.5",
+                        "width":"21.25",
                         "color_rgb_hex_combined":null,
                         "type":"text_label",
                         "text_value_full":"partOf"
@@ -458,7 +458,7 @@
                         {
                           "position":"centerRight",
                           "text_value":"World",
-                          "width":"8.5",
+                          "width":"21.25",
                           "color_rgb_hex_combined":null,
                           "type":"text_label",
                           "text_value_full":"World"
@@ -473,7 +473,7 @@
                           {
                             "position":"centerRight",
                             "text_value":"partOf",
-                            "width":"8.5",
+                            "width":"21.25",
                             "color_rgb_hex_combined":null,
                             "type":"text_label",
                             "text_value_full":"partOf"
@@ -493,7 +493,7 @@
                     {
                       "position":"centerRight",
                       "text_value":"http://purl.org...",
-                      "width":"8.5",
+                      "width":"21.25",
                       "color_rgb_hex_combined":null,
                       "type":"text_label",
                       "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -501,7 +501,7 @@
                     {
                       "position":"centerRight",
                       "text_value":"http://purl.org...",
-                      "width":"8.5",
+                      "width":"21.25",
                       "color_rgb_hex_combined":null,
                       "type":"text_label",
                       "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -516,7 +516,7 @@
                       {
                         "position":"centerRight",
                         "text_value":"exportsTo",
-                        "width":"8.5",
+                        "width":"21.25",
                         "color_rgb_hex_combined":null,
                         "type":"text_label",
                         "text_value_full":"exportsTo"
@@ -534,7 +534,7 @@
                         {
                           "position":"centerRight",
                           "text_value":"World",
-                          "width":"8.5",
+                          "width":"21.25",
                           "color_rgb_hex_combined":null,
                           "type":"text_label",
                           "text_value_full":"World"
@@ -549,7 +549,7 @@
                           {
                             "position":"centerRight",
                             "text_value":"partOf",
-                            "width":"8.5",
+                            "width":"21.25",
                             "color_rgb_hex_combined":null,
                             "type":"text_label",
                             "text_value_full":"partOf"
@@ -571,7 +571,7 @@
                 {
                   "position":"centerRight",
                   "text_value":"http://purl.org...",
-                  "width":"8.5",
+                  "width":"21.25",
                   "color_rgb_hex_combined":null,
                   "type":"text_label",
                   "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -579,7 +579,7 @@
                 {
                   "position":"centerRight",
                   "text_value":"http://purl.org...",
-                  "width":"8.5",
+                  "width":"21.25",
                   "color_rgb_hex_combined":null,
                   "type":"text_label",
                   "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -594,7 +594,7 @@
                   {
                     "position":"centerRight",
                     "text_value":"partOf",
-                    "width":"8.5",
+                    "width":"21.25",
                     "color_rgb_hex_combined":null,
                     "type":"text_label",
                     "text_value_full":"partOf"
@@ -612,7 +612,7 @@
                     {
                       "position":"centerRight",
                       "text_value":"World",
-                      "width":"8.5",
+                      "width":"21.25",
                       "color_rgb_hex_combined":null,
                       "type":"text_label",
                       "text_value_full":"World"
@@ -627,7 +627,7 @@
                       {
                         "position":"centerRight",
                         "text_value":"partOf",
-                        "width":"8.5",
+                        "width":"21.25",
                         "color_rgb_hex_combined":null,
                         "type":"text_label",
                         "text_value_full":"partOf"
@@ -656,7 +656,7 @@
         {
           "position":"centerRight",
           "text_value":"http://purl.org...",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"http://purl.org/rvl/example-data/Europe"
@@ -664,7 +664,7 @@
         {
           "position":"centerRight",
           "text_value":"http://purl.org...",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"http://purl.org/rvl/example-data/Europe"
@@ -682,7 +682,7 @@
             {
               "position":"centerRight",
               "text_value":"http://purl.org...",
-              "width":"8.5",
+              "width":"21.25",
               "color_rgb_hex_combined":null,
               "type":"text_label",
               "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -690,7 +690,7 @@
             {
               "position":"centerRight",
               "text_value":"http://purl.org...",
-              "width":"8.5",
+              "width":"21.25",
               "color_rgb_hex_combined":null,
               "type":"text_label",
               "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -705,7 +705,7 @@
               {
                 "position":"centerRight",
                 "text_value":"partOf",
-                "width":"8.5",
+                "width":"21.25",
                 "color_rgb_hex_combined":null,
                 "type":"text_label",
                 "text_value_full":"partOf"
@@ -723,7 +723,7 @@
                 {
                   "position":"centerRight",
                   "text_value":"World",
-                  "width":"8.5",
+                  "width":"21.25",
                   "color_rgb_hex_combined":null,
                   "type":"text_label",
                   "text_value_full":"World"
@@ -738,7 +738,7 @@
                   {
                     "position":"centerRight",
                     "text_value":"partOf",
-                    "width":"8.5",
+                    "width":"21.25",
                     "color_rgb_hex_combined":null,
                     "type":"text_label",
                     "text_value_full":"partOf"
@@ -758,7 +758,7 @@
             {
               "position":"centerRight",
               "text_value":"http://purl.org...",
-              "width":"8.5",
+              "width":"21.25",
               "color_rgb_hex_combined":null,
               "type":"text_label",
               "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -766,7 +766,7 @@
             {
               "position":"centerRight",
               "text_value":"http://purl.org...",
-              "width":"8.5",
+              "width":"21.25",
               "color_rgb_hex_combined":null,
               "type":"text_label",
               "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -781,7 +781,7 @@
               {
                 "position":"centerRight",
                 "text_value":"partOf",
-                "width":"8.5",
+                "width":"21.25",
                 "color_rgb_hex_combined":null,
                 "type":"text_label",
                 "text_value_full":"partOf"
@@ -799,7 +799,7 @@
                 {
                   "position":"centerRight",
                   "text_value":"World",
-                  "width":"8.5",
+                  "width":"21.25",
                   "color_rgb_hex_combined":null,
                   "type":"text_label",
                   "text_value_full":"World"
@@ -814,7 +814,7 @@
                   {
                     "position":"centerRight",
                     "text_value":"partOf",
-                    "width":"8.5",
+                    "width":"21.25",
                     "color_rgb_hex_combined":null,
                     "type":"text_label",
                     "text_value_full":"partOf"
@@ -841,7 +841,7 @@
         {
           "position":"centerRight",
           "text_value":"http://purl.org...",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"http://purl.org/rvl/example-data/America"
@@ -859,7 +859,7 @@
             {
               "position":"centerRight",
               "text_value":"http://purl.org...",
-              "width":"8.5",
+              "width":"21.25",
               "color_rgb_hex_combined":null,
               "type":"text_label",
               "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -867,7 +867,7 @@
             {
               "position":"centerRight",
               "text_value":"http://purl.org...",
-              "width":"8.5",
+              "width":"21.25",
               "color_rgb_hex_combined":null,
               "type":"text_label",
               "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -882,7 +882,7 @@
               {
                 "position":"centerRight",
                 "text_value":"partOf",
-                "width":"8.5",
+                "width":"21.25",
                 "color_rgb_hex_combined":null,
                 "type":"text_label",
                 "text_value_full":"partOf"
@@ -900,7 +900,7 @@
                 {
                   "position":"centerRight",
                   "text_value":"World",
-                  "width":"8.5",
+                  "width":"21.25",
                   "color_rgb_hex_combined":null,
                   "type":"text_label",
                   "text_value_full":"World"
@@ -915,7 +915,7 @@
                   {
                     "position":"centerRight",
                     "text_value":"partOf",
-                    "width":"8.5",
+                    "width":"21.25",
                     "color_rgb_hex_combined":null,
                     "type":"text_label",
                     "text_value_full":"partOf"
@@ -942,7 +942,7 @@
         {
           "position":"centerRight",
           "text_value":"http://purl.org...",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -960,7 +960,7 @@
             {
               "position":"centerRight",
               "text_value":"http://purl.org...",
-              "width":"8.5",
+              "width":"21.25",
               "color_rgb_hex_combined":null,
               "type":"text_label",
               "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -968,7 +968,7 @@
             {
               "position":"centerRight",
               "text_value":"http://purl.org...",
-              "width":"8.5",
+              "width":"21.25",
               "color_rgb_hex_combined":null,
               "type":"text_label",
               "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -983,7 +983,7 @@
               {
                 "position":"centerRight",
                 "text_value":"partOf",
-                "width":"8.5",
+                "width":"21.25",
                 "color_rgb_hex_combined":null,
                 "type":"text_label",
                 "text_value_full":"partOf"
@@ -1001,7 +1001,7 @@
                 {
                   "position":"centerRight",
                   "text_value":"World",
-                  "width":"8.5",
+                  "width":"21.25",
                   "color_rgb_hex_combined":null,
                   "type":"text_label",
                   "text_value_full":"World"
@@ -1016,7 +1016,7 @@
                   {
                     "position":"centerRight",
                     "text_value":"partOf",
-                    "width":"8.5",
+                    "width":"21.25",
                     "color_rgb_hex_combined":null,
                     "type":"text_label",
                     "text_value_full":"partOf"
@@ -1043,7 +1043,7 @@
         {
           "position":"centerRight",
           "text_value":"http://purl.org...",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -1051,7 +1051,7 @@
         {
           "position":"centerRight",
           "text_value":"http://purl.org...",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"http://purl.org/rvl/example-data/World"
@@ -1069,7 +1069,7 @@
             {
               "position":"centerRight",
               "text_value":"World",
-              "width":"8.5",
+              "width":"21.25",
               "color_rgb_hex_combined":null,
               "type":"text_label",
               "text_value_full":"World"
@@ -1084,7 +1084,7 @@
               {
                 "position":"centerRight",
                 "text_value":"partOf",
-                "width":"8.5",
+                "width":"21.25",
                 "color_rgb_hex_combined":null,
                 "type":"text_label",
                 "text_value_full":"partOf"

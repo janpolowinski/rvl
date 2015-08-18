@@ -10,27 +10,10 @@
         {
           "position":"centerRight",
           "text_value":"Alice",
-          "width":"40.909092",
+          "width":"102.27273",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Alice"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example-data/Susane",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":100.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Susane",
-          "width":"50.0",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Susane"
         }
       ]
     },
@@ -44,10 +27,44 @@
         {
           "position":"centerRight",
           "text_value":"Bob",
-          "width":"13.636364",
+          "width":"34.09091",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Bob"
+        }
+      ]
+    },
+    {
+      "uri":"http://purl.org/rvl/example-data/Christof",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"circle",
+      "width":45.454544,
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"Christof",
+          "width":"56.81818",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"Christof"
+        }
+      ]
+    },
+    {
+      "uri":"http://purl.org/rvl/example-data/DoctorWho",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"circle",
+      "width":27.272728,
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"Doctor Who",
+          "width":"34.09091",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"Doctor Who"
         }
       ]
     },
@@ -61,27 +78,10 @@
         {
           "position":"centerRight",
           "text_value":"Franzi",
-          "width":"50.0",
+          "width":"125.0",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Franzi"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example-data/Luisa",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":27.272728,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Luisa",
-          "width":"13.636364",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Luisa"
         }
       ]
     },
@@ -95,7 +95,7 @@
         {
           "position":"centerRight",
           "text_value":"Goethe",
-          "width":"4.5454545",
+          "width":"11.363636",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Goethe"
@@ -112,44 +112,10 @@
         {
           "position":"centerRight",
           "text_value":"Jan",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Jan"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example-data/DoctorWho",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":27.272728,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Doctor Who",
-          "width":"13.636364",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Doctor Who"
-        }
-      ]
-    },
-    {
-      "uri":"http://purl.org/rvl/example-data/John",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":45.454544,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"John",
-          "width":"22.727272",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"John"
         }
       ]
     },
@@ -163,10 +129,27 @@
         {
           "position":"centerRight",
           "text_value":"Johannes",
-          "width":"31.818182",
+          "width":"79.545456",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Johannes"
+        }
+      ]
+    },
+    {
+      "uri":"http://purl.org/rvl/example-data/John",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"circle",
+      "width":45.454544,
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"John",
+          "width":"56.81818",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"John"
         }
       ]
     },
@@ -180,7 +163,7 @@
         {
           "position":"centerRight",
           "text_value":"Lina",
-          "width":"40.909092",
+          "width":"102.27273",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Lina"
@@ -188,22 +171,40 @@
       ]
     },
     {
-      "uri":"http://purl.org/rvl/example-data/Christof",
+      "uri":"http://purl.org/rvl/example-data/Luisa",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
-      "width":45.454544,
+      "width":27.272728,
       "labels":[
         {
           "position":"centerRight",
-          "text_value":"Christof",
-          "width":"22.727272",
+          "text_value":"Luisa",
+          "width":"34.09091",
           "color_rgb_hex_combined":null,
           "type":"text_label",
-          "text_value_full":"Christof"
+          "text_value_full":"Luisa"
+        }
+      ]
+    },
+    {
+      "uri":"http://purl.org/rvl/example-data/Susane",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"circle",
+      "width":100.0,
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"Susane",
+          "width":"125.0",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"Susane"
         }
       ]
     }
   ],
+  "graphic_type":"force-directed-graph",
   "links":[]
 }

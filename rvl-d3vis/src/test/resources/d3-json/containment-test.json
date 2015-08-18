@@ -10,7 +10,7 @@
         {
           "position":"centerRight",
           "text_value":"World",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"World"
@@ -28,7 +28,7 @@
             {
               "position":"centerRight",
               "text_value":"Asia",
-              "width":"8.5",
+              "width":"21.25",
               "color_rgb_hex_combined":null,
               "type":"text_label",
               "text_value_full":"Asia"
@@ -45,7 +45,7 @@
                 {
                   "position":"centerRight",
                   "text_value":"China (pop.: 10...",
-                  "width":"8.5",
+                  "width":"21.25",
                   "color_rgb_hex_combined":null,
                   "type":"text_label",
                   "text_value_full":"China (pop.: 1000)"
@@ -62,7 +62,7 @@
                 {
                   "position":"centerRight",
                   "text_value":"Turkey",
-                  "width":"8.5",
+                  "width":"21.25",
                   "color_rgb_hex_combined":null,
                   "type":"text_label",
                   "text_value_full":"Turkey"
@@ -81,7 +81,7 @@
             {
               "position":"centerRight",
               "text_value":"Europe (pop.: 4...",
-              "width":"8.5",
+              "width":"21.25",
               "color_rgb_hex_combined":null,
               "type":"text_label",
               "text_value_full":"Europe (pop.: 400)"
@@ -98,7 +98,7 @@
                 {
                   "position":"centerRight",
                   "text_value":"Turkey",
-                  "width":"8.5",
+                  "width":"21.25",
                   "color_rgb_hex_combined":null,
                   "type":"text_label",
                   "text_value_full":"Turkey"
@@ -115,7 +115,7 @@
                 {
                   "position":"centerRight",
                   "text_value":"Spain (pop.: 40...",
-                  "width":"8.5",
+                  "width":"21.25",
                   "color_rgb_hex_combined":null,
                   "type":"text_label",
                   "text_value_full":"Spain (pop.: 40)"
@@ -132,7 +132,7 @@
                 {
                   "position":"centerRight",
                   "text_value":"Germany",
-                  "width":"8.5",
+                  "width":"21.25",
                   "color_rgb_hex_combined":null,
                   "type":"text_label",
                   "text_value_full":"Germany"
@@ -149,7 +149,7 @@
                     {
                       "position":"centerRight",
                       "text_value":"Gelsenkirchen",
-                      "width":"8.5",
+                      "width":"21.25",
                       "color_rgb_hex_combined":null,
                       "type":"text_label",
                       "text_value_full":"Gelsenkirchen"
@@ -166,7 +166,7 @@
                     {
                       "position":"centerRight",
                       "text_value":"Dresden",
-                      "width":"8.5",
+                      "width":"21.25",
                       "color_rgb_hex_combined":null,
                       "type":"text_label",
                       "text_value_full":"Dresden"
@@ -187,7 +187,7 @@
             {
               "position":"centerRight",
               "text_value":"America",
-              "width":"8.5",
+              "width":"21.25",
               "color_rgb_hex_combined":null,
               "type":"text_label",
               "text_value_full":"America"
@@ -204,7 +204,7 @@
                 {
                   "position":"centerRight",
                   "text_value":"Bob",
-                  "width":"8.5",
+                  "width":"21.25",
                   "color_rgb_hex_combined":null,
                   "type":"text_label",
                   "text_value_full":"Bob"
@@ -223,7 +223,7 @@
             {
               "position":"centerRight",
               "text_value":"Australia (pop....",
-              "width":"8.5",
+              "width":"21.25",
               "color_rgb_hex_combined":null,
               "type":"text_label",
               "text_value_full":"Australia (pop.: 100)"

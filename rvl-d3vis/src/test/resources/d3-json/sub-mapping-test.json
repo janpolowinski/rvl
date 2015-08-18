@@ -9,7 +9,7 @@
       "labels":[
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -17,7 +17,7 @@
         {
           "position":"centerRight",
           "text_value":"Luisa",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Luisa"
@@ -33,7 +33,7 @@
       "labels":[
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":"#00ff00",
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -41,7 +41,7 @@
         {
           "position":"centerRight",
           "text_value":"Lina",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Lina"
@@ -58,14 +58,14 @@
         {
           "position":"centerRight",
           "text_value":"Alice",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Alice"
         },
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":"#00ff00",
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -81,7 +81,7 @@
       "labels":[
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":"#ff0000",
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -89,7 +89,7 @@
         {
           "position":"centerRight",
           "text_value":"John",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"John"
@@ -105,7 +105,7 @@
       "labels":[
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -113,7 +113,7 @@
         {
           "position":"centerRight",
           "text_value":"Doctor Who",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Doctor Who"
@@ -130,7 +130,7 @@
         {
           "position":"centerRight",
           "text_value":"Sci-Fi",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Sci-Fi"
@@ -147,7 +147,7 @@
         {
           "position":"centerRight",
           "text_value":"Travel",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Travel"
@@ -163,7 +163,7 @@
       "labels":[
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -171,7 +171,7 @@
         {
           "position":"centerRight",
           "text_value":"Goethe",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Goethe"
@@ -188,14 +188,14 @@
         {
           "position":"centerRight",
           "text_value":"Jan",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Jan"
         },
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -212,7 +212,7 @@
         {
           "position":"centerRight",
           "text_value":"Fiction",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Fiction"
@@ -229,14 +229,14 @@
         {
           "position":"centerRight",
           "text_value":"Susane",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Susane"
         },
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":"#0000ff",
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -253,7 +253,7 @@
         {
           "position":"centerRight",
           "text_value":"Auto-Biography",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Auto-Biography"
@@ -270,7 +270,7 @@
         {
           "position":"centerRight",
           "text_value":"Spirituality",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Spirituality"
@@ -286,7 +286,7 @@
       "labels":[
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":"#0000ff",
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -294,7 +294,7 @@
         {
           "position":"centerRight",
           "text_value":"Franzi",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Franzi"
@@ -311,14 +311,14 @@
         {
           "position":"centerRight",
           "text_value":"Christof",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Christof"
         },
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":"#ff0000",
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -335,7 +335,7 @@
         {
           "position":"centerRight",
           "text_value":"Science",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Science"
@@ -352,7 +352,7 @@
         {
           "position":"centerRight",
           "text_value":"Biography",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Biography"
@@ -369,7 +369,7 @@
         {
           "position":"centerRight",
           "text_value":"InfoVis",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"InfoVis"
@@ -385,7 +385,7 @@
       "labels":[
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -393,7 +393,7 @@
         {
           "position":"centerRight",
           "text_value":"Johannes",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Johannes"
@@ -409,7 +409,7 @@
       "labels":[
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -417,7 +417,7 @@
         {
           "position":"centerRight",
           "text_value":"Bob",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Bob"
@@ -434,7 +434,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -453,7 +453,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -472,7 +472,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -491,7 +491,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -510,7 +510,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -529,7 +529,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -548,7 +548,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -567,7 +567,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -586,7 +586,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -605,7 +605,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -624,7 +624,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -643,7 +643,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -662,7 +662,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -681,7 +681,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -700,7 +700,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -719,7 +719,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -738,7 +738,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -757,7 +757,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -776,7 +776,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -795,7 +795,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -814,7 +814,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -833,7 +833,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -852,7 +852,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -871,7 +871,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -890,7 +890,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -909,7 +909,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -928,7 +928,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -947,7 +947,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -966,7 +966,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -985,7 +985,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1004,7 +1004,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1023,7 +1023,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1042,7 +1042,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1061,7 +1061,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1080,7 +1080,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1099,7 +1099,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1118,7 +1118,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1137,7 +1137,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1156,7 +1156,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1175,7 +1175,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1194,7 +1194,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1213,7 +1213,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1232,7 +1232,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1251,7 +1251,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1270,7 +1270,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1289,7 +1289,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1308,7 +1308,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1327,7 +1327,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1346,7 +1346,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1365,7 +1365,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1384,7 +1384,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1403,7 +1403,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1422,7 +1422,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1441,7 +1441,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1460,7 +1460,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1479,7 +1479,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1498,7 +1498,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1517,7 +1517,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1536,7 +1536,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1555,7 +1555,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1574,7 +1574,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1593,7 +1593,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1612,7 +1612,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1631,7 +1631,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1650,7 +1650,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1669,7 +1669,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1688,7 +1688,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1707,7 +1707,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1726,7 +1726,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1745,7 +1745,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1764,7 +1764,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1783,7 +1783,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1802,7 +1802,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1821,7 +1821,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1840,7 +1840,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1859,7 +1859,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1878,7 +1878,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1897,7 +1897,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1916,7 +1916,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1935,7 +1935,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1954,7 +1954,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1973,7 +1973,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -1992,7 +1992,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2011,7 +2011,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2030,7 +2030,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2049,7 +2049,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2068,7 +2068,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2087,7 +2087,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2106,7 +2106,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2125,7 +2125,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2144,7 +2144,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2163,7 +2163,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2182,7 +2182,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2201,7 +2201,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2220,7 +2220,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2239,7 +2239,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2258,7 +2258,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2277,7 +2277,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2296,7 +2296,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2315,7 +2315,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2334,7 +2334,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2353,7 +2353,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2372,7 +2372,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2391,7 +2391,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2410,7 +2410,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2429,7 +2429,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2448,7 +2448,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2467,7 +2467,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2486,7 +2486,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2505,7 +2505,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2524,7 +2524,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2543,7 +2543,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2562,7 +2562,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2581,7 +2581,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2600,7 +2600,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2619,7 +2619,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2638,7 +2638,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2657,7 +2657,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2676,7 +2676,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2695,7 +2695,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2714,7 +2714,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2733,7 +2733,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2752,7 +2752,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2771,7 +2771,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2790,7 +2790,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2809,7 +2809,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2828,7 +2828,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2847,7 +2847,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2866,7 +2866,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2885,7 +2885,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2904,7 +2904,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2923,7 +2923,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2942,7 +2942,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2961,7 +2961,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2980,7 +2980,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -2999,7 +2999,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -3018,7 +3018,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -3037,7 +3037,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -3056,7 +3056,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -3075,7 +3075,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -3094,7 +3094,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -3113,7 +3113,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -3132,7 +3132,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"
@@ -3151,7 +3151,7 @@
         {
           "position":"centerRight",
           "text_value":"workingField",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"workingField"

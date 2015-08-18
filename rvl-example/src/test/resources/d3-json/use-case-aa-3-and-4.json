@@ -1,7 +1,7 @@
 {
   "nodes":[
     {
-      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#N",
+      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#A",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aliphatic",
@@ -9,11 +9,52 @@
       "labels":[
         {
           "position":"centerRight",
-          "text_value":"Asparagine",
-          "width":"25.0",
+          "text_value":"Alanine",
+          "width":"62.5",
           "color_rgb_hex_combined":null,
           "type":"text_label",
-          "text_value_full":"Asparagine"
+          "text_value_full":"Alanine"
+        }
+      ]
+    },
+    {
+      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#C",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"aliphatic",
+      "width":50.0,
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"Cysteine",
+          "width":"62.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"Cysteine"
+        },
+        {
+          "position":"topRight",
+          "width":"10.0",
+          "color_rgb_hex_combined":null,
+          "shape_d3_name":"circle-p",
+          "type":"icon_label"
+        }
+      ]
+    },
+    {
+      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#D",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"aliphatic",
+      "width":50.0,
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"Aspartate",
+          "width":"62.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"Aspartate"
         },
         {
           "position":"topRight",
@@ -34,7 +75,7 @@
         {
           "position":"centerRight",
           "text_value":"Glutamate",
-          "width":"25.0",
+          "width":"62.5",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Glutamate"
@@ -49,24 +90,7 @@
       ]
     },
     {
-      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#P",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"aliphatic",
-      "width":50.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Proline",
-          "width":"25.0",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Proline"
-        }
-      ]
-    },
-    {
-      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#Y",
+      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#F",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aromatic",
@@ -74,11 +98,45 @@
       "labels":[
         {
           "position":"centerRight",
-          "text_value":"Tyrosine",
-          "width":"25.0",
+          "text_value":"Phenylalanine",
+          "width":"62.5",
           "color_rgb_hex_combined":null,
           "type":"text_label",
-          "text_value_full":"Tyrosine"
+          "text_value_full":"Phenylalanine"
+        }
+      ]
+    },
+    {
+      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#G",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"aliphatic",
+      "width":50.0,
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"Glycine",
+          "width":"62.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"Glycine"
+        }
+      ]
+    },
+    {
+      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#H",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"aromatic",
+      "width":50.0,
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"Histidine",
+          "width":"62.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"Histidine"
         },
         {
           "position":"topRight",
@@ -99,102 +157,10 @@
         {
           "position":"centerRight",
           "text_value":"Isoleucine",
-          "width":"25.0",
+          "width":"62.5",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Isoleucine"
-        }
-      ]
-    },
-    {
-      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#W",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"aromatic",
-      "width":50.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Tryptophan",
-          "width":"25.0",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Tryptophan"
-        }
-      ]
-    },
-    {
-      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#SpecificAminoAcid",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"SpecificAminoAc...",
-          "width":"8.5",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"SpecificAminoAcid"
-        }
-      ]
-    },
-    {
-      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#S",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"aliphatic",
-      "width":50.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Serine",
-          "width":"25.0",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Serine"
-        },
-        {
-          "position":"topRight",
-          "width":"10.0",
-          "color_rgb_hex_combined":null,
-          "shape_d3_name":"circle-p",
-          "type":"icon_label"
-        }
-      ]
-    },
-    {
-      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#A",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"aliphatic",
-      "width":50.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Alanine",
-          "width":"25.0",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Alanine"
-        }
-      ]
-    },
-    {
-      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#G",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"aliphatic",
-      "width":50.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Glycine",
-          "width":"25.0",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Glycine"
         }
       ]
     },
@@ -208,147 +174,10 @@
         {
           "position":"centerRight",
           "text_value":"Lysine",
-          "width":"25.0",
+          "width":"62.5",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Lysine"
-        },
-        {
-          "position":"topRight",
-          "width":"10.0",
-          "color_rgb_hex_combined":null,
-          "shape_d3_name":"circle-p",
-          "type":"icon_label"
-        }
-      ]
-    },
-    {
-      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#H",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"aromatic",
-      "width":50.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Histidine",
-          "width":"25.0",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Histidine"
-        },
-        {
-          "position":"topRight",
-          "width":"10.0",
-          "color_rgb_hex_combined":null,
-          "shape_d3_name":"circle-p",
-          "type":"icon_label"
-        }
-      ]
-    },
-    {
-      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#R",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"aliphatic",
-      "width":50.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Arginine",
-          "width":"25.0",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Arginine"
-        },
-        {
-          "position":"topRight",
-          "width":"10.0",
-          "color_rgb_hex_combined":null,
-          "shape_d3_name":"circle-p",
-          "type":"icon_label"
-        }
-      ]
-    },
-    {
-      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#C",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"aliphatic",
-      "width":50.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Cysteine",
-          "width":"25.0",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Cysteine"
-        },
-        {
-          "position":"topRight",
-          "width":"10.0",
-          "color_rgb_hex_combined":null,
-          "shape_d3_name":"circle-p",
-          "type":"icon_label"
-        }
-      ]
-    },
-    {
-      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#T",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"aliphatic",
-      "width":50.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Threonine",
-          "width":"25.0",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Threonine"
-        },
-        {
-          "position":"topRight",
-          "width":"10.0",
-          "color_rgb_hex_combined":null,
-          "shape_d3_name":"circle-p",
-          "type":"icon_label"
-        }
-      ]
-    },
-    {
-      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#M",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"aliphatic",
-      "width":50.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Methionine",
-          "width":"25.0",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Methionine"
-        }
-      ]
-    },
-    {
-      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#Q",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"aliphatic",
-      "width":50.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"Glutamine",
-          "width":"25.0",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"Glutamine"
         },
         {
           "position":"topRight",
@@ -369,7 +198,7 @@
         {
           "position":"centerRight",
           "text_value":"Leucine",
-          "width":"25.0",
+          "width":"62.5",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Leucine"
@@ -377,7 +206,7 @@
       ]
     },
     {
-      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#D",
+      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#M",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aliphatic",
@@ -385,11 +214,158 @@
       "labels":[
         {
           "position":"centerRight",
-          "text_value":"Aspartate",
-          "width":"25.0",
+          "text_value":"Methionine",
+          "width":"62.5",
           "color_rgb_hex_combined":null,
           "type":"text_label",
-          "text_value_full":"Aspartate"
+          "text_value_full":"Methionine"
+        }
+      ]
+    },
+    {
+      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#N",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"aliphatic",
+      "width":50.0,
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"Asparagine",
+          "width":"62.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"Asparagine"
+        },
+        {
+          "position":"topRight",
+          "width":"10.0",
+          "color_rgb_hex_combined":null,
+          "shape_d3_name":"circle-p",
+          "type":"icon_label"
+        }
+      ]
+    },
+    {
+      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#P",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"aliphatic",
+      "width":50.0,
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"Proline",
+          "width":"62.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"Proline"
+        }
+      ]
+    },
+    {
+      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#Q",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"aliphatic",
+      "width":50.0,
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"Glutamine",
+          "width":"62.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"Glutamine"
+        },
+        {
+          "position":"topRight",
+          "width":"10.0",
+          "color_rgb_hex_combined":null,
+          "shape_d3_name":"circle-p",
+          "type":"icon_label"
+        }
+      ]
+    },
+    {
+      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#R",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"aliphatic",
+      "width":50.0,
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"Arginine",
+          "width":"62.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"Arginine"
+        },
+        {
+          "position":"topRight",
+          "width":"10.0",
+          "color_rgb_hex_combined":null,
+          "shape_d3_name":"circle-p",
+          "type":"icon_label"
+        }
+      ]
+    },
+    {
+      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#S",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"aliphatic",
+      "width":50.0,
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"Serine",
+          "width":"62.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"Serine"
+        },
+        {
+          "position":"topRight",
+          "width":"10.0",
+          "color_rgb_hex_combined":null,
+          "shape_d3_name":"circle-p",
+          "type":"icon_label"
+        }
+      ]
+    },
+    {
+      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#SpecificAminoAcid",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"circle",
+      "width":17.0,
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"SpecificAminoAc...",
+          "width":"21.25",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"SpecificAminoAcid"
+        }
+      ]
+    },
+    {
+      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#T",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"aliphatic",
+      "width":50.0,
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"Threonine",
+          "width":"62.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"Threonine"
         },
         {
           "position":"topRight",
@@ -410,7 +386,7 @@
         {
           "position":"centerRight",
           "text_value":"Valine",
-          "width":"25.0",
+          "width":"62.5",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Valine"
@@ -418,7 +394,7 @@
       ]
     },
     {
-      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#F",
+      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#W",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aromatic",
@@ -426,14 +402,39 @@
       "labels":[
         {
           "position":"centerRight",
-          "text_value":"Phenylalanine",
-          "width":"25.0",
+          "text_value":"Tryptophan",
+          "width":"62.5",
           "color_rgb_hex_combined":null,
           "type":"text_label",
-          "text_value_full":"Phenylalanine"
+          "text_value_full":"Tryptophan"
+        }
+      ]
+    },
+    {
+      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#Y",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"aromatic",
+      "width":50.0,
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"Tyrosine",
+          "width":"62.5",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"Tyrosine"
+        },
+        {
+          "position":"topRight",
+          "width":"10.0",
+          "color_rgb_hex_combined":null,
+          "shape_d3_name":"circle-p",
+          "type":"icon_label"
         }
       ]
     }
   ],
+  "graphic_type":"force-directed-graph",
   "links":[]
 }

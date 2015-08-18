@@ -9,7 +9,7 @@
       "labels":[
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -25,7 +25,7 @@
       "labels":[
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -41,7 +41,7 @@
       "labels":[
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -57,7 +57,7 @@
       "labels":[
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -73,7 +73,7 @@
       "labels":[
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -89,7 +89,7 @@
       "labels":[
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":"#0000ff",
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -105,7 +105,7 @@
       "labels":[
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -121,7 +121,7 @@
       "labels":[
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -137,7 +137,7 @@
       "labels":[
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -153,7 +153,7 @@
       "labels":[
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -169,7 +169,7 @@
       "labels":[
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -185,7 +185,7 @@
       "labels":[
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":"#ff2222",
           "shape_d3_name":"square",
           "type":"icon_label"
@@ -201,7 +201,7 @@
       "labels":[
         {
           "position":"topRight",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":"#00aa00",
           "shape_d3_name":"square",
           "type":"icon_label"

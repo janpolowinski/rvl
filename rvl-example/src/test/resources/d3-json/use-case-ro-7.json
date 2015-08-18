@@ -10,7 +10,7 @@
         {
           "position":"centerRight",
           "text_value":"ConnectPeople",
-          "width":"8.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"ConnectPeople"
@@ -28,7 +28,7 @@
             {
               "position":"centerRight",
               "text_value":"DevelopSocialNe...",
-              "width":"8.5",
+              "width":"21.25",
               "color_rgb_hex_combined":null,
               "type":"text_label",
               "text_value_full":"DevelopSocialNetworkingPlatform"
@@ -45,7 +45,7 @@
                 {
                   "position":"centerRight",
                   "text_value":"PlatformIsEasyT...",
-                  "width":"8.5",
+                  "width":"21.25",
                   "color_rgb_hex_combined":null,
                   "type":"text_label",
                   "text_value_full":"PlatformIsEasyToUseForEveryone"
@@ -62,7 +62,7 @@
                     {
                       "position":"centerRight",
                       "text_value":"WellArrangedLay...",
-                      "width":"8.5",
+                      "width":"21.25",
                       "color_rgb_hex_combined":null,
                       "type":"text_label",
                       "text_value_full":"WellArrangedLayout"
@@ -81,7 +81,7 @@
                 {
                   "position":"centerRight",
                   "text_value":"CommercialSucce...",
-                  "width":"8.5",
+                  "width":"21.25",
                   "color_rgb_hex_combined":null,
                   "type":"text_label",
                   "text_value_full":"CommercialSuccess"
@@ -98,7 +98,7 @@
                     {
                       "position":"centerRight",
                       "text_value":"EarnMoney",
-                      "width":"8.5",
+                      "width":"21.25",
                       "color_rgb_hex_combined":null,
                       "type":"text_label",
                       "text_value_full":"EarnMoney"
@@ -115,7 +115,7 @@
                         {
                           "position":"centerRight",
                           "text_value":"AdvertisementOn...",
-                          "width":"8.5",
+                          "width":"21.25",
                           "color_rgb_hex_combined":null,
                           "type":"text_label",
                           "text_value_full":"AdvertisementOnProfilePage"
@@ -136,7 +136,7 @@
                 {
                   "position":"centerRight",
                   "text_value":"ExchangeInforma...",
-                  "width":"8.5",
+                  "width":"21.25",
                   "color_rgb_hex_combined":null,
                   "type":"text_label",
                   "text_value_full":"ExchangeInformation"
@@ -153,7 +153,7 @@
                     {
                       "position":"centerRight",
                       "text_value":"StoreInformatio...",
-                      "width":"8.5",
+                      "width":"21.25",
                       "color_rgb_hex_combined":null,
                       "type":"text_label",
                       "text_value_full":"StoreInformation"
@@ -170,7 +170,7 @@
                         {
                           "position":"centerRight",
                           "text_value":"StoreUserDataIn...",
-                          "width":"8.5",
+                          "width":"21.25",
                           "color_rgb_hex_combined":null,
                           "type":"text_label",
                           "text_value_full":"StoreUserDataInDatabase"
@@ -187,7 +187,7 @@
                             {
                               "position":"centerRight",
                               "text_value":"UsingOracleData...",
-                              "width":"8.5",
+                              "width":"21.25",
                               "color_rgb_hex_combined":null,
                               "type":"text_label",
                               "text_value_full":"UsingOracleDatabase"
@@ -208,7 +208,7 @@
                     {
                       "position":"centerRight",
                       "text_value":"CollectUserData",
-                      "width":"8.5",
+                      "width":"21.25",
                       "color_rgb_hex_combined":null,
                       "type":"text_label",
                       "text_value_full":"CollectUserData"
@@ -225,7 +225,7 @@
                         {
                           "position":"centerRight",
                           "text_value":"UserHasProfileP...",
-                          "width":"8.5",
+                          "width":"21.25",
                           "color_rgb_hex_combined":null,
                           "type":"text_label",
                           "text_value_full":"UserHasProfilePage"
