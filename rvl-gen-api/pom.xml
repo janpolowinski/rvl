@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
     <artifactId>rvl-gen-api</artifactId>
     <name>Generated API for RVL and VISO</name>
-	<description>Generated API for RVL and VISO API. Uses codegen.rdfreactor to generate the API via RDFreactor.</description>
+	<description>Generated API for RVL and VISO API. Uses module 'rvl-codegen' to generate the API via RDFreactor.</description>
     <groupId>org.purl.rvl</groupId>
     <version>0.0.1-SNAPSHOT</version>
     
@@ -87,7 +87,7 @@
 	
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>codegen.rdfreactor</artifactId>
+			<artifactId>rvl-codegen</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 				
