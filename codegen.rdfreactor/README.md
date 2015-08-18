@@ -3,7 +3,7 @@
 This project contains a code generator based on RDFReactor/RDF2GO that creates Java POJO classes for the **stateless** access of RVL and VISO models. 
 
 - See https://github.com/janpolowinski/rvl/wiki/RVL-Tooling for information on how to generate the code
-- Attention, the generated files are put to src/main/java at the moment!
+- Attention, the generated files are put to src/main/java (of the rvl-gen-api module) at the moment!
 
 ## Notes ##
 

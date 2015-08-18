@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
     <artifactId>codegen.rdfreactor</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 	<name>Code-Generator for the RVL-API</name>
 	<groupId>org.purl.rvl</groupId>
     <version>0.0.1-SNAPSHOT</version>
