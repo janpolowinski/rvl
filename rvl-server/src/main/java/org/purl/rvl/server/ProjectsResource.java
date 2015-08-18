@@ -413,6 +413,9 @@ public class ProjectsResource {
 		return json;
 	}
 
+	/**
+	TODO: Paths need to be fixed.
+	 */
 	private String runExternalEditingProject(String defaultGraphicType) throws FileNotFoundException, OGVICRepositoryException {
 	
 		String json;
