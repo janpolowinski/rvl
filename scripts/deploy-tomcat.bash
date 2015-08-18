@@ -1,9 +1,9 @@
 #!/bin/bash
 
-echo "Building and Deploying to Tomcat ... "
+echo "Building war and deploying to Tomcat ... "
 
 cd ../rvl-server
-mvn -U package -DskipTests
+mvn war:war -DskipTests -o
 
 rm /Library/Tomcat/webapps/semvis.war
 rm -R /Library/Tomcat/webapps/semvis

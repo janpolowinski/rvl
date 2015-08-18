@@ -2,6 +2,5 @@
 
 echo "Run use case tests ... "
 
-cd "../org.purl.rvl.example"
-mvn install -DskipTests
+cd ../rvl-example
 mvn test
