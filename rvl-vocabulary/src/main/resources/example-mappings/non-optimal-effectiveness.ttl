@@ -1,0 +1,31 @@
+# Saved by TopBraid on Wed Jul 15 15:36:53 CEST 2015
+# baseURI: http://purl.org/rvl/example-mappings/
+# imports: http://purl.org/rvl/spin-constraints/
+# imports: http://purl.org/viso/shape/commons/
+# imports: http://purl.org/rvl/example-data/
+# imports: http://purl.org/rvl/
+# imports: http://purl.org/rvl/fact-based-spin-constraints/
+
+@prefix :        <http://purl.org/rvl/example-mappings/> .
+@prefix common-shapes:  <http://purl.org/viso/shape/commons/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rexd:    <http://purl.org/rvl/example-data/> .
+@prefix rexm:    <http://purl.org/rvl/example-mappings/> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix rvl-cs:  <http://purl.org/rvl/spin-constraints/> .
+@prefix vg:      <http://purl.org/viso/graphic/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+rexm:
+      rdf:type owl:Ontology ;
+      owl:imports rvl: , rexd: , <http://purl.org/rvl/fact-based-spin-constraints/> , rvl-cs: , common-shapes: .
+
+rexm:NonOptimalEffectiveMapping
+      rdf:type rvl:PropertyMapping ;
+      rdfs:label "Example of an non-optimal mapping with respect to the effectiveness criterion." ;
+      rvl:sourceProperty rexd:population ;
+      rvl:targetAttribute vg:shape_named ;
+      rvl:targetGraphicRelation
+              vg:shape_named .

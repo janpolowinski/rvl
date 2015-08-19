@@ -1,8 +1,8 @@
 #!/bin/bash
 
-cd ../org.purl.rvl.server
-
 export MAVEN_OPTS="-Xmx2048M"
 
+cd ../rvl-server/
+
 # the tracing parameter may not yet work as desired
-mvn exec:java  -Djersey.config.server.tracing.type=ALL
+mvn -o exec:java  -Djersey.config.server.tracing.type=ALL

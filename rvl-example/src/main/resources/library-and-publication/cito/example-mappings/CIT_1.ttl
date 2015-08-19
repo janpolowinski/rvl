@@ -1,0 +1,37 @@
+@prefix cito:     <http://purl.org/spar/cito/> .
+@prefix vg:       <http://purl.org/viso/graphic/> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix dct:     <http://purl.org/dc/terms/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix common-shapes:  <http://purl.org/viso/shape/commons/> .
+@prefix rexc:  	  <http://purl.org/rvl/example-commons/> .
+@prefix :        <http://purl.org/rvl/example/mapping/cito/> .
+
+:CIT-1
+      a rvl:PropertyMapping;
+      rvl:sourceProperty cito:cites;
+      rvl:targetObjToObjRelation vg:Linking_Directed_Relation;
+      rvl:subMapping [
+        rvl:subMapping-onRole vg:linking_connector;
+        rvl:subMapping-onTriplePart rdf:predicate;
+        rvl:subMapping-mapping :ID2Color;
+      ].
+	 
+:ID2Color
+      a rvl:PropertyMapping;
+      rvl:disabled "true";
+      rvl:sourceProperty rdf:ID;
+      rvl:targetAttribute vg:color_named;
+      rvl:valueMapping [
+        a rvl:ValueMapping;
+        rvl:sourceValueOrderedSet (
+            cito:confirms
+            cito:cites 
+            cito:critiques
+        );
+        rvl:targetValueList rexc:ColorsTrafficLight;
+      ].   

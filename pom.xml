@@ -1,0 +1,157 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+    http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <groupId>org.purl.rvl</groupId>
+    <artifactId>rvl-tooling</artifactId>
+    <packaging>pom</packaging>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>RVL and Tooling</name>
+    <description>The RDFS and OWL Visualization Language (RVL) and Tooling (Interpreter, D3 Generator, ...)</description>
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.version>4.11</junit.version>
+        <java.source.version>1.7</java.source.version>
+        <java.target.version>1.7</java.target.version>
+        <slf4j.log4j.version>1.7.5</slf4j.log4j.version>
+        <slf4j.log4j.api.version>1.7.5</slf4j.log4j.api.version>
+        <apache.log4j.version>1.2.17</apache.log4j.version>
+        <commons.logging.version>1.1.3</commons.logging.version>
+        <google.guava.version>14.0.1</google.guava.version>
+        <google.collections.version>1.0</google.collections.version>
+        <jackson.version>2.2.3</jackson.version>
+        <maven.compiler.plugin.version>3.2</maven.compiler.plugin.version>
+        <maven.jar.plugin.version>2.5</maven.jar.plugin.version>
+        <maven.assembly.plugin.version>2.2</maven.assembly.plugin.version>
+        <maven.surefire.plugin.version>2.17</maven.surefire.plugin.version>
+        <maven.exec.plugin.version>1.2.1</maven.exec.plugin.version>
+        <version.maven.plugin.war>2.6</version.maven.plugin.war>
+        <version.maven.plugin.tomcat>2.2</version.maven.plugin.tomcat>
+        <jersey.version>2.13</jersey.version>
+        <version.javax.servlet-api>3.1.0</version.javax.servlet-api>
+    </properties>
+    
+    <modules>
+<!--         <module>rvl-vocabulary</module> -->
+<!--         <module>codegen.rdfreactor</module> -->
+<!--         <module>rvl-gen-api</module> -->
+        <module>rvl-commons</module>
+        <module>rvl-interpreter</module>
+        <module>rvl-d3vis</module>
+        <module>rvl-process</module>
+        <module>rvl-example</module>
+        <module>rvl-server</module>
+    </modules>
+    
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.compiler.plugin.version}</version>
+                    <configuration>
+                        <source>${java.source.version}</source>
+                        <target>${java.target.version}</target>
+                    </configuration>
+                    <inherited>true</inherited>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven.jar.plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>test-jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!--<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+				    <artifactId>build-helper-maven-plugin</artifactId>
+				    <executions>
+				        <execution>
+				            <id>add-source</id>
+				            <phase>generate-sources</phase>
+				            <goals>
+				                <goal>add-source</goal>
+				            </goals>
+				            <configuration>
+				                <sources>
+				                    <source>${project.basedir}/rvl-commons/target/generated-sources/java/</source>
+				                </sources>
+				            </configuration>
+				        </execution>
+				    </executions>
+				</plugin>-->
+            </plugins>
+        </pluginManagement>
+    </build>
+    
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <!--<scope>test</scope>-->
+        </dependency>
+        <!-- simplify testing with large JSON strings -->
+        <dependency>
+            <groupId>org.skyscreamer</groupId>
+            <artifactId>jsonassert</artifactId>
+            <version>1.2.3</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    
+    <repositories>
+        <!--<repository>
+         <id>apache.snapshots</id>
+         <name>Apache Development Snapshot Repository</name>
+         <url>https://repository.apache.org/content/repositories/snapshots/</url>
+         <releases>
+	        <enabled>false</enabled>
+         </releases>
+         <snapshots>
+	        <enabled>true</enabled>
+         </snapshots>
+         </repository>
+         
+         <repository>
+         <id>codehaus-snapshot</id>
+         <name>Codehaus Snapshot Repo</name>
+         <url>http://snapshots.maven.codehaus.org/maven2</url>
+         <snapshots>
+	        <enabled>true</enabled>
+         </snapshots>
+         </repository>-->
+    </repositories>
+    <pluginRepositories>
+        <!-- <pluginRepository>
+         <id>apache.snapshots</id>
+         <name>Apache Development Snapshot Repository</name>
+         <url>https://repository.apache.org/content/repositories/snapshots/</url>
+         <releases>
+	        <enabled>false</enabled>
+         </releases>
+         <snapshots>
+	        <enabled>true</enabled>
+         </snapshots>
+         </pluginRepository>
+         
+         <pluginRepository>
+         <id>codehaus-snapshot</id>
+         <name>Codehaus Snapshot Repo</name>
+         <url>http://snapshots.maven.codehaus.org/maven2</url>
+         <snapshots>
+	        <enabled>true</enabled>
+         </snapshots>
+         </pluginRepository>-->
+    </pluginRepositories>
+    
+</project>

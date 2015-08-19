@@ -1,0 +1,86 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+    <artifactId>rvl-process</artifactId>
+	<name>RVL/SemVis Process</name>
+	<description>Processes RDF(S)/OWL data based on RVL-mappings</description>
+    
+    <parent>
+        <groupId>org.purl.rvl</groupId>
+        <artifactId>rvl-tooling</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>org.purl.rvl.tooling.process.OGVICConsole</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+			</plugin>
+			 <plugin>
+		         <groupId>org.codehaus.mojo</groupId>
+		         <artifactId>exec-maven-plugin</artifactId>
+		         <version>1.2.1</version>
+		         <executions>
+		             <execution>
+		                 <goals>
+		                     <goal>java</goal>
+		                 </goals>
+		             </execution>
+		         </executions>
+		         <configuration>
+		             <mainClass>org.purl.rvl.tooling.process.OGVICConsole</mainClass>
+		             <arguments>
+		            	     <argument>-Xms1024m</argument>
+		  				 <argument>-Xmx2056m</argument>
+		             </arguments>
+		         </configuration>
+    		 </plugin>
+		</plugins>
+	</build>
+	
+	    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.glassfish.jersey</groupId>
+                <artifactId>jersey-bom</artifactId>
+                <version>${jersey.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>rvl-interpreter</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>rvl-d3vis</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>rvl-d3vis</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+	    </dependency>
+		<dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-moxy</artifactId>
+        </dependency>
+	</dependencies>
+</project>

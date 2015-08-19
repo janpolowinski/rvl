@@ -1,0 +1,172 @@
+# Saved by TopBraid on Wed Jul 15 15:12:03 CEST 2015
+# baseURI: http://purl.org/rvl/fact-based-spin-constraints/
+# imports: http://purl.org/rvl/spin-constraints/
+# imports: http://purl.org/viso/data/
+# imports: http://purl.org/rvl/
+# imports: http://purl.org/viso/graphic/
+# imports: http://spinrdf.org/spin
+# imports: http://purl.org/viso/facts/
+
+@prefix :        <http://purl.org/rvl/spin-constraints/> .
+@prefix fn:      <http://www.w3.org/2005/xpath-functions#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix rvl-fb-cs:  <http://purl.org/rvl/fact-based-spin-constraints/> .
+@prefix sp:      <http://spinrdf.org/sp#> .
+@prefix spin:    <http://spinrdf.org/spin#> .
+@prefix spl:     <http://spinrdf.org/spl#> .
+@prefix viso-data:  <http://purl.org/viso/data/> .
+@prefix viso-facts:  <http://purl.org/viso/facts/> .
+@prefix viso-empiric:  <http://purl.org/viso/facts/empiric/> .
+@prefix viso-graphic:  <http://purl.org/viso/graphic/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+rvl:PropertyMapping
+      spin:constraint
+              [ rdf:type sp:Construct ;
+                rdfs:comment """Effectiveness - Shows a warning when there are more effective visual means and offers to delete the not-best one
+TODO: offer better ones!"""^^xsd:string ;
+                sp:templates ([ sp:object spin:ConstraintViolation ;
+                            sp:predicate rdf:type ;
+                            sp:subject _:b1
+                          ] [ sp:object spin:_this ;
+                            sp:predicate spin:violationRoot ;
+                            sp:subject _:b1
+                          ] [ sp:object rvl:targetAttribute ;
+                            sp:predicate spin:violationPath ;
+                            sp:subject _:b1
+                          ] [ sp:object _:b2 ;
+                            sp:predicate rdfs:label ;
+                            sp:subject _:b1
+                          ] [ sp:object _:b3 ;
+                            sp:predicate spin:fix ;
+                            sp:subject _:b1
+                          ] [ sp:object :DeleteTriple ;
+                            sp:predicate rdf:type ;
+                            sp:subject _:b3
+                          ] [ sp:object spin:_this ;
+                            sp:predicate rdf:subject ;
+                            sp:subject _:b3
+                          ] [ sp:object rvl:targetGraphicRelation ;
+                            sp:predicate rdf:predicate ;
+                            sp:subject _:b3
+                          ] [ sp:object _:b4 ;
+                            sp:predicate rdf:object ;
+                            sp:subject _:b3
+                          ]) ;
+                sp:where ([ sp:object _:b5 ;
+                            sp:predicate rvl:sourceProperty ;
+                            sp:subject spin:_this
+                          ] [ sp:object _:b4 ;
+                            sp:predicate rvl:targetGraphicRelation ;
+                            sp:subject spin:_this
+                          ] [ rdf:type sp:SubQuery ;
+                            sp:query
+                                    [ rdf:type sp:Select ;
+                                      sp:groupBy (_:b5) ;
+                                      sp:resultVariables (_:b5 [ sp:expression
+                                                          [ rdf:type sp:Count ;
+                                                            sp:expression spin:_this
+                                                          ] ;
+                                                  sp:varName "altCount"^^xsd:string
+                                                ]) ;
+                                      sp:where ([ sp:object _:b5 ;
+                                                  sp:predicate rvl:sourceProperty ;
+                                                  sp:subject spin:_this
+                                                ] [ sp:object _:b4 ;
+                                                  sp:predicate rvl:targetGraphicRelation ;
+                                                  sp:subject spin:_this
+                                                ] [ rdf:type sp:Optional ;
+                                                  sp:elements ([ sp:object viso-data:has_nominal_value ;
+                                                              sp:predicate rdfs:subPropertyOf ;
+                                                              sp:subject _:b5
+                                                            ] [ sp:object _:b6 ;
+                                                              sp:predicate viso-facts:has_effectiveness_ranking_for_nominal_data ;
+                                                              sp:subject _:b4
+                                                            ] [ sp:object _:b7 ;
+                                                              sp:predicate viso-facts:has_effectiveness_ranking_for_nominal_data ;
+                                                              sp:subject _:b8
+                                                            ])
+                                                ] [ rdf:type sp:Optional ;
+                                                  sp:elements ([ sp:object viso-data:has_ordinal_value ;
+                                                              sp:predicate rdfs:subPropertyOf ;
+                                                              sp:subject _:b5
+                                                            ] [ sp:object _:b6 ;
+                                                              sp:predicate viso-facts:has_effectiveness_ranking_for_ordinal_data ;
+                                                              sp:subject _:b4
+                                                            ] [ sp:object _:b7 ;
+                                                              sp:predicate viso-facts:has_effectiveness_ranking_for_ordinal_data ;
+                                                              sp:subject _:b8
+                                                            ])
+                                                ] [ rdf:type sp:Optional ;
+                                                  sp:elements ([ sp:object viso-data:has_quantitative_value ;
+                                                              sp:predicate rdfs:subPropertyOf ;
+                                                              sp:subject _:b5
+                                                            ] [ sp:object _:b6 ;
+                                                              sp:predicate viso-facts:has_effectiveness_ranking_for_quantitative_data ;
+                                                              sp:subject _:b4
+                                                            ] [ sp:object _:b7 ;
+                                                              sp:predicate viso-facts:has_effectiveness_ranking_for_quantitative_data ;
+                                                              sp:subject _:b8
+                                                            ])
+                                                ] [ rdf:type sp:Filter ;
+                                                  sp:expression
+                                                          [ rdf:type sp:and ;
+                                                            sp:arg1 [ rdf:type sp:bound ;
+                                                                      sp:arg1 _:b6
+                                                                    ] ;
+                                                            sp:arg2 [ rdf:type sp:bound ;
+                                                                      sp:arg1 _:b7
+                                                                    ]
+                                                          ]
+                                                ] [ rdf:type sp:Filter ;
+                                                  sp:expression
+                                                          [ rdf:type sp:ne ;
+                                                            sp:arg1 _:b4 ;
+                                                            sp:arg2 _:b8
+                                                          ]
+                                                ] [ rdf:type sp:Filter ;
+                                                  sp:expression
+                                                          [ rdf:type sp:gt ;
+                                                            sp:arg1 _:b7 ;
+                                                            sp:arg2 _:b6
+                                                          ]
+                                                ])
+                                    ]
+                          ] [ rdf:type sp:Bind ;
+                            sp:expression
+                                    [ rdf:type fn:concat ;
+                                      sp:arg1 "There are " ;
+                                      sp:arg2 _:b9 ;
+                                      sp:arg3 " more effective visual means for visualizing the selected source property"
+                                    ] ;
+                            sp:variable _:b2
+                          ] [ rdf:type sp:Filter ;
+                            sp:expression
+                                    [ rdf:type sp:gt ;
+                                      sp:arg1 _:b9 ;
+                                      sp:arg2 0
+                                    ]
+                          ])
+              ] .
+
+rvl-fb-cs:
+      rdf:type owl:Ontology ;
+      owl:imports rvl: , : , viso-data: , viso-facts: , viso-graphic: , viso-empiric:, <http://spinrdf.org/spin> ;
+      owl:versionInfo "Created with TopBraid Composer"^^xsd:string .
+
+_:b2  sp:varName "cvLabel"^^xsd:string .
+
+_:b9  sp:varName "altCount"^^xsd:string .
+
+_:b7  sp:varName "otherRankValue"^^xsd:string .
+
+_:b8  sp:varName "anyOtherGr"^^xsd:string .
+
+_:b6  sp:varName "rankValue"^^xsd:string .
+
+_:b4  sp:varName "tgr"^^xsd:string .
+
+_:b5  sp:varName "sp"^^xsd:string .

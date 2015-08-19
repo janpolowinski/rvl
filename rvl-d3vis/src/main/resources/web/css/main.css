@@ -1,0 +1,329 @@
+body {
+	background-color: #334;
+	/*margin: 0px;*/
+  	font-family: Arial, sans-serif;
+	font-size: 0.8em;
+	color: #aaa;
+}
+
+a, a:visited {
+	color: #aaa;
+}
+
+a:hover {
+	color:white;
+}
+
+#container {
+  display: table;
+  padding: 0px;
+  width: 100%;
+  }
+
+.layout {
+  /*border: 1px solid yellow;*/
+}
+
+#row  {
+  display: table-row;
+  /*padding: 3px;*/
+  }
+
+#footer  {
+  /*display: table-row;*/
+  padding: 3px;
+  width:100%;
+  vertical-align:bottom;
+  text-align:center;
+  }
+
+#header  {
+  /*display: table-row;*/
+  padding-left: 10px;
+  width:100%;
+  vertical-align:top;
+  text-align:left;
+  font-style:normal;
+  font-size:1.4em;
+  text-transform: uppercase;
+  }
+
+#left, #right, #middle {
+  display: table-cell;
+  padding: 0px;
+  vertical-align:top;
+  }
+  
+#left {
+  text-align:left;
+  width:200px;
+}
+
+#right {
+  text-align:right;
+  width:300px;
+}
+  
+#canvas {
+  z-index: -10000;
+  width:auto;
+  height:800px;
+  padding: 3px;
+}
+
+#menu {
+	position:absolute;
+	z-index: 3000;
+	width:200px;
+}
+
+#editor {
+	position:absolute;
+	z-index: 3000;
+	width:300px;
+	background-color: #eee;
+	padding: 10px;
+}
+
+#menu button {
+	width:100%;
+	text-align:left;
+}
+
+#menu button:hover {
+	font-weight: bold;
+	margin-top: 6px;
+	margin-bottom: 6px;
+}
+
+form input, form textarea {
+	width:100%;
+}
+
+form textarea {
+	resize: vertical ;
+}
+
+div.infotext {
+	margin-top: 10px;
+	padding: 5px;
+	background-color: #efe;
+	border-radius: 10px;
+}
+
+
+#svg {
+	position:absolute;
+	z-index: 1000;
+}
+
+/* set to whatever the body-background-color is */
+.svgSymbol, .packedCircle {
+	stroke: #334;
+    stroke-width: 1.5px;
+    stroke-opacity: 1;
+	fill-opacity: 1; /* settings this here works */
+	fill: #ccc;
+}
+
+/* nodes */
+
+.node circle, .node path {
+  /*fill: #ccc; */ /* firefox+webkit-bug?!: cannot be overridden by Firefox/webkit in SVGs, */
+  /* when using a symbol as use-element -> workaround: set this in parent SVG svgSymbol */
+  /*stroke: #ccc;*/ /* same problem as above, browser still shows this settings although overridden 	*/
+  stroke-width: 1.5px;
+  cursor: pointer;
+}
+
+circle.node.highlighted.identical, /* Without constraining to circle also labels are highlighted */
+.node.highlighted path,
+.node.highlighted circle {
+	stroke: yellow;
+	stroke-width: 4px;
+	vector-effect: non-scaling-stroke;
+	/*filter:url(#blur-effect-2);*/ /* problems in firefox, when not in one html page? */
+	stroke-opacity:1;
+}
+
+.node.highlighted.identical path,
+.node.highlighted.identical circle {
+	stroke: yellow;
+}
+
+/*
+.node:hover, .node.highlighted {
+	stroke: yellow;
+	stroke-width: 10px;
+	stroke-opacity:1;
+}
+
+
+.node.highlighted.identical {
+	stroke: yellow;
+}
+*/
+
+.dragged text, .dragged path { 
+	cursor: move !important; 
+	font-size: 20px; /* seems to have no effect ?! */
+}
+
+.dragged text.nodeLabelShadow, .dragged text.nodeLabel { 
+	/*display:none;*/
+	fill-opacity: 0.1;
+	stroke-opacity: 0.1 !important;
+}
+
+.node--root {
+  /*fill: black;*/
+  /*stroke: black;*/
+}
+
+.node--leaf {
+  /*#fill: white;*/
+}
+
+/* general labels */
+
+.label {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  text-anchor: middle;
+  text-shadow: 0 1px 0 #ccc, 1px 0 0 #ccc, -1px 0 0 #ccc, 0 -1px 0 #ccc;
+  /*text-shadow: 0 1px 2px #fff, 1px 0 2px #fff, -1px 0 2px #fff, 0 -1px 2px #fff;*/
+  /*text-shadow: 0 1px 1.5px #fff, 1px 0 1.5px #fff, -1px 0 1.5px #fff, 0 -1px 1.5px #fff;*/
+}
+
+/* node labels */
+
+.node text { /* strange: "text" alone does not work */
+  font-size: 12px;
+  font-family: Arial, sans-serif;
+  fill: black;
+  cursor: pointer;
+  /*pointer-events: none;*/
+}
+
+
+
+text.nodeLabel, text.nodeLabelShadow {
+	font-family: Arial;
+	cursor: pointer;
+}
+
+text.textNode {
+	font-size: 24px;
+	fill: lightgrey;
+	font-family: Georgia, Arial, Verdana;
+	cursor: pointer;
+}
+
+.node text.nodeLabelShadow {
+    stroke: white;
+    stroke-width: 4px;
+    stroke-opacity: .8;
+}
+
+.node.highlighted text.nodeLabelShadow {
+	stroke: yellow;
+	/*filter:url(#blur-effect-2);*/ /* problems in firefox, when not in one html page? */
+	stroke-opacity:.4;
+}
+
+.node.highlighted.identical text.nodeLabelShadow {
+	stroke: yellow;
+	stroke-opacity:.4;
+}
+
+.connectorGroup .label {
+  fill: #555;
+  font-size: 10px;
+  text-anchor: middle;
+  /*text-shadow: 0 1px 0 #ccc, 1px 0 0 #ccc, -1px 0 0 #ccc, 0 -1px 0 #ccc;*/
+  /*visibility: hidden;*/
+}
+
+.connectorGroup .label text {
+  visibility: hidden;
+}
+
+.connectorGroup .label path {
+  /* fill-opacity: 0.6; */ /* setting this value here is interpreted differently in webkit/firefox */
+  transform: scale(0.75); /* TODO: ignored by webkit, only firefox */
+}
+
+.connectorGroup:hover .label {
+  fill: black;
+  font-size: 12px;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+  visibility: visible;
+}
+
+.connectorGroup:hover .link {
+  stroke: yellow ! important;
+}
+
+/* links and arrows */
+
+path.link {
+	fill: none;
+    stroke: #ccc;
+    stroke-opacity: .6;
+    /*stroke-width:34px;*/ /* for path flow diagrams */
+    stroke-width:10px; /* this stroke-width (7px - 30px) fits well for the marker settings in force-directed-graph, for other sizes layout problems may occur */
+}
+
+path.link.tree {
+  /* stroke-width: 1.5px; */
+}
+
+path.link.highlighted {
+    /*stroke-width: 10px;*/
+    stroke: yellow ! important;
+}
+
+path.link.linkRelative_Distance {
+    /*stroke: #0f0;
+    stroke-opacity: .1;
+    stroke-width:1px;*/
+    visibility: hidden;
+}
+
+marker#linkUndirected {
+    fill: #0000ff;
+}
+
+marker#linkDirected {
+    fill: #00ff00;
+}
+
+marker#link {
+    fill: #ccc;
+}
+
+marker#arrow {
+    fill: #ccc;
+}
+
+
+marker#uml_generalization_arrow {
+	fill: #334;
+    stroke: #ccc;
+    stroke-opacity: 1;
+    stroke-width: 1.5px;
+	vector-effect: non-scaling-stroke;
+	overflow: visible;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: miter;
+	/*markerUnits: userSpaceOnUse;*/
+	
+}
+
+.haarlinie {
+	stroke:red;
+	vector-effect: non-scaling-stroke;
+	/*shape-rendering: crispEdges; */ /*optimizeSpeed*/
+	stroke-width: 1.5px;
+}

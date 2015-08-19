@@ -1,0 +1,126 @@
+# Saved by TopBraid on Sun Jul 12 14:25:44 CEST 2015
+# baseURI: http://purl.org/rvl/rvl2rvl/
+# imports: http://purl.org/rvl/
+# imports: http://purl.org/rvl/generated/
+# imports: http://spinrdf.org/spin
+
+@prefix afn:     <http://jena.hpl.hp.com/ARQ/function#> .
+@prefix fn:      <http://www.w3.org/2005/xpath-functions#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rvl-generated:  <http://purl.org/rvl/generated/> .
+@prefix rvl2rvl:  <http://purl.org/rvl/rvl2rvl/> .
+@prefix smf:     <http://topbraid.org/sparqlmotionfunctions#> .
+@prefix sp:      <http://spinrdf.org/sp#> .
+@prefix spin:    <http://spinrdf.org/spin#> .
+@prefix spl:     <http://spinrdf.org/spl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+<http://purl.org/rvl/ResourceMapping>
+      spin:rule
+              [ rdf:type sp:Modify ;
+                rdfs:comment """Step 1: ResourceMapping 2 PM - turn resource mappings into value mappings and a property mapping (old ones are overwritten, not deleted first)
+TODO: remaining problem: a new property mapping with the value mappings will be created, even if there is one already ( a manual one with a name differerent from the generated)
+QUESTION: When should named-values be transformed to continuous ones?
+Somehow now (maybe after removing the USING statements, the generated PMs are only available after saving the mapping file and running the rules again ... )"""^^xsd:string ;
+                sp:insertPattern ([ rdf:type sp:NamedGraph ;
+                            sp:elements ([ sp:object <http://purl.org/rvl/PropertyMapping> ;
+                                        sp:predicate rdf:type ;
+                                        sp:subject _:b1
+                                      ] [ sp:object rdf:ID ;
+                                        sp:predicate <http://purl.org/rvl/sourceProperty> ;
+                                        sp:subject _:b1
+                                      ] [ sp:object _:b2 ;
+                                        sp:predicate <http://purl.org/rvl/targetGraphicRelation> ;
+                                        sp:subject _:b1
+                                      ] [ sp:object _:b3 ;
+                                        sp:predicate <http://purl.org/rvl/valueMapping> ;
+                                        sp:subject _:b1
+                                      ] [ sp:object <http://purl.org/rvl/ValueMapping> ;
+                                        sp:predicate rdf:type ;
+                                        sp:subject _:b3
+                                      ] [ sp:object _:b4 ;
+                                        sp:predicate <http://purl.org/rvl/sourceValue> ;
+                                        sp:subject _:b3
+                                      ] [ sp:object _:b5 ;
+                                        sp:predicate <http://purl.org/rvl/targetValue> ;
+                                        sp:subject _:b3
+                                      ]) ;
+                            sp:graphNameNode _:b6
+                          ]) ;
+                sp:where ([ rdf:type sp:Bind ;
+                            sp:expression <http://purl.org/rvl/rvl2rvl/test/> ;
+                            sp:variable _:b7
+                          ] [ rdf:type sp:Bind ;
+                            sp:expression rvl-generated: ;
+                            sp:variable _:b6
+                          ] [ rdf:type sp:Bind ;
+                            sp:expression
+                                    [ rdf:type afn:localname ;
+                                      sp:arg1 _:b2
+                                    ] ;
+                            sp:variable
+                                    [ sp:varName "localNameTgr"^^xsd:string
+                                    ]
+                          ] [ rdf:type sp:Bind ;
+                            sp:expression
+                                    [ rdf:type afn:localname ;
+                                      sp:arg1 _:b8
+                                    ] ;
+                            sp:variable
+                                    [ sp:varName "localNameRm"^^xsd:string
+                                    ]
+                          ] [ rdf:type sp:NamedGraph ;
+                            sp:elements ([ sp:object <http://purl.org/rvl/ResourceMapping> ;
+                                        sp:predicate rdf:type ;
+                                        sp:subject _:b8
+                                      ] [ sp:object _:b4 ;
+                                        sp:predicate <http://purl.org/rvl/sourceValue> ;
+                                        sp:subject _:b8
+                                      ] [ sp:object _:b5 ;
+                                        sp:predicate <http://purl.org/rvl/targetValue> ;
+                                        sp:subject _:b8
+                                      ] [ sp:object _:b2 ;
+                                        sp:predicate <http://purl.org/rvl/targetGraphicRelation> ;
+                                        sp:subject _:b8
+                                      ]) ;
+                            sp:graphNameNode _:b7
+                          ] [ rdf:type sp:NamedGraph ;
+                            sp:elements ([ rdf:type sp:Bind ;
+                                        sp:expression
+                                                [ rdf:type smf:buildURI ;
+                                                  sp:arg1 ":ID2{?localNameTgr}GenPM"
+                                                ] ;
+                                        sp:variable _:b1
+                                      ] [ rdf:type sp:Bind ;
+                                        sp:expression
+                                                [ rdf:type smf:buildURI ;
+                                                  sp:arg1 ":GenValueMappingForResourceMapping{?localNameRm}"
+                                                ] ;
+                                        sp:variable _:b3
+                                      ]) ;
+                            sp:graphNameNode _:b6
+                          ])
+              ] .
+
+rvl2rvl:
+      rdf:type owl:Ontology ;
+      owl:imports <http://purl.org/rvl/> , rvl-generated: , <http://spinrdf.org/spin> ;
+      owl:versionInfo "Created with TopBraid Composer"^^xsd:string .
+
+_:b8  sp:varName "rm"^^xsd:string .
+
+_:b7  sp:varName "mappingsGraph"^^xsd:string .
+
+_:b6  sp:varName "genRvlGraph"^^xsd:string .
+
+_:b5  sp:varName "tv"^^xsd:string .
+
+_:b4  sp:varName "sv"^^xsd:string .
+
+_:b3  sp:varName "genVm"^^xsd:string .
+
+_:b2  sp:varName "tgr"^^xsd:string .
+
+_:b1  sp:varName "genPm"^^xsd:string .

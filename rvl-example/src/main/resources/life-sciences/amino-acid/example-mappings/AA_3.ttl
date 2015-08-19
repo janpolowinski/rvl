@@ -1,0 +1,55 @@
+@prefix :        <http://purl.org/viso/example/amino-acids/aa-3/> .
+@prefix amino-acid:  <http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#> .
+@prefix bio:     <http://purl.org/viso/addon/shapes/bio/> .
+@prefix common-shapes:    <http://purl.org/viso/shape/commons/> .
+@prefix dct:     <http://purl.org/dc/terms/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix vg:    <http://purl.org/viso/graphic/> .
+
+:     rdf:type owl:Ontology ;
+      owl:imports <http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl> , rvl: , bio: ;
+      owl:versionInfo "Created with TopBraid Composer"^^xsd:string .
+
+ 
+:AA-3
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty amino-acid:hasPolarity ;
+      rvl:subjectFilter " ?s rdfs:subClassOf ?restriction . ?restriction owl:onProperty amino-acid:hasPolarity . ?restriction owl:allValuesFrom  amino-acid:Polar . "^^rvl:sparqlSelector;
+      rvl:inheritedBy owl:allValuesFrom ;
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:subMapping [
+        rvl:subMapping-onRole vg:labeling_label ; 
+        rvl:subMapping-onTriplePart rdf:object ;
+        rvl:subMapping-mapping :IconLabelShapeMapping ;
+      ],[
+        rvl:subMapping-onRole vg:labeling_label ;
+        rvl:subMapping-onTriplePart rdf:subject ;
+        rvl:subMapping-mapping :IncreaseSizeHack ;
+      ] .
+      
+:IconLabelShapeMapping
+      a rvl:PropertyMapping ;
+      rvl:disabled "true" ;
+      rvl:sourceProperty rdf:ID ;
+      rvl:targetAttribute vg:shape_named ; 
+      rvl:valueMapping :Polar_to_CircleP .         
+      
+:Polar_to_CircleP
+      a rvl:ValueMapping ;
+      rvl:sourceValue amino-acid:Polar ;
+      rvl:targetValue common-shapes:CircleP .
+      
+:IncreaseSizeHack
+      rvl:disabled "true" ;
+      a rvl:PropertyMapping ;
+ 	  rvl:sourceProperty rdf:type ;
+ 	  rvl:targetAttribute vg:width ;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping ;
+        rvl:sourceValue rdfs:Resource;
+		rvl:targetValue "10"^^xsd:float; # used like a constant here
+      ] . 

@@ -1,0 +1,98 @@
+@prefix :        <http://purl.org/viso/example/ro/> .
+@prefix commons:  <http://purl.org/viso/shape/commons/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ro:      <http://purl.org/ro/ont#> .
+@prefix common-shapes:  <http://purl.org/viso/shape/commons/> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix semvis-example:  <http://purl.org/ro/semvis-example/> .
+@prefix viso-graphic:  <http://purl.org/viso/graphic/> .
+@prefix vg:  	<http://purl.org/viso/graphic/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+rvl:valueMapping
+      rdfs:domain rvl:PropertyMapping.
+
+:     rdf:type owl:Ontology;
+      owl:imports semvis-example:, commons:, <http://purl.org/ro/ont>, rvl:.
+      
+      
+      
+:RO-4b
+  a rvl:PropertyMapping;
+  rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
+  rvl:sourceProperty rdf:type;
+  rvl:targetAttribute vg:color_hsl_lightness; 
+  rvl:valueMapping [
+	rvl:sourceValueOrderedSet (
+		ro:LowPriority
+		ro:MediumPriority
+		ro:HighPriority
+	);
+	rvl:discretize "true";
+	rvl:targetValueInterval [
+    	a rvl:Interval;
+    	rvl:lowerBoundIncl "0";
+    	rvl:upperBoundIncl "100";
+    ];
+  ].     
+  
+  
+:ShapeMapping
+      a rvl:PropertyMapping;
+      rvl:sourceProperty rdf:type;
+      rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
+      rvl:targetAttribute vg:shape_named;
+      rvl:valueMapping [
+      	a rvl:valueMapping;
+      	rvl:sourceValue ro:Requirement;
+      	rvl:targetValue common-shapes:Square;
+      ].
+
+:LabelMapping
+      a rvl:PropertyToGraphicObjToObjRelationMapping;
+      rvl:sourceProperty rdf:ID;
+      rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
+      rvl:targetObjToObjRelation vg:Labeling_Relation; 
+      rvl:subMapping [
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :LabelTextIdentity;
+      ],[
+        rvl:subMapping-onRole vg:this;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :TypeToLabelStyle;
+      ],[
+        rvl:subMapping-onRole vg:labeling_base;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :Type2Width;
+      ].
+      
+:LabelTextIdentity
+	  rvl:disabled "true";
+      a rvl:IdentityMapping;
+      rvl:sourceProperty rvl:label;
+      rvl:targetAttribute vg:text_value. 
+      
+:TypeToLabelStyle
+      a rvl:PropertyMapping;
+      rvl:disabled "true";
+      rvl:sourceProperty rdf:type ;
+      rvl:targetAttribute vg:labeling_attachedBy;
+      rvl:valueMapping [
+      	rvl:sourceValue ro:Requirement;
+      	rvl:targetValue vg:Containment_Relation;
+      ].
+      
+:Type2Width
+      a rvl:PropertyMapping;
+      rvl:disabled "true";
+ 	  rvl:sourceProperty rdf:type;
+ 	  rvl:targetAttribute vg:width;
+ 	  rvl:valueMapping [
+        a rvl:ValueMapping;
+        rvl:sourceValue ro:Requirement;
+        # create some space for contained labels:
+		rvl:targetValue "100"^^xsd:float; 
+      ]. 
