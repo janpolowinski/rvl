@@ -21,57 +21,13 @@
       owl:imports <http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl> , rvl: , bio: ;
       owl:versionInfo "Created with TopBraid Composer"^^xsd:string .
 
-
 :AA-4
       a rvl:PropertyMapping ;
-      rdfs:label "SideChainStructure to Shape"^^xsd:string ;
       rvl:sourceProperty amino-acid:hasSideChainStructure ;
       rvl:inheritedBy owl:allValuesFrom ;
-      rvl:targetAttribute
-              <http://purl.org/viso/graphic/shape_named> ;
-      rvl:valueMapping :Aromatic_to_Shape2 , :Aliphatic_to_Shape1 .
-
-   
-:Aliphatic_to_Shape1
-      a rvl:ValueMapping ;
-      rdfs:label "Aliphatic to Shape1"^^xsd:string ;
-      rvl:includeInLegend "true"^^xsd:boolean ;
-      rvl:sourceValue amino-acid:Aliphatic ;
-      rvl:targetValue bio:Aliphatic_Shape 
-      .
-
-:Aromatic_to_Shape2
-      a rvl:ValueMapping ;
-      rdfs:label "Aromatic to Shape2"^^xsd:string ;
-      rvl:includeInLegend "true"^^xsd:boolean ;
-      rvl:sourceValue amino-acid:Aromatic ;
-      rvl:targetValue bio:Aromatic_Shape 
-      .
-      
- ######################## EXTRA ############################
-      
-:SideChainStructureToLinking
-      rdf:type rvl:PropertyMapping ;
-      rvl:disabled "true"^^xsd:boolean ;
-      rdfs:label "SideChainStructure to Linking"^^xsd:string ;
-      rvl:sourceProperty amino-acid:hasSideChainStructure ;
-      rvl:invertSourceProperty "true"^^xsd:boolean ;
-      rvl:inheritedBy owl:allValuesFrom ;
-      rvl:targetObjToObjRelation
-              vg:Linking_Directed_Relation .
-              
-              
-# set main object size       
-:IncreaseSizeHack3
-      rvl:disabled "false"^^xsd:boolean ;
-      a rvl:PropertyMapping ;
-      rvl:subjectFilter " ?s rdfs:subClassOf amino-acid:SpecificAminoAcid . "^^rvl:sparqlSelector;
-      rvl:sourceProperty rdfs:subClassOf ;
- 	  rvl:targetAttribute vg:width ;
- 	  rvl:valueMapping [
-        a rvl:ValueMapping ;
-        rvl:sourceValue amino-acid:SpecificAminoAcid;
-		rvl:targetValue "50"^^xsd:float; # used like a constant here
-      ]
-      . 
-      
+      rvl:targetAttribute vg:shape_named ;
+      rvl:valueMapping 
+      [ rvl:sourceValue amino-acid:Aliphatic ;
+        rvl:targetValue bio:Aliphatic_Shape ],
+      [ rvl:sourceValue amino-acid:Aromatic ;
+        rvl:targetValue bio:Aromatic_Shape ].

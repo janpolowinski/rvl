@@ -12,100 +12,87 @@
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 
 rvl:valueMapping
-      rdfs:domain rvl:PropertyMapping .
+      rdfs:domain rvl:PropertyMapping.
 
-:     rdf:type owl:Ontology ;
-      owl:imports semvis-example: , commons: , <http://purl.org/ro/ont> , rvl: .
+:     rdf:type owl:Ontology;
+      owl:imports semvis-example:, commons:, <http://purl.org/ro/ont>, rvl:.
       
       
       
 :RO-4b
-  a rvl:PropertyMapping ;
+  a rvl:PropertyMapping;
   rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
-  rvl:sourceProperty rdf:type ;
-  rvl:targetAttribute vg:color_hsl_lightness ; 
+  rvl:sourceProperty rdf:type;
+  rvl:targetAttribute vg:color_hsl_lightness; 
   rvl:valueMapping [
-    a rvl:ValueMapping ;
 	rvl:sourceValueOrderedSet (
 		ro:LowPriority
 		ro:MediumPriority
 		ro:HighPriority
 	);
-	rvl:discretize "true"^^xsd:boolean ;
+	rvl:discretize "true";
 	rvl:targetValueInterval [
     	a rvl:Interval;
     	rvl:lowerBoundIncl "0";
     	rvl:upperBoundIncl "100";
     ];
-  ]
-  .     
+  ].     
   
   
 :ShapeMapping
-      a rvl:PropertyMapping ;
-      rvl:sourceProperty rdf:type ;
+      a rvl:PropertyMapping;
+      rvl:sourceProperty rdf:type;
       rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
-      rvl:targetAttribute
-              <http://purl.org/viso/graphic/shape_named> ;
+      rvl:targetAttribute vg:shape_named;
       rvl:valueMapping [
       	a rvl:valueMapping;
       	rvl:sourceValue ro:Requirement;
       	rvl:targetValue common-shapes:Square;
-      ]
-      .
+      ].
 
-
-#### Labeling is done by default, but needs to be made explicit in order to refine label style .... ####     
-      
 :LabelMapping
-      a rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:sourceProperty rdf:ID ;
+      a rvl:PropertyToGraphicObjToObjRelationMapping;
+      rvl:sourceProperty rdf:ID;
       rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector;
-      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:targetObjToObjRelation vg:Labeling_Relation; 
       rvl:subMapping [
         rvl:subMapping-onRole vg:labeling_label;
         rvl:subMapping-onTriplePart rdf:subject;
-        rvl:subMapping-mapping :LabelTextIdentityMapping;
+        rvl:subMapping-mapping :LabelTextIdentity;
       ],[
         rvl:subMapping-onRole vg:this;
         rvl:subMapping-onTriplePart rdf:subject;
-        rvl:subMapping-mapping :TypeToLabelStyleMapping;
+        rvl:subMapping-mapping :TypeToLabelStyle;
       ],[
         rvl:subMapping-onRole vg:labeling_base;
         rvl:subMapping-onTriplePart rdf:subject;
-        rvl:subMapping-mapping :PMfromType2Width;
-      ]
-      .
+        rvl:subMapping-mapping :Type2Width;
+      ].
       
-:LabelTextIdentityMapping
-	  rvl:disabled "true"^^xsd:boolean ;
-      a rvl:IdentityMapping ;
-      rvl:sourceProperty rvl:label ;
-      rvl:targetAttribute
-              vg:text_value ;
-      . 
-      
-:TypeToLabelStyleMapping
+:LabelTextIdentity
 	  rvl:disabled "true";
-      a rvl:PropertyMapping ;
+      a rvl:IdentityMapping;
+      rvl:sourceProperty rvl:label;
+      rvl:targetAttribute vg:text_value. 
+      
+:TypeToLabelStyle
+      a rvl:PropertyMapping;
+      rvl:disabled "true";
       rvl:sourceProperty rdf:type ;
-      rvl:targetAttribute
-              vg:labeling_attachedBy ;
+      rvl:targetAttribute vg:labeling_attachedBy;
       rvl:valueMapping [
-      	a rvl:valueMapping;
       	rvl:sourceValue ro:Requirement;
       	rvl:targetValue vg:Containment_Relation;
-      ]
-      .
+      ].
       
-:PMfromType2Width
-      rvl:disabled "true"^^xsd:boolean ;
-      a rvl:PropertyMapping ;
- 	  rvl:sourceProperty rdf:type ;
- 	  rvl:targetAttribute vg:width ;
+:Type2Width
+      a rvl:PropertyMapping;
+      rvl:disabled "true";
+ 	  rvl:sourceProperty rdf:type;
+ 	  rvl:targetAttribute vg:width;
  	  rvl:valueMapping [
-        a rvl:ValueMapping ;
+        a rvl:ValueMapping;
         rvl:sourceValue ro:Requirement;
-		rvl:targetValue "100"^^xsd:float; # create some space for contained labels
-      ]
-      . 
+        # create some space for contained labels:
+		rvl:targetValue "100"^^xsd:float; 
+      ]. 

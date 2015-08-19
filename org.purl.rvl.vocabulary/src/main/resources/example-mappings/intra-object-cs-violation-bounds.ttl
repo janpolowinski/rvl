@@ -1,0 +1,38 @@
+# Saved by TopBraid on Wed Jul 15 21:31:46 CEST 2015
+# baseURI: http://purl.org/rvl/example/intra-object-cs-violation-bounds/
+# imports: http://purl.org/rvl/spin-constraints/
+# imports: http://purl.org/viso/shape/commons/
+# imports: http://purl.org/rvl/
+# imports: http://purl.org/ro/semvis-example/
+# imports: http://purl.org/ro/ont#
+
+@prefix :        <http://purl.org/rvl/example/intra-object-cs-violation-bounds/> .
+@prefix common-shapes:  <http://purl.org/viso/shape/commons/> .
+@prefix commons:  <http://purl.org/viso/shape/commons/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ro:      <http://purl.org/ro/ont#> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix rvl-cs:  <http://purl.org/rvl/spin-constraints/> .
+@prefix semvis-example:  <http://purl.org/ro/semvis-example/> .
+@prefix vg:      <http://purl.org/viso/graphic/> .
+@prefix viso-graphic:  <http://purl.org/viso/graphic/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+:     rdf:type owl:Ontology ;
+      owl:imports ro: , semvis-example: , rvl: , rvl-cs: , common-shapes: .
+
+:MappingViolatingAnIntraObjectConstraintOnIntervalBounds
+      rdf:type rvl:PropertyMapping ;
+      rvl:sourceProperty rdf:type ;
+      rvl:targetAttribute viso-graphic:color_hsl_lightness ;
+      rvl:valueMapping
+              [ rvl:sourceValueOrderedSet
+                        (ro:LowPriority ro:MediumPriority ro:HighPriority) ;
+                rvl:targetValueInterval
+                        [ rdf:type rvl:Interval ;
+                          rvl:lowerBoundIncl "100" ;
+                          rvl:upperBoundIncl "0"
+                        ]
+              ] .
