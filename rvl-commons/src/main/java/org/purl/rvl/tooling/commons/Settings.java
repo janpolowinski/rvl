@@ -5,10 +5,12 @@ package org.purl.rvl.tooling.commons;
 
 import java.io.FileInputStream;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
+import org.purl.rvl.tooling.commons.utils.FileResourceUtils;
 
 /**
  * Provides universal names for the various graphs used in RVL tooling.
@@ -33,24 +35,36 @@ public class Settings {
 	
 	static {
 	
-    /* SETTINGS FROM PROPERTIES-FILE */
-    
-	Properties properties = new Properties();
+	    /* SETTINGS FROM DEFAULTS / USER PROPERTIES-FILE */
+	    
+		Properties defaults = new Properties();
+		Properties properties = new Properties();
+		
+		try {
+			defaults.load(FileResourceUtils.getFromWithinJars("/semvis.properties.template"));
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, "Could not load default settings from properties.template-file. Reason: " + e.getMessage(), e.getStackTrace());
+		}
 	
-	try {
+		try {
+			properties.load(new FileInputStream("/semvis.properties"));
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, "Could not load user settings from properties-file. Reason: " + e.getMessage()
+					+ " Will use default values from template instead.", e.getStackTrace());
+		}
+	
+		try {
+			MAX_GRAPHIC_RELATIONS_PER_MAPPING = Integer.parseInt(properties.get("org.purl.rvl.tooling.max-graphic-relations-per-mapping").toString());
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, "Could not load MAX_GRAPHIC_RELATIONS_PER_MAPPING from properties-file. Reason: " + e.getMessage()
+					+ " Will try to use default value from template instead.", e.getStackTrace());
+			try {
+				MAX_GRAPHIC_RELATIONS_PER_MAPPING = Integer.parseInt(defaults.get("org.purl.rvl.tooling.max-graphic-relations-per-mapping").toString());
+			} catch (Exception ed) {
+				LOGGER.log(Level.SEVERE, "Could not load MAX_GRAPHIC_RELATIONS_PER_MAPPING from properties-file. Reason: " + ed.getMessage(), ed.getStackTrace());
+			}
+		}
 		
-	  properties.load(new FileInputStream("/semvis.properties")); // TODO: this is taken from the maven project, which executes the program, not always from the interpreter project! 
-	  
-	  Settings.MAX_GRAPHIC_RELATIONS_PER_MAPPING = Integer.parseInt(properties.get("org.purl.rvl.tooling.max-graphic-relations-per-mapping").toString());
-	  //USE_CASE_FOLDER = properties.get("org.purl.rvl.tooling.use-case-folder").toString();
-	  
-	} catch (Exception e) {
-		
-		LOGGER.severe("Could not load settings from properties-file. Reason: " + e.getMessage());
-		e.printStackTrace();
-		System.exit(0);
-		
+		// USE_CASE_FOLDER = properties.get("org.purl.rvl.tooling.use-case-folder").toString();
 	}
-	
- }
 }
