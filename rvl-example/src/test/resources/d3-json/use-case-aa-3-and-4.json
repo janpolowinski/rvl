@@ -5,12 +5,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aliphatic",
-      "width":50.0,
+      "width":17.0,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Alanine",
-          "width":"62.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Alanine"
@@ -22,12 +22,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aliphatic",
-      "width":50.0,
+      "width":17.0,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Cysteine",
-          "width":"62.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Cysteine"
@@ -46,12 +46,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aliphatic",
-      "width":50.0,
+      "width":17.0,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Aspartate",
-          "width":"62.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Aspartate"
@@ -70,12 +70,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aliphatic",
-      "width":50.0,
+      "width":17.0,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Glutamate",
-          "width":"62.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Glutamate"
@@ -94,12 +94,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aromatic",
-      "width":50.0,
+      "width":17.0,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Phenylalanine",
-          "width":"62.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Phenylalanine"
@@ -111,12 +111,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aliphatic",
-      "width":50.0,
+      "width":17.0,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Glycine",
-          "width":"62.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Glycine"
@@ -128,12 +128,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aromatic",
-      "width":50.0,
+      "width":17.0,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Histidine",
-          "width":"62.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Histidine"
@@ -152,12 +152,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aliphatic",
-      "width":50.0,
+      "width":17.0,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Isoleucine",
-          "width":"62.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Isoleucine"
@@ -169,12 +169,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aliphatic",
-      "width":50.0,
+      "width":17.0,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Lysine",
-          "width":"62.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Lysine"
@@ -193,12 +193,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aliphatic",
-      "width":50.0,
+      "width":17.0,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Leucine",
-          "width":"62.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Leucine"
@@ -210,12 +210,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aliphatic",
-      "width":50.0,
+      "width":17.0,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Methionine",
-          "width":"62.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Methionine"
@@ -227,12 +227,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aliphatic",
-      "width":50.0,
+      "width":17.0,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Asparagine",
-          "width":"62.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Asparagine"
@@ -251,12 +251,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aliphatic",
-      "width":50.0,
+      "width":17.0,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Proline",
-          "width":"62.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Proline"
@@ -268,12 +268,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aliphatic",
-      "width":50.0,
+      "width":17.0,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Glutamine",
-          "width":"62.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Glutamine"
@@ -292,12 +292,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aliphatic",
-      "width":50.0,
+      "width":17.0,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Arginine",
-          "width":"62.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Arginine"
@@ -316,12 +316,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aliphatic",
-      "width":50.0,
+      "width":17.0,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Serine",
-          "width":"62.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Serine"
@@ -336,33 +336,16 @@
       ]
     },
     {
-      "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#SpecificAminoAcid",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"SpecificAminoAc...",
-          "width":"21.25",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"SpecificAminoAcid"
-        }
-      ]
-    },
-    {
       "uri":"http://www.co-ode.org/ontologies/amino-acid/2006/05/18/amino-acid.owl#T",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aliphatic",
-      "width":50.0,
+      "width":17.0,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Threonine",
-          "width":"62.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Threonine"
@@ -381,12 +364,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aliphatic",
-      "width":50.0,
+      "width":17.0,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Valine",
-          "width":"62.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Valine"
@@ -398,12 +381,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aromatic",
-      "width":50.0,
+      "width":17.0,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Tryptophan",
-          "width":"62.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Tryptophan"
@@ -415,12 +398,12 @@
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"aromatic",
-      "width":50.0,
+      "width":17.0,
       "labels":[
         {
           "position":"centerRight",
           "text_value":"Tyrosine",
-          "width":"62.5",
+          "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"Tyrosine"

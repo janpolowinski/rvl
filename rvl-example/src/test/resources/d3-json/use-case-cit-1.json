@@ -106,8 +106,8 @@
   "graphic_type":"force-directed-graph",
   "links":[
     {
-      "color_rgb_hex":"#ff0000",
-      "color_rgb_hex_combined":"#ff0000",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
       "shape_d3_name":"arrow",
       "labels":[
         {
@@ -126,8 +126,8 @@
       "value":"1"
     },
     {
-      "color_rgb_hex":"#00ff00",
-      "color_rgb_hex_combined":"#00ff00",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
       "shape_d3_name":"arrow",
       "labels":[
         {
@@ -146,9 +146,9 @@
       "value":"1"
     },
     {
-      "color_rgb_hex":"#ffff00",
-      "color_rgb_hex_combined":"#ffff00",
-      "shape_d3_name":"arrow_small_triangle",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
       "labels":[
         {
           "position":"centerRight",
@@ -166,8 +166,8 @@
       "value":"1"
     },
     {
-      "color_rgb_hex":"#ff0000",
-      "color_rgb_hex_combined":"#ff0000",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
       "shape_d3_name":"arrow",
       "labels":[
         {
@@ -186,8 +186,8 @@
       "value":"1"
     },
     {
-      "color_rgb_hex":"#ff0000",
-      "color_rgb_hex_combined":"#ff0000",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
       "shape_d3_name":"arrow",
       "labels":[
         {
@@ -206,9 +206,9 @@
       "value":"1"
     },
     {
-      "color_rgb_hex":"#ffff00",
-      "color_rgb_hex_combined":"#ffff00",
-      "shape_d3_name":"arrow_small_triangle",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
       "labels":[
         {
           "position":"centerRight",
