@@ -1,0 +1,60 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>rvl-d3vis</artifactId>
+  <name>RVL-D3</name>
+  <description>D3-Rendering for RVL</description>
+  
+  <parent>
+      <groupId>org.purl.rvl</groupId>
+      <artifactId>rvl-tooling</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+  </parent>
+	
+  	<build>
+		<resources>
+			<!-- <resource>
+				<directory>${basedir}/web</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/*.html</include>
+					<include>**/*.css</include>
+					<include>**/*.js</include>
+					<include>**/*.svg</include>
+				</includes>
+			</resource>-->
+		</resources>
+		<plugins>
+
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+  			<artifactId>rvl-commons</artifactId>
+  			<version>${project.version}</version>
+		</dependency>
+		<!-- embedded HTML-Server (D3 requires files beeing
+		 served from a server, to overcome restrictions on accessing the parent
+		  directory and its contents) -->
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-server</artifactId>
+			<version>9.3.0.M0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-webapp</artifactId>
+			<version>9.3.0.M0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-jsp</artifactId>
+			<version>9.3.0.M0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-servlets</artifactId>
+			<version>9.3.0.M0</version>
+		</dependency>
+	</dependencies>
+</project>

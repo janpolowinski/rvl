@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+    <artifactId>rvl-codegen</artifactId>
+	<name>Code-Generator for the RVL-API</name>
+	<groupId>org.purl.rvl</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+    
+    <!--<parent>
+        <groupId>org.purl.rvl</groupId>
+        <artifactId>rvl-tooling</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>-->
+
+  <properties>
+	<!--<rdf-reactor.version>5.0.1</rdf-reactor.version> --><!-- Generated code has problems (colorhsllightness in GraphicObjectX, list in ValueMappingX -->
+	<rdf-reactor.version>4.8.3</rdf-reactor.version>
+  </properties>
+
+	<build>
+		<plugins>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.semweb4j</groupId>
+			<artifactId>rdf2go.impl.jena</artifactId>
+			<version>${rdf-reactor.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.semweb4j</groupId>
+			<artifactId>rdfreactor.runtime</artifactId>
+			<version>${rdf-reactor.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.semweb4j</groupId>
+			<artifactId>rdfreactor.generator</artifactId>
+			<version>${rdf-reactor.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>rvl-vocabulary</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.purl.viso</groupId>
+			<artifactId>viso-ontology</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>semweb4j</id>
+			<name>semweb4j repo</name>
+			<url>http://mavenrepo.fzi.de/semweb4j.org/repo/</url>
+		</repository>
+		<repository>
+			<id>semweb4j-snapshots</id>
+			<name>Semweb4j.org maven snapshot repo</name>
+			<url>http://semweb4j.org/snapshots/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+	 
+</project>
