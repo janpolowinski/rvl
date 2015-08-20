@@ -1,0 +1,61 @@
+# The system will look for this config file using a system property specified at startup:
+# >java -Djava.util.logging.config.file=myLoggingConfigFilePath
+#
+# If not specified, then the config file is retrieved from:
+# JDK_HOME/jre/lib/logging.properties
+
+# Global logging properties.
+###############################################################
+# Handlers to be loaded on startup:
+# May be separated with or without comma? Both seems to work
+handlers=java.util.logging.FileHandler, java.util.logging.ConsoleHandler
+
+# Default global logging level, may be overridden below
+.level=SEVERE
+
+# Loggers
+###############################################################
+# Loggers are usually attached to packages.
+# Here, the level for each package is specified.
+# The global level is used by default, so levels
+# specified here simply act as an override.
+org.purl.rvl.level=WARNING
+org.purl.rvl.tooling.level=INFO
+
+# Handlers
+###############################################################
+
+#java.util.logging.SimpleFormatter.format=%4$s: %5$s [%1$tc]%n
+java.util.logging.SimpleFormatter.format=%1$tc [%4$s] %5$s (%2$s) %6$s%n
+#java.util.logging.SimpleFormatter.format=[%4$s] %5$s%n
+
+# does not seem to work:
+#org.test.logging.CustomRecordFormatter.format=%4$s: %5$s [%1$tc]%n
+
+### ConsoleHandler ###
+
+# Override global logging level
+java.util.logging.ConsoleHandler.level=FINEST
+#java.util.logging.ConsoleHandler.formatter=java.util.logging.SimpleFormatter
+java.util.logging.ConsoleHandler.formatter=org.purl.rvl.tooling.commons.utils.CustomRecordFormatter
+
+### FileHandler ###
+
+# Override global logging level
+java.util.logging.FileHandler.level=WARNING
+
+# Output file name:
+# %h means USER_HOME
+#java.util.logging.FileHandler.pattern=%h/java%u.log
+java.util.logging.FileHandler.pattern=log/java%u.log
+
+# Max size of output file (bytes):
+java.util.logging.FileHandler.limit=50000
+
+# Number of output files to cycle through, by appending an
+# integer to the base file name:
+java.util.logging.FileHandler.count=1
+
+# Formatting
+java.util.logging.FileHandler.formatter=java.util.logging.SimpleFormatter
+#java.util.logging.FileHandler.formatter=java.util.logging.XMLFormatter

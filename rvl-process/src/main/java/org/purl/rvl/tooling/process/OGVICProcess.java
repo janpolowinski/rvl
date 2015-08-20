@@ -81,17 +81,14 @@ public class OGVICProcess {
 
 	// LOGGING
 	private final static Logger LOGGER = Logger.getLogger(OGVICProcess.class.getName()); 
-	private final static Logger LOGGER_RVL_PACKAGE = Logger.getLogger("org.purl.rvl"); 
+//	private final static Logger LOGGER_RVL_PACKAGE = Logger.getLogger("org.purl.rvl"); 
 	
 	static final String NL =  System.getProperty("line.separator");
-
-
-
-
-	
 	
     static {
   	
+    	// now all done in logging.properties file:
+    	/*
 		//LOGGER.setLevel(Level.SEVERE); 
 		LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.SEVERE); 
 		//LogManager.getLogManager().getLogger(LOGGER_RVL_PACKAGE.getName()).setLevel(Level.FINER);
@@ -108,6 +105,8 @@ public class OGVICProcess {
         LOGGER_RVL_PACKAGE.setUseParentHandlers(false); // otherwise double output of log entries
         LOGGER_RVL_PACKAGE.addHandler(handler);
 		
+		*/
+    	
 		/*
 		// properties file read, but does not seem to be evaluatet correctly -> no logs shown in console
 		Properties preferences = new Properties();

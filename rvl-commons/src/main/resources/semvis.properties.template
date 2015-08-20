@@ -1,0 +1,4 @@
+# modify this file according to your environment and save it as semvis.properties in the root directory (as "/semvis.properties")
+# if no "semvis.properties" file is found, the values from this template will be used instead
+
+org.purl.rvl.tooling.max-graphic-relations-per-mapping=10000
