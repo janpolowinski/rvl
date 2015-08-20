@@ -47,6 +47,7 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 		JSONObject d3data = new JSONObject();
 		
 		putGraphicType(d3data);
+		putGraphicID(d3data);
 		
 		List<GraphicObjectX> goList = AVMUtils.getRelevantGraphicObjects(modelAVM);
 		GraphicObjectX[] goArray = new GraphicObjectX[goList.size()];

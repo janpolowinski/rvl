@@ -35,6 +35,7 @@ public abstract class D3GeneratorBase implements D3Generator {
 	protected Model modelVISO;
 	
 	private String graphicType;
+	private String graphicID = "test";
 	
 	private final static Logger LOGGER = Logger.getLogger(D3GeneratorBase.class .getName());
 
@@ -307,15 +308,28 @@ public abstract class D3GeneratorBase implements D3Generator {
 		}
 	}
 
-	/**
-	 * @param graphicType the graphicType to set
-	 */
 	@Override
 	public void setGraphicType(String graphicType) {
 		this.graphicType = graphicType;
 	}
 	
+	protected void putGraphicID(JSONObject object) {
+		String graphicID = getGraphicID();
+		if (!(null == graphicID || getGraphicID().isEmpty())) {
+			object.put("graphic_id", getGraphicID());
+		}
+	}
+	
 	public String getD3GraphicFile(){
 		return getGraphicType() + "/index.html";
+	}
+	
+	private String getGraphicID() {
+		return graphicID;
+	}
+	
+	@Override
+	public void setGraphicID(String graphicID) {
+		this.graphicID = graphicID;
 	}
 }
