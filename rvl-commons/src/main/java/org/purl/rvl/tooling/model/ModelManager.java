@@ -122,33 +122,51 @@ public class ModelManager {
 	 * 
 	 */
 	private void initVISOModel() throws OGVICRepositoryException {
+		
+		LOGGER.fine("Initialising VISO model ...");
+		
 		modelVISO = RDF2Go.getModelFactory().createModel(Reasoning.none); // no reasoning seems to be OK here 
 		// temp. turned on reasoning to allow for reasoning that linking_node subPropertyOf linkingDirected_endNode, 
 		// however that does not seem to work due to other issues (e.g. Linking_Directed is not a subclass of Linking_Undirected) anyway.
-		
 		modelVISO.open();
-		String visoFileName = OntologyFile.VISO_GRAPHIC;
+
 		try {
-			ModelUtils.readFromAnySyntax(modelVISO, visoFileName);
+			ModelUtils.readFromAnySyntax(modelVISO, OntologyFile.VISO_GRAPHIC);
+			LOGGER.info("Read VISO-graphic into VISO model from " + OntologyFile.VISO_GRAPHIC);
 		} catch (Exception e) {
 			throw new OGVICRepositoryException("VISO model", e.getMessage());
 		}
-		LOGGER.info("Read VISO-graphic into VISO model: " + visoFileName);
-	
+		// TODO added here AND to the RVL model, but apparently only required in the RVL model
+		try {
+			ModelUtils.readFromAnySyntax(modelVISO, OntologyFile.RVL_EXAMPLE_COMMONS);
+			LOGGER.info("Read RVL-Example-Commons into VISO model from " + OntologyFile.RVL_EXAMPLE_COMMONS);
+		} catch (Exception e) {
+			throw new OGVICRepositoryException("VISO model", "Could not load RVL-Example-Commons: " + e.getMessage(), e);
+		}
+
 		modelSet.addModel(modelVISO, Graph.GRAPH_VISO);
 	}
 
 	private void initRVLModel() throws OGVICRepositoryException {
+		
+		LOGGER.fine("Initialising RVL model ...");
+		
 		// extra model for RVL (schema)
 		modelRVLSchema = RDF2Go.getModelFactory().createModel(Reasoning.none); // no reasoning seems to be OK here
 		modelRVLSchema.open();
-		String rvlFileName = OntologyFile.RVL;
+		
 		try {
-			ModelUtils.readFromAnySyntax(modelRVLSchema,rvlFileName);
+			ModelUtils.readFromAnySyntax(modelRVLSchema, OntologyFile.RVL);
+			LOGGER.info("Read RVL schmema into RVL schema model from " + OntologyFile.RVL);
 		} catch (Exception e) {
-			throw new OGVICRepositoryException("RVL model", e.getMessage());
+			throw new OGVICRepositoryException("RVL model", "Could not load RVL schema: " + e.getMessage(), e);
 		}
-		LOGGER.info("Read RVL schmema into RVL schema model: " + rvlFileName);
+		try {
+			ModelUtils.readFromAnySyntax(modelRVLSchema, OntologyFile.RVL_EXAMPLE_COMMONS);
+			LOGGER.info("Read RVL-Example-Commons into RVL model from " + OntologyFile.RVL_EXAMPLE_COMMONS);
+		} catch (Exception e) {
+			throw new OGVICRepositoryException("RVL model", "Could not load RVL-Example-Commons: " + e.getMessage(), e);
+		}
 		
 		modelSet.addModel(modelRVLSchema, Graph.GRAPH_RVL_SCHEMA);
 	}

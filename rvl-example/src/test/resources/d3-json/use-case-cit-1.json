@@ -1,4 +1,5 @@
 {
+  "graphic_id":"cit-1",
   "nodes":[
     {
       "uri":"http://purl.org/rvl/example/data/cito/Document_A",
@@ -106,8 +107,8 @@
   "graphic_type":"force-directed-graph",
   "links":[
     {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
+      "color_rgb_hex":"#00ff00",
+      "color_rgb_hex_combined":"#00ff00",
       "shape_d3_name":"arrow",
       "labels":[
         {
@@ -126,8 +127,8 @@
       "value":"1"
     },
     {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
+      "color_rgb_hex":"#ff0000",
+      "color_rgb_hex_combined":"#ff0000",
       "shape_d3_name":"arrow",
       "labels":[
         {
@@ -146,8 +147,8 @@
       "value":"1"
     },
     {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
+      "color_rgb_hex":"#ffff00",
+      "color_rgb_hex_combined":"#ffff00",
       "shape_d3_name":"arrow",
       "labels":[
         {
@@ -166,8 +167,8 @@
       "value":"1"
     },
     {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
+      "color_rgb_hex":"#00ff00",
+      "color_rgb_hex_combined":"#00ff00",
       "shape_d3_name":"arrow",
       "labels":[
         {
@@ -186,8 +187,8 @@
       "value":"1"
     },
     {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
+      "color_rgb_hex":"#00ff00",
+      "color_rgb_hex_combined":"#00ff00",
       "shape_d3_name":"arrow",
       "labels":[
         {
@@ -206,8 +207,8 @@
       "value":"1"
     },
     {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
+      "color_rgb_hex":"#ffff00",
+      "color_rgb_hex_combined":"#ffff00",
       "shape_d3_name":"arrow",
       "labels":[
         {
