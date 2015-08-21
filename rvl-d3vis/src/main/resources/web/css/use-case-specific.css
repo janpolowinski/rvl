@@ -1,0 +1,9 @@
+/* PO-9 */
+
+#canvas.po-9 path.link {
+    stroke-width: 23;
+}
+
+#canvas.po-9 marker#arrow {
+    visibility: hidden;
+}
