@@ -35,7 +35,7 @@ var lineWidth = 7,
 var force = d3.layout.force()
 	.charge(-900)
 //	.linkDistance(200)
-	.linkDistance( function(d) { return d.value * 10 } )
+	.linkDistance( function(d) { return d.value * 100 } )
 	.size([width, height])
 	;
 //force
