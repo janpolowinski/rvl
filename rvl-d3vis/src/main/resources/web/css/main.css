@@ -3,11 +3,11 @@ body {
 	/*margin: 0px;*/
   	font-family: Arial, sans-serif;
 	font-size: 0.8em;
-	color: #aaa;
+	color: #888;
 }
 
 a, a:visited {
-	color: #aaa;
+	color: #888;
 }
 
 a:hover {
@@ -85,15 +85,34 @@ a:hover {
 	padding: 10px;
 }
 
-#menu button {
-	width:100%;
-	text-align:left;
+#editor textarea {
+	font-size: 11px;
+	font-family: Lucida Sans Typewriter, Lucida Console, Monaco, monospace, sans-serif;
 }
 
-#menu button:hover {
-	font-weight: bold;
-	margin-top: 6px;
-	margin-bottom: 6px;
+button, .button {
+	width:100%;
+	text-align:center;
+	background-color: #65cc0a;
+	color: white;
+  	text-transform: uppercase;
+	border-radius: 5px;
+	border:none;
+	min-width: 75px;
+	min-height: 20px;
+}
+
+button:hover, .button:hover {
+	background-color: #4db309;
+}
+
+#editor button {
+	width:30%;
+}
+
+#menu button {
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
 form input, form textarea {
@@ -109,6 +128,7 @@ div.infotext {
 	padding: 5px;
 	background-color: #efe;
 	border-radius: 10px;
+	color: #888;
 }
 
 
