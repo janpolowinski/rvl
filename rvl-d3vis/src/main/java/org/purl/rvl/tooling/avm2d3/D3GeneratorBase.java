@@ -3,13 +3,16 @@ package org.purl.rvl.tooling.avm2d3;
 import java.beans.Introspector;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.json.simple.JSONObject;
+import org.junit.internal.runners.model.EachTestNotifier;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.Resource;
@@ -20,7 +23,9 @@ import org.purl.rvl.java.VISOGRAPHIC;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
+import org.purl.rvl.java.gen.viso.graphic.SyntacticRole;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
+import org.purl.rvl.tooling.commons.utils.AVMUtils;
 import org.purl.rvl.tooling.d3vis.utils.D3Utils;
 import org.purl.rvl.tooling.model.ModelManager;
 
@@ -131,6 +136,31 @@ public abstract class D3GeneratorBase implements D3Generator {
 			map.put("uri", graphicObject.getRepresentedResource().toString());
 		} catch (NullPointerException e) {
 			LOGGER.warning("graphic object " + graphicObject + " does not represent a domain resource.");
+		}
+	}
+	
+	/**
+	 * @param map
+	 * @param graphicObject
+	 */
+	protected void putRoles(Map<String, Object> map, GraphicObjectX graphicObject) {
+		try {
+			Set<SyntacticRole> set = AVMUtils.getRolesForGO(ModelManager.getInstance().getAVMModel(), graphicObject);
+			LOGGER.finest("Graphic object " + graphicObject + " has the following roles: " + set);
+			
+			List<String> roles = new ArrayList<String>();
+			
+			for (SyntacticRole syntacticRole : set) {
+				roles.add(syntacticRole.asURI().toString());
+				
+			map.put("roles", roles);
+		}
+
+			
+		} catch (NullPointerException e) {
+			LOGGER.warning("graphic object " + graphicObject + " does not play a syntactic role.");
+		} catch (Exception e) {
+			LOGGER.warning("Could not retrieve syntactic role from graphic object " + graphicObject);
 		}
 	}
 	
@@ -284,6 +314,7 @@ public abstract class D3GeneratorBase implements D3Generator {
 
 		putRepresentedResource(jsonObject, graphicObject);
 		putGraphicAttributes(jsonObject, graphicObject);	
+		putRoles(jsonObject, graphicObject);
 		
 		// width (used for calculating label size) // the defaults, which are set when values are missing 
 		// could also be stored in the AVM, but the generator should not change the AVM, so a copy 
