@@ -1,0 +1,8 @@
+## Select all roles for a given graphic object
+
+SELECT DISTINCT *
+WHERE {
+	BIND(<http://purl.org/rvl/example-avm/GO_-727403189> AS ?go) .
+    ?rel a/(rdfs:subClassOf)* viso-graphic:Object-to-Object_Relation .
+    ?rel ?role ?go .
+}
