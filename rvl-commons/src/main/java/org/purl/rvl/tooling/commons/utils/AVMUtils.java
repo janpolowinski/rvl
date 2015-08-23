@@ -248,8 +248,8 @@ public class AVMUtils {
 				"SELECT DISTINCT ?role " + 
 				"WHERE { " +
 				"   BIND(" + go.toSPARQL() + " AS ?go)" + 
-//				"	?rel a/(" + RDFS.subClassOf.toSPARQL() + ")* " + Object_to_ObjectRelation.RDFS_CLASS.toSPARQL() + " ." +
-				"	?rel a " + DirectedLinking.RDFS_CLASS.toSPARQL() + " ." +
+				"	?rel a/(" + RDFS.subClassOf.toSPARQL() + ")* " + Object_to_ObjectRelation.RDFS_CLASS.toSPARQL() + " ." +
+//				"	?rel a " + DirectedLinking.RDFS_CLASS.toSPARQL() + " ." +
 				"	?rel ?role ?go ." + 
 				"} ";
 		

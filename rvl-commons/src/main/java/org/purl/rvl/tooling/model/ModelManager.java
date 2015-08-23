@@ -179,6 +179,7 @@ public class ModelManager {
 		modelAVM = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		modelAVM.open();	
 		// modelAVM.addModel(modelVISO); enable when needed (cf. comment at VISO model)
+		clearAVMModel();
 		
 		modelSet.addModel(modelAVM, Graph.GRAPH_AVM);
 	}
@@ -367,9 +368,13 @@ public class ModelManager {
 			modelData.removeAll();
 	}
 
+	// TODO harmonize clear and init methods
 	public void clearAVMModel() {
-		if (null!= modelAVM)
+		if (null!= modelAVM) {
 			modelAVM.removeAll();
+			// TODO Hack: would not be necessary if model set was used also for AVM handling!
+			modelAVM.addModel(modelVISO); // works for the roles, but somehow leads to additional links (AB where BA).
+		}
 	}
 
 	/**
