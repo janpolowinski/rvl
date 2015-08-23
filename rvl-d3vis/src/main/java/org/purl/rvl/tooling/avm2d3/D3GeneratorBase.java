@@ -151,10 +151,9 @@ public abstract class D3GeneratorBase implements D3Generator {
 			List<String> roles = new ArrayList<String>();
 			
 			for (SyntacticRole syntacticRole : set) {
-				roles.add(syntacticRole.asURI().toString());
-				
-			map.put("roles", roles);
-		}
+				roles.add(RDFTool.getShortName(syntacticRole.asURI().toString()));
+				map.put("roles", roles);
+			}
 
 			
 		} catch (NullPointerException e) {

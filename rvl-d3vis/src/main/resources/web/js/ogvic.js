@@ -413,6 +413,7 @@
 	  // TODO duplicated code from avmShapedWithUseSVG
 	  d3.selection.prototype.avmShapedWithUseSVGUpdate = function() {
 		 	return this.select("g.scaleGroup").select("use.svgSymbol")
+		 	  .addRoles()
 			  .attr("xlink:href", function(d) { if (null!=d.shape_d3_name) return BASE_PATH_SVG_FILE + d.shape_d3_name; else return ""; }) // do this before the filtering to allow for "removing" shape (when shaped by text instead)
 	   	 	  .filter(function(d) { return null != d.shape_d3_name ;})
 		      .applyGraphicAttributesNonSpatial2SVG()
@@ -423,6 +424,7 @@
 	  // TODO duplicated code from avmShapedWithUseSVGUpdate
 	  d3.selection.prototype.avmShapedWithUseSVGUpdateWithoutSelectingSymbol = function() {
 		 	return this.select("use.svgSymbol")
+		 	  .addRoles()
 			  .attr("xlink:href", function(d) { if (null!=d.shape_d3_name) return BASE_PATH_SVG_FILE + d.shape_d3_name; else return ""; }) // do this before the filtering to allow for "removing" shape (when shaped by text instead)
 	   	 	  .filter(function(d) { return null != d.shape_d3_name ;})
 		      .applyGraphicAttributesNonSpatial2SVG()
@@ -465,6 +467,27 @@
 		 		.transition().duration(2000) // does not work when scale transition is active at the same time
 		 		.style("fill", function(d) { return d.color_rgb_hex_combined; })
 		     ;
+	  };
+	  
+	  /* adding the roles from the graphic objects in the AVM ("http:// ... linkingDirected_startNode", "http://...linking_node" ... )*/
+	  d3.selection.prototype.addRoles = function() {
+		  	var myVar = this;
+		  	myVar
+		  		.filter(function(d) { return null != d.roles ;})
+		  		/* using classed() doesnt work,
+		  		 * since the first argument must be a constant, not a function */
+		  		.attr("class", function(d) {
+		  			var oldClasses = myVar.attr("class").split(" ");
+		  			var newClasses = d.roles;
+		  			$.each(newClasses, function(index, value) {
+		  			    if ($.inArray(value, oldClasses) === -1) {
+		  			    	oldClasses.push(value);
+		  			    }
+		  			});
+		  			return oldClasses.join(" ");
+				  });
+		     ;
+		 	return myVar;
 	  };
 	  
 	  
