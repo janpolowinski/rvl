@@ -171,6 +171,7 @@ public class ModelManager {
 		modelSet.addModel(modelRVLSchema, Graph.GRAPH_RVL_SCHEMA);
 	}
 
+	// TODO harmonize clear and init methods
 	private void initAVMModel() {
 		
 		modelSet.removeModel(Graph.GRAPH_AVM);
@@ -178,8 +179,7 @@ public class ModelManager {
 		// empty model to hold the AVM
 		modelAVM = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		modelAVM.open();	
-		// modelAVM.addModel(modelVISO); enable when needed (cf. comment at VISO model)
-		clearAVMModel();
+		clearAVMModel(); // may also add VISO model
 		
 		modelSet.addModel(modelAVM, Graph.GRAPH_AVM);
 	}
@@ -369,6 +369,9 @@ public class ModelManager {
 	}
 
 	// TODO harmonize clear and init methods
+	/*
+	 * Currently adds also the VISO model after clearing!
+	 */
 	public void clearAVMModel() {
 		if (null!= modelAVM) {
 			modelAVM.removeAll();
