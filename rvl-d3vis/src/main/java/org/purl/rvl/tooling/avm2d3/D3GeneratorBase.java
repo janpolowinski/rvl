@@ -23,7 +23,9 @@ import org.purl.rvl.java.VISOGRAPHIC;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
+import org.purl.rvl.java.gen.viso.graphic.N_AryRelationHelperProperty;
 import org.purl.rvl.java.gen.viso.graphic.SyntacticRole;
+import org.purl.rvl.java.gen.viso.graphic.Thing1;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
 import org.purl.rvl.tooling.commons.utils.AVMUtils;
 import org.purl.rvl.tooling.d3vis.utils.D3Utils;
@@ -151,10 +153,15 @@ public abstract class D3GeneratorBase implements D3Generator {
 			List<String> roles = new ArrayList<String>();
 			
 			for (SyntacticRole syntacticRole : set) {
-				roles.add(RDFTool.getShortName(syntacticRole.asURI().toString()));
-				map.put("roles", roles);
+				// TODO performance: we need to remove properties assigned by reasoning here only 
+				// because we have the following two super-properties 
+				// (for reasons of sorting properties in the ontology editor)
+				if (!(syntacticRole.toString().equals(Thing1.N_ARYRELATIONHELPERPROPERTIES.toString())
+					|| syntacticRole.toString().equals(Thing1.SYNTACTICROLES.toString()))) {
+					roles.add(RDFTool.getShortName(syntacticRole.asURI().toString()));
+				}
 			}
-
+			map.put("roles", roles);
 			
 		} catch (NullPointerException e) {
 			LOGGER.warning("graphic object " + graphicObject + " does not play a syntactic role.");

@@ -7,3 +7,8 @@
 #canvas.po-9 marker#arrow {
     visibility: hidden;
 }
+
+/*.linkingDirected_startNode {fill:green }*/
+/*.linkingDirected_endNode {fill:red }*/
+/*.linking_node {fill:blue }*/
+/*.labeling_base {fill:orange }*/

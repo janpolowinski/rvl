@@ -373,7 +373,7 @@ public class ModelManager {
 		if (null!= modelAVM) {
 			modelAVM.removeAll();
 			// TODO Hack: would not be necessary if model set was used also for AVM handling!
-			modelAVM.addModel(modelVISO); // works for the roles, but somehow leads to additional links (AB where BA).
+			modelAVM.addModel(modelVISO);
 		}
 	}
 

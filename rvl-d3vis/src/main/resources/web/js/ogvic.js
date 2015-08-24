@@ -469,15 +469,15 @@
 		     ;
 	  };
 	  
+	  /* TODO: requires jquery; avoidable complexity? */
 	  /* adding the roles from the graphic objects in the AVM ("http:// ... linkingDirected_startNode", "http://...linking_node" ... )*/
 	  d3.selection.prototype.addRoles = function() {
-		  	var myVar = this;
-		  	myVar
+		  	return this
 		  		.filter(function(d) { return null != d.roles ;})
 		  		/* using classed() doesnt work,
 		  		 * since the first argument must be a constant, not a function */
 		  		.attr("class", function(d) {
-		  			var oldClasses = myVar.attr("class").split(" ");
+		  			var oldClasses = d3.select(this).attr("class").split(" ");
 		  			var newClasses = d.roles;
 		  			$.each(newClasses, function(index, value) {
 		  			    if ($.inArray(value, oldClasses) === -1) {
@@ -487,7 +487,6 @@
 		  			return oldClasses.join(" ");
 				  });
 		     ;
-		 	return myVar;
 	  };
 	  
 	  
