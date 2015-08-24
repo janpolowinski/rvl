@@ -9,16 +9,24 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.apache.commons.collections.MapUtils;
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
+import org.ontoware.rdf2go.model.NamespaceSupport;
 import org.ontoware.rdf2go.model.Syntax;
+import org.ontoware.rdf2go.vocabulary.OWL;
+import org.ontoware.rdf2go.vocabulary.RDF;
+import org.ontoware.rdf2go.vocabulary.RDFS;
 import org.purl.rvl.exception.OGVICRepositoryException;
+import org.purl.rvl.java.VISODATA;
+import org.purl.rvl.java.VISOGRAPHIC;
 import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.commons.FileRegistry;
 import org.purl.rvl.tooling.commons.Graph;
+import org.purl.rvl.tooling.commons.Settings;
 import org.purl.rvl.tooling.commons.utils.ModelUtils;
 
 
@@ -342,11 +350,10 @@ public class ModelManager {
 	}
 
 	/**
-	 * Adds the preferred prefixes for common namespaces like RDFS, OWL ...
+	 * Adds the preferred prefixes for common namespaces like RDFS, OWL ... and VISO/graphic
 	 * 
 	 * @param modelSet - the model to enrich with the default namespace settings
 	 */
-	/*
 	private void addStandardPrefixesForCommonNamespaces(NamespaceSupport nameSpaceSupportable) {
 
 		nameSpaceSupportable.setNamespace("rdf", RDF.RDF_NS);
@@ -354,12 +361,17 @@ public class ModelManager {
 		nameSpaceSupportable.setNamespace("owl", OWL.OWL_NS);
 		nameSpaceSupportable.setNamespace("xsd", org.ontoware.rdf2go.vocabulary.XSD.XS_URIPREFIX);
 		
-		Map<String, String> namespace = nameSpaceSupportable.getNamespaces();
+		// SEMVIS ...
+		nameSpaceSupportable.setNamespace("viso-graphic", VISOGRAPHIC.NS);
+		nameSpaceSupportable.setNamespace("viso-data", VISODATA.NS);
+		nameSpaceSupportable.setNamespace("example-avm", "http://purl.org/rvl/example-avm/");
 		
-		LOGGER.info("Added standard prefixes to model/modelSet " + nameSpaceSupportable + NL + 
-					MapUtils.toProperties(namespace).toString());
+		// TODO: no name of the model can be printed here, either pass it or log outside
+//		Map<String, String> namespace = nameSpaceSupportable.getNamespaces();
+//		LOGGER.info("Added standard prefixes to model/modelSet " + nameSpaceSupportable + NL + 
+//					MapUtils.toProperties(namespace).toString());
 		
-	}*/
+	}
 
 	public void clearMappingAndDataModels() {
 		if (null!= modelMappings)
@@ -377,6 +389,7 @@ public class ModelManager {
 			modelAVM.removeAll();
 			// TODO Hack: would not be necessary if model set was used also for AVM handling!
 			modelAVM.addModel(modelVISO);
+			addStandardPrefixesForCommonNamespaces(modelAVM);
 		}
 	}
 
