@@ -26,7 +26,6 @@ import org.purl.rvl.java.VISOGRAPHIC;
 import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.commons.FileRegistry;
 import org.purl.rvl.tooling.commons.Graph;
-import org.purl.rvl.tooling.commons.Settings;
 import org.purl.rvl.tooling.commons.utils.ModelUtils;
 
 
@@ -389,7 +388,6 @@ public class ModelManager {
 			modelAVM.removeAll();
 			// TODO Hack: would not be necessary if model set was used also for AVM handling!
 			modelAVM.addModel(modelVISO);
-			addStandardPrefixesForCommonNamespaces(modelAVM);
 		}
 	}
 
@@ -435,6 +433,9 @@ public class ModelManager {
 	
 		try {
 			FileWriter writer = new FileWriter(fileName);
+			
+			// make AVM more readable
+			addStandardPrefixesForCommonNamespaces(modelAVM);
 			
 			modelAVM.writeTo(writer, Syntax.Turtle);
 			writer.flush();
