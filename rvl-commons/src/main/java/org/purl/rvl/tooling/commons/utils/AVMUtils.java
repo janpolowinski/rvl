@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.model.Model;
+import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.QueryResultTable;
 import org.ontoware.rdf2go.model.QueryRow;
 import org.ontoware.rdf2go.model.Statement;
@@ -22,6 +23,8 @@ import org.purl.rvl.java.gen.viso.graphic.Labeling;
 import org.purl.rvl.java.gen.viso.graphic.Object_to_ObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.SyntacticRole;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
+import org.purl.rvl.tooling.commons.Graph;
+import org.purl.rvl.tooling.model.ModelManager;
 
 /**
  * @author Jan Polowinski
@@ -259,6 +262,37 @@ public class AVMUtils {
 		QueryResultTable results = model.sparqlSelect(query);
 		for (QueryRow row : results) {
 			roles.add(SyntacticRole.getInstance(model, row.getValue("role").asURI()));
+		}
+		
+		return roles;
+	}
+	
+	public static Set<URI> getRolesAsURIForGO(ModelSet modelSet, GraphicObjectX go) {
+
+		Set<URI> roles = new HashSet<URI>();
+		
+		modelSet.addModel(ModelManager.getInstance().getAVMModel(), Graph.GRAPH_AVM);
+
+		String query = "" + 
+				" PREFIX rdfs: <" + RDFS.RDFS_NS + "> " + 
+				" SELECT DISTINCT * " + 
+				" WHERE { " +
+				" GRAPH " + Graph.GRAPH_VISO.toSPARQL() + " { " + 
+				"	?relType rdfs:subClassOf/(rdfs:subClassOf)* " + Object_to_ObjectRelation.RDFS_CLASS.toSPARQL() + " ." +
+				" } " +
+				" GRAPH " + Graph.GRAPH_AVM.toSPARQL() + " { " + 
+				"   BIND(" + go.toSPARQL() + " AS ?go) " + 
+				"	?rel a ?relType . " +
+				"	?rel ?role ?go . " + 
+				" } " +
+				" } ";
+		
+		LOGGER.finer("Query for roles that graphic object " + go.asURI() + " plays.");
+		LOGGER.finest("Query: " + query);
+
+		QueryResultTable results = modelSet.sparqlSelect(query);
+		for (QueryRow row : results) {
+			roles.add(row.getValue("role").asURI());
 		}
 		
 		return roles;

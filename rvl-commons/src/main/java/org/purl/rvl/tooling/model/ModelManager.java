@@ -387,7 +387,7 @@ public class ModelManager {
 		if (null!= modelAVM) {
 			modelAVM.removeAll();
 			// TODO Hack: would not be necessary if model set was used also for AVM handling!
-			modelAVM.addModel(modelVISO);
+			// modelAVM.addModel(modelVISO); // adds much noise to the AVM
 		}
 	}
 

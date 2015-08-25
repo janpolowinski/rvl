@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.json.simple.JSONObject;
@@ -16,6 +17,7 @@ import org.junit.internal.runners.model.EachTestNotifier;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.Resource;
+import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.util.RDFTool;
 import org.purl.rvl.exception.D3GeneratorException;
 import org.purl.rvl.exception.OGVICModelsException;
@@ -147,12 +149,13 @@ public abstract class D3GeneratorBase implements D3Generator {
 	 */
 	protected void putRoles(Map<String, Object> map, GraphicObjectX graphicObject) {
 		try {
-			Set<SyntacticRole> set = AVMUtils.getRolesForGO(ModelManager.getInstance().getAVMModel(), graphicObject);
+			
+			Set<URI> set = AVMUtils.getRolesAsURIForGO(ModelManager.getInstance().getModelSet(), graphicObject);
 			LOGGER.finest("Graphic object " + graphicObject + " has the following roles: " + set);
 			
 			List<String> roles = new ArrayList<String>();
 			
-			for (SyntacticRole syntacticRole : set) {
+			for (URI syntacticRole : set) {
 				// TODO performance: we need to remove properties assigned by reasoning here only 
 				// because we have the following two super-properties 
 				// (for reasons of sorting properties in the ontology editor)
@@ -166,7 +169,7 @@ public abstract class D3GeneratorBase implements D3Generator {
 		} catch (NullPointerException e) {
 			LOGGER.warning("graphic object " + graphicObject + " does not play a syntactic role.");
 		} catch (Exception e) {
-			LOGGER.warning("Could not retrieve syntactic role from graphic object " + graphicObject);
+			LOGGER.log(Level.WARNING, "Could not retrieve syntactic role from graphic object " + graphicObject, e);
 		}
 	}
 	
