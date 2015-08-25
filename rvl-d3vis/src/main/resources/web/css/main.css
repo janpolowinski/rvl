@@ -160,7 +160,7 @@ circle.node.highlighted.identical, /* Without constraining to circle also labels
 .node.highlighted path,
 .node.highlighted circle {
 	stroke: yellow;
-	stroke-width: 4px;
+	stroke-width: 3px;
 	vector-effect: non-scaling-stroke;
 	/*filter:url(#blur-effect-2);*/ /* problems in firefox, when not in one html page? */
 	stroke-opacity:1;
