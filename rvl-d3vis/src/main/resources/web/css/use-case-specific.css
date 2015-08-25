@@ -10,5 +10,7 @@
 
 /*.linkingDirected_startNode {fill:green }*/
 /*.linkingDirected_endNode {fill:red }*/
+/*.linkingDirected_startNode.linkingDirected_endNode {fill:yellow; transform:scale(2.0) } */
 /*.linking_node {fill:blue }*/
 /*.labeling_base {fill:orange }*/
+.linking_connector { stroke-width:30px }

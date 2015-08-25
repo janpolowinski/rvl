@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.QueryResultTable;
@@ -275,7 +276,7 @@ public class AVMUtils {
 
 		String query = "" + 
 				" PREFIX rdfs: <" + RDFS.RDFS_NS + "> " + 
-				" SELECT DISTINCT * " + 
+				" SELECT DISTINCT ?role ?superRole " + 
 				" WHERE { " +
 				" GRAPH " + Graph.GRAPH_VISO.toSPARQL() + " { " + 
 				"	?relType rdfs:subClassOf/(rdfs:subClassOf)* " + Object_to_ObjectRelation.RDFS_CLASS.toSPARQL() + " ." +
@@ -285,6 +286,11 @@ public class AVMUtils {
 				"	?rel a ?relType . " +
 				"	?rel ?role ?go . " + 
 				" } " +
+				" OPTIONAL { " +
+				"   GRAPH " + Graph.GRAPH_VISO.toSPARQL() + " { " + 
+				"   ?role rdfs:subPropertyOf ?superRole . " + 
+				"   } " + 
+				" } " + 
 				" } ";
 		
 		LOGGER.finer("Query for roles that graphic object " + go.asURI() + " plays.");
@@ -293,6 +299,10 @@ public class AVMUtils {
 		QueryResultTable results = modelSet.sparqlSelect(query);
 		for (QueryRow row : results) {
 			roles.add(row.getValue("role").asURI());
+			Node superRole = row.getValue("superRole");
+			if (null != superRole.asURI()) {
+				roles.add(superRole.asURI());
+			}
 		}
 		
 		return roles;
