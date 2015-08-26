@@ -470,7 +470,7 @@
 	  };
 	  
 	  /* TODO: requires jquery; avoidable complexity? */
-	  /* adding the roles from the graphic objects in the AVM ("http:// ... linkingDirected_startNode", "http://...linking_node" ... )*/
+	  /* adding the roles from the graphic objects in the AVM ("linkingDirected_startNode", "linking_node" ... )*/
 	  d3.selection.prototype.addRoles = function() {
 		  	return this
 		  		.filter(function(d) { return null != d.roles ;})
