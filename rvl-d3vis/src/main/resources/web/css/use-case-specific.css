@@ -14,7 +14,6 @@
  #canvas.aa-3 .labeling_base,
 #canvas.aa-3-and-4 .labeling_base  {
 	transform:scale(3.0) ;
- 	stroke-width: 10px;
 }
 
 /*.linkingDirected_startNode {fill:green }*/
