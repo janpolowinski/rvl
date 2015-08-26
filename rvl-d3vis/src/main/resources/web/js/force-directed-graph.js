@@ -117,7 +117,7 @@ updateForceDirectedGraph = function(error, graph) {
 	    	
 	    	var thisNode = d3.select(this);
 		    var allNodes = vis.selectAll(".node");
-		    var allLinks = vis.selectAll(".link");
+		    var allLinks = vis.selectAll(".linking_connector");
 	        
 	        thisNode.highlight();
 		
@@ -213,7 +213,7 @@ updateForceDirectedGraph = function(error, graph) {
 	    	;
 	    
 	    var pathEnter = connectorGroupEnter.append("svg:path")
-	    .attr("class", function (d) { return "link link" + d.type + " " +  d.shape_d3_name; })  
+	    .attr("class", function (d) { return "linking_connector link" + d.type + " " +  d.shape_d3_name; })  
 		.attr("id", function(link){
 	    	return createIDForLink(link);
 		})

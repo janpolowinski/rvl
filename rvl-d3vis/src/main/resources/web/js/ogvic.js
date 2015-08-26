@@ -689,7 +689,7 @@ function toggle(d) {
  function defaultStopHighlighting(d) {
  	
  	// remove highlighting
-	d3.selectAll(".link").classed("highlighted identical", false);
+	d3.selectAll(".linking_connector").classed("highlighted identical", false);
 	d3.selectAll(".node").classed("highlighted identical", false);
 	
 	//shorten labels // TODO: this is no highlighting stuff

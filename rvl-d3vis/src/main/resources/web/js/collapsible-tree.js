@@ -99,7 +99,7 @@ updateCollapsibleTree = function(source) {
 	  	
 		    var thisNode = d3.select(this);
 			var nodesToFilter = vis.selectAll(".node");
-			var linksToFilter = vis.selectAll(".link");
+			var linksToFilter = vis.selectAll(".linking_connector");
 	  		
 			// highlight this node
 			thisNode.highlight();
@@ -204,14 +204,14 @@ updateCollapsibleTree = function(source) {
 		nodeExit.selectAll("text").style("visibility", "hidden");
 
 		// Update the links…
-		var link = vis.selectAll("path.link").data(tree.links(nodes),
+		var link = vis.selectAll("path.linking_connector").data(tree.links(nodes),
 				function(d) {
 					return d.target.id;
 				});
 
 		// Enter any new links at the parent's previous position.
 		var linkEnter = link.enter().insert("svg:path", "g")
-			.attr("class","link linking_connector")
+			.attr("class","linking_connector")
 			.style("stroke", function(d) {
 				return d.target.connector.color_rgb_hex_combined
 			}) // works -> get the link color from the endNode (target)

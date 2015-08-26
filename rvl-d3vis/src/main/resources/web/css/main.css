@@ -280,13 +280,13 @@ text.textNode {
   visibility: visible;
 }
 
-.connectorGroup:hover .link {
+.connectorGroup:hover .linking_connector {
   stroke: yellow ! important;
 }
 
 /* links and arrows */
 
-.link {
+.linking_connector {
 	fill: none;
     stroke: #ccc;
     stroke-opacity: .6;
@@ -294,16 +294,16 @@ text.textNode {
     stroke-width:10px; /* this stroke-width (7px - 30px) fits well for the marker settings in force-directed-graph, for other sizes layout problems may occur */
 }
 
-.link.tree {
+.linking_connector.tree {
   /* stroke-width: 1.5px; */
 }
 
-.link.highlighted {
+.linking_connector.highlighted {
     /*stroke-width: 10px;*/
     stroke: yellow ! important;
 }
 
-.link.linkRelative_Distance {
+.linking_connector.linkRelative_Distance {
     /*stroke: #0f0;
     stroke-opacity: .1;
     stroke-width:1px;*/

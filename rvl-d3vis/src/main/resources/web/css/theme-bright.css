@@ -24,11 +24,11 @@ circle.node.highlighted.identical,
 	stroke: #ffe900;
 }
 
-.link {
+.linking_connector {
     stroke-opacity: .65;
 }
 
-.link.highlighted {
+.linking_connector.highlighted {
 	stroke-opacity: 1;
     stroke: #ffe900 ! important;
 }
