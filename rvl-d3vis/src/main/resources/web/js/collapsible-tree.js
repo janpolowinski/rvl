@@ -211,7 +211,7 @@ updateCollapsibleTree = function(source) {
 
 		// Enter any new links at the parent's previous position.
 		var linkEnter = link.enter().insert("svg:path", "g")
-			.attr("class","link")
+			.attr("class","link linking_connector")
 			.style("stroke", function(d) {
 				return d.target.connector.color_rgb_hex_combined
 			}) // works -> get the link color from the endNode (target)

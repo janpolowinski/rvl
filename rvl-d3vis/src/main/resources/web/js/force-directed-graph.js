@@ -272,6 +272,8 @@ updateForceDirectedGraph = function(error, graph) {
 	    // ENTER + UPDATE
 	    
 		var boundPaths = boundConnectorGroups.select("path")
+//			.addRoles()
+			.classed("linking_connector",true)
 			.call(setConnectorAttributes)
 			.attr("marker-end", function (d) {
 		    	return "url(#" + d.shape_d3_name + ")";
