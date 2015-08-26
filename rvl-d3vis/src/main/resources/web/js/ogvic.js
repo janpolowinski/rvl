@@ -472,7 +472,8 @@
 	  /* TODO: requires jquery; avoidable complexity? */
 	  /* adding the roles from the graphic objects in the AVM ("linkingDirected_startNode", "linking_node" ... )*/
 	  d3.selection.prototype.addRoles = function() {
-		  	return this
+		  	var selection = this;
+		  	selection
 		  		.filter(function(d) { return null != d.roles ;})
 		  		/* using classed() doesnt work,
 		  		 * since the first argument must be a constant, not a function */
@@ -487,6 +488,7 @@
 		  			return oldClasses.join(" ");
 				  });
 		     ;
+		     return selection;
 	  };
 	  
 	  
