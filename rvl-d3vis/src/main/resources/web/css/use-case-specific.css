@@ -1,0 +1,24 @@
+/* PO-9 */
+
+#canvas.po-9 path.link {
+    stroke-width: 23;
+}
+
+#canvas.po-9 marker#arrow {
+    visibility: hidden;
+}
+
+/* AA-3, AA-4, AA-3-and-4 */
+
+#canvas.aa-4 .labeling_base,
+ #canvas.aa-3 .labeling_base,
+#canvas.aa-3-and-4 .labeling_base  {
+	transform:scale(3.0) ;
+}
+
+/*.linkingDirected_startNode {fill:green }*/
+/*.linkingDirected_endNode {fill:red }*/
+/*.linkingDirected_startNode.linkingDirected_endNode {fill:yellow; transform:scale(2.0) } */
+/*.linking_node {fill:blue }*/
+/*.labeling_base {fill:orange }*/
+/*.linking_connector { stroke-width:30px }*/

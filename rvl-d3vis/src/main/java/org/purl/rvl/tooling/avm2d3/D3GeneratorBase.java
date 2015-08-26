@@ -3,16 +3,21 @@ package org.purl.rvl.tooling.avm2d3;
 import java.beans.Introspector;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.json.simple.JSONObject;
+import org.junit.internal.runners.model.EachTestNotifier;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.node.Resource;
+import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.util.RDFTool;
 import org.purl.rvl.exception.D3GeneratorException;
 import org.purl.rvl.exception.OGVICModelsException;
@@ -20,7 +25,11 @@ import org.purl.rvl.java.VISOGRAPHIC;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObjectToObjectRelation;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
+import org.purl.rvl.java.gen.viso.graphic.N_AryRelationHelperProperty;
+import org.purl.rvl.java.gen.viso.graphic.SyntacticRole;
+import org.purl.rvl.java.gen.viso.graphic.Thing1;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
+import org.purl.rvl.tooling.commons.utils.AVMUtils;
 import org.purl.rvl.tooling.d3vis.utils.D3Utils;
 import org.purl.rvl.tooling.model.ModelManager;
 
@@ -35,6 +44,7 @@ public abstract class D3GeneratorBase implements D3Generator {
 	protected Model modelVISO;
 	
 	private String graphicType;
+	private String graphicID = "test";
 	
 	private final static Logger LOGGER = Logger.getLogger(D3GeneratorBase.class .getName());
 
@@ -130,6 +140,36 @@ public abstract class D3GeneratorBase implements D3Generator {
 			map.put("uri", graphicObject.getRepresentedResource().toString());
 		} catch (NullPointerException e) {
 			LOGGER.warning("graphic object " + graphicObject + " does not represent a domain resource.");
+		}
+	}
+	
+	/**
+	 * @param map
+	 * @param graphicObject
+	 */
+	protected void putRoles(Map<String, Object> map, GraphicObjectX graphicObject) {
+		try {
+			
+			Set<URI> set = AVMUtils.getRolesAsURIForGO(ModelManager.getInstance().getModelSet(), graphicObject);
+			LOGGER.finest("Graphic object " + graphicObject + " has the following roles: " + set);
+			
+			List<String> roles = new ArrayList<String>();
+			
+			for (URI syntacticRole : set) {
+				// TODO performance: we need to remove properties assigned by reasoning here only 
+				// because we have the following two super-properties 
+				// (for reasons of sorting properties in the ontology editor)
+				if (!(syntacticRole.toString().equals(Thing1.N_ARYRELATIONHELPERPROPERTIES.toString())
+					|| syntacticRole.toString().equals(Thing1.SYNTACTICROLES.toString()))) {
+					roles.add(RDFTool.getShortName(syntacticRole.asURI().toString()));
+				}
+			}
+			map.put("roles", roles);
+			
+		} catch (NullPointerException e) {
+			LOGGER.warning("graphic object " + graphicObject + " does not play a syntactic role.");
+		} catch (Exception e) {
+			LOGGER.log(Level.WARNING, "Could not retrieve syntactic role from graphic object " + graphicObject, e);
 		}
 	}
 	
@@ -283,6 +323,7 @@ public abstract class D3GeneratorBase implements D3Generator {
 
 		putRepresentedResource(jsonObject, graphicObject);
 		putGraphicAttributes(jsonObject, graphicObject);	
+		putRoles(jsonObject, graphicObject);
 		
 		// width (used for calculating label size) // the defaults, which are set when values are missing 
 		// could also be stored in the AVM, but the generator should not change the AVM, so a copy 
@@ -307,15 +348,28 @@ public abstract class D3GeneratorBase implements D3Generator {
 		}
 	}
 
-	/**
-	 * @param graphicType the graphicType to set
-	 */
 	@Override
 	public void setGraphicType(String graphicType) {
 		this.graphicType = graphicType;
 	}
 	
+	protected void putGraphicID(JSONObject object) {
+		String graphicID = getGraphicID();
+		if (!(null == graphicID || getGraphicID().isEmpty())) {
+			object.put("graphic_id", getGraphicID());
+		}
+	}
+	
 	public String getD3GraphicFile(){
 		return getGraphicType() + "/index.html";
+	}
+	
+	private String getGraphicID() {
+		return graphicID;
+	}
+	
+	@Override
+	public void setGraphicID(String graphicID) {
+		this.graphicID = graphicID;
 	}
 }

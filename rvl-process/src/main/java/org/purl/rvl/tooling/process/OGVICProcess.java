@@ -195,11 +195,13 @@ public class OGVICProcess {
 		
 		// try to get generator from project
 		if (null != project.getD3Generator()) {
+			// TODO pass project to generator
 			D3Generator d3Generator = project.getD3Generator();
 			String graphicType = project.getDefaultGraphicType();
 			if (null != graphicType && !graphicType.isEmpty()) {
 				d3Generator.setGraphicType(graphicType);
 			}
+			d3Generator.setGraphicID(project.getId());
 			setD3Generator(d3Generator);
 		}
 

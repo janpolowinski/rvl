@@ -35,7 +35,7 @@ var lineWidth = 7,
 var force = d3.layout.force()
 	.charge(-900)
 //	.linkDistance(200)
-	.linkDistance( function(d) { return d.value * 10 } )
+	.linkDistance( function(d) { return d.value * 100 } )
 	.size([width, height])
 	;
 //force
@@ -117,7 +117,7 @@ updateForceDirectedGraph = function(error, graph) {
 	    	
 	    	var thisNode = d3.select(this);
 		    var allNodes = vis.selectAll(".node");
-		    var allLinks = vis.selectAll(".link");
+		    var allLinks = vis.selectAll(".linking_connector");
 	        
 	        thisNode.highlight();
 		
@@ -213,7 +213,7 @@ updateForceDirectedGraph = function(error, graph) {
 	    	;
 	    
 	    var pathEnter = connectorGroupEnter.append("svg:path")
-	    .attr("class", function (d) { return "link link" + d.type + " " +  d.shape_d3_name; })  
+	    .attr("class", function (d) { return "linking_connector link" + d.type + " " +  d.shape_d3_name; })  
 		.attr("id", function(link){
 	    	return createIDForLink(link);
 		})
@@ -272,6 +272,8 @@ updateForceDirectedGraph = function(error, graph) {
 	    // ENTER + UPDATE
 	    
 		var boundPaths = boundConnectorGroups.select("path")
+//			.addRoles()
+			.classed("linking_connector",true)
 			.call(setConnectorAttributes)
 			.attr("marker-end", function (d) {
 		    	return "url(#" + d.shape_d3_name + ")";
