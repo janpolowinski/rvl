@@ -77,12 +77,13 @@
 						<div class="infotext">
 							Get started by loading one of the RVL-examples from our case studies:
 							<div id="loadExampleProject">
-								<div title="Load this project for editing and play around with the RVL settings!"><input id="useForEditor" type="checkbox" value="true"/>also load for <a title="Show editor" href="javascript:showRVLeditor('max')">editing ...</a></div>
+								<div title="Load this project for editing and play around with the RVL settings!"><input id="useForEditor" type="checkbox" value="true"/>also load for <a title="Show editor" href="javascript:showRVLeditor('max')">editing ...</a> 
+								<br/><em>Editing is not supported for all projects by now.</em></div>
 							</div>
 						</div>
 						
 						<div class="infotext">
-							(Meta) visualize ;) the AVM (Abstract Visual Model) of the last generated graphic, which is an RDF model itself.
+							Meta-visualize ;) the AVM (Abstract Visual Model) of the last generated graphic, which is an RDF model itself.
 							<button onclick="loadProject('avm', 'force-directed-graph');">Show AVM!</button>
 							Also try displaying <a href="javascript:loadProject('rvl','collapsible-tree')">RVL</a> and the <a href="javascript:loadProject('viso','collapsible-tree')">VISO/graphic</a> ontology module.
 						</div>
@@ -98,21 +99,21 @@
   				
   					<div id="editor" class="layout">
   						
-					<div id="resizerContainer"><div id="resizer">
-						<button onClick="showRVLeditor('hidden')">Hide</button>
-						<button onClick="showRVLeditor('normal')">Normal</button>
-						<button onClick="showRVLeditor('max')">Maximize</button>
+					<div id="resizer"><div>
+						<button onClick="showRVLeditor('hidden')" title="hide the editor">Hide</button>
+						<button onClick="showRVLeditor('normal')" title="set the editor to normal size">Normal</button>
+						<button onClick="showRVLeditor('max')" title="maximize the editor">Maximize</button>
 					</div></div>
 
 					  <form id="editingForm" action="/semvis/projects/run" method="POST">
 					  	<!-- Note: default action above is overridden by attached method! -->
-						  <div>
+						  <div title="change the id of the mapping project to clone the current example">
 							  <label for="id">ID</label>
 							  <span class="inputNextToLabel">
-							  	<input name="id" id="projectID" value="new-project-1"/>
+							  	<input name="id" id="projectID" value="new-project-1" />
 							  </span>
 						  </div>
-						  <div>
+						  <div title="override the default type of the graphic to be generated">
 						    <label for="graphicType">Graphic type</label> 
 						    <span class="inputNextToLabel">
 							    <select name="graphicType" id="projectGraphicType" >
@@ -122,13 +123,15 @@
 							    </select>
 						    </span>
 						  </div>
-						    Data
-						  <textarea name="data" id="projectData" rows="12">loading example data ... </textarea>
-						  <br/>
-						    Mappings
-						  <textarea name="mappings" id="projectMappings" rows="12">loading example mappings ... </textarea>
-						  <br/>
-						  <input class="button" type="submit" formenctype="multipart/form-data" value="Submit" />
+						  <div title="When entering your own example RDF data, make sure you add the correct prefix declaration to the data AND the mappings!">
+						    Edit the example RDF data:<br/>
+						  	<textarea name="data" id="projectData" rows="12">loading example data ... </textarea>
+						  </div>
+						  <div title="Currently, there is no syntax checking here! Please double check your statement endings.">
+						    Edit the example RVL mappings:<br/>
+						 	 <textarea name="mappings" id="projectMappings" rows="12">loading example mappings ... </textarea>
+						  </div>
+						  <input title="Submit your RDF data + RVL mappings to update the graphic." class="button" type="submit" formenctype="multipart/form-data" value="Submit"/>
 					  </form>
 
   				</div>

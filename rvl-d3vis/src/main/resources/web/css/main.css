@@ -25,6 +25,7 @@ button, .button {
 	border:none;
 	min-width: 75px;
 	min-height: 20px;
+	background-image: linear-gradient(to bottom, #4ba614, #008c00);
 	/*
 	border:0px solid #34740e; -webkit-border-radius: 4px; -moz-border-radius: 4px;border-radius: 4px;font-size:12px;font-family:trebuchet MS, sans-serif; padding: 10px 10px 10px 10px; text-decoration:none; display:inline-block;text-shadow: -1px -1px 0 rgba(0,0,0,0.3);font-weight:bold; color: #FFFFFF;
  	background-color: #4ba614;
@@ -34,6 +35,7 @@ button, .button {
 
 button:hover, .button:hover {
 	background-color: #4db309;
+	background-image: linear-gradient(to bottom, #36780f, #005900);
 	/*
 	border:1px solid #224b09;
  	background-color: #36780f;

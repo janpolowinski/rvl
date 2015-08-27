@@ -29,7 +29,7 @@ body {
 
 #header  {
   /*display: table-row;*/
-  padding-left: 10px;
+  padding: 5px;
   width:100%;
   vertical-align:top;
   text-align:left;
@@ -63,6 +63,7 @@ body {
 	position:absolute;
 	z-index: 3000;
 	width:200px;
+	padding-left: 5px;
 }
 
 #editor {
@@ -102,12 +103,12 @@ span.inputNextToLabel {
 
 /* resizer*/
 
-#editor #resizerContainer {
+#editor #resizer {
 	display: table;
 	width:100%;
 	margin-bottom: 5px;
 }
-#editor #resizer {
+#editor #resizer div {
 	display: table-row;
 }
 #editor #resizer button {
