@@ -1,6 +1,3 @@
-# Saved by TopBraid on Fri May 23 12:16:05 CEST 2014
-# baseURI: http://purl.org/rvl/example-data/
-
 @prefix :        <http://purl.org/rvl/example-data/> .
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -9,7 +6,7 @@
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 @prefix dct: <http://purl.org/dc/terms/> .
 
-:     rdf:type owl:Ontology .
+:     a owl:Ontology .
 
 :Alice
       rdf:type :Author ;
