@@ -1,6 +1,7 @@
+/* GENERAL STYLES */
+
 body {
 	background-color: #334;
-	/*margin: 0px;*/
   	font-family: Arial, sans-serif;
 	font-size: 0.8em;
 	color: #888;
@@ -12,82 +13,6 @@ a, a:visited {
 
 a:hover {
 	color:white;
-}
-
-#container {
-  display: table;
-  padding: 0px;
-  width: 100%;
-  }
-
-.layout {
-  /*border: 1px solid yellow;*/
-}
-
-#row  {
-  display: table-row;
-  /*padding: 3px;*/
-  }
-
-#footer  {
-  /*display: table-row;*/
-  padding: 3px;
-  width:100%;
-  vertical-align:bottom;
-  text-align:center;
-  }
-
-#header  {
-  /*display: table-row;*/
-  padding-left: 10px;
-  width:100%;
-  vertical-align:top;
-  text-align:left;
-  font-style:normal;
-  font-size:1.4em;
-  text-transform: uppercase;
-  }
-
-#left, #right, #middle {
-  display: table-cell;
-  padding: 0px;
-  vertical-align:top;
-  }
-  
-#left {
-  text-align:left;
-  width:200px;
-}
-
-#right {
-  text-align:right;
-  width:300px;
-}
-  
-#canvas {
-  z-index: -10000;
-  width:auto;
-  height:800px;
-  padding: 3px;
-}
-
-#menu {
-	position:absolute;
-	z-index: 3000;
-	width:200px;
-}
-
-#editor {
-	position:absolute;
-	z-index: 3000;
-	width:300px;
-	background-color: #eee;
-	padding: 10px;
-}
-
-#editor textarea {
-	font-size: 11px;
-	font-family: Lucida Sans Typewriter, Lucida Console, Monaco, monospace, sans-serif;
 }
 
 button, .button {
@@ -117,7 +42,7 @@ button:hover, .button:hover {
 }
 
 #editor button {
-	width:30%;
+/* 	width:30%; */
 }
 
 #menu button {
@@ -125,12 +50,17 @@ button:hover, .button:hover {
 	margin-bottom: 5px;
 }
 
-form input, form textarea {
-	width:100%;
+#right {
+	background-color: #efe;
 }
 
-form textarea {
-	resize: vertical ;
+#editor {
+/* 	background-color: #eee; */
+}	
+	
+#editor textarea {
+	font-size: 11px;
+	font-family: Lucida Sans Typewriter, Lucida Console, Monaco, monospace, sans-serif;
 }
 
 div.infotext {
@@ -141,11 +71,15 @@ div.infotext {
 	color: #888;
 }
 
+#header  {
+  font-style:normal;
+  font-size:1.4em;
+  text-transform: uppercase;
+  }
 
-#svg {
-	position:absolute;
-	z-index: 1000;
-}
+
+/* GRAPHICS STYLES */
+
 
 /* set to whatever the body-background-color is */
 .svgSymbol, .packedCircle {

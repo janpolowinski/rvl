@@ -1,0 +1,120 @@
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
+#container {
+  display: table;
+  padding: 0px;
+  width: 100%;
+}
+  
+  
+.layout {
+  /*border: 1px solid yellow;*/
+}
+
+#row  {
+  display: table-row;
+  /*padding: 3px;*/
+}
+
+#footer  {
+  /*display: table-row;*/
+  padding: 3px;
+  width:100%;
+  vertical-align:bottom;
+  text-align:center;
+}
+
+#header  {
+  /*display: table-row;*/
+  padding-left: 10px;
+  width:100%;
+  vertical-align:top;
+  text-align:left;
+  }
+
+#left, #right, #middle {
+  display: table-cell;
+  padding: 0px;
+  vertical-align:top;
+  }
+  
+#left {
+  text-align:left;
+  width:200px;
+}
+
+#right {
+  text-align:left;
+  width:300px;
+  padding:5px;
+}
+  
+#canvas {
+  z-index: -10000;
+  width:auto;
+  height:800px;
+  padding: 3px;
+}
+
+#menu {
+	position:absolute;
+	z-index: 3000;
+	width:200px;
+}
+
+#editor {
+	position:absolute;
+	z-index: 3000;
+	width:300px;
+	padding: 0px;
+	margin: 0px;
+}
+
+form input, form textarea, select {
+	width:100%;
+	box-sizing: border-box;
+}
+
+form textarea {
+	resize: vertical ;
+}
+
+label {
+    float: left;
+}
+
+span.inputNextToLabel {
+    display: block;
+    overflow: hidden;
+    padding: 0px 0px 0px 5px
+}
+
+#editor form div {
+	padding: 0px 0px 5px 0px;
+}
+
+/* resizer*/
+
+#editor #resizerContainer {
+	display: table;
+	width:100%;
+	margin-bottom: 5px;
+}
+#editor #resizer {
+	display: table-row;
+}
+#editor #resizer button {
+  display: table-cell;
+  width: 33%;
+  margin-right: 1px;
+}
+
+/* svg */
+
+#svg {
+	position:absolute;
+	z-index: 1000;
+}
