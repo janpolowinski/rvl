@@ -78,8 +78,12 @@ form input, form textarea, select {
 	box-sizing: border-box;
 }
 
-form textarea {
+#editor form textarea {
 	resize: vertical ;
+}
+
+#editor form textarea#projectMappings {
+	height:400px;
 }
 
 label {
