@@ -4,12 +4,14 @@
         <!-- labeling at various positions works, but is cropped (view box bug) in webkit and is slow in firefox (many objects SVG in HTML in SVG ) -->
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+        <link type="text/css" rel="stylesheet" href="css/layout-ui.css"/>
         <link type="text/css" rel="stylesheet" href="css/main.css"/>
         <link type="text/css" rel="stylesheet" href="css/theme-bright.css"/>
         <link type="text/css" rel="stylesheet" href="css/labeling.css"/>
         <link type="text/css" rel="stylesheet" href="css/labeling-new-boxmodel.css"/>
         <link type="text/css" rel="stylesheet" href="css/labeling-webkit-old-boxmodel.css"/>
         <link type="text/css" rel="stylesheet" href="css/use-case-specific.css"/>
+<!--         <link type="text/css" rel="stylesheet" href="css/layout-test.css"/> -->
     	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
         <script type="text/javascript" src="js/d3.min.js"></script>
         <script type="text/javascript" src="js/global-settings.js"></script>
@@ -96,26 +98,34 @@
   				
   					<div id="editor" class="layout">
   						
-					<button onClick="showRVLeditor('hidden')">Hide</button>
-					<button onClick="showRVLeditor('normal')">Normal</button>
-					<button onClick="showRVLeditor('max')">Maximize</button>
+					<div id="resizerContainer"><div id="resizer">
+						<button onClick="showRVLeditor('hidden')">Hide</button>
+						<button onClick="showRVLeditor('normal')">Normal</button>
+						<button onClick="showRVLeditor('max')">Maximize</button>
+					</div></div>
 
 					  <form id="editingForm" action="/semvis/projects/run" method="POST">
 					  	<!-- Note: default action above is overridden by attached method! -->
-						  <label for="id">ID</label>
-						  <input name="id" id="projectID" value="new-project-1"/>
-						  <br/>
+						  <div>
+							  <label for="id">ID</label>
+							  <span class="inputNextToLabel">
+							  	<input name="id" id="projectID" value="new-project-1"/>
+							  </span>
+						  </div>
+						  <div>
 						    <label for="graphicType">Graphic type</label> 
-						    <select name="graphicType" id="projectGraphicType" >
-						    	<option value="force-directed-graph" selected="selected">Force-Directed Graph</option>
-								<option value="collapsible-tree">Collapsible Tree</option>
-								<option value="circle-packing-zoomable">Circle Packing (Zoomable)</option>
-						    </select>
-						  <br/>
-						    Data:
+						    <span class="inputNextToLabel">
+							    <select name="graphicType" id="projectGraphicType" >
+							    	<option value="force-directed-graph" selected="selected">Force-Directed Graph</option>
+									<option value="collapsible-tree">Collapsible Tree</option>
+									<option value="circle-packing-zoomable">Circle Packing (Zoomable)</option>
+							    </select>
+						    </span>
+						  </div>
+						    Data
 						  <textarea name="data" id="projectData" rows="12">loading example data ... </textarea>
 						  <br/>
-						    Mappings:
+						    Mappings
 						  <textarea name="mappings" id="projectMappings" rows="12">loading example mappings ... </textarea>
 						  <br/>
 						  <input class="button" type="submit" formenctype="multipart/form-data" value="Submit" />
