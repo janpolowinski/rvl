@@ -246,6 +246,7 @@
 		
 		bootstrapAVM = function() {
 			d3.json(baseUrlBackend + "projects/bootstrap/avm", graphicLoadingFunctions['force-directed-graph']);
+			d3.select("#canvas").attr("class", "avm"); // TODO: hack: should actually be done based on the graphic_type of the loaded json (and after its loaded)
 		}
 		
 		// call example projects on selecting from option list
