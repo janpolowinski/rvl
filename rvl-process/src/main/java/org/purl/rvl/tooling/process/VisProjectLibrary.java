@@ -44,11 +44,6 @@ public class VisProjectLibrary {
 	public void initWithUseCaseTestProjects() throws FileNotFoundException {
 		
 		//////////////////////////////////////////////////////////////////
-		// "Bootstrapping" the latest generated AVM (if there is one already)
-		///////////////////////////////////////////////////////////////////
-		initAVMBootstrappingProject();
-		
-		//////////////////////////////////////////////////////////////////
 		// "Bootstrapping" VISO_GRAPHIC Classes
 		///////////////////////////////////////////////////////////////////
 		VisProject useCaseVISOClasses = new VisProject("viso");
@@ -231,34 +226,9 @@ public class VisProjectLibrary {
 		
 	}
 
+	// TODO throw some "project-not-found-exception"
 	public VisProject getProject(String useCaseName) {
-		if (useCaseName.equals("avm")) {
-			try {
-				initAVMBootstrappingProject();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
 		return library.get(useCaseName);
-	}
-	
-	private void initAVMBootstrappingProject() throws FileNotFoundException {
-		
-		VisProject avmBootstrap = new VisProject("avm");
-		//avmBootstrap.setWriteAVM(false);
-		avmBootstrap.registerMappingFile(ExampleMapping.AVM_EXAMPLE_BOOTSTRAP);
-		try {
-			avmBootstrap.registerDataFile(ExampleData.AVM);
-			avmBootstrap.setDescription("available");
-		} catch (FileNotFoundException e) {
-			LOGGER.fine("AVM file was not not found, probably because this is the first run.");
-			avmBootstrap.setDescription("Make sure to run some other project first.");
-		}
-		avmBootstrap.registerDataFile(ExampleData.AVM_EXTRA_DATA);
-		//avmBootstrap.setRvlInterpreter(new SimpleRVLInterpreter());
-		avmBootstrap.setD3Generator(new D3GeneratorDeepLabelsJSON());
-		//avmBootstrap.setD3Generator(new D3GeneratorTreeJSON());
-		storeProject(avmBootstrap);
 	}
 
 	public boolean contains(String projectName){

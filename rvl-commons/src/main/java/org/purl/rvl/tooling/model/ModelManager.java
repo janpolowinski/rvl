@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.apache.commons.collections.MapUtils;
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
@@ -43,6 +42,7 @@ public class ModelManager {
 	private Model modelMappings;
 	private Model modelRVLSchema;
 	private Model modelAVM;
+	private Model modelPreviousAVM;
 	
 	private ModelSet modelSet;
 	
@@ -75,10 +75,10 @@ public class ModelManager {
 		initVISOModel();
 		initAVMModel();
 		initRVLModel();
+		initPreviousAVMModel();
 	}
 	
 	private void initModelSet(){
-		
 		modelSet = RDF2Go.getModelFactory().createModelSet();
 		modelSet.open();
 	}
@@ -212,6 +212,13 @@ public class ModelManager {
 		}
 		
 		modelSet.addModel(modelAVM, Graph.GRAPH_AVM);
+	}
+	
+	/**
+	 * Init an empty model to hold the previous AVM (for bootstrapping)
+	 */
+	private void initPreviousAVMModel() {
+		modelPreviousAVM = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 	}
 
 	public void initMappingsModel(FileRegistry mappingFileRegistry ) throws OGVICRepositoryException  {
@@ -446,6 +453,24 @@ public class ModelManager {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 *  Store the AVM model from the last run as previousAvm
+	 */
+	public void savePreviousAVM() {
+		modelPreviousAVM.removeAll();
+		modelPreviousAVM.addModel(modelAVM);
+	}
+
+	/**
+	 * Use the previous AVM model as the new data model
+	 */
+	public void addPreviousAvmToDataModel() {
+		modelSet.removeModel(Graph.GRAPH_DATA);
+//		modelData.removeAll(); // don't do this, since it already contains the extra data triples necessary for AVM visualization
+		modelData.addModel(modelPreviousAVM);
+		modelSet.addModel(modelData, Graph.GRAPH_DATA);
 	}
 	
 }
