@@ -33,6 +33,7 @@ import org.purl.rvl.exception.EmptyGeneratedException;
 import org.purl.rvl.exception.JsonExceptionWrapper;
 import org.purl.rvl.exception.OGVICProcessException;
 import org.purl.rvl.exception.OGVICRepositoryException;
+import org.purl.rvl.exception.OGVICSystemInitException;
 import org.purl.rvl.tooling.avm2d3.GraphicType;
 import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.commons.FileRegistry;
@@ -236,7 +237,7 @@ public class ProjectsResource {
 	@GET
     @Produces({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
 	@Path("/run/external")
-    public String runExternalEditingProject(@Context HttpServletResponse servletResponse) {
+    public String runExternalEditingProject(@Context HttpServletResponse servletResponse) throws OGVICSystemInitException {
 
 		String jsonResult;
 		try {
@@ -264,10 +265,7 @@ public class ProjectsResource {
 		String jsonResult;
 		try {
 			jsonResult = runExternalEditingProject(graphicType);
-		} catch (OGVICRepositoryException e) {
-			jsonResult =  e.getMessage();
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			jsonResult =  e.getMessage();
 			e.printStackTrace();
 		}
@@ -286,7 +284,7 @@ public class ProjectsResource {
 		String jsonResult;
 		try {
 			jsonResult = OGVICProcess.getInstance().getGeneratedD3json();
-		} catch (OGVICRepositoryException | OGVICProcessException | EmptyGeneratedException e) {
+		} catch (Exception e) {
 			jsonResult =  "";
 			e.printStackTrace();
 		}
@@ -294,6 +292,31 @@ public class ProjectsResource {
 		LOGGER.finest(jsonResult);
 		
 		return jsonResult;
+    }
+	
+	@GET
+    @Produces({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
+	@Path("/bootstrap/avm")
+    public Response runBootstrapAVM(@Context HttpServletResponse servletResponse) {
+		
+		try {
+			
+			String jsonResult = "";
+			
+			jsonResult = OGVICProcess.getInstance().runAVMBootstrappingVis();
+			
+			if (jsonResult.isEmpty()) {
+				return Response.status(Status.NO_CONTENT).build();
+			} else {
+				LOGGER.finest(jsonResult);
+				return Response.status(Status.OK).entity(jsonResult).build();
+			}
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, e.getMessage(), e);
+			return Response.status(Status.INTERNAL_SERVER_ERROR)
+					.entity(JsonExceptionWrapper.wrapAsJSONException("Couldn't meta-visualize the AVM: " + e.getMessage())).build();
+		}
+
     }
 	
 	@GET
@@ -356,8 +379,7 @@ public class ProjectsResource {
 		final String mappingFilePath = mappingFile.getPath();
 		final String mappingFileContent = FileResourceUtils.getFromWithinJarsAsString(mappingFilePath);
 		
-		return mappingFileContent 
-				//; 
+		return mappingFileContent
 				+ System.lineSeparator() + System.lineSeparator() 
 				+ "# this mapping file was loaded from: " 
 				+ mappingFilePath + "(" + mappingFile.getAbsolutePath() + ")";
@@ -390,7 +412,7 @@ public class ProjectsResource {
 	}
 	
 	
-	private String runProject(String id) throws OGVICRepositoryException, OGVICProcessException {
+	private String runProject(String id) throws OGVICRepositoryException, OGVICProcessException, OGVICSystemInitException {
 	
 		String json = "";
 
@@ -415,8 +437,9 @@ public class ProjectsResource {
 
 	/**
 	TODO: Paths need to be fixed.
+	 * @throws OGVICSystemInitException 
 	 */
-	private String runExternalEditingProject(String defaultGraphicType) throws FileNotFoundException, OGVICRepositoryException {
+	private String runExternalEditingProject(String defaultGraphicType) throws FileNotFoundException, OGVICRepositoryException, OGVICSystemInitException {
 	
 		String json;
 		OGVICProcess process = OGVICProcess.getInstance();

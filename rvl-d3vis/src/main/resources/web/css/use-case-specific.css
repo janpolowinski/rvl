@@ -16,6 +16,13 @@
 	transform:scale(3.0) ;
 }
 
+#canvas.avm .linking_connector  {
+    stroke-width: 6px;
+}
+#canvas.avm .labeling_base  {
+	transform:scale(1.5) ;
+}
+
 /*.linkingDirected_startNode {fill:green }*/
 /*.linkingDirected_endNode {fill:red }*/
 /*.linkingDirected_startNode.linkingDirected_endNode {fill:yellow; transform:scale(2.0) } */

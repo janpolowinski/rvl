@@ -288,6 +288,14 @@ rexm:SubPropertyOfToLinkingDirected
         rvl:targetValue vg:Green;
       ]
       .
+
+:RepresentsMapping a rvl:PropertyMapping ;
+    rvl:targetObjToObjRelation
+              <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+    rvl:sourceProperty 
+	      vg:represents ;
+.
+
       
 ### Labeling #####
 

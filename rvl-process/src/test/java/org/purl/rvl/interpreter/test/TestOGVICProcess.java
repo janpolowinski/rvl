@@ -47,7 +47,7 @@ public abstract class TestOGVICProcess {
 	}
 
 	@Test
-	public void testOGVICProcess() throws FileNotFoundException, OGVICProcessException, EmptyGeneratedException {
+	public void testOGVICProcess() throws Exception {
 
 		project = getVisProjectLibrary().getProject(getProjectName());
 			

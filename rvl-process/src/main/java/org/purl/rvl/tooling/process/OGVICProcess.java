@@ -18,12 +18,16 @@ import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Syntax;
 import org.purl.rvl.exception.D3GeneratorException;
 import org.purl.rvl.exception.EmptyGeneratedException;
+import org.purl.rvl.exception.JsonExceptionWrapper;
 import org.purl.rvl.exception.OGVICModelsException;
 import org.purl.rvl.exception.OGVICProcessException;
 import org.purl.rvl.exception.OGVICRepositoryException;
+import org.purl.rvl.exception.OGVICSystemInitException;
 import org.purl.rvl.tooling.avm2d3.D3Generator;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
+import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.commons.FileRegistry;
+import org.purl.rvl.tooling.commons.Graph;
 import org.purl.rvl.tooling.commons.utils.CustomRecordFormatter;
 import org.purl.rvl.tooling.model.ModelManager;
 import org.purl.rvl.tooling.rvl2avm.RVLInterpreter;
@@ -78,6 +82,7 @@ public class OGVICProcess {
 	private boolean writeMappingModel = WRITE_MAPPING_MODEL;
 	private Reasoning reasoningDataModel = Reasoning.rdfs;
 
+	private VisProject amvBootstrappingProject;
 
 	// LOGGING
 	private final static Logger LOGGER = Logger.getLogger(OGVICProcess.class.getName()); 
@@ -131,18 +136,18 @@ public class OGVICProcess {
 	 * @throws OGVICRepositoryException 
 	 * @throws IOException 
 	 */
-	private OGVICProcess() throws OGVICRepositoryException {
+	private OGVICProcess() throws OGVICRepositoryException, OGVICSystemInitException {
 		init();
 	}
 	
-	public static OGVICProcess getInstance() throws OGVICRepositoryException {
+	public static OGVICProcess getInstance() throws OGVICRepositoryException, OGVICSystemInitException {
 		if (instance == null) {
 	        instance = new OGVICProcess();
 	    }
 	    return instance;
 	}
 
-	private void init() throws OGVICRepositoryException {
+	private void init() throws OGVICRepositoryException, OGVICSystemInitException {
 		
 		// explicitly specify to use a specific ontology api here:
 		 RDF2Go.register( new org.ontoware.rdf2go.impl.jena.ModelFactoryImpl());
@@ -152,6 +157,7 @@ public class OGVICProcess {
 
 		modelManager = ModelManager.getInstance();
 		modelManager.initInternalModels();
+		initAVMBootstrappingProject();
 	}
 	
 	public void initDataAndMappingsModel(VisProject project) throws OGVICRepositoryException {
@@ -445,6 +451,84 @@ public class OGVICProcess {
 	public void setD3GraphicFile(String d3GraphicFile) {
 		this.d3GraphicFile = d3GraphicFile;
 	}
+	
+	
+	//////////////////////////////////////////////////////////////////
+	// "Bootstrapping" the latest generated AVM (if there is one already)
+	///////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Inits the (meta-) visualisation project for the AVM, except for adding data.
+	 * The data will be taken from the AVM.
+	 * 
+	 * @throws FileNotFoundException
+	 */
+	private void initAVMBootstrappingProject() throws OGVICSystemInitException {
+		
+		amvBootstrappingProject = new VisProject("avm");
+		//avmBootstrap.setWriteAVM(false);
+		try {
+			amvBootstrappingProject.registerMappingFile(ExampleMapping.AVM_EXAMPLE_BOOTSTRAP);
+			amvBootstrappingProject.registerDataFile(ExampleData.AVM_EXTRA_DATA);
+		} catch (FileNotFoundException e) {
+			throw new OGVICSystemInitException("Couldn't init the AVM Bootstrapping "
+					+ "(used for meta-visualizing the AVM model)", e);
+		}
+		amvBootstrappingProject.setDescription("Abstract Visual Model (AVM) of the last generated graphic");
+//		try {
+//			avmBootstrap.registerDataFile(ExampleData.AVM);
+//		} catch (FileNotFoundException e) {
+//			LOGGER.fine("AVM file was not not found, probably because this is the first run.");
+//			avmBootstrap.setDescription("Make sure to run some other project first.");
+//		}
+		//avmBootstrap.setRvlInterpreter(new SimpleRVLInterpreter());
+		amvBootstrappingProject.setD3Generator(new D3GeneratorDeepLabelsJSON());
+		//avmBootstrap.setD3Generator(new D3GeneratorTreeJSON());
+	}
 
+	/**
+	 * Visualizes the last AVM that was created during
+	 * a normal (non-AVM) visualization process and returns the result as D3-JSON.
+	 * 
+	 * @return the AVM as D3-JSON
+	 * @throws OGVICProcessException
+	 */
+	public String runAVMBootstrappingVis() throws OGVICProcessException {
+		
+		String json = "";
+		
+		try {
+			registerOntologyFile(OntologyFile.VISO_GRAPHIC);
+			registerOntologyFile(OntologyFile.RVL);
+
+			VisProject project = getAVMBootstrappingProject();
+			ModelManager manager = ModelManager.getInstance();
+			
+			manager.savePreviousAVM();
+			loadProject(project); // clears the avm and data model!
+			manager.addPreviousAvmToDataModel();
+
+			runOGVICProcess();
+			
+		} catch (OGVICRepositoryException | OGVICSystemInitException e1) {
+			throw new OGVICProcessException("Could not run the AVM bootstrapping"
+					+ " (for meta-visualizing the AVM)", e1);
+		}
+		
+		try {
+			json = getGeneratedD3json();
+		} catch (EmptyGeneratedException e) {
+			LOGGER.warning(JsonExceptionWrapper.wrapAsJSONException(e.getMessage() + " Proceeding anyway"));
+		}
+		
+		return json;
+	}
+
+	private VisProject getAVMBootstrappingProject() throws OGVICSystemInitException {
+		if (null == this.amvBootstrappingProject) {
+			initAVMBootstrappingProject();
+		}
+		return this.amvBootstrappingProject;
+	}
 
 }

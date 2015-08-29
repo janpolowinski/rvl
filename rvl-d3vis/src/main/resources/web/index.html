@@ -84,7 +84,7 @@
 						
 						<div class="infotext">
 							Meta-visualize ;) the AVM (Abstract Visual Model) of the last generated graphic, which is an RDF model itself.
-							<button onclick="loadProject('avm', 'force-directed-graph');">Show AVM!</button>
+							<button onclick="bootstrapAVM();">Show AVM!</button>
 							Also try displaying <a href="javascript:loadProject('rvl','collapsible-tree')">RVL</a> and the <a href="javascript:loadProject('viso','collapsible-tree')">VISO/graphic</a> ontology module.
 						</div>
   					</div>
@@ -243,6 +243,11 @@
     		reInitContainers();
     		d3.json(baseUrlBackend + "projects/run/external/" + defaultGraphicType, graphicLoadingFunctions[defaultGraphicType]);
     	}
+		
+		bootstrapAVM = function() {
+			d3.json(baseUrlBackend + "projects/bootstrap/avm", graphicLoadingFunctions['force-directed-graph']);
+			d3.select("#canvas").attr("class", "avm"); // TODO: hack: should actually be done based on the graphic_type of the loaded json (and after its loaded)
+		}
 		
 		// call example projects on selecting from option list
     	d3.json(baseUrlBackend + "projects", function (error, result) {
