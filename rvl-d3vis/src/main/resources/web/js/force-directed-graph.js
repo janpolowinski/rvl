@@ -408,16 +408,21 @@ updateForceDirectedGraph = function(error, graph) {
 			
 			/* position the connector paths */
 			boundPaths.attr("d", function (d) {
-	            var dx = d.target.x - d.source.x,
-	                dy = (d.target.y - d.source.y),
-	                dr = Math.sqrt(dx * dx + dy * dy);
-	            
-	            // an arc
-	            return "M" + d.source.x + "," + d.source.y + "A" + (dr - drSub) + "," + (dr - drSub) + " 0 0,1 " + d.target.x + "," + d.target.y;
-	            
-	            // a line
-				//return "M" + d.source.x + "," + d.source.y + " L" + d.target.x + "," + d.target.y; 
-	            
+				
+				if (settings.layout.connector == "arc") {	
+						
+					// an arc
+					var dx = d.target.x - d.source.x,
+	                	dy = (d.target.y - d.source.y),
+	                	dr = Math.sqrt(dx * dx + dy * dy);
+					
+		            return "M" + d.source.x + "," + d.source.y + "A" + (dr - drSub) + "," + (dr - drSub) + " 0 0,1 " + d.target.x + "," + d.target.y;
+		            
+				} else {
+
+		            // a line
+					return "M" + d.source.x + "," + d.source.y + " L" + d.target.x + "," + d.target.y; 
+				}
 	         	// a line with an intermediate node
 	            //return "M" + d.source.x + "," + d.source.y +
 				   //" L" + (dr - drSub) + "," + (dr - drSub) +  
@@ -425,18 +430,32 @@ updateForceDirectedGraph = function(error, graph) {
 				   
 	        });
 			
-			boundConnectorLabelGroups.attr("transform", calculateTranslationToArcCenter);
-			//boundConnectorLabelGroups.attr("transform", calculateTranslationToLineCenter);
-	        
+			if (settings.layout.connector == "arc") {	
+				boundConnectorLabelGroups.attr("transform", calculateTranslationToArcCenter);
+			} else {
+				boundConnectorLabelGroups.attr("transform", calculateTranslationToLineCenter);				
+			}
+			
 			/* position complex labels */
 			if (complexLabeling) {
-		        boundLabelContainerContainers
-				.style("top", function(d){
-					return d.y - d.width/2 + "px";
-				})
-				.style("left", function(d){
-					return d.x - d.width/2 + "px";
-				});
+				
+				if (settings.layout.connector == "arc") {	
+					boundLabelContainerContainers
+					.style("top", function(d){
+						return d.y - d.width/2 + "px";
+					})
+					.style("left", function(d){
+						return d.x - d.width/2 + "px";
+					});					
+				} else {
+					boundLabelContainerContainers
+					.style("top", function(d){
+						return d.y - d.width/2 + "px";
+					})
+					.style("left", function(d){
+						return d.x - d.width/2 + "px";
+					});	
+				}
 			}
 			
 	        /* position the nodes */
