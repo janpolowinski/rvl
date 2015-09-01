@@ -39,6 +39,8 @@ body {
   display: table-cell;
   padding: 0px;
   vertical-align:top;
+  position: relative;
+  z-index: 2999;
   }
   
 #left {

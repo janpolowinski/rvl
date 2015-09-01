@@ -26,6 +26,12 @@ var BASE_PATH_SVG_FILE = "svg/symbols.svg#"; // this probably does not work for 
 
 var baseUrlBackend = "/semvis/";
 
+var layoutSettings = {"connector" : "straight"}; // arc
+
+var settings = {
+		"layout" : layoutSettings
+};
+
 
 /******************************/
 /* GLOBAL "MEMBER" VARS       */

@@ -83,6 +83,16 @@
 						</div>
 						
 						<div class="infotext">
+							Choose layout settings:
+							<div id="chooseConnectorStyleDIV">
+								<select name="chooseConnectorStyle" id="chooseConnectorStyleID" onChange="setConnectorStyle(this.value);">
+									<option value="straight" selected="selected">Straight lines</option>
+						    		<option value="arc">Arcs</option>
+								</select>
+							</div>
+						</div>
+						
+						<div class="infotext">
 							Meta-visualize ;) the AVM (Abstract Visual Model) of the last generated graphic, which is an RDF model itself.
 							<button onclick="bootstrapAVM();">Show AVM!</button>
 							Also try displaying <a href="javascript:loadProject('rvl','collapsible-tree')">RVL</a> and the <a href="javascript:loadProject('viso','collapsible-tree')">VISO/graphic</a> ontology module.
@@ -196,6 +206,12 @@
     	 		});
     		//"gen/json/tree-data.json" , "gen/json/graph-data.json", "example-data/graph-data-labeling-advanced.json"
         }
+        
+        setConnectorStyle = function(d3Event) {
+        	settings.layout.connector = d3Event;
+//         	console.log(d3Event);
+			tick();
+        }
 		
 		//var mInfo = d3.select("body").append("div");
 		
@@ -296,9 +312,9 @@
 			} else if (show=='max') {
 				width = 700;
 				d3.selectAll("#right,#editor").style("display", "table-cell");
-				d3.selectAll("#right,#editor").style("width", "500px");
-				d3.select("#middle").style("width", "700px");
-				d3.select("#svg").attr("width", "700");
+				d3.selectAll("#right,#editor").style("width", "650px");
+				d3.select("#middle").style("width", "550px");
+				d3.select("#svg").attr("width", "550");
 			} else { // 'normal'
 				width = 900;
 				d3.selectAll("#right,#editor").style("display", "table-cell");
