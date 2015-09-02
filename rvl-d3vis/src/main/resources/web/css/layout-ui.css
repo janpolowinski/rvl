@@ -39,9 +39,12 @@ body {
   display: table-cell;
   padding: 0px;
   vertical-align:top;
+  }
+  
+#left, #right {
   position: relative;
   z-index: 2999;
-  }
+}
   
 #left {
   text-align:left;
