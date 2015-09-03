@@ -32,6 +32,7 @@
       rvl:valueMapping [
         a rvl:ValueMapping ;
 		rvl:sourceValue <http://purl.org/viso/graphic/Linking_Directed_Relation>;
+		rvl:sourceValue <http://purl.org/viso/graphic/Linking_Undirected_Relation>;
         rvl:targetValue common-shapes:Rhomb;
       ],[
 		rvl:sourceValue <http://purl.org/viso/graphic/Labeling_Relation>;
@@ -54,6 +55,7 @@
       rvl:targetAttribute vg:color_named ; 
       rvl:valueMapping [
 		rvl:sourceValue <http://purl.org/viso/graphic/Linking_Directed_Relation>;
+		rvl:sourceValue <http://purl.org/viso/graphic/Linking_Undirected_Relation>;
         rvl:targetValue vg:Green;
       ],[
 	rvl:sourceValue <http://purl.org/viso/graphic/Labeling_Relation>;
@@ -73,7 +75,8 @@
       rvl:sourceProperty rdf:type ;
       rvl:targetAttribute vg:area ; 
       rvl:valueMapping [
-	rvl:sourceValue <http://purl.org/viso/graphic/Linking_Directed_Relation>;
+		rvl:sourceValue <http://purl.org/viso/graphic/Linking_Directed_Relation>;
+		rvl:sourceValue <http://purl.org/viso/graphic/Linking_Undirected_Relation>;
         rvl:targetValue "350"^^xsd:float;
       ],[
 	rvl:sourceValue <http://purl.org/viso/graphic/Labeling_Relation>;
