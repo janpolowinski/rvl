@@ -80,7 +80,7 @@ public class MappingToLabelingHandler extends MappingToP2GOTORHandler {
 
 		Labeling rel = new Labeling(modelAVM, "http://purl.org/rvl/example-avm/LabelingRel_"
 				+ rvlInterpreter.createNewInternalID(), true);
-		rel.setLabel(ModelUtils.getGoodNodeLabel(mapping.getTargetGraphicRelation(), modelAVM));
+//		rel.setLabel(ModelUtils.getGoodNodeLabel(mapping.getTargetGraphicRelation(), modelAVM));
 
 		graphicObjectToApplyMapping.addLabeledwith(rel);
 		rel.setLabelinglabel(label);

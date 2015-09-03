@@ -241,7 +241,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 		Labeling rel = new Labeling(modelAVM, "http://purl.org/rvl/example-avm/LabelingRel_"
 				+ createNewInternalID(), true);
 		
-		rel.setLabel("Labeling Relation");
+//		rel.setLabel("Labeling Relation");
 		rel.setLabelinglabel(label);
 		rel.setLabelingattachedBy(Superimposition.RDFS_CLASS);
 		rel.setLabelingbase(go);
