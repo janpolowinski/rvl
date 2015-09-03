@@ -46,8 +46,7 @@ var pack = d3.layout.pack()
 loadCirclePackingZoomable = function(error, root) {
 	
 	// override global settings
-	complexLabeling = false; // not yet fully implemented
-	simpleLabeling = true;
+	setLabelingImpl("simple"); // complex labeling not yet fully implemented
 	
      var focus = root,
      	 nodes = pack.nodes(root);
@@ -125,7 +124,7 @@ loadCirclePackingZoomable = function(error, root) {
 	 
  
  // text label new
- if (simpleLabeling) {
+ if (settings.layout.labeling == "simple") {
 		
 		vis.append("g").selectAll(".nodeLabelContainer")
 		  .data(nodes).enter()

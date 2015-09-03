@@ -66,7 +66,7 @@ public class MappingToLabelingHandler extends MappingToP2GOTORHandler {
 		// 1. create the label - for each statement, create an endNode GO representing the object (if not exists)
 		// create an additional object here, don't reuse existing ones!
 		GraphicObjectX label = new GraphicObjectX(modelAVM, "http://purl.org/rvl/example-avm/GO_Label_" 
-				+ rvlInterpreter.createNewInternalID(), false);
+				+ rvlInterpreter.createNewInternalID(), true);
 		LOGGER.finest("Created new Label-GO for (label) object: " + object.toString());
 		// TODO when sp rdf:ID: not created for object in all cases?!
 		
