@@ -233,7 +233,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 
 		// create an additional object here, don't reuse existing ones!
 		GraphicObjectX label = new GraphicObjectX(modelAVM, "http://purl.org/rvl/example-avm/GO_Label_"
-				+ this.createNewInternalID(), false);
+				+ this.createNewInternalID(), true);
 		label.setTextvalue(ModelUtils.getGoodNodeLabel(resource, modelData));
 
 		LOGGER.finest("Created new Label-GO for resource: " + resource.toString());

@@ -52,7 +52,7 @@ button:hover, .button:hover {
 	margin-bottom: 5px;
 }
 
-#right {
+#menu, #right {
 	background-color: #efe;
 }
 
@@ -68,7 +68,7 @@ button:hover, .button:hover {
 div.infotext {
 	margin-top: 10px;
 	padding: 5px;
-	background-color: #efe;
+	background-color: #fff;
 	border-radius: 10px;
 	color: #888;
 }

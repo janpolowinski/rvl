@@ -2,12 +2,6 @@
 /* GENERAL SETTINGS       */
 /**************************/
 
-// links
-var drawLinks = true; // choose whether only nodes should be drawn and layouted
-
-// labeling
-var complexLabeling = false; // may be overridden by graphic loading functions
-var simpleLabeling = true; // may be overridden by graphic loading functions
 var alignedConnectorLabeling = false; 
 
 var NODE_SIZE; // TODO D3 symbol functions consider area using Math.sqrt(). Area of svg symbols in use elements is simply width*height
@@ -26,7 +20,11 @@ var BASE_PATH_SVG_FILE = "svg/symbols.svg#"; // this probably does not work for 
 
 var baseUrlBackend = "/semvis/";
 
-var layoutSettings = {"connector" : "straight"}; // arc
+var layoutSettings = {
+		"connector" : "straight", // other connector settings: "arc"
+		"labeling" : "complex", // other labeling settings: "simple"; may be overridden by graphic loading functions
+		"drawlinks" : true	// choose whether only nodes should be drawn and layouted
+		};
 
 var settings = {
 		"layout" : layoutSettings

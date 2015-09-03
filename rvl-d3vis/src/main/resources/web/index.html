@@ -83,11 +83,18 @@
 						</div>
 						
 						<div class="infotext">
-							Choose layout settings:
+							Choose connector impl.:
 							<div id="chooseConnectorStyleDIV">
 								<select name="chooseConnectorStyle" id="chooseConnectorStyleID" onChange="setConnectorStyle(this.value);">
 									<option value="straight" selected="selected">Straight lines</option>
 						    		<option value="arc">Arcs</option>
+								</select>
+							</div>
+							Choose labeling impl.:
+							<div id="chooseLabelingImplDIV" title="Complex labeling is not yet impl. for all graphic types">
+								<select name="chooseLabelingImpl" id="chooseLabelingImplID" onChange="setLabelingImpl(this.value);reStart();">
+									<option value="simple" selected="selected">Simple labeling</option>
+						    		<option value="complex">Complex labeling</option>
 								</select>
 							</div>
 						</div>
@@ -141,7 +148,8 @@
 						    Edit the example RVL mappings:<br/>
 						 	 <textarea name="mappings" id="projectMappings" rows="12">loading example mappings ... </textarea>
 						  </div>
-						  <input title="Submit your RDF data + RVL mappings to update the graphic." class="button" type="submit" formenctype="multipart/form-data" value="Submit"/>
+						  <input title="Submit your RDF data + RVL mappings to update the graphic.
+(Cmd/Ctrl+Enter)" class="button" type="submit" formenctype="multipart/form-data" value="Submit"/>
 					  </form>
 
   				</div>
@@ -157,6 +165,8 @@
 		</div>
         
         <script type="text/javascript">
+        
+        var latestJSONData; // stores the json data for restarting the vis
 
 					
 		/******************************/
@@ -212,6 +222,15 @@
 //         	console.log(d3Event);
 			tick();
         }
+        
+        setLabelingImpl = function(labelingImpl) {
+        	settings.layout.labeling = labelingImpl;
+        	d3.select("#chooseLabelingImplID").property("value", labelingImpl)
+//         	reInitContainers();
+//         	if (typeof tick !== 'undefined') {
+//     			tick();
+//         	}
+        }
 		
 		//var mInfo = d3.select("body").append("div");
 		
@@ -246,7 +265,7 @@
 	    			reInitContainers();
 	    			currentGraphicType = defaultGraphicType;
 	    	}
-    		d3.json(baseUrlBackend + "projects/run/" + projectID, graphicLoadingFunctions[defaultGraphicType]);
+    		d3.json(baseUrlBackend + "projects/run/" + projectID, function(error, graph){ onLoadedGraphJSON(error, graph, defaultGraphicType);});
     		d3.select("#canvas").attr("class", projectID); // should actually be done based on the graphic_type of the loaded json
     		if (populateEditor()){ 
     			showRVLeditor('max');
@@ -257,11 +276,21 @@
 		
 		loadProjectExternalEditing = function(defaultGraphicType) {
     		reInitContainers();
-    		d3.json(baseUrlBackend + "projects/run/external/" + defaultGraphicType, graphicLoadingFunctions[defaultGraphicType]);
+    		d3.json(baseUrlBackend + "projects/run/external/" + defaultGraphicType, onLoadedGraphJSON());
+    	}
+		
+		onLoadedGraphJSON = function(error, graph, defaultGraphicType) {
+			latestJSONData = graph;
+			graphicLoadingFunctions[defaultGraphicType](error, graph);
+		}
+		
+		reStart = function() {
+    	 	reInitContainers(); // necessary for refreshing complex labeling atm
+			graphicLoadingFunctions[latestJSONData.graphic_type](null, latestJSONData);
     	}
 		
 		bootstrapAVM = function() {
-			d3.json(baseUrlBackend + "projects/bootstrap/avm", graphicLoadingFunctions['force-directed-graph']);
+			d3.json(baseUrlBackend + "projects/bootstrap/avm", function(error, graph){ onLoadedGraphJSON(error, graph, 'force-directed-graph');});
 			d3.select("#canvas").attr("class", "avm"); // TODO: hack: should actually be done based on the graphic_type of the loaded json (and after its loaded)
 		}
 		
@@ -352,7 +381,7 @@
     	    			reInitContainers();
     	    			currentGraphicType = json.graphic_type;
     	    		}
-    	    		graphicLoadingFunctions[json.graphic_type](null, json);
+    	    		onLoadedGraphJSON(error, json, json.graphic_type); 
     	    	});
 		  return false;
 		};

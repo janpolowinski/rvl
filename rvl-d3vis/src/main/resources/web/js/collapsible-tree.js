@@ -52,8 +52,7 @@ var diagonal = d3.svg.diagonal()
 loadCollapsibleTree = function(error, json) {	
 	
 	// override global settings
-	complexLabeling = false; // not yet fully implemented
-	simpleLabeling = true;
+	setLabelingImpl("simple"); // complex labeling not yet fully implemented
 	
 	root = json;
 	root.x0 = h / 2;
@@ -140,7 +139,7 @@ updateCollapsibleTree = function(source) {
 		
 		//var symbol = nodeEnter.avmShapedWithPath(avmDefaultSizeSymbolFunction);
 		
-		if (complexLabeling) {
+		if (settings.layout.labeling == "complex") {
 	 
  			 // complex labeling
 			 
@@ -157,7 +156,7 @@ updateCollapsibleTree = function(source) {
 				labelContainerContainer.avmLabeledComplex();
 	 		}
 
-		if (simpleLabeling) {
+		if (settings.layout.labeling == "simple") {
 			
 			// simple labeling
 			
@@ -270,7 +269,7 @@ updateCollapsibleTree = function(source) {
 			d.y0 = d.y;
 			
 			/* position complex labels */ // TODO not the best place for this! will not be correctly updated
-			if(complexLabeling) {
+			if(settings.layout.labeling == "complex") {
 		        labelContainerContainer
 				.style("top", function(d){
 					return d.x + "px";
