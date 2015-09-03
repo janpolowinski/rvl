@@ -66,7 +66,7 @@ public class MappingToContainmentHandler extends MappingToP2GOTORHandler {
 		// create the containment relation
 		// Containment dlRel = new Containment(modelAVM, true);
 		Containment containmentRel = new Containment(modelAVM,
-				"http://purl.org/rvl/example-avm/GR_"
+				"http://purl.org/rvl/example-avm/ContainmentRel_"
 						+ rvlInterpreter.createNewInternalID(), true);
 		containmentRel.setLabel(ModelUtils.getGoodNodeLabel(
 				mapping.getTargetGraphicRelation(), modelAVM));

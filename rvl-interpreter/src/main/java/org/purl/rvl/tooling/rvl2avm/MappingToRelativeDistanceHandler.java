@@ -60,7 +60,7 @@ public class MappingToRelativeDistanceHandler extends MappingToP2GOTORHandler {
 		Object_to_ObjectRelation rel = null;
 
 		// create the relative distance relation
-		RelativeDistance rdRel = new RelativeDistance(modelAVM, "http://purl.org/rvl/example-avm/GR_"
+		RelativeDistance rdRel = new RelativeDistance(modelAVM, "http://purl.org/rvl/example-avm/RelativeDistanceRel_"
 				+ rvlInterpreter.createNewInternalID(), true);
 		rdRel.setLabel(ModelUtils.getGoodNodeLabel(mapping.getTargetGraphicRelation(), modelAVM));
 

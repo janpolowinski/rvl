@@ -232,13 +232,13 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 		}
 
 		// create an additional object here, don't reuse existing ones!
-		GraphicObjectX label = new GraphicObjectX(modelAVM, "http://purl.org/rvl/example-avm/GO_Label_"
+		GraphicObjectX label = new GraphicObjectX(modelAVM, "http://purl.org/rvl/example-avm/GO_"
 				+ this.createNewInternalID(), true);
 		label.setTextvalue(ModelUtils.getGoodNodeLabel(resource, modelData));
 
 		LOGGER.finest("Created new Label-GO for resource: " + resource.toString());
 
-		Labeling rel = new Labeling(modelAVM, "http://purl.org/rvl/example-avm/Labeling_Relation_"
+		Labeling rel = new Labeling(modelAVM, "http://purl.org/rvl/example-avm/LabelingRel_"
 				+ createNewInternalID(), true);
 		
 		rel.setLabel("Labeling Relation");
