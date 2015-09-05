@@ -74,9 +74,89 @@
         rvl:targetValue "350"^^xsd:float;
       ],[
 	rvl:sourceValue <http://purl.org/viso/graphic/Graphic_Object>;
-        rvl:targetValue "2000"^^xsd:float;
+        rvl:targetValue "500"^^xsd:float;
       ]
       .
+
+:IconLabeling
+      rvl:disabled "false"^^xsd:boolean ;
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:sourceProperty vg:shape_named ;
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+     rvl:subMapping 
+      [
+        rvl:subMapping-onRole vg:labeling_label; 
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :IconLabelShapeMapping;
+      ],[
+        rvl:subMapping-onRole vg:this;
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :IDtoLabelPositionMapping;
+      ]
+      #,[
+      # rvl:subMapping-onRole vg:this;
+      #  rvl:subMapping-onTriplePart rdf:object;
+      #  rvl:subMapping-mapping :TypeToLabelStyleMapping;
+      #]
+.
+
+:IconLabelShapeMapping
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rdf:ID ;
+      rvl:targetAttribute vg:shape_named ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping;
+       	rvl:sourceValue common-shapes:Circle;
+        rvl:targetValue common-shapes:Circle;
+      ],[
+        a rvl:ValueMapping;
+	    rvl:sourceValue common-shapes:Line;
+	    rvl:sourceValue common-shapes:UMLAssociation;
+	    rvl:sourceValue common-shapes:UMLGeneralization;
+	    rvl:sourceValue common-shapes:ArrowSmall;
+        rvl:targetValue common-shapes:FlowArrow;
+      ]
+      .   
+
+:IDtoLabelPositionMapping
+      rvl:disabled "true";
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rdf:ID ;
+      rvl:targetAttribute
+              vg:labeling_position ; # (not yet part of RVL spec!)
+      rvl:valueMapping 
+      [
+        a rvl:ValueMapping;
+	    rvl:sourceValue common-shapes:Circle;
+      	rvl:targetValue vg:CenterCenter;
+      ],[
+        a rvl:ValueMapping;
+	    rvl:sourceValue common-shapes:Line;
+	    rvl:sourceValue common-shapes:UMLAssociation;
+	    rvl:sourceValue common-shapes:UMLGeneralization;
+	    rvl:sourceValue common-shapes:ArrowSmall;
+      	rvl:targetValue vg:CenterCenter;
+      ]
+      .
+
+#:TypeToLabelStyleMapping
+#      rvl:disabled "true";
+#      a rvl:PropertyMapping ;
+#      rvl:sourceProperty rdf:ID ;
+#      rvl:targetAttribute
+#              vg:labeling_attachedBy ;
+#      rvl:valueMapping [
+#        rvl:sourceValue common-shapes:Circle;
+#      	rvl:targetValue vg:Superimposition_Relation;
+#      ],[
+#	    rvl:sourceValue common-shapes:Line;
+#	    rvl:sourceValue common-shapes:UMLAssociation;
+#	    rvl:sourceValue common-shapes:UMLGeneralization;
+#	    rvl:sourceValue common-shapes:ArrowSmall;
+#      	rvl:targetValue vg:Superimposition_Relation;
+#      ]
+#      .
 
 :RepresentsMapping a rvl:PropertyMapping ;
     rvl:disabled "true" ;

@@ -16,11 +16,21 @@
 	transform:scale(3.0) ;
 }
 
+/* AVM */
+
 #canvas.avm .linking_connector  {
     stroke-width: 6px;
 }
+
 #canvas.avm .labeling_base  {
-	transform:scale(1.5) ;
+	transform:scale(2) ;
+}
+
+#canvas.avm .labelContainerContainer use.label {
+    transform:scale(1) ;
+    fill:none !important;
+    stroke: #666;
+    stroke-width: 3px;
 }
 
 /*.linkingDirected_startNode {fill:green }*/
