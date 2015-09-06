@@ -23,14 +23,16 @@
 }
 
 #canvas.avm .labeling_base  {
-	transform:scale(2) ;
+	/*transform:scale(2.5) ; */
 }
 
 #canvas.avm .labelContainerContainer use.label {
-    transform:scale(1) ;
-    fill:none !important;
-    stroke: #666;
-    stroke-width: 3px;
+    transform:scale(0.8) ;
+/*     fill:none !important; */
+    fill:#828882 !important; 
+/*     stroke: #666; */
+/*     stroke-width: 3px; */
+	stroke:none !important;
 }
 
 /*.linkingDirected_startNode {fill:green }*/

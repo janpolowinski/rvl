@@ -105,6 +105,10 @@ public class ShapeX extends Shape {
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Star18")) return "star-18";
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/XMark")) return "x-mark";
 		
+		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Pentagon")) return "pentagon";
+		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/Hexagon")) return "hexagon";
+		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/AVMGraphicObject")) return "avm_go";
+		
 		
 		// shapes used to define connectors primarily
 		else if (this.asURI().toString().equals("http://purl.org/viso/shape/commons/UMLGeneralization")) return "uml_generalization_arrow";

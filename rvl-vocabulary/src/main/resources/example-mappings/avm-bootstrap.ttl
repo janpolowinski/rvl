@@ -39,7 +39,7 @@
       ],[
         a rvl:ValueMapping ;
 		rvl:sourceValue <http://purl.org/viso/graphic/Graphic_Object>;
-        rvl:targetValue common-shapes:Square;
+        rvl:targetValue common-shapes:AVMGraphicObject;
       ]
       .
 
@@ -74,7 +74,7 @@
         rvl:targetValue "350"^^xsd:float;
       ],[
 	rvl:sourceValue <http://purl.org/viso/graphic/Graphic_Object>;
-        rvl:targetValue "500"^^xsd:float;
+        rvl:targetValue "2000"^^xsd:float;
       ]
       .
 
@@ -112,10 +112,16 @@
       ],[
         a rvl:ValueMapping;
 	    rvl:sourceValue common-shapes:Line;
-	    rvl:sourceValue common-shapes:UMLAssociation;
+	    rvl:targetValue common-shapes:Line;
+      ],[
+        a rvl:ValueMapping;
 	    rvl:sourceValue common-shapes:UMLGeneralization;
+        rvl:targetValue common-shapes:UMLGeneralization;
+      ],[
+        a rvl:ValueMapping;
+	    rvl:sourceValue common-shapes:UMLAssociation;
 	    rvl:sourceValue common-shapes:ArrowSmall;
-        rvl:targetValue common-shapes:FlowArrow;
+        rvl:targetValue common-shapes:UMLAssociation;
       ]
       .   
 
@@ -132,10 +138,19 @@
       	rvl:targetValue vg:CenterCenter;
       ],[
         a rvl:ValueMapping;
-	    rvl:sourceValue common-shapes:Line;
-	    rvl:sourceValue common-shapes:UMLAssociation;
 	    rvl:sourceValue common-shapes:UMLGeneralization;
+      	rvl:targetValue vg:CenterCenter;
+      ],[
+        a rvl:ValueMapping;
+	    rvl:sourceValue common-shapes:UMLAssociation;
+      	rvl:targetValue vg:CenterCenter;
+      ],[
+        a rvl:ValueMapping;
 	    rvl:sourceValue common-shapes:ArrowSmall;
+      	rvl:targetValue vg:CenterCenter;
+      ],[
+        a rvl:ValueMapping;
+	    rvl:sourceValue common-shapes:Line;
       	rvl:targetValue vg:CenterCenter;
       ]
       .
