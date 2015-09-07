@@ -111,6 +111,10 @@
         rvl:targetValue common-shapes:Circle;
       ],[
         a rvl:ValueMapping;
+       	rvl:sourceValue common-shapes:Clock;
+        rvl:targetValue common-shapes:Clock;
+      ],[
+        a rvl:ValueMapping;
 	    rvl:sourceValue common-shapes:Line;
 	    rvl:targetValue common-shapes:Line;
       ],[
@@ -134,7 +138,9 @@
       rvl:valueMapping 
       [
         a rvl:ValueMapping;
+        rvl:sourceValue common-shapes:Square;
 	    rvl:sourceValue common-shapes:Circle;
+        rvl:sourceValue common-shapes:Clock;
       	rvl:targetValue vg:CenterCenter;
       ],[
         a rvl:ValueMapping;
