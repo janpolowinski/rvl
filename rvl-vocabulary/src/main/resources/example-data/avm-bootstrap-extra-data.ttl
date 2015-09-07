@@ -23,6 +23,7 @@ vg:linked_to rdfs:subPropertyOf owl:topObjectProperty .
 #vg:linkingDirected_startNode rdfs:subPropertyOf owl:topObjectProperty .
 vg:linkingDirected_endNode rdfs:subPropertyOf owl:topObjectProperty .
 vg:linking_connector rdfs:subPropertyOf owl:topObjectProperty .
+vg:linked_with rdfs:subPropertyOf owl:topObjectProperty .
 
 vg:labeling_labeledWith rdfs:subPropertyOf owl:topObjectProperty .
 vg:labeling_label rdfs:subPropertyOf owl:topObjectProperty .
