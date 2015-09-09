@@ -49,18 +49,13 @@ public class OGVICProcess {
 	public static boolean WRITE_MAPPING_MODEL = false;
 	public static boolean WRITE_JSON = true;
 	
-	//public static final String WEB_SERVER_ROOT = "../org.purl.rvl.tooling.d3vis/src/main/resources/web/"; // use for local testing with this folder as the root of a webserver
-	//public static final String WEB_SERVER_ROOT = "../build/"; // use for local testing (starting test cases from eclipse) with the build folder as the root of a webserver. build with all-static and run with run-static ... 
-	public static final String WEB_SERVER_ROOT = ""; // standard for jar building and deployment
 	
 	// TMP LOCAL FILES AND FOLDER SETTINGS
 	//public static String USE_CASE_FOLDER = ""; // now use cases in examples project ; now set in properties-file
 	public static final String GEN_MODEL_FILE_FOLDER = "gen";
-	public static final String GEN_MODEL_FILE_FOLDER_D3_JSON = WEB_SERVER_ROOT + GEN_MODEL_FILE_FOLDER + "/" + "json";
 	protected static final String TMP_RVL_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempRvl.ttl";
 	protected static final String TMP_MAPPING_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempMappingModel.ttl";
 	public static final String TMP_AVM_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempAVM.ttl";
-	public static final String D3_HTML_FOLDER_NAME = WEB_SERVER_ROOT + GEN_MODEL_FILE_FOLDER + "/" + "html";
 	
 	// FOLDERS TO CALL WITHIN JARS
 	private static final String D3_EXAMPLE_GRAPHICS_FOLDER_NAME = "/web/example-html";
@@ -262,7 +257,6 @@ public class OGVICProcess {
 		interpreteRVL2AVM();	
 		try {
 			transformAVMToD3();
-//			populateD3HTMLFolder(); // doesn't work under tomcat (only needed for static copies)
 //			if (isWriteAVM()) writeAVMToFile();  doesn't work under tomcat, define tmp folder?: http://stackoverflow.com/questions/1969711/best-practice-to-store-temporary-data-for-a-webapp
 			if (isWriteMappingModel()) writeMappingModelToFile();
 		} catch (D3GeneratorException | OGVICModelsException e) {
@@ -309,34 +303,7 @@ public class OGVICProcess {
 //		d3Generator.writeJSONToFile(generatedD3json, getJsonFileNameRel()); // doesn't work on tomcat, only needed for static vis
 	}
 
-	private void populateD3HTMLFolder() {
 
-		File originLocation = new File (D3_EXAMPLE_GRAPHICS_FOLDER_NAME + "/" + getD3GraphicFile());
-		File targetLocation = new File (D3_HTML_FOLDER_NAME + "/index.html");
-		
-		try {
-			
-			InputStream htmlFileStream = this.getClass().getResourceAsStream(originLocation.getPath());
-			String htmlFileContent = IOUtils.toString(htmlFileStream, "utf-8");
-			
-			//FileUtils.copyFile(originLocation, targetLocation);
-			
-			FileWriter writer = new FileWriter(targetLocation);
-			writer.write(htmlFileContent);
-			writer.flush();
-			writer.close();
-			
-			LOGGER.finer(
-					"D3 HTML file copied from " + 
-					originLocation.getPath() + 
-					" to " + 
-					targetLocation.getPath()
-					);
-			
-		} catch (IOException | NullPointerException e ) {
-			LOGGER.log(Level.SEVERE, "Could not copy HTML file for D3: " + e.getMessage(), e.getStackTrace());
-		}
-	}
 	
 	private void setDefaultInterpreter() {
 		LOGGER.info("Setting interpreter to default.");
@@ -438,10 +405,6 @@ public class OGVICProcess {
 	
 	public Reasoning getReasoningDataModel() {
 		return this.reasoningDataModel;
-	}
-
-	public String getJsonFileNameRel() {
-		return GEN_MODEL_FILE_FOLDER_D3_JSON + "/" + d3Generator.getGenJSONFileName();
 	}
 
 	public String getD3GraphicFile() {
