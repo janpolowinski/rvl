@@ -18,12 +18,13 @@
         <!-- own plugins to handle AVM based on D3.js -->
     	<script type="text/javascript" src="js/ogvic.js"></script>
     	<script type="text/javascript" src="js/ogvic.d3.utils.js"></script>
+    	<script type="text/javascript" src="js/utils.js"></script>
     	<!-- supported graphic types -->
     	<script type="text/javascript" src="js/force-directed-graph.js"></script>
     	<script type="text/javascript" src="js/circle-packing-zoomable.js"></script>
     	<script type="text/javascript" src="js/collapsible-tree.js"></script>
     </head>
-    <body>
+    <body onLoad="checkBrowser();">
     
         <div id="container" class="layout">
   			<div id="row" class="layout">
