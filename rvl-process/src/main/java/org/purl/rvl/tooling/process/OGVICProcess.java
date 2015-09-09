@@ -57,9 +57,6 @@ public class OGVICProcess {
 	protected static final String TMP_MAPPING_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempMappingModel.ttl";
 	public static final String TMP_AVM_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempAVM.ttl";
 	
-	// FOLDERS TO CALL WITHIN JARS
-	private static final String D3_EXAMPLE_GRAPHICS_FOLDER_NAME = "/web/example-html";
-	
 	// OTHER MEMBERS
 	String generatedD3json;
 	private ModelManager modelManager;
