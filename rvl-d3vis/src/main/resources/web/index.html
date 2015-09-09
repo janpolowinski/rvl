@@ -18,12 +18,13 @@
         <!-- own plugins to handle AVM based on D3.js -->
     	<script type="text/javascript" src="js/ogvic.js"></script>
     	<script type="text/javascript" src="js/ogvic.d3.utils.js"></script>
+    	<script type="text/javascript" src="js/utils.js"></script>
     	<!-- supported graphic types -->
     	<script type="text/javascript" src="js/force-directed-graph.js"></script>
     	<script type="text/javascript" src="js/circle-packing-zoomable.js"></script>
     	<script type="text/javascript" src="js/collapsible-tree.js"></script>
     </head>
-    <body>
+    <body onLoad="checkBrowser();">
     
         <div id="container" class="layout">
   			<div id="row" class="layout">
@@ -217,15 +218,16 @@
     		//"gen/json/tree-data.json" , "gen/json/graph-data.json", "example-data/graph-data-labeling-advanced.json"
         }
         
-        setConnectorStyle = function(d3Event) {
-        	settings.layout.connector = d3Event;
-//         	console.log(d3Event);
+        setConnectorStyle = function(connectorStyle) {
+        	settings.layout.connector = connectorStyle;
+        	d3.select("#chooseConnectorStyleID").property("value", connectorStyle);
+//         	console.log(connectorStyle);
 			tick();
         }
         
         setLabelingImpl = function(labelingImpl) {
         	settings.layout.labeling = labelingImpl;
-        	d3.select("#chooseLabelingImplID").property("value", labelingImpl)
+        	d3.select("#chooseLabelingImplID").property("value", labelingImpl);
 //         	reInitContainers();
 //         	if (typeof tick !== 'undefined') {
 //     			tick();
@@ -290,8 +292,17 @@
     	}
 		
 		bootstrapAVM = function() {
+			if (settings.layout.labeling == "simple") { 	
+					// TODO, hack: setting to complex and restarting must be done before loading the AVM graph,
+					// since boundLabelContainerContainers is undefined otherwise
+				setLabelingImpl("complex"); 
+				reStart(); 	
+			}
 			d3.json(baseUrlBackend + "projects/bootstrap/avm", function(error, graph){ onLoadedGraphJSON(error, graph, 'force-directed-graph');});
 			d3.select("#canvas").attr("class", "avm"); // TODO: hack: should actually be done based on the graphic_type of the loaded json (and after its loaded)
+			setConnectorStyle("straight");
+			//$('#chooseExampleProjectID').find($('option')).attr('selected',false);
+			d3.select("#chooseExampleProjectID").property("value","placeholder");
 		}
 		
 		// call example projects on selecting from option list
@@ -299,7 +310,7 @@
         	
    		 var projectsEnter = d3.select("#loadExampleProject")
    		.insert("div", ":first-child")
-   		.append("select")
+   		.append("select").attr("id","chooseExampleProjectID")
    		//.attr("onChange", "alert('hello' + this.value + this.options[this.selectedIndex].text)")
    		.attr("onChange", "loadProject(this.options[this.selectedIndex].text, this.value);")
    		//	return "loadProject('" + d.id + "','" + d.defaultGraphicType + "'); }"
@@ -312,7 +323,12 @@
 				return d.defaultGraphicType;
 				})
    	    .text(function(d){return d.id;});    	
+   		
+		// add a placeholder option to the example projects
+    	d3.select("#chooseExampleProjectID").insert("option", ":first-child").attr("value","placeholder").attr("selected", true).text("Select example project ... ");
+		
     	});
+
  
         // menu
         
