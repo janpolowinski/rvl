@@ -1,7 +1,10 @@
 body {
-	background-color: #334;
+	/*background-color: #334;*/
 }
 
+#svg {
+	background-color: #334;
+}
 
 
 /* set to whatever the body-background-color is */

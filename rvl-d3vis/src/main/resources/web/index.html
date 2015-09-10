@@ -78,8 +78,8 @@
 						<div class="infotext">
 							Get started by loading one of the RVL-examples from our case studies:
 							<div id="loadExampleProject">
-								<div title="Load this project for editing and play around with the RVL settings!"><input id="useForEditor" type="checkbox" value="true"/>also load for <a title="Show editor" href="javascript:showRVLeditor('max')">editing ...</a> 
-								<br/><em>Editing is not supported for all projects by now.</em></div>
+								<div title="Load this project for editing and play around with the RVL settings! (Editing is not supported for all projects by now.)"><input id="useForEditor" type="checkbox" value="true"/>also load for <a title="Show editor" href="javascript:showRVLeditor('max')">editing ...</a> 
+								</div>
 							</div>
 						</div>
 						
@@ -105,6 +105,13 @@
 							<button onclick="bootstrapAVM();">Show AVM!</button>
 							Also try displaying <a href="javascript:loadProject('rvl','collapsible-tree')">RVL</a> and the <a href="javascript:loadProject('viso','collapsible-tree')">VISO/graphic</a> ontology module.
 						</div>
+						
+						<div class="infotext">
+							<!--Service for experimenting with the prototypical <a href="http://purl.org/rvl/">RVL</a> tooling.-->
+							Jan Polowinski. 2015.
+							<a href="impressum.html">Impressum</a>.
+						</div>
+						
   					</div>
   				</div>
 
@@ -114,25 +121,26 @@
   				</div>
 
   				<div id="right" class="layout">
-  				
-  					<div id="editor" class="layout">
-  						
-					<div id="resizer"><div>
-						<button onClick="showRVLeditor('hidden')" title="hide the editor">Hide</button>
-						<button onClick="showRVLeditor('normal')" title="set the editor to normal size">Normal</button>
-						<button onClick="showRVLeditor('max')" title="maximize the editor">Maximize</button>
-					</div></div>
+					<div id="editor" class="layout">
+			  			<form id="editingForm" action="/semvis/projects/run" method="POST">
 
-					  <form id="editingForm" action="/semvis/projects/run" method="POST">
+					  	<div id="resizer"><div>
+							<span class="button" onClick="showRVLeditor('hidden')" title="hide the editor">Hide</span>
+							<span class="button" onClick="showRVLeditor('normal')" title="set the editor to normal size">Normal</span>
+							<span class="button" onClick="showRVLeditor('max')" title="maximize the editor">Maximize</span>
+						</div></div>
+						
+						<div class="tab-header">Edit Data or RVL-Mappings ... </div>
+					
 					  	<!-- Note: default action above is overridden by attached method! -->
 						  <div title="change the id of the mapping project to clone the current example">
-							  <label for="id">ID</label>
+							  <label for="id">ID:</label>
 							  <span class="inputNextToLabel">
 							  	<input name="id" id="projectID" value="new-project-1" />
 							  </span>
 						  </div>
 						  <div title="override the default type of the graphic to be generated">
-						    <label for="graphicType">Graphic type</label> 
+						    <label for="graphicType">Graphic type:</label> 
 						    <span class="inputNextToLabel">
 							    <select name="graphicType" id="projectGraphicType" >
 							    	<option value="force-directed-graph" selected="selected">Force-Directed Graph</option>
@@ -151,19 +159,15 @@
 						  </div>
 						  <input title="Submit your RDF data + RVL mappings to update the graphic.
 (Cmd/Ctrl+Enter)" class="button" type="submit" formenctype="multipart/form-data" value="Submit"/>
-					  </form>
 
+					</form>
   				</div>
   			</div>
-			
+
 			</div>
 		</div>
 		
-		<div id="footer" class="layout">
-			<!--Service for experimenting with the prototypical <a href="http://purl.org/rvl/">RVL</a> tooling.-->
-			Jan Polowinski. 2015.
-			<a href="impressum.html">Impressum</a>.
-		</div>
+<!-- 	<div id="footer" class="layout"></div> -->
         
         <script type="text/javascript">
         
@@ -180,8 +184,9 @@
 		
         svg = visContainer.append("svg:svg")
    		.attr("id", "svg")
-        .attr("width", width)
-        .attr("height", height);
+//         .attr("width", "100%")
+//         .attr("height", "100%")
+        ;
     
         
         clearVis = function() {
@@ -195,15 +200,16 @@
 	        vis = svg
 	 	        .append("svg:g")
 	 	        .attr("id", "vis")
-	 	        .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
+// 	 	        .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
 	 	        ;
 	
 	 		labelContainerSpace = visContainer.append("div")
 	 			.attr("id", "labelContainerSpace")
-	 			.style("margin-top", m[0]+"px")
-	 			.style("margin-left", m[3]+"px")
-	 		    .attr("width", width + "px")
-	 		    .attr("height", height + "px");
+// 	 			.style("margin-top", m[0]+"px")
+// 	 			.style("margin-left", m[3]+"px")
+// 	 		    .attr("width", width + "px")
+// 	 		    .attr("height", height + "px")
+	 		    ;
         }
         
         reInitContainers = function() {
@@ -349,23 +355,23 @@
 		// editor
 		
 		showRVLeditor = function (show) {
-			if(show=='hidden') {
-				width = 1200;
+			if (show=='hidden') {
+// 				width = 1200;
 				d3.select("#right,#editor").style("display", "none");
-				d3.select("#middle").style("width", "1200px");
-				d3.select("#svg").attr("width", "1200");
+// 				d3.select("#middle").style("width", "100%");
+// 				d3.select("#svg").attr("width", "100%");
 			} else if (show=='max') {
-				width = 700;
-				d3.selectAll("#right,#editor").style("display", "table-cell");
-				d3.selectAll("#right,#editor").style("width", "650px");
-				d3.select("#middle").style("width", "550px");
-				d3.select("#svg").attr("width", "550");
+// 				width = 700;
+				d3.selectAll("#right").style("display", "table-cell");
+				d3.selectAll("#right").style("width", "50%");
+// 				d3.select("#middle").style("width", "50%");
+// 				d3.select("#svg").attr("width", "50%");
 			} else { // 'normal'
-				width = 900;
-				d3.selectAll("#right,#editor").style("display", "table-cell");
-				d3.selectAll("#right,#editor").style("width", "300px");
-				d3.select("#middle").style("width", "900px");
-				d3.select("#svg").attr("width", "900");
+// 				width = 900;
+				d3.selectAll("#right").style("display", "table-cell");
+				d3.selectAll("#right").style("width", "25%");
+// 				d3.select("#middle").style("width", "75%");
+// 				d3.select("#svg").attr("width", "75%");
 			}
 		}
 		
@@ -407,7 +413,7 @@
 		// init vis and editor
 		
 		//reLoad();
-		exampleJSON("graph-data-empty"); //showRVLeditor("hidden");
+		//exampleJSON("graph-data-empty"); //showRVLeditor("hidden");
     	loadExampleValue(baseUrlBackend + "projects/example/data", "#projectData");
         loadExampleValue(baseUrlBackend + "projects/example/mappings", "#projectMappings");
 		//loadExampleValue(baseUrlBackend + "projects/mappingmodel/aa-3", "#projectMappings");
@@ -428,7 +434,7 @@
         </script>
 		
  		<!-- somehow MUST NOT be before the script! -->
-        <svg id="svg-effects">
+        <svg id="svg-effects" style="display:none;">
             <filter id="blur-effect-1">
                 <feGaussianBlur stdDeviation="0.9" />
             </filter>

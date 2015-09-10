@@ -1,9 +1,5 @@
 div.labelContainerContainer, div.labelContainer {
 	/*border:1px dotted green;*/
-	position:absolute;
-	padding:0px;
-	margin:0px;
-	pointer-events: none;
 }
 
 div.labelContainer {
@@ -16,11 +12,7 @@ div.labelContainer {
 }
 
 #labelContainerSpace {
-	position:absolute;
-	z-index: 2000;
     /*border:1px dotted green;*/
-    pointer-events: none;
-	
 }
 
 /*

@@ -1,11 +1,12 @@
+.layout {
+  /*border: 1px solid yellow;*/
+}
+
 body {
+	background-color:black;
 }
 
 #container {
-}
-
-.layout {
-  /*border: 1px solid yellow;*/
 }
 
 #row  {
@@ -15,12 +16,12 @@ body {
 #footer  {
   /*display: table-row;*/
   	background-color: #ffc;
-  	display:none;
+/*   	display:none; */
 }
 
 #header  {
   /*display: table-row;*/
-  display:none;
+/*   display:none; */
 }
 
 #middle {
@@ -33,6 +34,7 @@ body {
 
 #right {
 	background-color: #efe;
+	display:none;
 }
   
 #canvas {
@@ -44,7 +46,7 @@ body {
 
 #editor {
 	background-color: #cfc;
-	
+	display:none;
 }
 
 input, button, select {
@@ -59,6 +61,12 @@ form textarea {
 }
 
 #svg {
-	background-color: #fcc;
-	display:none;
+	background-color: rgba(256,0,0,0.33) ;
+/* 	display:none; */
+}
+
+#labelContainerSpace {
+	background-color: rgba(0,256,0,0.33) ;
+/* 	height:200px; */
+/* 	display:none; */
 }
