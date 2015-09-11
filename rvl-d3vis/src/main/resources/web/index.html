@@ -83,7 +83,7 @@
 							</div>
 						</div>
 						
-						<div class="infotext">
+						<div id="implSettings" class="infotext">
 							Choose connector impl.:
 							<div id="chooseConnectorStyleDIV">
 								<select name="chooseConnectorStyle" id="chooseConnectorStyleID" onChange="setConnectorStyle(this.value);">
@@ -100,7 +100,7 @@
 							</div>
 						</div>
 						
-						<div class="infotext">
+						<div class="infotext" id="showAVMInfo">
 							Meta-visualize ;) the AVM (Abstract Visual Model) of the last generated graphic, which is an RDF model itself.
 							<button onclick="bootstrapAVM();">Show AVM!</button>
 							Also try displaying <a href="javascript:loadProject('rvl','collapsible-tree')">RVL</a> and the <a href="javascript:loadProject('viso','collapsible-tree')">VISO/graphic</a> ontology module.
@@ -290,6 +290,8 @@
 		onLoadedGraphJSON = function(error, graph, defaultGraphicType) {
 			latestJSONData = graph;
 			graphicLoadingFunctions[defaultGraphicType](error, graph);
+			activateOrDeactivateImplSettings(true);
+			activateOrDeactivateAVMFunctions(graph.graphic_id);
 		}
 		
 		reStart = function() {
@@ -309,6 +311,26 @@
 			setConnectorStyle("straight");
 			//$('#chooseExampleProjectID').find($('option')).attr('selected',false);
 			d3.select("#chooseExampleProjectID").property("value","placeholder");
+		}
+		
+		activateOrDeactivateAVMFunctions = function(graphic_id) {
+			if (graphic_id != "avm" && graphic_id != "__none__") {
+				d3.select("#showAVMInfo").style("opacity","1");
+				d3.select("#showAVMInfo").style("pointer-events","all");
+			} else {
+				d3.select("#showAVMInfo").style("opacity","0.2");
+				d3.select("#showAVMInfo").style("pointer-events","none");
+			}
+		}
+		
+		activateOrDeactivateImplSettings = function(activate) {
+			if (activate == true) {
+				d3.select("#implSettings").style("opacity","1");
+				d3.select("#implSettings").style("pointer-events","all");
+			} else {
+				d3.select("#implSettings").style("opacity","0.2");
+				d3.select("#implSettings").style("pointer-events","none");
+			}
 		}
 		
 		// call example projects on selecting from option list
@@ -413,6 +435,8 @@
 		// init vis and editor
 		
 		//reLoad();
+        activateOrDeactivateImplSettings(false);
+        activateOrDeactivateAVMFunctions("__none__");
 		//exampleJSON("graph-data-empty"); //showRVLeditor("hidden");
     	loadExampleValue(baseUrlBackend + "projects/example/data", "#projectData");
         loadExampleValue(baseUrlBackend + "projects/example/mappings", "#projectMappings");

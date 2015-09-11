@@ -70,6 +70,8 @@ public class OGVICProcess {
 	private final  FileRegistry dataFileRegistry = new FileRegistry("data files"); // DATA
 	private final  FileRegistry mappingFileRegistry = new FileRegistry("mapping files"); // Mapping files (each interpreted as a mapping set)
 	
+	private VisProject previousVisualizedProject;
+	
 	private boolean writeAVM = WRITE_AVM;
 	private boolean writeMappingModel = WRITE_MAPPING_MODEL;
 	private Reasoning reasoningDataModel = Reasoning.rdfs;
@@ -212,6 +214,8 @@ public class OGVICProcess {
 			LOGGER.severe("D3 html file was not set, using default one.");
 			System.exit(0);
 		}
+		
+		previousVisualizedProject = project;
 		
 	}
 
@@ -457,22 +461,32 @@ public class OGVICProcess {
 		
 		String json = "";
 		
-		try {
-			registerOntologyFile(OntologyFile.VISO_GRAPHIC);
-			registerOntologyFile(OntologyFile.RVL);
-
-			VisProject project = getAVMBootstrappingProject();
-			ModelManager manager = ModelManager.getInstance();
+		if (null == previousVisualizedProject || previousVisualizedProject.getId() != "avm") {
 			
-			manager.savePreviousAVM();
-			loadProject(project); // clears the avm and data model!
-			manager.addPreviousAvmToDataModel();
-
-			runOGVICProcess();
-			
-		} catch (OGVICRepositoryException | OGVICSystemInitException e1) {
-			throw new OGVICProcessException("Could not run the AVM bootstrapping"
-					+ " (for meta-visualizing the AVM)", e1);
+			// prevent avms of avms being visualised: just do the avm bootstrapping
+			// if the last project was not an avm bootstrapping project already
+		
+			try {
+				registerOntologyFile(OntologyFile.VISO_GRAPHIC);
+				registerOntologyFile(OntologyFile.RVL);
+	
+				VisProject project = getAVMBootstrappingProject();
+				ModelManager manager = ModelManager.getInstance();
+				
+				manager.savePreviousAVM();
+				loadProject(project); // clears the avm and data model!
+				manager.addPreviousAvmToDataModel();
+	
+				runOGVICProcess();
+				
+			} catch (OGVICRepositoryException | OGVICSystemInitException e1) {
+				throw new OGVICProcessException("Could not run the AVM bootstrapping"
+						+ " (for meta-visualizing the AVM)", e1);
+			}
+		
+		} else {
+			LOGGER.warning("Will use the old AVM, since we do not allow for visualing"
+					+ " the AVM of an AVM visualisation.");
 		}
 		
 		try {
