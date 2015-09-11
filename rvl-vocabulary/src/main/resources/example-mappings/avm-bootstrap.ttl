@@ -21,11 +21,27 @@
       rvl:sourceProperty owl:topObjectProperty ;
       rvl:targetObjToObjRelation
               <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
+      rvl:subMapping [
+        a rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linkingDirected_endNode;
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :DistinguishAVMObjectClassesByShape;
+      ],[
+        a rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linkingDirected_endNode;
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :DistinguishAVMObjectClassesByColor;
+      ],[
+        a rvl:SubMappingRelation ;
+        rvl:subMapping-onRole vg:linkingDirected_endNode;
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :DistinguishAVMObjectClassesBySize;
+      ]
 .
 
       
 :DistinguishAVMObjectClassesByShape
-      rvl:disabled "false" ;
+      rvl:disabled "true" ;
       a rvl:PropertyMapping ;
       rvl:sourceProperty rdf:type ;
       rvl:targetAttribute vg:shape_named ; 
@@ -45,7 +61,7 @@
 
       
 :DistinguishAVMObjectClassesByColor
-      rvl:disabled "false";
+      rvl:disabled "true";
       a rvl:PropertyMapping ;
       rvl:sourceProperty rdf:type ;
       rvl:targetAttribute vg:color_named ; 
@@ -62,7 +78,7 @@
       .
 
 :DistinguishAVMObjectClassesBySize
-      rvl:disabled "false";
+      rvl:disabled "true";
       a rvl:PropertyMapping ;
       rvl:sourceProperty rdf:type ;
       rvl:targetAttribute vg:area ; 
