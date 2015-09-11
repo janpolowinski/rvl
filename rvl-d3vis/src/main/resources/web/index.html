@@ -268,18 +268,12 @@
     	 	d3.json(baseUrlBackend + "projects/latest", function(json){
     	 		graphicLoadingFunctions[json.graphic_type](null, json);
     	 		});
-    		//d3.json(baseUrlBackend + "projects/latest", graphicLoadingFunctions[defaultGraphicType]);
     	}
     	
     	loadProject = function(projectID, defaultGraphicType) {
     		showProgress(true);
-    		// TODO refactor duplicated code
-    		if (currentGraphicType != "force-directed-graph" || currentGraphicType != defaultGraphicType ) {
-	    			reInitContainers();
-	    			currentGraphicType = defaultGraphicType;
-	    	}
     		d3.json(baseUrlBackend + "projects/run/" + projectID, function(error, graph){ 
-    			onLoadedGraphJSON(error, graph, defaultGraphicType);
+    			onLoadedGraphJSON(error, graph, null);
     		});
     		if (populateEditor()){ 
     			showRVLeditor('max');
@@ -291,10 +285,17 @@
 		loadProjectExternalEditing = function(defaultGraphicType) {
 			showProgress(true);
     		reInitContainers();
-    		d3.json(baseUrlBackend + "projects/run/external/" + defaultGraphicType, onLoadedGraphJSON());
+    		d3.json(baseUrlBackend + "projects/run/external/" + defaultGraphicType, onLoadedGraphJSON(error, graph, null));
     	}
 		
 		onLoadedGraphJSON = function(error, graph, defaultGraphicType) {
+			if (defaultGraphicType == null) {
+				defaultGraphicType = graph.graphic_type;
+			}
+    		if (currentGraphicType != "force-directed-graph" || currentGraphicType != defaultGraphicType) {
+    			reInitContainers();
+    			currentGraphicType = defaultGraphicType;
+    		}
 			latestJSONData = graph;
 			d3.select("#canvas").attr("class", graph.graphic_id);
 			graphicLoadingFunctions[defaultGraphicType](error, graph);
@@ -445,11 +446,7 @@
 			d3.xhr(baseUrlBackend + "projects/run")
     	    	.post(new FormData(formArg),function(error, responseEnv) {
     	    		var json = JSON.parse(responseEnv.response);
-    	    		if (currentGraphicType != "force-directed-graph" || currentGraphicType != json.graphic_type ) {
-    	    			reInitContainers();
-    	    			currentGraphicType = json.graphic_type;
-    	    		}
-    	    		onLoadedGraphJSON(error, json, json.graphic_type); 
+    	    		onLoadedGraphJSON(error, json, null); 
     	    	});
 		  return false;
 		};
