@@ -1,0 +1,16 @@
+<svg width='120px' height='120px' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="uil-balls"><rect x="0" y="0" width="100" height="100" fill="none" class="bk"></rect><g transform="rotate(0 50 50)">
+  <circle r="5" cx="25" cy="50">
+    <animateTransform attributeName="transform" type="translate" begin="0s" repeatCount="indefinite" dur="0.9s" values="0 0;37.49999999999999 -21.65063509461097" keyTimes="0;1"/>
+    <animate attributeName="fill" dur="0.9s" begin="0s" repeatCount="indefinite"  keyTimes="0;1" values="#fefefe;#cec9c9"/>
+  </circle>
+</g><g transform="rotate(120 50 50)">
+  <circle r="5" cx="25" cy="50">
+    <animateTransform attributeName="transform" type="translate" begin="0s" repeatCount="indefinite" dur="0.9s" values="0 0;37.49999999999999 -21.65063509461097" keyTimes="0;1"/>
+    <animate attributeName="fill" dur="0.9s" begin="0s" repeatCount="indefinite"  keyTimes="0;1" values="#cec9c9;#3c302e"/>
+  </circle>
+</g><g transform="rotate(240 50 50)">
+  <circle r="5" cx="25" cy="50">
+    <animateTransform attributeName="transform" type="translate" begin="0s" repeatCount="indefinite" dur="0.9s" values="0 0;37.49999999999999 -21.65063509461097" keyTimes="0;1"/>
+    <animate attributeName="fill" dur="0.9s" begin="0s" repeatCount="indefinite"  keyTimes="0;1" values="#3c302e;#fefefe"/>
+  </circle>
+</g></svg>

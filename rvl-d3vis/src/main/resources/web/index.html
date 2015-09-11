@@ -116,6 +116,10 @@
   				</div>
 
   				<div id="middle" class="layout">
+  					<div id="progress">
+  						<div id="progressLabel">... interpreting RVL mappings ... </div>
+  						<div><img src="svg/progress.svg"></img></div>
+  					</div>
   					<!--<div id="header" class="layout"></div>-->
   					<div id="canvas" class="layout"></div>
   				</div>
@@ -268,6 +272,7 @@
     	}
     	
     	loadProject = function(projectID, defaultGraphicType) {
+    		showProgress(true);
     		// TODO refactor duplicated code
     		if (currentGraphicType != "force-directed-graph" || currentGraphicType != defaultGraphicType ) {
 	    			reInitContainers();
@@ -292,6 +297,25 @@
 			graphicLoadingFunctions[defaultGraphicType](error, graph);
 			activateOrDeactivateImplSettings(true);
 			activateOrDeactivateAVMFunctions(graph.graphic_id);
+			showProgress(false);
+		}
+		
+		onLoadedGraphJSONforAVM = function(error, graph, defaultGraphicType) {
+			latestJSONData = graph;
+			d3.select("#canvas").attr("class", "avm");
+			setConnectorStyle("straight");
+			//$('#chooseExampleProjectID').find($('option')).attr('selected',false);
+			d3.select("#chooseExampleProjectID").property("value","placeholder");
+			if (settings.layout.labeling == "simple") { 	
+				// TODO, hack: setting to complex and restarting must be done before loading the AVM graph,
+				// since boundLabelContainerContainers is undefined otherwise
+				setLabelingImpl("complex"); 
+				reStart(); 	
+			}
+			graphicLoadingFunctions[defaultGraphicType](error, graph);
+			activateOrDeactivateImplSettings(true);
+			activateOrDeactivateAVMFunctions(graph.graphic_id);
+			showProgress(false);
 		}
 		
 		reStart = function() {
@@ -300,17 +324,10 @@
     	}
 		
 		bootstrapAVM = function() {
-			if (settings.layout.labeling == "simple") { 	
-					// TODO, hack: setting to complex and restarting must be done before loading the AVM graph,
-					// since boundLabelContainerContainers is undefined otherwise
-				setLabelingImpl("complex"); 
-				reStart(); 	
-			}
-			d3.json(baseUrlBackend + "projects/bootstrap/avm", function(error, graph){ onLoadedGraphJSON(error, graph, 'force-directed-graph');});
-			d3.select("#canvas").attr("class", "avm"); // TODO: hack: should actually be done based on the graphic_type of the loaded json (and after its loaded)
-			setConnectorStyle("straight");
-			//$('#chooseExampleProjectID').find($('option')).attr('selected',false);
-			d3.select("#chooseExampleProjectID").property("value","placeholder");
+    		showProgress(true);
+			d3.json(baseUrlBackend + "projects/bootstrap/avm", function(error, graph){ 
+				onLoadedGraphJSONforAVM(error, graph, 'force-directed-graph');
+			});
 		}
 		
 		activateOrDeactivateAVMFunctions = function(graphic_id) {
@@ -330,6 +347,14 @@
 			} else {
 				d3.select("#implSettings").style("opacity","0.2");
 				d3.select("#implSettings").style("pointer-events","none");
+			}
+		}
+		
+		showProgress = function(activate) {
+			if (activate == true) {
+				d3.select("#progress").style("display","inherit");
+			} else {
+				d3.select("#progress").style("display","none");
 			}
 		}
 		
@@ -417,6 +442,7 @@
 		// manipulating the form to post and wait with callback
 
 		myOnSubmit = function(formArg) {
+			showProgress(true);
 			d3.event.preventDefault();
 			d3.xhr(baseUrlBackend + "projects/run")
     	    	.post(new FormData(formArg),function(error, responseEnv) {
