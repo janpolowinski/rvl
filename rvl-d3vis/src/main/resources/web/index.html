@@ -263,8 +263,8 @@
         /**************************/	
         	
         reLoad = function() {
+        	showProgress(true);
     	 	reInitContainers();
-    	 	
     	 	d3.json(baseUrlBackend + "projects/latest", function(json){
     	 		graphicLoadingFunctions[json.graphic_type](null, json);
     	 		});
@@ -278,16 +278,19 @@
 	    			reInitContainers();
 	    			currentGraphicType = defaultGraphicType;
 	    	}
-    		d3.json(baseUrlBackend + "projects/run/" + projectID, function(error, graph){ onLoadedGraphJSON(error, graph, defaultGraphicType);});
+    		d3.json(baseUrlBackend + "projects/run/" + projectID, function(error, graph){ 
+    			onLoadedGraphJSON(error, graph, defaultGraphicType);
+    		});
     		d3.select("#canvas").attr("class", projectID); // should actually be done based on the graphic_type of the loaded json
     		if (populateEditor()){ 
     			showRVLeditor('max');
 				loadExampleValue('/semvis/projects/mappingfile/' + projectID, '#projectMappings');
 				loadExampleValue('/semvis/projects/datamodel/' + projectID , '#projectData');
-    			}
+    		}
     	}
 		
 		loadProjectExternalEditing = function(defaultGraphicType) {
+			showProgress(true);
     		reInitContainers();
     		d3.json(baseUrlBackend + "projects/run/external/" + defaultGraphicType, onLoadedGraphJSON());
     	}
@@ -301,7 +304,6 @@
 		}
 		
 		onLoadedGraphJSONforAVM = function(error, graph, defaultGraphicType) {
-			latestJSONData = graph;
 			d3.select("#canvas").attr("class", "avm");
 			setConnectorStyle("straight");
 			//$('#chooseExampleProjectID').find($('option')).attr('selected',false);
@@ -312,10 +314,7 @@
 				setLabelingImpl("complex"); 
 				reStart(); 	
 			}
-			graphicLoadingFunctions[defaultGraphicType](error, graph);
-			activateOrDeactivateImplSettings(true);
-			activateOrDeactivateAVMFunctions(graph.graphic_id);
-			showProgress(false);
+			onLoadedGraphJSON(error, graph, defaultGraphicType);
 		}
 		
 		reStart = function() {
