@@ -116,6 +116,10 @@
   				</div>
 
   				<div id="middle" class="layout">
+  					<div id="progress">
+  						<div id="progressLabel">... interpreting RVL mappings ... </div>
+  						<div><img src="svg/progress.svg"></img></div>
+  					</div>
   					<!--<div id="header" class="layout"></div>-->
   					<div id="canvas" class="layout"></div>
   				</div>
@@ -259,39 +263,58 @@
         /**************************/	
         	
         reLoad = function() {
+        	showProgress(true);
     	 	reInitContainers();
-    	 	
     	 	d3.json(baseUrlBackend + "projects/latest", function(json){
     	 		graphicLoadingFunctions[json.graphic_type](null, json);
     	 		});
-    		//d3.json(baseUrlBackend + "projects/latest", graphicLoadingFunctions[defaultGraphicType]);
     	}
     	
     	loadProject = function(projectID, defaultGraphicType) {
-    		// TODO refactor duplicated code
-    		if (currentGraphicType != "force-directed-graph" || currentGraphicType != defaultGraphicType ) {
-	    			reInitContainers();
-	    			currentGraphicType = defaultGraphicType;
-	    	}
-    		d3.json(baseUrlBackend + "projects/run/" + projectID, function(error, graph){ onLoadedGraphJSON(error, graph, defaultGraphicType);});
-    		d3.select("#canvas").attr("class", projectID); // should actually be done based on the graphic_type of the loaded json
+    		showProgress(true);
+    		d3.json(baseUrlBackend + "projects/run/" + projectID, function(error, graph){ 
+    			onLoadedGraphJSON(error, graph, null);
+    		});
     		if (populateEditor()){ 
     			showRVLeditor('max');
 				loadExampleValue('/semvis/projects/mappingfile/' + projectID, '#projectMappings');
 				loadExampleValue('/semvis/projects/datamodel/' + projectID , '#projectData');
-    			}
+    		}
     	}
 		
 		loadProjectExternalEditing = function(defaultGraphicType) {
+			showProgress(true);
     		reInitContainers();
-    		d3.json(baseUrlBackend + "projects/run/external/" + defaultGraphicType, onLoadedGraphJSON());
+    		d3.json(baseUrlBackend + "projects/run/external/" + defaultGraphicType, onLoadedGraphJSON(error, graph, null));
     	}
 		
 		onLoadedGraphJSON = function(error, graph, defaultGraphicType) {
+			if (defaultGraphicType == null) {
+				defaultGraphicType = graph.graphic_type;
+			}
+    		if (currentGraphicType != "force-directed-graph" || currentGraphicType != defaultGraphicType) {
+    			reInitContainers();
+    			currentGraphicType = defaultGraphicType;
+    		}
 			latestJSONData = graph;
+			d3.select("#canvas").attr("class", graph.graphic_id);
 			graphicLoadingFunctions[defaultGraphicType](error, graph);
 			activateOrDeactivateImplSettings(true);
 			activateOrDeactivateAVMFunctions(graph.graphic_id);
+			showProgress(false);
+		}
+		
+		onLoadedGraphJSONforAVM = function(error, graph, defaultGraphicType) {
+			setConnectorStyle("straight");
+			//$('#chooseExampleProjectID').find($('option')).attr('selected',false);
+			d3.select("#chooseExampleProjectID").property("value","placeholder");
+			if (settings.layout.labeling == "simple") { 	
+				// TODO, hack: setting to complex and restarting must be done before loading the AVM graph,
+				// since boundLabelContainerContainers is undefined otherwise
+				setLabelingImpl("complex"); 
+				reStart(); 	
+			}
+			onLoadedGraphJSON(error, graph, defaultGraphicType);
 		}
 		
 		reStart = function() {
@@ -300,17 +323,10 @@
     	}
 		
 		bootstrapAVM = function() {
-			if (settings.layout.labeling == "simple") { 	
-					// TODO, hack: setting to complex and restarting must be done before loading the AVM graph,
-					// since boundLabelContainerContainers is undefined otherwise
-				setLabelingImpl("complex"); 
-				reStart(); 	
-			}
-			d3.json(baseUrlBackend + "projects/bootstrap/avm", function(error, graph){ onLoadedGraphJSON(error, graph, 'force-directed-graph');});
-			d3.select("#canvas").attr("class", "avm"); // TODO: hack: should actually be done based on the graphic_type of the loaded json (and after its loaded)
-			setConnectorStyle("straight");
-			//$('#chooseExampleProjectID').find($('option')).attr('selected',false);
-			d3.select("#chooseExampleProjectID").property("value","placeholder");
+    		showProgress(true);
+			d3.json(baseUrlBackend + "projects/bootstrap/avm", function(error, graph){ 
+				onLoadedGraphJSONforAVM(error, graph, 'force-directed-graph');
+			});
 		}
 		
 		activateOrDeactivateAVMFunctions = function(graphic_id) {
@@ -330,6 +346,14 @@
 			} else {
 				d3.select("#implSettings").style("opacity","0.2");
 				d3.select("#implSettings").style("pointer-events","none");
+			}
+		}
+		
+		showProgress = function(activate) {
+			if (activate == true) {
+				d3.select("#progress").style("display","inherit");
+			} else {
+				d3.select("#progress").style("display","none");
 			}
 		}
 		
@@ -379,7 +403,7 @@
 		showRVLeditor = function (show) {
 			if (show=='hidden') {
 // 				width = 1200;
-				d3.select("#right,#editor").style("display", "none");
+				d3.select("#right").style("display", "none");
 // 				d3.select("#middle").style("width", "100%");
 // 				d3.select("#svg").attr("width", "100%");
 			} else if (show=='max') {
@@ -417,15 +441,12 @@
 		// manipulating the form to post and wait with callback
 
 		myOnSubmit = function(formArg) {
+			showProgress(true);
 			d3.event.preventDefault();
 			d3.xhr(baseUrlBackend + "projects/run")
     	    	.post(new FormData(formArg),function(error, responseEnv) {
     	    		var json = JSON.parse(responseEnv.response);
-    	    		if (currentGraphicType != "force-directed-graph" || currentGraphicType != json.graphic_type ) {
-    	    			reInitContainers();
-    	    			currentGraphicType = json.graphic_type;
-    	    		}
-    	    		onLoadedGraphJSON(error, json, json.graphic_type); 
+    	    		onLoadedGraphJSON(error, json, null); 
     	    	});
 		  return false;
 		};

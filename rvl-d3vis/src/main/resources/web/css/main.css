@@ -82,9 +82,10 @@ div.infotext {
 }
 
 #header, h1, h2, h3, .tab-header  {
-  font-style:normal;
-  font-size:1.4em;
+  font-style: normal;
+  font-size: 1.35em;
   text-transform: uppercase;
+  line-height: 1.1;
   }
   
 .tab-header  {
