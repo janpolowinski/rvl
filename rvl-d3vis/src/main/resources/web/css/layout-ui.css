@@ -52,6 +52,7 @@ body {
 }
 
 #right {
+  display: none;
   text-align: left;
   width: 25%;
   min-width: 200px;
