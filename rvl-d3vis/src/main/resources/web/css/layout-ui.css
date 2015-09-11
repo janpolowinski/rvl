@@ -27,6 +27,7 @@ body {
 #header  {
   /*display: table-row;*/
   padding: 5px;
+  padding-right: 10px;
   width:100%;
   vertical-align:top;
   text-align:left;
