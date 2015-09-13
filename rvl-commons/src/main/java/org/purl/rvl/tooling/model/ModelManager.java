@@ -469,7 +469,14 @@ public class ModelManager {
 	public void addPreviousAvmToDataModel() {
 		modelSet.removeModel(Graph.GRAPH_DATA);
 //		modelData.removeAll(); // don't do this, since it already contains the extra data triples necessary for AVM visualization
-		modelData.addModel(modelPreviousAVM);
+		
+		// modelData has reasoning off, so use a tmp model to infer the necessary triples for filtering resources:
+		// TODO performance: this may be simplified if a performance leak, but its not often executed
+		Model reasoningAVMDataModel = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		reasoningAVMDataModel.addModel(modelData);
+		reasoningAVMDataModel.addModel(modelPreviousAVM);
+		
+		modelData.addModel(reasoningAVMDataModel);
 		modelSet.addModel(modelData, Graph.GRAPH_DATA);
 	}
 	

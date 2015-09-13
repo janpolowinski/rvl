@@ -27,6 +27,7 @@
 :DistinguishAVMObjectClassesByShape
       rvl:disabled "false" ;
       a rvl:PropertyMapping ;
+      # this only works, if RDFS-reasoning is on in the data model, maybe use SPARQL with property path if reasoning can't be on:
       rvl:subjectFilter "http://purl.org/viso/graphic/AVM_Object";
       rvl:sourceProperty rdf:type ;
       rvl:targetAttribute vg:shape_named ; 
