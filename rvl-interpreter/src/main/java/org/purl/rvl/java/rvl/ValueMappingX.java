@@ -42,6 +42,7 @@ public class ValueMappingX extends Valuemapping {
 	private final static Logger LOGGER = Logger.getLogger(ValueMappingX.class.getName()); 
 	
 	public static final int NOT_CALCULATED = -1;
+	public static final int NOT_SUPPORTED = -2;
 	public static final int UNKNOWN = 0;
 	
 	// ADDRESSED SOURCE AND TARGET VALUES
@@ -55,13 +56,16 @@ public class ValueMappingX extends Valuemapping {
 	public static final int CC_D = 2;
 	public static final int CO = 3;
 	public static final int CU = 4;
-	public static final int OC = 5;
-	public static final int OO = 6;
-	public static final int OU = 7;
-	public static final int UC = 8;
-	public static final int UO = 9;
-	public static final int UU = 10;
-	public static final int SS = 11;
+	public static final int CS = 5;
+	public static final int OC = 6;
+	public static final int OO = 7;
+	public static final int OU = 8;
+	public static final int OS = 9;
+	public static final int UC = 10;
+	public static final int UO = 11;
+	public static final int UU = 12;
+	public static final int US = 13;
+	public static final int SS = 14;
 
 	// SCALE OF MEASUREMENT
 	public static final int SOM_UNKNOWN = 0;
@@ -590,20 +594,28 @@ private int calculateMappingSituation() throws InsufficientMappingSpecificationE
 		return CO;
 	} else if(svSituation == CONTINUOUS_RANGE && tvSituation == UNORDERED_SET) {
 		return CU;
+	} else if(svSituation == CONTINUOUS_RANGE && tvSituation == SINGLE_VALUE) {
+		return CS;
 	} else if(svSituation == ORDERED_SET && tvSituation == CONTINUOUS_RANGE) {
 		return OC;
 	} else if(svSituation == ORDERED_SET && tvSituation == ORDERED_SET) {
 		return OO;
 	} else if(svSituation == ORDERED_SET && tvSituation == UNORDERED_SET) {
 		return OU;
+	} else if(svSituation == ORDERED_SET && tvSituation == SINGLE_VALUE) {
+		return OS;
 	} else if(svSituation == UNORDERED_SET && tvSituation == CONTINUOUS_RANGE) {
 		return UC;
 	} else if(svSituation == UNORDERED_SET && tvSituation == ORDERED_SET) {
 		return UO;
 	} else if(svSituation == UNORDERED_SET && tvSituation == UNORDERED_SET) {
 		return UU;
+	} else if(svSituation == UNORDERED_SET && tvSituation == SINGLE_VALUE) {
+		return US;
 	} else if(svSituation == SINGLE_VALUE && tvSituation == SINGLE_VALUE) {
 		return SS;
+	} else if(svSituation == SINGLE_VALUE && tvSituation != SINGLE_VALUE) {
+		return NOT_SUPPORTED;
 	} else {
 		return UNKNOWN; 
 	}
@@ -677,7 +689,7 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 		
 		return new ValueMapperOO().calculateValueMappings(this);
 
-	} else if (UU == caseID || OU == caseID || UO == caseID){
+	} else if (UU == caseID || OU == caseID || UO == caseID || US == caseID) {
 
 		return new ValueMapperUU_OU_UO().calculateValueMappings(this);
 			
@@ -697,7 +709,20 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 		
 		return new ValueMapperCU().calculateValueMappings(this);
 		
-	}
+	} else if (NOT_SUPPORTED == caseID && null != this.affectedStatements) {
+		
+		throw new MappingException("Value mapping case not supported.");
+		
+	} else if (null != this.affectedStatements) {
+		
+		throw new MappingException("Value mapping case with ID " + caseID + " not (yet) supported.");
+		
+	} 
+	
+//	else { // may be problematic due to code below ...
+		
+//		throw new MappingException("Value mapping case with ID " + caseID + "not supported.");
+//	}
 
 	LOGGER.finest("Calculated value mappings: " + cvms);
 	

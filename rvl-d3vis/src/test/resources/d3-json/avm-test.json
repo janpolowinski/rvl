@@ -26,8 +26,8 @@
     },
     {
       "uri":"http://purl.org/rvl/example-avm/GO_-1293845154",
-      "color_rgb_hex":"#ff9900",
-      "color_rgb_hex_combined":"#ff9900",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
       "shape_d3_name":"avm_go",
       "width":50.46265,
       "roles":[
@@ -56,8 +56,8 @@
     },
     {
       "uri":"http://purl.org/rvl/example-avm/GO_-177082987",
-      "color_rgb_hex":"#ff9900",
-      "color_rgb_hex_combined":"#ff9900",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
       "shape_d3_name":"avm_go",
       "width":50.46265,
       "roles":[
@@ -85,8 +85,8 @@
     },
     {
       "uri":"http://purl.org/rvl/example-avm/GO_-813545274",
-      "color_rgb_hex":"#ff9900",
-      "color_rgb_hex_combined":"#ff9900",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
       "shape_d3_name":"avm_go",
       "width":50.46265,
       "roles":[
@@ -107,8 +107,8 @@
     },
     {
       "uri":"http://purl.org/rvl/example-avm/GO_625248609",
-      "color_rgb_hex":"#ff9900",
-      "color_rgb_hex_combined":"#ff9900",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
       "shape_d3_name":"avm_go",
       "width":50.46265,
       "roles":[
@@ -137,8 +137,8 @@
     },
     {
       "uri":"http://purl.org/rvl/example-avm/GO_697632992",
-      "color_rgb_hex":"#ff9900",
-      "color_rgb_hex_combined":"#ff9900",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
       "shape_d3_name":"avm_go",
       "width":50.46265,
       "roles":[
@@ -166,8 +166,8 @@
     },
     {
       "uri":"http://purl.org/rvl/example-avm/GO_697632992b",
-      "color_rgb_hex":"#ff9900",
-      "color_rgb_hex_combined":"#ff9900",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
       "shape_d3_name":"avm_go",
       "width":50.46265,
       "roles":[
@@ -270,6 +270,86 @@
       "labels":[
         {
           "position":"centerRight",
+          "text_value":"linked_to",
+          "width":"21.25",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"linked_to"
+        }
+      ],
+      "uri":"http://purl.org/viso/graphic/linked_to",
+      "type":"Directed",
+      "source_uri":"http://purl.org/rvl/example-avm/GO_625248609",
+      "target_uri":"http://purl.org/rvl/example-avm/DirectedLinkingRel_114470xxx",
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"labeling_base",
+          "width":"21.25",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"labeling_base"
+        }
+      ],
+      "uri":"http://purl.org/viso/graphic/labeling_base",
+      "type":"Directed",
+      "source_uri":"http://purl.org/rvl/example-avm/LabelingRel_-1485529384",
+      "target_uri":"http://purl.org/rvl/example-avm/GO_697632992",
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"labeling_label",
+          "width":"21.25",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"labeling_label"
+        }
+      ],
+      "uri":"http://purl.org/viso/graphic/labeling_label",
+      "type":"Directed",
+      "source_uri":"http://purl.org/rvl/example-avm/LabelingRel_-1485529384",
+      "target_uri":"http://purl.org/rvl/example-avm/GO_-813545274",
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"labeling_label",
+          "width":"21.25",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"labeling_label"
+        }
+      ],
+      "uri":"http://purl.org/viso/graphic/labeling_label",
+      "type":"Directed",
+      "source_uri":"http://purl.org/rvl/example-avm/LabelingRel_248681443",
+      "target_uri":"http://purl.org/rvl/example-avm/GO_-177082987",
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
           "text_value":"linked_with",
           "width":"21.25",
           "color_rgb_hex_combined":null,
@@ -279,7 +359,7 @@
       ],
       "uri":"http://purl.org/viso/graphic/linked_with",
       "type":"Directed",
-      "source_uri":"http://purl.org/rvl/example-avm/GO_-1293845154",
+      "source_uri":"http://purl.org/rvl/example-avm/GO_625248609",
       "target_uri":"http://purl.org/rvl/example-avm/UndirectedLinkingRel_1144701218",
       "value":"1"
     },
@@ -310,17 +390,37 @@
       "labels":[
         {
           "position":"centerRight",
-          "text_value":"labeling_label",
+          "text_value":"linking_connect...",
           "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
-          "text_value_full":"labeling_label"
+          "text_value_full":"linking_connector"
         }
       ],
-      "uri":"http://purl.org/viso/graphic/labeling_label",
+      "uri":"http://purl.org/viso/graphic/linking_connector",
       "type":"Directed",
-      "source_uri":"http://purl.org/rvl/example-avm/LabelingRel_248681443",
-      "target_uri":"http://purl.org/rvl/example-avm/GO_-177082987",
+      "source_uri":"http://purl.org/rvl/example-avm/UndirectedLinkingRel_1144701218",
+      "target_uri":"http://purl.org/rvl/example-avm/GO_697632992",
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"linked_with",
+          "width":"21.25",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"linked_with"
+        }
+      ],
+      "uri":"http://purl.org/viso/graphic/linked_with",
+      "type":"Directed",
+      "source_uri":"http://purl.org/rvl/example-avm/GO_-1293845154",
+      "target_uri":"http://purl.org/rvl/example-avm/UndirectedLinkingRel_1144701218",
       "value":"1"
     },
     {
@@ -350,26 +450,6 @@
       "labels":[
         {
           "position":"centerRight",
-          "text_value":"linked_with",
-          "width":"21.25",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"linked_with"
-        }
-      ],
-      "uri":"http://purl.org/viso/graphic/linked_with",
-      "type":"Directed",
-      "source_uri":"http://purl.org/rvl/example-avm/GO_625248609",
-      "target_uri":"http://purl.org/rvl/example-avm/UndirectedLinkingRel_1144701218",
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "position":"centerRight",
           "text_value":"labeling_base",
           "width":"21.25",
           "color_rgb_hex_combined":null,
@@ -381,86 +461,6 @@
       "type":"Directed",
       "source_uri":"http://purl.org/rvl/example-avm/LabelingRel_248681443",
       "target_uri":"http://purl.org/rvl/example-avm/GO_625248609",
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"labeling_label",
-          "width":"21.25",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"labeling_label"
-        }
-      ],
-      "uri":"http://purl.org/viso/graphic/labeling_label",
-      "type":"Directed",
-      "source_uri":"http://purl.org/rvl/example-avm/LabelingRel_-1485529384",
-      "target_uri":"http://purl.org/rvl/example-avm/GO_-813545274",
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"linked_to",
-          "width":"21.25",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"linked_to"
-        }
-      ],
-      "uri":"http://purl.org/viso/graphic/linked_to",
-      "type":"Directed",
-      "source_uri":"http://purl.org/rvl/example-avm/GO_625248609",
-      "target_uri":"http://purl.org/rvl/example-avm/DirectedLinkingRel_114470xxx",
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"linking_connect...",
-          "width":"21.25",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"linking_connector"
-        }
-      ],
-      "uri":"http://purl.org/viso/graphic/linking_connector",
-      "type":"Directed",
-      "source_uri":"http://purl.org/rvl/example-avm/UndirectedLinkingRel_1144701218",
-      "target_uri":"http://purl.org/rvl/example-avm/GO_697632992",
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"labeling_base",
-          "width":"21.25",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"labeling_base"
-        }
-      ],
-      "uri":"http://purl.org/viso/graphic/labeling_base",
-      "type":"Directed",
-      "source_uri":"http://purl.org/rvl/example-avm/LabelingRel_-1485529384",
-      "target_uri":"http://purl.org/rvl/example-avm/GO_697632992",
       "value":"1"
     }
   ]

@@ -14,6 +14,7 @@ public class UnsupportedMappingParameterValueException extends MappingException 
 
 	static String GENERAL_MESSAGE = "Mapping parameter value not supported: ";
 
+	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * @param message
@@ -30,9 +31,7 @@ public class UnsupportedMappingParameterValueException extends MappingException 
 		super(mapping, GENERAL_MESSAGE + " " + string);
 	}
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+	public UnsupportedMappingParameterValueException(MappingX mapping, String string, Throwable cause) {
+		super(mapping, GENERAL_MESSAGE + " " + string, cause);
+	}
 }

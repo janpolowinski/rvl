@@ -124,7 +124,7 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
 //					+ " (" + e.getMessage() + ")" );
 		} catch (ClassCastException e) {
 			throw new UnsupportedMappingParameterValueException(mapping, "Maybe the submapping was " +
-					"accidentally applied to a literal? :" + e.getMessage());
+					"accidentally applied to a literal? :" + e.getMessage(), e);
 		}
 
 	}
