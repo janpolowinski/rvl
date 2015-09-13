@@ -83,9 +83,11 @@ public class ValueMappingX extends Valuemapping {
 	private List<Node> targetValuesList;
 	private IntervalX targetValuesContinuousInterval;
 	
-	private Set<CalculatedValueMapping> cvms; // cache calculated mappings
+	private Set<CalculatedValueMapping> cvms; 			// cache calculated mappings
+	private int valueMappingSituation = NOT_CALCULATED;	// cache calculated mapping situation
 	private PropertyMappingX currentParentPropertyMapping; // reference to the property mapping, for which the value mapping is currently evaluated
 	private Set<Statement> affectedStatements;  // the set of statements that the property mapping currently affects
+
 
 
 	public ValueMappingX(Model model, URI classURI, Resource instanceIdentifier,
@@ -573,7 +575,9 @@ private int determineAdressedSourceValues() throws InsufficientMappingSpecificat
 }*/
 
 
-private int calculateMappingSituation() throws InsufficientMappingSpecificationException{
+private int calculateMappingSituation() throws InsufficientMappingSpecificationException {
+	
+	
 	
 	int svSituation = determineAdressedSourceValues();
 	int tvSituation = determineAdressedTargetValues();
@@ -605,6 +609,13 @@ private int calculateMappingSituation() throws InsufficientMappingSpecificationE
 	}
 }
 
+private int getMappingSitutation() throws MappingException {
+	if (valueMappingSituation == NOT_CALCULATED) {
+		valueMappingSituation = calculateMappingSituation();
+	}
+	return valueMappingSituation;
+}
+
 /**
  * Calculate concrete, explicit CalculatedValueMappings which represents
  * pairs of a (domain data) value and a graphic attribute value. The
@@ -623,7 +634,7 @@ private Set<CalculatedValueMapping> calculateValueMappings(Set<Statement> affect
 	this.currentParentPropertyMapping = propertyMapping;
 	this.affectedStatements = affectedStatements;
 	
-	cvms = calculateValueMappingsForCase(calculateMappingSituation());
+	cvms = calculateValueMappingsForCase(getMappingSitutation());
 
 	return cvms;
 
@@ -775,7 +786,7 @@ public String toStringDetailed() throws MappingException {
 			+ " (" + ValueMappingUtils.printAddressedTargetValues(LOGGER, this) + ")" 
 			+ NL;
 	s += "        mappings case: "
-			+ ValueMappingUtils.getMappingCaseName(calculateMappingSituation()) 
+			+ ValueMappingUtils.getMappingCaseName(getMappingSitutation()) 
 			+ NL;
 	
 		s += "        calculated value mappings: "
