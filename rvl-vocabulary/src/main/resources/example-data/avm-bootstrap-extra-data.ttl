@@ -29,3 +29,14 @@ vg:labeling_labeledWith rdfs:subPropertyOf owl:topObjectProperty .
 vg:labeling_label rdfs:subPropertyOf owl:topObjectProperty .
 vg:labeling_base rdfs:subPropertyOf owl:topObjectProperty .
 #vg:labeling_attachedBy rdfs:subPropertyOf owl:topObjectProperty .
+
+
+# "Helper class" graphic:AVM_Object to bundle all classes relevant to AVM visualisation for filtering
+
+vg:Object-to-Object_Relation rdfs:subClassOf vg:AVM_Object .
+vg:Graphic_Object rdfs:subClassOf vg:AVM_Object .
+
+vg:Linking_Undirected_Relation rdfs:subClassOf vg:Object-to-Object_Relation .
+vg:Linking_Directed_Relation rdfs:subClassOf vg:Object-to-Object_Relation .
+vg:Labeling_Relation rdfs:subClassOf vg:Object-to-Object_Relation .
+vg:Containment_Relation rdfs:subClassOf vg:Object-to-Object_Relation .
