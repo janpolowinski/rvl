@@ -151,22 +151,21 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
 
 	/**
 	 * @param statement - the statement to visually encode
-	 * @param mapping
-	 * @param go - the graphic object to use as a base for applying the additional visual encoding
+	 * @param mapping - a mapping describing the visual encoding to a graphic attribute
+	 * @param go - the graphic object whose graphic attributes have to be changed
 	 * @param sourceValueWorkNode - the node to work with (use as source value, apply base further mappings on ...)
 	 * It is one of the nodes used in the statement.
-	 * @throws InsufficientMappingSpecificationException
-	 * @throws SubmappingException 
+	 * @throws MappingException 
 	 */
 	public void encodeStatement(Statement statement, PropertyToGraphicAttributeMappingX mapping,
-			GraphicObjectX graphicObjectToApplyMapping, Node sourceValueWorkNode) throws InsufficientMappingSpecificationException, SubmappingException {
+			GraphicObjectX graphicObjectToApplyMapping, Node sourceValueWorkNode) throws MappingException {
 		
 		// checks ...
 		if (null == sourceValueWorkNode) {
-			throw new SubmappingException("Work node may not be null. (Statement: " + statement + ")");
+			throw new MappingException("Work node may not be null. (Statement: " + statement + ")");
 		}
 		if (null == graphicObjectToApplyMapping) {
-			throw new SubmappingException("Graphic object to apply the mapping may not be null. (Statement: " + statement + ", work node: " + sourceValueWorkNode + ")");
+			throw new MappingException("Graphic object to apply the mapping may not be null. (Statement: " + statement + ", work node: " + sourceValueWorkNode + ")");
 		}
 		
 		this.mapping = mapping;
@@ -187,9 +186,10 @@ public void handleP2GAMMapping(PropertyToGraphicAttributeMappingX mapping,
 		Map<Node, Node> svUriTVuriMap = mapping.getExtendedMappedValues(modelSet, extensionProperty);
 		//svUriTVuriMap = mapping.getMappedValues();	
 		
-		if (null == svUriTVuriMap || svUriTVuriMap.isEmpty()) {
-			LOGGER.severe("Could not apply submappings since no mapped values have been found.");
-			return;
+		if (null == svUriTVuriMap) {
+			throw new MappingException("Could not apply mapping, since no mapped values have been found. Source-to-target-value-map was null");
+		} else if (svUriTVuriMap.isEmpty()) {
+			throw new MappingException("Could not apply mapping, since no mapped values have been found. Source-to-target-value-map is empty.");
 		}
 
 		LOGGER.fine("Encoding statement " + statement);

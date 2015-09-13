@@ -2,6 +2,7 @@ package org.purl.rvl.tooling.rvl2avm;
 
 import java.util.Iterator;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.junit.Assert;
@@ -59,7 +60,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		
 		Set<PropertyToGO2ORMappingX> mappings = MappingQuery.getAllP2GOTORMappings(modelMappings);
 		
-		LOGGER.info(NL + "Found " + mappings.size() + " PGOTOR mappings (enabled and disabled mappings).");
+		LOGGER.info("Found " + mappings.size() + " PGOTOR mappings (enabled and disabled mappings).");
 		
 		// for each mapping
 		for (Iterator<PropertyToGO2ORMappingX> iterator = mappings
@@ -128,7 +129,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		
 		Set<PropertyToGraphicAttributeMappingX> setOfP2GAMappings = MappingQuery.getP2GAMappingsWithAtLeastOneValueMapping(modelMappings);
 		
-		LOGGER.info(NL + "Found " +setOfP2GAMappings.size()+ " P2GA mappings.");
+		LOGGER.info("Found " +setOfP2GAMappings.size()+ " P2GA mappings.");
 		
 		// for each P2GA mapping
 		for (Iterator<PropertyToGraphicAttributeMappingX> iterator = setOfP2GAMappings
@@ -153,8 +154,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 				new MappingToP2GAMHandler(modelSet, this, modelAVM).handleP2GAMMapping(p2gam);
 				
 			} catch (MappingException e) {
-				LOGGER.severe("P2GA mapping " + p2gam + " could not be interpreted: " + e.getMessage());
-				e.printStackTrace();
+				LOGGER.log(Level.SEVERE,"P2GA mapping " + p2gam + " could not be interpreted: " + e.getMessage(), e);
 				Assert.fail("Mapping " + p2gam + " could not be interpreted: " + e.getMessage());
 			} 
 
@@ -175,7 +175,7 @@ public class SimpleRVLInterpreter  extends RVLInterpreterBase {
 		Set<IdentityMappingX> mappingSet = MappingQuery
 				.getAllIdentityMappings(modelMappings);
 
-		LOGGER.info(NL + "Found " + mappingSet.size()
+		LOGGER.info("Found " + mappingSet.size()
 				+ " identity mappings.");
 
 		// for each identity mapping

@@ -16,6 +16,8 @@ import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.exception.MappingException;
+import org.purl.rvl.exception.NotImplementedMappingFeatureException;
 import org.purl.rvl.exception.UnexpressiveMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.Interval;
 import org.purl.rvl.java.gen.rvl.Valuemapping;
@@ -611,26 +613,18 @@ private int calculateMappingSituation() throws InsufficientMappingSpecificationE
  * @param propertyMapping - the PropertyMapping currently processing the value mapping (multiple PM may share the same VM)
  * 
  * @return
- * @throws InsufficientMappingSpecificationException 
+ * @throws MappingException 
  */
 private Set<CalculatedValueMapping> calculateValueMappings(Set<Statement> affectedStatements, PropertyMappingX propertyMapping) 
-		throws InsufficientMappingSpecificationException {
+		throws MappingException {
 	
 	// TODO: when value mappings are actually reused, keeping this usage specific 
 	// information in the state of the VM here will not work!
 	this.currentParentPropertyMapping = propertyMapping;
 	this.affectedStatements = affectedStatements;
-
-	try {
-		
-		cvms = calculateValueMappingsForCase(calculateMappingSituation());
-		
-	} catch (UnexpressiveMappingSpecificationException e) {
-		
-		LOGGER.warning("Value mappings couldn't be calculated: " + e.getMessage());
-		
-	}
 	
+	cvms = calculateValueMappingsForCase(calculateMappingSituation());
+
 	return cvms;
 
 }
@@ -651,9 +645,9 @@ public void setAffectedStatements(Set<Statement> affectedStatements) {
  * @return 
  * 
  * @return
- * @throws UnexpressiveMappingSpecificationException 
+ * @throws MappingException 
  */
-private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) throws UnexpressiveMappingSpecificationException {
+private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) throws MappingException {
 
 	cvms = new HashSet<CalculatedValueMapping>();
 	
@@ -661,12 +655,11 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 	
 	if (UNKNOWN == caseID) {
 		
-		LOGGER.severe("Could not calculate value mappings, since mapping case was unknwon");
-		return cvms;
+		throw new MappingException("Could not calculate value mappings, since mapping case was unknown.");
 		
 	} else if (SS == caseID){
 		
-		LOGGER.info("1-1 Value mappings should currently be handled separately and will not be considered here.");
+		LOGGER.warning("1-1 Value mappings should currently be handled separately and will not be considered here.");
 		return cvms;
 		
 	} else if (OO == caseID){
@@ -709,10 +702,10 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
  * @param affectedStatements
  * @param propertyMapping - the PropertyMapping currently processing the value mapping (multiple PM may share the same VM)
  * @return
- * @throws InsufficientMappingSpecificationException
+ * @throws MappingException 
  */
 public Collection<CalculatedValueMapping> getCalculatedValueMappings(Set<Statement> affectedStatements, PropertyMappingX propertyMapping) 
-		throws InsufficientMappingSpecificationException {
+		throws MappingException {
 	
 	if (null == cvms) {
 		cvms = calculateValueMappings(affectedStatements, propertyMapping);
@@ -763,7 +756,7 @@ public int getDiscreteStepCount() {
 	}
 }
 
-public String toStringDetailed() {
+public String toStringDetailed() throws MappingException {
 	
 	String s = "";
 	
