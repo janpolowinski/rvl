@@ -1,0 +1,120 @@
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix viso-data: <http://purl.org/viso/data/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix example-avm: <http://purl.org/rvl/example-avm/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix vg: <http://purl.org/viso/graphic/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+example-avm:LabelingRel_-1485529384
+        a                            vg:Labeling_Relation, vg:MyTest ;
+        vg:labeling_attachedBy
+                vg:Superimposition_Relation ;
+        vg:labeling_base   example-avm:GO_697632992 ;
+        vg:labeling_label  example-avm:GO_-813545274 .
+
+example-avm:UndirectedLinkingRel_1144701218
+        a                               vg:Linking_Undirected_Relation ;
+        rdfs:label                      "Linking_Undirected_Relation" ;
+        vg:linking_connector  example-avm:GO_697632992 ;
+        vg:linking_node       example-avm:GO_625248609 , example-avm:GO_-1293845154 .
+
+
+example-avm:GO_697632992
+        a                          vg:Graphic_Object ;
+        vg:labeled_with  example-avm:LabelingRel_-1485529384 ;
+        vg:represents    <http://purl.org/rvl/example-data/borders> ;       
+        vg:shape_named   <http://purl.org/viso/shape/commons/Line> .
+
+example-avm:GO_697632992b
+        a                          vg:Graphic_Object ;
+        vg:represents    <http://purl.org/rvl/example-data/partOf> ;
+        vg:shape_named   <http://purl.org/viso/shape/commons/Line> .
+
+
+example-avm:GO_-813545274
+        a                        vg:Graphic_Object ;
+        vg:text_value  "partOf" 
+.
+
+
+example-avm:GO_625248609
+        a                          vg:Graphic_Object ;
+        vg:labeled_with  example-avm:LabelingRel_248681443 ;
+        vg:linked_with   example-avm:UndirectedLinkingRel_1144701218 ;
+        vg:linked_to   example-avm:DirectedLinkingRel_114470xxx ;
+        vg:represents    <http://purl.org/rvl/example-data/World> ;
+        vg:shape_named   <http://purl.org/viso/shape/commons/Square> .
+
+
+example-avm:UndirectedLinkingRel_1144701218
+        a                               vg:Linking_Undirected_Relation ;
+        rdfs:label                      "Linking_Undirected_Relation" ;
+        vg:linking_connector  example-avm:GO_697632992 ;
+        vg:linking_node       example-avm:GO_625248609 , example-avm:GO_-1293845154 .
+
+example-avm:LabelingRel_248681443
+        a                            vg:Labeling_Relation ;
+        vg:labeling_attachedBy
+                vg:Superimposition_Relation ;
+        vg:labeling_base   example-avm:GO_625248609 ;
+        vg:labeling_label  example-avm:GO_-177082987 .
+
+example-avm:GO_-177082987 a vg:Graphic_Object ;
+        vg:shape_named   <http://purl.org/viso/shape/commons/Heart> .
+
+example-avm:DirectedLinkingRel_114470xxx
+        a                               vg:Linking_Directed_Relation ;
+        rdfs:label                      "DirectedLinkingRel_114470xxx" ;
+        vg:linking_connector  example-avm:GO_697632992b ;
+        vg:linkingDirected_startNode    example-avm:GO_625248609;
+        vg:linkingDirected_endNode      example-avm:GO_-1293845154 .
+
+
+
+example-avm:GO_-1293845154
+        a                          vg:Graphic_Object ;
+        vg:labeled_with  example-avm:LabelingRel_-330422400 ;
+        vg:linked_with   example-avm:UndirectedLinkingRel_1144701218 ;
+        vg:represents    <http://purl.org/rvl/example-data/Asia> ;
+        vg:shape_named   <http://purl.org/viso/shape/commons/Clock> .
+
+
+
+
+### EXAMPLES FOR NOISE CREATED BY REASONING AND OTHER RESOURCES WE DON'T WANT TO VISUALIZE: ####
+
+rdfs:Container  a        rdfs:Class , rdfs:Resource ;
+        rdfs:subClassOf  rdfs:Container .
+
+rdf:Alt  a               rdfs:Class , rdfs:Resource ;
+        rdfs:subClassOf  rdf:Alt , rdfs:Container .
+
+rdfs:ContainerMembershipProperty
+        a                rdfs:Class , rdfs:Resource ;
+        rdfs:subClassOf  rdfs:ContainerMembershipProperty , rdfs:Resource , rdf:Property .
+
+rdf:Bag  a               rdfs:Class , rdfs:Resource ;
+        rdfs:subClassOf  rdf:Bag , rdfs:Container .
+
+rdf:Seq  a               rdfs:Class , rdfs:Resource ;
+        rdfs:subClassOf  rdf:Seq , rdfs:Container .
+
+rdfs:Datatype  a         rdfs:Class , rdfs:Resource ;
+        rdfs:subClassOf  rdfs:Datatype , rdfs:Resource , rdfs:Class .
+
+rdfs:isDefinedBy  a         rdf:Property , rdfs:Resource ;
+        rdfs:subPropertyOf  rdfs:isDefinedBy , rdfs:seeAlso .
+
+rdfs:seeAlso  a             rdf:Property , rdfs:Resource ;
+        rdfs:subPropertyOf  rdfs:seeAlso .
+
+vg:Graphic_Object
+        a       rdfs:Class , rdfs:Resource .
+
+vg:Labeling_Relation
+        a       rdfs:Class , rdfs:Resource .
+
+vg:Linking_Undirected_Relation
+        a       rdfs:Class , rdfs:Resource .

@@ -434,6 +434,7 @@ public class OGVICProcess {
 		try {
 			amvBootstrappingProject.registerMappingFile(ExampleMapping.AVM_EXAMPLE_BOOTSTRAP);
 			amvBootstrappingProject.registerDataFile(ExampleData.AVM_EXTRA_DATA);
+			amvBootstrappingProject.setReasoningDataModel(Reasoning.rdfs);
 		} catch (FileNotFoundException e) {
 			throw new OGVICSystemInitException("Couldn't init the AVM Bootstrapping "
 					+ "(used for meta-visualizing the AVM model)", e);

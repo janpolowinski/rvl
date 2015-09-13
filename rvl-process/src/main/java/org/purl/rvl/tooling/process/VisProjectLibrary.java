@@ -199,6 +199,16 @@ public class VisProjectLibrary {
 		project.setD3Generator(new D3GeneratorTreeJSON());
 		project.setDefaultGraphicType("circle-packing-zoomable");
 		
+		//////////////////////////////////////////////////////////////////
+		// "Bootstrapping" AVM (example)
+		///////////////////////////////////////////////////////////////////
+		project = storeProject("avm-test");
+		project.setReasoningDataModel(Reasoning.rdfs);
+		project.registerMappingFile("/example-mappings/avm-bootstrap.ttl");
+		project.registerDataFile("/example-data/avm-example-data.ttl");
+		project.registerDataFile(ExampleData.AVM_EXTRA_DATA);
+		project.setD3Generator(new D3GeneratorDeepLabelsJSON());
+		
 	}
 	
 	public void storeProject(VisProject project) {

@@ -112,7 +112,11 @@ form input, form textarea, select {
 }
 
 #editor form textarea#projectMappings {
-	height:400px;
+	height: 280px;
+}
+
+#editor form textarea#projectData {
+	height: 220px;
 }
 
 label {
