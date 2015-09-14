@@ -58,9 +58,6 @@
 		rvl:sourceValue <http://purl.org/viso/graphic/Labeling_Relation>;
 		rvl:sourceValue <http://purl.org/viso/graphic/Containment_Relation>;
         rvl:targetValue vg:Green;
-      ],[
-	rvl:sourceValue <http://purl.org/viso/graphic/Graphic_Object>;
-        rvl:targetValue vg:Orange;
       ]
       .
 

@@ -185,9 +185,9 @@ public class PropertyToGraphicAttributeMappingX extends PropertyMappingX {
 	 * TODO: CURRENTLY ONLY ONE VALUE MAPPING IS EVALUATED!
 	 * TODO: we ignore other value mapping than the first at the moment! sometimes multiple are allowed!
 	 * @param the set of statements that the property mapping currently affects
-	 * @throws InsufficientMappingSpecificationException 
+	 * @throws MappingException 
 	 */
-	public void calculateValues(Set<Statement> affectedStatements) throws InsufficientMappingSpecificationException {
+	public void calculateValues(Set<Statement> affectedStatements) throws MappingException {
 	
 			calculatedMappedValues = new HashMap<Node, Node>();
 			
@@ -204,9 +204,9 @@ public class PropertyToGraphicAttributeMappingX extends PropertyMappingX {
 	 * TODO when the affected statements change the mappings need to be recalculated!
 	 * Gets a set of resource-node-graphic-value-node-pairs (possibly calculated from implicit value mappings).
 	 * @return - the set of resource-node-graphic-value-node-pairs as it was calculated the last time the calculation was triggered
-	 * @throws InsufficientMappingSpecificationException 
+	 * @throws MappingException 
 	 */
-	private Map<Node, Node> getCalculatedValues(Set<Statement> affectedStatements) throws InsufficientMappingSpecificationException {
+	private Map<Node, Node> getCalculatedValues(Set<Statement> affectedStatements) throws MappingException {
 		
 		if ((null == calculatedMappedValues || calculatedMappedValues.isEmpty()) && getDelegatee().hasValuemapping()) {
 
@@ -218,9 +218,9 @@ public class PropertyToGraphicAttributeMappingX extends PropertyMappingX {
 	
 	/**
 	 * @return - the resource-node-graphic-value-node-pairs if they have been calculated before, or null otherwise.
-	 * @throws InsufficientMappingSpecificationException 
+	 * @throws MappingException 
 	 */
-	public Map<Node, Node> getCalculatedValues() throws InsufficientMappingSpecificationException {
+	public Map<Node, Node> getCalculatedValues() throws MappingException {
 
 		return getCalculatedValues(null); 
 	}
@@ -229,9 +229,9 @@ public class PropertyToGraphicAttributeMappingX extends PropertyMappingX {
 	 * Gets a set of all resource-node-graphic-value-node-pairs including the explicitly mapped ones and those
 	 * calculated from implicit value mappings.
 	 * @return - a Map of graphic-values by resource node
-	 * @throws InsufficientMappingSpecificationException 
+	 * @throws MappingException 
 	 */
-	public Map<Node, Node> getMappedValues() throws InsufficientMappingSpecificationException {
+	public Map<Node, Node> getMappedValues() throws MappingException {
 		
 		if (null == mappedValues) {
 			
@@ -241,8 +241,17 @@ public class PropertyToGraphicAttributeMappingX extends PropertyMappingX {
 			
 			if (getDelegatee().hasValuemapping()) {
 				
-				mappedValues.putAll(getCalculatedValues());
-				mappedValues.putAll(getExplicitlyMappedValues());
+				Map<Node, Node> calculatedValues = getExplicitlyMappedValues();
+				Map<Node, Node> explicitlyMappedValues = getCalculatedValues();
+				
+				if (null == calculatedValues || calculatedValues.isEmpty() && 
+						(null == explicitlyMappedValues || explicitlyMappedValues.isEmpty())
+					) throw new MappingException("Neither explicit value mappings could be found, nor could any implicit ones be calculated. Mapping will fail.");
+				
+				mappedValues.putAll(calculatedValues);
+				mappedValues.putAll(explicitlyMappedValues);
+			} else {
+				throw new MappingException("No value mappings found, but mappings without value mappings are not yet supported.");
 			}
 
 		} else {
@@ -266,10 +275,9 @@ public class PropertyToGraphicAttributeMappingX extends PropertyMappingX {
 	 * @param modelSet
 	 * @param extensionProperty
 	 * @return the (if possible) extended value mappings for the given extension property
-	 * @throws InsufficientMappingSpecificationException 
 	 * @throws MappingException 
 	 */
-	public Map<Node, Node> getExtendedMappedValues(Sparqlable modelSet, Property extensionProperty) throws InsufficientMappingSpecificationException {
+	public Map<Node, Node> getExtendedMappedValues(Sparqlable modelSet, Property extensionProperty) throws MappingException {
 		
 		if (null == extendedMappedValuesByExtensionProperty) {
 			
@@ -345,7 +353,7 @@ public class PropertyToGraphicAttributeMappingX extends PropertyMappingX {
 		return ModelUtils.getGoodNodeLabel(getDelegatee(), getDelegatee().getModel());
 	}
 	
-	public String toStringDetailed(){
+	public String toStringDetailed() {
 		
 		String s = "";
 		
@@ -368,6 +376,8 @@ public class PropertyToGraphicAttributeMappingX extends PropertyMappingX {
 				}
 			} catch (InsufficientMappingSpecificationException e) {
 				s += "     An insuffiently specified mapping was found." +NL;
+			} catch (MappingException e) {
+				s += "     An exception occured when calculating the value mappings." +NL;
 			}
 				
 			s += "     Value mappings:" + NL;

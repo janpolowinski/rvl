@@ -16,6 +16,8 @@ import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
+import org.purl.rvl.exception.MappingException;
+import org.purl.rvl.exception.NotImplementedMappingFeatureException;
 import org.purl.rvl.exception.UnexpressiveMappingSpecificationException;
 import org.purl.rvl.java.gen.rvl.Interval;
 import org.purl.rvl.java.gen.rvl.Valuemapping;
@@ -40,6 +42,7 @@ public class ValueMappingX extends Valuemapping {
 	private final static Logger LOGGER = Logger.getLogger(ValueMappingX.class.getName()); 
 	
 	public static final int NOT_CALCULATED = -1;
+	public static final int NOT_SUPPORTED = -2;
 	public static final int UNKNOWN = 0;
 	
 	// ADDRESSED SOURCE AND TARGET VALUES
@@ -53,13 +56,16 @@ public class ValueMappingX extends Valuemapping {
 	public static final int CC_D = 2;
 	public static final int CO = 3;
 	public static final int CU = 4;
-	public static final int OC = 5;
-	public static final int OO = 6;
-	public static final int OU = 7;
-	public static final int UC = 8;
-	public static final int UO = 9;
-	public static final int UU = 10;
-	public static final int SS = 11;
+	public static final int CS = 5;
+	public static final int OC = 6;
+	public static final int OO = 7;
+	public static final int OU = 8;
+	public static final int OS = 9;
+	public static final int UC = 10;
+	public static final int UO = 11;
+	public static final int UU = 12;
+	public static final int US = 13;
+	public static final int SS = 14;
 
 	// SCALE OF MEASUREMENT
 	public static final int SOM_UNKNOWN = 0;
@@ -81,9 +87,11 @@ public class ValueMappingX extends Valuemapping {
 	private List<Node> targetValuesList;
 	private IntervalX targetValuesContinuousInterval;
 	
-	private Set<CalculatedValueMapping> cvms; // cache calculated mappings
+	private Set<CalculatedValueMapping> cvms; 			// cache calculated mappings
+	private int valueMappingSituation = NOT_CALCULATED;	// cache calculated mapping situation
 	private PropertyMappingX currentParentPropertyMapping; // reference to the property mapping, for which the value mapping is currently evaluated
 	private Set<Statement> affectedStatements;  // the set of statements that the property mapping currently affects
+
 
 
 	public ValueMappingX(Model model, URI classURI, Resource instanceIdentifier,
@@ -571,7 +579,9 @@ private int determineAdressedSourceValues() throws InsufficientMappingSpecificat
 }*/
 
 
-private int calculateMappingSituation() throws InsufficientMappingSpecificationException{
+private int calculateMappingSituation() throws InsufficientMappingSpecificationException {
+	
+	
 	
 	int svSituation = determineAdressedSourceValues();
 	int tvSituation = determineAdressedTargetValues();
@@ -584,23 +594,38 @@ private int calculateMappingSituation() throws InsufficientMappingSpecificationE
 		return CO;
 	} else if(svSituation == CONTINUOUS_RANGE && tvSituation == UNORDERED_SET) {
 		return CU;
+	} else if(svSituation == CONTINUOUS_RANGE && tvSituation == SINGLE_VALUE) {
+		return CS;
 	} else if(svSituation == ORDERED_SET && tvSituation == CONTINUOUS_RANGE) {
 		return OC;
 	} else if(svSituation == ORDERED_SET && tvSituation == ORDERED_SET) {
 		return OO;
 	} else if(svSituation == ORDERED_SET && tvSituation == UNORDERED_SET) {
 		return OU;
+	} else if(svSituation == ORDERED_SET && tvSituation == SINGLE_VALUE) {
+		return OS;
 	} else if(svSituation == UNORDERED_SET && tvSituation == CONTINUOUS_RANGE) {
 		return UC;
 	} else if(svSituation == UNORDERED_SET && tvSituation == ORDERED_SET) {
 		return UO;
 	} else if(svSituation == UNORDERED_SET && tvSituation == UNORDERED_SET) {
 		return UU;
+	} else if(svSituation == UNORDERED_SET && tvSituation == SINGLE_VALUE) {
+		return US;
 	} else if(svSituation == SINGLE_VALUE && tvSituation == SINGLE_VALUE) {
 		return SS;
+	} else if(svSituation == SINGLE_VALUE && tvSituation != SINGLE_VALUE) {
+		return NOT_SUPPORTED;
 	} else {
 		return UNKNOWN; 
 	}
+}
+
+private int getMappingSitutation() throws MappingException {
+	if (valueMappingSituation == NOT_CALCULATED) {
+		valueMappingSituation = calculateMappingSituation();
+	}
+	return valueMappingSituation;
 }
 
 /**
@@ -611,26 +636,18 @@ private int calculateMappingSituation() throws InsufficientMappingSpecificationE
  * @param propertyMapping - the PropertyMapping currently processing the value mapping (multiple PM may share the same VM)
  * 
  * @return
- * @throws InsufficientMappingSpecificationException 
+ * @throws MappingException 
  */
 private Set<CalculatedValueMapping> calculateValueMappings(Set<Statement> affectedStatements, PropertyMappingX propertyMapping) 
-		throws InsufficientMappingSpecificationException {
+		throws MappingException {
 	
 	// TODO: when value mappings are actually reused, keeping this usage specific 
 	// information in the state of the VM here will not work!
 	this.currentParentPropertyMapping = propertyMapping;
 	this.affectedStatements = affectedStatements;
-
-	try {
-		
-		cvms = calculateValueMappingsForCase(calculateMappingSituation());
-		
-	} catch (UnexpressiveMappingSpecificationException e) {
-		
-		LOGGER.warning("Value mappings couldn't be calculated: " + e.getMessage());
-		
-	}
 	
+	cvms = calculateValueMappingsForCase(getMappingSitutation());
+
 	return cvms;
 
 }
@@ -651,9 +668,9 @@ public void setAffectedStatements(Set<Statement> affectedStatements) {
  * @return 
  * 
  * @return
- * @throws UnexpressiveMappingSpecificationException 
+ * @throws MappingException 
  */
-private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) throws UnexpressiveMappingSpecificationException {
+private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) throws MappingException {
 
 	cvms = new HashSet<CalculatedValueMapping>();
 	
@@ -661,19 +678,18 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 	
 	if (UNKNOWN == caseID) {
 		
-		LOGGER.severe("Could not calculate value mappings, since mapping case was unknwon");
-		return cvms;
+		throw new MappingException("Could not calculate value mappings, since mapping case was unknown.");
 		
 	} else if (SS == caseID){
 		
-		LOGGER.info("1-1 Value mappings should currently be handled separately and will not be considered here.");
+		LOGGER.warning("1-1 Value mappings should currently be handled separately and will not be considered here.");
 		return cvms;
 		
 	} else if (OO == caseID){
 		
 		return new ValueMapperOO().calculateValueMappings(this);
 
-	} else if (UU == caseID || OU == caseID || UO == caseID){
+	} else if (UU == caseID || OU == caseID || UO == caseID || US == caseID) {
 
 		return new ValueMapperUU_OU_UO().calculateValueMappings(this);
 			
@@ -693,7 +709,20 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
 		
 		return new ValueMapperCU().calculateValueMappings(this);
 		
-	}
+	} else if (NOT_SUPPORTED == caseID && null != this.affectedStatements) {
+		
+		throw new MappingException("Value mapping case not supported.");
+		
+	} else if (null != this.affectedStatements) {
+		
+		throw new MappingException("Value mapping case with ID " + caseID + " not (yet) supported.");
+		
+	} 
+	
+//	else { // may be problematic due to code below ...
+		
+//		throw new MappingException("Value mapping case with ID " + caseID + "not supported.");
+//	}
 
 	LOGGER.finest("Calculated value mappings: " + cvms);
 	
@@ -709,10 +738,10 @@ private Set<CalculatedValueMapping> calculateValueMappingsForCase(int caseID) th
  * @param affectedStatements
  * @param propertyMapping - the PropertyMapping currently processing the value mapping (multiple PM may share the same VM)
  * @return
- * @throws InsufficientMappingSpecificationException
+ * @throws MappingException 
  */
 public Collection<CalculatedValueMapping> getCalculatedValueMappings(Set<Statement> affectedStatements, PropertyMappingX propertyMapping) 
-		throws InsufficientMappingSpecificationException {
+		throws MappingException {
 	
 	if (null == cvms) {
 		cvms = calculateValueMappings(affectedStatements, propertyMapping);
@@ -763,7 +792,7 @@ public int getDiscreteStepCount() {
 	}
 }
 
-public String toStringDetailed() {
+public String toStringDetailed() throws MappingException {
 	
 	String s = "";
 	
@@ -782,7 +811,7 @@ public String toStringDetailed() {
 			+ " (" + ValueMappingUtils.printAddressedTargetValues(LOGGER, this) + ")" 
 			+ NL;
 	s += "        mappings case: "
-			+ ValueMappingUtils.getMappingCaseName(calculateMappingSituation()) 
+			+ ValueMappingUtils.getMappingCaseName(getMappingSitutation()) 
 			+ NL;
 	
 		s += "        calculated value mappings: "
