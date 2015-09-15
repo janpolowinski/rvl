@@ -45,7 +45,7 @@
                     	 since it takes too long + 
                     	 the generator classes are not compiled during the "generate-sources" phase,
                     	 at least, when a clean was done before -->
-                    	<phase>generate-sources</phase>
+<!--                     	<phase>generate-sources</phase> -->
                         <goals>
                             <goal>java</goal>
                         </goals>
@@ -59,7 +59,7 @@
                     </execution>
                     <execution>
                     	<id>generate-rvl-api-code</id>
-                    	<phase>generate-sources</phase>
+<!--                     	<phase>generate-sources</phase> -->
                         <goals>
                             <goal>java</goal>
                         </goals>

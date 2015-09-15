@@ -13,6 +13,4 @@ cp -pr semvis.war /Library/Tomcat/webapps
 
 cd ../../scripts
 
-./tomcat_restart.bash
-
-
+#./tomcat-restart.bash
