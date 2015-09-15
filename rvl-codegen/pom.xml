@@ -2,17 +2,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
     <artifactId>rvl-codegen</artifactId>
-	<name>Code-Generator for the RVL-API</name>
-	<groupId>org.purl.rvl</groupId>
-    <version>0.0.1-SNAPSHOT</version>
+	<name>RVL Code Generator</name>
+	<description>Code generator for the RVL- and VISO/graphic-API based on RDFreactor</description>
+<!-- 	<groupId>org.purl.rvl</groupId> -->
+<!--     <version>0.0.1-SNAPSHOT</version> -->
     
-    <!--<parent>
+    <parent>
         <groupId>org.purl.rvl</groupId>
         <artifactId>rvl-tooling</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-    </parent>-->
+    </parent>
 
   <properties>
 	<!--<rdf-reactor.version>5.0.1</rdf-reactor.version> --><!-- Generated code has problems (colorhsllightness in GraphicObjectX, list in ValueMappingX -->
