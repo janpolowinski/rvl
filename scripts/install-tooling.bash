@@ -6,6 +6,4 @@ cd ..
 
 # always required
 
-mvn clean install -o -DskipTests
-
-cd ..
+mvn clean install -U -DskipTests
