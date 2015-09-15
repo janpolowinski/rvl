@@ -36,7 +36,7 @@
     
     <modules>
 		<module>rvl-vocabulary</module>
-		<module>codegen.rdfreactor</module>
+		<module>rvl-codegen</module>
 		<module>rvl-gen-api</module>
         <module>rvl-commons</module>
         <module>rvl-interpreter</module>
