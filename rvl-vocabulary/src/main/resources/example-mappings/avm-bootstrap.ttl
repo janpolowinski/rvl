@@ -180,10 +180,76 @@
 #      ]
 #      .
 
-:RepresentsMapping a rvl:PropertyMapping ;
+
+
+#### REPRESENTS ####
+
+
+:RepresentsToLinking a rvl:PropertyMapping ;
     rvl:disabled "true" ;
     rvl:targetObjToObjRelation
               <http://purl.org/viso/graphic/Linking_Directed_Relation> ;
     rvl:sourceProperty 
 	      vg:represents ;
 .
+
+:RepresentsAsLabel
+      rvl:disabled "false"^^xsd:boolean ;
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+      rvl:sourceProperty vg:represents ;
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:subMapping 
+      [
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:object;
+        rvl:subMapping-mapping :TextIdentityMapping;
+      ]
+#	 ,[
+#       rvl:subMapping-onRole vg:this; # use role "this" to apply submappings to the n-ary relation itself (not yet part of RVL spec!)
+#       rvl:subMapping-onTriplePart rdf:subject;
+#       rvl:subMapping-mapping :TypeToLabelStyleMapping2;  
+#     ]
+      ,[
+        rvl:subMapping-onRole vg:this; # use role "this" to apply submappings to the n-ary relation itself (not yet part of RVL spec!)
+       rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :IDtoLabelPositionMapping2;
+      ]
+      .
+
+:TextIdentityMapping
+      rvl:disabled "true"^^xsd:boolean ;
+      a rvl:IdentityMapping ;
+      #rvl:sourceProperty vg:represents ; 
+      #rvl:sourceProperty rdfs:label ;
+      rvl:sourceProperty rvl:label ;
+      #rvl:sourceProperty rvl:IDandTypes ;
+      #rvl:sourceProperty rdf:ID ;
+      rvl:targetAttribute
+              vg:text_value ;
+      .
+
+ :TypeToLabelStyleMapping2
+       rvl:disabled "true";
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rdf:type ;
+      rvl:targetAttribute
+              vg:labeling_attachedBy ;
+      rvl:valueMapping [
+      	a rvl:valueMapping;
+		rvl:sourceValue vg:Graphic_Object;
+      	rvl:targetValue vg:Containment_Relation;
+      ]
+      .  
+
+:IDtoLabelPositionMapping2
+	  rvl:disabled "true";
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rdf:type ;
+      rvl:targetAttribute
+              vg:labeling_position ; # (not yet part of RVL spec!)
+      rvl:valueMapping [
+      	a rvl:valueMapping;
+      	rvl:sourceValue vg:Graphic_Object;
+      	rvl:targetValue vg:BottomCenter;
+      ]
+      . 

@@ -6,6 +6,7 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix vg: <http://purl.org/viso/graphic/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rexd:    <http://purl.org/rvl/example-data/> .
 
 example-avm:LabelingRel_-1485529384
         a                            vg:Labeling_Relation, vg:MyTest ;
@@ -81,6 +82,8 @@ example-avm:GO_-1293845154
         vg:shape_named   <http://purl.org/viso/shape/commons/Clock> .
 
 
+rexd:World rdfs:label "Welt" .
+rexd:Asia rdfs:label "Asien" .
 
 
 ### EXAMPLES FOR NOISE CREATED BY REASONING AND OTHER RESOURCES WE DON'T WANT TO VISUALIZE: ####
