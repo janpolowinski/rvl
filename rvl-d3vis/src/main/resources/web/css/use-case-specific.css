@@ -16,17 +16,35 @@
 	transform:scale(3.0) ;
 }
 
+/* RO-4b */
+
+#canvas.ro-4b svg {
+    background-color: #ddd;
+}
+#canvas.ro-4b .svgSymbol {
+	stroke: #ddd;
+}
+/*
+#canvas.ro-4b .htmlTextLabel {
+	font-size: 1.3em;
+   font-family: Georgia, _serif;
+}
+*/
+
 /* AVM */
 
-#canvas.avm .linking_connector  {
+#canvas.avm .linking_connector,
+#canvas.avm-test .linking_connector  {
     stroke-width: 6px;
 }
 
-#canvas.avm .labeling_base  {
+#canvas.avm .labeling_base,
+#canvas.avm-test .labeling_base  {
 	/*transform:scale(2.5) ; */
 }
 
-#canvas.avm .labelContainerContainer use.label {
+#canvas.avm .labelContainerContainer use.label,
+#canvas.avm-test .labelContainerContainer use.label {
     transform:scale(0.8) ;
 /*     fill:none !important; */
     fill:#828882 !important; 
