@@ -7,6 +7,7 @@ import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Statement;
+import org.ontoware.rdf2go.model.node.Literal;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.Variable;
@@ -70,7 +71,7 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 		
 		Node targetValue = null;
 		
-		Node sp = statement.getPredicate();
+		Node sp = mappingAttribute.getSourceProperty();
 		
 		Model modelData = modelSet.getModel(Graph.GRAPH_DATA);
 
@@ -152,10 +153,16 @@ public class IdentityMappingHandler extends MappingHandlerBase {
 					
 					try {
 						// if the object is a literal, such as a label
-						targetValue = object.asLiteral();
+						targetValue = sourceValue = object.asLiteral();
 					} catch (ClassCastException e ) {
-						// if the object is a URI //TODO: handle blank nodes!
-						targetValue = new PlainLiteralImpl(object.asURI().toString());
+						// if the object is not a Literal
+						Literal valueAsLiteral;
+						try {
+							valueAsLiteral = new PlainLiteralImpl(object.asURI().toString());
+						} catch (ClassCastException e1) {
+							throw new MappingException("Blank node passed to identity mapping? ", e1);
+						}
+						targetValue = sourceValue = valueAsLiteral;
 					}
 				}
 			}
