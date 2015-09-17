@@ -394,8 +394,9 @@
     	
     	populateWithExampleValue = function(error, value, elementID) {
     	
-    		//alert(value);
-    		d3.select(elementID).text(value);
+    		$(elementID).val(value);
+    		// using d3 here somehow does not override user-edits, hence we use jquery
+//     		d3.select(elementID).text(value);
     	}
 		
 		// editor
