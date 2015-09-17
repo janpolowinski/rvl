@@ -211,10 +211,29 @@
 #     ]
       ,[
         rvl:subMapping-onRole vg:this; # use role "this" to apply submappings to the n-ary relation itself (not yet part of RVL spec!)
-       rvl:subMapping-onTriplePart rdf:subject;
+       rvl:subMapping-onTriplePart rdf:predicate;
         rvl:subMapping-mapping :IDtoLabelPositionMapping2;
       ]
       .
+
+#### GO labels ####
+
+:LabelAsLabel
+      rvl:disabled "false"^^xsd:boolean ;
+      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+rvl:subjectFilter "http://purl.org/viso/graphic/AVM_Object";
+      rvl:sourceProperty rdf:ID ;
+      rvl:targetObjToObjRelation vg:Labeling_Relation ; 
+      rvl:subMapping 
+      [
+        rvl:subMapping-onRole vg:labeling_label;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :TextIdentityMapping;
+      ],[
+        rvl:subMapping-onRole vg:this;
+       rvl:subMapping-onTriplePart rdf:predicate;
+        rvl:subMapping-mapping :IDtoLabelPositionMapping2;
+      ].
 
 :TextIdentityMapping
       rvl:disabled "true"^^xsd:boolean ;
@@ -244,12 +263,16 @@
 :IDtoLabelPositionMapping2
 	  rvl:disabled "true";
       a rvl:PropertyMapping ;
-      rvl:sourceProperty rdf:type ;
+      rvl:sourceProperty rdf:ID ;
       rvl:targetAttribute
               vg:labeling_position ; # (not yet part of RVL spec!)
       rvl:valueMapping [
       	a rvl:valueMapping;
-      	rvl:sourceValue vg:Graphic_Object;
+      	rvl:sourceValue rdf:ID;
       	rvl:targetValue vg:BottomCenter;
+      ],[
+      	a rvl:valueMapping;
+      	rvl:sourceValue vg:represents;
+      	rvl:targetValue vg:CenterRight;
       ]
       . 
