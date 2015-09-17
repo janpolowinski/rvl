@@ -78,7 +78,7 @@
 						<div class="infotext">
 							Get started by loading one of the RVL-examples from our case studies:
 							<div id="loadExampleProject">
-								<div title="Load this project for editing and play around with the RVL settings! (Editing is not supported for all projects by now.)"><input id="useForEditor" type="checkbox" value="true"/>also load for <a title="Show editor" href="javascript:showRVLeditor('max')">editing ...</a> 
+								<div title="Load this project for editing and play around with the RVL settings! (Editing is not supported for a few projects by now, e.g. aa-3-and-4)"><input id="useForEditor" type="checkbox" value="true"/>load for <a title="Show editor" href="javascript:showRVLeditor('max')">editing</a> instead ... 
 								</div>
 							</div>
 						</div>
@@ -271,14 +271,17 @@
     	}
     	
     	loadProject = function(projectID, defaultGraphicType) {
-    		showProgress(true);
-    		d3.json(baseUrlBackend + "projects/run/" + projectID, function(error, graph){ 
-    			onLoadedGraphJSON(error, graph, null);
-    		});
-    		if (populateEditor()){ 
+    		if (populateEditor()) {
     			showRVLeditor('max');
-				loadExampleValue('/semvis/projects/mappingfile/' + projectID, '#projectMappings');
+    			$("#projectData").val("loading data ... ");
+    			$("#projectMappings").val("loading mappings ... ");
 				loadExampleValue('/semvis/projects/datamodel/' + projectID , '#projectData');
+				loadExampleValue('/semvis/projects/mappingfile/' + projectID, '#projectMappings');
+    		} else {
+        		showProgress(true);
+        		d3.json(baseUrlBackend + "projects/run/" + projectID, function(error, graph){ 
+        			onLoadedGraphJSON(error, graph, null);
+        		});
     		}
     	}
 		
