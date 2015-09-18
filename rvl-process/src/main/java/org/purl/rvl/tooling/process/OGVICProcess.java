@@ -255,7 +255,7 @@ public class OGVICProcess {
 //			if (isWriteAVM()) writeAVMToFile();  doesn't work under tomcat, define tmp folder?: http://stackoverflow.com/questions/1969711/best-practice-to-store-temporary-data-for-a-webapp
 			if (isWriteMappingModel()) writeMappingModelToFile();
 		} catch (D3GeneratorException | OGVICModelsException e) {
-			LOGGER.log(Level.SEVERE, e.getMessage(), e.getStackTrace());
+			throw new OGVICProcessException("Couldn't run process. " + e.getMessage(), e);
 		}
 	}
 
