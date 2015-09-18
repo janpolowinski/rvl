@@ -1,16 +1,11 @@
 package org.purl.rvl.tooling.process;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import org.apache.commons.io.IOUtils;
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
 import org.ontoware.rdf2go.model.Model;
@@ -27,8 +22,6 @@ import org.purl.rvl.tooling.avm2d3.D3Generator;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
 import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.commons.FileRegistry;
-import org.purl.rvl.tooling.commons.Graph;
-import org.purl.rvl.tooling.commons.utils.CustomRecordFormatter;
 import org.purl.rvl.tooling.model.ModelManager;
 import org.purl.rvl.tooling.rvl2avm.RVLInterpreter;
 import org.purl.rvl.tooling.rvl2avm.SimpleRVLInterpreter;
@@ -255,6 +248,7 @@ public class OGVICProcess {
 	}
 
 	public void runOGVICProcess() throws OGVICProcessException {
+		resetProcess();
 		interpreteRVL2AVM();	
 		try {
 			transformAVMToD3();
@@ -264,17 +258,26 @@ public class OGVICProcess {
 			LOGGER.log(Level.SEVERE, e.getMessage(), e.getStackTrace());
 		}
 	}
-	
+
 	public void runOGVICProcessForTesting() throws D3GeneratorException, OGVICModelsException {
 		interpreteRVL2AVM();	
 		transformAVMToD3();
+	}
+	
+	
+	/**
+	 * Reset the artifacts generated during the last process run to avoid that old stuff will be returned.
+	 * TODO: Should the process really persist at all?
+	 */
+	private void resetProcess() {
+		generatedD3json = null;
 	}
 
 	public String getGeneratedD3json() throws OGVICProcessException, EmptyGeneratedException {
 		if (null == generatedD3json)
 			throw new OGVICProcessException("Couldn't retrieve generated D3-JSON. Was null.");
 		if (generatedD3json.isEmpty())
-			throw new EmptyGeneratedException("D3-JSON empty.");
+			throw new EmptyGeneratedException("Retrieved empty generated D3-JSON.");
 		return generatedD3json;
 	}
 
