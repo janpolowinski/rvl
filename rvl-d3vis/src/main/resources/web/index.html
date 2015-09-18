@@ -277,9 +277,10 @@
     			$("#projectData").val("loading data ... ");
     			$("#projectMappings").val("loading mappings ... ");
 				loadExampleValue('/semvis/projects/datamodel/' + projectID , '#projectData');
-				loadExampleValue('/semvis/projects/mappingfile/' + projectID, '#projectMappings');				
-				d3.select("#projectGraphicType").
-					property("value", getProjectByID(currentProjects, projectID).defaultGraphicType);
+				loadExampleValue('/semvis/projects/mappingfile/' + projectID, '#projectMappings');
+				var project = getProjectByID(currentProjects, projectID);
+				d3.select("#projectGraphicType").property("value", project.defaultGraphicType);
+				d3.select("#projectID").property("value", project.id + "-copy");
     		} else {
         		showProgress(true);
         		d3.json(baseUrlBackend + "projects/run/" + projectID, function(error, graph) {
