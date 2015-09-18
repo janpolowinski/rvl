@@ -176,6 +176,7 @@
         <script type="text/javascript">
         
         var latestJSONData; // stores the json data for restarting the vis
+        var currentProjects;
 
 					
 		/******************************/
@@ -276,7 +277,9 @@
     			$("#projectData").val("loading data ... ");
     			$("#projectMappings").val("loading mappings ... ");
 				loadExampleValue('/semvis/projects/datamodel/' + projectID , '#projectData');
-				loadExampleValue('/semvis/projects/mappingfile/' + projectID, '#projectMappings');
+				loadExampleValue('/semvis/projects/mappingfile/' + projectID, '#projectMappings');				
+				d3.select("#projectGraphicType").
+					property("value", getProjectByID(currentProjects, projectID).defaultGraphicType);
     		} else {
         		showProgress(true);
         		d3.json(baseUrlBackend + "projects/run/" + projectID, function(error, graph){ 
@@ -361,8 +364,10 @@
 		}
 		
 		// call example projects on selecting from option list
-    	d3.json(baseUrlBackend + "projects", function (error, result) {
-        	
+    	d3.json(baseUrlBackend + "projects", function (error, projects) {
+    		
+    	currentProjects = projects;	 // stored for accessing project details later
+    	
    		 var projectsEnter = d3.select("#loadExampleProject")
    		.insert("div", ":first-child")
    		.append("select").attr("id","chooseExampleProjectID")
@@ -370,8 +375,8 @@
    		.attr("onChange", "loadProject(this.options[this.selectedIndex].text, this.value);")
    		//	return "loadProject('" + d.id + "','" + d.defaultGraphicType + "'); }"
    		.selectAll("option")
-   	    .data(result.sort(function(a, b) { return d3.ascending(a.id, b.id); }))
-   	    //.data(result.sort(function(a, b) { return d3.ascending(a.defaultGraphicType, b.defaultGraphicType); }))
+   	    .data(projects.sort(function(a, b) { return d3.ascending(a.id, b.id); }))
+   	    //.data(projects.sort(function(a, b) { return d3.ascending(a.defaultGraphicType, b.defaultGraphicType); }))
    	    .enter()
    	    .append("option")
 			.attr("value", function(d){
