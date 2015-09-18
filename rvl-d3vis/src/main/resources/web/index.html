@@ -282,8 +282,15 @@
 					property("value", getProjectByID(currentProjects, projectID).defaultGraphicType);
     		} else {
         		showProgress(true);
-        		d3.json(baseUrlBackend + "projects/run/" + projectID, function(error, graph){ 
-        			onLoadedGraphJSON(error, graph, null);
+        		d3.json(baseUrlBackend + "projects/run/" + projectID, function(error, graph) {
+        			console.log(error);
+        			if (error != null) {
+    	    			//alert ("Graphic could not be created. Reason: " + JSON.parse(error.response).message);
+    	    			alert ("Graphic could not be created. Reason: " + error.responseText);
+    	    			showProgress(false);
+    	    		} else {
+    	    			onLoadedGraphJSON(error, graph, null);
+    	    		}
         		});
     		}
     	}
@@ -454,8 +461,13 @@
 			d3.event.preventDefault();
 			d3.xhr(baseUrlBackend + "projects/run")
     	    	.post(new FormData(formArg),function(error, responseEnv) {
-    	    		var json = JSON.parse(responseEnv.response);
-    	    		onLoadedGraphJSON(error, json, null); 
+    	    		if (error != null) {
+    	    			alert ("Graphic could not be created. Reason: " + JSON.parse(error.response).message);
+    	    			showProgress(false);
+    	    		} else {
+    	    			var json = JSON.parse(responseEnv.response);
+    	    			onLoadedGraphJSON(error, json, null); 
+    	    		}
     	    	});
 		  return false;
 		};
