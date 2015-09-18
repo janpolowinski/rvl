@@ -78,7 +78,7 @@
 						<div class="infotext">
 							Get started by loading one of the RVL-examples from our case studies:
 							<div id="loadExampleProject">
-								<div title="Load this project for editing and play around with the RVL settings! (Editing is not supported for all projects by now.)"><input id="useForEditor" type="checkbox" value="true"/>also load for <a title="Show editor" href="javascript:showRVLeditor('max')">editing ...</a> 
+								<div title="Load this project for editing and play around with the RVL settings! (Editing is not supported for a few projects by now, e.g. aa-3-and-4)"><input id="useForEditor" type="checkbox" value="true"/>load for <a title="Show editor" href="javascript:showRVLeditor('max')">editing</a> instead ... 
 								</div>
 							</div>
 						</div>
@@ -176,6 +176,7 @@
         <script type="text/javascript">
         
         var latestJSONData; // stores the json data for restarting the vis
+        var currentProjects;
 
 					
 		/******************************/
@@ -271,14 +272,27 @@
     	}
     	
     	loadProject = function(projectID, defaultGraphicType) {
-    		showProgress(true);
-    		d3.json(baseUrlBackend + "projects/run/" + projectID, function(error, graph){ 
-    			onLoadedGraphJSON(error, graph, null);
-    		});
-    		if (populateEditor()){ 
+    		if (populateEditor()) {
     			showRVLeditor('max');
-				loadExampleValue('/semvis/projects/mappingfile/' + projectID, '#projectMappings');
+    			$("#projectData").val("loading data ... ");
+    			$("#projectMappings").val("loading mappings ... ");
 				loadExampleValue('/semvis/projects/datamodel/' + projectID , '#projectData');
+				loadExampleValue('/semvis/projects/mappingfile/' + projectID, '#projectMappings');
+				var project = getProjectByID(currentProjects, projectID);
+				d3.select("#projectGraphicType").property("value", project.defaultGraphicType);
+				d3.select("#projectID").property("value", project.id + "-copy");
+    		} else {
+        		showProgress(true);
+        		d3.json(baseUrlBackend + "projects/run/" + projectID, function(error, graph) {
+        			console.log(error);
+        			if (error != null) {
+    	    			//alert ("Graphic could not be created. Reason: " + JSON.parse(error.response).message);
+    	    			alert ("Graphic could not be created. Reason: " + error.responseText);
+    	    			showProgress(false);
+    	    		} else {
+    	    			onLoadedGraphJSON(error, graph, null);
+    	    		}
+        		});
     		}
     	}
 		
@@ -358,8 +372,10 @@
 		}
 		
 		// call example projects on selecting from option list
-    	d3.json(baseUrlBackend + "projects", function (error, result) {
-        	
+    	d3.json(baseUrlBackend + "projects", function (error, projects) {
+    		
+    	currentProjects = projects;	 // stored for accessing project details later
+    	
    		 var projectsEnter = d3.select("#loadExampleProject")
    		.insert("div", ":first-child")
    		.append("select").attr("id","chooseExampleProjectID")
@@ -367,8 +383,8 @@
    		.attr("onChange", "loadProject(this.options[this.selectedIndex].text, this.value);")
    		//	return "loadProject('" + d.id + "','" + d.defaultGraphicType + "'); }"
    		.selectAll("option")
-   	    .data(result.sort(function(a, b) { return d3.ascending(a.id, b.id); }))
-   	    //.data(result.sort(function(a, b) { return d3.ascending(a.defaultGraphicType, b.defaultGraphicType); }))
+   	    .data(projects.sort(function(a, b) { return d3.ascending(a.id, b.id); }))
+   	    //.data(projects.sort(function(a, b) { return d3.ascending(a.defaultGraphicType, b.defaultGraphicType); }))
    	    .enter()
    	    .append("option")
 			.attr("value", function(d){
@@ -394,8 +410,9 @@
     	
     	populateWithExampleValue = function(error, value, elementID) {
     	
-    		//alert(value);
-    		d3.select(elementID).text(value);
+    		$(elementID).val(value);
+    		// using d3 here somehow does not override user-edits, hence we use jquery
+//     		d3.select(elementID).text(value);
     	}
 		
 		// editor
@@ -445,8 +462,13 @@
 			d3.event.preventDefault();
 			d3.xhr(baseUrlBackend + "projects/run")
     	    	.post(new FormData(formArg),function(error, responseEnv) {
-    	    		var json = JSON.parse(responseEnv.response);
-    	    		onLoadedGraphJSON(error, json, null); 
+    	    		if (error != null) {
+    	    			alert ("Graphic could not be created. Reason: " + JSON.parse(error.response).message);
+    	    			showProgress(false);
+    	    		} else {
+    	    			var json = JSON.parse(responseEnv.response);
+    	    			onLoadedGraphJSON(error, json, null); 
+    	    		}
     	    	});
 		  return false;
 		};

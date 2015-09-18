@@ -39,11 +39,11 @@
       "labels":[
         {
           "position":"bottomCenter",
-          "text_value":"Asien",
+          "text_value":"GO_-1293845154",
           "width":"63.078312",
           "color_rgb_hex_combined":null,
           "type":"text_label",
-          "text_value_full":"Asien"
+          "text_value_full":"GO_-1293845154"
         },
         {
           "position":"centerCenter",
@@ -51,6 +51,14 @@
           "color_rgb_hex_combined":null,
           "shape_d3_name":"clock",
           "type":"icon_label"
+        },
+        {
+          "position":"centerRight",
+          "text_value":"Asien",
+          "width":"63.078312",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"Asien"
         }
       ]
     },
@@ -67,7 +75,7 @@
       ],
       "labels":[
         {
-          "position":"centerRight",
+          "position":"bottomCenter",
           "text_value":"GO_-177082987",
           "width":"63.078312",
           "color_rgb_hex_combined":null,
@@ -96,7 +104,7 @@
       ],
       "labels":[
         {
-          "position":"centerRight",
+          "position":"bottomCenter",
           "text_value":"GO_-813545274",
           "width":"63.078312",
           "color_rgb_hex_combined":null,
@@ -126,7 +134,7 @@
           "type":"icon_label"
         },
         {
-          "position":"bottomCenter",
+          "position":"centerRight",
           "text_value":"Welt",
           "width":"63.078312",
           "color_rgb_hex_combined":null,
@@ -134,7 +142,7 @@
           "text_value_full":"Welt"
         },
         {
-          "position":"centerRight",
+          "position":"bottomCenter",
           "text_value":"GO_625248609",
           "width":"63.078312",
           "color_rgb_hex_combined":null,
@@ -156,12 +164,20 @@
       ],
       "labels":[
         {
-          "position":"bottomCenter",
+          "position":"centerRight",
           "text_value":"borders",
           "width":"63.078312",
           "color_rgb_hex_combined":null,
           "type":"text_label",
           "text_value_full":"borders"
+        },
+        {
+          "position":"bottomCenter",
+          "text_value":"GO_697632992",
+          "width":"63.078312",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"GO_697632992"
         },
         {
           "position":"centerCenter",
@@ -186,6 +202,14 @@
       "labels":[
         {
           "position":"bottomCenter",
+          "text_value":"GO_697632992b",
+          "width":"63.078312",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"GO_697632992b"
+        },
+        {
+          "position":"centerRight",
           "text_value":"partOf",
           "width":"63.078312",
           "color_rgb_hex_combined":null,
@@ -214,7 +238,7 @@
       ],
       "labels":[
         {
-          "position":"centerRight",
+          "position":"bottomCenter",
           "text_value":"LabelingRel_-14...",
           "width":"26.38755",
           "color_rgb_hex_combined":null,
@@ -236,7 +260,7 @@
       ],
       "labels":[
         {
-          "position":"centerRight",
+          "position":"bottomCenter",
           "text_value":"LabelingRel_248...",
           "width":"26.38755",
           "color_rgb_hex_combined":null,
@@ -259,7 +283,7 @@
       ],
       "labels":[
         {
-          "position":"centerRight",
+          "position":"bottomCenter",
           "text_value":"Linking_Undirec...",
           "width":"26.38755",
           "color_rgb_hex_combined":null,
@@ -318,26 +342,6 @@
       "labels":[
         {
           "position":"centerRight",
-          "text_value":"linked_to",
-          "width":"21.25",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"linked_to"
-        }
-      ],
-      "uri":"http://purl.org/viso/graphic/linked_to",
-      "type":"Directed",
-      "source_uri":"http://purl.org/rvl/example-avm/GO_625248609",
-      "target_uri":"http://purl.org/rvl/example-avm/DirectedLinkingRel_114470xxx",
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "position":"centerRight",
           "text_value":"linked_with",
           "width":"21.25",
           "color_rgb_hex_combined":null,
@@ -348,86 +352,6 @@
       "uri":"http://purl.org/viso/graphic/linked_with",
       "type":"Directed",
       "source_uri":"http://purl.org/rvl/example-avm/GO_625248609",
-      "target_uri":"http://purl.org/rvl/example-avm/UndirectedLinkingRel_1144701218",
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"labeling_label",
-          "width":"21.25",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"labeling_label"
-        }
-      ],
-      "uri":"http://purl.org/viso/graphic/labeling_label",
-      "type":"Directed",
-      "source_uri":"http://purl.org/rvl/example-avm/LabelingRel_-1485529384",
-      "target_uri":"http://purl.org/rvl/example-avm/GO_-813545274",
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"labeling_label",
-          "width":"21.25",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"labeling_label"
-        }
-      ],
-      "uri":"http://purl.org/viso/graphic/labeling_label",
-      "type":"Directed",
-      "source_uri":"http://purl.org/rvl/example-avm/LabelingRel_248681443",
-      "target_uri":"http://purl.org/rvl/example-avm/GO_-177082987",
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"labeling_base",
-          "width":"21.25",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"labeling_base"
-        }
-      ],
-      "uri":"http://purl.org/viso/graphic/labeling_base",
-      "type":"Directed",
-      "source_uri":"http://purl.org/rvl/example-avm/LabelingRel_-1485529384",
-      "target_uri":"http://purl.org/rvl/example-avm/GO_697632992",
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"arrow",
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"linked_with",
-          "width":"21.25",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"linked_with"
-        }
-      ],
-      "uri":"http://purl.org/viso/graphic/linked_with",
-      "type":"Directed",
-      "source_uri":"http://purl.org/rvl/example-avm/GO_-1293845154",
       "target_uri":"http://purl.org/rvl/example-avm/UndirectedLinkingRel_1144701218",
       "value":"1"
     },
@@ -458,6 +382,86 @@
       "labels":[
         {
           "position":"centerRight",
+          "text_value":"linked_with",
+          "width":"21.25",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"linked_with"
+        }
+      ],
+      "uri":"http://purl.org/viso/graphic/linked_with",
+      "type":"Directed",
+      "source_uri":"http://purl.org/rvl/example-avm/GO_-1293845154",
+      "target_uri":"http://purl.org/rvl/example-avm/UndirectedLinkingRel_1144701218",
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"linked_to",
+          "width":"21.25",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"linked_to"
+        }
+      ],
+      "uri":"http://purl.org/viso/graphic/linked_to",
+      "type":"Directed",
+      "source_uri":"http://purl.org/rvl/example-avm/GO_625248609",
+      "target_uri":"http://purl.org/rvl/example-avm/DirectedLinkingRel_114470xxx",
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"labeling_label",
+          "width":"21.25",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"labeling_label"
+        }
+      ],
+      "uri":"http://purl.org/viso/graphic/labeling_label",
+      "type":"Directed",
+      "source_uri":"http://purl.org/rvl/example-avm/LabelingRel_248681443",
+      "target_uri":"http://purl.org/rvl/example-avm/GO_-177082987",
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"labeling_label",
+          "width":"21.25",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"labeling_label"
+        }
+      ],
+      "uri":"http://purl.org/viso/graphic/labeling_label",
+      "type":"Directed",
+      "source_uri":"http://purl.org/rvl/example-avm/LabelingRel_-1485529384",
+      "target_uri":"http://purl.org/rvl/example-avm/GO_-813545274",
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
           "text_value":"linkingDirected...",
           "width":"21.25",
           "color_rgb_hex_combined":null,
@@ -469,6 +473,26 @@
       "type":"Directed",
       "source_uri":"http://purl.org/rvl/example-avm/DirectedLinkingRel_114470xxx",
       "target_uri":"http://purl.org/rvl/example-avm/GO_-1293845154",
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"arrow",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"labeling_base",
+          "width":"21.25",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"labeling_base"
+        }
+      ],
+      "uri":"http://purl.org/viso/graphic/labeling_base",
+      "type":"Directed",
+      "source_uri":"http://purl.org/rvl/example-avm/LabelingRel_-1485529384",
+      "target_uri":"http://purl.org/rvl/example-avm/GO_697632992",
       "value":"1"
     }
   ]
