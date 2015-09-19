@@ -23,6 +23,9 @@
     	<script type="text/javascript" src="js/force-directed-graph.js"></script>
     	<script type="text/javascript" src="js/circle-packing-zoomable.js"></script>
     	<script type="text/javascript" src="js/collapsible-tree.js"></script>
+    	<!-- google image search gimmik -->
+    	<script type="text/javascript" src="https://www.google.com/jsapi?key=AIzaSyA5m1Nc8ws2BbmPRwKu5gFradvD_hgq6G0"></script>
+		<script type="text/javascript" src="js/google-image-search-utils.js"></script>
     </head>
     <body onLoad="checkBrowser();">
     
@@ -111,6 +114,10 @@
 							Jan Polowinski. 2015.
 							<a href="impressum.html">Impressum</a>.
 						</div>
+
+						<div id="imageView"></div>
+						
+<!-- 					<button onclick="imageSearch.execute(this.innerHTML)">VISO Ontology</button> -->
 						
   					</div>
   				</div>
@@ -198,12 +205,21 @@
         	vis.remove();
         	//vis.selectAll("*").remove();
         	labelContainerSpace.remove();
+        	visBackground.remove();
         }
         
         initContainers = function() {
+        	
+	        visBackground = visContainer.append("div")
+ 				.attr("id", "visBackground");
+	        visBackground
+ 				.append("div")
+ 				.attr("id", "imageCanvas")
+//  				.append("img")
+//  				.attr("src","img/example-image.jpg")
+ 				;
 	        	
-	        vis = svg
-	 	        .append("svg:g")
+	        vis = svg.append("svg:g")
 	 	        .attr("id", "vis")
 // 	 	        .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
 	 	        ;
@@ -284,7 +300,6 @@
     		} else {
         		showProgress(true);
         		d3.json(baseUrlBackend + "projects/run/" + projectID, function(error, graph) {
-        			console.log(error);
         			if (error != null) {
     	    			//alert ("Graphic could not be created. Reason: " + JSON.parse(error.response).message);
     	    			alert ("Graphic could not be created. Reason: " + error.responseText);
@@ -518,6 +533,6 @@
 <!--                 </marker> -->
 <!--             </defs> -->
         </svg>
-	
+        
     </body>
 </html>

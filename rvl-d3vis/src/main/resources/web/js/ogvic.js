@@ -176,6 +176,10 @@
 //			.attr("y", function(d){return labelShapeSize(d)/2;})
 		  	.attr("x", 0)  // dx is relative positioning, x is absolute
 			.attr("y", 0)
+			.attr("onclick", function(d) { 
+//				return "alert('" + d.text_value + "')";
+				return "imageSearch.execute('" + d.text_value_full + "')";
+				})
 		    .text(function(d){return d.text_value; })
 			.style("text-anchor", 
 				function(d){

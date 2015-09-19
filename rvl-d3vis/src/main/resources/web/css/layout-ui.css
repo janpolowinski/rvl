@@ -169,7 +169,7 @@ span.inputNextToLabel {
 
 /* svg */
 
-#svg, #labelContainerSpace {
+#svg, #labelContainerSpace, #visBackground {
 	position: absolute;
 	width: 85%; /* hack must correspond to #left width to sum up to 100% */
 	height: 100%;
@@ -190,4 +190,47 @@ div.labelContainerContainer, div.labelContainer {
 	padding:0px;
 	margin:0px;
 	pointer-events: none;
+}
+
+/* Google image view */
+
+#visBackground {
+	/* see above */
+	z-index: -10000;
+	background-color:white;
+}
+
+#imageCanvas, #imageCanvas div {
+	width: 100%;
+	height: 100%;
+}
+
+#imageCanvas img, .blur {
+	width:106%;
+	margin: -3%;
+	-webkit-filter: blur(30px);
+	filter: blur(15px);
+	transition: all .5s ease-in;
+	opacity: .6;
+}
+#imageCanvas:hover img, .blur:hover {
+	-webkit-filter: blur(2px);
+	filter: blur(2px);
+	transition: all 1s ease-in;
+	opacity: .6;
+}
+
+#imageView, #imageView div {
+	width: 100%;
+	background-color: #ddd;
+}
+
+#imageView img {
+	width: 100%;
+}
+
+/* see http://thenewcode.com/534/Cross-browser-Image-Blur-with-CSS */
+
+.label {
+	pointer-events: all;
 }

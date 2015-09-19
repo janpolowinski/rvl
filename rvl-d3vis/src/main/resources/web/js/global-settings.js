@@ -40,5 +40,6 @@ var settings = {
 var svg;
 var vis;
 var labelContainerSpace;
+var visBackground;
 var currentGraphicType = "force-directed-graph";
         
