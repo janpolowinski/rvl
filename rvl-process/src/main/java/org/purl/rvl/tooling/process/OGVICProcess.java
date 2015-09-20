@@ -247,7 +247,6 @@ public class OGVICProcess {
 	}
 
 	public void runOGVICProcess() throws OGVICProcessException {
-		if (currentProject.isGenFromAvmDirty()) {
 			resetProcess();
 			interpreteRVL2AVM();	
 			try {
@@ -257,9 +256,6 @@ public class OGVICProcess {
 			} catch (D3GeneratorException | OGVICModelsException e) {
 				throw new OGVICProcessException("Couldn't run process. " + e.getMessage(), e);
 			}
-		} else {
-			LOGGER.info("Returning old JSON generated from the AVM without running the transformations, since no changes could be detected.");
-		}
 	}
 
 	public void runOGVICProcessForTesting() throws D3GeneratorException, OGVICModelsException {

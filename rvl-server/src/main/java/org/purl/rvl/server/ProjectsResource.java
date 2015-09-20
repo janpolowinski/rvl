@@ -415,19 +415,18 @@ public class ProjectsResource {
 	private String runProject(String id) throws OGVICRepositoryException, OGVICProcessException, OGVICSystemInitException {
 	
 		String json = "";
-
 		OGVICProcess process = OGVICProcess.getInstance();
-		
-		process.registerOntologyFile(OntologyFile.VISO_GRAPHIC);
-		process.registerOntologyFile(OntologyFile.RVL);
-
 		VisProject project = VisProjectLibraryExamples.getInstance().getProject(id);
 		
-		process.loadProject(project);
-		process.runOGVICProcess();
+		if (project.isGenFromAvmDirty()) {
+			process.loadProject(project);
+			process.runOGVICProcess();
+		} else {
+			LOGGER.info("Returning old JSON generated from the AVM without running the transformations, since no changes could be detected.");
+		}
 
 		try {
-			json = process.getGeneratedD3json();
+			json = project.getGeneratedD3json();
 		} catch (EmptyGeneratedException e) {
 			LOGGER.warning(JsonExceptionWrapper.wrapAsJSONException(e.getMessage() + " Proceeding anyway"));
 		}
