@@ -51,9 +51,9 @@ public class OGVICProcess {
 	public static final String TMP_AVM_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempAVM.ttl";
 	
 	// OTHER MEMBERS
-	String generatedD3json;
 	private ModelManager modelManager;
-	//protected VisProject currentProject; // TODO always use settings from project directly?
+	protected VisProject currentProject;
+	private VisProject previousVisualizedProject;
 	//protected static FakeRVLInterpreter avmBuilder;
 	protected D3Generator d3Generator;
 	protected RVLInterpreter rvlInterpreter;
@@ -63,7 +63,6 @@ public class OGVICProcess {
 	private final  FileRegistry dataFileRegistry = new FileRegistry("data files"); // DATA
 	private final  FileRegistry mappingFileRegistry = new FileRegistry("mapping files"); // Mapping files (each interpreted as a mapping set)
 	
-	private VisProject previousVisualizedProject;
 	
 	private boolean writeAVM = WRITE_AVM;
 	private boolean writeMappingModel = WRITE_MAPPING_MODEL;
@@ -154,7 +153,7 @@ public class OGVICProcess {
 	
 	public void loadProject(VisProject project) throws OGVICRepositoryException {
 		
-		//this.currentProject = project; // TODO: think about just referencing a current project instead of copying all settings to the process
+		this.currentProject = project;
 		
 		LOGGER.finest("Clearing internal models (AVM, data, mappings)");
 		
@@ -248,14 +247,18 @@ public class OGVICProcess {
 	}
 
 	public void runOGVICProcess() throws OGVICProcessException {
-		resetProcess();
-		interpreteRVL2AVM();	
-		try {
-			transformAVMToD3();
-//			if (isWriteAVM()) writeAVMToFile();  doesn't work under tomcat, define tmp folder?: http://stackoverflow.com/questions/1969711/best-practice-to-store-temporary-data-for-a-webapp
-			if (isWriteMappingModel()) writeMappingModelToFile();
-		} catch (D3GeneratorException | OGVICModelsException e) {
-			throw new OGVICProcessException("Couldn't run process. " + e.getMessage(), e);
+		if (currentProject.isGenFromAvmDirty()) {
+			resetProcess();
+			interpreteRVL2AVM();	
+			try {
+				transformAVMToD3();
+//				if (isWriteAVM()) writeAVMToFile();  doesn't work under tomcat, define tmp folder?: http://stackoverflow.com/questions/1969711/best-practice-to-store-temporary-data-for-a-webapp
+				if (isWriteMappingModel()) writeMappingModelToFile();
+			} catch (D3GeneratorException | OGVICModelsException e) {
+				throw new OGVICProcessException("Couldn't run process. " + e.getMessage(), e);
+			}
+		} else {
+			LOGGER.info("Returning old JSON generated from the AVM without running the transformations, since no changes could be detected.");
 		}
 	}
 
@@ -264,23 +267,13 @@ public class OGVICProcess {
 		transformAVMToD3();
 	}
 	
-	
 	/**
 	 * Reset the artifacts generated during the last process run to avoid that old stuff will be returned.
 	 * TODO: Should the process really persist at all?
 	 */
 	private void resetProcess() {
-		generatedD3json = null;
+		// not necessary now, since artifacts stored in VisProject atm
 	}
-
-	public String getGeneratedD3json() throws OGVICProcessException, EmptyGeneratedException {
-		if (null == generatedD3json)
-			throw new OGVICProcessException("Couldn't retrieve generated D3-JSON. Was null.");
-		if (generatedD3json.isEmpty())
-			throw new EmptyGeneratedException("Retrieved empty generated D3-JSON.");
-		return generatedD3json;
-	}
-
 
 	private void interpreteRVL2AVM() {
 		rvlInterpreter.init(modelManager);
@@ -297,13 +290,14 @@ public class OGVICProcess {
 	 */
 	private void transformAVMToD3() throws D3GeneratorException, OGVICModelsException {
 		d3Generator.init(modelManager);
-		generatedD3json = d3Generator.generateJSONforD3();
+		String generatedD3json = d3Generator.generateJSONforD3();
 		try {
 			generatedD3json = JsonWriter.formatJson(generatedD3json);
 		} catch (IOException e) {
 			LOGGER.warning("problem with pretty printing JSON (skipped) : " + e.getMessage());
 		}
-		LOGGER.fine("JSON data is: " + NL +  generatedD3json);
+		LOGGER.fine("generated D3-JSON data is: " + NL +  generatedD3json);
+		currentProject.setGeneratedD3json(generatedD3json);
 //		d3Generator.writeJSONToFile(generatedD3json, getJsonFileNameRel()); // doesn't work on tomcat, only needed for static vis
 	}
 
@@ -494,7 +488,7 @@ public class OGVICProcess {
 		}
 		
 		try {
-			json = getGeneratedD3json();
+			json = currentProject.getGeneratedD3json();
 		} catch (EmptyGeneratedException e) {
 			LOGGER.warning(JsonExceptionWrapper.wrapAsJSONException(e.getMessage() + " Proceeding anyway"));
 		}
@@ -507,6 +501,10 @@ public class OGVICProcess {
 			initAVMBootstrappingProject();
 		}
 		return this.amvBootstrappingProject;
+	}
+
+	public String getGeneratedD3json() throws OGVICProcessException, EmptyGeneratedException {
+		return currentProject.getGeneratedD3json();
 	}
 
 }

@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.ontoware.rdf2go.Reasoning;
+import org.purl.rvl.exception.EmptyGeneratedException;
+import org.purl.rvl.exception.OGVICProcessException;
 import org.purl.rvl.tooling.avm2d3.D3Generator;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorTreeJSON;
@@ -29,6 +31,9 @@ public class VisProject {
 	private String name;
 	private String description;
 	private String defaultGraphicType;
+	
+	private String generatedD3json;
+	private boolean genFromAvmDirty = true;
 
 
 	/**
@@ -185,6 +190,32 @@ public class VisProject {
 			return defaultGraphicType + "/index.html";
 		else
 			return null;
+	}
+	
+	public void setGeneratedD3json(String generatedJson) {
+		this.generatedD3json = generatedJson;
+		this.genFromAvmDirty = false;
+	}
+
+	@XmlTransient
+	public String getGeneratedD3json() throws OGVICProcessException, EmptyGeneratedException {
+		if (null == generatedD3json)
+			throw new OGVICProcessException("Couldn't retrieve generated D3-JSON from project " + id + ". JSON was null.");
+		if (generatedD3json.isEmpty())
+			throw new EmptyGeneratedException("Retrieved empty generated D3-JSON from project " + id + ".");
+		return generatedD3json;
+	}
+
+	public boolean isGenFromAvmDirty() {
+		return genFromAvmDirty;
+	}
+
+	public void setGenFromAvmDirty(boolean genFromAvmDirty) {
+		this.genFromAvmDirty = genFromAvmDirty;
+	}
+
+	public void clearGeneratedJSON() {
+		setGeneratedD3json(null);
 	}
 
 }
