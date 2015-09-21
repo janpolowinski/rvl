@@ -30,7 +30,7 @@ public class UseCaseAVMBootstrap extends TestOGVICProcess {
 //		String previousResult = process.getGeneratedD3json();
 		
 		// vis the AVM
-		String result = process.runAVMBootstrappingVis();
+		String result = process.runAVMBootstrappingVis(p);
 		LOGGER.log(Level.INFO, "Generated D3-JSON for the AVM bootstrapping: " + result);
 	}
 

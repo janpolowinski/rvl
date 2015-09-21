@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
+import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Syntax;
@@ -20,8 +21,8 @@ import org.purl.rvl.exception.OGVICRepositoryException;
 import org.purl.rvl.exception.OGVICSystemInitException;
 import org.purl.rvl.tooling.avm2d3.D3Generator;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
-import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.commons.FileRegistry;
+import org.purl.rvl.tooling.commons.utils.ModelUtils;
 import org.purl.rvl.tooling.model.ModelManager;
 import org.purl.rvl.tooling.rvl2avm.RVLInterpreter;
 import org.purl.rvl.tooling.rvl2avm.SimpleRVLInterpreter;
@@ -53,7 +54,6 @@ public class OGVICProcess {
 	// OTHER MEMBERS
 	private ModelManager modelManager;
 	protected VisProject currentProject;
-	private VisProject previousVisualizedProject;
 	//protected static FakeRVLInterpreter avmBuilder;
 	protected D3Generator d3Generator;
 	protected RVLInterpreter rvlInterpreter;
@@ -207,8 +207,6 @@ public class OGVICProcess {
 			System.exit(0);
 		}
 		
-		previousVisualizedProject = project;
-		
 	}
 
 	private void readAVMFromFile(ModelManager modelBuilder) {
@@ -248,19 +246,15 @@ public class OGVICProcess {
 
 	public void runOGVICProcess() throws OGVICProcessException {
 			resetProcess();
-			interpreteRVL2AVM();	
 			try {
+				Model avm = interpreteRVL2AVM();
+				currentProject.setGeneratedAVM(ModelUtils.asString(avm,Syntax.Turtle));
 				transformAVMToD3();
 //				if (isWriteAVM()) writeAVMToFile();  doesn't work under tomcat, define tmp folder?: http://stackoverflow.com/questions/1969711/best-practice-to-store-temporary-data-for-a-webapp
 				if (isWriteMappingModel()) writeMappingModelToFile();
-			} catch (D3GeneratorException | OGVICModelsException e) {
+			} catch (D3GeneratorException | OGVICModelsException | ModelRuntimeException | IOException e) {
 				throw new OGVICProcessException("Couldn't run process. " + e.getMessage(), e);
 			}
-	}
-
-	public void runOGVICProcessForTesting() throws D3GeneratorException, OGVICModelsException {
-		interpreteRVL2AVM();	
-		transformAVMToD3();
 	}
 	
 	/**
@@ -271,9 +265,10 @@ public class OGVICProcess {
 		// not necessary now, since artifacts stored in VisProject atm
 	}
 
-	private void interpreteRVL2AVM() {
+	private Model interpreteRVL2AVM() {
 		rvlInterpreter.init(modelManager);
 		rvlInterpreter.interpretMappings();
+		return modelManager.getAVMModel();
 	}
 
 	/**
@@ -451,37 +446,34 @@ public class OGVICProcess {
 	 * @return the AVM as D3-JSON
 	 * @throws OGVICProcessException
 	 */
-	public String runAVMBootstrappingVis() throws OGVICProcessException {
+	public String runAVMBootstrappingVis(VisProject project) throws OGVICProcessException {
 		
 		String json = "";
 		
-		if (null == previousVisualizedProject || previousVisualizedProject.getId() != "avm") {
+//		if (null == previousVisualizedProject || previousVisualizedProject.getId() != "avm") {
 			
 			// prevent avms of avms being visualised: just do the avm bootstrapping
 			// if the last project was not an avm bootstrapping project already
 		
 			try {
-				registerOntologyFile(OntologyFile.VISO_GRAPHIC);
-				registerOntologyFile(OntologyFile.RVL);
-	
-				VisProject project = getAVMBootstrappingProject();
+				
+				VisProject avmProject = getAVMBootstrappingProject();
 				ModelManager manager = ModelManager.getInstance();
 				
-				manager.savePreviousAVM();
-				loadProject(project); // clears the avm and data model!
-				manager.addPreviousAvmToDataModel();
+				loadProject(avmProject); // clears the avm and data model!
+				manager.addDataModel(project.getGeneratedAVM());
 	
 				runOGVICProcess();
 				
-			} catch (OGVICRepositoryException | OGVICSystemInitException e1) {
+			} catch (OGVICRepositoryException | OGVICSystemInitException | ModelRuntimeException | IOException e1) {
 				throw new OGVICProcessException("Could not run the AVM bootstrapping"
 						+ " (for meta-visualizing the AVM)", e1);
 			}
 		
-		} else {
-			LOGGER.warning("Will use the old AVM, since we do not allow for visualing"
-					+ " the AVM of an AVM visualisation.");
-		}
+//		} else {
+//			LOGGER.warning("Will use the old AVM, since we do not allow for visualing"
+//					+ " the AVM of an AVM visualisation.");
+//		}
 		
 		try {
 			json = currentProject.getGeneratedD3json();

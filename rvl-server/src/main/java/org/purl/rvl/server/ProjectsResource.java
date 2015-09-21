@@ -41,6 +41,7 @@ import org.purl.rvl.tooling.commons.utils.FileResourceUtils;
 import org.purl.rvl.tooling.model.ModelManager;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.process.VisProject;
+import org.purl.rvl.tooling.process.VisProjectLibrary;
 import org.purl.rvl.tooling.process.VisProjectLibraryExamples;
 
 /**
@@ -296,14 +297,14 @@ public class ProjectsResource {
 	
 	@GET
     @Produces({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
-	@Path("/bootstrap/avm")
-    public Response runBootstrapAVM(@Context HttpServletResponse servletResponse) {
+	@Path("/bootstrap/avm/{projectID}")
+    public Response runBootstrapAVM(@PathParam("projectID") String projectID) {
 		
 		try {
 			
 			String jsonResult = "";
-			
-			jsonResult = OGVICProcess.getInstance().runAVMBootstrappingVis();
+			VisProject project = VisProjectLibraryExamples.getInstance().getProject(projectID);
+			jsonResult = OGVICProcess.getInstance().runAVMBootstrappingVis(project);
 			
 			if (jsonResult.isEmpty()) {
 				return Response.status(Status.NO_CONTENT).build();

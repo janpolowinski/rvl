@@ -32,6 +32,10 @@ public class VisProject {
 	private String description;
 	private String defaultGraphicType;
 	
+	@XmlTransient
+	private String generatedAVM;
+	private boolean generatedAVMModelDirty = true;
+	
 	private String generatedD3json;
 	private boolean genFromAvmDirty = true;
 
@@ -214,8 +218,37 @@ public class VisProject {
 		this.genFromAvmDirty = genFromAvmDirty;
 	}
 
-	public void clearGeneratedJSON() {
+	/**
+	 * @return the AVM as turtle
+	 * @throws OGVICProcessException
+	 */
+	@XmlTransient
+	public String getGeneratedAVM() throws OGVICProcessException {
+		if (null == generatedAVM)
+			throw new OGVICProcessException("Couldn't retrieve generated AVM from project " + id + ". AVM string representation was null.");
+		return generatedAVM;
+	}
+
+	/**
+	 * @param string - the AVM as turtle
+	 */
+	public void setGeneratedAVM(String string) {
+		this.generatedAVM = string;
+		this.generatedAVMModelDirty = false;
+	}
+
+	@XmlTransient
+	public boolean isGeneratedAVMModelDirty() {
+		return generatedAVMModelDirty;
+	}
+	@XmlTransient
+	public void setGeneratedAVMModelDirty(boolean generatedAVMModelDirty) {
+		this.generatedAVMModelDirty = generatedAVMModelDirty;
+	}
+
+	public void clearGeneratedArtifacts() {
 		setGeneratedD3json(null);
+		setGeneratedAVM(null);
 	}
 
 }

@@ -9,3 +9,7 @@ function getProjectByID(projects, id) {
 		return project.id === id;
 	})[0];
 }
+
+function showErrorMessage(error) {
+	alert("Sorry, an error occured. Status: " + error.statusText + " (" + error.statusText + "). " + error.responseText)
+}	
