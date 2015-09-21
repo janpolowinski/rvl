@@ -248,7 +248,7 @@ public class OGVICProcess {
 			resetProcess();
 			try {
 				Model avm = interpreteRVL2AVM();
-				currentProject.setGeneratedAVM(ModelUtils.asString(avm,Syntax.Turtle));
+				currentProject.setAvm(ModelUtils.asString(avm,Syntax.Turtle));
 				transformAVMToD3();
 //				if (isWriteAVM()) writeAVMToFile();  doesn't work under tomcat, define tmp folder?: http://stackoverflow.com/questions/1969711/best-practice-to-store-temporary-data-for-a-webapp
 				if (isWriteMappingModel()) writeMappingModelToFile();
@@ -288,7 +288,7 @@ public class OGVICProcess {
 			LOGGER.warning("problem with pretty printing JSON (skipped) : " + e.getMessage());
 		}
 		LOGGER.fine("generated D3-JSON data is: " + NL +  generatedD3json);
-		currentProject.setGeneratedD3json(generatedD3json);
+		currentProject.setJson(generatedD3json);
 //		d3Generator.writeJSONToFile(generatedD3json, getJsonFileNameRel()); // doesn't work on tomcat, only needed for static vis
 	}
 
@@ -461,7 +461,7 @@ public class OGVICProcess {
 				ModelManager manager = ModelManager.getInstance();
 				
 				loadProject(avmProject); // clears the avm and data model!
-				manager.addDataModel(project.getGeneratedAVM());
+				manager.addDataModel(project.getAvm());
 	
 				runOGVICProcess();
 				
@@ -476,7 +476,8 @@ public class OGVICProcess {
 //		}
 		
 		try {
-			json = currentProject.getGeneratedD3json();
+			json = currentProject.getJson();
+			project.setAvmJson(json);
 		} catch (EmptyGeneratedException e) {
 			LOGGER.warning(JsonExceptionWrapper.wrapAsJSONException(e.getMessage() + " Proceeding anyway"));
 		}
@@ -492,7 +493,7 @@ public class OGVICProcess {
 	}
 
 	public String getGeneratedD3json() throws OGVICProcessException, EmptyGeneratedException {
-		return currentProject.getGeneratedD3json();
+		return currentProject.getJson();
 	}
 
 }

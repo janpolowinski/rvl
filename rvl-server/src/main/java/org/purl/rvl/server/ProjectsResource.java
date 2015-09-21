@@ -304,7 +304,14 @@ public class ProjectsResource {
 			
 			String jsonResult = "";
 			VisProject project = VisProjectLibraryExamples.getInstance().getProject(projectID);
-			jsonResult = OGVICProcess.getInstance().runAVMBootstrappingVis(project);
+			
+			if (project.isAvmJsonDirty()) {
+				OGVICProcess.getInstance().runAVMBootstrappingVis(project);
+			} else {
+				LOGGER.info("Returning old AVM JSON without running the bootsrapping, since no changes could be detected.");
+			}
+			
+			jsonResult = project.getAvmJson();
 			
 			if (jsonResult.isEmpty()) {
 				return Response.status(Status.NO_CONTENT).build();
@@ -419,7 +426,7 @@ public class ProjectsResource {
 		OGVICProcess process = OGVICProcess.getInstance();
 		VisProject project = VisProjectLibraryExamples.getInstance().getProject(id);
 		
-		if (project.isGenFromAvmDirty()) {
+		if (project.isJsonDirty()) {
 			process.loadProject(project);
 			process.runOGVICProcess();
 		} else {
@@ -427,7 +434,7 @@ public class ProjectsResource {
 		}
 
 		try {
-			json = project.getGeneratedD3json();
+			json = project.getJson();
 		} catch (EmptyGeneratedException e) {
 			LOGGER.warning(JsonExceptionWrapper.wrapAsJSONException(e.getMessage() + " Proceeding anyway"));
 		}

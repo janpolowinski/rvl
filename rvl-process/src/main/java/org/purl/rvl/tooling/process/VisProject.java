@@ -33,11 +33,14 @@ public class VisProject {
 	private String defaultGraphicType;
 	
 	@XmlTransient
-	private String generatedAVM;
-	private boolean generatedAVMModelDirty = true;
+	private String avm;
+	private boolean avmDirty = true;
 	
-	private String generatedD3json;
-	private boolean genFromAvmDirty = true;
+	private String json;
+	private boolean jsonDirty = true;
+	
+	private String avmJson;
+	private boolean avmJsonDirty = true;
 
 
 	/**
@@ -196,26 +199,27 @@ public class VisProject {
 			return null;
 	}
 	
-	public void setGeneratedD3json(String generatedJson) {
-		this.generatedD3json = generatedJson;
-		this.genFromAvmDirty = false;
+	public void setJson(String generatedJson) {
+		this.json = generatedJson;
+		this.jsonDirty = false;
+		this.avmJsonDirty = true;
 	}
 
 	@XmlTransient
-	public String getGeneratedD3json() throws OGVICProcessException, EmptyGeneratedException {
-		if (null == generatedD3json)
+	public String getJson() throws OGVICProcessException, EmptyGeneratedException {
+		if (null == json)
 			throw new OGVICProcessException("Couldn't retrieve generated D3-JSON from project " + id + ". JSON was null.");
-		if (generatedD3json.isEmpty())
+		if (json.isEmpty())
 			throw new EmptyGeneratedException("Retrieved empty generated D3-JSON from project " + id + ".");
-		return generatedD3json;
+		return json;
 	}
 
-	public boolean isGenFromAvmDirty() {
-		return genFromAvmDirty;
+	public boolean isJsonDirty() {
+		return jsonDirty;
 	}
 
-	public void setGenFromAvmDirty(boolean genFromAvmDirty) {
-		this.genFromAvmDirty = genFromAvmDirty;
+	public void setJsonDirty(boolean genFromAvmDirty) {
+		this.jsonDirty = genFromAvmDirty;
 	}
 
 	/**
@@ -223,32 +227,56 @@ public class VisProject {
 	 * @throws OGVICProcessException
 	 */
 	@XmlTransient
-	public String getGeneratedAVM() throws OGVICProcessException {
-		if (null == generatedAVM)
+	public String getAvm() throws OGVICProcessException {
+		if (null == avm)
 			throw new OGVICProcessException("Couldn't retrieve generated AVM from project " + id + ". AVM string representation was null.");
-		return generatedAVM;
+		return avm;
 	}
 
 	/**
 	 * @param string - the AVM as turtle
 	 */
-	public void setGeneratedAVM(String string) {
-		this.generatedAVM = string;
-		this.generatedAVMModelDirty = false;
+	public void setAvm(String string) {
+		this.avm = string;
+		this.avmDirty = false;
 	}
 
 	@XmlTransient
-	public boolean isGeneratedAVMModelDirty() {
-		return generatedAVMModelDirty;
+	public boolean isAvmDirty() {
+		return avmDirty;
 	}
 	@XmlTransient
-	public void setGeneratedAVMModelDirty(boolean generatedAVMModelDirty) {
-		this.generatedAVMModelDirty = generatedAVMModelDirty;
+	public void setAvmDirty(boolean generatedAVMModelDirty) {
+		this.avmDirty = generatedAVMModelDirty;
 	}
 
 	public void clearGeneratedArtifacts() {
-		setGeneratedD3json(null);
-		setGeneratedAVM(null);
+		setJson(null);
+		setAvm(null);
+	}
+	
+	/* for AVM-bootstrapping only: ... */
+	
+	public void setAvmJson(String generatedAvmJson) {
+		this.avmJson = generatedAvmJson;
+		this.avmJsonDirty = false;
+	}
+
+	@XmlTransient
+	public String getAvmJson() throws OGVICProcessException, EmptyGeneratedException {
+		if (null == avmJson)
+			throw new OGVICProcessException("Couldn't retrieve generated (AVM) D3-JSON from project " + id + ". JSON was null.");
+		if (avmJson.isEmpty())
+			throw new EmptyGeneratedException("Retrieved empty generated (AVM) D3-JSON from project " + id + ".");
+		return avmJson;
+	}
+
+	public boolean isAvmJsonDirty() {
+		return avmJsonDirty;
+	}
+
+	public void setAvmJsonDirty(boolean genFromAvmDirty) {
+		this.avmJsonDirty = genFromAvmDirty;
 	}
 
 }
