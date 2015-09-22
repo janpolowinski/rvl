@@ -42,7 +42,6 @@ public class ModelManager {
 	private Model modelMappings;
 	private Model modelRVLSchema;
 	private Model modelAVM;
-	private Model modelPreviousAVM;
 	
 	private ModelSet modelSet;
 	
@@ -75,7 +74,6 @@ public class ModelManager {
 		initVISOModel();
 		initAVMModel();
 		initRVLModel();
-		initPreviousAVMModel();
 	}
 	
 	private void initModelSet(){
@@ -212,13 +210,6 @@ public class ModelManager {
 		}
 		
 		modelSet.addModel(modelAVM, Graph.GRAPH_AVM);
-	}
-	
-	/**
-	 * Init an empty model to hold the previous AVM (for bootstrapping)
-	 */
-	private void initPreviousAVMModel() {
-		modelPreviousAVM = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 	}
 
 	public void initMappingsModel(FileRegistry mappingFileRegistry ) throws OGVICRepositoryException  {
@@ -424,6 +415,31 @@ public class ModelManager {
 		return modelData;
 	}
 
+	/**
+	 * Adds a model to the existing data model and applies RDFS reasoning
+	 * @param model
+	 */
+	public void addDataModel(Model model) {
+		modelSet.removeModel(Graph.GRAPH_DATA);
+
+		// modelData has reasoning off, so use a tmp model to infer the necessary triples for filtering resources:
+		// TODO performance: this may be simplified if a performance leak, but its probably not often executed
+		Model reasoningDataModel = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		reasoningDataModel.addModel(modelData);
+		reasoningDataModel.addModel(model);
+		
+		modelData.addModel(reasoningDataModel);
+		modelSet.addModel(modelData, Graph.GRAPH_DATA);
+	}
+
+	public void addDataModel(String generatedAVM) throws ModelRuntimeException, IOException {
+		Model model = RDF2Go.getModelFactory().createModel(Reasoning.none);
+		model.open();
+		ModelUtils.readFromString(model, generatedAVM, Syntax.Turtle);
+		model.close();
+		addDataModel(model);
+	}
+
 	public Model getMappingsModel(){
 		return modelMappings;
 	}
@@ -453,31 +469,6 @@ public class ModelManager {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 *  Store the AVM model from the last run as previousAvm
-	 */
-	public void savePreviousAVM() {
-		modelPreviousAVM.removeAll();
-		modelPreviousAVM.addModel(modelAVM);
-	}
-
-	/**
-	 * Use the previous AVM model as the new data model
-	 */
-	public void addPreviousAvmToDataModel() {
-		modelSet.removeModel(Graph.GRAPH_DATA);
-//		modelData.removeAll(); // don't do this, since it already contains the extra data triples necessary for AVM visualization
-		
-		// modelData has reasoning off, so use a tmp model to infer the necessary triples for filtering resources:
-		// TODO performance: this may be simplified if a performance leak, but its not often executed
-		Model reasoningAVMDataModel = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
-		reasoningAVMDataModel.addModel(modelData);
-		reasoningAVMDataModel.addModel(modelPreviousAVM);
-		
-		modelData.addModel(reasoningAVMDataModel);
-		modelSet.addModel(modelData, Graph.GRAPH_DATA);
 	}
 	
 }

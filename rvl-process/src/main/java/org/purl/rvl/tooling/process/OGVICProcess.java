@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
+import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.Syntax;
@@ -20,8 +21,8 @@ import org.purl.rvl.exception.OGVICRepositoryException;
 import org.purl.rvl.exception.OGVICSystemInitException;
 import org.purl.rvl.tooling.avm2d3.D3Generator;
 import org.purl.rvl.tooling.avm2d3.D3GeneratorDeepLabelsJSON;
-import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.commons.FileRegistry;
+import org.purl.rvl.tooling.commons.utils.ModelUtils;
 import org.purl.rvl.tooling.model.ModelManager;
 import org.purl.rvl.tooling.rvl2avm.RVLInterpreter;
 import org.purl.rvl.tooling.rvl2avm.SimpleRVLInterpreter;
@@ -51,9 +52,8 @@ public class OGVICProcess {
 	public static final String TMP_AVM_MODEL_FILE_NAME = GEN_MODEL_FILE_FOLDER + "/" + "tempAVM.ttl";
 	
 	// OTHER MEMBERS
-	String generatedD3json;
 	private ModelManager modelManager;
-	//protected VisProject currentProject; // TODO always use settings from project directly?
+	protected VisProject currentProject;
 	//protected static FakeRVLInterpreter avmBuilder;
 	protected D3Generator d3Generator;
 	protected RVLInterpreter rvlInterpreter;
@@ -63,7 +63,6 @@ public class OGVICProcess {
 	private final  FileRegistry dataFileRegistry = new FileRegistry("data files"); // DATA
 	private final  FileRegistry mappingFileRegistry = new FileRegistry("mapping files"); // Mapping files (each interpreted as a mapping set)
 	
-	private VisProject previousVisualizedProject;
 	
 	private boolean writeAVM = WRITE_AVM;
 	private boolean writeMappingModel = WRITE_MAPPING_MODEL;
@@ -154,7 +153,7 @@ public class OGVICProcess {
 	
 	public void loadProject(VisProject project) throws OGVICRepositoryException {
 		
-		//this.currentProject = project; // TODO: think about just referencing a current project instead of copying all settings to the process
+		this.currentProject = project;
 		
 		LOGGER.finest("Clearing internal models (AVM, data, mappings)");
 		
@@ -208,8 +207,6 @@ public class OGVICProcess {
 			System.exit(0);
 		}
 		
-		previousVisualizedProject = project;
-		
 	}
 
 	private void readAVMFromFile(ModelManager modelBuilder) {
@@ -248,43 +245,30 @@ public class OGVICProcess {
 	}
 
 	public void runOGVICProcess() throws OGVICProcessException {
-		resetProcess();
-		interpreteRVL2AVM();	
-		try {
-			transformAVMToD3();
-//			if (isWriteAVM()) writeAVMToFile();  doesn't work under tomcat, define tmp folder?: http://stackoverflow.com/questions/1969711/best-practice-to-store-temporary-data-for-a-webapp
-			if (isWriteMappingModel()) writeMappingModelToFile();
-		} catch (D3GeneratorException | OGVICModelsException e) {
-			throw new OGVICProcessException("Couldn't run process. " + e.getMessage(), e);
-		}
+			resetProcess();
+			try {
+				Model avm = interpreteRVL2AVM();
+				currentProject.setAvm(ModelUtils.asString(avm,Syntax.Turtle));
+				transformAVMToD3();
+//				if (isWriteAVM()) writeAVMToFile();  doesn't work under tomcat, define tmp folder?: http://stackoverflow.com/questions/1969711/best-practice-to-store-temporary-data-for-a-webapp
+				if (isWriteMappingModel()) writeMappingModelToFile();
+			} catch (D3GeneratorException | OGVICModelsException | ModelRuntimeException | IOException e) {
+				throw new OGVICProcessException("Couldn't run process. " + e.getMessage(), e);
+			}
 	}
-
-	public void runOGVICProcessForTesting() throws D3GeneratorException, OGVICModelsException {
-		interpreteRVL2AVM();	
-		transformAVMToD3();
-	}
-	
 	
 	/**
 	 * Reset the artifacts generated during the last process run to avoid that old stuff will be returned.
 	 * TODO: Should the process really persist at all?
 	 */
 	private void resetProcess() {
-		generatedD3json = null;
+		// not necessary now, since artifacts stored in VisProject atm
 	}
 
-	public String getGeneratedD3json() throws OGVICProcessException, EmptyGeneratedException {
-		if (null == generatedD3json)
-			throw new OGVICProcessException("Couldn't retrieve generated D3-JSON. Was null.");
-		if (generatedD3json.isEmpty())
-			throw new EmptyGeneratedException("Retrieved empty generated D3-JSON.");
-		return generatedD3json;
-	}
-
-
-	private void interpreteRVL2AVM() {
+	private Model interpreteRVL2AVM() {
 		rvlInterpreter.init(modelManager);
 		rvlInterpreter.interpretMappings();
+		return modelManager.getAVMModel();
 	}
 
 	/**
@@ -297,13 +281,14 @@ public class OGVICProcess {
 	 */
 	private void transformAVMToD3() throws D3GeneratorException, OGVICModelsException {
 		d3Generator.init(modelManager);
-		generatedD3json = d3Generator.generateJSONforD3();
+		String generatedD3json = d3Generator.generateJSONforD3();
 		try {
 			generatedD3json = JsonWriter.formatJson(generatedD3json);
 		} catch (IOException e) {
 			LOGGER.warning("problem with pretty printing JSON (skipped) : " + e.getMessage());
 		}
-		LOGGER.fine("JSON data is: " + NL +  generatedD3json);
+		LOGGER.fine("generated D3-JSON data is: " + NL +  generatedD3json);
+		currentProject.setJson(generatedD3json);
 //		d3Generator.writeJSONToFile(generatedD3json, getJsonFileNameRel()); // doesn't work on tomcat, only needed for static vis
 	}
 
@@ -461,40 +446,38 @@ public class OGVICProcess {
 	 * @return the AVM as D3-JSON
 	 * @throws OGVICProcessException
 	 */
-	public String runAVMBootstrappingVis() throws OGVICProcessException {
+	public String runAVMBootstrappingVis(VisProject project) throws OGVICProcessException {
 		
 		String json = "";
 		
-		if (null == previousVisualizedProject || previousVisualizedProject.getId() != "avm") {
+//		if (null == previousVisualizedProject || previousVisualizedProject.getId() != "avm") {
 			
 			// prevent avms of avms being visualised: just do the avm bootstrapping
 			// if the last project was not an avm bootstrapping project already
 		
 			try {
-				registerOntologyFile(OntologyFile.VISO_GRAPHIC);
-				registerOntologyFile(OntologyFile.RVL);
-	
-				VisProject project = getAVMBootstrappingProject();
+				
+				VisProject avmProject = getAVMBootstrappingProject();
 				ModelManager manager = ModelManager.getInstance();
 				
-				manager.savePreviousAVM();
-				loadProject(project); // clears the avm and data model!
-				manager.addPreviousAvmToDataModel();
+				loadProject(avmProject); // clears the avm and data model!
+				manager.addDataModel(project.getAvm());
 	
 				runOGVICProcess();
 				
-			} catch (OGVICRepositoryException | OGVICSystemInitException e1) {
+			} catch (OGVICRepositoryException | OGVICSystemInitException | ModelRuntimeException | IOException e1) {
 				throw new OGVICProcessException("Could not run the AVM bootstrapping"
 						+ " (for meta-visualizing the AVM)", e1);
 			}
 		
-		} else {
-			LOGGER.warning("Will use the old AVM, since we do not allow for visualing"
-					+ " the AVM of an AVM visualisation.");
-		}
+//		} else {
+//			LOGGER.warning("Will use the old AVM, since we do not allow for visualing"
+//					+ " the AVM of an AVM visualisation.");
+//		}
 		
 		try {
-			json = getGeneratedD3json();
+			json = currentProject.getJson();
+			project.setAvmJson(json);
 		} catch (EmptyGeneratedException e) {
 			LOGGER.warning(JsonExceptionWrapper.wrapAsJSONException(e.getMessage() + " Proceeding anyway"));
 		}
@@ -507,6 +490,10 @@ public class OGVICProcess {
 			initAVMBootstrappingProject();
 		}
 		return this.amvBootstrappingProject;
+	}
+
+	public String getGeneratedD3json() throws OGVICProcessException, EmptyGeneratedException {
+		return currentProject.getJson();
 	}
 
 }

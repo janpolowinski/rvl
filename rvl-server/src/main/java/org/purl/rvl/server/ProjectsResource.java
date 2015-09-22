@@ -41,6 +41,7 @@ import org.purl.rvl.tooling.commons.utils.FileResourceUtils;
 import org.purl.rvl.tooling.model.ModelManager;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.process.VisProject;
+import org.purl.rvl.tooling.process.VisProjectLibrary;
 import org.purl.rvl.tooling.process.VisProjectLibraryExamples;
 
 /**
@@ -296,14 +297,21 @@ public class ProjectsResource {
 	
 	@GET
     @Produces({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
-	@Path("/bootstrap/avm")
-    public Response runBootstrapAVM(@Context HttpServletResponse servletResponse) {
+	@Path("/bootstrap/avm/{projectID}")
+    public Response runBootstrapAVM(@PathParam("projectID") String projectID) {
 		
 		try {
 			
 			String jsonResult = "";
+			VisProject project = VisProjectLibraryExamples.getInstance().getProject(projectID);
 			
-			jsonResult = OGVICProcess.getInstance().runAVMBootstrappingVis();
+			if (project.isAvmJsonDirty()) {
+				OGVICProcess.getInstance().runAVMBootstrappingVis(project);
+			} else {
+				LOGGER.info("Returning old AVM JSON without running the bootsrapping, since no changes could be detected.");
+			}
+			
+			jsonResult = project.getAvmJson();
 			
 			if (jsonResult.isEmpty()) {
 				return Response.status(Status.NO_CONTENT).build();
@@ -415,19 +423,18 @@ public class ProjectsResource {
 	private String runProject(String id) throws OGVICRepositoryException, OGVICProcessException, OGVICSystemInitException {
 	
 		String json = "";
-
 		OGVICProcess process = OGVICProcess.getInstance();
-		
-		process.registerOntologyFile(OntologyFile.VISO_GRAPHIC);
-		process.registerOntologyFile(OntologyFile.RVL);
-
 		VisProject project = VisProjectLibraryExamples.getInstance().getProject(id);
 		
-		process.loadProject(project);
-		process.runOGVICProcess();
+		if (project.isJsonDirty()) {
+			process.loadProject(project);
+			process.runOGVICProcess();
+		} else {
+			LOGGER.info("Returning old JSON generated from the AVM without running the transformations, since no changes could be detected.");
+		}
 
 		try {
-			json = process.getGeneratedD3json();
+			json = project.getJson();
 		} catch (EmptyGeneratedException e) {
 			LOGGER.warning(JsonExceptionWrapper.wrapAsJSONException(e.getMessage() + " Proceeding anyway"));
 		}

@@ -184,6 +184,7 @@
         
         var latestJSONData; // stores the json data for restarting the vis
         var currentProjects;
+        var previousVisualizedProjectID; // the project currently shown (not necessarily the one loaded to the editor)
 
 					
 		/******************************/
@@ -318,6 +319,7 @@
     	}
 		
 		onLoadedGraphJSON = function(error, graph, defaultGraphicType) {
+			previousVisualizedProjectID = graph.graphic_id;
 			if (defaultGraphicType == null) {
 				defaultGraphicType = graph.graphic_type;
 			}
@@ -353,7 +355,7 @@
 		
 		bootstrapAVM = function() {
     		showProgress(true);
-			d3.json(baseUrlBackend + "projects/bootstrap/avm", function(error, graph){ 
+			d3.json(baseUrlBackend + "projects/bootstrap/avm/" + previousVisualizedProjectID, function(error, graph){ 
 				onLoadedGraphJSONforAVM(error, graph, 'force-directed-graph');
 			});
 		}
@@ -389,26 +391,31 @@
 		// call example projects on selecting from option list
     	d3.json(baseUrlBackend + "projects", function (error, projects) {
     		
-    	currentProjects = projects;	 // stored for accessing project details later
-    	
-   		 var projectsEnter = d3.select("#loadExampleProject")
-   		.insert("div", ":first-child")
-   		.append("select").attr("id","chooseExampleProjectID")
-   		//.attr("onChange", "alert('hello' + this.value + this.options[this.selectedIndex].text)")
-   		.attr("onChange", "loadProject(this.options[this.selectedIndex].text, this.value);")
-   		//	return "loadProject('" + d.id + "','" + d.defaultGraphicType + "'); }"
-   		.selectAll("option")
-   	    .data(projects.sort(function(a, b) { return d3.ascending(a.id, b.id); }))
-   	    //.data(projects.sort(function(a, b) { return d3.ascending(a.defaultGraphicType, b.defaultGraphicType); }))
-   	    .enter()
-   	    .append("option")
-			.attr("value", function(d){
-				return d.defaultGraphicType;
-				})
-   	    .text(function(d){return d.id;});    	
-   		
-		// add a placeholder option to the example projects
-    	d3.select("#chooseExampleProjectID").insert("option", ":first-child").attr("value","placeholder").attr("selected", true).text("Select example project ... ");
+    		if (error != null) { 
+    			showErrorMessage(error);
+    			return;
+    		}
+    		
+	    	currentProjects = projects;	 // stored for accessing project details later
+	    	
+	   		 var projectsEnter = d3.select("#loadExampleProject")
+	   		.insert("div", ":first-child")
+	   		.append("select").attr("id","chooseExampleProjectID")
+	   		//.attr("onChange", "alert('hello' + this.value + this.options[this.selectedIndex].text)")
+	   		.attr("onChange", "loadProject(this.options[this.selectedIndex].text, this.value);")
+	   		//	return "loadProject('" + d.id + "','" + d.defaultGraphicType + "'); }"
+	   		.selectAll("option")
+	   	    .data(projects.sort(function(a, b) { return d3.ascending(a.id, b.id); }))
+	   	    //.data(projects.sort(function(a, b) { return d3.ascending(a.defaultGraphicType, b.defaultGraphicType); }))
+	   	    .enter()
+	   	    .append("option")
+				.attr("value", function(d){
+					return d.defaultGraphicType;
+					})
+	   	    .text(function(d){return d.id;});    	
+	   		
+			// add a placeholder option to the example projects
+	    	d3.select("#chooseExampleProjectID").insert("option", ":first-child").attr("value","placeholder").attr("selected", true).text("Select example project ... ");
 		
     	});
 

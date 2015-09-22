@@ -4,14 +4,17 @@
 package org.purl.rvl.tooling.commons.utils;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.Reasoning;
@@ -65,6 +68,14 @@ public class ModelUtils {
 		
 		model.readFrom(FileResourceUtils.getInputStream(file), syntax);
 	}
+	
+	
+	public static void readFromString(Model model, String data, Syntax syntax) throws ModelRuntimeException, IOException {
+		InputStream is = IOUtils.toInputStream(data, "UTF-8");
+		model.readFrom(is, syntax);
+	}
+	
+	
 	
 
 	private static void listModelStatements(String context, Model model){
@@ -292,6 +303,13 @@ public class ModelUtils {
 		}
 	
 		return label;
+	}
+	
+	public static String asString(Model model, Syntax syntax) throws ModelRuntimeException, IOException {
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		model.writeTo(os, syntax);
+		String string = os.toString(Charsets.UTF_8.toString());
+		return string;
 	}
 	
 }
