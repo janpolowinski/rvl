@@ -1,8 +1,10 @@
 package org.purl.rvl.tooling.process;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -54,6 +56,7 @@ public class VisProjectLibrary {
 		//useCaseVISOClasses.setRvlInterpreter(new SimpleRVLInterpreter());
 		useCaseVISOClasses.setD3Generator(new D3GeneratorTreeJSON());
 		//useCaseVISOClasses.setD3Generator(new D3GeneratorSimpleJSON());
+		useCaseVISOClasses.setPublish(false);
 		storeProject(useCaseVISOClasses);
 		
 		//////////////////////////////////////////////////////////////////
@@ -145,6 +148,7 @@ public class VisProjectLibrary {
 		project.registerDataFile(ExampleData.RVL_EXAMPLE);
 		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		project.setD3Generator(new D3GeneratorDeepLabelsJSON());
+		project.setPublish(false); // still WIP
 		
 		project = storeProject("rdf-id-test");
 		project.setReasoningDataModel(Reasoning.rdfs);
@@ -173,6 +177,7 @@ public class VisProjectLibrary {
 		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		//project.setRvlInterpreter(new SimpleRVLInterpreter());
 		//project.setD3Generator(new D3GeneratorTreeJSON());
+		project.setPublish(false); // still required at all?
 		
 		project = storeProject("area-test");
 		project.setReasoningDataModel(Reasoning.rdfs);
@@ -198,6 +203,7 @@ public class VisProjectLibrary {
 		project.registerDataFile(ExampleData.RVL_EXTRA_DATA);
 		project.setD3Generator(new D3GeneratorTreeJSON());
 		project.setDefaultGraphicType("circle-packing-zoomable");
+		project.setPublish(false); // too much
 		
 		//////////////////////////////////////////////////////////////////
 		// "Bootstrapping" AVM (example)
@@ -208,6 +214,7 @@ public class VisProjectLibrary {
 		project.registerDataFile("/example-data/avm-example-data.ttl");
 		project.registerDataFile(ExampleData.AVM_EXTRA_DATA);
 		project.setD3Generator(new D3GeneratorDeepLabelsJSON());
+		project.setPublish(false); // live-AVM available now
 		
 	}
 	
@@ -259,8 +266,17 @@ public class VisProjectLibrary {
 	    return instance;
 	}
 	
-	public Collection<? extends VisProject> getProjects() {
+	public Collection<VisProject> getProjects() {
 		return library.values();
+	}
+	
+	public List<VisProject> getPublicProjects() {
+		List<VisProject> publicProjects = new ArrayList<>();
+		for (VisProject project : library.values()) {
+			if (project.isPublish())
+				publicProjects.add(project);
+		}
+		return publicProjects;
 	}
 	
 }

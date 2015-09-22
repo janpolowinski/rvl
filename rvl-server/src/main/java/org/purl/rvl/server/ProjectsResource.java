@@ -78,7 +78,15 @@ public class ProjectsResource {
 		return projects;
 	}
 
-	// Return the list of projects for applications
+	// Return the list of visualization projects that are ready for public demo
+	@GET
+	@Path("/public")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public List<VisProject> getPublicProjects() {
+		return VisProjectLibraryExamples.getInstance().getPublicProjects();
+	}
+	
+	// Return the unfiltered list of visualization projects including WIP not intended for public demo
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public List<VisProject> getProjects() {
