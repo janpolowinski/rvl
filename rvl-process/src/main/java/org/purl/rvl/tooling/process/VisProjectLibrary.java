@@ -81,8 +81,9 @@ public class VisProjectLibrary {
 		VisProject containmentTest = new VisProject("containment-test");
 		containmentTest.setReasoningDataModel(Reasoning.rdfs);
 		containmentTest.registerMappingFile("/example-mappings/containment-test.ttl");
-		containmentTest.registerDataFile(ExampleData.RVL_EXAMPLE);
-		containmentTest.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
+		containmentTest.registerDataFile("/example-data/rvl-example-data.ttl");
+		containmentTest.registerDataFile("/example-data/rvl-more-example-data.ttl");
+//		containmentTest.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		containmentTest.setD3Generator(new D3GeneratorTreeJSON());
 		containmentTest.setDefaultGraphicType("circle-packing-zoomable");
 		storeProject(containmentTest);

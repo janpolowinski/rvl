@@ -119,12 +119,12 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 		useCaseCIT_5.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		storeProject(useCaseCIT_5);
 		
-		VisProject useCaseCIT_blog = new VisProject("cit-blog");
-		useCaseCIT_blog.registerMappingFile("/library-and-publication/cito/example-mappings/CIT_blog.ttl");
-		useCaseCIT_blog.registerDataFile("/library-and-publication/cito/example-data/cito.owl");
-		useCaseCIT_blog.registerDataFile("/library-and-publication/cito/example-data/cito-example-data.ttl");
-		useCaseCIT_blog.setD3Generator(new D3GeneratorTreeJSON());
-		storeProject(useCaseCIT_blog);
+		VisProject useCaseCIT_collapsible_tree = new VisProject("cit-collapsible-tree");
+		useCaseCIT_collapsible_tree.registerMappingFile("/library-and-publication/cito/example-mappings/CIT_collapsible_tree.ttl");
+		useCaseCIT_collapsible_tree.registerDataFile("/library-and-publication/cito/example-data/cito.owl");
+		useCaseCIT_collapsible_tree.registerDataFile("/library-and-publication/cito/example-data/cito-example-data.ttl");
+		useCaseCIT_collapsible_tree.setD3Generator(new D3GeneratorTreeJSON());
+		storeProject(useCaseCIT_collapsible_tree);
 		
 		VisProject project;
 		
