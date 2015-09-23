@@ -1,4 +1,5 @@
 {
+  "graphic_id":"area-test",
   "nodes":[
     {
       "uri":"http://purl.org/rvl/example-data/Alice",
@@ -6,6 +7,9 @@
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
       "width":10.2065735,
+      "roles":[
+        "labeling_base"
+      ],
       "labels":[
         {
           "position":"centerRight",
@@ -23,6 +27,9 @@
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
       "width":5.892768,
+      "roles":[
+        "labeling_base"
+      ],
       "labels":[
         {
           "position":"centerRight",
@@ -40,6 +47,9 @@
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
       "width":7.6075306,
+      "roles":[
+        "labeling_base"
+      ],
       "labels":[
         {
           "position":"centerRight",
@@ -57,6 +67,9 @@
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
       "width":5.892768,
+      "roles":[
+        "labeling_base"
+      ],
       "labels":[
         {
           "position":"centerRight",
@@ -74,6 +87,9 @@
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
       "width":11.283792,
+      "roles":[
+        "labeling_base"
+      ],
       "labels":[
         {
           "position":"centerRight",
@@ -91,6 +107,9 @@
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
       "width":3.4021912,
+      "roles":[
+        "labeling_base"
+      ],
       "labels":[
         {
           "position":"centerRight",
@@ -108,6 +127,9 @@
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
       "width":17.0,
+      "roles":[
+        "labeling_base"
+      ],
       "labels":[
         {
           "position":"centerRight",
@@ -125,6 +147,9 @@
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
       "width":9.001352,
+      "roles":[
+        "labeling_base"
+      ],
       "labels":[
         {
           "position":"centerRight",
@@ -142,6 +167,9 @@
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
       "width":7.6075306,
+      "roles":[
+        "labeling_base"
+      ],
       "labels":[
         {
           "position":"centerRight",
@@ -159,6 +187,9 @@
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
       "width":10.2065735,
+      "roles":[
+        "labeling_base"
+      ],
       "labels":[
         {
           "position":"centerRight",
@@ -176,6 +207,9 @@
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
       "width":5.892768,
+      "roles":[
+        "labeling_base"
+      ],
       "labels":[
         {
           "position":"centerRight",
@@ -193,6 +227,9 @@
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
       "width":11.283792,
+      "roles":[
+        "labeling_base"
+      ],
       "labels":[
         {
           "position":"centerRight",

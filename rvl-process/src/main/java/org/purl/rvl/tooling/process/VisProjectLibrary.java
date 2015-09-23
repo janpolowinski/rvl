@@ -67,7 +67,7 @@ public class VisProjectLibrary {
 		useCaseRVLExampleData.registerMappingFile(ExampleMapping.RVL_EXAMPLE);
 		//useCaseRVLExampleData.registerMappingFile(ExampleMapping.RVL_EXAMPLE_MINI);
 		useCaseRVLExampleData.registerDataFile(ExampleData.RVL_EXAMPLE);
-		useCaseRVLExampleData.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
+//		useCaseRVLExampleData.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		//useCaseRVLExampleData.registerMappingFile(ExampleMapping.RVL_EXAMPLE_OLD);
 		//useCaseRVLExampleData.registerDataFile(ExampleData.RVL_EXAMPLE_OLD);
 		//useCaseRVLExampleData.setRvlInterpreter(new SimpleRVLInterpreter());
@@ -105,7 +105,7 @@ public class VisProjectLibrary {
 		automaticValueMappingTest.setReasoningDataModel(Reasoning.rdfs);
 		automaticValueMappingTest.registerMappingFile(ExampleMapping.RVL_EXAMPLE_AUTOMATIC_VM);
 		automaticValueMappingTest.registerDataFile(ExampleData.RVL_EXAMPLE);
-		automaticValueMappingTest.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
+//		automaticValueMappingTest.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		storeProject(automaticValueMappingTest);
 		
 		// Alternative, simplified project creation and storage used from here on ...
@@ -120,34 +120,34 @@ public class VisProjectLibrary {
 		project.setReasoningDataModel(Reasoning.rdfs);
 		project.registerMappingFile(ExampleMapping.RVL_EXAMPLE_IDENTITY);
 		project.registerDataFile(ExampleData.RVL_EXAMPLE);
-		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
+//		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		project.setD3Generator(new D3GeneratorDeepLabelsJSON());
 
 		project = storeProject("labeling-test");
 		project.setReasoningDataModel(Reasoning.rdfs);
 		project.registerMappingFile(ExampleMapping.RVL_EXAMPLE_LABELING);
 		project.registerDataFile(ExampleData.RVL_EXAMPLE);
-		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
+//		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 
 		project = storeProject("linking-directed-test");
 		project.setReasoningDataModel(Reasoning.rdfs);
 		project.registerMappingFile(ExampleMapping.RVL_EXAMPLE_LINKING);
 		project.registerDataFile(ExampleData.RVL_EXAMPLE);
-		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
+//		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		project.setD3Generator(new D3GeneratorTreeJSON());
 		
 		project = storeProject("linking-undirected-test");
 		project.setReasoningDataModel(Reasoning.rdfs);
 		project.registerMappingFile(ExampleMapping.RVL_EXAMPLE_LINKING_UNDIRECTED);
 		project.registerDataFile(ExampleData.RVL_EXAMPLE);
-		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
+//		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		project.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		
 		project = storeProject("relative-distance-test");
 		project.setReasoningDataModel(Reasoning.rdfs);
 		project.registerMappingFile(ExampleMapping.RVL_EXAMPLE_RELATIVE_DISTANCE);
 		project.registerDataFile(ExampleData.RVL_EXAMPLE);
-		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
+//		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		project.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		project.setPublish(false); // still WIP
 		
@@ -155,7 +155,7 @@ public class VisProjectLibrary {
 		project.setReasoningDataModel(Reasoning.rdfs);
 		project.registerMappingFile(ExampleMapping.RVL_TEST_RDF_ID);
 		project.registerDataFile(ExampleData.RVL_EXAMPLE);
-		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
+//		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		
 		project = storeProject("sub-mapping-test");
 		project.setReasoningDataModel(Reasoning.rdfs);
@@ -163,7 +163,7 @@ public class VisProjectLibrary {
 		//project.registerMappingFile(ExampleMapping.RVL_TEST_SUBMAPPING);
 		project.registerMappingFile("/example-mappings/submapping-on-p2gam-test.ttl");
 		project.registerDataFile(ExampleData.RVL_EXAMPLE);
-		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
+//		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		//project.setD3Generator(new D3GeneratorTreeJSON());
 		
 		project = storeProject("tbox-domain-range-test");
@@ -175,7 +175,7 @@ public class VisProjectLibrary {
 		project.setReasoningDataModel(Reasoning.rdfs);
 		project.registerMappingFile(ExampleMapping.RVL_TEST_TEMP);
 		project.registerDataFile(ExampleData.RVL_EXAMPLE);
-		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
+//		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		//project.setRvlInterpreter(new SimpleRVLInterpreter());
 		//project.setD3Generator(new D3GeneratorTreeJSON());
 		project.setPublish(false); // still required at all?
@@ -184,7 +184,7 @@ public class VisProjectLibrary {
 		project.setReasoningDataModel(Reasoning.rdfs);
 		project.registerMappingFile("/example-mappings/area-test.ttl");
 		project.registerDataFile(ExampleData.RVL_EXAMPLE);
-		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
+//		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		
 		//////////////////////////////////////////////////////////////////
 		// "Bootstrapping" RVL Classes

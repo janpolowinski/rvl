@@ -53,6 +53,21 @@
 	stroke:none !important;
 }
 
+/* Circle Packing */
+#canvas.containment-test svg,
+#canvas.containment-test-copy svg {
+    background-color: #ccc;
+}
+
+/* Linking-Directed-Test */
+#canvas.linking-directed-test svg,
+#canvas.linking-directed-test-copy svg,
+#canvas.linking-undirected-test svg,
+#canvas.linking-undirected-test-copy svg {
+    background-color: #333;
+}
+
+
 /*.linkingDirected_startNode {fill:green }*/
 /*.linkingDirected_endNode {fill:red }*/
 /*.linkingDirected_startNode.linkingDirected_endNode {fill:yellow; transform:scale(2.0) } */

@@ -1,4 +1,6 @@
 {
+  "graphic_id":"containment-test",
+  "graphic_type":"circle-packing-zoomable",
   "children":[
     {
       "uri":"http://purl.org/rvl/example-data/World",
@@ -6,6 +8,10 @@
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
       "width":17.0,
+      "roles":[
+        "containment_container",
+        "labeling_base"
+      ],
       "labels":[
         {
           "position":"centerRight",
@@ -19,170 +25,58 @@
       "type":"Containment",
       "children":[
         {
-          "uri":"http://purl.org/rvl/example-data/Asia",
+          "uri":"http://purl.org/rvl/example-data/Africa",
           "color_rgb_hex":"",
           "color_rgb_hex_combined":null,
           "shape_d3_name":"circle",
           "width":17.0,
+          "roles":[
+            "containment_containee",
+            "labeling_base"
+          ],
           "labels":[
             {
               "position":"centerRight",
-              "text_value":"Asia",
+              "text_value":"Africa",
               "width":"21.25",
               "color_rgb_hex_combined":null,
               "type":"text_label",
-              "text_value_full":"Asia"
-            }
-          ],
-          "children":[
-            {
-              "uri":"http://purl.org/rvl/example-data/China",
-              "color_rgb_hex":"#ffff00",
-              "color_rgb_hex_combined":"#ffff00",
-              "shape_d3_name":"star-18",
-              "width":17.0,
-              "labels":[
-                {
-                  "position":"centerRight",
-                  "text_value":"China (pop.: 10...",
-                  "width":"21.25",
-                  "color_rgb_hex_combined":null,
-                  "type":"text_label",
-                  "text_value_full":"China (pop.: 1000)"
-                }
-              ]
-            },
-            {
-              "uri":"http://purl.org/rvl/example-data/Turkey",
-              "color_rgb_hex":"#ff0000",
-              "color_rgb_hex_combined":"#ff0000",
-              "shape_d3_name":"circle-p",
-              "width":17.0,
-              "labels":[
-                {
-                  "position":"centerRight",
-                  "text_value":"Turkey",
-                  "width":"21.25",
-                  "color_rgb_hex_combined":null,
-                  "type":"text_label",
-                  "text_value_full":"Turkey"
-                }
-              ]
+              "text_value_full":"Africa"
             }
           ]
         },
         {
-          "uri":"http://purl.org/rvl/example-data/Europe",
-          "color_rgb_hex":"#ff9900",
-          "color_rgb_hex_combined":"#ff9900",
+          "uri":"http://purl.org/rvl/example-data/Australia",
+          "color_rgb_hex":"#ffff00",
+          "color_rgb_hex_combined":"#ffff00",
           "shape_d3_name":"circle",
           "width":17.0,
+          "roles":[
+            "containment_containee",
+            "labeling_base"
+          ],
           "labels":[
             {
               "position":"centerRight",
-              "text_value":"Europe (pop.: 4...",
+              "text_value":"Australia",
               "width":"21.25",
               "color_rgb_hex_combined":null,
               "type":"text_label",
-              "text_value_full":"Europe (pop.: 400)"
-            }
-          ],
-          "children":[
-            {
-              "uri":"http://purl.org/rvl/example-data/Turkey",
-              "color_rgb_hex":"#ff0000",
-              "color_rgb_hex_combined":"#ff0000",
-              "shape_d3_name":"circle-p",
-              "width":17.0,
-              "labels":[
-                {
-                  "position":"centerRight",
-                  "text_value":"Turkey",
-                  "width":"21.25",
-                  "color_rgb_hex_combined":null,
-                  "type":"text_label",
-                  "text_value_full":"Turkey"
-                }
-              ]
-            },
-            {
-              "uri":"http://purl.org/rvl/example-data/Spain",
-              "color_rgb_hex":"#ff0000",
-              "color_rgb_hex_combined":"#ff0000",
-              "shape_d3_name":"circle-p",
-              "width":17.0,
-              "labels":[
-                {
-                  "position":"centerRight",
-                  "text_value":"Spain (pop.: 40...",
-                  "width":"21.25",
-                  "color_rgb_hex_combined":null,
-                  "type":"text_label",
-                  "text_value_full":"Spain (pop.: 40)"
-                }
-              ]
-            },
-            {
-              "uri":"http://purl.org/rvl/example-data/Germany",
-              "color_rgb_hex":"#ff0000",
-              "color_rgb_hex_combined":"#ff0000",
-              "shape_d3_name":"circle-p",
-              "width":17.0,
-              "labels":[
-                {
-                  "position":"centerRight",
-                  "text_value":"Germany",
-                  "width":"21.25",
-                  "color_rgb_hex_combined":null,
-                  "type":"text_label",
-                  "text_value_full":"Germany"
-                }
-              ],
-              "children":[
-                {
-                  "uri":"http://purl.org/rvl/example-data/Gelsenkirchen",
-                  "color_rgb_hex":"",
-                  "color_rgb_hex_combined":null,
-                  "shape_d3_name":"circle",
-                  "width":17.0,
-                  "labels":[
-                    {
-                      "position":"centerRight",
-                      "text_value":"Gelsenkirchen",
-                      "width":"21.25",
-                      "color_rgb_hex_combined":null,
-                      "type":"text_label",
-                      "text_value_full":"Gelsenkirchen"
-                    }
-                  ]
-                },
-                {
-                  "uri":"http://purl.org/rvl/example-data/Dresden",
-                  "color_rgb_hex":"",
-                  "color_rgb_hex_combined":null,
-                  "shape_d3_name":"circle",
-                  "width":17.0,
-                  "labels":[
-                    {
-                      "position":"centerRight",
-                      "text_value":"Dresden",
-                      "width":"21.25",
-                      "color_rgb_hex_combined":null,
-                      "type":"text_label",
-                      "text_value_full":"Dresden"
-                    }
-                  ]
-                }
-              ]
+              "text_value_full":"Australia"
             }
           ]
         },
         {
           "uri":"http://purl.org/rvl/example-data/America",
-          "color_rgb_hex":"#ff9900",
-          "color_rgb_hex_combined":"#ff9900",
+          "color_rgb_hex":"#ffff00",
+          "color_rgb_hex_combined":"#ffff00",
           "shape_d3_name":"circle",
           "width":17.0,
+          "roles":[
+            "containment_container",
+            "containment_containee",
+            "labeling_base"
+          ],
           "labels":[
             {
               "position":"centerRight",
@@ -200,6 +94,10 @@
               "color_rgb_hex_combined":null,
               "shape_d3_name":"circle",
               "width":17.0,
+              "roles":[
+                "containment_containee",
+                "labeling_base"
+              ],
               "labels":[
                 {
                   "position":"centerRight",
@@ -214,19 +112,221 @@
           ]
         },
         {
-          "uri":"http://purl.org/rvl/example-data/Australia",
-          "color_rgb_hex":"#ff0000",
-          "color_rgb_hex_combined":"#ff0000",
+          "uri":"http://purl.org/rvl/example-data/Europe",
+          "color_rgb_hex":"#ffff00",
+          "color_rgb_hex_combined":"#ffff00",
           "shape_d3_name":"circle",
           "width":17.0,
+          "roles":[
+            "containment_container",
+            "containment_containee",
+            "labeling_base"
+          ],
           "labels":[
             {
               "position":"centerRight",
-              "text_value":"Australia (pop....",
+              "text_value":"Europe",
               "width":"21.25",
               "color_rgb_hex_combined":null,
               "type":"text_label",
-              "text_value_full":"Australia (pop.: 100)"
+              "text_value_full":"Europe"
+            }
+          ],
+          "children":[
+            {
+              "uri":"http://purl.org/rvl/example-data/Germany",
+              "color_rgb_hex":"#ffff00",
+              "color_rgb_hex_combined":"#ffff00",
+              "shape_d3_name":"circle-p",
+              "width":17.0,
+              "roles":[
+                "containment_container",
+                "containment_containee",
+                "labeling_base"
+              ],
+              "labels":[
+                {
+                  "position":"centerRight",
+                  "text_value":"Germany",
+                  "width":"21.25",
+                  "color_rgb_hex_combined":null,
+                  "type":"text_label",
+                  "text_value_full":"Germany"
+                }
+              ],
+              "children":[
+                {
+                  "uri":"http://purl.org/rvl/example-data/Gelsenkirchen",
+                  "color_rgb_hex":"",
+                  "color_rgb_hex_combined":null,
+                  "shape_d3_name":"circle",
+                  "width":17.0,
+                  "roles":[
+                    "containment_containee",
+                    "labeling_base"
+                  ],
+                  "labels":[
+                    {
+                      "position":"centerRight",
+                      "text_value":"Gelsenkirchen",
+                      "width":"21.25",
+                      "color_rgb_hex_combined":null,
+                      "type":"text_label",
+                      "text_value_full":"Gelsenkirchen"
+                    }
+                  ]
+                },
+                {
+                  "uri":"http://purl.org/rvl/example-data/Dresden",
+                  "color_rgb_hex":"",
+                  "color_rgb_hex_combined":null,
+                  "shape_d3_name":"circle",
+                  "width":17.0,
+                  "roles":[
+                    "containment_containee",
+                    "labeling_base"
+                  ],
+                  "labels":[
+                    {
+                      "position":"centerRight",
+                      "text_value":"Dresden",
+                      "width":"21.25",
+                      "color_rgb_hex_combined":null,
+                      "type":"text_label",
+                      "text_value_full":"Dresden"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "uri":"http://purl.org/rvl/example-data/France",
+              "color_rgb_hex":"",
+              "color_rgb_hex_combined":null,
+              "shape_d3_name":"circle-p",
+              "width":17.0,
+              "roles":[
+                "containment_containee",
+                "labeling_base"
+              ],
+              "labels":[
+                {
+                  "position":"centerRight",
+                  "text_value":"France",
+                  "width":"21.25",
+                  "color_rgb_hex_combined":null,
+                  "type":"text_label",
+                  "text_value_full":"France"
+                }
+              ]
+            },
+            {
+              "uri":"http://purl.org/rvl/example-data/Turkey",
+              "color_rgb_hex":"#ffff00",
+              "color_rgb_hex_combined":"#ffff00",
+              "shape_d3_name":"circle-p",
+              "width":17.0,
+              "roles":[
+                "containment_containee",
+                "labeling_base"
+              ],
+              "labels":[
+                {
+                  "position":"centerRight",
+                  "text_value":"Turkey",
+                  "width":"21.25",
+                  "color_rgb_hex_combined":null,
+                  "type":"text_label",
+                  "text_value_full":"Turkey"
+                }
+              ]
+            },
+            {
+              "uri":"http://purl.org/rvl/example-data/Spain",
+              "color_rgb_hex":"#ffff00",
+              "color_rgb_hex_combined":"#ffff00",
+              "shape_d3_name":"circle-p",
+              "width":17.0,
+              "roles":[
+                "containment_containee",
+                "labeling_base"
+              ],
+              "labels":[
+                {
+                  "position":"centerRight",
+                  "text_value":"Spain",
+                  "width":"21.25",
+                  "color_rgb_hex_combined":null,
+                  "type":"text_label",
+                  "text_value_full":"Spain"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "uri":"http://purl.org/rvl/example-data/Asia",
+          "color_rgb_hex":"",
+          "color_rgb_hex_combined":null,
+          "shape_d3_name":"circle",
+          "width":17.0,
+          "roles":[
+            "containment_container",
+            "containment_containee",
+            "labeling_base"
+          ],
+          "labels":[
+            {
+              "position":"centerRight",
+              "text_value":"Asia",
+              "width":"21.25",
+              "color_rgb_hex_combined":null,
+              "type":"text_label",
+              "text_value_full":"Asia"
+            }
+          ],
+          "children":[
+            {
+              "uri":"http://purl.org/rvl/example-data/China",
+              "color_rgb_hex":"#ffff00",
+              "color_rgb_hex_combined":"#ffff00",
+              "shape_d3_name":"star-18",
+              "width":17.0,
+              "roles":[
+                "containment_containee",
+                "labeling_base"
+              ],
+              "labels":[
+                {
+                  "position":"centerRight",
+                  "text_value":"China",
+                  "width":"21.25",
+                  "color_rgb_hex_combined":null,
+                  "type":"text_label",
+                  "text_value_full":"China"
+                }
+              ]
+            },
+            {
+              "uri":"http://purl.org/rvl/example-data/Turkey",
+              "color_rgb_hex":"#ffff00",
+              "color_rgb_hex_combined":"#ffff00",
+              "shape_d3_name":"circle-p",
+              "width":17.0,
+              "roles":[
+                "containment_containee",
+                "labeling_base"
+              ],
+              "labels":[
+                {
+                  "position":"centerRight",
+                  "text_value":"Turkey",
+                  "width":"21.25",
+                  "color_rgb_hex_combined":null,
+                  "type":"text_label",
+                  "text_value_full":"Turkey"
+                }
+              ]
             }
           ]
         }

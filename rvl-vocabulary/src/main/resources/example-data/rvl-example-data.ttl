@@ -110,7 +110,7 @@
       rdf:type :Place ;
       :exportsTo :China ;
       :partOf :Europe ;
-      :population "81084"^^xsd:int ;
+      :population "81084000"^^xsd:int ;
       dct:title "Deutschland (dct-title with de lang tag, untyped)"@de ;
       .
 
