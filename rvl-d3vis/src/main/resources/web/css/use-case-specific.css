@@ -55,7 +55,11 @@
 
 /* Circle Packing */
 #canvas.containment-test svg,
-#canvas.containment-test-copy svg {
+#canvas.containment-test-copy svg,
+#canvas.po-9-containment svg,
+#canvas.po-9-containment-copy svg,
+#canvas.rvl-circle-packing svg,
+#canvas.rvl-circle-packing-copy svg {
     background-color: #ccc;
 }
 
