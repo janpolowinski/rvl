@@ -68,6 +68,18 @@
 }
 
 
+#canvas.rvl-example-data .nodeLabel, #canvas.rvl-example-data .node text {
+    font-family: Arial Black;
+    text-transform: uppercase;
+    text-shadow: unset;
+    opacity: 0.95;
+    font-size: 1.0em;
+    fill: rgb(256, 256, 256);
+}
+#canvas.rvl-example-data svg {
+    background-color: #333;
+}
+
 /*.linkingDirected_startNode {fill:green }*/
 /*.linkingDirected_endNode {fill:red }*/
 /*.linkingDirected_startNode.linkingDirected_endNode {fill:yellow; transform:scale(2.0) } */

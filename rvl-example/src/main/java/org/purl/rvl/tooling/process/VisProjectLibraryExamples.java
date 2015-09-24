@@ -162,6 +162,7 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 		//project.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		project.setD3Generator(new D3GeneratorTreeJSON());
 		project.setDefaultGraphicType("circle-packing-zoomable");
+		project.setPublish(false); // not suitable for public demo
 		
 		project = storeProject("ro-instances-social-network");
 		project.setReasoningDataModel(Reasoning.rdfs);
