@@ -183,7 +183,8 @@ public class VisProjectLibrary {
 		project = storeProject("area-test");
 		project.setReasoningDataModel(Reasoning.rdfs);
 		project.registerMappingFile("/example-mappings/area-test.ttl");
-		project.registerDataFile(ExampleData.RVL_EXAMPLE);
+		project.registerDataFile("/example-data/rvl-example-data.ttl");
+		project.registerDataFile("/example-data/rvl-more-example-data.ttl");
 //		project.registerDataFile(ExampleData.RVL_EXAMPLE_INFERRED_TRIPLES);
 		
 		//////////////////////////////////////////////////////////////////

@@ -13,10 +13,16 @@
       rdf:type :Place ;
       :partOf :Europe ;
       dct:title "Frannkreich"@de ;
+      :area "674843"^^xsd:float;
       .
       
 :Africa
       rdf:type :Place ;
       :partOf :World ;
       rdfs:label "Africa"^^xsd:string ;
+      :area "30221532"^^xsd:float;
       .
+
+:Asia
+     :area "44614500"^^xsd:float;
+	.
