@@ -24,7 +24,7 @@
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
       rvl:disabled "false"^^xsd:boolean ;
       #rvl:subjectFilter "http://www.w3.org/2000/01/rdf-schema#subClassOf::http://purl.org/obo/owl/PO#PO_0025059"^^rvl:fslSelector; # this works already
-      rvl:subjectFilter " ?s rdfs:subClassOf ?restriction . ?restriction owl:onProperty obo:develops_from . ?restriction owl:someValuesFrom  po:PO_0005599 . "^^rvl:sparqlSelector; # test
+      rvl:subjectFilter " ?restriction owl:someValuesFrom  po:PO_0005599 . ?restriction owl:onProperty obo:develops_from . ?s rdfs:subClassOf ?restriction . "^^rvl:sparqlSelector; # test
       rdfs:label "Property to linking by connector mapping"^^xsd:string ;
       rvl:sourceProperty owl:topObjectProperty ;
       rvl:invertSourceProperty "true"^^xsd:boolean;
