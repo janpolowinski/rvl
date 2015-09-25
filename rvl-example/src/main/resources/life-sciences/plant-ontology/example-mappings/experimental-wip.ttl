@@ -48,11 +48,11 @@
               vg:color_named ;
       rvl:valueMapping [
         a rvl:ValueMapping ;
-		rvl:sourceValue <http://purl.org/obo/owl/OBO_REL#part_of> ;
+		rvl:sourceValue <http://purl.org/obo/owl/OBO_REL#part_of____(some-values-from)> ;
         rvl:targetValue vg:Blue;
       ],[
         a rvl:ValueMapping ;
-		rvl:sourceValue <http://purl.org/obo/owl/obo#develops_from>;
+		rvl:sourceValue <http://purl.org/obo/owl/obo#develops_from____(some-values-from)>;
         rvl:targetValue vg:Yellow;
       ],[
         a rvl:ValueMapping ;

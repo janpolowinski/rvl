@@ -140,6 +140,10 @@ public class RVLUtils {
 
 		return extendedMappedValues;
 	}
+
+	public static String decodeURIFragments(String textValue) {
+		return textValue.replace("____", " ");
+	}
 }
 
 
