@@ -50,6 +50,7 @@ import org.purl.rvl.tooling.commons.utils.AVMUtils;
 import org.purl.rvl.tooling.commons.utils.ModelUtils;
 import org.purl.rvl.tooling.model.ModelManager;
 import org.purl.rvl.tooling.query.data.DataQuery;
+import org.purl.rvl.tooling.util.RVLUtils;
 
 /**
  * @author Jan Polowinski
@@ -217,7 +218,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 		// create an additional object here, don't reuse existing ones!
 		GraphicObjectX label = new GraphicObjectX(modelAVM, "http://purl.org/rvl/example-avm/GO_"
 				+ this.createNewInternalID(), true);
-		label.setTextvalue(ModelUtils.getGoodNodeLabel(resource, modelData));
+		label.setTextvalue(RVLUtils.decodeURIFragments(ModelUtils.getGoodNodeLabel(resource, modelData)));
 
 		LOGGER.finest("Created new Label-GO for resource: " + resource.toString());
 
@@ -514,6 +515,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			// TODO handle language tags
 			if (tga.asURI().toString().equals("http://purl.org/viso/graphic/text_value")) { // GraphicObject.TEXTVALUE
 				String textValue = tv.asLiteral().getValue();
+				textValue = RVLUtils.decodeURIFragments(textValue);
 				go.setTextvalue(textValue);
 				// remove existing named shapes (incl. the eventually set default shape)
 				go.removeAllShapenamed();

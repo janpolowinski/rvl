@@ -31,6 +31,7 @@ public class VisProject {
 	private String name;
 	private String description;
 	private String defaultGraphicType;
+	private boolean publish = true;
 	
 	@XmlTransient
 	private String avm;
@@ -277,6 +278,14 @@ public class VisProject {
 
 	public void setAvmJsonDirty(boolean genFromAvmDirty) {
 		this.avmJsonDirty = genFromAvmDirty;
+	}
+
+	public boolean isPublish() {
+		return publish;
+	}
+
+	public void setPublish(boolean publish) {
+		this.publish = publish;
 	}
 
 }

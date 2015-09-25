@@ -389,7 +389,7 @@
 		}
 		
 		// call example projects on selecting from option list
-    	d3.json(baseUrlBackend + "projects", function (error, projects) {
+    	d3.json(getProjectsEndpoint(), function (error, projects) {
     		
     		if (error != null) { 
     			showErrorMessage(error);

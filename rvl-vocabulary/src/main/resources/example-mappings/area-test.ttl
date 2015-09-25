@@ -17,6 +17,7 @@
       
       
 :OC_Area
+	  rvl:disabled "true";
  	  rdfs:label "OC - ordinal ordered set 2 (auto-discretized) range - PM with a VM that defines a mapping between an ordered set of source values and a range of target values, automatically discretized into steps according to the number of (differernt) source values"^^xsd:string ;
       a rvl:PropertyMapping ;
       rvl:sourceProperty rexd:workingField ; ### TODO: better example values
@@ -38,5 +39,28 @@
         ];
         #rvl:discretize "false"^^xsd:boolean ; ### should be ignored here when set
         rvl:discreteStepCount "2"^^xsd:int ;  ### TODO: no effect
+      ]
+      .
+      
+      
+:CC_Area
+	  rvl:disabled "false";
+ 	  rdfs:label "OC - ordinal ordered set 2 (auto-discretized) range - PM with a VM that defines a mapping between an ordered set of source values and a range of target values, automatically discretized into steps according to the number of (differernt) source values"^^xsd:string ;
+      a rvl:PropertyMapping ;
+      rvl:sourceProperty rexd:area ;
+      rvl:targetAttribute vg:area ; 
+      rvl:valueMapping [
+        a rvl:ValueMapping ;
+		rvl:sourceValueInterval [
+        	a rvl:Interval;
+        	rvl:upperBoundIncl "50000000";
+        	rvl:lowerBoundIncl "0";
+        ];
+		rvl:targetValueInterval [
+        	a rvl:Interval;
+        	rvl:upperBoundIncl "10000";
+        	rvl:lowerBoundIncl "0";
+        ];
+        #rvl:discretize "false"^^xsd:boolean ;
       ]
       .

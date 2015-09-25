@@ -1,102 +1,18 @@
 {
+  "graphic_id":"po-8",
+  "graphic_type":"collapsible-tree",
   "children":[
-    {
-      "uri":"http://purl.org/obo/owl/PO#PO_0005599",
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
-      "width":17.0,
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"cork cambium",
-          "width":"21.25",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"cork cambium"
-        }
-      ],
-      "type":"DirectedLinking",
-      "children":[
-        {
-          "uri":"http://purl.org/obo/owl/PO#PO_0004003",
-          "color_rgb_hex":"",
-          "color_rgb_hex_combined":null,
-          "shape_d3_name":"minus",
-          "width":17.0,
-          "labels":[
-            {
-              "position":"centerRight",
-              "text_value":"phellem",
-              "width":"21.25",
-              "color_rgb_hex_combined":null,
-              "type":"text_label",
-              "text_value_full":"phellem"
-            }
-          ],
-          "connector":{
-            "arrow_type":"arrow_small_triangle",
-            "color_rgb_hex":"",
-            "color_rgb_hex_combined":null,
-            "shape_d3_name":"arrow_small_triangle",
-            "labels":[
-              {
-                "position":"centerRight",
-                "text_value":"develops_from",
-                "width":"21.25",
-                "color_rgb_hex_combined":null,
-                "type":"text_label",
-                "text_value_full":"develops_from"
-              }
-            ]
-          }
-        },
-        {
-          "uri":"http://purl.org/obo/owl/PO#PO_0005050",
-          "color_rgb_hex":"",
-          "color_rgb_hex_combined":null,
-          "shape_d3_name":"minus",
-          "width":17.0,
-          "labels":[
-            {
-              "position":"centerRight",
-              "text_value":"phelloderm",
-              "width":"21.25",
-              "color_rgb_hex_combined":null,
-              "type":"text_label",
-              "text_value_full":"phelloderm"
-            }
-          ],
-          "connector":{
-            "arrow_type":"arrow_small_triangle",
-            "color_rgb_hex":"",
-            "color_rgb_hex_combined":null,
-            "shape_d3_name":"arrow_small_triangle",
-            "labels":[
-              {
-                "position":"centerRight",
-                "text_value":"develops_from",
-                "width":"21.25",
-                "color_rgb_hex_combined":null,
-                "type":"text_label",
-                "text_value_full":"develops_from"
-              }
-            ]
-          }
-        }
-      ],
-      "connector":{
-        "arrow_type":"line",
-        "width":"0",
-        "color_rgb_hex_combined":"#c00"
-      }
-    },
     {
       "uri":"http://purl.org/obo/owl/PO#PO_0006009",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
       "width":17.0,
+      "roles":[
+        "linking_node",
+        "labeling_base",
+        "linkingDirected_startNode"
+      ],
       "labels":[
         {
           "position":"centerRight",
@@ -110,77 +26,16 @@
       "type":"DirectedLinking",
       "children":[
         {
-          "uri":"http://purl.org/obo/owl/PO#PO_0020002",
-          "color_rgb_hex":"",
-          "color_rgb_hex_combined":null,
-          "shape_d3_name":"minus",
-          "width":17.0,
-          "labels":[
-            {
-              "position":"centerRight",
-              "text_value":"endothecium",
-              "width":"21.25",
-              "color_rgb_hex_combined":null,
-              "type":"text_label",
-              "text_value_full":"endothecium"
-            }
-          ],
-          "connector":{
-            "arrow_type":"arrow_small_triangle",
-            "color_rgb_hex":"",
-            "color_rgb_hex_combined":null,
-            "shape_d3_name":"arrow_small_triangle",
-            "labels":[
-              {
-                "position":"centerRight",
-                "text_value":"develops_from",
-                "width":"21.25",
-                "color_rgb_hex_combined":null,
-                "type":"text_label",
-                "text_value_full":"develops_from"
-              }
-            ]
-          }
-        },
-        {
-          "uri":"http://purl.org/obo/owl/PO#PO_0006446",
-          "color_rgb_hex":"",
-          "color_rgb_hex_combined":null,
-          "shape_d3_name":"minus",
-          "width":17.0,
-          "labels":[
-            {
-              "position":"centerRight",
-              "text_value":"Poaceae endothe...",
-              "width":"21.25",
-              "color_rgb_hex_combined":null,
-              "type":"text_label",
-              "text_value_full":"Poaceae endothecium"
-            }
-          ],
-          "connector":{
-            "arrow_type":"arrow_small_triangle",
-            "color_rgb_hex":"",
-            "color_rgb_hex_combined":null,
-            "shape_d3_name":"arrow_small_triangle",
-            "labels":[
-              {
-                "position":"centerRight",
-                "text_value":"develops_from",
-                "width":"21.25",
-                "color_rgb_hex_combined":null,
-                "type":"text_label",
-                "text_value_full":"develops_from"
-              }
-            ]
-          }
-        },
-        {
           "uri":"http://purl.org/obo/owl/PO#PO_0006481",
           "color_rgb_hex":"",
           "color_rgb_hex_combined":null,
           "shape_d3_name":"minus",
           "width":17.0,
+          "roles":[
+            "linkingDirected_endNode",
+            "linking_node",
+            "labeling_base"
+          ],
           "labels":[
             {
               "position":"centerRight",
@@ -192,18 +47,225 @@
             }
           ],
           "connector":{
-            "arrow_type":"arrow_small_triangle",
+            "arrow_type":"arrow",
+            "uri":"http://purl.org/obo/owl/obo#develops_from____(some-values-from)",
             "color_rgb_hex":"",
             "color_rgb_hex_combined":null,
-            "shape_d3_name":"arrow_small_triangle",
+            "shape_d3_name":"arrow",
+            "roles":[
+              "linking_connector",
+              "labeling_base"
+            ],
             "labels":[
               {
                 "position":"centerRight",
-                "text_value":"develops_from",
+                "text_value":"develops_from (...",
                 "width":"21.25",
                 "color_rgb_hex_combined":null,
                 "type":"text_label",
-                "text_value_full":"develops_from"
+                "text_value_full":"develops_from (some-values-from)"
+              }
+            ]
+          }
+        },
+        {
+          "uri":"http://purl.org/obo/owl/PO#PO_0006446",
+          "color_rgb_hex":"",
+          "color_rgb_hex_combined":null,
+          "shape_d3_name":"minus",
+          "width":17.0,
+          "roles":[
+            "linkingDirected_endNode",
+            "linking_node",
+            "labeling_base"
+          ],
+          "labels":[
+            {
+              "position":"centerRight",
+              "text_value":"Poaceae endothe...",
+              "width":"21.25",
+              "color_rgb_hex_combined":null,
+              "type":"text_label",
+              "text_value_full":"Poaceae endothecium"
+            }
+          ],
+          "connector":{
+            "arrow_type":"arrow",
+            "uri":"http://purl.org/obo/owl/obo#develops_from____(some-values-from)",
+            "color_rgb_hex":"",
+            "color_rgb_hex_combined":null,
+            "shape_d3_name":"arrow",
+            "roles":[
+              "linking_connector",
+              "labeling_base"
+            ],
+            "labels":[
+              {
+                "position":"centerRight",
+                "text_value":"develops_from (...",
+                "width":"21.25",
+                "color_rgb_hex_combined":null,
+                "type":"text_label",
+                "text_value_full":"develops_from (some-values-from)"
+              }
+            ]
+          }
+        },
+        {
+          "uri":"http://purl.org/obo/owl/PO#PO_0020002",
+          "color_rgb_hex":"",
+          "color_rgb_hex_combined":null,
+          "shape_d3_name":"minus",
+          "width":17.0,
+          "roles":[
+            "linkingDirected_endNode",
+            "linking_node",
+            "labeling_base"
+          ],
+          "labels":[
+            {
+              "position":"centerRight",
+              "text_value":"endothecium",
+              "width":"21.25",
+              "color_rgb_hex_combined":null,
+              "type":"text_label",
+              "text_value_full":"endothecium"
+            }
+          ],
+          "connector":{
+            "arrow_type":"arrow",
+            "uri":"http://purl.org/obo/owl/obo#develops_from____(some-values-from)",
+            "color_rgb_hex":"",
+            "color_rgb_hex_combined":null,
+            "shape_d3_name":"arrow",
+            "roles":[
+              "linking_connector",
+              "labeling_base"
+            ],
+            "labels":[
+              {
+                "position":"centerRight",
+                "text_value":"develops_from (...",
+                "width":"21.25",
+                "color_rgb_hex_combined":null,
+                "type":"text_label",
+                "text_value_full":"develops_from (some-values-from)"
+              }
+            ]
+          }
+        }
+      ],
+      "connector":{
+        "arrow_type":"line",
+        "width":"0",
+        "color_rgb_hex_combined":"#c00"
+      }
+    },
+    {
+      "uri":"http://purl.org/obo/owl/PO#PO_0005599",
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"circle",
+      "width":17.0,
+      "roles":[
+        "linking_node",
+        "labeling_base",
+        "linkingDirected_startNode"
+      ],
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"cork cambium",
+          "width":"21.25",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"cork cambium"
+        }
+      ],
+      "type":"DirectedLinking",
+      "children":[
+        {
+          "uri":"http://purl.org/obo/owl/PO#PO_0005050",
+          "color_rgb_hex":"",
+          "color_rgb_hex_combined":null,
+          "shape_d3_name":"minus",
+          "width":17.0,
+          "roles":[
+            "linkingDirected_endNode",
+            "linking_node",
+            "labeling_base"
+          ],
+          "labels":[
+            {
+              "position":"centerRight",
+              "text_value":"phelloderm",
+              "width":"21.25",
+              "color_rgb_hex_combined":null,
+              "type":"text_label",
+              "text_value_full":"phelloderm"
+            }
+          ],
+          "connector":{
+            "arrow_type":"arrow",
+            "uri":"http://purl.org/obo/owl/obo#develops_from____(some-values-from)",
+            "color_rgb_hex":"",
+            "color_rgb_hex_combined":null,
+            "shape_d3_name":"arrow",
+            "roles":[
+              "linking_connector",
+              "labeling_base"
+            ],
+            "labels":[
+              {
+                "position":"centerRight",
+                "text_value":"develops_from (...",
+                "width":"21.25",
+                "color_rgb_hex_combined":null,
+                "type":"text_label",
+                "text_value_full":"develops_from (some-values-from)"
+              }
+            ]
+          }
+        },
+        {
+          "uri":"http://purl.org/obo/owl/PO#PO_0004003",
+          "color_rgb_hex":"",
+          "color_rgb_hex_combined":null,
+          "shape_d3_name":"minus",
+          "width":17.0,
+          "roles":[
+            "linkingDirected_endNode",
+            "linking_node",
+            "labeling_base"
+          ],
+          "labels":[
+            {
+              "position":"centerRight",
+              "text_value":"phellem",
+              "width":"21.25",
+              "color_rgb_hex_combined":null,
+              "type":"text_label",
+              "text_value_full":"phellem"
+            }
+          ],
+          "connector":{
+            "arrow_type":"arrow",
+            "uri":"http://purl.org/obo/owl/obo#develops_from____(some-values-from)",
+            "color_rgb_hex":"",
+            "color_rgb_hex_combined":null,
+            "shape_d3_name":"arrow",
+            "roles":[
+              "linking_connector",
+              "labeling_base"
+            ],
+            "labels":[
+              {
+                "position":"centerRight",
+                "text_value":"develops_from (...",
+                "width":"21.25",
+                "color_rgb_hex_combined":null,
+                "type":"text_label",
+                "text_value_full":"develops_from (some-values-from)"
               }
             ]
           }

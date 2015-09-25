@@ -1,4 +1,5 @@
 {
+  "graphic_id":"tbox-domain-range-test",
   "nodes":[
     {
       "uri":"http://purl.org/rvl/example-data/Document",
@@ -6,6 +7,11 @@
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
       "width":17.0,
+      "roles":[
+        "linking_node",
+        "labeling_base",
+        "linkingDirected_startNode"
+      ],
       "labels":[
         {
           "position":"centerRight",
@@ -23,6 +29,11 @@
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
       "width":17.0,
+      "roles":[
+        "linkingDirected_endNode",
+        "linking_node",
+        "labeling_base"
+      ],
       "labels":[
         {
           "position":"centerRight",
@@ -40,6 +51,12 @@
       "color_rgb_hex_combined":null,
       "shape_d3_name":"circle",
       "width":17.0,
+      "roles":[
+        "linkingDirected_endNode",
+        "linking_node",
+        "labeling_base",
+        "linkingDirected_startNode"
+      ],
       "labels":[
         {
           "position":"centerRight",
@@ -61,14 +78,14 @@
       "labels":[
         {
           "position":"centerRight",
-          "text_value":"creator",
+          "text_value":"creator (domain...",
           "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
-          "text_value_full":"creator"
+          "text_value_full":"creator (domain-range)"
         }
       ],
-      "uri":"http://purl.org/rvl/example-data/creator",
+      "uri":"http://purl.org/rvl/example-data/creator____(domain-range)",
       "type":"Directed",
       "source_uri":"http://purl.org/rvl/example-data/Document",
       "target_uri":"http://purl.org/rvl/example-data/Person",
@@ -81,14 +98,14 @@
       "labels":[
         {
           "position":"centerRight",
-          "text_value":"workingField",
+          "text_value":"workingField (d...",
           "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
-          "text_value_full":"workingField"
+          "text_value_full":"workingField (domain-range)"
         }
       ],
-      "uri":"http://purl.org/rvl/example-data/workingField",
+      "uri":"http://purl.org/rvl/example-data/workingField____(domain-range)",
       "type":"Directed",
       "source_uri":"http://purl.org/rvl/example-data/Person",
       "target_uri":"http://purl.org/rvl/example-data/Field",

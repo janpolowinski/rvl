@@ -43,11 +43,11 @@
       "labels":[
         {
           "position":"centerRight",
-          "text_value":"Australia (pop....",
+          "text_value":"Australia",
           "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
-          "text_value_full":"Australia (pop.: 100)"
+          "text_value_full":"Australia"
         }
       ]
     },
@@ -77,11 +77,11 @@
       "labels":[
         {
           "position":"centerRight",
-          "text_value":"China (pop.: 10...",
+          "text_value":"China",
           "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
-          "text_value_full":"China (pop.: 1000)"
+          "text_value_full":"China"
         }
       ]
     },
@@ -111,11 +111,11 @@
       "labels":[
         {
           "position":"centerRight",
-          "text_value":"Europe (pop.: 4...",
+          "text_value":"Europe",
           "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
-          "text_value_full":"Europe (pop.: 400)"
+          "text_value_full":"Europe"
         }
       ]
     },
@@ -162,11 +162,11 @@
       "labels":[
         {
           "position":"centerRight",
-          "text_value":"Spain (pop.: 40...",
+          "text_value":"Spain",
           "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
-          "text_value_full":"Spain (pop.: 40)"
+          "text_value_full":"Spain"
         }
       ]
     },

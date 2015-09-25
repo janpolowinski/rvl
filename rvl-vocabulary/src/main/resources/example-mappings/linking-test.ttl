@@ -38,7 +38,7 @@
         a rvl:ValueMapping ;
 		rvl:sourceValueInterval [
 			a rvl:Interval;
-			rvl:upperBoundIncl "1000";
+			rvl:upperBoundIncl "150000000";
 			rvl:lowerBoundIncl "0";
 		];
 		rvl:targetValueList (
@@ -55,10 +55,10 @@
       rvl:valueMapping [
         a rvl:ValueMapping ;
 		rvl:sourceValue rexd:Europe;
-        rvl:targetValue common-shapes:CircleP;
+        rvl:targetValue common-shapes:Star18;
       ],[
         a rvl:ValueMapping ;
 		rvl:sourceValue rexd:Asia;
-        rvl:targetValue common-shapes:Star18;
+        rvl:targetValue common-shapes:Square;
       ]
       .

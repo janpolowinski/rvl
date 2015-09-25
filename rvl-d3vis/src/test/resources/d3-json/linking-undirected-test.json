@@ -56,11 +56,11 @@
       "labels":[
         {
           "position":"centerRight",
-          "text_value":"Australia (pop....",
+          "text_value":"Australia",
           "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
-          "text_value_full":"Australia (pop.: 100)"
+          "text_value_full":"Australia"
         }
       ]
     },
@@ -98,11 +98,11 @@
       "labels":[
         {
           "position":"centerRight",
-          "text_value":"China (pop.: 10...",
+          "text_value":"China",
           "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
-          "text_value_full":"China (pop.: 1000)"
+          "text_value_full":"China"
         }
       ]
     },
@@ -140,11 +140,11 @@
       "labels":[
         {
           "position":"centerRight",
-          "text_value":"Europe (pop.: 4...",
+          "text_value":"Europe",
           "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
-          "text_value_full":"Europe (pop.: 400)"
+          "text_value_full":"Europe"
         }
       ]
     },
@@ -203,11 +203,11 @@
       "labels":[
         {
           "position":"centerRight",
-          "text_value":"Spain (pop.: 40...",
+          "text_value":"Spain",
           "width":"21.25",
           "color_rgb_hex_combined":null,
           "type":"text_label",
-          "text_value_full":"Spain (pop.: 40)"
+          "text_value_full":"Spain"
         }
       ]
     },
@@ -272,8 +272,8 @@
       ],
       "uri":"http://purl.org/rvl/example-data/partOf",
       "type":"Undirected",
-      "source_uri":"http://purl.org/rvl/example-data/Germany",
-      "target_uri":"http://purl.org/rvl/example-data/Dresden",
+      "source_uri":"http://purl.org/rvl/example-data/Asia",
+      "target_uri":"http://purl.org/rvl/example-data/China",
       "value":"1"
     },
     {
@@ -293,7 +293,7 @@
       "uri":"http://purl.org/rvl/example-data/partOf",
       "type":"Undirected",
       "source_uri":"http://purl.org/rvl/example-data/Europe",
-      "target_uri":"http://purl.org/rvl/example-data/Turkey",
+      "target_uri":"http://purl.org/rvl/example-data/Spain",
       "value":"1"
     },
     {
@@ -312,48 +312,8 @@
       ],
       "uri":"http://purl.org/rvl/example-data/partOf",
       "type":"Undirected",
-      "source_uri":"http://purl.org/rvl/example-data/America",
-      "target_uri":"http://purl.org/rvl/example-data/Bob",
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"line",
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"partOf",
-          "width":"21.25",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"partOf"
-        }
-      ],
-      "uri":"http://purl.org/rvl/example-data/partOf",
-      "type":"Undirected",
-      "source_uri":"http://purl.org/rvl/example-data/World",
-      "target_uri":"http://purl.org/rvl/example-data/Europe",
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"line",
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"partOf",
-          "width":"21.25",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"partOf"
-        }
-      ],
-      "uri":"http://purl.org/rvl/example-data/partOf",
-      "type":"Undirected",
-      "source_uri":"http://purl.org/rvl/example-data/Asia",
-      "target_uri":"http://purl.org/rvl/example-data/China",
+      "source_uri":"http://purl.org/rvl/example-data/Germany",
+      "target_uri":"http://purl.org/rvl/example-data/Dresden",
       "value":"1"
     },
     {
@@ -392,48 +352,28 @@
       ],
       "uri":"http://purl.org/rvl/example-data/partOf",
       "type":"Undirected",
-      "source_uri":"http://purl.org/rvl/example-data/Europe",
-      "target_uri":"http://purl.org/rvl/example-data/Germany",
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"line",
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"partOf",
-          "width":"21.25",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"partOf"
-        }
-      ],
-      "uri":"http://purl.org/rvl/example-data/partOf",
-      "type":"Undirected",
-      "source_uri":"http://purl.org/rvl/example-data/World",
-      "target_uri":"http://purl.org/rvl/example-data/America",
-      "value":"1"
-    },
-    {
-      "color_rgb_hex":"",
-      "color_rgb_hex_combined":null,
-      "shape_d3_name":"line",
-      "labels":[
-        {
-          "position":"centerRight",
-          "text_value":"partOf",
-          "width":"21.25",
-          "color_rgb_hex_combined":null,
-          "type":"text_label",
-          "text_value_full":"partOf"
-        }
-      ],
-      "uri":"http://purl.org/rvl/example-data/partOf",
-      "type":"Undirected",
       "source_uri":"http://purl.org/rvl/example-data/Germany",
       "target_uri":"http://purl.org/rvl/example-data/Gelsenkirchen",
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"line",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"partOf",
+          "width":"21.25",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"partOf"
+        }
+      ],
+      "uri":"http://purl.org/rvl/example-data/partOf",
+      "type":"Undirected",
+      "source_uri":"http://purl.org/rvl/example-data/Asia",
+      "target_uri":"http://purl.org/rvl/example-data/Turkey",
       "value":"1"
     },
     {
@@ -473,7 +413,7 @@
       "uri":"http://purl.org/rvl/example-data/partOf",
       "type":"Undirected",
       "source_uri":"http://purl.org/rvl/example-data/Europe",
-      "target_uri":"http://purl.org/rvl/example-data/Spain",
+      "target_uri":"http://purl.org/rvl/example-data/Turkey",
       "value":"1"
     },
     {
@@ -492,8 +432,68 @@
       ],
       "uri":"http://purl.org/rvl/example-data/partOf",
       "type":"Undirected",
-      "source_uri":"http://purl.org/rvl/example-data/Asia",
-      "target_uri":"http://purl.org/rvl/example-data/Turkey",
+      "source_uri":"http://purl.org/rvl/example-data/Europe",
+      "target_uri":"http://purl.org/rvl/example-data/Germany",
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"line",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"partOf",
+          "width":"21.25",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"partOf"
+        }
+      ],
+      "uri":"http://purl.org/rvl/example-data/partOf",
+      "type":"Undirected",
+      "source_uri":"http://purl.org/rvl/example-data/America",
+      "target_uri":"http://purl.org/rvl/example-data/Bob",
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"line",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"partOf",
+          "width":"21.25",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"partOf"
+        }
+      ],
+      "uri":"http://purl.org/rvl/example-data/partOf",
+      "type":"Undirected",
+      "source_uri":"http://purl.org/rvl/example-data/World",
+      "target_uri":"http://purl.org/rvl/example-data/America",
+      "value":"1"
+    },
+    {
+      "color_rgb_hex":"",
+      "color_rgb_hex_combined":null,
+      "shape_d3_name":"line",
+      "labels":[
+        {
+          "position":"centerRight",
+          "text_value":"partOf",
+          "width":"21.25",
+          "color_rgb_hex_combined":null,
+          "type":"text_label",
+          "text_value_full":"partOf"
+        }
+      ],
+      "uri":"http://purl.org/rvl/example-data/partOf",
+      "type":"Undirected",
+      "source_uri":"http://purl.org/rvl/example-data/World",
+      "target_uri":"http://purl.org/rvl/example-data/Europe",
       "value":"1"
     }
   ]

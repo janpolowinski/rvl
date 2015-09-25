@@ -44,6 +44,7 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 		useCaseAA.registerDataFile("/life-sciences/amino-acid/example-data/amino-acid.owl");
 		//useCaseAA.setD3Generator(new D3GeneratorTreeJSON());
 		useCaseAA.setD3Generator(new D3GeneratorDeepLabelsJSON());
+		useCaseAA.setPublish(false); // WIP
 		storeProject(useCaseAA);
 		
 		VisProject useCaseAA_3 = new VisProject("aa-3");
@@ -76,6 +77,7 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 		//project.setRvlInterpreter(new SimpleRVLInterpreter());
 		// requires better filtering!
 		//project.setD3Generator(new D3GeneratorTreeJSON());
+		useCaseZFA_inheritance.setPublish(false); // WIP
 		storeProject(useCaseZFA_inheritance);
 		
 		//////////////////////////////////////////////////////////////////
@@ -117,12 +119,12 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 		useCaseCIT_5.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		storeProject(useCaseCIT_5);
 		
-		VisProject useCaseCIT_blog = new VisProject("cit-blog");
-		useCaseCIT_blog.registerMappingFile("/library-and-publication/cito/example-mappings/CIT_blog.ttl");
-		useCaseCIT_blog.registerDataFile("/library-and-publication/cito/example-data/cito.owl");
-		useCaseCIT_blog.registerDataFile("/library-and-publication/cito/example-data/cito-example-data.ttl");
-		useCaseCIT_blog.setD3Generator(new D3GeneratorTreeJSON());
-		storeProject(useCaseCIT_blog);
+		VisProject useCaseCIT_collapsible_tree = new VisProject("cit-collapsible-tree");
+		useCaseCIT_collapsible_tree.registerMappingFile("/library-and-publication/cito/example-mappings/CIT_collapsible_tree.ttl");
+		useCaseCIT_collapsible_tree.registerDataFile("/library-and-publication/cito/example-data/cito.owl");
+		useCaseCIT_collapsible_tree.registerDataFile("/library-and-publication/cito/example-data/cito-example-data.ttl");
+		useCaseCIT_collapsible_tree.setD3Generator(new D3GeneratorTreeJSON());
+		storeProject(useCaseCIT_collapsible_tree);
 		
 		VisProject project;
 		
@@ -131,6 +133,7 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 		//project.registerDataFile("/software/ro/example-mappings/extra-data.ttl"));
 		project.registerDataFile("/software/ro/example-data/ro_v_1_4_1_incl_social_network_example.owl");
 		project.setD3Generator(new D3GeneratorTreeJSON());
+		project.setPublish(false); // too much
 
 		project = storeProject("ro-4b");
 		project.registerMappingFile("/software/ro/example-mappings/RO_4b.ttl");
@@ -159,6 +162,7 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 		//project.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		project.setD3Generator(new D3GeneratorTreeJSON());
 		project.setDefaultGraphicType("circle-packing-zoomable");
+		project.setPublish(false); // not suitable for public demo
 		
 		project = storeProject("ro-instances-social-network");
 		project.setReasoningDataModel(Reasoning.rdfs);
@@ -174,6 +178,7 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 		project.registerDataFile("/software/ro/example-data/ogvic-requirements.ttl");
 		project.registerDataFile("/software/ro/example-data/ro_v_1_4_1_incl_social_network_example.owl");
 		project.setD3Generator(new D3GeneratorTreeJSON());
+		project.setPublish(false); // not suitable for public demo
 		
 		project = storeProject("po");
 		project.registerMappingFile("/life-sciences/plant-ontology/example-mappings/experimental-wip.ttl");
@@ -196,6 +201,7 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 		project.registerMappingFile("/life-sciences/amino-acid/example-mappings/AA_4.ttl");
 		project.registerMappingFile("/life-sciences/amino-acid/example-mappings/AA_3.ttl");
 		project.registerDataFile("/life-sciences/amino-acid/example-data/amino-acid.owl");
+		project.setPublish(false); // not supported by editor right now
 
 		project = storeProject("tolkien");
 		project.registerDataFile("/library-and-publication/tolkien/example-data/tolkien-example-data.ttl");

@@ -16,7 +16,7 @@
 :America
       rdf:type :Place ;
       :partOf :World , "World" ;
-      :population "500"^^xsd:int ;
+      :population "911000000"^^xsd:int ;
       .
 
 :Asia
@@ -27,16 +27,16 @@
 
 :Australia
       rdf:type :Place ;
-      rdfs:label "Australia (pop.: 100)"^^xsd:string ;
+      rdfs:label "Australia"^^xsd:string ;
       :partOf :World , "World"@en ;
-      :population "100"^^xsd:int ;
+      :population "23625600"^^xsd:int ;
       .
       
 :Europe
       rdf:type :Place ;
-      rdfs:label "Europe (pop.: 400)"^^xsd:string ;
+      rdfs:label "Europe"^^xsd:string ;
       :partOf :World , "World"@en-us ;
-      :population "400"^^xsd:int ;
+      :population "740000000"^^xsd:int ;
       .
 
 :Author
@@ -67,10 +67,10 @@
 
 :China
       rdf:type :Place ;
-      rdfs:label "China (pop.: 1000)"^^xsd:string ;
+      rdfs:label "China"^^xsd:string ;
       :exportsTo :America ;
       :partOf :Asia ;
-      :population "1000"^^xsd:int ;
+      :population "1367485388"^^xsd:int ;
       .
 
 :Christof
@@ -110,7 +110,7 @@
       rdf:type :Place ;
       :exportsTo :China ;
       :partOf :Europe ;
-      :population "80"^^xsd:int ;
+      :population "81084000"^^xsd:int ;
       dct:title "Deutschland (dct-title with de lang tag, untyped)"@de ;
       .
 
@@ -173,9 +173,9 @@
 
 :Spain
       rdf:type :Place ;
-      rdfs:label "Spain (pop.: 40)"^^xsd:string ;
+      rdfs:label "Spain"^^xsd:string ;
       :partOf :Europe ;
-      :population "40"^^xsd:int ;
+      :population "46464053"^^xsd:int ;
       .
 
 :Susane
@@ -201,7 +201,7 @@
 :Turkey
       rdf:type :Place ;
       :partOf :Asia , :Europe ;
-      :population "30"^^xsd:int ;
+      :population "79414269"^^xsd:int ;
       .
 
 :category

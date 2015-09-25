@@ -6,7 +6,7 @@
       "uri":"http://purl.org/obo/owl/PO#PO_0005599",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
+      "shape_d3_name":"flow-arrow",
       "width":17.0,
       "roles":[
         "linking_node",
@@ -48,7 +48,7 @@
           ],
           "connector":{
             "arrow_type":"arrow",
-            "uri":"http://purl.org/obo/owl/obo#develops_from",
+            "uri":"http://purl.org/obo/owl/obo#develops_from____(some-values-from)",
             "color_rgb_hex":"",
             "color_rgb_hex_combined":null,
             "shape_d3_name":"arrow",
@@ -59,11 +59,11 @@
             "labels":[
               {
                 "position":"centerRight",
-                "text_value":"develops_from",
+                "text_value":"develops_from (...",
                 "width":"21.25",
                 "color_rgb_hex_combined":null,
                 "type":"text_label",
-                "text_value_full":"develops_from"
+                "text_value_full":"develops_from (some-values-from)"
               }
             ]
           }
@@ -91,7 +91,7 @@
           ],
           "connector":{
             "arrow_type":"arrow",
-            "uri":"http://purl.org/obo/owl/obo#develops_from",
+            "uri":"http://purl.org/obo/owl/obo#develops_from____(some-values-from)",
             "color_rgb_hex":"",
             "color_rgb_hex_combined":null,
             "shape_d3_name":"arrow",
@@ -102,11 +102,11 @@
             "labels":[
               {
                 "position":"centerRight",
-                "text_value":"develops_from",
+                "text_value":"develops_from (...",
                 "width":"21.25",
                 "color_rgb_hex_combined":null,
                 "type":"text_label",
-                "text_value_full":"develops_from"
+                "text_value_full":"develops_from (some-values-from)"
               }
             ]
           }
