@@ -34,3 +34,4 @@ bin
 
 *.iml
 .idea
+rvl-d3vis/src/main/resources/web/js/instance-specific-scripts-and-settings.js
