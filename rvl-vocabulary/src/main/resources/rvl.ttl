@@ -18,7 +18,7 @@ dct:description
       rdf:type owl:AnnotationProperty .
 
 :     rdf:type owl:Ontology ;
-      rdfs:label "RDF Visualization Language (RVL)"^^xsd:string ;
+      rdfs:label "RDFS/OWL Visualization Language (RVL)"^^xsd:string ;
       dct:creator <http://purl.org/viso/JanPolowinski> ;
       owl:imports rvl-docu: .
 
