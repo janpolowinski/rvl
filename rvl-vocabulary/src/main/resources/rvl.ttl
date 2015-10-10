@@ -20,6 +20,23 @@ dct:description
 :     rdf:type owl:Ontology ;
       rdfs:label "RDFS/OWL Visualization Language (RVL)"^^xsd:string ;
       dct:creator <http://purl.org/viso/JanPolowinski> ;
+#      rdfs:comment "test"^^xsd:string ;
+#      dct:description "test"^^xsd:string ;
+# 		for some reason it's not possible to move the ontology description to rvl-docu:
+	  dct:description """RVL is a declarative language that allows to specify a mapping from RDF(S)/OWL concepts to visual means that are defined in the <a href=\"http://purl.org/viso/\">Visualisation Ontology</a> (VISO). The syntax is based on RDFS, while the semantics are given by means of SPIN rules.  
+
+RVL was developed in the SemVis project by Jan Polowinski. More on RVL can be found in the <a href=\"https://github.com/semvis/rvl/wiki\" title=\"The RVL-Wiki on GitHub ...\">Wiki</a>.
+
+<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/rvl_class_diagram.png\">
+
+<h3>Overview of Datatypes used in RVL</h3>
+<b>MissingSourceValueHandlingType:</b> Hide, Ignore, Missing (default), Neutral, Average
+<b>MissingValueMappingHandlingType:</b> Calculate (default), Hide, Neutral, Ignore, No mapping, Average
+<b>NeutralValueHandlingType:</b> Average, Style
+<b>OutOfBoundHandlingType:</b> Cut (default), Clamp
+<b>ScaleTransformationType:</b> Linear (default), Logarithmic
+
+<!--<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/datatypes_rvl.png\"/>-->""" ;
       owl:imports rvl-docu: .
 
 :Average
