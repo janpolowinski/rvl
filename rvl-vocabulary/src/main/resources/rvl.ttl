@@ -37,7 +37,7 @@ RVL was developed in the SemVis project by Jan Polowinski. More on RVL can be fo
 <b>ScaleTransformationType:</b> Linear (default), Logarithmic
 
 <!--<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/datatypes_rvl.png\"/>-->""" ;
-      owl:imports rvl-docu: .
+      owl:imports rvl-docu: , viso-graphic: .
 
 :Average
       rdf:type :MissingSourceValueHandlingType , :MissingValueMappingHandlingType , :NeutralValueHandlingType ;
