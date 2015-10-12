@@ -705,9 +705,3 @@ At the moment a subjectFilter is the only way to create mappings based on cardin
       rdfs:range :ValueMapping ;
       swstatus:term_status
               "stable"^^xsd:string .
-
-viso-graphic:GraphicRelation
-      rdf:type owl:Class .
-
-viso-graphic:Visual_Value_Container
-      rdf:type owl:Class .
