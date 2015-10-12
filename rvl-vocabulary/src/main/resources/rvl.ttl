@@ -20,12 +20,12 @@ dct:description
 :     rdf:type owl:Ontology ;
       rdfs:label "RDFS/OWL Visualization Language (RVL)"^^xsd:string ;
       dct:creator <http://purl.org/viso/JanPolowinski> ;
-#      rdfs:comment "test"^^xsd:string ;
-#      dct:description "test"^^xsd:string ;
-# 		for some reason it's not possible to move the ontology description to rvl-docu:
+# 	  for some reason it's not possible to move the ontology description to rvl-docu:
 	  dct:description """RVL is a declarative language that allows to specify a mapping from RDF(S)/OWL concepts to visual means that are defined in the <a href=\"http://purl.org/viso/\">Visualisation Ontology</a> (VISO). The syntax is based on RDFS, while the semantics are given by means of SPIN rules.  
 
 RVL was developed in the SemVis project by Jan Polowinski. More on RVL can be found in the <a href=\"https://github.com/semvis/rvl/wiki\" title=\"The RVL-Wiki on GitHub ...\">Wiki</a>.
+
+<h3>Overview of Mapping Classes in RVL</h3>
 
 <img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/rvl_class_diagram.png\">
 
@@ -320,7 +320,7 @@ RVL was developed in the SemVis project by Jan Polowinski. More on RVL can be fo
 :invertSourceProperty
       rdf:type rdf:Property ;
       rdfs:domain :PropertyMapping ;
-      rdfs:label "Invert source property"^^xsd:string ;
+      rdfs:label "invert source property"^^xsd:string ;
       rdfs:range xsd:boolean ;
       swstatus:term_status
               "stable"^^xsd:string .

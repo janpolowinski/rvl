@@ -30,13 +30,11 @@
       <http://purl.org/dc/terms/description>
               "Passes source values through to the target graphic relation without changing the datatype or value. The type of the values in the domain is equal to the type of the values in the co-domain."^^xsd:string ;
       <http://www.w3.org/2004/02/skos/core#editorialNote>
-              """Except passing strings to labels, also a few other values in the source data may be passed through, e.g. RGB values, sizes in px, positions in px (all other need scaling).   These values do not need to be mapped, but can directly be used as they are. However, it should be possible to perform string-operations in order to do small changes if the datatypes don't match exactly. Setting \"image/uri\" as value in fresnel is similar, however it also instructs how to present. It could be argued that in rare cases relations in the data (when the source data is already about graphic relations) may need to be passed through to GOTORs as well which is not possible at the moment.
+              """Except passing strings to labels, also a few other values in the source data may be passed through, e.g. RGB-values, sizes in px, positions in px (all other need scaling).   These values do not need to be mapped, but can directly be used as they are. However, it should be possible to perform string-operations in order to do small changes if the datatypes don't match exactly. Setting \"image/uri\" as value in fresnel is similar, however it also instructs how to present. It could be argued that in rare cases relations in the data (when the source data is already about graphic relations) may need to be passed through to GOTORs as well which is not possible at the moment.
 
 RVL may be extended to support identity mappings also on the level of value mappings, in order to allow for splitting the source values and handling  each part with differernt settings (e.g. partly use a calculated mapping, or add additional text for some parts). This has been neglected for now for reasons of overall complexity in favor of this simple PM class. To achieve the above mentioned behavior, complex filters on the PM may be used for now. """^^xsd:string ;
       <http://www.w3.org/2004/02/skos/core#example>
-              """rdfs:label is passed to Labeling, or rgb-values are passed trough to Color.
-
-<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/passthrough_mapping_va_example.png\">"""^^xsd:string .
+              """rdfs:label is passed to labeling; RGB-values are passed trough to color."""^^xsd:string .
 
 <http://purl.org/rvl/Ignore>
       <http://purl.org/dc/terms/description>
@@ -99,10 +97,10 @@ The following figure illustrates a PM that is independent of the source values. 
 <img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/mapping_example_mapping_the_existence_of_properties.png\" style=\"width:100%\"/>
 
 <h3>To which Graphic Object is a PM applied?</h3>
-Settings defined by a mapping will by default be applied to the Graphic object (GO) representing the <b>subject</b> of the mapped statement. This means changes to graphic attributes are applied to the subject's GO and the subject's GO is chosen as the starting point for graphic object-to-object relations defined in the mapping. When new graphic objects are implicitly created by a mapping (e.g. as a label) they, too, will be assigned to the subject's GO. When this default behavior is not desired two options are at hand:
+Settings defined by a mapping will by default be applied to the Graphic object (GO) representing the <b>subject</b> of the mapped statement. This means changes to graphic attributes are applied to the subject's GO and the subject's GO is chosen as the starting point for graphic object-to-object relations defined in the mapping. When new graphic objects are implicitly created by a mapping (e.g. as a label) they, too, will be assigned to the subject's GO. When this default behavior is not desired, two options are at hand:
 <ol>
      <li>Map the inverse property instead (e.g., \"updatedBy\" instead of \"updates\")</li>
-     <li>Use a filter-expression to invert the direction of the statement (e.g., \"!updates\" instead of updates) . This will selected objects instead of the subjects.</li>
+     <li>Use a filter-expression to invert the direction of the statement (e.g., \"!updates\" instead of updates) . This will select objects instead of the subjects.</li>
      <li>(only usable within sub-mappings:) Use the rvl:onRole parameter to define the graphic object to which the mapping is to be applied.</li>
 </ol>
 
@@ -148,15 +146,15 @@ In contrast to PropertyToGraphicAttribute mappings, which make the language cons
 
 <http://purl.org/rvl/RemoveTransitiveHull>
       <http://purl.org/dc/terms/description>
-              "Simplifies the RDF graph by removing all edges that represent relations which are already implicitly given, because the relation is transitive."^^xsd:string ;
+              "Simplifies the RDF graph by removing all edges that represent relations that are implicitly given, because the relation is transitive."^^xsd:string ;
       <http://www.w3.org/2004/02/skos/core#example>
               "<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/transitive_simplification_example.png\">"^^xsd:string .
 
 <http://purl.org/rvl/ResourceMapping>
       <http://purl.org/dc/terms/description>
-              """A convenience mapping. Stands for the frequently needed case of a property mapping of a resources ID (represented by the property \"rdf:ID\") to a target graphic attribute plus an attached value mapping from a specific source value to a fixed graphic attribute value. It can be used in combination with inheritedBy and passedTo in order to easily transfer the same value to all instances or subclasses of some specific resource.
+              """A convenience mapping to substitute property mappings that map a resources ID (represented by the property \"rdf:ID\") to a target graphic attribute plus an attached value mapping from a specific source value to a fixed graphic attribute value, which is a frequently occuring mapping case. It can be used in combination with inheritedBy and passedTo in order to easily transfer the same value to all instances or subclasses of some specific resource.
 
-While the sourceProperty is implicitly clear (the ID), it is necessary to state the target graphic attribute when only a value of a simple data type, is given as a target value. For example take the value \"10.5\" - is it a height or a width? For the target value viso-graphic:red it is clear that it is a named color value, therefore, the target graphic attribute viso-graphic:color_named can be omitted.
+While the sourceProperty is implicitly clear (the ID), it is necessary to state the target graphic attribute when only a value of a simple data type is given as a target value. For example take the value \"10.5\" - is it a height or a width? For the target value viso-graphic:red it is clear that it is a named color value, therefore, the target graphic attribute viso-graphic:color_named can be omitted.
 
 Systems interpreting resource mappings may decide whether to internally transform resource mappings to a property mapping and one (or more) value mappings, or directly process them."""^^xsd:string ;
       <http://www.w3.org/2004/02/skos/core#editorialNote>
@@ -172,11 +170,11 @@ TODO: Also a cascading mechanism is needed to determine the winning mapping, whe
 
 <http://purl.org/rvl/SourceValueInterval>
       <http://purl.org/dc/terms/description>
-              """The setting of bounds for the source values is optional. The properties lowerBound and upperBound define the span of source values which are mapped. Other values, outside this span, are either cut or set to the bounding values, depending on the value for the property sourceValuesOutOfBounds.
+              """The setting of bounds for the source values is optional. The properties lowerBound and upperBound define the span of source values to be mapped. Other values, outside this span, are either cut or set to the bounding values, depending on the value for the property sourceValuesOutOfBounds.
 
 If no bounds are defined, the span of source values should be calculated from all available source values.
 
-Please note: The span of source values can also be set LARGER than the span implicitly created by the existing values. This can be used to enlarge the domain of the mapping, e.g. for enforcing a domain to important timespans such as 01.01.1900 - 31.12.2000."""^^xsd:string .
+The span of source values can also be set <em>larger</em> than the span implicitly created by the existing values. This can be used to enlarge the domain of the mapping, e.g. for enforcing a domain to important timespans such as 01.01.1900 - 31.12.2000."""^^xsd:string .
 
 <http://purl.org/rvl/Style>
       <http://purl.org/dc/terms/description>
@@ -184,7 +182,7 @@ Please note: The span of source values can also be set LARGER than the span impl
 
 <http://purl.org/rvl/SubMappingRelation>
       <http://purl.org/dc/terms/description>
-              """Creates an n-ary relation between a base mapping and a sub-mapping, which is applied on the graphic object playing the role defined by rvl:subMapping-onRole. This allows for reusing existing mappings as sub-mappings. Additionally to the role, also the resource may be defined, the sub-mapping should work with. By default this is the object of the source-data-triple mapped by the \"super-mapping\", but it may be changed to the predicate or subject by using rvl:subMapping-onTriplePart.
+              """Creates an n-ary relation between a base mapping and a sub-mapping, which is applied on the graphic object playing the role defined by rvl:subMapping-onRole. This allows for reusing existing mappings as sub-mappings. Additionally to the role, also the resource on which the sub-mapping should operate may be defined. By default this is the object of the source-data-triple mapped by the \"super-mapping\", but it may be changed to the predicate or subject by using rvl:subMapping-onTriplePart.
 
 Using sub-mappings has the following effects/benefits as opposed to defining a new standalone mapping (simultaneous composition):
 <ul><li>Sub-mappings refine the graphic elements the super-mapping has worked on (each role can be referenced)</li>
@@ -233,31 +231,27 @@ When some specific value shall not be handled by the VM, rather than defining a 
 <h4>Complex Source Value Selectors</h4>
 More complex source value selectors can be defined using <a href=\"#http://purl.org/rvl/sourceFilter\">sourceFilter</a> which allows for SPARQL and FSL expressions.
 
-<h4>Valid combinations of source/target selectors in a single VM:</h4>
+<h4>Valid Combinations of Source/Target Selectors in a Single VM</h4>
 In a single value mapping, most source selectors are to be used alternatively - only those selecting an (unordered) set of values can be used in combination and also multiple times. The union of all values selected by sourceValueSet and sourceValue will be used as source values. Further potential exceptions to this have not been specified by now for reasons of simplicity. (This applies equally to target selectors).
 
-<h3>Additional mapping parameters</h3>
+<h3>Additional Mapping Parameters</h3>
 Value mappings can store additional information on the desired mapping process. For example the property <a href=\"#http://purl.org/rvl/discretize\">discretize</a> and <a href=\"#http://purl.org/rvl/discreteStepCount\">discreteStepCount</a> define if and how a discretization of values should be done. Via <a href=\"#http://purl.org/rvl/scaleTransformation\">scaleTransformation</a>, the scaling can be changed from linear scale transformation  (default) to a logarithmic one, for example.
 
-<h3>Giving hints on the scale of measurement</h3>
+<h3>Giving Hints on the Scale of Measurement</h3>
 By default, VMs are performed based on the scale of measurement that can be derived from the source and target properties as well as from the available values. An ordinal or quantitative scale of measurement may be explicitly stated for the source values by using one of the properties <a href=\"#http://purl.org/rvl/orderSourceValuesBy\">orderSourceValuesBy</a> resp. <a href=\"#http://purl.org/rvl/quantifySourceValuesBy\">quantifySourceValuesBy</a>. Analogeos properties exist to order/quantify the target values.
 
-<h3>Calculation of value mappings / Semantics</h3>
+<h3>Calculation of Value Mappings - Schematic Overview of Possible Mapping Cases</h3>
 The figure below gives an overview on the possible combinations between the Scale of measurement (SoM) of source and target values as well as on additional settings that can influence the mapping process. Note that although we allow for selecting continuous source ranges in VM, the RDF resources will always have concrete discrete values!
-
-<h4>SCHEMATIC OVERVIEW OF POSSIBLE MAPPING CASES:</h4>
 
 <img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/source_target_vm_combinations_by_som.png\"/>
 
-<h4>PSEUDOCODE:</h4>
-
+<h3>Calculation of Value Mappings - Semantics as Pseudocode</h3>
 <img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/source_target_vm_combinations_by_som_pseudo_code.png\"/>
 
-<h3>\"Constant values\"</h3>
+<h3>Constant values</h3>
 VM will map any source value to a fixed target value, when no source values are defined (this implicitly means all values are selected) and only 1 target graphic attribute is defined. This can be used to show that there exists a value for this property at all, e.g. by using a specific color or adding some specific label when the property ist set.
 
-
-<h3>Overlapping of value mappings:</h3>
+<h3>Overlapping of Value Mappings</h3>
 When a source value is mapped by multiple VMs, the priority of the VMs is used to determine the mapping to be applied and a warning is issued. When two value mappings have the same priority, the one that is first mentioned is used and a warning should be issued. Already mapped values are then ignored when evaluating further VMs. The following priorities exist (1 = highest priority):
 
 <ol>
@@ -291,11 +285,7 @@ At the moment using multiple selectors is only allowed for those selectors selec
 
 INFO: Invalid / Discouraged / ... combinations of source/target selectors on a syntactic level:
 Considerations on which selectors can reasonably be used in combination between source and target side are given below. These considerations have to be aligned with later changes. This is not up-to-date.
-<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/overview_valid_source_target_value_mappings.png\"/>"""^^xsd:string ;
-      <http://www.w3.org/2004/02/skos/core#example>
-              """Special case of explicit value mappings:
-
-<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/value_mapping_example.png\"/>"""^^xsd:string .
+<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/overview_valid_source_target_value_mappings.png\"/>"""^^xsd:string .
 
 <http://purl.org/rvl/disabled>
       <http://purl.org/dc/terms/description>
