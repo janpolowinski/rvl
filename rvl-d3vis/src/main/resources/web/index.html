@@ -105,7 +105,7 @@
 						</div>
 						
 						<div class="infotext" id="showAVMInfo">
-							Meta-visualize ;) the AVM (Abstract Visual Model) of the last generated graphic, which is an RDF model itself.
+							Meta-visualize ;) the <a title="What is the AVM?" href="https://github.com/semvis/rvl/wiki/AVM" target="_blank">Abstract Visual Model</a> (AVM) of the last generated graphic, which is an RDF model itself.
 							<button onclick="bootstrapAVM();">Show AVM!</button>
 							Also try displaying <a href="javascript:loadProject('rvl','collapsible-tree')">RVL</a> and the <a href="javascript:loadProject('viso','collapsible-tree')">VISO/graphic</a> ontology module.
 						</div>
@@ -169,9 +169,14 @@
 						    Edit the example RVL mappings:<br/>
 						 	 <textarea name="mappings" id="projectMappings" rows="12">loading example mappings ... </textarea>
 						  </div>
+							<div id="hints">
+								Hint:
+								 <a title="Show which RVL features you can already use in this demo"target="_blank" href="https://github.com/semvis/rvl/wiki/Summary-of-Already-Implemented-RVL-features">List of implemented RVL features</a>
+								 | <a title="Open the documentation of the RDFS/OWL Visualisation Language" target="_blank" href="http://purl.org/rvl/">RVL docu</a>
+								 | <a title="Open the documentation of the (graphic module of the) Visualization Ontology (VISO), offering the target graphic elements for the mapping described by RVL" target="_blank" href="http://purl.org/viso/graphic/">VISO/graphic docu</a>
+							</div>
 						  <input title="Submit your RDF data + RVL mappings to update the graphic.
 (Cmd/Ctrl+Enter)" class="button" type="submit" formenctype="multipart/form-data" value="Submit"/>
-
 					</form>
   				</div>
   			</div>
