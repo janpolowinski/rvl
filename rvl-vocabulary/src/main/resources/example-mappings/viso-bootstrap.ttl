@@ -18,8 +18,8 @@
 
 rexm:SubClassOfToLinkingDirected
 	  rvl:disabled "false"^^xsd:boolean ;
-      rvl:subjectFilter "http://www.w3.org/2000/01/rdf-schema#subClassOf::http://purl.org/viso/graphic/Graphic_Representation"^^rvl:fslSelector; # this works already
       rdf:type rvl:PropertyMapping ;
+      #rvl:subjectFilter "http://www.w3.org/2000/01/rdf-schema#subClassOf::http://purl.org/viso/graphic/Graphic_Representation"^^rvl:fslSelector; # this works already
       rdfs:label "PM from rdfs:subClassOf to Linking Directed"^^xsd:string ;
       rvl:sourceProperty rdfs:subClassOf ; 
       rvl:invertSourceProperty
