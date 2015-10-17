@@ -16,6 +16,9 @@ public class OntologyFile {
 	
 	// VISO_GRAPHIC FILES
 	final public static String VISO_GRAPHIC = "/modules/graphic/viso-graphic.ttl";
+	// temporarily add these old statements that were actually only for organizing properties when VISO is shown in an IDE
+	// they seem to be necessary to make the assignment of roles as CSS-classes correctly
+	final public static String VISO_GRAPHIC_EXTRA_MAPPING = "/viso-helper.ttl";
 	// extra statements required for correct code generation
 	final public static String VISO_GRAPHIC_EXTRA = "/modules/graphic-for-rvl-codegen/viso-graphic-extra-for-codegen.ttl";
 	// extra viso graphic-based commons, such as color lists, required for the RVL examples
