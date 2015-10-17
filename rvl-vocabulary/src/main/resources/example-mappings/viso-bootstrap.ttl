@@ -41,7 +41,7 @@ rexm:SubPropertyOfToLinkingDirected
 rexm:TypeToLinkingDirected
 	  rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rdfs:label "PM from rdfs:subPropertyOf to Linking Directed"^^xsd:string ;
+      rdfs:label "PM from rdf:type to Linking Directed"^^xsd:string ;
       rvl:sourceProperty rdf:type ;
       rvl:invertSourceProperty
               "true"^^xsd:boolean ;
