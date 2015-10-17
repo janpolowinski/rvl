@@ -360,7 +360,7 @@ RVL was developed in the SemVis project by Jan Polowinski. More on RVL can be fo
       rdf:type owl:DatatypeProperty ;
       rdfs:domain :PropertyMapping ;
       rdfs:label "missing source value"^^xsd:string ;
-      rdfs:range :MissingSourceValueHandlingType ;
+      #rdfs:range :MissingSourceValueHandlingType ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -368,7 +368,7 @@ RVL was developed in the SemVis project by Jan Polowinski. More on RVL can be fo
       rdf:type owl:DatatypeProperty ;
       rdfs:domain :PropertyMapping ;
       rdfs:label "missing value mapping"^^xsd:string ;
-      rdfs:range :MissingValueMappingHandlingType ;
+     # rdfs:range :MissingValueMappingHandlingType ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -384,7 +384,7 @@ RVL was developed in the SemVis project by Jan Polowinski. More on RVL can be fo
       rdf:type owl:DatatypeProperty ;
       rdfs:domain :PropertyMapping ;
       rdfs:label "object filter"^^xsd:string ;
-      rdfs:range :sparqlSelector ;
+      #rdfs:range :sparqlSelector ;
       rdfs:seeAlso :sourceFilter , :subjectFilter ;
       swstatus:term_status
               "stable"^^xsd:string .
@@ -450,7 +450,7 @@ RVL was developed in the SemVis project by Jan Polowinski. More on RVL can be fo
       rdf:type owl:DatatypeProperty ;
       rdfs:domain :ValueMapping ;
       rdfs:label "scale transformation type"^^xsd:string ;
-      rdfs:range :ScaleTransformationType ;
+     # rdfs:range :ScaleTransformationType ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -472,7 +472,7 @@ RVL was developed in the SemVis project by Jan Polowinski. More on RVL can be fo
       rdfs:comment "<b>Difference to objectFilter:</b> ObjectFilter used with property mappings can filter on the level of property mappings - allowing different graphic realtions to be applied depending on the filter. As opposed to this, sourceFilter only allows for filtering on the level of source values and should be used when the graphic relation is not varied based on the filtering, but only the values are varied. Properties such as sourceValueSet, sourceValue and sourceValueInterval partly work as filters as well and can more easily be used for most cases. For examle, with sourceValueSet existing sets can very easily be referenced. sourceFilter covers all other more complex filtering needs."^^xsd:string ;
       rdfs:domain :ValueMapping ;
       rdfs:label "source filter"^^xsd:string ;
-      rdfs:range :sparqlSelector ;
+      #rdfs:range :sparqlSelector ;
       rdfs:seeAlso :objectFilter , :sourceFilter ;
       swstatus:term_status
               "stable"^^xsd:string , "unstable"^^xsd:string .
@@ -536,7 +536,8 @@ RVL was developed in the SemVis project by Jan Polowinski. More on RVL can be fo
 :sparqlSelector
       rdf:type rdfs:Datatype ;
       rdfs:label "SPARQL selector"^^xsd:string ;
-      rdfs:subClassOf rdfs:Literal , xsd:string ;
+      rdfs:subClassOf rdfs:Literal  ;
+      # not allowed (reasoning error): rdfs:subClassOf xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string , "unstable"^^xsd:string .
 
@@ -592,7 +593,7 @@ RVL was developed in the SemVis project by Jan Polowinski. More on RVL can be fo
 At the moment a subjectFilter is the only way to create mappings based on cardinality or universal restrictions. E.g. we can define a mapping (via a SPARQL expression) to be applied when a Person knows at least two other persons, or when a Person knows only books (but notthing else)."""^^xsd:string ;
       rdfs:domain :PropertyMapping ;
       rdfs:label "subject filter"^^xsd:string ;
-      rdfs:range :sparqlSelector ;
+      #rdfs:range :sparqlSelector ;
       rdfs:seeAlso :objectFilter ;
       swstatus:term_status
               "stable"^^xsd:string .
