@@ -6,3 +6,6 @@
 @prefix rvl:     <http://purl.org/rvl/> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 
+# avoid the need for importing owl
+owl:DatatypeProperty rdfs:subClassOf rdf:Property .
+owl:ObjectProperty rdfs:subClassOf rdf:Property .
