@@ -1,4 +1,4 @@
-# Saved by TopBraid on Mon Nov 17 23:24:42 CET 2014
+# Saved by TopBraid on Mon Oct 26 15:18:31 CET 2015
 # baseURI: http://purl.org/rvl/spin-constraints/
 # imports: http://purl.org/rvl/
 # imports: http://spinrdf.org/spin
@@ -97,31 +97,6 @@ rvl:ValueMapping
                           ])
               ] ;
       spin:constraint
-              [ rdf:type sp:Ask ;
-                rdfs:comment """You can either define a list of source values or give bounds
-TODO: update"""^^xsd:string ;
-                sp:where ([ sp:object
-                                    [ sp:varName "sv"^^xsd:string
-                                    ] ;
-                            sp:predicate rvl:sourceValueSet ;
-                            sp:subject spin:_this
-                          ] [ rdf:type sp:Union ;
-                            sp:elements (([ sp:object _:b8 ;
-                                          sp:predicate rvl:upperBoundIncl ;
-                                          sp:subject spin:_this
-                                        ]) ([ sp:object _:b9 ;
-                                          sp:predicate rvl:lowerBoundIncl ;
-                                          sp:subject spin:_this
-                                        ]) ([ sp:object _:b8 ;
-                                          sp:predicate rvl:sourceValueUpperBoundDTP ;
-                                          sp:subject spin:_this
-                                        ]) ([ sp:object _:b9 ;
-                                          sp:predicate rvl:sourceValueLowerBoundDTP ;
-                                          sp:subject spin:_this
-                                        ]))
-                          ])
-              ] ;
-      spin:constraint
               [ rdf:type spl:Attribute ;
                 rdfs:comment "Linear is the default interpolation type"^^xsd:string ;
                 spl:defaultValue rvl:Linear ;
@@ -129,17 +104,26 @@ TODO: update"""^^xsd:string ;
                 spl:minCount 0 ;
                 spl:predicate rvl:scaleTransformation ;
                 spl:valueType rvl:ScaleTransformationType
+              ] ;
+      spin:constraint
+              [ rdf:type sp:Ask ;
+                rdfs:comment "You can either define a list of source values or give bounds"^^xsd:string ;
+                sp:where ([ sp:object
+                                    [ sp:varName "sv"^^xsd:string
+                                    ] ;
+                            sp:predicate rvl:sourceValueSet ;
+                            sp:subject spin:_this
+                          ] [ sp:object
+                                    [ sp:varName "svi"^^xsd:string
+                                    ] ;
+                            sp:predicate rvl:sourceValueInterval ;
+                            sp:subject spin:_this
+                          ])
               ] .
 
 rvl:constraintBasedOnVisoFacts
       rdf:type rdf:Property ;
       rdfs:subPropertyOf spin:constraint .
-
-rvl:sourceValueLowerBoundDTP
-      rdf:type owl:DatatypeProperty .
-
-rvl:sourceValueUpperBoundDTP
-      rdf:type owl:DatatypeProperty .
 
 rvl-cs:
       rdf:type owl:Ontology ;
@@ -151,13 +135,13 @@ rvl-cs:DeleteTriple
       rdfs:subClassOf spin:UpdateTemplates ;
       spin:body
               [ rdf:type sp:Modify ;
-                sp:deletePattern ([ sp:object _:b10 ;
-                            sp:predicate _:b11 ;
-                            sp:subject _:b12
+                sp:deletePattern ([ sp:object _:b8 ;
+                            sp:predicate _:b9 ;
+                            sp:subject _:b10
                           ]) ;
-                sp:where ([ sp:object _:b10 ;
-                            sp:predicate _:b11 ;
-                            sp:subject _:b12
+                sp:where ([ sp:object _:b8 ;
+                            sp:predicate _:b9 ;
+                            sp:subject _:b10
                           ])
               ] ;
       spin:constraint
@@ -189,6 +173,10 @@ rvl-cs:List_1
 rvl-cs:List_2
       rdf:type rdf:List .
 
+_:b1  sp:varName "lb"^^xsd:string .
+
+_:b2  sp:varName "ub"^^xsd:string .
+
 _:b3  sp:varName "tvm"^^xsd:string .
 
 _:b4  sp:varName "pm"^^xsd:string .
@@ -199,19 +187,9 @@ _:b6  sp:varName "tvm"^^xsd:string .
 
 _:b7  sp:varName "range"^^xsd:string .
 
-_:b8  sp:varName "ub"^^xsd:string .
+_:b8  sp:varName "object"^^xsd:string .
 
-_:b9  sp:varName "lb"^^xsd:string .
+_:b9  sp:varName "predicate"^^xsd:string .
 
 _:b10
-      sp:varName "object"^^xsd:string .
-
-_:b11
-      sp:varName "predicate"^^xsd:string .
-
-_:b12
       sp:varName "subject"^^xsd:string .
-
-_:b1  sp:varName "lb"^^xsd:string .
-
-_:b2  sp:varName "ub"^^xsd:string .
