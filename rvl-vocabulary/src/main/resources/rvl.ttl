@@ -36,7 +36,10 @@ RVL was developed in the SemVis project by Jan Polowinski. More on RVL can be fo
 <b>OutOfBoundHandlingType:</b> Cut (default), Clamp
 <b>ScaleTransformationType:</b> Linear (default), Logarithmic
 
-<!--<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/datatypes_rvl.png\"/>-->""" ;
+<!--<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/datatypes_rvl.png\"/>-->
+
+<h3>Schema</h3>
+The schema of RVL beyond the RDFS/OWL statements provided by this vocabulary is currently documented in our <a href="https://github.com/semvis/rvl/wiki/schema>Wiki</a>.""" ;
       owl:imports rvl-docu: , viso-graphic: .
 
 :Average
