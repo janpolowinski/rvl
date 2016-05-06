@@ -1,4 +1,4 @@
-# Saved by TopBraid on Tue Oct 27 13:33:55 CET 2015
+# Saved by TopBraid on Tue Oct 27 12:02:49 CET 2015
 # baseURI: http://purl.org/rvl/example-mappings/
 # imports: http://purl.org/rvl/spin-constraints/
 # imports: http://purl.org/viso/shape/commons/
@@ -22,10 +22,10 @@ rexm:
       rdf:type owl:Ontology ;
       owl:imports rvl: , rexd: , <http://purl.org/rvl/fact-based-spin-constraints/> , rvl-cs: , common-shapes: .
 
-rexm:NonOptimalEffectiveMapping
+rexm:NotExpressiveMapping
       rdf:type rvl:PropertyMapping ;
-      rdfs:label "Example of an non-optimal mapping with respect to the effectiveness criterion." ;
+      rdfs:label "Example of a not-expressive mapping." ;
       rvl:sourceProperty rexd:population ;
-      rvl:targetAttribute vg:color_hsl_lightness ;
+      rvl:targetAttribute vg:shape_named ;
       rvl:targetGraphicRelation
-              vg:color_hsl_lightness .
+              vg:shape_named .
