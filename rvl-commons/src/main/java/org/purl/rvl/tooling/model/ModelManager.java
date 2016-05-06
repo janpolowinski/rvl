@@ -138,6 +138,9 @@ public class ModelManager {
 		try {
 			ModelUtils.readFromAnySyntax(modelVISO, OntologyFile.VISO_GRAPHIC);
 			LOGGER.info("Read VISO-graphic into VISO model from " + OntologyFile.VISO_GRAPHIC);
+			// TODO: the following statements should not actually be necessary and used in the code!
+			ModelUtils.readFromAnySyntax(modelVISO, OntologyFile.VISO_GRAPHIC_EXTRA_MAPPING);
+			LOGGER.info("Read additional statements into VISO model from " + OntologyFile.VISO_GRAPHIC_EXTRA_MAPPING);
 		} catch (Exception e) {
 			throw new OGVICRepositoryException("VISO model", e.getMessage());
 		}

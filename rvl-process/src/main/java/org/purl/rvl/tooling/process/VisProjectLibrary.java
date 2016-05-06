@@ -49,7 +49,7 @@ public class VisProjectLibrary {
 		// "Bootstrapping" VISO_GRAPHIC Classes
 		///////////////////////////////////////////////////////////////////
 		VisProject useCaseVISOClasses = new VisProject("viso");
-		useCaseVISOClasses.setReasoningDataModel(Reasoning.rdfs);
+		useCaseVISOClasses.setReasoningDataModel(Reasoning.none);
 		useCaseVISOClasses.registerMappingFile(ExampleMapping.VISO_EXAMPLE_BOOTSTRAP);
 		useCaseVISOClasses.registerDataFile(OntologyFile.VISO_GRAPHIC);
 		useCaseVISOClasses.registerDataFile(ExampleData.VISO_EXTRA_DATA);
@@ -191,7 +191,7 @@ public class VisProjectLibrary {
 		// "Bootstrapping" RVL Classes
 		///////////////////////////////////////////////////////////////////
 		project = storeProject("rvl");
-		project.setReasoningDataModel(Reasoning.rdfs);
+		project.setReasoningDataModel(Reasoning.none);
 		project.registerMappingFile("/example-mappings/rvl-bootstrap.ttl");
 		project.registerDataFile(OntologyFile.RVL);
 		project.registerDataFile(ExampleData.RVL_EXTRA_DATA);
