@@ -1,4 +1,4 @@
-# Saved by TopBraid on Mon Oct 26 15:18:31 CET 2015
+# Saved by TopBraid on Tue May 10 22:43:41 CEST 2016
 # baseURI: http://purl.org/rvl/spin-constraints/
 # imports: http://purl.org/rvl/
 # imports: http://spinrdf.org/spin
@@ -70,6 +70,39 @@ rvl:PropertyMapping
                 spl:minCount 1 ;
                 spl:predicate rvl:sourceProperty ;
                 spl:valueType rdf:Property
+              ] .
+
+rvl:PropertyToGraphicObjToObjRelationMapping
+      spin:constraint
+              [ rdf:type sp:Ask ;
+                rdfs:comment "Some characteristic of the source property is eventually not supported by the target graphic relation you have chosen"^^xsd:string ;
+                sp:where ([ sp:object sp:_sp ;
+                            sp:predicate rvl:sourceProperty ;
+                            sp:subject spin:_this
+                          ] [ sp:object sp:_spType ;
+                            sp:predicate rdf:type ;
+                            sp:subject sp:_sp
+                          ] [ rdf:type sp:Filter ;
+                            sp:expression
+                                    [ rdf:type sp:or ;
+                                      sp:arg1 [ rdf:type sp:eq ;
+                                                sp:arg1 sp:_spType ;
+                                                sp:arg2 owl:SymmetricProperty
+                                              ] ;
+                                      sp:arg2 [ rdf:type sp:eq ;
+                                                sp:arg1 sp:_spType ;
+                                                sp:arg2 owl:ReflexiveProperty
+                                              ]
+                                    ]
+                          ] [ sp:object sp:_tgr ;
+                            sp:predicate rvl:targetGraphicRelation ;
+                            sp:subject spin:_this
+                          ] [ rdf:type sp:NotExists ;
+                            sp:elements ([ sp:object sp:_spType ;
+                                        sp:predicate viso-facts:expresses ;
+                                        sp:subject sp:_tgr
+                                      ])
+                          ])
               ] .
 
 rvl:ValueMapping
@@ -172,6 +205,18 @@ rvl-cs:List_1
 
 rvl-cs:List_2
       rdf:type rdf:List .
+
+sp:_sp
+      rdf:type sp:Variable ;
+      sp:varName "sp"^^xsd:string .
+
+sp:_spType
+      rdf:type sp:Variable ;
+      sp:varName "spType"^^xsd:string .
+
+sp:_tgr
+      rdf:type sp:Variable ;
+      sp:varName "tgr"^^xsd:string .
 
 _:b1  sp:varName "lb"^^xsd:string .
 
