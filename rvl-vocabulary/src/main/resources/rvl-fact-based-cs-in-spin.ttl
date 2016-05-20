@@ -1,4 +1,4 @@
-# Saved by TopBraid on Tue Oct 27 12:04:58 CET 2015
+# Saved by TopBraid on Fri May 20 14:48:40 CEST 2016
 # baseURI: http://purl.org/rvl/fact-based-spin-constraints/
 # imports: http://purl.org/rvl/spin-constraints/
 # imports: http://purl.org/viso/data/
@@ -9,6 +9,7 @@
 # imports: http://purl.org/viso/facts/
 
 @prefix :        <http://purl.org/rvl/spin-constraints/> .
+@prefix afn:     <http://jena.hpl.hp.com/ARQ/function#> .
 @prefix fn:      <http://www.w3.org/2005/xpath-functions#> .
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -25,37 +26,6 @@
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 
 rvl:PropertyMapping
-      spin:constraint
-              [ rdf:type sp:Ask ;
-                rdfs:comment "Expressiveness - The chosen visual means cannot express the given source property (based on it's defined scale of measurement)"^^xsd:string ;
-                sp:where ([ sp:object sp:_sp ;
-                            sp:predicate rvl:sourceProperty ;
-                            sp:subject spin:_this
-                          ] [ sp:object sp:_tgr ;
-                            sp:predicate rvl:targetGraphicRelation ;
-                            sp:subject spin:_this
-                          ] [ rdf:type sp:Union ;
-                            sp:elements (([ sp:object viso-data:has_nominal_value ;
-                                          sp:predicate rdfs:subPropertyOf ;
-                                          sp:subject sp:_sp
-                                        ] [ sp:object viso-data:Nominal_Data ;
-                                          sp:predicate viso-facts:not_expresses ;
-                                          sp:subject sp:_tgr
-                                        ]) ([ sp:object viso-data:has_ordinal_value ;
-                                          sp:predicate rdfs:subPropertyOf ;
-                                          sp:subject sp:_sp
-                                        ] [ sp:object viso-data:Ordinal_Data ;
-                                          sp:predicate viso-facts:not_expresses ;
-                                          sp:subject sp:_tgr
-                                        ]) ([ sp:object viso-data:has_quantitative_value ;
-                                          sp:predicate rdfs:subPropertyOf ;
-                                          sp:subject sp:_sp
-                                        ] [ sp:object viso-data:Quantitative_Data ;
-                                          sp:predicate viso-facts:not_expresses ;
-                                          sp:subject sp:_tgr
-                                        ]))
-                          ])
-              ] ;
       spin:constraint
               [ rdf:type sp:Construct ;
                 rdfs:comment """Effectiveness - Shows a warning when there are more effective visual means and offers to delete the not-best one
@@ -182,6 +152,103 @@ TODO: offer better ones!"""^^xsd:string ;
                                       sp:arg2 0
                                     ]
                           ])
+              ] ;
+      spin:constraint
+              [ rdf:type sp:Ask ;
+                rdfs:comment "Expressiveness - The chosen visual means cannot express the given source property (based on it's defined scale of measurement)"^^xsd:string ;
+                sp:where ([ sp:object sp:_sp ;
+                            sp:predicate rvl:sourceProperty ;
+                            sp:subject spin:_this
+                          ] [ sp:object sp:_tgr ;
+                            sp:predicate rvl:targetGraphicRelation ;
+                            sp:subject spin:_this
+                          ] [ rdf:type sp:Union ;
+                            sp:elements (([ sp:object viso-data:has_nominal_value ;
+                                          sp:predicate rdfs:subPropertyOf ;
+                                          sp:subject sp:_sp
+                                        ] [ sp:object viso-data:Nominal_Data ;
+                                          sp:predicate viso-facts:not_expresses ;
+                                          sp:subject sp:_tgr
+                                        ]) ([ sp:object viso-data:has_ordinal_value ;
+                                          sp:predicate rdfs:subPropertyOf ;
+                                          sp:subject sp:_sp
+                                        ] [ sp:object viso-data:Ordinal_Data ;
+                                          sp:predicate viso-facts:not_expresses ;
+                                          sp:subject sp:_tgr
+                                        ]) ([ sp:object viso-data:has_quantitative_value ;
+                                          sp:predicate rdfs:subPropertyOf ;
+                                          sp:subject sp:_sp
+                                        ] [ sp:object viso-data:Quantitative_Data ;
+                                          sp:predicate viso-facts:not_expresses ;
+                                          sp:subject sp:_tgr
+                                        ]))
+                          ])
+              ] .
+
+rvl:PropertyToGraphicObjToObjRelationMapping
+      spin:constraint
+              [ rdf:type sp:Construct ;
+                sp:templates ([ sp:object spin:ConstraintViolation ;
+                            sp:predicate rdf:type ;
+                            sp:subject _:b3
+                          ] [ sp:object spin:_this ;
+                            sp:predicate spin:violationRoot ;
+                            sp:subject _:b3
+                          ] [ sp:object rvl:targetObjToObjRelation ;
+                            sp:predicate spin:violationPath ;
+                            sp:subject _:b3
+                          ] [ sp:object rvl:sourceProperty ;
+                            sp:predicate spin:violationPath ;
+                            sp:subject _:b3
+                          ] [ sp:object sp:_cvLabel ;
+                            sp:predicate rdfs:label ;
+                            sp:subject _:b3
+                          ]) ;
+                sp:where ([ sp:object sp:_sp ;
+                            sp:predicate rvl:sourceProperty ;
+                            sp:subject spin:_this
+                          ] [ sp:object sp:_spType ;
+                            sp:predicate rdf:type ;
+                            sp:subject sp:_sp
+                          ] [ rdf:type sp:Filter ;
+                            sp:expression
+                                    [ rdf:type sp:or ;
+                                      sp:arg1 [ rdf:type sp:or ;
+                                                sp:arg1 [ rdf:type sp:eq ;
+                                                          sp:arg1 sp:_spType ;
+                                                          sp:arg2 owl:SymmetricProperty
+                                                        ] ;
+                                                sp:arg2 [ rdf:type sp:eq ;
+                                                          sp:arg1 sp:_spType ;
+                                                          sp:arg2 owl:ReflexiveProperty
+                                                        ]
+                                              ] ;
+                                      sp:arg2 [ rdf:type sp:eq ;
+                                                sp:arg1 sp:_spType ;
+                                                sp:arg2 owl:TransitiveProperty
+                                              ]
+                                    ]
+                          ] [ sp:object sp:_tgr ;
+                            sp:predicate rvl:targetObjToObjRelation ;
+                            sp:subject spin:_this
+                          ] [ sp:object sp:_tgr ;
+                            sp:predicate rdfs:range ;
+                            sp:subject sp:_tgrNaryHelper
+                          ] [ rdf:type sp:NotExists ;
+                            sp:elements ([ sp:object sp:_spType ;
+                                        sp:predicate viso-facts:can_express ;
+                                        sp:subject sp:_tgrNaryHelper
+                                      ])
+                          ] [ rdf:type sp:Bind ;
+                            sp:expression
+                                    [ rdf:type fn:concat ;
+                                      sp:arg1 "The graphic relation you have chosen does eventually not support the following characteristic of the source property: " ;
+                                      sp:arg2 [ rdf:type afn:localname ;
+                                                sp:arg1 sp:_spType
+                                              ]
+                                    ] ;
+                            sp:variable sp:_cvLabel
+                          ])
               ] .
 
 rvl-fb-cs:
@@ -213,6 +280,14 @@ sp:_sp
       rdf:type sp:Variable ;
       sp:varName "sp"^^xsd:string .
 
+sp:_spNaryHelper
+      rdf:type sp:Variable ;
+      sp:varName "spNaryHelper"^^xsd:string .
+
 sp:_tgr
       rdf:type sp:Variable ;
       sp:varName "tgr"^^xsd:string .
+
+sp:_tgrNaryHelper
+      rdf:type sp:Variable ;
+      sp:varName "tgrNaryHelper"^^xsd:string .

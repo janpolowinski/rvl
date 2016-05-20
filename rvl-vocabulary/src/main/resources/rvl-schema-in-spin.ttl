@@ -1,10 +1,11 @@
-# Saved by TopBraid on Tue May 10 22:43:41 CEST 2016
+# Saved by TopBraid on Fri May 13 16:56:37 CEST 2016
 # baseURI: http://purl.org/rvl/spin-constraints/
 # imports: http://purl.org/rvl/
 # imports: http://spinrdf.org/spin
 # imports: http://purl.org/viso/facts/
 
 @prefix :        <http://purl.org/rvl/spin-constraints/> .
+@prefix afn:     <http://jena.hpl.hp.com/ARQ/function#> .
 @prefix fn:      <http://www.w3.org/2005/xpath-functions#> .
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -70,39 +71,6 @@ rvl:PropertyMapping
                 spl:minCount 1 ;
                 spl:predicate rvl:sourceProperty ;
                 spl:valueType rdf:Property
-              ] .
-
-rvl:PropertyToGraphicObjToObjRelationMapping
-      spin:constraint
-              [ rdf:type sp:Ask ;
-                rdfs:comment "Some characteristic of the source property is eventually not supported by the target graphic relation you have chosen"^^xsd:string ;
-                sp:where ([ sp:object sp:_sp ;
-                            sp:predicate rvl:sourceProperty ;
-                            sp:subject spin:_this
-                          ] [ sp:object sp:_spType ;
-                            sp:predicate rdf:type ;
-                            sp:subject sp:_sp
-                          ] [ rdf:type sp:Filter ;
-                            sp:expression
-                                    [ rdf:type sp:or ;
-                                      sp:arg1 [ rdf:type sp:eq ;
-                                                sp:arg1 sp:_spType ;
-                                                sp:arg2 owl:SymmetricProperty
-                                              ] ;
-                                      sp:arg2 [ rdf:type sp:eq ;
-                                                sp:arg1 sp:_spType ;
-                                                sp:arg2 owl:ReflexiveProperty
-                                              ]
-                                    ]
-                          ] [ sp:object sp:_tgr ;
-                            sp:predicate rvl:targetGraphicRelation ;
-                            sp:subject spin:_this
-                          ] [ rdf:type sp:NotExists ;
-                            sp:elements ([ sp:object sp:_spType ;
-                                        sp:predicate viso-facts:expresses ;
-                                        sp:subject sp:_tgr
-                                      ])
-                          ])
               ] .
 
 rvl:ValueMapping
@@ -206,6 +174,10 @@ rvl-cs:List_1
 rvl-cs:List_2
       rdf:type rdf:List .
 
+sp:_cvLabel
+      rdf:type sp:Variable ;
+      sp:varName "cvLabel"^^xsd:string .
+
 sp:_sp
       rdf:type sp:Variable ;
       sp:varName "sp"^^xsd:string .
@@ -214,27 +186,31 @@ sp:_spType
       rdf:type sp:Variable ;
       sp:varName "spType"^^xsd:string .
 
+sp:_spTypeLabel
+      rdf:type sp:Variable ;
+      sp:varName "spTypeLabel"^^xsd:string .
+
 sp:_tgr
       rdf:type sp:Variable ;
       sp:varName "tgr"^^xsd:string .
 
-_:b1  sp:varName "lb"^^xsd:string .
-
-_:b2  sp:varName "ub"^^xsd:string .
-
-_:b3  sp:varName "tvm"^^xsd:string .
-
-_:b4  sp:varName "pm"^^xsd:string .
-
-_:b5  sp:varName "tv"^^xsd:string .
-
-_:b6  sp:varName "tvm"^^xsd:string .
-
-_:b7  sp:varName "range"^^xsd:string .
-
-_:b8  sp:varName "object"^^xsd:string .
+_:b10
+      sp:varName "subject"^^xsd:string .
 
 _:b9  sp:varName "predicate"^^xsd:string .
 
-_:b10
-      sp:varName "subject"^^xsd:string .
+_:b8  sp:varName "object"^^xsd:string .
+
+_:b7  sp:varName "range"^^xsd:string .
+
+_:b6  sp:varName "tvm"^^xsd:string .
+
+_:b5  sp:varName "tv"^^xsd:string .
+
+_:b4  sp:varName "pm"^^xsd:string .
+
+_:b3  sp:varName "tvm"^^xsd:string .
+
+_:b2  sp:varName "ub"^^xsd:string .
+
+_:b1  sp:varName "lb"^^xsd:string .
