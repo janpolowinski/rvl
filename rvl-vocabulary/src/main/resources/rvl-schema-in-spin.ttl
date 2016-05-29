@@ -1,10 +1,11 @@
-# Saved by TopBraid on Mon Oct 26 15:18:31 CET 2015
+# Saved by TopBraid on Fri May 13 16:56:37 CEST 2016
 # baseURI: http://purl.org/rvl/spin-constraints/
 # imports: http://purl.org/rvl/
 # imports: http://spinrdf.org/spin
 # imports: http://purl.org/viso/facts/
 
 @prefix :        <http://purl.org/rvl/spin-constraints/> .
+@prefix afn:     <http://jena.hpl.hp.com/ARQ/function#> .
 @prefix fn:      <http://www.w3.org/2005/xpath-functions#> .
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -173,23 +174,43 @@ rvl-cs:List_1
 rvl-cs:List_2
       rdf:type rdf:List .
 
-_:b1  sp:varName "lb"^^xsd:string .
+sp:_cvLabel
+      rdf:type sp:Variable ;
+      sp:varName "cvLabel"^^xsd:string .
 
-_:b2  sp:varName "ub"^^xsd:string .
+sp:_sp
+      rdf:type sp:Variable ;
+      sp:varName "sp"^^xsd:string .
 
-_:b3  sp:varName "tvm"^^xsd:string .
+sp:_spType
+      rdf:type sp:Variable ;
+      sp:varName "spType"^^xsd:string .
 
-_:b4  sp:varName "pm"^^xsd:string .
+sp:_spTypeLabel
+      rdf:type sp:Variable ;
+      sp:varName "spTypeLabel"^^xsd:string .
 
-_:b5  sp:varName "tv"^^xsd:string .
-
-_:b6  sp:varName "tvm"^^xsd:string .
-
-_:b7  sp:varName "range"^^xsd:string .
-
-_:b8  sp:varName "object"^^xsd:string .
-
-_:b9  sp:varName "predicate"^^xsd:string .
+sp:_tgr
+      rdf:type sp:Variable ;
+      sp:varName "tgr"^^xsd:string .
 
 _:b10
       sp:varName "subject"^^xsd:string .
+
+_:b9  sp:varName "predicate"^^xsd:string .
+
+_:b8  sp:varName "object"^^xsd:string .
+
+_:b7  sp:varName "range"^^xsd:string .
+
+_:b6  sp:varName "tvm"^^xsd:string .
+
+_:b5  sp:varName "tv"^^xsd:string .
+
+_:b4  sp:varName "pm"^^xsd:string .
+
+_:b3  sp:varName "tvm"^^xsd:string .
+
+_:b2  sp:varName "ub"^^xsd:string .
+
+_:b1  sp:varName "lb"^^xsd:string .
