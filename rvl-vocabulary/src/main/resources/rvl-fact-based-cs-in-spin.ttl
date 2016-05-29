@@ -1,4 +1,4 @@
-# Saved by TopBraid on Fri May 20 14:48:40 CEST 2016
+# Saved by TopBraid on Sun May 29 14:32:51 CEST 2016
 # baseURI: http://purl.org/rvl/fact-based-spin-constraints/
 # imports: http://purl.org/rvl/spin-constraints/
 # imports: http://purl.org/viso/data/
@@ -26,6 +26,37 @@
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 
 rvl:PropertyMapping
+      spin:constraint
+              [ rdf:type sp:Ask ;
+                rdfs:comment "Expressiveness - The chosen visual means cannot express the given source property (based on it's defined scale of measurement)"^^xsd:string ;
+                sp:where ([ sp:object sp:_sp ;
+                            sp:predicate rvl:sourceProperty ;
+                            sp:subject spin:_this
+                          ] [ sp:object sp:_tgr ;
+                            sp:predicate rvl:targetGraphicRelation ;
+                            sp:subject spin:_this
+                          ] [ rdf:type sp:Union ;
+                            sp:elements (([ sp:object viso-data:has_nominal_value ;
+                                          sp:predicate rdfs:subPropertyOf ;
+                                          sp:subject sp:_sp
+                                        ] [ sp:object viso-data:Nominal_Data ;
+                                          sp:predicate viso-facts:not_expresses ;
+                                          sp:subject sp:_tgr
+                                        ]) ([ sp:object viso-data:has_ordinal_value ;
+                                          sp:predicate rdfs:subPropertyOf ;
+                                          sp:subject sp:_sp
+                                        ] [ sp:object viso-data:Ordinal_Data ;
+                                          sp:predicate viso-facts:not_expresses ;
+                                          sp:subject sp:_tgr
+                                        ]) ([ sp:object viso-data:has_quantitative_value ;
+                                          sp:predicate rdfs:subPropertyOf ;
+                                          sp:subject sp:_sp
+                                        ] [ sp:object viso-data:Quantitative_Data ;
+                                          sp:predicate viso-facts:not_expresses ;
+                                          sp:subject sp:_tgr
+                                        ]))
+                          ])
+              ] ;
       spin:constraint
               [ rdf:type sp:Construct ;
                 rdfs:comment """Effectiveness - Shows a warning when there are more effective visual means and offers to delete the not-best one
@@ -67,8 +98,8 @@ TODO: offer better ones!"""^^xsd:string ;
                           ] [ rdf:type sp:SubQuery ;
                             sp:query
                                     [ rdf:type sp:Select ;
-                                      sp:groupBy (sp:_sp) ;
-                                      sp:resultVariables (sp:_sp [ sp:expression
+                                      sp:groupBy (sp:_tgr) ;
+                                      sp:resultVariables (sp:_sp sp:_tgr [ sp:expression
                                                           [ rdf:type sp:Count ;
                                                             sp:expression spin:_this
                                                           ] ;
@@ -151,37 +182,6 @@ TODO: offer better ones!"""^^xsd:string ;
                                       sp:arg1 sp:_altCount ;
                                       sp:arg2 0
                                     ]
-                          ])
-              ] ;
-      spin:constraint
-              [ rdf:type sp:Ask ;
-                rdfs:comment "Expressiveness - The chosen visual means cannot express the given source property (based on it's defined scale of measurement)"^^xsd:string ;
-                sp:where ([ sp:object sp:_sp ;
-                            sp:predicate rvl:sourceProperty ;
-                            sp:subject spin:_this
-                          ] [ sp:object sp:_tgr ;
-                            sp:predicate rvl:targetGraphicRelation ;
-                            sp:subject spin:_this
-                          ] [ rdf:type sp:Union ;
-                            sp:elements (([ sp:object viso-data:has_nominal_value ;
-                                          sp:predicate rdfs:subPropertyOf ;
-                                          sp:subject sp:_sp
-                                        ] [ sp:object viso-data:Nominal_Data ;
-                                          sp:predicate viso-facts:not_expresses ;
-                                          sp:subject sp:_tgr
-                                        ]) ([ sp:object viso-data:has_ordinal_value ;
-                                          sp:predicate rdfs:subPropertyOf ;
-                                          sp:subject sp:_sp
-                                        ] [ sp:object viso-data:Ordinal_Data ;
-                                          sp:predicate viso-facts:not_expresses ;
-                                          sp:subject sp:_tgr
-                                        ]) ([ sp:object viso-data:has_quantitative_value ;
-                                          sp:predicate rdfs:subPropertyOf ;
-                                          sp:subject sp:_sp
-                                        ] [ sp:object viso-data:Quantitative_Data ;
-                                          sp:predicate viso-facts:not_expresses ;
-                                          sp:subject sp:_tgr
-                                        ]))
                           ])
               ] .
 
