@@ -131,25 +131,25 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 		project = storeProject("ro");
 		project.registerMappingFile("/software/ro/example-mappings/experimental-wip.ttl");
 		//project.registerDataFile("/software/ro/example-mappings/extra-data.ttl"));
-		project.registerDataFile("/software/ro/example-data/ro_v_1_4_1_incl_social_network_example.owl");
+		project.registerDataFile("/software/ro/example-data/ro_v_1_4_1_incl_social_network_example.rdf");
 		project.setD3Generator(new D3GeneratorTreeJSON());
 		project.setPublish(false); // too much
 
 		project = storeProject("ro-4b");
 		project.registerMappingFile("/software/ro/example-mappings/RO_4b.ttl");
 		project.registerDataFile("/software/ro/example-mappings/extra-data.ttl");
-		project.registerDataFile("/software/ro/example-data/ro_v_1_4_1_incl_social_network_example.owl");
+		project.registerDataFile("/software/ro/example-data/ro_v_1_4_1_incl_social_network_example.rdf");
 
 		project = storeProject("ro-5");
 		project.registerMappingFile("/software/ro/example-mappings/RO_5.ttl");
 		project.registerDataFile("/software/ro/example-mappings/extra-data.ttl");
-		project.registerDataFile("/software/ro/example-data/ro_v_1_4_1_incl_social_network_example.owl");
+		project.registerDataFile("/software/ro/example-data/ro_v_1_4_1_incl_social_network_example.rdf");
 
 		project = storeProject("ro-6");
 		project.registerMappingFile("/software/ro/example-mappings/RO_6.ttl");
 		//project.registerMappingFile("/software/ro/example-mappings/RO_type_shape_test.ttl"));
 		project.registerDataFile("/software/ro/example-mappings/extra-data.ttl");
-		project.registerDataFile("/software/ro/example-data/ro_v_1_4_1_incl_social_network_example.owl");		
+		project.registerDataFile("/software/ro/example-data/ro_v_1_4_1_incl_social_network_example.rdf");		
 		//project.setD3Generator(new D3GeneratorSimpleJSON());
 		project.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		
@@ -157,7 +157,7 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 		project.registerMappingFile("/software/ro/example-mappings/RO_7.ttl");
 		//project.registerMappingFile("/software/ro/example-mappings/RO_type_shape_test.ttl"));
 		project.registerDataFile("/software/ro/example-mappings/extra-data.ttl");
-		project.registerDataFile("/software/ro/example-data/ro_v_1_4_1_incl_social_network_example.owl");		
+		project.registerDataFile("/software/ro/example-data/ro_v_1_4_1_incl_social_network_example.rdf");		
 		//project.setD3Generator(new D3GeneratorSimpleJSON());
 		//project.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		project.setD3Generator(new D3GeneratorTreeJSON());
@@ -168,7 +168,7 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 		project.setReasoningDataModel(Reasoning.rdfs);
 		project.registerMappingFile("/software/ro/example-mappings/ro-instances-social-network.ttl");
 		project.registerDataFile("/software/ro/example-mappings/extra-data.ttl");
-		project.registerDataFile("/software/ro/example-data/ro_v_1_4_1_incl_social_network_example.owl");
+		project.registerDataFile("/software/ro/example-data/ro_v_1_4_1_incl_social_network_example.rdf");
 		//project.setRvlInterpreter(new SimpleRVLInterpreter());
 		project.setD3Generator(new D3GeneratorDeepLabelsJSON());
 		
@@ -176,7 +176,7 @@ public class VisProjectLibraryExamples extends VisProjectLibrary {
 		project.registerMappingFile("/software/ro/example-mappings/ro-ogvic-requirements.ttl");
 		//project.registerDataFile("/software/ro/example-mappings/extra-data.ttl"));
 		project.registerDataFile("/software/ro/example-data/ogvic-requirements.ttl");
-		project.registerDataFile("/software/ro/example-data/ro_v_1_4_1_incl_social_network_example.owl");
+		project.registerDataFile("/software/ro/example-data/ro_v_1_4_1_incl_social_network_example.rdf");
 		project.setD3Generator(new D3GeneratorTreeJSON());
 		project.setPublish(false); // not suitable for public demo
 		
