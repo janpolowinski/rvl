@@ -1,447 +1,57 @@
-# Saved by TopBraid on Fri Jun 03 14:12:47 CEST 2016
 # baseURI: http://purl.org/rvl/example-mappings/
+# imports: http://purl.org/rvl/
+# imports: http://purl.org/rvl/example-data/
+# imports: http://purl.org/rvl/fact-based-spin-constraints/
 # imports: http://purl.org/rvl/spin-constraints/
 # imports: http://purl.org/viso/shape/commons/
-# imports: http://purl.org/rvl/example-data/
-# imports: http://purl.org/rvl/
-# imports: http://purl.org/rvl/fact-based-spin-constraints/
+# prefix: rexm
 
-@prefix :        <http://purl.org/rvl/example-mappings/> .
-@prefix common-shapes:  <http://purl.org/viso/shape/commons/> .
-@prefix fn:      <http://www.w3.org/2005/xpath-functions#> .
-@prefix owl:     <http://www.w3.org/2002/07/owl#> .
-@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix rexd:    <http://purl.org/rvl/example-data/> .
-@prefix rexm:    <http://purl.org/rvl/example-mappings/> .
-@prefix rvl:     <http://purl.org/rvl/> .
-@prefix rvl-cs:  <http://purl.org/rvl/spin-constraints/> .
-@prefix sp:      <http://spinrdf.org/sp#> .
-@prefix spin:    <http://spinrdf.org/spin#> .
-@prefix vg:      <http://purl.org/viso/graphic/> .
-@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix : <http://purl.org/rvl/example-mappings/> .
+@prefix common-shapes: <http://purl.org/viso/shape/commons/> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rexd: <http://purl.org/rvl/example-data/> .
+@prefix rexm: <http://purl.org/rvl/example-mappings/> .
+@prefix rvl: <http://purl.org/rvl/> .
+@prefix rvl-cs: <http://purl.org/rvl/spin-constraints/> .
+@prefix sp: <http://spinrdf.org/sp#> .
+@prefix spin: <http://spinrdf.org/spin#> .
+@prefix vg: <http://purl.org/viso/graphic/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 rexm:
-      rdf:type owl:Ontology ;
-      owl:imports rvl: , rexd: , <http://purl.org/rvl/fact-based-spin-constraints/> , rvl-cs: , common-shapes: .
-
+  rdf:type owl:Ontology ;
+  owl:imports rvl: ;
+  owl:imports rexd: ;
+  owl:imports <http://purl.org/rvl/fact-based-spin-constraints/> ;
+  owl:imports rvl-cs: ;
+  owl:imports common-shapes: ;
+.
 rexm:NonOptimalEffectiveMapping
-      rdf:type rvl:PropertyMapping ;
-      rdfs:label "Example of an non-optimal mapping with respect to the effectiveness criterion." ;
-      rvl:sourceProperty rexd:population ;
-      rvl:targetAttribute vg:color_hsl_lightness ;
-      rvl:targetGraphicRelation
-              vg:color_hsl_lightness ;
-      spin:query
-              [ rdf:type sp:Construct ;
-                rdfs:comment """Effectiveness - Shows a warning when there are more effective visual means and offers to delete the not-best one
-TODO: offer better ones!"""^^xsd:string ;
-                sp:templates ([ sp:object spin:ConstraintViolation ;
-                            sp:predicate rdf:type ;
-                            sp:subject _:b1
-                          ] [ sp:object spin:_this ;
-                            sp:predicate spin:violationRoot ;
-                            sp:subject _:b1
-                          ] [ sp:object rvl:targetAttribute ;
-                            sp:predicate spin:violationPath ;
-                            sp:subject _:b1
-                          ] [ sp:object sp:_cvLabel ;
-                            sp:predicate rdfs:label ;
-                            sp:subject _:b1
-                          ] [ sp:object _:b2 ;
-                            sp:predicate spin:fix ;
-                            sp:subject _:b1
-                          ] [ sp:object rvl-cs:DeleteTriple ;
-                            sp:predicate rdf:type ;
-                            sp:subject _:b2
-                          ] [ sp:object spin:_this ;
-                            sp:predicate rdf:subject ;
-                            sp:subject _:b2
-                          ] [ sp:object rvl:targetGraphicRelation ;
-                            sp:predicate rdf:predicate ;
-                            sp:subject _:b2
-                          ] [ sp:object sp:_tgr ;
-                            sp:predicate rdf:object ;
-                            sp:subject _:b2
-                          ]) ;
-                sp:where ([ sp:object sp:_sp ;
-                            sp:predicate rvl:sourceProperty ;
-                            sp:subject spin:_this
-                          ] [ sp:object sp:_tgr ;
-                            sp:predicate rvl:targetGraphicRelation ;
-                            sp:subject spin:_this
-                          ] [ rdf:type sp:SubQuery ;
-                            sp:query
-                                    [ rdf:type sp:Select ;
-                                      sp:groupBy (sp:_tgr) ;
-                                      sp:resultVariables (sp:_sp sp:_tgr [ sp:expression
-                                                          [ rdf:type sp:Count ;
-                                                            sp:expression spin:_this
-                                                          ] ;
-                                                  sp:varName "altCount"^^xsd:string
-                                                ]) ;
-                                      sp:where ([ sp:object sp:_sp ;
-                                                  sp:predicate rvl:sourceProperty ;
-                                                  sp:subject spin:_this
-                                                ] [ sp:object sp:_tgr ;
-                                                  sp:predicate rvl:targetGraphicRelation ;
-                                                  sp:subject spin:_this
-                                                ] [ rdf:type sp:Optional ;
-                                                  sp:elements ([ sp:object <http://purl.org/viso/data/has_nominal_value> ;
-                                                              sp:predicate rdfs:subPropertyOf ;
-                                                              sp:subject sp:_sp
-                                                            ] [ sp:object sp:_rankValue ;
-                                                              sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_nominal_data> ;
-                                                              sp:subject sp:_tgr
-                                                            ] [ sp:object sp:_otherRankValue ;
-                                                              sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_nominal_data> ;
-                                                              sp:subject sp:_anyOtherGr
-                                                            ])
-                                                ] [ rdf:type sp:Optional ;
-                                                  sp:elements ([ sp:object <http://purl.org/viso/data/has_ordinal_value> ;
-                                                              sp:predicate rdfs:subPropertyOf ;
-                                                              sp:subject sp:_sp
-                                                            ] [ sp:object sp:_rankValue ;
-                                                              sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_ordinal_data> ;
-                                                              sp:subject sp:_tgr
-                                                            ] [ sp:object sp:_otherRankValue ;
-                                                              sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_ordinal_data> ;
-                                                              sp:subject sp:_anyOtherGr
-                                                            ])
-                                                ] [ rdf:type sp:Optional ;
-                                                  sp:elements ([ sp:object <http://purl.org/viso/data/has_quantitative_value> ;
-                                                              sp:predicate rdfs:subPropertyOf ;
-                                                              sp:subject sp:_sp
-                                                            ] [ sp:object sp:_rankValue ;
-                                                              sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_quantitative_data> ;
-                                                              sp:subject sp:_tgr
-                                                            ] [ sp:object sp:_otherRankValue ;
-                                                              sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_quantitative_data> ;
-                                                              sp:subject sp:_anyOtherGr
-                                                            ])
-                                                ] [ rdf:type sp:Filter ;
-                                                  sp:expression
-                                                          [ rdf:type sp:and ;
-                                                            sp:arg1 [ rdf:type sp:bound ;
-                                                                      sp:arg1 sp:_rankValue
-                                                                    ] ;
-                                                            sp:arg2 [ rdf:type sp:bound ;
-                                                                      sp:arg1 sp:_otherRankValue
-                                                                    ]
-                                                          ]
-                                                ] [ rdf:type sp:Filter ;
-                                                  sp:expression
-                                                          [ rdf:type sp:ne ;
-                                                            sp:arg1 sp:_tgr ;
-                                                            sp:arg2 sp:_anyOtherGr
-                                                          ]
-                                                ] [ rdf:type sp:Filter ;
-                                                  sp:expression
-                                                          [ rdf:type sp:gt ;
-                                                            sp:arg1 sp:_otherRankValue ;
-                                                            sp:arg2 sp:_rankValue
-                                                          ]
-                                                ])
-                                    ]
-                          ] [ rdf:type sp:Bind ;
-                            sp:expression
-                                    [ rdf:type fn:concat ;
-                                      sp:arg1 "There are " ;
-                                      sp:arg2 sp:_altCount ;
-                                      sp:arg3 " more effective visual means for visualizing the selected source property"
-                                    ] ;
-                            sp:variable sp:_cvLabel
-                          ] [ rdf:type sp:Filter ;
-                            sp:expression
-                                    [ rdf:type sp:gt ;
-                                      sp:arg1 sp:_altCount ;
-                                      sp:arg2 0
-                                    ]
-                          ])
-              ] ;
-      spin:query
-              [ rdf:type sp:Select ;
-                sp:resultVariables (sp:_sp sp:_tgr sp:_anyOtherGr) ;
-                sp:where ([ sp:object sp:_sp ;
-                            sp:predicate rvl:sourceProperty ;
-                            sp:subject spin:_this
-                          ] [ sp:object sp:_tgr ;
-                            sp:predicate rvl:targetGraphicRelation ;
-                            sp:subject spin:_this
-                          ] [ rdf:type sp:Optional ;
-                            sp:elements ([ sp:object <http://purl.org/viso/data/has_nominal_value> ;
-                                        sp:predicate rdfs:subPropertyOf ;
-                                        sp:subject sp:_sp
-                                      ] [ sp:object sp:_rankValue ;
-                                        sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_nominal_data> ;
-                                        sp:subject sp:_tgr
-                                      ] [ sp:object sp:_otherRankValue ;
-                                        sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_nominal_data> ;
-                                        sp:subject sp:_anyOtherGr
-                                      ])
-                          ] [ rdf:type sp:Optional ;
-                            sp:elements ([ sp:object <http://purl.org/viso/data/has_ordinal_value> ;
-                                        sp:predicate rdfs:subPropertyOf ;
-                                        sp:subject sp:_sp
-                                      ] [ sp:object sp:_rankValue ;
-                                        sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_ordinal_data> ;
-                                        sp:subject sp:_tgr
-                                      ] [ sp:object sp:_otherRankValue ;
-                                        sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_ordinal_data> ;
-                                        sp:subject sp:_anyOtherGr
-                                      ])
-                          ] [ rdf:type sp:Optional ;
-                            sp:elements ([ sp:object <http://purl.org/viso/data/has_quantitative_value> ;
-                                        sp:predicate rdfs:subPropertyOf ;
-                                        sp:subject sp:_sp
-                                      ] [ sp:object sp:_rankValue ;
-                                        sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_quantitative_data> ;
-                                        sp:subject sp:_tgr
-                                      ] [ sp:object sp:_otherRankValue ;
-                                        sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_quantitative_data> ;
-                                        sp:subject sp:_anyOtherGr
-                                      ])
-                          ] [ rdf:type sp:Filter ;
-                            sp:expression
-                                    [ rdf:type sp:and ;
-                                      sp:arg1 [ rdf:type sp:bound ;
-                                                sp:arg1 sp:_rankValue
-                                              ] ;
-                                      sp:arg2 [ rdf:type sp:bound ;
-                                                sp:arg1 sp:_otherRankValue
-                                              ]
-                                    ]
-                          ] [ rdf:type sp:Filter ;
-                            sp:expression
-                                    [ rdf:type sp:ne ;
-                                      sp:arg1 sp:_tgr ;
-                                      sp:arg2 sp:_anyOtherGr
-                                    ]
-                          ] [ rdf:type sp:Filter ;
-                            sp:expression
-                                    [ rdf:type sp:gt ;
-                                      sp:arg1 sp:_otherRankValue ;
-                                      sp:arg2 sp:_rankValue
-                                    ]
-                          ])
-              ] ;
-      spin:query
-              [ rdf:type sp:Select ;
-                sp:groupBy (sp:_tgr) ;
-                sp:resultVariables (sp:_tgr [ sp:expression
-                                    [ rdf:type sp:Count ;
-                                      sp:expression sp:_tgr
-                                    ] ;
-                            sp:varName "altCount"^^xsd:string
-                          ]) ;
-                sp:where ([ sp:object sp:_sp ;
-                            sp:predicate rvl:sourceProperty ;
-                            sp:subject spin:_this
-                          ] [ sp:object sp:_tgr ;
-                            sp:predicate rvl:targetGraphicRelation ;
-                            sp:subject spin:_this
-                          ] [ rdf:type sp:Optional ;
-                            sp:elements ([ sp:object <http://purl.org/viso/data/has_nominal_value> ;
-                                        sp:predicate rdfs:subPropertyOf ;
-                                        sp:subject sp:_sp
-                                      ] [ sp:object sp:_rankValue ;
-                                        sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_nominal_data> ;
-                                        sp:subject sp:_tgr
-                                      ] [ sp:object sp:_otherRankValue ;
-                                        sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_nominal_data> ;
-                                        sp:subject sp:_anyOtherGr
-                                      ])
-                          ] [ rdf:type sp:Optional ;
-                            sp:elements ([ sp:object <http://purl.org/viso/data/has_ordinal_value> ;
-                                        sp:predicate rdfs:subPropertyOf ;
-                                        sp:subject sp:_sp
-                                      ] [ sp:object sp:_rankValue ;
-                                        sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_ordinal_data> ;
-                                        sp:subject sp:_tgr
-                                      ] [ sp:object sp:_otherRankValue ;
-                                        sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_ordinal_data> ;
-                                        sp:subject sp:_anyOtherGr
-                                      ])
-                          ] [ rdf:type sp:Optional ;
-                            sp:elements ([ sp:object <http://purl.org/viso/data/has_quantitative_value> ;
-                                        sp:predicate rdfs:subPropertyOf ;
-                                        sp:subject sp:_sp
-                                      ] [ sp:object sp:_rankValue ;
-                                        sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_quantitative_data> ;
-                                        sp:subject sp:_tgr
-                                      ] [ sp:object sp:_otherRankValue ;
-                                        sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_quantitative_data> ;
-                                        sp:subject sp:_anyOtherGr
-                                      ])
-                          ] [ rdf:type sp:Filter ;
-                            sp:expression
-                                    [ rdf:type sp:and ;
-                                      sp:arg1 [ rdf:type sp:bound ;
-                                                sp:arg1 sp:_rankValue
-                                              ] ;
-                                      sp:arg2 [ rdf:type sp:bound ;
-                                                sp:arg1 sp:_otherRankValue
-                                              ]
-                                    ]
-                          ] [ rdf:type sp:Filter ;
-                            sp:expression
-                                    [ rdf:type sp:ne ;
-                                      sp:arg1 sp:_tgr ;
-                                      sp:arg2 sp:_anyOtherGr
-                                    ]
-                          ] [ rdf:type sp:Filter ;
-                            sp:expression
-                                    [ rdf:type sp:gt ;
-                                      sp:arg1 sp:_otherRankValue ;
-                                      sp:arg2 sp:_rankValue
-                                    ]
-                          ])
-              ] ;
-      spin:query
-              [ rdf:type sp:Select ;
-                sp:where ([ sp:object sp:_sp ;
-                            sp:predicate rvl:sourceProperty ;
-                            sp:subject spin:_this
-                          ] [ sp:object sp:_tgr ;
-                            sp:predicate rvl:targetGraphicRelation ;
-                            sp:subject spin:_this
-                          ] [ sp:object <http://purl.org/viso/data/has_quantitative_value> ;
-                            sp:predicate rdfs:subPropertyOf ;
-                            sp:subject sp:_sp
-                          ] [ sp:object sp:_rankValue ;
-                            sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_quantitative_data> ;
-                            sp:subject sp:_tgr
-                          ] [ sp:object sp:_otherRankValue ;
-                            sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_quantitative_data> ;
-                            sp:subject sp:_anyOtherGr
-                          ] [ rdf:type sp:NotExists ;
-                            sp:elements ([ sp:object sp:_anyOtherGr ;
-                                        sp:predicate rvl:targetGraphicRelation ;
-                                        sp:subject sp:_anyOtherMapping
-                                      ] [ rdf:type sp:Filter ;
-                                        sp:expression
-                                                [ rdf:type sp:ne ;
-                                                  sp:arg1 spin:_this ;
-                                                  sp:arg2 sp:_anyOtherMapping
-                                                ]
-                                      ])
-                          ] [ rdf:type sp:Filter ;
-                            sp:expression
-                                    [ rdf:type sp:and ;
-                                      sp:arg1 [ rdf:type sp:bound ;
-                                                sp:arg1 sp:_rankValue
-                                              ] ;
-                                      sp:arg2 [ rdf:type sp:bound ;
-                                                sp:arg1 sp:_otherRankValue
-                                              ]
-                                    ]
-                          ] [ rdf:type sp:Filter ;
-                            sp:expression
-                                    [ rdf:type sp:ne ;
-                                      sp:arg1 sp:_tgr ;
-                                      sp:arg2 sp:_anyOtherGr
-                                    ]
-                          ] [ rdf:type sp:Filter ;
-                            sp:expression
-                                    [ rdf:type sp:gt ;
-                                      sp:arg1 sp:_otherRankValue ;
-                                      sp:arg2 sp:_rankValue
-                                    ]
-                          ])
-              ] ;
-      spin:query
-              [ rdf:type sp:Select ;
-                sp:where ([ sp:object sp:_sp ;
-                            sp:predicate rvl:sourceProperty ;
-                            sp:subject spin:_this
-                          ] [ sp:object sp:_tgr ;
-                            sp:predicate rvl:targetGraphicRelation ;
-                            sp:subject spin:_this
-                          ] [ rdf:type sp:Optional ;
-                            sp:elements ([ sp:object <http://purl.org/viso/data/has_nominal_value> ;
-                                        sp:predicate rdfs:subPropertyOf ;
-                                        sp:subject sp:_sp
-                                      ] [ sp:object sp:_rankValue ;
-                                        sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_nominal_data> ;
-                                        sp:subject sp:_tgr
-                                      ] [ sp:object sp:_otherRankValue ;
-                                        sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_nominal_data> ;
-                                        sp:subject sp:_anyOtherGr
-                                      ])
-                          ] [ rdf:type sp:Optional ;
-                            sp:elements ([ sp:object <http://purl.org/viso/data/has_ordinal_value> ;
-                                        sp:predicate rdfs:subPropertyOf ;
-                                        sp:subject sp:_sp
-                                      ] [ sp:object sp:_rankValue ;
-                                        sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_ordinal_data> ;
-                                        sp:subject sp:_tgr
-                                      ] [ sp:object sp:_otherRankValue ;
-                                        sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_ordinal_data> ;
-                                        sp:subject sp:_anyOtherGr
-                                      ])
-                          ] [ rdf:type sp:Optional ;
-                            sp:elements ([ sp:object <http://purl.org/viso/data/has_quantitative_value> ;
-                                        sp:predicate rdfs:subPropertyOf ;
-                                        sp:subject sp:_sp
-                                      ] [ sp:object sp:_rankValue ;
-                                        sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_quantitative_data> ;
-                                        sp:subject sp:_tgr
-                                      ] [ sp:object sp:_otherRankValue ;
-                                        sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_quantitative_data> ;
-                                        sp:subject sp:_anyOtherGr
-                                      ])
-                          ] [ rdf:type sp:NotExists ;
-                            sp:elements ([ sp:object sp:_anyOtherGr ;
-                                        sp:predicate rvl:targetGraphicRelation ;
-                                        sp:subject sp:_anyOtherMapping
-                                      ] [ rdf:type sp:Filter ;
-                                        sp:expression
-                                                [ rdf:type sp:ne ;
-                                                  sp:arg1 spin:_this ;
-                                                  sp:arg2 sp:_anyOtherMapping
-                                                ]
-                                      ])
-                          ] [ rdf:type sp:Filter ;
-                            sp:expression
-                                    [ rdf:type sp:and ;
-                                      sp:arg1 [ rdf:type sp:bound ;
-                                                sp:arg1 sp:_rankValue
-                                              ] ;
-                                      sp:arg2 [ rdf:type sp:bound ;
-                                                sp:arg1 sp:_otherRankValue
-                                              ]
-                                    ]
-                          ] [ rdf:type sp:Filter ;
-                            sp:expression
-                                    [ rdf:type sp:ne ;
-                                      sp:arg1 sp:_tgr ;
-                                      sp:arg2 sp:_anyOtherGr
-                                    ]
-                          ] [ rdf:type sp:Filter ;
-                            sp:expression
-                                    [ rdf:type sp:gt ;
-                                      sp:arg1 sp:_otherRankValue ;
-                                      sp:arg2 sp:_rankValue
-                                    ]
-                          ])
-              ] .
-
+  rdf:type rvl:PropertyMapping ;
+  rvl:sourceProperty rexd:population ;
+  rvl:targetAttribute vg:color_hsl_lightness ;
+  rvl:targetGraphicRelation vg:color_hsl_lightness ;
+  rdfs:label "Example of an non-optimal mapping with respect to the effectiveness criterion." ;
+.
 rexm:OtherPropertyMappingAlreadyConsumingArea
-      rdf:type rvl:PropertyMapping ;
-      rdfs:label "Example of another mapping that already consumes the attribute area, which should therefore not be counted in the set of more effective attributes."^^xsd:string ;
-      rvl:sourceProperty rexd:population ;
-      rvl:targetAttribute vg:area ;
-      rvl:targetGraphicRelation
-              vg:area .
-
+  rdf:type rvl:PropertyMapping ;
+  rvl:sourceProperty rexd:population ;
+  rvl:targetAttribute vg:area ;
+  rvl:targetGraphicRelation vg:area ;
+  rdfs:label "Example of another mapping that already consumes the attribute area, which should therefore not be counted in the set of more effective attributes."^^xsd:string ;
+.
 sp:_anyOtherMapping
-      rdf:type sp:Variable ;
-      sp:varName "anyOtherMapping"^^xsd:string .
-
+  rdf:type sp:Variable ;
+  sp:varName "anyOtherMapping"^^xsd:string ;
+.
 sp:_object
-      rdf:type sp:Variable ;
-      sp:varName "object"^^xsd:string .
-
+  rdf:type sp:Variable ;
+  sp:varName "object"^^xsd:string ;
+.
 sp:_subject
-      rdf:type sp:Variable ;
-      sp:varName "subject"^^xsd:string .
+  rdf:type sp:Variable ;
+  sp:varName "subject"^^xsd:string ;
+.
