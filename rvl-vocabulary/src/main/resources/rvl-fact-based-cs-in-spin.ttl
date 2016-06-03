@@ -152,7 +152,7 @@ CONSTRUCT {
 WHERE {
     ?this rvl:targetGraphicRelation ?tgr .
     {
-        SELECT ((COUNT(?tgr)) AS ?altCount)
+        SELECT ((SAMPLE(?sp)) AS ?sp1) ((SAMPLE(?som)) AS ?som1) ((COUNT(?tgr)) AS ?altCount)
         WHERE {
             ?this rvl:sourceProperty ?sp .
             ?this rvl:targetGraphicRelation ?tgr .
@@ -160,16 +160,19 @@ WHERE {
                 ?sp rdfs:subPropertyOf viso-data:has_nominal_value .
                 ?tgr viso-facts:has_effectiveness_ranking_for_nominal_data ?rankValue .
                 ?anyOtherGr viso-facts:has_effectiveness_ranking_for_nominal_data ?otherRankValue .
+				BIND (\"nonimal\" AS ?som) 
             } .
             OPTIONAL {
                 ?sp rdfs:subPropertyOf viso-data:has_ordinal_value .
                 ?tgr viso-facts:has_effectiveness_ranking_for_ordinal_data ?rankValue .
                 ?anyOtherGr viso-facts:has_effectiveness_ranking_for_ordinal_data ?otherRankValue .
+				BIND (\"ordinal\" AS ?som) 
             } .
             OPTIONAL {
                 ?sp rdfs:subPropertyOf viso-data:has_quantitative_value .
                 ?tgr viso-facts:has_effectiveness_ranking_for_quantitative_data ?rankValue .
                 ?anyOtherGr viso-facts:has_effectiveness_ranking_for_quantitative_data ?otherRankValue .
+				BIND (\"quantitative\" AS ?som) 
             } .
             FILTER (bound(?rankValue) && bound(?otherRankValue)) .
             FILTER (?tgr != ?anyOtherGr) .
@@ -181,7 +184,7 @@ WHERE {
         }
         GROUP BY ?tgr
     } .
-    BIND (fn:concat(\"There are \", ?altCount, \" more effective visual means for visualizing the selected source property\") AS ?cvLabel) .
+    BIND (fn:concat(\"There are \", ?altCount, \" more effective visual means for visualizing the selected \" , ?som1,\" source property '\", afn:localname(?sp1), \"'.\") AS ?cvLabel) .
     FILTER (?altCount > 0) .
 }"""^^xsd:string ;
       sp:where (
@@ -202,6 +205,24 @@ WHERE {
                     ]
                   ) ;
                 sp:resultVariables (
+                    [
+                      sp:expression [
+                          rdf:type sp:Sample ;
+                          sp:expression [
+                              sp:varName "sp"^^xsd:string ;
+                            ] ;
+                        ] ;
+                      sp:varName "sp1"^^xsd:string ;
+                    ]
+                    [
+                      sp:expression [
+                          rdf:type sp:Sample ;
+                          sp:expression [
+                              sp:varName "som"^^xsd:string ;
+                            ] ;
+                        ] ;
+                      sp:varName "som1"^^xsd:string ;
+                    ]
                     [
                       sp:expression [
                           rdf:type sp:Count ;
@@ -255,6 +276,13 @@ WHERE {
                                 sp:varName "anyOtherGr"^^xsd:string ;
                               ] ;
                           ]
+                          [
+                            rdf:type sp:Bind ;
+                            sp:expression "nonimal" ;
+                            sp:variable [
+                                sp:varName "som"^^xsd:string ;
+                              ] ;
+                          ]
                         ) ;
                     ]
                     [
@@ -285,6 +313,13 @@ WHERE {
                                 sp:varName "anyOtherGr"^^xsd:string ;
                               ] ;
                           ]
+                          [
+                            rdf:type sp:Bind ;
+                            sp:expression "ordinal" ;
+                            sp:variable [
+                                sp:varName "som"^^xsd:string ;
+                              ] ;
+                          ]
                         ) ;
                     ]
                     [
@@ -313,6 +348,13 @@ WHERE {
                             sp:predicate viso-facts:has_effectiveness_ranking_for_quantitative_data ;
                             sp:subject [
                                 sp:varName "anyOtherGr"^^xsd:string ;
+                              ] ;
+                          ]
+                          [
+                            rdf:type sp:Bind ;
+                            sp:expression "quantitative" ;
+                            sp:variable [
+                                sp:varName "som"^^xsd:string ;
                               ] ;
                           ]
                         ) ;
@@ -398,7 +440,18 @@ WHERE {
                 sp:arg2 [
                     sp:varName "altCount"^^xsd:string ;
                   ] ;
-                sp:arg3 " more effective visual means for visualizing the selected source property" ;
+                sp:arg3 " more effective visual means for visualizing the selected " ;
+                sp:arg4 [
+                    sp:varName "som1"^^xsd:string ;
+                  ] ;
+                sp:arg5 " source property '" ;
+                sp:arg6 [
+                    rdf:type afn:localname ;
+                    sp:arg1 [
+                        sp:varName "sp1"^^xsd:string ;
+                      ] ;
+                  ] ;
+                sp:arg7 "'." ;
               ] ;
             sp:variable [
                 sp:varName "cvLabel"^^xsd:string ;
