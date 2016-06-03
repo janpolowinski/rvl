@@ -4,7 +4,6 @@
 # imports: http://purl.org/viso/shape/commons/
 # imports: http://purl.org/ro/ont
 # imports: http://purl.org/rvl/
-# imports: http://purl.org/ro/semvis-example/
 # imports: http://purl.org/rvl/fact-based-spin-constraints/
 
 @prefix :        <http://purl.org/viso/example/ro/> .
@@ -15,7 +14,6 @@
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix ro:      <http://purl.org/ro/ont#> .
 @prefix rvl:     <http://purl.org/rvl/> .
-@prefix semvis-example:  <http://purl.org/ro/semvis-example/> .
 @prefix sp:      <http://spinrdf.org/sp#> .
 @prefix spin-constraints:  <http://purl.org/rvl/spin-constraints/> .
 @prefix vg:      <http://purl.org/viso/graphic/> .
@@ -26,7 +24,7 @@ rvl:valueMapping
       rdfs:domain rvl:PropertyMapping .
 
 :     rdf:type owl:Ontology ;
-      owl:imports <http://purl.org/ro/ont> , semvis-example: , rvl: , <http://purl.org/rvl/fact-based-spin-constraints/> , spin-constraints: , common-shapes: .
+      owl:imports <http://purl.org/ro/ont> , rvl: , <http://purl.org/rvl/fact-based-spin-constraints/> , spin-constraints: , common-shapes: .
 
 :IconLabelMappingForHasResponseTime
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
