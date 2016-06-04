@@ -129,7 +129,7 @@ rvl:PropertyMapping
             sp:subject _:b66790 ;
           ]
           [
-            sp:object rvl:targetGraphicRelation ;
+            sp:object rvl:targetAttribute ;
             sp:predicate rdf:predicate ;
             sp:subject _:b66790 ;
           ]
@@ -152,7 +152,7 @@ CONSTRUCT {
     _:b0 spin:fix _:b1 .
     _:b1 a :DeleteTriple .
     _:b1 rdf:subject ?this .
-    _:b1 rdf:predicate rvl:targetGraphicRelation .
+    _:b1 rdf:predicate rvl:targetAttribute .
     _:b1 rdf:object ?tgr .
 }
 WHERE {
