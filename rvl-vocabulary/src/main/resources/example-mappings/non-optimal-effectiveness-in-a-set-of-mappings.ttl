@@ -34,6 +34,210 @@ rexm:NonOptimalEffectiveMapping
   rvl:sourceProperty rexd:population ;
   rvl:targetAttribute vg:color_hsl_lightness ;
   rvl:targetGraphicRelation vg:color_hsl_lightness ;
+  spin:query [
+      rdf:type sp:Select ;
+      sp:text """SELECT * WHERE {
+            ?this rvl:sourceProperty ?sp .
+            ?this rvl:targetGraphicRelation ?tgr .
+            {
+                ?sp rdfs:subPropertyOf viso-data:has_nominal_value .
+                ?tgr viso-facts:has_effectiveness_ranking_for_nominal_data ?rankValue .
+                ?anyOtherGr viso-facts:has_effectiveness_ranking_for_nominal_data ?otherRankValue .
+				BIND (\"nonimal\" AS ?som) 
+            } UNION {
+                ?sp rdfs:subPropertyOf viso-data:has_ordinal_value .
+                ?tgr viso-facts:has_effectiveness_ranking_for_ordinal_data ?rankValue .
+                ?anyOtherGr viso-facts:has_effectiveness_ranking_for_ordinal_data ?otherRankValue .
+				BIND (\"ordinal\" AS ?som) 
+            } UNION {
+                ?sp rdfs:subPropertyOf viso-data:has_quantitative_value .
+                ?tgr viso-facts:has_effectiveness_ranking_for_quantitative_data ?rankValue .
+                ?anyOtherGr viso-facts:has_effectiveness_ranking_for_quantitative_data ?otherRankValue .
+				BIND (\"quantitative\" AS ?som) 
+            } .
+            FILTER (?tgr != ?anyOtherGr) .
+            FILTER (?otherRankValue > ?rankValue) .
+            NOT EXISTS {
+                ?anyOtherGr ^rvl:targetGraphicRelation ?anyOtherMapping .
+                FILTER (?this != ?anyOtherMapping) .
+            } .
+        }"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object [
+                sp:varName "sp"^^xsd:string ;
+              ] ;
+            sp:predicate rvl:sourceProperty ;
+            sp:subject spin:_this ;
+          ]
+          [
+            sp:object [
+                sp:varName "tgr"^^xsd:string ;
+              ] ;
+            sp:predicate rvl:targetGraphicRelation ;
+            sp:subject spin:_this ;
+          ]
+          [
+            rdf:type sp:Union ;
+            sp:elements (
+                (
+                  [
+                    sp:object <http://purl.org/viso/data/has_nominal_value> ;
+                    sp:predicate rdfs:subPropertyOf ;
+                    sp:subject [
+                        sp:varName "sp"^^xsd:string ;
+                      ] ;
+                  ]
+                  [
+                    sp:object [
+                        sp:varName "rankValue"^^xsd:string ;
+                      ] ;
+                    sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_nominal_data> ;
+                    sp:subject [
+                        sp:varName "tgr"^^xsd:string ;
+                      ] ;
+                  ]
+                  [
+                    sp:object [
+                        sp:varName "otherRankValue"^^xsd:string ;
+                      ] ;
+                    sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_nominal_data> ;
+                    sp:subject [
+                        sp:varName "anyOtherGr"^^xsd:string ;
+                      ] ;
+                  ]
+                  [
+                    rdf:type sp:Bind ;
+                    sp:expression "nonimal" ;
+                    sp:variable [
+                        sp:varName "som"^^xsd:string ;
+                      ] ;
+                  ]
+                )
+                (
+                  [
+                    sp:object <http://purl.org/viso/data/has_ordinal_value> ;
+                    sp:predicate rdfs:subPropertyOf ;
+                    sp:subject [
+                        sp:varName "sp"^^xsd:string ;
+                      ] ;
+                  ]
+                  [
+                    sp:object [
+                        sp:varName "rankValue"^^xsd:string ;
+                      ] ;
+                    sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_ordinal_data> ;
+                    sp:subject [
+                        sp:varName "tgr"^^xsd:string ;
+                      ] ;
+                  ]
+                  [
+                    sp:object [
+                        sp:varName "otherRankValue"^^xsd:string ;
+                      ] ;
+                    sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_ordinal_data> ;
+                    sp:subject [
+                        sp:varName "anyOtherGr"^^xsd:string ;
+                      ] ;
+                  ]
+                  [
+                    rdf:type sp:Bind ;
+                    sp:expression "ordinal" ;
+                    sp:variable [
+                        sp:varName "som"^^xsd:string ;
+                      ] ;
+                  ]
+                )
+                (
+                  [
+                    sp:object <http://purl.org/viso/data/has_quantitative_value> ;
+                    sp:predicate rdfs:subPropertyOf ;
+                    sp:subject [
+                        sp:varName "sp"^^xsd:string ;
+                      ] ;
+                  ]
+                  [
+                    sp:object [
+                        sp:varName "rankValue"^^xsd:string ;
+                      ] ;
+                    sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_quantitative_data> ;
+                    sp:subject [
+                        sp:varName "tgr"^^xsd:string ;
+                      ] ;
+                  ]
+                  [
+                    sp:object [
+                        sp:varName "otherRankValue"^^xsd:string ;
+                      ] ;
+                    sp:predicate <http://purl.org/viso/facts/has_effectiveness_ranking_for_quantitative_data> ;
+                    sp:subject [
+                        sp:varName "anyOtherGr"^^xsd:string ;
+                      ] ;
+                  ]
+                  [
+                    rdf:type sp:Bind ;
+                    sp:expression "quantitative" ;
+                    sp:variable [
+                        sp:varName "som"^^xsd:string ;
+                      ] ;
+                  ]
+                )
+              ) ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:ne ;
+                sp:arg1 [
+                    sp:varName "tgr"^^xsd:string ;
+                  ] ;
+                sp:arg2 [
+                    sp:varName "anyOtherGr"^^xsd:string ;
+                  ] ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:gt ;
+                sp:arg1 [
+                    sp:varName "otherRankValue"^^xsd:string ;
+                  ] ;
+                sp:arg2 [
+                    sp:varName "rankValue"^^xsd:string ;
+                  ] ;
+              ] ;
+          ]
+          [
+            rdf:type sp:NotExists ;
+            sp:elements (
+                [
+                  rdf:type sp:TriplePath ;
+                  sp:object [
+                      sp:varName "anyOtherMapping"^^xsd:string ;
+                    ] ;
+                  sp:path [
+                      rdf:type sp:ReversePath ;
+                      sp:subPath rvl:targetGraphicRelation ;
+                    ] ;
+                  sp:subject [
+                      sp:varName "anyOtherGr"^^xsd:string ;
+                    ] ;
+                ]
+                [
+                  rdf:type sp:Filter ;
+                  sp:expression [
+                      rdf:type sp:ne ;
+                      sp:arg1 spin:_this ;
+                      sp:arg2 [
+                          sp:varName "anyOtherMapping"^^xsd:string ;
+                        ] ;
+                    ] ;
+                ]
+              ) ;
+          ]
+        ) ;
+    ] ;
   rdfs:label "Example of an non-optimal mapping with respect to the effectiveness criterion." ;
 .
 rexm:OtherPropertyMappingAlreadyConsumingArea

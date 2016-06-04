@@ -92,6 +92,11 @@ rvl:PropertyMapping
             sp:subject _:b80473 ;
           ]
           [
+            sp:object spin:Warning ;
+            sp:predicate spin:violationLevel ;
+            sp:subject _:b80473 ;
+          ]
+          [
             sp:object spin:_this ;
             sp:predicate spin:violationRoot ;
             sp:subject _:b80473 ;
@@ -124,7 +129,7 @@ rvl:PropertyMapping
             sp:subject _:b66790 ;
           ]
           [
-            sp:object rvl:targetGraphicRelation ;
+            sp:object rvl:targetAttribute ;
             sp:predicate rdf:predicate ;
             sp:subject _:b66790 ;
           ]
@@ -140,38 +145,39 @@ rvl:PropertyMapping
 # TODO: offer better ones!
 CONSTRUCT {
     _:b0 a spin:ConstraintViolation .
+    _:b0 spin:violationLevel spin:Warning .
     _:b0 spin:violationRoot ?this .
     _:b0 spin:violationPath rvl:targetAttribute .
     _:b0 rdfs:label ?cvLabel .
     _:b0 spin:fix _:b1 .
     _:b1 a :DeleteTriple .
     _:b1 rdf:subject ?this .
-    _:b1 rdf:predicate rvl:targetGraphicRelation .
+    _:b1 rdf:predicate rvl:targetAttribute .
     _:b1 rdf:object ?tgr .
 }
 WHERE {
     ?this rvl:targetGraphicRelation ?tgr .
     {
-        SELECT ((COUNT(?tgr)) AS ?altCount)
+        SELECT ((SAMPLE(?sp)) AS ?sp1) ((SAMPLE(?som)) AS ?som1) ((COUNT(?tgr)) AS ?altCount)
         WHERE {
             ?this rvl:sourceProperty ?sp .
             ?this rvl:targetGraphicRelation ?tgr .
-            OPTIONAL {
+            {
                 ?sp rdfs:subPropertyOf viso-data:has_nominal_value .
                 ?tgr viso-facts:has_effectiveness_ranking_for_nominal_data ?rankValue .
                 ?anyOtherGr viso-facts:has_effectiveness_ranking_for_nominal_data ?otherRankValue .
-            } .
-            OPTIONAL {
+				BIND (\"nonimal\" AS ?som) 
+            } UNION {
                 ?sp rdfs:subPropertyOf viso-data:has_ordinal_value .
                 ?tgr viso-facts:has_effectiveness_ranking_for_ordinal_data ?rankValue .
                 ?anyOtherGr viso-facts:has_effectiveness_ranking_for_ordinal_data ?otherRankValue .
-            } .
-            OPTIONAL {
+				BIND (\"ordinal\" AS ?som) 
+            } UNION {
                 ?sp rdfs:subPropertyOf viso-data:has_quantitative_value .
                 ?tgr viso-facts:has_effectiveness_ranking_for_quantitative_data ?rankValue .
                 ?anyOtherGr viso-facts:has_effectiveness_ranking_for_quantitative_data ?otherRankValue .
+				BIND (\"quantitative\" AS ?som) 
             } .
-            FILTER (bound(?rankValue) && bound(?otherRankValue)) .
             FILTER (?tgr != ?anyOtherGr) .
             FILTER (?otherRankValue > ?rankValue) .
             NOT EXISTS {
@@ -181,7 +187,7 @@ WHERE {
         }
         GROUP BY ?tgr
     } .
-    BIND (fn:concat(\"There are \", ?altCount, \" more effective visual means for visualizing the selected source property\") AS ?cvLabel) .
+    BIND (fn:concat(\"There are \", ?altCount, \" more effective visual means for visualizing the selected \" , ?som1,\" source property '\", afn:localname(?sp1), \"' that are not yet used in other mappings.\") AS ?cvLabel) .
     FILTER (?altCount > 0) .
 }"""^^xsd:string ;
       sp:where (
@@ -202,6 +208,24 @@ WHERE {
                     ]
                   ) ;
                 sp:resultVariables (
+                    [
+                      sp:expression [
+                          rdf:type sp:Sample ;
+                          sp:expression [
+                              sp:varName "sp"^^xsd:string ;
+                            ] ;
+                        ] ;
+                      sp:varName "sp1"^^xsd:string ;
+                    ]
+                    [
+                      sp:expression [
+                          rdf:type sp:Sample ;
+                          sp:expression [
+                              sp:varName "som"^^xsd:string ;
+                            ] ;
+                        ] ;
+                      sp:varName "som1"^^xsd:string ;
+                    ]
                     [
                       sp:expression [
                           rdf:type sp:Count ;
@@ -228,112 +252,111 @@ WHERE {
                       sp:subject spin:_this ;
                     ]
                     [
-                      rdf:type sp:Optional ;
+                      rdf:type sp:Union ;
                       sp:elements (
-                          [
-                            sp:object viso-data:has_nominal_value ;
-                            sp:predicate rdfs:subPropertyOf ;
-                            sp:subject [
-                                sp:varName "sp"^^xsd:string ;
-                              ] ;
-                          ]
-                          [
-                            sp:object [
-                                sp:varName "rankValue"^^xsd:string ;
-                              ] ;
-                            sp:predicate viso-facts:has_effectiveness_ranking_for_nominal_data ;
-                            sp:subject [
-                                sp:varName "tgr"^^xsd:string ;
-                              ] ;
-                          ]
-                          [
-                            sp:object [
-                                sp:varName "otherRankValue"^^xsd:string ;
-                              ] ;
-                            sp:predicate viso-facts:has_effectiveness_ranking_for_nominal_data ;
-                            sp:subject [
-                                sp:varName "anyOtherGr"^^xsd:string ;
-                              ] ;
-                          ]
-                        ) ;
-                    ]
-                    [
-                      rdf:type sp:Optional ;
-                      sp:elements (
-                          [
-                            sp:object viso-data:has_ordinal_value ;
-                            sp:predicate rdfs:subPropertyOf ;
-                            sp:subject [
-                                sp:varName "sp"^^xsd:string ;
-                              ] ;
-                          ]
-                          [
-                            sp:object [
-                                sp:varName "rankValue"^^xsd:string ;
-                              ] ;
-                            sp:predicate viso-facts:has_effectiveness_ranking_for_ordinal_data ;
-                            sp:subject [
-                                sp:varName "tgr"^^xsd:string ;
-                              ] ;
-                          ]
-                          [
-                            sp:object [
-                                sp:varName "otherRankValue"^^xsd:string ;
-                              ] ;
-                            sp:predicate viso-facts:has_effectiveness_ranking_for_ordinal_data ;
-                            sp:subject [
-                                sp:varName "anyOtherGr"^^xsd:string ;
-                              ] ;
-                          ]
-                        ) ;
-                    ]
-                    [
-                      rdf:type sp:Optional ;
-                      sp:elements (
-                          [
-                            sp:object viso-data:has_quantitative_value ;
-                            sp:predicate rdfs:subPropertyOf ;
-                            sp:subject [
-                                sp:varName "sp"^^xsd:string ;
-                              ] ;
-                          ]
-                          [
-                            sp:object [
-                                sp:varName "rankValue"^^xsd:string ;
-                              ] ;
-                            sp:predicate viso-facts:has_effectiveness_ranking_for_quantitative_data ;
-                            sp:subject [
-                                sp:varName "tgr"^^xsd:string ;
-                              ] ;
-                          ]
-                          [
-                            sp:object [
-                                sp:varName "otherRankValue"^^xsd:string ;
-                              ] ;
-                            sp:predicate viso-facts:has_effectiveness_ranking_for_quantitative_data ;
-                            sp:subject [
-                                sp:varName "anyOtherGr"^^xsd:string ;
-                              ] ;
-                          ]
-                        ) ;
-                    ]
-                    [
-                      rdf:type sp:Filter ;
-                      sp:expression [
-                          rdf:type sp:and ;
-                          sp:arg1 [
-                              rdf:type sp:bound ;
-                              sp:arg1 [
+                          (
+                            [
+                              sp:object viso-data:has_nominal_value ;
+                              sp:predicate rdfs:subPropertyOf ;
+                              sp:subject [
+                                  sp:varName "sp"^^xsd:string ;
+                                ] ;
+                            ]
+                            [
+                              sp:object [
                                   sp:varName "rankValue"^^xsd:string ;
                                 ] ;
-                            ] ;
-                          sp:arg2 [
-                              rdf:type sp:bound ;
-                              sp:arg1 [
+                              sp:predicate viso-facts:has_effectiveness_ranking_for_nominal_data ;
+                              sp:subject [
+                                  sp:varName "tgr"^^xsd:string ;
+                                ] ;
+                            ]
+                            [
+                              sp:object [
                                   sp:varName "otherRankValue"^^xsd:string ;
                                 ] ;
-                            ] ;
-                        ] ;
+                              sp:predicate viso-facts:has_effectiveness_ranking_for_nominal_data ;
+                              sp:subject [
+                                  sp:varName "anyOtherGr"^^xsd:string ;
+                                ] ;
+                            ]
+                            [
+                              rdf:type sp:Bind ;
+                              sp:expression "nonimal" ;
+                              sp:variable [
+                                  sp:varName "som"^^xsd:string ;
+                                ] ;
+                            ]
+                          )
+                          (
+                            [
+                              sp:object viso-data:has_ordinal_value ;
+                              sp:predicate rdfs:subPropertyOf ;
+                              sp:subject [
+                                  sp:varName "sp"^^xsd:string ;
+                                ] ;
+                            ]
+                            [
+                              sp:object [
+                                  sp:varName "rankValue"^^xsd:string ;
+                                ] ;
+                              sp:predicate viso-facts:has_effectiveness_ranking_for_ordinal_data ;
+                              sp:subject [
+                                  sp:varName "tgr"^^xsd:string ;
+                                ] ;
+                            ]
+                            [
+                              sp:object [
+                                  sp:varName "otherRankValue"^^xsd:string ;
+                                ] ;
+                              sp:predicate viso-facts:has_effectiveness_ranking_for_ordinal_data ;
+                              sp:subject [
+                                  sp:varName "anyOtherGr"^^xsd:string ;
+                                ] ;
+                            ]
+                            [
+                              rdf:type sp:Bind ;
+                              sp:expression "ordinal" ;
+                              sp:variable [
+                                  sp:varName "som"^^xsd:string ;
+                                ] ;
+                            ]
+                          )
+                          (
+                            [
+                              sp:object viso-data:has_quantitative_value ;
+                              sp:predicate rdfs:subPropertyOf ;
+                              sp:subject [
+                                  sp:varName "sp"^^xsd:string ;
+                                ] ;
+                            ]
+                            [
+                              sp:object [
+                                  sp:varName "rankValue"^^xsd:string ;
+                                ] ;
+                              sp:predicate viso-facts:has_effectiveness_ranking_for_quantitative_data ;
+                              sp:subject [
+                                  sp:varName "tgr"^^xsd:string ;
+                                ] ;
+                            ]
+                            [
+                              sp:object [
+                                  sp:varName "otherRankValue"^^xsd:string ;
+                                ] ;
+                              sp:predicate viso-facts:has_effectiveness_ranking_for_quantitative_data ;
+                              sp:subject [
+                                  sp:varName "anyOtherGr"^^xsd:string ;
+                                ] ;
+                            ]
+                            [
+                              rdf:type sp:Bind ;
+                              sp:expression "quantitative" ;
+                              sp:variable [
+                                  sp:varName "som"^^xsd:string ;
+                                ] ;
+                            ]
+                          )
+                        ) ;
                     ]
                     [
                       rdf:type sp:Filter ;
@@ -398,7 +421,18 @@ WHERE {
                 sp:arg2 [
                     sp:varName "altCount"^^xsd:string ;
                   ] ;
-                sp:arg3 " more effective visual means for visualizing the selected source property" ;
+                sp:arg3 " more effective visual means for visualizing the selected " ;
+                sp:arg4 [
+                    sp:varName "som1"^^xsd:string ;
+                  ] ;
+                sp:arg5 " source property '" ;
+                sp:arg6 [
+                    rdf:type afn:localname ;
+                    sp:arg1 [
+                        sp:varName "sp1"^^xsd:string ;
+                      ] ;
+                  ] ;
+                sp:arg7 "' that are not yet used in other mappings." ;
               ] ;
             sp:variable [
                 sp:varName "cvLabel"^^xsd:string ;
