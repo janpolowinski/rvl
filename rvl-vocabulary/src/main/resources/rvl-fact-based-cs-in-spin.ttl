@@ -92,6 +92,11 @@ rvl:PropertyMapping
             sp:subject _:b80473 ;
           ]
           [
+            sp:object spin:Warning ;
+            sp:predicate spin:violationLevel ;
+            sp:subject _:b80473 ;
+          ]
+          [
             sp:object spin:_this ;
             sp:predicate spin:violationRoot ;
             sp:subject _:b80473 ;
@@ -140,6 +145,7 @@ rvl:PropertyMapping
 # TODO: offer better ones!
 CONSTRUCT {
     _:b0 a spin:ConstraintViolation .
+    _:b0 spin:violationLevel spin:Warning .
     _:b0 spin:violationRoot ?this .
     _:b0 spin:violationPath rvl:targetAttribute .
     _:b0 rdfs:label ?cvLabel .
@@ -184,7 +190,7 @@ WHERE {
         }
         GROUP BY ?tgr
     } .
-    BIND (fn:concat(\"There are \", ?altCount, \" more effective visual means for visualizing the selected \" , ?som1,\" source property '\", afn:localname(?sp1), \"'.\") AS ?cvLabel) .
+    BIND (fn:concat(\"There are \", ?altCount, \" more effective visual means for visualizing the selected \" , ?som1,\" source property '\", afn:localname(?sp1), \"' that are not yet used in other mappings.\") AS ?cvLabel) .
     FILTER (?altCount > 0) .
 }"""^^xsd:string ;
       sp:where (
@@ -451,7 +457,7 @@ WHERE {
                         sp:varName "sp1"^^xsd:string ;
                       ] ;
                   ] ;
-                sp:arg7 "'." ;
+                sp:arg7 "' that are not yet used in other mappings." ;
               ] ;
             sp:variable [
                 sp:varName "cvLabel"^^xsd:string ;
