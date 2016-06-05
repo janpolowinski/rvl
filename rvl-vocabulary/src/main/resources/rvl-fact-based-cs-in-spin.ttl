@@ -158,7 +158,7 @@ CONSTRUCT {
 WHERE {
     ?this rvl:targetGraphicRelation ?tgr .
     {
-        SELECT ((SAMPLE(?sp)) AS ?sp1) ((SAMPLE(?som)) AS ?som1) ((COUNT(?tgr)) AS ?altCount)
+        SELECT ((SAMPLE(?sp)) AS ?sp1) ((SAMPLE(?som)) AS ?som1) ((COUNT(?tgr)) AS ?altCount) ((SAMPLE(?anyOtherGr)) AS ?anyOtherGr1)
         WHERE {
             ?this rvl:sourceProperty ?sp .
             ?this rvl:targetGraphicRelation ?tgr .
@@ -187,7 +187,7 @@ WHERE {
         }
         GROUP BY ?tgr
     } .
-    BIND (fn:concat(\"There are \", ?altCount, \" more effective visual means for visualizing the selected \" , ?som1,\" source property '\", afn:localname(?sp1), \"' that are not yet used in other mappings.\") AS ?cvLabel) .
+    BIND (fn:concat(\"There are \", ?altCount, \" more effective visual means for visualizing the selected \" , ?som1,\" source property '\", afn:localname(?sp1), \"' that are not yet used in other mappings. For example, \", afn:localname(?anyOtherGr)) AS ?cvLabel) .
     FILTER (?altCount > 0) .
 }"""^^xsd:string ;
       sp:where (
@@ -234,6 +234,15 @@ WHERE {
                             ] ;
                         ] ;
                       sp:varName "altCount"^^xsd:string ;
+                    ]
+                    [
+                      sp:expression [
+                          rdf:type sp:Sample ;
+                          sp:expression [
+                              sp:varName "anyOtherGr"^^xsd:string ;
+                            ] ;
+                        ] ;
+                      sp:varName "anyOtherGr1"^^xsd:string ;
                     ]
                   ) ;
                 sp:where (
@@ -432,7 +441,13 @@ WHERE {
                         sp:varName "sp1"^^xsd:string ;
                       ] ;
                   ] ;
-                sp:arg7 "' that are not yet used in other mappings." ;
+                sp:arg7 "' that are not yet used in other mappings. For example, " ;
+                sp:arg8 [
+                    rdf:type afn:localname ;
+                    sp:arg1 [
+                        sp:varName "anyOtherGr"^^xsd:string ;
+                      ] ;
+                  ] ;
               ] ;
             sp:variable [
                 sp:varName "cvLabel"^^xsd:string ;
