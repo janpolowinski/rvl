@@ -158,7 +158,7 @@ CONSTRUCT {
 WHERE {
     ?this rvl:targetGraphicRelation ?tgr .
     {
-        SELECT ((SAMPLE(?sp)) AS ?sp1) ((SAMPLE(?som)) AS ?som1) ((COUNT(?tgr)) AS ?altCount)
+        SELECT ((SAMPLE(?sp)) AS ?sp1) ((SAMPLE(?som)) AS ?som1) ((COUNT(?tgr)) AS ?altCount) ((SAMPLE(?anyOtherGr)) AS ?anyOtherGr1)
         WHERE {
             ?this rvl:sourceProperty ?sp .
             ?this rvl:targetGraphicRelation ?tgr .
@@ -187,7 +187,7 @@ WHERE {
         }
         GROUP BY ?tgr
     } .
-    BIND (fn:concat(\"There are \", ?altCount, \" more effective visual means for visualizing the selected \" , ?som1,\" source property '\", afn:localname(?sp1), \"' that are not yet used in other mappings.\") AS ?cvLabel) .
+    BIND (fn:concat(\"There are \", ?altCount, \" more effective visual means for visualizing the selected \" , ?som1,\" source property '\", afn:localname(?sp1), \"' that are not yet used in other mappings. For example, \", afn:localname(?anyOtherGr)) AS ?cvLabel) .
     FILTER (?altCount > 0) .
 }"""^^xsd:string ;
       sp:where (
@@ -234,6 +234,15 @@ WHERE {
                             ] ;
                         ] ;
                       sp:varName "altCount"^^xsd:string ;
+                    ]
+                    [
+                      sp:expression [
+                          rdf:type sp:Sample ;
+                          sp:expression [
+                              sp:varName "anyOtherGr"^^xsd:string ;
+                            ] ;
+                        ] ;
+                      sp:varName "anyOtherGr1"^^xsd:string ;
                     ]
                   ) ;
                 sp:where (
@@ -432,7 +441,13 @@ WHERE {
                         sp:varName "sp1"^^xsd:string ;
                       ] ;
                   ] ;
-                sp:arg7 "' that are not yet used in other mappings." ;
+                sp:arg7 "' that are not yet used in other mappings. For example, " ;
+                sp:arg8 [
+                    rdf:type afn:localname ;
+                    sp:arg1 [
+                        sp:varName "anyOtherGr"^^xsd:string ;
+                      ] ;
+                  ] ;
               ] ;
             sp:variable [
                 sp:varName "cvLabel"^^xsd:string ;
@@ -456,43 +471,70 @@ TODO: offer better ones!"""^^xsd:string ;
 rvl:PropertyToGraphicObjToObjRelationMapping
   spin:constraint [
       rdf:type sp:Construct ;
+      sp:limit "1"^^xsd:long ;
       sp:templates (
           [
             sp:object spin:ConstraintViolation ;
             sp:predicate rdf:type ;
-            sp:subject _:b331 ;
+            sp:subject _:b48020 ;
+          ]
+          [
+            sp:object spin:Warning ;
+            sp:predicate spin:violationLevel ;
+            sp:subject _:b48020 ;
           ]
           [
             sp:object spin:_this ;
             sp:predicate spin:violationRoot ;
-            sp:subject _:b331 ;
+            sp:subject _:b48020 ;
           ]
           [
             sp:object rvl:targetObjToObjRelation ;
             sp:predicate spin:violationPath ;
-            sp:subject _:b331 ;
+            sp:subject _:b48020 ;
           ]
           [
-            sp:object rvl:sourceProperty ;
-            sp:predicate spin:violationPath ;
-            sp:subject _:b331 ;
-          ]
-          [
-            sp:object sp:_cvLabel ;
+            sp:object [
+                sp:varName "cvLabel"^^xsd:string ;
+              ] ;
             sp:predicate rdfs:label ;
-            sp:subject _:b331 ;
+            sp:subject _:b48020 ;
           ]
         ) ;
+      sp:text """CONSTRUCT {
+    _:b0 a spin:ConstraintViolation .
+    _:b0 spin:violationLevel spin:Warning .
+    _:b0 spin:violationRoot ?this .
+    _:b0 spin:violationPath rvl:targetObjToObjRelation .
+    _:b0 rdfs:label ?cvLabel .
+}
+WHERE {
+    ?this rvl:sourceProperty ?sp .
+    ?sp a ?spType .
+    FILTER (((?spType = owl:SymmetricProperty) || (?spType = owl:ReflexiveProperty)) || (?spType = owl:TransitiveProperty)) .
+    ?this rvl:targetObjToObjRelation ?tgr .
+    ?tgrNaryHelper rdfs:range ?tgr .
+    NOT EXISTS {
+        ?tgrNaryHelper viso-facts:can_express ?spType .
+    } .
+    BIND (fn:concat(\"The graphic relation you have chosen does eventually not support the following characteristic of the source property: \", afn:localname(?spType)) AS ?cvLabel) .
+} LIMIT 1"""^^xsd:string ;
       sp:where (
           [
-            sp:object sp:_sp ;
+            sp:object [
+                sp:varName "sp"^^xsd:string ;
+              ] ;
             sp:predicate rvl:sourceProperty ;
             sp:subject spin:_this ;
           ]
           [
-            sp:object sp:_spType ;
+            sp:object [
+                sp:varName "spType"^^xsd:string ;
+              ] ;
             sp:predicate rdf:type ;
-            sp:subject sp:_sp ;
+            sp:subject [
+                sp:varName "sp"^^xsd:string ;
+              ] ;
           ]
           [
             rdf:type sp:Filter ;
@@ -502,39 +544,55 @@ rvl:PropertyToGraphicObjToObjRelationMapping
                     rdf:type sp:or ;
                     sp:arg1 [
                         rdf:type sp:eq ;
-                        sp:arg1 sp:_spType ;
+                        sp:arg1 [
+                            sp:varName "spType"^^xsd:string ;
+                          ] ;
                         sp:arg2 owl:SymmetricProperty ;
                       ] ;
                     sp:arg2 [
                         rdf:type sp:eq ;
-                        sp:arg1 sp:_spType ;
+                        sp:arg1 [
+                            sp:varName "spType"^^xsd:string ;
+                          ] ;
                         sp:arg2 owl:ReflexiveProperty ;
                       ] ;
                   ] ;
                 sp:arg2 [
                     rdf:type sp:eq ;
-                    sp:arg1 sp:_spType ;
+                    sp:arg1 [
+                        sp:varName "spType"^^xsd:string ;
+                      ] ;
                     sp:arg2 owl:TransitiveProperty ;
                   ] ;
               ] ;
           ]
           [
-            sp:object sp:_tgr ;
+            sp:object [
+                sp:varName "tgr"^^xsd:string ;
+              ] ;
             sp:predicate rvl:targetObjToObjRelation ;
             sp:subject spin:_this ;
           ]
           [
-            sp:object sp:_tgr ;
+            sp:object [
+                sp:varName "tgr"^^xsd:string ;
+              ] ;
             sp:predicate rdfs:range ;
-            sp:subject sp:_tgrNaryHelper ;
+            sp:subject [
+                sp:varName "tgrNaryHelper"^^xsd:string ;
+              ] ;
           ]
           [
             rdf:type sp:NotExists ;
             sp:elements (
                 [
-                  sp:object sp:_spType ;
+                  sp:object [
+                      sp:varName "spType"^^xsd:string ;
+                    ] ;
                   sp:predicate viso-facts:can_express ;
-                  sp:subject sp:_tgrNaryHelper ;
+                  sp:subject [
+                      sp:varName "tgrNaryHelper"^^xsd:string ;
+                    ] ;
                 ]
               ) ;
           ]
@@ -545,10 +603,14 @@ rvl:PropertyToGraphicObjToObjRelationMapping
                 sp:arg1 "The graphic relation you have chosen does eventually not support the following characteristic of the source property: " ;
                 sp:arg2 [
                     rdf:type afn:localname ;
-                    sp:arg1 sp:_spType ;
+                    sp:arg1 [
+                        sp:varName "spType"^^xsd:string ;
+                      ] ;
                   ] ;
               ] ;
-            sp:variable sp:_cvLabel ;
+            sp:variable [
+                sp:varName "cvLabel"^^xsd:string ;
+              ] ;
           ]
         ) ;
     ] ;

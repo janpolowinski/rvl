@@ -262,7 +262,7 @@
               forms:parentOf [
                   rdf:type forms:PropertyWidget ;
                   forms:childIndex 1 ;
-                  forms:predicate <http://purl.org/rvl/targetAttribute> ;
+                  forms:predicate <http://purl.org/rvl/targetObjToObjRelation> ;
                 ] ;
             ] ;
           forms:parentOf [
@@ -276,7 +276,7 @@
               forms:parentOf [
                   rdf:type forms:PropertyWidget ;
                   forms:childIndex 1 ;
-                  forms:predicate <http://purl.org/rvl/targetObjToObjRelation> ;
+                  forms:predicate <http://purl.org/rvl/targetAttribute> ;
                 ] ;
             ] ;
         ] ;

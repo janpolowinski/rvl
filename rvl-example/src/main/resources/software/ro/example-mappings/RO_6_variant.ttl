@@ -1,219 +1,208 @@
-# Saved by TopBraid on Fri May 20 14:43:20 CEST 2016
 # baseURI: http://purl.org/viso/example/ro/
-# imports: http://purl.org/rvl/spin-constraints/
-# imports: http://purl.org/viso/shape/commons/
 # imports: http://purl.org/ro/ont
 # imports: http://purl.org/rvl/
 # imports: http://purl.org/rvl/fact-based-spin-constraints/
+# imports: http://purl.org/rvl/spin-constraints/
+# imports: http://purl.org/viso/shape/commons/
 
-@prefix :        <http://purl.org/viso/example/ro/> .
-@prefix common-shapes:  <http://purl.org/viso/shape/commons/> .
-@prefix commons:  <http://purl.org/viso/shape/commons/> .
-@prefix owl:     <http://www.w3.org/2002/07/owl#> .
-@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix ro:      <http://purl.org/ro/ont#> .
-@prefix rvl:     <http://purl.org/rvl/> .
-@prefix sp:      <http://spinrdf.org/sp#> .
-@prefix spin-constraints:  <http://purl.org/rvl/spin-constraints/> .
-@prefix vg:      <http://purl.org/viso/graphic/> .
-@prefix viso-graphic:  <http://purl.org/viso/graphic/> .
-@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix : <http://purl.org/viso/example/ro/> .
+@prefix common-shapes: <http://purl.org/viso/shape/commons/> .
+@prefix commons: <http://purl.org/viso/shape/commons/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ro: <http://purl.org/ro/ont#> .
+@prefix rvl: <http://purl.org/rvl/> .
+@prefix sp: <http://spinrdf.org/sp#> .
+@prefix spin-constraints: <http://purl.org/rvl/spin-constraints/> .
+@prefix vg: <http://purl.org/viso/graphic/> .
+@prefix viso-graphic: <http://purl.org/viso/graphic/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 rvl:valueMapping
-      rdfs:domain rvl:PropertyMapping .
-
-:     rdf:type owl:Ontology ;
-      owl:imports <http://purl.org/ro/ont> , rvl: , <http://purl.org/rvl/fact-based-spin-constraints/> , spin-constraints: , common-shapes: .
-
+  rdfs:domain rvl:PropertyMapping ;
+.
+:
+  rdf:type owl:Ontology ;
+  owl:imports <http://purl.org/ro/ont> ;
+  owl:imports rvl: ;
+  owl:imports <http://purl.org/rvl/fact-based-spin-constraints/> ;
+  owl:imports spin-constraints: ;
+  owl:imports commons: ;
+.
 :IconLabelMappingForHasResponseTime
-      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
-      rvl:sourceProperty ro:hasResponseTime ;
-      rvl:subMapping
-              [ rvl:subMapping-mapping
-                        :IconShapeMapping ;
-                rvl:subMapping-onRole
-                        viso-graphic:labeling_label ;
-                rvl:subMapping-onTriplePart
-                        rdf:subject
-              ] ;
-      rvl:subMapping
-              [ rvl:subMapping-mapping
-                        :TextLabelingOfLabel ;
-                rvl:subMapping-onRole
-                        viso-graphic:labeling_label ;
-                rvl:subMapping-onTriplePart
-                        rdf:subject
-              ] ;
-      rvl:subMapping
-              [ rvl:subMapping-mapping
-                        :PMfromType2LabelWidth ;
-                rvl:subMapping-onRole
-                        viso-graphic:labeling_label ;
-                rvl:subMapping-onTriplePart
-                        rdf:subject
-              ] ;
-      rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector ;
-      rvl:targetObjToObjRelation
-              viso-graphic:Labeling_Relation .
-
+  rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+  rvl:disabled "false"^^xsd:boolean ;
+  rvl:sourceProperty ro:hasResponseTime ;
+  rvl:subMapping [
+      rvl:subMapping-mapping :IconShapeMapping ;
+      rvl:subMapping-onRole viso-graphic:labeling_label ;
+      rvl:subMapping-onTriplePart rdf:subject ;
+    ] ;
+  rvl:subMapping [
+      rvl:subMapping-mapping :PMfromType2LabelWidth ;
+      rvl:subMapping-onRole viso-graphic:labeling_label ;
+      rvl:subMapping-onTriplePart rdf:subject ;
+    ] ;
+  rvl:subMapping [
+      rvl:subMapping-mapping :TextLabelingOfLabel ;
+      rvl:subMapping-onRole viso-graphic:labeling_label ;
+      rvl:subMapping-onTriplePart rdf:subject ;
+    ] ;
+  rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector ;
+  rvl:targetObjToObjRelation viso-graphic:Labeling_Relation ;
+.
 :IconShapeMapping
-      rdf:type rvl:PropertyMapping ;
-      rvl:disabled "true" ;
-      rvl:sourceProperty rdf:type ;
-      rvl:targetAttribute viso-graphic:shape_named ;
-      rvl:valueMapping
-              [ rdf:type rvl:valueMapping ;
-                rvl:sourceValue ro:Requirement ;
-                rvl:targetValue common-shapes:Clock
-              ] .
-
+  rdf:type rvl:PropertyMapping ;
+  rvl:disabled "true" ;
+  rvl:sourceProperty rdf:type ;
+  rvl:targetAttribute viso-graphic:shape_named ;
+  rvl:valueMapping [
+      rdf:type rvl:valueMapping ;
+      rvl:sourceValue ro:Requirement ;
+      rvl:targetValue commons:Clock ;
+    ] ;
+.
 :IsInConflictWithToLinkingDirected
-      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
-      rvl:sourceProperty ro:isInConflictWith ;
-      rvl:targetObjToObjRelation
-              viso-graphic:Linking_Directed_Relation .
-
+  rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+  rvl:disabled "false"^^xsd:boolean ;
+  rvl:sourceProperty ro:isInConflictWith ;
+  rvl:targetObjToObjRelation viso-graphic:Linking_Directed_Relation ;
+.
 :LabelTextIdentityMapping
-      rdf:type rvl:IdentityMapping ;
-      rvl:disabled "true"^^xsd:boolean ;
-      rvl:sourceProperty rvl:label ;
-      rvl:targetAttribute viso-graphic:text_value .
-
+  rdf:type rvl:IdentityMapping ;
+  rvl:disabled "true"^^xsd:boolean ;
+  rvl:sourceProperty rvl:label ;
+  rvl:targetAttribute viso-graphic:text_value ;
+.
 :LabelingTextIdentityMapping
-      rdf:type rvl:IdentityMapping ;
-      rvl:disabled "true"^^xsd:boolean ;
-      rvl:sourceProperty ro:hasResponseTime ;
-      rvl:targetAttribute viso-graphic:text_value .
-
+  rdf:type rvl:IdentityMapping ;
+  rvl:disabled "true"^^xsd:boolean ;
+  rvl:sourceProperty ro:hasResponseTime ;
+  rvl:targetAttribute viso-graphic:text_value ;
+.
 :PMfromID2ShapeNamed
-      rdf:type rvl:PropertyMapping ;
-      rdfs:label "PM from ID to shape (used as a submapping above)"^^xsd:string ;
-      rvl:disabled "true"^^xsd:boolean ;
-      rvl:sourceProperty rdf:ID ;
-      rvl:targetAttribute viso-graphic:shape_named ;
-      rvl:valueMapping
-              [ rdf:type rvl:ValueMapping ;
-                rvl:sourceValueOrderedSet
-                        (ro:isRefinementOf ro:isInConflictWith) ;
-                rvl:targetValueList (common-shapes:UMLGeneralization common-shapes:ArrowSmall)
-              ] .
-
+  rdf:type rvl:PropertyMapping ;
+  rvl:disabled "true"^^xsd:boolean ;
+  rvl:sourceProperty rdf:ID ;
+  rvl:targetAttribute viso-graphic:shape_named ;
+  rvl:valueMapping [
+      rdf:type rvl:ValueMapping ;
+      rvl:sourceValueOrderedSet (
+          ro:isRefinementOf
+          ro:isInConflictWith
+        ) ;
+      rvl:targetValueList (
+          commons:UMLGeneralization
+          commons:ArrowSmall
+        ) ;
+    ] ;
+  rdfs:label "PM from ID to shape (used as a submapping above)"^^xsd:string ;
+.
 :PMfromType2LabelWidth
-      rdf:type rvl:PropertyMapping ;
-      rdfs:label "PM from type to width (used as a submapping above)"^^xsd:string ;
-      rvl:disabled "true"^^xsd:boolean ;
-      rvl:sourceProperty rdf:type ;
-      rvl:targetAttribute viso-graphic:width ;
-      rvl:valueMapping
-              [ rdf:type rvl:ValueMapping ;
-                rvl:sourceValue ro:Requirement ;
-                rvl:targetValue "20"^^xsd:float
-              ] .
-
+  rdf:type rvl:PropertyMapping ;
+  rvl:disabled "true"^^xsd:boolean ;
+  rvl:sourceProperty rdf:type ;
+  rvl:targetAttribute viso-graphic:width ;
+  rvl:valueMapping [
+      rdf:type rvl:ValueMapping ;
+      rvl:sourceValue ro:Requirement ;
+      rvl:targetValue "20"^^xsd:float ;
+    ] ;
+  rdfs:label "PM from type to width (used as a submapping above)"^^xsd:string ;
+.
 :PMfromType2Width
-      rdf:type rvl:PropertyMapping ;
-      rdfs:label "PM from type to width (used as a submapping above)"^^xsd:string ;
-      rvl:disabled "true"^^xsd:boolean ;
-      rvl:sourceProperty rdf:type ;
-      rvl:targetAttribute viso-graphic:width ;
-      rvl:valueMapping
-              [ rdf:type rvl:ValueMapping ;
-                rvl:sourceValue ro:Requirement ;
-                rvl:targetValue "100"^^xsd:float
-              ] .
-
+  rdf:type rvl:PropertyMapping ;
+  rvl:disabled "true"^^xsd:boolean ;
+  rvl:sourceProperty rdf:type ;
+  rvl:targetAttribute viso-graphic:width ;
+  rvl:valueMapping [
+      rdf:type rvl:ValueMapping ;
+      rvl:sourceValue ro:Requirement ;
+      rvl:targetValue "100"^^xsd:float ;
+    ] ;
+  rdfs:label "PM from type to width (used as a submapping above)"^^xsd:string ;
+.
 :RO-6_variant
-      rdf:type rvl:PropertyMapping ;
-      rvl:sourceProperty rdf:type ;
-      rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector ;
-      rvl:targetAttribute viso-graphic:color_hsl_lightness ;
-      rvl:valueMapping
-              [ rvl:discretize "true" ;
-                rvl:sourceValueOrderedSet
-                        (ro:LowPriority ro:MediumPriority ro:HighPriority) ;
-                rvl:targetValueInterval
-                        [ rdf:type rvl:Interval ;
-                          rvl:lowerBoundIncl "0" ;
-                          rvl:upperBoundIncl "100"
-                        ]
-              ] .
-
+  rdf:type rvl:PropertyMapping ;
+  rvl:sourceProperty rdf:type ;
+  rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector ;
+  rvl:targetAttribute viso-graphic:color_hsl_lightness ;
+  rvl:targetGraphicRelation viso-graphic:color_hsl_lightness ;
+  rvl:valueMapping [
+      rvl:discretize "true" ;
+      rvl:sourceValueOrderedSet (
+          ro:LowPriority
+          ro:MediumPriority
+          ro:HighPriority
+        ) ;
+      rvl:targetValueInterval [
+          rdf:type rvl:Interval ;
+          rvl:lowerBoundIncl "0" ;
+          rvl:upperBoundIncl "100" ;
+        ] ;
+    ] ;
+.
 :ShapeMapping
-      rdf:type rvl:PropertyMapping ;
-      rvl:sourceProperty rdf:type ;
-      rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector ;
-      rvl:targetAttribute viso-graphic:shape_named ;
-      rvl:valueMapping
-              [ rdf:type rvl:valueMapping ;
-                rvl:sourceValue ro:Requirement ;
-                rvl:targetValue common-shapes:Square
-              ] .
-
+  rdf:type rvl:PropertyMapping ;
+  rvl:sourceProperty rdf:type ;
+  rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector ;
+  rvl:targetAttribute viso-graphic:shape_named ;
+  rvl:valueMapping [
+      rdf:type rvl:valueMapping ;
+      rvl:sourceValue ro:Requirement ;
+      rvl:targetValue commons:Square ;
+    ] ;
+.
 :TextLabelMapping
-      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:disabled "false"^^xsd:boolean ;
-      rvl:sourceProperty rdf:ID ;
-      rvl:subMapping
-              [ rvl:subMapping-mapping
-                        :LabelTextIdentityMapping ;
-                rvl:subMapping-onRole
-                        viso-graphic:labeling_label ;
-                rvl:subMapping-onTriplePart
-                        rdf:subject
-              ] ;
-      rvl:subMapping
-              [ rvl:subMapping-mapping
-                        :TypeToLabelStyleMapping ;
-                rvl:subMapping-onRole
-                        viso-graphic:this ;
-                rvl:subMapping-onTriplePart
-                        rdf:subject
-              ] ;
-      rvl:subMapping
-              [ rvl:subMapping-mapping
-                        :PMfromType2Width ;
-                rvl:subMapping-onRole
-                        viso-graphic:labeling_base ;
-                rvl:subMapping-onTriplePart
-                        rdf:subject
-              ] ;
-      rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector ;
-      rvl:targetObjToObjRelation
-              viso-graphic:Labeling_Relation .
-
+  rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+  rvl:disabled "false"^^xsd:boolean ;
+  rvl:sourceProperty rdf:ID ;
+  rvl:subMapping [
+      rvl:subMapping-mapping :LabelTextIdentityMapping ;
+      rvl:subMapping-onRole viso-graphic:labeling_label ;
+      rvl:subMapping-onTriplePart rdf:subject ;
+    ] ;
+  rvl:subMapping [
+      rvl:subMapping-mapping :PMfromType2Width ;
+      rvl:subMapping-onRole viso-graphic:labeling_base ;
+      rvl:subMapping-onTriplePart rdf:subject ;
+    ] ;
+  rvl:subMapping [
+      rvl:subMapping-mapping :TypeToLabelStyleMapping ;
+      rvl:subMapping-onRole viso-graphic:this ;
+      rvl:subMapping-onTriplePart rdf:subject ;
+    ] ;
+  rvl:subjectFilter "http://purl.org/ro/ont#Requirement"^^rvl:classSelector ;
+  rvl:targetObjToObjRelation viso-graphic:Labeling_Relation ;
+.
 :TextLabelingOfLabel
-      rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
-      rvl:disabled "true"^^xsd:boolean ;
-      rvl:sourceProperty ro:hasResponseTime ;
-      rvl:subMapping
-              [ rvl:subMapping-mapping
-                        :LabelingTextIdentityMapping ;
-                rvl:subMapping-onRole
-                        viso-graphic:labeling_label ;
-                rvl:subMapping-onTriplePart
-                        rdf:subject
-              ] ;
-      rvl:targetObjToObjRelation
-              viso-graphic:Labeling_Relation .
-
+  rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;
+  rvl:disabled "true"^^xsd:boolean ;
+  rvl:sourceProperty ro:hasResponseTime ;
+  rvl:subMapping [
+      rvl:subMapping-mapping :LabelingTextIdentityMapping ;
+      rvl:subMapping-onRole viso-graphic:labeling_label ;
+      rvl:subMapping-onTriplePart rdf:subject ;
+    ] ;
+  rvl:targetObjToObjRelation viso-graphic:Labeling_Relation ;
+.
 :TypeToLabelStyleMapping
-      rdf:type rvl:PropertyMapping ;
-      rvl:disabled "true" ;
-      rvl:sourceProperty rdf:type ;
-      rvl:targetAttribute viso-graphic:labeling_attachedBy ;
-      rvl:valueMapping
-              [ rdf:type rvl:valueMapping ;
-                rvl:sourceValue ro:Requirement ;
-                rvl:targetValue viso-graphic:Containment_Relation
-              ] .
-
+  rdf:type rvl:PropertyMapping ;
+  rvl:disabled "true" ;
+  rvl:sourceProperty rdf:type ;
+  rvl:targetAttribute viso-graphic:labeling_attachedBy ;
+  rvl:valueMapping [
+      rdf:type rvl:valueMapping ;
+      rvl:sourceValue ro:Requirement ;
+      rvl:targetValue viso-graphic:Containment_Relation ;
+    ] ;
+.
 sp:_tvm
-      rdf:type sp:Variable ;
-      sp:varName "tvm"^^xsd:string .
-
+  rdf:type sp:Variable ;
+  sp:varName "tvm"^^xsd:string ;
+.
 sp:_vm
-      rdf:type sp:Variable ;
-      sp:varName "vm"^^xsd:string .
+  rdf:type sp:Variable ;
+  sp:varName "vm"^^xsd:string ;
+.
