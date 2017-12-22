@@ -1,16 +1,4 @@
-Third-party-libraries:
-
 All copyrights for the D3.js library belong to Mike Bostock. http://d3js.org/
+All copyrights for the jquery library belong to the jQuery Foundation, Inc. http://jquery.org/license/
 
-+++++++++++++++++++++++++
-
-The RVL modules (including the ogvic.js library)
-
-- rvl-d3vis
-- rvl-interpreter
-- rvl-codegen
-- rvl-...
-
-available at https://github.com/janpolowinski/rvl/ are released under a BSD license (http://opensource.org/licenses/BSD-3-Clause).
-
- 
+See the file "license-notes" in the root folder for licensing information on the other libraries.

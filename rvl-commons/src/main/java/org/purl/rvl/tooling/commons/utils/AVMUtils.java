@@ -7,18 +7,25 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.ontoware.aifbcommons.collection.ClosableIterator;
 import org.ontoware.rdf2go.model.Model;
+import org.ontoware.rdf2go.model.ModelSet;
 import org.ontoware.rdf2go.model.QueryResultTable;
 import org.ontoware.rdf2go.model.QueryRow;
 import org.ontoware.rdf2go.model.Statement;
 import org.ontoware.rdf2go.model.impl.StatementImpl;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.URI;
+import org.ontoware.rdf2go.vocabulary.RDFS;
 import org.purl.rvl.java.gen.viso.graphic.Containment;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
 import org.purl.rvl.java.gen.viso.graphic.GraphicObject;
 import org.purl.rvl.java.gen.viso.graphic.Labeling;
+import org.purl.rvl.java.gen.viso.graphic.Object_to_ObjectRelation;
+import org.purl.rvl.java.gen.viso.graphic.SyntacticRole;
 import org.purl.rvl.java.viso.graphic.GraphicObjectX;
+import org.purl.rvl.tooling.commons.Graph;
+import org.purl.rvl.tooling.model.ModelManager;
 
 /**
  * @author Jan Polowinski
@@ -228,6 +235,82 @@ public class AVMUtils {
 		
 		return dlFromHere;
 	}
+	
+	
+	public static Set<SyntacticRole> getRolesForGO(Model model, GraphicObjectX go) {
+		
+		Set<SyntacticRole> roles = new HashSet<SyntacticRole>();
+		
+//		SELECT ?role
+//				WHERE {
+//					BIND(<http://purl.org/rvl/example-avm/GO_-727403189> AS ?go) .
+//				    ?rel a/(rdfs:subClassOf)* viso-graphic:Object-to-Object_Relation .
+//				    ?rel ?role ?go .
+//				}
+
+		String query = "" + 
+				"SELECT DISTINCT ?role " + 
+				"WHERE { " +
+				"   BIND(" + go.toSPARQL() + " AS ?go)" + 
+				"	?rel a/(" + RDFS.subClassOf.toSPARQL() + ")* " + Object_to_ObjectRelation.RDFS_CLASS.toSPARQL() + " ." +
+//				"	?rel a " + DirectedLinking.RDFS_CLASS.toSPARQL() + " ." +
+				"	?rel ?role ?go ." + 
+				"} ";
+		
+		LOGGER.finer("Query for roles that graphic object " + go.asURI() + " plays.");
+		LOGGER.finest("Query: " + query);
+
+		QueryResultTable results = model.sparqlSelect(query);
+		for (QueryRow row : results) {
+			roles.add(SyntacticRole.getInstance(model, row.getValue("role").asURI()));
+		}
+		
+		return roles;
+	}
+	
+	public static Set<URI> getRolesAsURIForGO(ModelSet modelSet, GraphicObjectX go) {
+
+		Set<URI> roles = new HashSet<URI>();
+		
+		modelSet.addModel(ModelManager.getInstance().getAVMModel(), Graph.GRAPH_AVM);
+
+		String query = "" + 
+				" PREFIX rdfs: <" + RDFS.RDFS_NS + "> " + 
+				" SELECT DISTINCT ?role ?superRole " + 
+				" WHERE { " +
+				" GRAPH " + Graph.GRAPH_VISO.toSPARQL() + " { " + 
+				"	?relType rdfs:subClassOf/(rdfs:subClassOf)* " + Object_to_ObjectRelation.RDFS_CLASS.toSPARQL() + " ." +
+				" } " +
+				" GRAPH " + Graph.GRAPH_AVM.toSPARQL() + " { " + 
+				"   BIND(" + go.toSPARQL() + " AS ?go) " + 
+				"	?rel a ?relType . " +
+				"	?rel ?role ?go . " + 
+				" } " +
+				" OPTIONAL { " +
+				"   GRAPH " + Graph.GRAPH_VISO.toSPARQL() + " { " + 
+				"   ?role rdfs:subPropertyOf ?superRole . " + 
+				"   } " + 
+				" } " + 
+				" } ";
+		
+		LOGGER.finer("Query for roles that graphic object " + go.asURI() + " plays.");
+		LOGGER.finest("Query: " + query);
+
+		QueryResultTable results = modelSet.sparqlSelect(query);
+		for (QueryRow row : results) {
+			roles.add(row.getValue("role").asURI());
+			Node superRole = row.getValue("superRole");
+			if (null != superRole.asURI()) {
+				roles.add(superRole.asURI());
+			}
+		}
+		
+		return roles;
+	}
+	
+	
+	
+	
 	
 	// cloned from linking, much redundant, similar code
 	public static Set<Containment> getContainmentRelationsFrom(Model model,

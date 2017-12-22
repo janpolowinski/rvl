@@ -118,7 +118,7 @@
       rvl:invertSourceProperty "true"^^xsd:boolean ;
       rvl:inheritedBy owl:allValuesFrom ;
       rvl:targetObjToObjRelation
-              <http://purl.org/viso/graphic/Linking_Directed_Relation> .
+              <http://purl.org/viso/graphic/Relative_Distance_Relation> .
 
 :AA-5-Hydrophobicity_to_Line_up
       rdf:type rvl:PropertyToGraphicObjToObjRelationMapping ;

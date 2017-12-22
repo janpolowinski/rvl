@@ -26,7 +26,6 @@ public class ExampleMapping {
 //	public static final String AA_4 = OGVICProcess.USE_CASE_FOLDER + "/Bio/AminoAcid/MappingExample/AA_4.ttl";
 //	public static final String CIT_1 = OGVICProcess.USE_CASE_FOLDER + "/Publication/SPAR/MappingExample/CIT_1.ttl";
 //	public static final String CIT_5 = OGVICProcess.USE_CASE_FOLDER + "/Publication/SPAR/MappingExample/CIT_5.ttl";
-//	public static final String CIT_blog = OGVICProcess.USE_CASE_FOLDER + "/Publication/SPAR/MappingExample/CIT_blog.ttl";
 //	public static final String LLD = OGVICProcess.USE_CASE_FOLDER + "/Publication/LLD/lld-data-mapping-example.ttl";
 	
 	public static final String RVL_TEST_TEMP = "/example-mappings/temp-test.ttl";
@@ -39,6 +38,7 @@ public class ExampleMapping {
 	public static final String RVL_EXAMPLE_AUTOMATIC_VM = "/example-mappings/auto-value-mapping-test.ttl";
 	public static final String RVL_EXAMPLE_CONTAINMENT = "/example-mappings/containment-test.ttl";
 	public static final String RVL_EXAMPLE_LINKING = "/example-mappings/linking-test.ttl";
+	public static final String RVL_EXAMPLE_LINKING_UNDIRECTED = "/example-mappings/linking-undirected-test.ttl";
 	public static final String RVL_EXAMPLE_RELATIVE_DISTANCE = "/example-mappings/relative-distance-test.ttl";
 	
 	public static final String AVM_EXAMPLE_BOOTSTRAP = "/example-mappings/avm-bootstrap.ttl";

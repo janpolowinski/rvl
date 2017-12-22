@@ -1,0 +1,72 @@
+.layout {
+  /*border: 1px solid yellow;*/
+}
+
+body {
+	background-color:black;
+}
+
+#container {
+}
+
+#row  {
+  /*padding: 3px;*/
+}
+
+#footer  {
+  /*display: table-row;*/
+  	background-color: #ffc;
+/*   	display:none; */
+}
+
+#header  {
+  /*display: table-row;*/
+/*   display:none; */
+}
+
+#middle {
+	background-color: #fee;
+}
+  
+#left {
+	background-color: #eff;
+}
+
+#right {
+	background-color: #efe;
+	display:none;
+}
+  
+#canvas {
+}
+
+#menu {
+	background-color: #cff;
+}
+
+#editor {
+	background-color: #cfc;
+	display:none;
+}
+
+input, button, select {
+/* 	display:none; */
+}
+
+form input, form textarea {
+}
+
+form textarea {
+/* 	  display:none; */
+}
+
+#svg {
+	background-color: rgba(256,0,0,0.33) ;
+/* 	display:none; */
+}
+
+#labelContainerSpace {
+	background-color: rgba(0,256,0,0.33) ;
+/* 	height:200px; */
+/* 	display:none; */
+}

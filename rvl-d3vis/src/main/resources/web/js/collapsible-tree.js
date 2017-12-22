@@ -52,8 +52,7 @@ var diagonal = d3.svg.diagonal()
 loadCollapsibleTree = function(error, json) {	
 	
 	// override global settings
-	complexLabeling = false; // not yet fully implemented
-	simpleLabeling = true;
+	setLabelingImpl("simple"); // complex labeling not yet fully implemented
 	
 	root = json;
 	root.x0 = h / 2;
@@ -99,7 +98,7 @@ updateCollapsibleTree = function(source) {
 	  	
 		    var thisNode = d3.select(this);
 			var nodesToFilter = vis.selectAll(".node");
-			var linksToFilter = vis.selectAll(".link");
+			var linksToFilter = vis.selectAll(".linking_connector");
 	  		
 			// highlight this node
 			thisNode.highlight();
@@ -140,7 +139,7 @@ updateCollapsibleTree = function(source) {
 		
 		//var symbol = nodeEnter.avmShapedWithPath(avmDefaultSizeSymbolFunction);
 		
-		if (complexLabeling) {
+		if (settings.layout.labeling == "complex") {
 	 
  			 // complex labeling
 			 
@@ -157,7 +156,7 @@ updateCollapsibleTree = function(source) {
 				labelContainerContainer.avmLabeledComplex();
 	 		}
 
-		if (simpleLabeling) {
+		if (settings.layout.labeling == "simple") {
 			
 			// simple labeling
 			
@@ -204,14 +203,14 @@ updateCollapsibleTree = function(source) {
 		nodeExit.selectAll("text").style("visibility", "hidden");
 
 		// Update the links…
-		var link = vis.selectAll("path.link").data(tree.links(nodes),
+		var link = vis.selectAll("path.linking_connector").data(tree.links(nodes),
 				function(d) {
 					return d.target.id;
 				});
 
 		// Enter any new links at the parent's previous position.
 		var linkEnter = link.enter().insert("svg:path", "g")
-			.attr("class","link")
+			.attr("class","linking_connector")
 			.style("stroke", function(d) {
 				return d.target.connector.color_rgb_hex_combined
 			}) // works -> get the link color from the endNode (target)
@@ -270,7 +269,7 @@ updateCollapsibleTree = function(source) {
 			d.y0 = d.y;
 			
 			/* position complex labels */ // TODO not the best place for this! will not be correctly updated
-			if(complexLabeling) {
+			if(settings.layout.labeling == "complex") {
 		        labelContainerContainer
 				.style("top", function(d){
 					return d.x + "px";

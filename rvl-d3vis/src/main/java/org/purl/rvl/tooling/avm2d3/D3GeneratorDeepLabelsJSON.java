@@ -47,6 +47,7 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 		JSONObject d3data = new JSONObject();
 		
 		putGraphicType(d3data);
+		putGraphicID(d3data);
 		
 		List<GraphicObjectX> goList = AVMUtils.getRelevantGraphicObjects(modelAVM);
 		GraphicObjectX[] goArray = new GraphicObjectX[goList.size()];
@@ -189,7 +190,7 @@ public class D3GeneratorDeepLabelsJSON extends D3GeneratorBase {
 				link.put("source_uri", node1.getRepresentedResource().toString());
 				link.put("target_uri", node2.getRepresentedResource().toString());
 				link.put("value", "1");
-				link.put("text_value", connector.getLabel());
+//				link.put("text_value", connector.getLabel());
 				
 				listOfLinks.add(link);
 				LOGGER.finer("Generated JSON link for " + rel + " (" + node1.getLabel() + " --> " + node2.getLabel() +")" );

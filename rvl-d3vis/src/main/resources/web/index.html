@@ -4,22 +4,31 @@
         <!-- labeling at various positions works, but is cropped (view box bug) in webkit and is slow in firefox (many objects SVG in HTML in SVG ) -->
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+        <link type="text/css" rel="stylesheet" href="css/layout-ui.css"/>
         <link type="text/css" rel="stylesheet" href="css/main.css"/>
         <link type="text/css" rel="stylesheet" href="css/theme-bright.css"/>
         <link type="text/css" rel="stylesheet" href="css/labeling.css"/>
         <link type="text/css" rel="stylesheet" href="css/labeling-new-boxmodel.css"/>
         <link type="text/css" rel="stylesheet" href="css/labeling-webkit-old-boxmodel.css"/>
+        <link type="text/css" rel="stylesheet" href="css/use-case-specific.css"/>
+<!--         <link type="text/css" rel="stylesheet" href="css/layout-test.css"/> -->
+    	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
         <script type="text/javascript" src="js/d3.min.js"></script>
         <script type="text/javascript" src="js/global-settings.js"></script>
+		<script type="text/javascript" src="js/instance-specific-scripts-and-settings.js"></script> <!-- specific to a concrete instance of this software -->
         <!-- own plugins to handle AVM based on D3.js -->
     	<script type="text/javascript" src="js/ogvic.js"></script>
     	<script type="text/javascript" src="js/ogvic.d3.utils.js"></script>
+    	<script type="text/javascript" src="js/utils.js"></script>
     	<!-- supported graphic types -->
     	<script type="text/javascript" src="js/force-directed-graph.js"></script>
     	<script type="text/javascript" src="js/circle-packing-zoomable.js"></script>
     	<script type="text/javascript" src="js/collapsible-tree.js"></script>
+    	<!-- google image search gimmik -->
+    	<script type="text/javascript" src="https://www.google.com/jsapi?key=AIzaSyA5m1Nc8ws2BbmPRwKu5gFradvD_hgq6G0"></script>
+		<script type="text/javascript" src="js/google-image-search-utils.js"></script>
     </head>
-    <body>
+    <body onLoad="checkBrowser();">
     
         <div id="container" class="layout">
   			<div id="row" class="layout">
@@ -73,65 +82,115 @@
 						<div class="infotext">
 							Get started by loading one of the RVL-examples from our case studies:
 							<div id="loadExampleProject">
-								<div title="Load this project for editing and play around with the RVL settings!"><input id="useForEditor" type="checkbox" value="true"/>also load for <a title="Show editor" href="javascript:showRVLeditor('max')">editing ...</a></div>
+								<div title="Load this project for editing and play around with the RVL settings! (Editing is not supported for a few projects by now, e.g. aa-3-and-4)"><input id="useForEditor" type="checkbox" value="true"/>load for <a title="Show editor" href="javascript:showRVLeditor('max')">editing</a> instead ... 
+								</div>
 							</div>
 						</div>
 						
-						<div class="infotext">
-							(Meta) visualize ;) the AVM (Abstract Visual Model) of the last generated graphic, which is an RDF model itself.
-							<button onclick="loadProject('avm', 'force-directed-graph');">Show AVM!</button>
+						<div id="implSettings" class="infotext">
+							Choose connector impl.:
+							<div id="chooseConnectorStyleDIV">
+								<select name="chooseConnectorStyle" id="chooseConnectorStyleID" onChange="setConnectorStyle(this.value);">
+									<option value="straight" selected="selected">Straight lines</option>
+						    		<option value="arc">Arcs</option>
+								</select>
+							</div>
+							Choose labeling impl.:
+							<div id="chooseLabelingImplDIV" title="Complex labeling is not yet impl. for all graphic types">
+								<select name="chooseLabelingImpl" id="chooseLabelingImplID" onChange="setLabelingImpl(this.value);reStart();">
+									<option value="simple" selected="selected">Simple labeling</option>
+						    		<option value="complex">Complex labeling</option>
+								</select>
+							</div>
+						</div>
+						
+						<div class="infotext" id="showAVMInfo">
+							Meta-visualize ;) the <a title="What is the AVM?" href="https://github.com/semvis/rvl/wiki/AVM" target="_blank">Abstract Visual Model</a> (AVM) of the last generated graphic, which is an RDF model itself.
+							<button onclick="bootstrapAVM();">Show AVM!</button>
 							Also try displaying <a href="javascript:loadProject('rvl','collapsible-tree')">RVL</a> and the <a href="javascript:loadProject('viso','collapsible-tree')">VISO/graphic</a> ontology module.
 						</div>
+						
+						<div class="infotext">
+							<!--Service for experimenting with the prototypical <a href="http://purl.org/rvl/">RVL</a> tooling.-->
+							Jan Polowinski. 2015.
+							<a href="impressum.html">Impressum</a>.
+						</div>
+
+						<div id="imageView"></div>
+						
+<!-- 					<button onclick="imageSearch.execute(this.innerHTML)">VISO Ontology</button> -->
+						
   					</div>
   				</div>
 
   				<div id="middle" class="layout">
+  					<div id="progress">
+  						<div id="progressLabel">... interpreting RVL mappings ... </div>
+  						<div><img src="svg/progress.svg"></img></div>
+  					</div>
   					<!--<div id="header" class="layout"></div>-->
   					<div id="canvas" class="layout"></div>
   				</div>
 
   				<div id="right" class="layout">
-  				
-  					<div id="editor" class="layout">
-  						
-					<button onClick="showRVLeditor('hidden')">Hide</button>
-					<button onClick="showRVLeditor('normal')">Normal</button>
-					<button onClick="showRVLeditor('max')">Maximize</button>
+					<div id="editor" class="layout">
+			  			<form id="editingForm" action="/semvis/projects/run" method="POST">
 
-					  <form id="editingForm" action="/semvis/projects/run" method="POST">
+					  	<div id="resizer"><div>
+							<span class="button" onClick="showRVLeditor('hidden')" title="hide the editor">Hide</span>
+							<span class="button" onClick="showRVLeditor('normal')" title="set the editor to normal size">Normal</span>
+							<span class="button" onClick="showRVLeditor('max')" title="maximize the editor">Maximize</span>
+						</div></div>
+						
+						<div class="tab-header">Edit Data or RVL-Mappings ... </div>
+					
 					  	<!-- Note: default action above is overridden by attached method! -->
-						  <label for="id">ID</label>
-						  <input name="id" id="projectID" value="new-project-1"/>
-						  <br/>
-						    <label for="graphicType">Graphic type</label> 
-						    <select name="graphicType" id="projectGraphicType" >
-						    	<option value="force-directed-graph" selected="selected">Force-Directed Graph</option>
-								<option value="collapsible-tree">Collapsible Tree</option>
-								<option value="circle-packing-zoomable">Circle Packing (Zoomable)</option>
-						    </select>
-						  <br/>
-						    Data:
-						  <textarea name="data" id="projectData" rows="12">loading example data ... </textarea>
-						  <br/>
-						    Mappings:
-						  <textarea name="mappings" id="projectMappings" rows="12">loading example mappings ... </textarea>
-						  <br/>
-						  <input type="submit" formenctype="multipart/form-data" value="Submit" />
-					  </form>
-
+						  <div title="change the id of the mapping project to clone the current example">
+							  <label for="id">ID:</label>
+							  <span class="inputNextToLabel">
+							  	<input name="id" id="projectID" value="new-project-1" />
+							  </span>
+						  </div>
+						  <div title="override the default type of the graphic to be generated">
+						    <label for="graphicType">Graphic type:</label> 
+						    <span class="inputNextToLabel">
+							    <select name="graphicType" id="projectGraphicType" >
+							    	<option value="force-directed-graph" selected="selected">Force-Directed Graph</option>
+									<option value="collapsible-tree">Collapsible Tree</option>
+									<option value="circle-packing-zoomable">Circle Packing (Zoomable)</option>
+							    </select>
+						    </span>
+						  </div>
+						  <div title="When entering your own example RDF data, make sure you add the correct prefix declaration to the data AND the mappings!">
+						    Edit the example RDF data:<br/>
+						  	<textarea name="data" id="projectData" rows="12">loading example data ... </textarea>
+						  </div>
+						  <div title="Currently, there is no syntax checking here! Please double check your statement endings.">
+						    Edit the example RVL mappings:<br/>
+						 	 <textarea name="mappings" id="projectMappings" rows="12">loading example mappings ... </textarea>
+						  </div>
+							<div id="hints">
+								Hint:
+								 <a title="Show which RVL features you can already use in this demo"target="_blank" href="https://github.com/semvis/rvl/wiki/Summary-of-Already-Implemented-RVL-features">List of implemented RVL features</a>
+								 | <a title="Open the documentation of the RDFS/OWL Visualisation Language" target="_blank" href="http://purl.org/rvl/">RVL docu</a>
+								 | <a title="Open the documentation of the (graphic module of the) Visualization Ontology (VISO), offering the target graphic elements for the mapping described by RVL" target="_blank" href="http://purl.org/viso/graphic/">VISO/graphic docu</a>
+							</div>
+						  <input title="Submit your RDF data + RVL mappings to update the graphic.
+(Cmd/Ctrl+Enter)" class="button" type="submit" formenctype="multipart/form-data" value="Submit"/>
+					</form>
   				</div>
   			</div>
-			
+
 			</div>
 		</div>
 		
-		<div id="footer" class="layout">
-			<!--Service for experimenting with the prototypical <a href="http://purl.org/rvl/">RVL</a> tooling.-->
-			Jan Polowinski. 2015.
-			<a href="impressum.html">Impressum</a>.
-		</div>
+<!-- 	<div id="footer" class="layout"></div> -->
         
         <script type="text/javascript">
+        
+        var latestJSONData; // stores the json data for restarting the vis
+        var currentProjects;
+        var previousVisualizedProjectID; // the project currently shown (not necessarily the one loaded to the editor)
 
 					
 		/******************************/
@@ -144,29 +203,41 @@
 		
         svg = visContainer.append("svg:svg")
    		.attr("id", "svg")
-        .attr("width", width)
-        .attr("height", height);
+//         .attr("width", "100%")
+//         .attr("height", "100%")
+        ;
     
         
         clearVis = function() {
         	vis.remove();
         	//vis.selectAll("*").remove();
         	labelContainerSpace.remove();
+        	visBackground.remove();
         }
         
         initContainers = function() {
+        	
+	        visBackground = visContainer.append("div")
+ 				.attr("id", "visBackground");
+	        visBackground
+ 				.append("div")
+ 				.attr("id", "imageCanvas")
+//  				.append("img")
+//  				.attr("src","img/example-image.jpg")
+ 				;
 	        	
-	        vis = svg
-	 	        .append("svg:g")
-	 	        .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
+	        vis = svg.append("svg:g")
+	 	        .attr("id", "vis")
+// 	 	        .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
 	 	        ;
 	
 	 		labelContainerSpace = visContainer.append("div")
 	 			.attr("id", "labelContainerSpace")
-	 			.style("margin-top", m[0]+"px")
-	 			.style("margin-left", m[3]+"px")
-	 		    .attr("width", width + "px")
-	 		    .attr("height", height + "px");
+// 	 			.style("margin-top", m[0]+"px")
+// 	 			.style("margin-left", m[3]+"px")
+// 	 		    .attr("width", width + "px")
+// 	 		    .attr("height", height + "px")
+	 		    ;
         }
         
         reInitContainers = function() {
@@ -179,6 +250,22 @@
     	 		graphicLoadingFunctions[json.graphic_type](null, json);
     	 		});
     		//"gen/json/tree-data.json" , "gen/json/graph-data.json", "example-data/graph-data-labeling-advanced.json"
+        }
+        
+        setConnectorStyle = function(connectorStyle) {
+        	settings.layout.connector = connectorStyle;
+        	d3.select("#chooseConnectorStyleID").property("value", connectorStyle);
+//         	console.log(connectorStyle);
+			tick();
+        }
+        
+        setLabelingImpl = function(labelingImpl) {
+        	settings.layout.labeling = labelingImpl;
+        	d3.select("#chooseLabelingImplID").property("value", labelingImpl);
+//         	reInitContainers();
+//         	if (typeof tick !== 'undefined') {
+//     			tick();
+//         	}
         }
 		
 		//var mInfo = d3.select("body").append("div");
@@ -200,48 +287,144 @@
         /**************************/	
         	
         reLoad = function() {
+        	showProgress(true);
     	 	reInitContainers();
-    	 	
     	 	d3.json(baseUrlBackend + "projects/latest", function(json){
     	 		graphicLoadingFunctions[json.graphic_type](null, json);
     	 		});
-    		//d3.json(baseUrlBackend + "projects/latest", graphicLoadingFunctions[defaultGraphicType]);
     	}
     	
     	loadProject = function(projectID, defaultGraphicType) {
-    		// TODO refactor duplicated code
-    		if (currentGraphicType != "force-directed-graph" || currentGraphicType != defaultGraphicType ) {
-	    			reInitContainers();
-	    			currentGraphicType = defaultGraphicType;
-	    	}
-    		d3.json(baseUrlBackend + "projects/run/" + projectID, graphicLoadingFunctions[defaultGraphicType]);
-    		 if(populateEditor()){ showRVLeditor('max'); loadExampleValue('/semvis/projects/mappingfile/' + projectID, '#projectMappings'); loadExampleValue('/semvis/projects/datamodel/' + projectID , '#projectData');}
+    		if (populateEditor()) {
+    			showRVLeditor('max');
+    			$("#projectData").val("loading data ... ");
+    			$("#projectMappings").val("loading mappings ... ");
+				loadExampleValue('/semvis/projects/datamodel/' + projectID , '#projectData');
+				loadExampleValue('/semvis/projects/mappingfile/' + projectID, '#projectMappings');
+				var project = getProjectByID(currentProjects, projectID);
+				d3.select("#projectGraphicType").property("value", project.defaultGraphicType);
+				d3.select("#projectID").property("value", project.id + "-copy");
+    		} else {
+        		showProgress(true);
+        		d3.json(baseUrlBackend + "projects/run/" + projectID, function(error, graph) {
+        			if (error != null) {
+    	    			//alert ("Graphic could not be created. Reason: " + JSON.parse(error.response).message);
+    	    			alert ("Graphic could not be created. Reason: " + error.responseText);
+    	    			showProgress(false);
+    	    		} else {
+    	    			onLoadedGraphJSON(error, graph, null);
+    	    		}
+        		});
+    		}
     	}
 		
 		loadProjectExternalEditing = function(defaultGraphicType) {
+			showProgress(true);
     		reInitContainers();
-    		d3.json(baseUrlBackend + "projects/run/external/" + defaultGraphicType, graphicLoadingFunctions[defaultGraphicType]);
+    		d3.json(baseUrlBackend + "projects/run/external/" + defaultGraphicType, onLoadedGraphJSON(error, graph, null));
     	}
 		
+		onLoadedGraphJSON = function(error, graph, defaultGraphicType) {
+			previousVisualizedProjectID = graph.graphic_id;
+			if (defaultGraphicType == null) {
+				defaultGraphicType = graph.graphic_type;
+			}
+    		if (currentGraphicType != "force-directed-graph" || currentGraphicType != defaultGraphicType) {
+    			reInitContainers();
+    			currentGraphicType = defaultGraphicType;
+    		}
+			latestJSONData = graph;
+			d3.select("#canvas").attr("class", graph.graphic_id);
+			graphicLoadingFunctions[defaultGraphicType](error, graph);
+			activateOrDeactivateImplSettings(true);
+			activateOrDeactivateAVMFunctions(graph.graphic_id);
+			showProgress(false);
+		}
+		
+		onLoadedGraphJSONforAVM = function(error, graph, defaultGraphicType) {
+			setConnectorStyle("straight");
+			//$('#chooseExampleProjectID').find($('option')).attr('selected',false);
+			d3.select("#chooseExampleProjectID").property("value","placeholder");
+			if (settings.layout.labeling == "simple") { 	
+				// TODO, hack: setting to complex and restarting must be done before loading the AVM graph,
+				// since boundLabelContainerContainers is undefined otherwise
+				setLabelingImpl("complex"); 
+				reStart(); 	
+			}
+			onLoadedGraphJSON(error, graph, defaultGraphicType);
+		}
+		
+		reStart = function() {
+    	 	reInitContainers(); // necessary for refreshing complex labeling atm
+			graphicLoadingFunctions[latestJSONData.graphic_type](null, latestJSONData);
+    	}
+		
+		bootstrapAVM = function() {
+    		showProgress(true);
+			d3.json(baseUrlBackend + "projects/bootstrap/avm/" + previousVisualizedProjectID, function(error, graph){ 
+				onLoadedGraphJSONforAVM(error, graph, 'force-directed-graph');
+			});
+		}
+		
+		activateOrDeactivateAVMFunctions = function(graphic_id) {
+			if (graphic_id != "avm" && graphic_id != "__none__") {
+				d3.select("#showAVMInfo").style("opacity","1");
+				d3.select("#showAVMInfo").style("pointer-events","all");
+			} else {
+				d3.select("#showAVMInfo").style("opacity","0.2");
+				d3.select("#showAVMInfo").style("pointer-events","none");
+			}
+		}
+		
+		activateOrDeactivateImplSettings = function(activate) {
+			if (activate == true) {
+				d3.select("#implSettings").style("opacity","1");
+				d3.select("#implSettings").style("pointer-events","all");
+			} else {
+				d3.select("#implSettings").style("opacity","0.2");
+				d3.select("#implSettings").style("pointer-events","none");
+			}
+		}
+		
+		showProgress = function(activate) {
+			if (activate == true) {
+				d3.select("#progress").style("display","inherit");
+			} else {
+				d3.select("#progress").style("display","none");
+			}
+		}
+		
 		// call example projects on selecting from option list
-    	d3.json(baseUrlBackend + "projects", function (error, result) {
-        	
-   		 var projectsEnter = d3.select("#loadExampleProject")
-   		.insert("div", ":first-child")
-   		.append("select")
-   		//.attr("onChange", "alert('hello' + this.value + this.options[this.selectedIndex].text)")
-   		.attr("onChange", "loadProject(this.options[this.selectedIndex].text, this.value);")
-   		//	return "loadProject('" + d.id + "','" + d.defaultGraphicType + "'); }"
-   		.selectAll("option")
-   	    .data(result.sort(function(a, b) { return d3.ascending(a.id, b.id); }))
-   	    //.data(result.sort(function(a, b) { return d3.ascending(a.defaultGraphicType, b.defaultGraphicType); }))
-   	    .enter()
-   	    .append("option")
-			.attr("value", function(d){
-				return d.defaultGraphicType;
-				})
-   	    .text(function(d){return d.id;});    	
+    	d3.json(getProjectsEndpoint(), function (error, projects) {
+    		
+    		if (error != null) { 
+    			showErrorMessage(error);
+    			return;
+    		}
+    		
+	    	currentProjects = projects;	 // stored for accessing project details later
+	    	
+	   		 var projectsEnter = d3.select("#loadExampleProject")
+	   		.insert("div", ":first-child")
+	   		.append("select").attr("id","chooseExampleProjectID")
+	   		//.attr("onChange", "alert('hello' + this.value + this.options[this.selectedIndex].text)")
+	   		.attr("onChange", "loadProject(this.options[this.selectedIndex].text, this.value);")
+	   		//	return "loadProject('" + d.id + "','" + d.defaultGraphicType + "'); }"
+	   		.selectAll("option")
+	   	    .data(projects.sort(function(a, b) { return d3.ascending(a.id, b.id); }))
+	   	    //.data(projects.sort(function(a, b) { return d3.ascending(a.defaultGraphicType, b.defaultGraphicType); }))
+	   	    .enter()
+	   	    .append("option")
+				.attr("value", function(d){
+					return d.defaultGraphicType;
+					})
+	   	    .text(function(d){return d.id;});    	
+	   		
+			// add a placeholder option to the example projects
+	    	d3.select("#chooseExampleProjectID").insert("option", ":first-child").attr("value","placeholder").attr("selected", true).text("Select example project ... ");
+		
     	});
+
  
         // menu
         
@@ -255,30 +438,31 @@
     	
     	populateWithExampleValue = function(error, value, elementID) {
     	
-    		//alert(value);
-    		d3.select(elementID).text(value);
+    		$(elementID).val(value);
+    		// using d3 here somehow does not override user-edits, hence we use jquery
+//     		d3.select(elementID).text(value);
     	}
 		
 		// editor
 		
 		showRVLeditor = function (show) {
-			if(show=='hidden') {
-				width = 1200;
-				d3.select("#right,#editor").style("display", "none");
-				d3.select("#middle").style("width", "1200px");
-				d3.select("#svg").attr("width", "1200");
+			if (show=='hidden') {
+// 				width = 1200;
+				d3.select("#right").style("display", "none");
+// 				d3.select("#middle").style("width", "100%");
+// 				d3.select("#svg").attr("width", "100%");
 			} else if (show=='max') {
-				width = 700;
-				d3.selectAll("#right,#editor").style("display", "table-cell");
-				d3.selectAll("#right,#editor").style("width", "500px");
-				d3.select("#middle").style("width", "700px");
-				d3.select("#svg").attr("width", "700");
+// 				width = 700;
+				d3.selectAll("#right").style("display", "table-cell");
+				d3.selectAll("#right").style("width", "50%");
+// 				d3.select("#middle").style("width", "50%");
+// 				d3.select("#svg").attr("width", "50%");
 			} else { // 'normal'
-				width = 900;
-				d3.selectAll("#right,#editor").style("display", "table-cell");
-				d3.selectAll("#right,#editor").style("width", "300px");
-				d3.select("#middle").style("width", "900px");
-				d3.select("#svg").attr("width", "900");
+// 				width = 900;
+				d3.selectAll("#right").style("display", "table-cell");
+				d3.selectAll("#right").style("width", "25%");
+// 				d3.select("#middle").style("width", "75%");
+// 				d3.select("#svg").attr("width", "75%");
 			}
 		}
 		
@@ -302,15 +486,17 @@
 		// manipulating the form to post and wait with callback
 
 		myOnSubmit = function(formArg) {
+			showProgress(true);
 			d3.event.preventDefault();
 			d3.xhr(baseUrlBackend + "projects/run")
     	    	.post(new FormData(formArg),function(error, responseEnv) {
-    	    		var json = JSON.parse(responseEnv.response);
-    	    		if (currentGraphicType != "force-directed-graph" || currentGraphicType != json.graphic_type ) {
-    	    			reInitContainers();
-    	    			currentGraphicType = json.graphic_type;
+    	    		if (error != null) {
+    	    			alert ("Graphic could not be created. Reason: " + JSON.parse(error.response).message);
+    	    			showProgress(false);
+    	    		} else {
+    	    			var json = JSON.parse(responseEnv.response);
+    	    			onLoadedGraphJSON(error, json, null); 
     	    		}
-    	    		graphicLoadingFunctions[json.graphic_type](null, json);
     	    	});
 		  return false;
 		};
@@ -320,7 +506,9 @@
 		// init vis and editor
 		
 		//reLoad();
-		exampleJSON("graph-data-empty"); //showRVLeditor("hidden");
+        activateOrDeactivateImplSettings(false);
+        activateOrDeactivateAVMFunctions("__none__");
+		//exampleJSON("graph-data-empty"); //showRVLeditor("hidden");
     	loadExampleValue(baseUrlBackend + "projects/example/data", "#projectData");
         loadExampleValue(baseUrlBackend + "projects/example/mappings", "#projectMappings");
 		//loadExampleValue(baseUrlBackend + "projects/mappingmodel/aa-3", "#projectMappings");
@@ -341,7 +529,7 @@
         </script>
 		
  		<!-- somehow MUST NOT be before the script! -->
-        <svg id="svg-effects">
+        <svg id="svg-effects" style="display:none;">
             <filter id="blur-effect-1">
                 <feGaussianBlur stdDeviation="0.9" />
             </filter>
@@ -358,6 +546,6 @@
 <!--                 </marker> -->
 <!--             </defs> -->
         </svg>
-	
+        
     </body>
 </html>

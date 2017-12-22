@@ -1,121 +1,104 @@
+/* GENERAL STYLES */
+
 body {
-	background-color: #334;
-	/*margin: 0px;*/
+/* 	background-color: #ccc; */
   	font-family: Arial, sans-serif;
-	font-size: 0.8em;
-	color: #aaa;
+	font-size: 0.9em;
+	color: #888;
 }
 
 a, a:visited {
-	color: #aaa;
+	color: #888;
 }
 
 a:hover {
 	color:white;
 }
 
-#container {
-  display: table;
-  padding: 0px;
-  width: 100%;
-  }
-
-.layout {
-  /*border: 1px solid yellow;*/
+#svg { 
+	/*background-color: #334;*/
 }
 
-#row  {
-  display: table-row;
-  /*padding: 3px;*/
-  }
-
-#footer  {
-  /*display: table-row;*/
-  padding: 3px;
-  width:100%;
-  vertical-align:bottom;
-  text-align:center;
-  }
-
-#header  {
-  /*display: table-row;*/
-  padding-left: 10px;
-  width:100%;
-  vertical-align:top;
-  text-align:left;
-  font-style:normal;
-  font-size:1.4em;
-  text-transform: uppercase;
-  }
-
-#left, #right, #middle {
-  display: table-cell;
-  padding: 0px;
-  vertical-align:top;
-  }
-  
-#left {
-  text-align:left;
-  width:200px;
+select, #menu button, #editor input {
+	font-size: 0.9em;
+	margin-top: 2px;
+	margin-bottom: 5px;
 }
 
-#right {
-  text-align:right;
-  width:300px;
-}
-  
-#canvas {
-  z-index: -10000;
-  width:auto;
-  height:800px;
-  padding: 3px;
+#menu input {
+	margin-left: 0px;
+	margin-right: 10px;
 }
 
-#menu {
-	position:absolute;
-	z-index: 3000;
-	width:200px;
+button, .button {
+	width:100%;
+	text-align:center;
+	background-color: #65cc0a;
+	color: white;
+  	text-transform: uppercase;
+  	font-size: 0.9em;
+	border-radius: 5px;
+	border:none;
+	min-width: 75px;
+	min-height: 20px;
+	background-image: linear-gradient(to bottom, #4ba614, #008c00);
+	/*
+	border:0px solid #34740e; -webkit-border-radius: 4px; -moz-border-radius: 4px;border-radius: 4px;font-size:12px;font-family:trebuchet MS, sans-serif; padding: 10px 10px 10px 10px; text-decoration:none; display:inline-block;text-shadow: -1px -1px 0 rgba(0,0,0,0.3);font-weight:bold; color: #FFFFFF;
+ 	background-color: #4ba614;
+ 	background-image: linear-gradient(to bottom, #4ba614, #008c00);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#4ba614, endColorstr=#008c00);
+	*/
 }
 
-#editor {
-	position:absolute;
-	z-index: 3000;
-	width:300px;
-	background-color: #eee;
-	padding: 10px;
+button:hover, .button:hover {
+	background-color: #4db309;
+	background-image: linear-gradient(to bottom, #36780f, #005900);
+	/*
+	border:1px solid #224b09;
+ 	background-color: #36780f;
+ 	background-image: linear-gradient(to bottom, #36780f, #005900);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#36780f, endColorstr=#005900);
+	*/
+}
+
+#editor button {
+/* 	width:30%; */
 }
 
 #menu button {
-	width:100%;
-	text-align:left;
-}
-
-#menu button:hover {
-	font-weight: bold;
-	margin-top: 6px;
-	margin-bottom: 6px;
-}
-
-form input, form textarea {
-	width:100%;
-}
-
-form textarea {
-	resize: vertical ;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}	
+	
+#editor textarea {
+	font-size: 11px;
+	font-family: Lucida Sans Typewriter, Lucida Console, Monaco, monospace, sans-serif;
 }
 
 div.infotext {
 	margin-top: 10px;
 	padding: 5px;
-	background-color: #efe;
-	border-radius: 10px;
+	background-color: #fff;
+	border-radius: 12px 0px 0px 0px;
+	color: #888;
 }
 
+#header, h1, h2, h3, .tab-header  {
+  font-style: normal;
+  font-size: 1.35em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  }
+  
+.tab-header  {
+  font-size:1.2em;
+  background-color: #333;
+  text-align: center;
+  padding: 0px !important;
+  margin-bottom: 5px;
+  }
 
-#svg {
-	position:absolute;
-	z-index: 1000;
-}
+
+/* GRAPHICS STYLES */
+
 
 /* set to whatever the body-background-color is */
 .svgSymbol, .packedCircle {
@@ -140,7 +123,7 @@ circle.node.highlighted.identical, /* Without constraining to circle also labels
 .node.highlighted path,
 .node.highlighted circle {
 	stroke: yellow;
-	stroke-width: 4px;
+	stroke-width: 3px;
 	vector-effect: non-scaling-stroke;
 	/*filter:url(#blur-effect-2);*/ /* problems in firefox, when not in one html page? */
 	stroke-opacity:1;
@@ -260,13 +243,13 @@ text.textNode {
   visibility: visible;
 }
 
-.connectorGroup:hover .link {
+.connectorGroup:hover .linking_connector {
   stroke: yellow ! important;
 }
 
 /* links and arrows */
 
-path.link {
+.linking_connector {
 	fill: none;
     stroke: #ccc;
     stroke-opacity: .6;
@@ -274,16 +257,16 @@ path.link {
     stroke-width:10px; /* this stroke-width (7px - 30px) fits well for the marker settings in force-directed-graph, for other sizes layout problems may occur */
 }
 
-path.link.tree {
+.linking_connector.tree {
   /* stroke-width: 1.5px; */
 }
 
-path.link.highlighted {
+.linking_connector.highlighted {
     /*stroke-width: 10px;*/
     stroke: yellow ! important;
 }
 
-path.link.linkRelative_Distance {
+.linking_connector.linkRelative_Distance {
     /*stroke: #0f0;
     stroke-opacity: .1;
     stroke-width:1px;*/

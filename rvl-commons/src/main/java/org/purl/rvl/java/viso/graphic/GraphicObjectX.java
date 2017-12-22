@@ -11,6 +11,8 @@ import org.ontoware.rdf2go.model.node.URI;
 import org.ontoware.rdf2go.model.node.impl.URIImpl;
 import org.purl.rvl.exception.IncompleteColorValuesException;
 import org.purl.rvl.java.gen.viso.graphic.DirectedLinking;
+import org.purl.rvl.java.gen.viso.graphic.Labeling;
+import org.purl.rvl.java.gen.viso.graphic.Thing1;
 import org.purl.rvl.tooling.commons.utils.ColorUtils;
 import org.purl.rvl.tooling.commons.utils.ModelUtils;
 
@@ -286,6 +288,27 @@ public class GraphicObjectX extends org.purl.rvl.java.gen.viso.graphic.GraphicOb
 			return getAllTextvalue_as().firstValue();
 		} else
 			return null;
+	}
+
+	/**
+	 * @return true if there is a labeling relation with a textvalue (as opposed to an icon label)
+	 */
+	public boolean hasTextLabel() {
+		if (!hasLabeledwith()) {
+			return false;
+		} else {
+			for (ClosableIterator<Labeling> rels = getAllLabeledwith_as().asClosableIterator(); rels.hasNext();) {
+				Labeling labelingRel = rels.next();
+				if (labelingRel.hasLabelinglabel()) {
+					Thing1 label = labelingRel.getAllLabelinglabel_as().firstValue();
+					GraphicObjectX labelGO = (GraphicObjectX) label.castTo(GraphicObjectX.class);
+					if (null != labelGO && labelGO.hasTextvalue()) {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
 	}
 
 }

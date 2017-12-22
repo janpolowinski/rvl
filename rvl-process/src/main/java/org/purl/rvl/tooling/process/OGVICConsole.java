@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.purl.rvl.exception.OGVICRepositoryException;
+import org.purl.rvl.exception.OGVICSystemInitException;
 import org.purl.rvl.tooling.d3vis.embeddedserver.context.ContextUtils;
 import org.purl.rvl.tooling.d3vis.embeddedserver.server.JettyServer;
 
@@ -23,7 +24,7 @@ public class OGVICConsole {
 	private boolean firstRun = true;
 	private VisProjectLibrary library;
 	
-    public static void main(String[] args) throws IOException, OGVICRepositoryException {
+    public static void main(String[] args) throws IOException, OGVICRepositoryException, OGVICSystemInitException {
     	
     	OGVICConsole console =  new OGVICConsole();
     	console.runConsole();
@@ -34,8 +35,9 @@ public class OGVICConsole {
 	/**
 	 * @throws IOException
 	 * @throws OGVICRepositoryException 
+	 * @throws OGVICSystemInitException 
 	 */
-	public void runConsole() throws IOException, OGVICRepositoryException {
+	public void runConsole() throws IOException, OGVICRepositoryException, OGVICSystemInitException {
     	
     	boolean stop = false;
     	String inputString;

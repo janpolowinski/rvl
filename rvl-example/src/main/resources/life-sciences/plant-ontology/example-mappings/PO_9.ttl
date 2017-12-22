@@ -19,67 +19,58 @@
       #rvl:subjectFilter "http://purl.org/obo/owl/PO#PO_0009011"^^rvl:sparqlSelector;
       #rvl:subjectFilter "http://purl.org/obo/owl/obo#develops_from::http://purl.org/obo/owl/PO#PO_0005599"^^rvl:fslSelector; # develops from is not a relation on isntance level -> filter needs to be a more complex expression
    	  #rvl:subjectFilter "http://www.w3.org/2000/01/rdf-schema#subClassOf::http://purl.org/obo/owl/PO#PO_0025059"^^rvl:fslSelector; # this works already
-            rvl:subjectFilter " ?s rdfs:subClassOf ?restriction . ?restriction owl:onProperty obo:develops_from . ?restriction owl:someValuesFrom  po:PO_0005599 . "^^rvl:sparqlSelector; # test
+                  rvl:subjectFilter "?restriction owl:someValuesFrom  po:PO_0005599 . ?s rdfs:subClassOf ?restriction . ?restriction owl:onProperty obo:develops_from . "^^rvl:sparqlSelector; # test
       rvl:sourceProperty <http://purl.org/obo/owl/obo#develops_from> ;
       rvl:invertSourceProperty "true"^^xsd:boolean;
       rvl:inheritedBy owl:someValuesFrom;
       rvl:targetObjToObjRelation vg:Linking_Directed_Relation ;
+      #rvl:subMapping [
+      #  rvl:subMapping-onRole vg:linking_connector;
+      #  rvl:subMapping-onTriplePart rdf:predicate;
+      #  rvl:subMapping-mapping :ArrowShapeMapping;
+      #]
       rvl:subMapping [
-        rdf:type rvl:SubMappingRelation ;
-        rvl:subMapping-onRole vg:linking_connector;
-        rvl:subMapping-onTriplePart rdf:predicate;
-        rvl:subMapping-mapping :PMfromID2Width;
+        rvl:subMapping-onRole vg:linkingDirected_endNode;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :ShapeMapping;
       ],[
-        rvl:subMapping-onRole vg:linking_connector;
-        rvl:subMapping-onTriplePart rdf:predicate;
-        rvl:subMapping-mapping :ArrowShapeMapping;
+        rvl:subMapping-onRole vg:linkingDirected_startNode;
+        rvl:subMapping-onTriplePart rdf:subject;
+        rvl:subMapping-mapping :ShapeMapping;
       ]
       .
 
-  :ShapeMapping
-      rvl:disabled "false"^^xsd:boolean ;
+  :ShapeMapping # (used as a submapping)
+      rvl:disabled "true"^^xsd:boolean ;
       rdf:type rvl:PropertyMapping ;
       rdfs:label "Shape mapping"^^xsd:string ;
       rvl:sourceProperty rdfs:subClassOf ;
       #rvl:subjectFilter "http://purl.org/obo/owl/PO#PO_0009011"^^rvl:sparqlSelector;
       #rvl:subjectFilter "http://purl.org/obo/owl/obo#develops_from::http://purl.org/obo/owl/PO#PO_0005599"^^rvl:fslSelector; # develops from is not a relation on isntance level -> filter needs to be a more complex expression
-   	  rvl:subjectFilter "http://www.w3.org/2000/01/rdf-schema#subClassOf::http://purl.org/obo/owl/PO#PO_0025059"^^rvl:fslSelector;
+   	  #rvl:subjectFilter "http://www.w3.org/2000/01/rdf-schema#subClassOf::http://purl.org/obo/owl/PO#PO_0025059"^^rvl:fslSelector;
       rvl:targetAttribute
               <http://purl.org/viso/graphic/shape_named> ;
       rvl:valueMapping [
       	a rvl:valueMapping;
-      	rvl:sourceValue <http://purl.org/obo/owl/PO#PO_0025059>; # not all classes, but many besides PO_0025059 : PO_0009011
+      	rvl:sourceValue <http://purl.org/obo/owl/PO#PO_0009011>; # not all classes, but many besides PO_0025059: PO_0009011
       	rvl:targetValue common-shapes:FlowArrow;
       	#rvl:targetValue common-shapes:Circle;
       ]
       .
       
-  :PMfromID2Width
-      rvl:disabled "true"^^xsd:boolean ;
-      rdf:type rvl:PropertyMapping ;
-      rdfs:label "PM from ID to shape (used as a submapping above)"^^xsd:string ;
- 	  rvl:sourceProperty rdf:ID ;
- 	  rvl:targetAttribute vg:width ;
- 	  rvl:valueMapping [
-        a rvl:ValueMapping ;
-        rvl:sourceValue <http://purl.org/obo/owl/obo#develops_from> ;
-		rvl:targetValue "23"^^xsd:float ; # TODO: manual settings for now. 23 is the height of the flow-arrow symbol
-      ]
-      . 
-      
-   :ArrowShapeMapping # (used as a submapping)
-      rvl:disabled "true"^^xsd:boolean ;
-      rdf:type rvl:PropertyMapping ;
-      rdfs:label "Property type to shape helper mapping"^^xsd:string ;
-      rvl:sourceProperty rdf:ID ;
-      rvl:targetAttribute
-              vg:shape_named ;
-      rvl:valueMapping [
-        a rvl:ValueMapping ;
-		rvl:sourceValue <http://purl.org/obo/owl/obo#develops_from> ;
-        rvl:targetValue common-shapes:Line ;
-      ]
-      . 
+#   :ArrowShapeMapping # (used as a submapping)
+#      rvl:disabled "true"^^xsd:boolean ;
+#      rdf:type rvl:PropertyMapping ;
+#      rdfs:label "Property type to shape helper mapping"^^xsd:string ;
+#      rvl:sourceProperty rdf:ID ;
+#      rvl:targetAttribute
+#              vg:shape_named ;
+#      rvl:valueMapping [
+#        a rvl:ValueMapping ;
+#		rvl:sourceValue <http://purl.org/obo/owl/obo#develops_from> ;
+#        rvl:targetValue common-shapes:Line ;
+#      ]
+#      . 
 
       
 #### Labeling is done by default when no other text labeling is found .... ####     

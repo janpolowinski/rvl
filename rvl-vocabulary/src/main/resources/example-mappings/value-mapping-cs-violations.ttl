@@ -1,0 +1,36 @@
+# Saved by TopBraid on Mon Oct 26 15:40:28 CET 2015
+# baseURI: http://purl.org/rvl/example/value-mapping-cs-violation/
+# imports: http://purl.org/rvl/spin-constraints/
+# imports: http://purl.org/viso/shape/commons/
+# imports: http://purl.org/rvl/
+# imports: http://purl.org/ro/ont#
+
+@prefix :        <http://purl.org/rvl/example/value-mapping-cs-violation/> .
+@prefix common-shapes:  <http://purl.org/viso/shape/commons/> .
+@prefix commons:  <http://purl.org/viso/shape/commons/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ro:      <http://purl.org/ro/ont#> .
+@prefix rvl:     <http://purl.org/rvl/> .
+@prefix rvl-cs:  <http://purl.org/rvl/spin-constraints/> .
+@prefix vg:      <http://purl.org/viso/graphic/> .
+@prefix viso-graphic:  <http://purl.org/viso/graphic/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+:     rdf:type owl:Ontology ;
+      owl:imports ro: , rvl: , rvl-cs: , common-shapes: .
+
+:ValueMappingViolatingAConstraint
+      rdf:type rvl:ValueMapping ;
+      rvl:sourceValueInterval
+              [ rdf:type rvl:Interval ;
+                rvl:lowerBoundIncl "0"^^xsd:string ;
+                rvl:upperBoundIncl "100"^^xsd:string
+              ] ;
+      rvl:sourceValueSet (ro:LowPriority ro:MediumPriority ro:HighPriority) ;
+      rvl:targetValueInterval
+              [ rdf:type rvl:Interval ;
+                rvl:lowerBoundIncl "0"^^xsd:string ;
+                rvl:upperBoundIncl "100"^^xsd:string
+              ] .

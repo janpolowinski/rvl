@@ -6,7 +6,7 @@ package org.purl.rvl.java.rvl.mapping;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.purl.rvl.exception.UnexpressiveMappingSpecificationException;
+import org.purl.rvl.exception.MappingException;
 import org.purl.rvl.java.rvl.ValueMappingX;
 
 /**
@@ -23,9 +23,9 @@ public abstract class ValueMapper {
 
 	/**
 	 * @return - the set of CalculatedValueMapping 's 
-	 * @throws UnexpressiveMappingSpecificationException 
+	 * @throws MappingException 
 	 */
-	public abstract Set<CalculatedValueMapping> calculateValueMappings(ValueMappingX valueMapping) throws UnexpressiveMappingSpecificationException ;
+	public abstract Set<CalculatedValueMapping> calculateValueMappings(ValueMappingX valueMapping) throws MappingException ;
 
 	protected ValueMapper() {
 		super();

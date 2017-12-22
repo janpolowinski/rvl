@@ -33,6 +33,7 @@ import org.purl.rvl.exception.EmptyGeneratedException;
 import org.purl.rvl.exception.JsonExceptionWrapper;
 import org.purl.rvl.exception.OGVICProcessException;
 import org.purl.rvl.exception.OGVICRepositoryException;
+import org.purl.rvl.exception.OGVICSystemInitException;
 import org.purl.rvl.tooling.avm2d3.GraphicType;
 import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.commons.FileRegistry;
@@ -40,6 +41,7 @@ import org.purl.rvl.tooling.commons.utils.FileResourceUtils;
 import org.purl.rvl.tooling.model.ModelManager;
 import org.purl.rvl.tooling.process.OGVICProcess;
 import org.purl.rvl.tooling.process.VisProject;
+import org.purl.rvl.tooling.process.VisProjectLibrary;
 import org.purl.rvl.tooling.process.VisProjectLibraryExamples;
 
 /**
@@ -76,7 +78,15 @@ public class ProjectsResource {
 		return projects;
 	}
 
-	// Return the list of projects for applications
+	// Return the list of visualization projects that are ready for public demo
+	@GET
+	@Path("/public")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public List<VisProject> getPublicProjects() {
+		return VisProjectLibraryExamples.getInstance().getPublicProjects();
+	}
+	
+	// Return the unfiltered list of visualization projects including WIP not intended for public demo
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public List<VisProject> getProjects() {
@@ -236,7 +246,7 @@ public class ProjectsResource {
 	@GET
     @Produces({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
 	@Path("/run/external")
-    public String runExternalEditingProject(@Context HttpServletResponse servletResponse) {
+    public String runExternalEditingProject(@Context HttpServletResponse servletResponse) throws OGVICSystemInitException {
 
 		String jsonResult;
 		try {
@@ -264,10 +274,7 @@ public class ProjectsResource {
 		String jsonResult;
 		try {
 			jsonResult = runExternalEditingProject(graphicType);
-		} catch (OGVICRepositoryException e) {
-			jsonResult =  e.getMessage();
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			jsonResult =  e.getMessage();
 			e.printStackTrace();
 		}
@@ -286,7 +293,7 @@ public class ProjectsResource {
 		String jsonResult;
 		try {
 			jsonResult = OGVICProcess.getInstance().getGeneratedD3json();
-		} catch (OGVICRepositoryException | OGVICProcessException | EmptyGeneratedException e) {
+		} catch (Exception e) {
 			jsonResult =  "";
 			e.printStackTrace();
 		}
@@ -294,6 +301,38 @@ public class ProjectsResource {
 		LOGGER.finest(jsonResult);
 		
 		return jsonResult;
+    }
+	
+	@GET
+    @Produces({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
+	@Path("/bootstrap/avm/{projectID}")
+    public Response runBootstrapAVM(@PathParam("projectID") String projectID) {
+		
+		try {
+			
+			String jsonResult = "";
+			VisProject project = VisProjectLibraryExamples.getInstance().getProject(projectID);
+			
+			if (project.isAvmJsonDirty()) {
+				OGVICProcess.getInstance().runAVMBootstrappingVis(project);
+			} else {
+				LOGGER.info("Returning old AVM JSON without running the bootsrapping, since no changes could be detected.");
+			}
+			
+			jsonResult = project.getAvmJson();
+			
+			if (jsonResult.isEmpty()) {
+				return Response.status(Status.NO_CONTENT).build();
+			} else {
+				LOGGER.finest(jsonResult);
+				return Response.status(Status.OK).entity(jsonResult).build();
+			}
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, e.getMessage(), e);
+			return Response.status(Status.INTERNAL_SERVER_ERROR)
+					.entity(JsonExceptionWrapper.wrapAsJSONException("Couldn't meta-visualize the AVM: " + e.getMessage())).build();
+		}
+
     }
 	
 	@GET
@@ -356,8 +395,7 @@ public class ProjectsResource {
 		final String mappingFilePath = mappingFile.getPath();
 		final String mappingFileContent = FileResourceUtils.getFromWithinJarsAsString(mappingFilePath);
 		
-		return mappingFileContent 
-				//; 
+		return mappingFileContent
 				+ System.lineSeparator() + System.lineSeparator() 
 				+ "# this mapping file was loaded from: " 
 				+ mappingFilePath + "(" + mappingFile.getAbsolutePath() + ")";
@@ -390,22 +428,21 @@ public class ProjectsResource {
 	}
 	
 	
-	private String runProject(String id) throws OGVICRepositoryException, OGVICProcessException {
+	private String runProject(String id) throws OGVICRepositoryException, OGVICProcessException, OGVICSystemInitException {
 	
 		String json = "";
-
 		OGVICProcess process = OGVICProcess.getInstance();
-		
-		process.registerOntologyFile(OntologyFile.VISO_GRAPHIC);
-		process.registerOntologyFile(OntologyFile.RVL);
-
 		VisProject project = VisProjectLibraryExamples.getInstance().getProject(id);
 		
-		process.loadProject(project);
-		process.runOGVICProcess();
+		if (project.isJsonDirty()) {
+			process.loadProject(project);
+			process.runOGVICProcess();
+		} else {
+			LOGGER.info("Returning old JSON generated from the AVM without running the transformations, since no changes could be detected.");
+		}
 
 		try {
-			json = process.getGeneratedD3json();
+			json = project.getJson();
 		} catch (EmptyGeneratedException e) {
 			LOGGER.warning(JsonExceptionWrapper.wrapAsJSONException(e.getMessage() + " Proceeding anyway"));
 		}
@@ -415,8 +452,9 @@ public class ProjectsResource {
 
 	/**
 	TODO: Paths need to be fixed.
+	 * @throws OGVICSystemInitException 
 	 */
-	private String runExternalEditingProject(String defaultGraphicType) throws FileNotFoundException, OGVICRepositoryException {
+	private String runExternalEditingProject(String defaultGraphicType) throws FileNotFoundException, OGVICRepositoryException, OGVICSystemInitException {
 	
 		String json;
 		OGVICProcess process = OGVICProcess.getInstance();

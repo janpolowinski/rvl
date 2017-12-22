@@ -13,6 +13,8 @@ import org.ontoware.rdf2go.model.impl.StatementImpl;
 import org.ontoware.rdf2go.model.node.Node;
 import org.ontoware.rdf2go.model.node.Resource;
 import org.ontoware.rdf2go.model.node.URI;
+import org.ontoware.rdf2go.model.node.impl.URIImpl;
+import org.ontoware.rdf2go.vocabulary.OWL;
 import org.ontoware.rdfreactor.schema.owl.Restriction;
 import org.ontoware.rdfreactor.schema.rdfs.Property;
 import org.purl.rvl.exception.InsufficientMappingSpecificationException;
@@ -175,7 +177,13 @@ public class DataQuery {
 						context = row.getValue("src").asURI();
 					}*/
 					
-					Statement stmt = new StatementImpl(fromGraph, row.getValue("s").asResource(), row.getValue("p").asURI(), row.getValue("o"));
+					URI predicate = row.getValue("p").asURI();
+					
+					if (inheritedBy != null) {
+						predicate = replaceByClassLevelRelation(predicate, inheritedBy);
+					}
+					
+					Statement stmt = new StatementImpl(fromGraph, row.getValue("s").asResource(), predicate, row.getValue("o"));
 					//Statement stmt = new StatementImpl(fromGraph, row.getValue("s").asURI(), row.getValue("p").asURI(), row.getValue("o"));
 					LOGGER.finer("build Statement: " + stmt.toString());
 					
@@ -193,6 +201,33 @@ public class DataQuery {
 		}
 		
 		return stmtSet;
+	}
+
+	/**
+	 * If we are on the class level we need to built a new predicate to represent, e.g. the domain-range-relation
+	 * (which is not explicitly given in the data).
+ 	 * We create a statement (with the replacement property/URI) here, even in these cases, to 
+	 * allow for a consistent handling. This way we can apply submappings etc. as in normal (instance level) mapping situations.
+	 * 
+	 * @param predicate
+	 * @param inheritedBy
+	 * @return
+	 */
+	private static URI replaceByClassLevelRelation(URI predicate, Property inheritedBy) {
+		String inheritedByString = inheritedBy.toString();
+		String predicateString = predicate.toString();
+		
+		if (inheritedByString.equals(RVL.TBOX_DOMAIN_RANGE)) {
+			predicate = new URIImpl(predicateString + "____(domain-range)");
+		} else if (inheritedByString.equals(RVL.TBOX_RESTRICTION)) {
+			predicate = new URIImpl(predicateString + "____(class-restriction)");
+		} else if (inheritedBy.equals(OWL.someValuesFrom)) {
+			predicate = new URIImpl(predicateString + "____(some-values-from)");
+		} else if (inheritedBy.equals(OWL.allValuesFrom)) {
+			predicate = new URIImpl(predicateString + "____(all-values-from)");
+		}
+		
+		return predicate;
 	}
 	
 	

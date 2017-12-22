@@ -1,27 +1,37 @@
 package org.purl.rvl.example.basic;
 
 import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.junit.Test;
+import org.purl.rvl.exception.EmptyGeneratedException;
+import org.purl.rvl.exception.OGVICProcessException;
+import org.purl.rvl.exception.OGVICRepositoryException;
+import org.purl.rvl.exception.OGVICSystemInitException;
+import org.purl.rvl.interpreter.test.ContainmentTest;
 import org.purl.rvl.interpreter.test.TestOGVICProcess;
-import org.purl.rvl.tooling.process.ExampleData;
-import org.purl.rvl.tooling.process.ExampleMapping;
+import org.purl.rvl.tooling.process.OGVICProcess;
+import org.purl.rvl.tooling.process.VisProject;
+import org.purl.rvl.tooling.process.VisProjectLibrary;
 
 public class UseCaseAVMBootstrap extends TestOGVICProcess {
 	
+	private final static Logger LOGGER = Logger.getLogger(UseCaseAVMBootstrap.class.getName()); 
+	
 	@Test
-	public void testOGVICProcess() throws FileNotFoundException {
+	public void testOGVICProcess() throws FileNotFoundException, OGVICProcessException, OGVICRepositoryException, OGVICSystemInitException, EmptyGeneratedException {
 
-		process.setWriteAVM(false);
+		// do some vis to have an AVM
+		VisProject p = VisProjectLibrary.getInstance().getProject("containment-test");
+		OGVICProcess process = OGVICProcess.getInstance();
+		process.loadProject(p);
+		process.runOGVICProcess();
+//		String previousResult = process.getGeneratedD3json();
 		
-		project.registerMappingFile(ExampleMapping.AVM_EXAMPLE_BOOTSTRAP);
-		project.registerDataFile(ExampleData.AVM);
-		project.registerDataFile(ExampleData.AVM_EXTRA_DATA);
-		
-		//project.setRvlInterpreter(new SimpleRVLInterpreter());
-		//project.setD3Generator(new D3GeneratorTreeJSON());
-		
-		loadProjectAndRunProcess();
+		// vis the AVM
+		String result = process.runAVMBootstrappingVis(p);
+		LOGGER.log(Level.INFO, "Generated D3-JSON for the AVM bootstrapping: " + result);
 	}
 
 	@Override

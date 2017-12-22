@@ -14,8 +14,14 @@ import org.ontoware.rdf2go.Reasoning;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.ModelSet;
+import org.ontoware.rdf2go.model.NamespaceSupport;
 import org.ontoware.rdf2go.model.Syntax;
+import org.ontoware.rdf2go.vocabulary.OWL;
+import org.ontoware.rdf2go.vocabulary.RDF;
+import org.ontoware.rdf2go.vocabulary.RDFS;
 import org.purl.rvl.exception.OGVICRepositoryException;
+import org.purl.rvl.java.VISODATA;
+import org.purl.rvl.java.VISOGRAPHIC;
 import org.purl.rvl.tooling.codegen.rdfreactor.OntologyFile;
 import org.purl.rvl.tooling.commons.FileRegistry;
 import org.purl.rvl.tooling.commons.Graph;
@@ -71,7 +77,6 @@ public class ModelManager {
 	}
 	
 	private void initModelSet(){
-		
 		modelSet = RDF2Go.getModelFactory().createModelSet();
 		modelSet.open();
 	}
@@ -122,37 +127,59 @@ public class ModelManager {
 	 * 
 	 */
 	private void initVISOModel() throws OGVICRepositoryException {
+		
+		LOGGER.fine("Initialising VISO model ...");
+		
 		modelVISO = RDF2Go.getModelFactory().createModel(Reasoning.none); // no reasoning seems to be OK here 
 		// temp. turned on reasoning to allow for reasoning that linking_node subPropertyOf linkingDirected_endNode, 
 		// however that does not seem to work due to other issues (e.g. Linking_Directed is not a subclass of Linking_Undirected) anyway.
-		
 		modelVISO.open();
-		String visoFileName = OntologyFile.VISO_GRAPHIC;
+
 		try {
-			ModelUtils.readFromAnySyntax(modelVISO, visoFileName);
+			ModelUtils.readFromAnySyntax(modelVISO, OntologyFile.VISO_GRAPHIC);
+			LOGGER.info("Read VISO-graphic into VISO model from " + OntologyFile.VISO_GRAPHIC);
+			// TODO: the following statements should not actually be necessary and used in the code!
+			ModelUtils.readFromAnySyntax(modelVISO, OntologyFile.VISO_GRAPHIC_EXTRA_MAPPING);
+			LOGGER.info("Read additional statements into VISO model from " + OntologyFile.VISO_GRAPHIC_EXTRA_MAPPING);
 		} catch (Exception e) {
 			throw new OGVICRepositoryException("VISO model", e.getMessage());
 		}
-		LOGGER.info("Read VISO-graphic into VISO model: " + visoFileName);
-	
+		// TODO added here AND to the RVL model, but apparently only required in the RVL model
+		try {
+			ModelUtils.readFromAnySyntax(modelVISO, OntologyFile.RVL_EXAMPLE_COMMONS);
+			LOGGER.info("Read RVL-Example-Commons into VISO model from " + OntologyFile.RVL_EXAMPLE_COMMONS);
+		} catch (Exception e) {
+			throw new OGVICRepositoryException("VISO model", "Could not load RVL-Example-Commons: " + e.getMessage(), e);
+		}
+
 		modelSet.addModel(modelVISO, Graph.GRAPH_VISO);
 	}
 
 	private void initRVLModel() throws OGVICRepositoryException {
+		
+		LOGGER.fine("Initialising RVL model ...");
+		
 		// extra model for RVL (schema)
 		modelRVLSchema = RDF2Go.getModelFactory().createModel(Reasoning.none); // no reasoning seems to be OK here
 		modelRVLSchema.open();
-		String rvlFileName = OntologyFile.RVL;
+		
 		try {
-			ModelUtils.readFromAnySyntax(modelRVLSchema,rvlFileName);
+			ModelUtils.readFromAnySyntax(modelRVLSchema, OntologyFile.RVL);
+			LOGGER.info("Read RVL schmema into RVL schema model from " + OntologyFile.RVL);
 		} catch (Exception e) {
-			throw new OGVICRepositoryException("RVL model", e.getMessage());
+			throw new OGVICRepositoryException("RVL model", "Could not load RVL schema: " + e.getMessage(), e);
 		}
-		LOGGER.info("Read RVL schmema into RVL schema model: " + rvlFileName);
+		try {
+			ModelUtils.readFromAnySyntax(modelRVLSchema, OntologyFile.RVL_EXAMPLE_COMMONS);
+			LOGGER.info("Read RVL-Example-Commons into RVL model from " + OntologyFile.RVL_EXAMPLE_COMMONS);
+		} catch (Exception e) {
+			throw new OGVICRepositoryException("RVL model", "Could not load RVL-Example-Commons: " + e.getMessage(), e);
+		}
 		
 		modelSet.addModel(modelRVLSchema, Graph.GRAPH_RVL_SCHEMA);
 	}
 
+	// TODO harmonize clear and init methods
 	private void initAVMModel() {
 		
 		modelSet.removeModel(Graph.GRAPH_AVM);
@@ -160,7 +187,7 @@ public class ModelManager {
 		// empty model to hold the AVM
 		modelAVM = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
 		modelAVM.open();	
-		// modelAVM.addModel(modelVISO); enable when needed (cf. comment at VISO model)
+		clearAVMModel(); // may also add VISO model
 		
 		modelSet.addModel(modelAVM, Graph.GRAPH_AVM);
 	}
@@ -323,11 +350,10 @@ public class ModelManager {
 	}
 
 	/**
-	 * Adds the preferred prefixes for common namespaces like RDFS, OWL ...
+	 * Adds the preferred prefixes for common namespaces like RDFS, OWL ... and VISO/graphic
 	 * 
 	 * @param modelSet - the model to enrich with the default namespace settings
 	 */
-	/*
 	private void addStandardPrefixesForCommonNamespaces(NamespaceSupport nameSpaceSupportable) {
 
 		nameSpaceSupportable.setNamespace("rdf", RDF.RDF_NS);
@@ -335,12 +361,17 @@ public class ModelManager {
 		nameSpaceSupportable.setNamespace("owl", OWL.OWL_NS);
 		nameSpaceSupportable.setNamespace("xsd", org.ontoware.rdf2go.vocabulary.XSD.XS_URIPREFIX);
 		
-		Map<String, String> namespace = nameSpaceSupportable.getNamespaces();
+		// SEMVIS ...
+		nameSpaceSupportable.setNamespace("viso-graphic", VISOGRAPHIC.NS);
+		nameSpaceSupportable.setNamespace("viso-data", VISODATA.NS);
+		nameSpaceSupportable.setNamespace("example-avm", "http://purl.org/rvl/example-avm/");
 		
-		LOGGER.info("Added standard prefixes to model/modelSet " + nameSpaceSupportable + NL + 
-					MapUtils.toProperties(namespace).toString());
+		// TODO: no name of the model can be printed here, either pass it or log outside
+//		Map<String, String> namespace = nameSpaceSupportable.getNamespaces();
+//		LOGGER.info("Added standard prefixes to model/modelSet " + nameSpaceSupportable + NL + 
+//					MapUtils.toProperties(namespace).toString());
 		
-	}*/
+	}
 
 	public void clearMappingAndDataModels() {
 		if (null!= modelMappings)
@@ -349,9 +380,16 @@ public class ModelManager {
 			modelData.removeAll();
 	}
 
+	// TODO harmonize clear and init methods
+	/*
+	 * Currently adds also the VISO model after clearing!
+	 */
 	public void clearAVMModel() {
-		if (null!= modelAVM)
+		if (null!= modelAVM) {
 			modelAVM.removeAll();
+			// TODO Hack: would not be necessary if model set was used also for AVM handling!
+			// modelAVM.addModel(modelVISO); // adds much noise to the AVM
+		}
 	}
 
 	/**
@@ -380,6 +418,31 @@ public class ModelManager {
 		return modelData;
 	}
 
+	/**
+	 * Adds a model to the existing data model and applies RDFS reasoning
+	 * @param model
+	 */
+	public void addDataModel(Model model) {
+		modelSet.removeModel(Graph.GRAPH_DATA);
+
+		// modelData has reasoning off, so use a tmp model to infer the necessary triples for filtering resources:
+		// TODO performance: this may be simplified if a performance leak, but its probably not often executed
+		Model reasoningDataModel = RDF2Go.getModelFactory().createModel(Reasoning.rdfs);
+		reasoningDataModel.addModel(modelData);
+		reasoningDataModel.addModel(model);
+		
+		modelData.addModel(reasoningDataModel);
+		modelSet.addModel(modelData, Graph.GRAPH_DATA);
+	}
+
+	public void addDataModel(String generatedAVM) throws ModelRuntimeException, IOException {
+		Model model = RDF2Go.getModelFactory().createModel(Reasoning.none);
+		model.open();
+		ModelUtils.readFromString(model, generatedAVM, Syntax.Turtle);
+		model.close();
+		addDataModel(model);
+	}
+
 	public Model getMappingsModel(){
 		return modelMappings;
 	}
@@ -396,6 +459,9 @@ public class ModelManager {
 	
 		try {
 			FileWriter writer = new FileWriter(fileName);
+			
+			// make AVM more readable
+			addStandardPrefixesForCommonNamespaces(modelAVM);
 			
 			modelAVM.writeTo(writer, Syntax.Turtle);
 			writer.flush();

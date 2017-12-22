@@ -1,4 +1,4 @@
-# Saved by TopBraid on Wed Jul 15 15:36:53 CEST 2015
+# Saved by TopBraid on Tue Oct 27 13:33:55 CET 2015
 # baseURI: http://purl.org/rvl/example-mappings/
 # imports: http://purl.org/rvl/spin-constraints/
 # imports: http://purl.org/viso/shape/commons/
@@ -26,6 +26,6 @@ rexm:NonOptimalEffectiveMapping
       rdf:type rvl:PropertyMapping ;
       rdfs:label "Example of an non-optimal mapping with respect to the effectiveness criterion." ;
       rvl:sourceProperty rexd:population ;
-      rvl:targetAttribute vg:shape_named ;
+      rvl:targetAttribute vg:color_hsl_lightness ;
       rvl:targetGraphicRelation
-              vg:shape_named .
+              vg:color_hsl_lightness .

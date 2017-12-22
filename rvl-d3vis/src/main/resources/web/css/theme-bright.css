@@ -1,9 +1,31 @@
 body {
-	background-color: #fff;
+/* 	background-color: white; */
+/* 	background-image: linear-gradient(to right, #444, #555, #666, #666, #666, #666, #666); */
+}
+
+body, #editor {
+	background-color: #444;
+/* 	background-color: #4ba614; */
+/* 	background-image: linear-gradient(to bottom, #4ba614, #008c00); */ /* Does not work, since BG has not 100% height. */
+	color: #eee;
+}
+
+#svg {
+	/*background-color: white;*/
+}
+
+div.infotext {
+	background-image: linear-gradient(to top, #444, #555);
+ 	color: #ddd; 
+ 	line-height: 1.3em;
+}
+
+a, a:visited {
+	color: #ddd;
 }
 
 a:hover {
-	color:blue;
+	color: #ccc;
 }
 
 
@@ -24,11 +46,11 @@ circle.node.highlighted.identical,
 	stroke: #ffe900;
 }
 
-path.link {
+.linking_connector {
     stroke-opacity: .65;
 }
 
-path.link.highlighted {
+.linking_connector.highlighted {
 	stroke-opacity: 1;
     stroke: #ffe900 ! important;
 }
@@ -40,3 +62,12 @@ path.link.highlighted {
 marker#uml_generalization_arrow {
 	fill: #fff;
 }
+
+/* #editor textarea { */
+/* /* 	font-size: 12px; */ */
+/* 	font-family: Lucida Sans Typewriter, Lucida Console, Monaco, monospace, sans-serif; */
+/*     color: #aaa; */
+/* 	background-color: #333; */
+/* 	border:none; */
+/* 	padding:5px; */
+/* } */

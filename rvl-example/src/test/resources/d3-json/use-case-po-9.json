@@ -1,12 +1,18 @@
 {
+  "graphic_id":"po-9",
   "graphic_type":"collapsible-tree",
   "children":[
     {
       "uri":"http://purl.org/obo/owl/PO#PO_0005599",
       "color_rgb_hex":"",
       "color_rgb_hex_combined":null,
-      "shape_d3_name":"circle",
+      "shape_d3_name":"flow-arrow",
       "width":17.0,
+      "roles":[
+        "linking_node",
+        "labeling_base",
+        "linkingDirected_startNode"
+      ],
       "labels":[
         {
           "position":"centerRight",
@@ -20,46 +26,16 @@
       "type":"DirectedLinking",
       "children":[
         {
-          "uri":"http://purl.org/obo/owl/PO#PO_0004003",
-          "color_rgb_hex":"",
-          "color_rgb_hex_combined":null,
-          "shape_d3_name":"flow-arrow",
-          "width":17.0,
-          "labels":[
-            {
-              "position":"centerRight",
-              "text_value":"phellem",
-              "width":"21.25",
-              "color_rgb_hex_combined":null,
-              "type":"text_label",
-              "text_value_full":"phellem"
-            }
-          ],
-          "connector":{
-            "arrow_type":"line",
-            "uri":"http://purl.org/obo/owl/obo#develops_from",
-            "color_rgb_hex":"",
-            "color_rgb_hex_combined":null,
-            "shape_d3_name":"line",
-            "width":23.0,
-            "labels":[
-              {
-                "position":"centerRight",
-                "text_value":"develops_from",
-                "width":"28.75",
-                "color_rgb_hex_combined":null,
-                "type":"text_label",
-                "text_value_full":"develops_from"
-              }
-            ]
-          }
-        },
-        {
           "uri":"http://purl.org/obo/owl/PO#PO_0005050",
           "color_rgb_hex":"",
           "color_rgb_hex_combined":null,
           "shape_d3_name":"flow-arrow",
           "width":17.0,
+          "roles":[
+            "linkingDirected_endNode",
+            "linking_node",
+            "labeling_base"
+          ],
           "labels":[
             {
               "position":"centerRight",
@@ -71,20 +47,66 @@
             }
           ],
           "connector":{
-            "arrow_type":"line",
-            "uri":"http://purl.org/obo/owl/obo#develops_from",
+            "arrow_type":"arrow",
+            "uri":"http://purl.org/obo/owl/obo#develops_from____(some-values-from)",
             "color_rgb_hex":"",
             "color_rgb_hex_combined":null,
-            "shape_d3_name":"line",
-            "width":23.0,
+            "shape_d3_name":"arrow",
+            "roles":[
+              "linking_connector",
+              "labeling_base"
+            ],
             "labels":[
               {
                 "position":"centerRight",
-                "text_value":"develops_from",
-                "width":"28.75",
+                "text_value":"develops_from (...",
+                "width":"21.25",
                 "color_rgb_hex_combined":null,
                 "type":"text_label",
-                "text_value_full":"develops_from"
+                "text_value_full":"develops_from (some-values-from)"
+              }
+            ]
+          }
+        },
+        {
+          "uri":"http://purl.org/obo/owl/PO#PO_0004003",
+          "color_rgb_hex":"",
+          "color_rgb_hex_combined":null,
+          "shape_d3_name":"flow-arrow",
+          "width":17.0,
+          "roles":[
+            "linkingDirected_endNode",
+            "linking_node",
+            "labeling_base"
+          ],
+          "labels":[
+            {
+              "position":"centerRight",
+              "text_value":"phellem",
+              "width":"21.25",
+              "color_rgb_hex_combined":null,
+              "type":"text_label",
+              "text_value_full":"phellem"
+            }
+          ],
+          "connector":{
+            "arrow_type":"arrow",
+            "uri":"http://purl.org/obo/owl/obo#develops_from____(some-values-from)",
+            "color_rgb_hex":"",
+            "color_rgb_hex_combined":null,
+            "shape_d3_name":"arrow",
+            "roles":[
+              "linking_connector",
+              "labeling_base"
+            ],
+            "labels":[
+              {
+                "position":"centerRight",
+                "text_value":"develops_from (...",
+                "width":"21.25",
+                "color_rgb_hex_combined":null,
+                "type":"text_label",
+                "text_value_full":"develops_from (some-values-from)"
               }
             ]
           }

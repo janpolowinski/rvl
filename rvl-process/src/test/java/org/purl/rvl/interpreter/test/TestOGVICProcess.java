@@ -10,6 +10,7 @@ import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.purl.rvl.exception.D3GeneratorException;
 import org.purl.rvl.exception.EmptyGeneratedException;
@@ -46,7 +47,7 @@ public abstract class TestOGVICProcess {
 	}
 
 	@Test
-	public void testOGVICProcess() throws FileNotFoundException, OGVICProcessException, EmptyGeneratedException {
+	public void testOGVICProcess() throws Exception {
 
 		project = getVisProjectLibrary().getProject(getProjectName());
 			
@@ -84,12 +85,14 @@ public abstract class TestOGVICProcess {
 			Assert.fail("OGVIC Process could not be run: " + e.getMessage());
 		}
 	}
-	/*
+	
 	@Test
+	@Ignore
 	public void testWriteAVMToFile() {
-		fail("Not yet implemented");
+		process.writeAVMToFile();
 	}
 
+	/*
 	@Test
 	public void testRegisterMappingFile() {
 		fail("Not yet implemented");

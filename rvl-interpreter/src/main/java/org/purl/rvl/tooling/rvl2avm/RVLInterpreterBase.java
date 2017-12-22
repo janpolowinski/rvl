@@ -50,6 +50,7 @@ import org.purl.rvl.tooling.commons.utils.AVMUtils;
 import org.purl.rvl.tooling.commons.utils.ModelUtils;
 import org.purl.rvl.tooling.model.ModelManager;
 import org.purl.rvl.tooling.query.data.DataQuery;
+import org.purl.rvl.tooling.util.RVLUtils;
 
 /**
  * @author Jan Polowinski
@@ -194,26 +195,9 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 				// never default-label text shapes
 				if (!go.hasTextvalue()) {
 				
-					// TODO: temp workaround: only do this when no other TEXT label already exists (with text_value attribute)
-					if (!go.hasLabeledwith()) {
-		
+					// create a default label, if no other TEXT label already exists (with text_value attribute)
+					if (!go.hasTextLabel()) {
 							performDefaultLabelMapping(go, resource);
-		
-					} else {
-		
-						Labeling rel = go.getAllLabeledwith_as().firstValue();
-		
-						if (rel.hasLabelinglabel()) {
-		
-							Thing1 label = rel.getAllLabelinglabel_as().firstValue();
-							GraphicObjectX labelGO = (GraphicObjectX) label.castTo(GraphicObjectX.class);
-		
-							// also perform a default text label mapping when only an icon labeling exists
-							if (null != labelGO && !labelGO.hasTextvalue()) {
-								performDefaultLabelMapping(go, resource);
-							}
-		
-						}
 					}
 				}
 			
@@ -232,16 +216,16 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 		}
 
 		// create an additional object here, don't reuse existing ones!
-		GraphicObjectX label = new GraphicObjectX(modelAVM, "http://purl.org/rvl/example-avm/GO_Label_"
-				+ this.createNewInternalID(), false);
-		label.setTextvalue(ModelUtils.getGoodNodeLabel(resource, modelData));
+		GraphicObjectX label = new GraphicObjectX(modelAVM, "http://purl.org/rvl/example-avm/GO_"
+				+ this.createNewInternalID(), true);
+		label.setTextvalue(RVLUtils.decodeURIFragments(ModelUtils.getGoodNodeLabel(resource, modelData)));
 
 		LOGGER.finest("Created new Label-GO for resource: " + resource.toString());
 
-		Labeling rel = new Labeling(modelAVM, "http://purl.org/rvl/example-avm/Labeling_Relation_"
+		Labeling rel = new Labeling(modelAVM, "http://purl.org/rvl/example-avm/LabelingRel_"
 				+ createNewInternalID(), true);
 		
-		rel.setLabel("Labeling Relation");
+//		rel.setLabel("Labeling Relation");
 		rel.setLabelinglabel(label);
 		rel.setLabelingattachedBy(Superimposition.RDFS_CLASS);
 		rel.setLabelingbase(go);
@@ -531,6 +515,7 @@ public abstract class RVLInterpreterBase implements RVLInterpreter {
 			// TODO handle language tags
 			if (tga.asURI().toString().equals("http://purl.org/viso/graphic/text_value")) { // GraphicObject.TEXTVALUE
 				String textValue = tv.asLiteral().getValue();
+				textValue = RVLUtils.decodeURIFragments(textValue);
 				go.setTextvalue(textValue);
 				// remove existing named shapes (incl. the eventually set default shape)
 				go.removeAllShapenamed();

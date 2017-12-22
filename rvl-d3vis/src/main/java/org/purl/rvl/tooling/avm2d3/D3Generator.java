@@ -31,5 +31,7 @@ public interface D3Generator {
 	public abstract void setGraphicType(String graphicType);
 
 	public abstract String getGraphicType();
+	
+	public abstract void setGraphicID(String graphicID);
 
 }

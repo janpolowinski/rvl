@@ -1,0 +1,92 @@
+/* PO-9 */
+
+#canvas.po-9 path.linking_connector {
+    stroke-width: 23;
+}
+
+#canvas.po-9 marker#arrow {
+    visibility: hidden;
+}
+
+/* AA-3, AA-4, AA-3-and-4 */
+
+#canvas.aa-4 .labeling_base,
+ #canvas.aa-3 .labeling_base,
+#canvas.aa-3-and-4 .labeling_base  {
+	transform:scale(3.0) ;
+}
+
+/* RO-4b */
+
+#canvas.ro-4b svg {
+    background-color: #ddd;
+}
+#canvas.ro-4b .svgSymbol {
+	stroke: #ddd;
+}
+/*
+#canvas.ro-4b .htmlTextLabel {
+	font-size: 1.3em;
+   font-family: Georgia, _serif;
+}
+*/
+
+/* AVM */
+
+#canvas.avm .linking_connector,
+#canvas.avm-test .linking_connector  {
+    stroke-width: 6px;
+}
+
+#canvas.avm .labeling_base,
+#canvas.avm-test .labeling_base  {
+	/*transform:scale(2.5) ; */
+}
+
+#canvas.avm .labelContainerContainer use.label,
+#canvas.avm-test .labelContainerContainer use.label {
+    transform:scale(0.8) ;
+/*     fill:none !important; */
+    fill:#828882 !important; 
+/*     stroke: #666; */
+/*     stroke-width: 3px; */
+	stroke:none !important;
+}
+
+/* Circle Packing */
+#canvas.containment-test svg,
+#canvas.containment-test-copy svg,
+#canvas.po-9-containment svg,
+#canvas.po-9-containment-copy svg,
+#canvas.rvl-circle-packing svg,
+#canvas.rvl-circle-packing-copy svg {
+    background-color: #ccc;
+}
+
+/* Linking-Directed-Test */
+#canvas.linking-directed-test svg,
+#canvas.linking-directed-test-copy svg,
+#canvas.linking-undirected-test svg,
+#canvas.linking-undirected-test-copy svg {
+    background-color: #333;
+}
+
+
+#canvas.rvl-example-data .nodeLabel, #canvas.rvl-example-data .node text {
+    font-family: Arial Black;
+    text-transform: uppercase;
+    text-shadow: unset;
+    opacity: 0.95;
+    font-size: 1.0em;
+    fill: rgb(256, 256, 256);
+}
+#canvas.rvl-example-data svg {
+    background-color: #333;
+}
+
+/*.linkingDirected_startNode {fill:green }*/
+/*.linkingDirected_endNode {fill:red }*/
+/*.linkingDirected_startNode.linkingDirected_endNode {fill:yellow; transform:scale(2.0) } */
+/*.linking_node {fill:blue }*/
+/*.labeling_base {fill:orange }*/
+/*.linking_connector { stroke-width:30px }*/

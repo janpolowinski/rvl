@@ -18,9 +18,29 @@ dct:description
       rdf:type owl:AnnotationProperty .
 
 :     rdf:type owl:Ontology ;
-      rdfs:label "RDF Visualization Language (RVL)"^^xsd:string ;
+      rdfs:label "RDFS/OWL Visualization Language (RVL)"^^xsd:string ;
       dct:creator <http://purl.org/viso/JanPolowinski> ;
-      owl:imports rvl-docu: .
+# 	  for some reason it's not possible to move the ontology description to rvl-docu:
+	  dct:description """RVL is a declarative language that allows to specify a mapping from RDF(S)/OWL concepts to visual means that are defined in the <a href=\"http://purl.org/viso/\">Visualisation Ontology</a> (VISO). The syntax is based on RDFS, while the semantics are given by means of SPIN rules.  
+
+RVL was developed in the SemVis project by Jan Polowinski. More on RVL can be found in the <a href=\"https://github.com/semvis/rvl/wiki\" title=\"The RVL-Wiki on GitHub ...\">Wiki</a>.
+
+<h3>Overview of Mapping Classes in RVL</h3>
+
+<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/rvl_class_diagram.png\">
+
+<h3>Overview of Datatypes used in RVL</h3>
+<b>MissingSourceValueHandlingType:</b> Hide, Ignore, Missing (default), Neutral, Average
+<b>MissingValueMappingHandlingType:</b> Calculate (default), Hide, Neutral, Ignore, No mapping, Average
+<b>NeutralValueHandlingType:</b> Average, Style
+<b>OutOfBoundHandlingType:</b> Cut (default), Clamp
+<b>ScaleTransformationType:</b> Linear (default), Logarithmic
+
+<!--<img src=\"http://www-st.inf.tu-dresden.de/semvis/ontologies/rvl/img/datatypes_rvl.png\"/>-->
+
+<h3>Schema</h3>
+The schema of RVL beyond the RDFS/OWL statements provided by this vocabulary is currently documented in our <a href="https://github.com/semvis/rvl/wiki/schema>Wiki</a>.""" ;
+      owl:imports rvl-docu: , viso-graphic: .
 
 :Average
       rdf:type :MissingSourceValueHandlingType , :MissingValueMappingHandlingType , :NeutralValueHandlingType ;
@@ -303,7 +323,7 @@ dct:description
 :invertSourceProperty
       rdf:type rdf:Property ;
       rdfs:domain :PropertyMapping ;
-      rdfs:label "Invert source property"^^xsd:string ;
+      rdfs:label "invert source property"^^xsd:string ;
       rdfs:range xsd:boolean ;
       swstatus:term_status
               "stable"^^xsd:string .
@@ -343,7 +363,7 @@ dct:description
       rdf:type owl:DatatypeProperty ;
       rdfs:domain :PropertyMapping ;
       rdfs:label "missing source value"^^xsd:string ;
-      rdfs:range :MissingSourceValueHandlingType ;
+      #rdfs:range :MissingSourceValueHandlingType ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -351,7 +371,7 @@ dct:description
       rdf:type owl:DatatypeProperty ;
       rdfs:domain :PropertyMapping ;
       rdfs:label "missing value mapping"^^xsd:string ;
-      rdfs:range :MissingValueMappingHandlingType ;
+     # rdfs:range :MissingValueMappingHandlingType ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -367,7 +387,7 @@ dct:description
       rdf:type owl:DatatypeProperty ;
       rdfs:domain :PropertyMapping ;
       rdfs:label "object filter"^^xsd:string ;
-      rdfs:range :sparqlSelector ;
+      #rdfs:range :sparqlSelector ;
       rdfs:seeAlso :sourceFilter , :subjectFilter ;
       swstatus:term_status
               "stable"^^xsd:string .
@@ -433,7 +453,7 @@ dct:description
       rdf:type owl:DatatypeProperty ;
       rdfs:domain :ValueMapping ;
       rdfs:label "scale transformation type"^^xsd:string ;
-      rdfs:range :ScaleTransformationType ;
+     # rdfs:range :ScaleTransformationType ;
       swstatus:term_status
               "stable"^^xsd:string .
 
@@ -455,7 +475,7 @@ dct:description
       rdfs:comment "<b>Difference to objectFilter:</b> ObjectFilter used with property mappings can filter on the level of property mappings - allowing different graphic realtions to be applied depending on the filter. As opposed to this, sourceFilter only allows for filtering on the level of source values and should be used when the graphic relation is not varied based on the filtering, but only the values are varied. Properties such as sourceValueSet, sourceValue and sourceValueInterval partly work as filters as well and can more easily be used for most cases. For examle, with sourceValueSet existing sets can very easily be referenced. sourceFilter covers all other more complex filtering needs."^^xsd:string ;
       rdfs:domain :ValueMapping ;
       rdfs:label "source filter"^^xsd:string ;
-      rdfs:range :sparqlSelector ;
+      #rdfs:range :sparqlSelector ;
       rdfs:seeAlso :objectFilter , :sourceFilter ;
       swstatus:term_status
               "stable"^^xsd:string , "unstable"^^xsd:string .
@@ -519,7 +539,8 @@ dct:description
 :sparqlSelector
       rdf:type rdfs:Datatype ;
       rdfs:label "SPARQL selector"^^xsd:string ;
-      rdfs:subClassOf rdfs:Literal , xsd:string ;
+      rdfs:subClassOf rdfs:Literal  ;
+      # not allowed (reasoning error): rdfs:subClassOf xsd:string ;
       swstatus:term_status
               "stable"^^xsd:string , "unstable"^^xsd:string .
 
@@ -575,7 +596,7 @@ dct:description
 At the moment a subjectFilter is the only way to create mappings based on cardinality or universal restrictions. E.g. we can define a mapping (via a SPARQL expression) to be applied when a Person knows at least two other persons, or when a Person knows only books (but notthing else)."""^^xsd:string ;
       rdfs:domain :PropertyMapping ;
       rdfs:label "subject filter"^^xsd:string ;
-      rdfs:range :sparqlSelector ;
+      #rdfs:range :sparqlSelector ;
       rdfs:seeAlso :objectFilter ;
       swstatus:term_status
               "stable"^^xsd:string .
@@ -688,9 +709,3 @@ At the moment a subjectFilter is the only way to create mappings based on cardin
       rdfs:range :ValueMapping ;
       swstatus:term_status
               "stable"^^xsd:string .
-
-viso-graphic:GraphicRelation
-      rdf:type owl:Class .
-
-viso-graphic:Visual_Value_Container
-      rdf:type owl:Class .

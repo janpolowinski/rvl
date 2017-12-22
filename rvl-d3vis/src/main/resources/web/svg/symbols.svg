@@ -8,8 +8,8 @@
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
    version="1.1"
-   width="210mm"
-   height="297mm"
+   width="744.09448"
+   height="1052.3622"
    id="svg5369">
   <defs
      id="defs5371" />
@@ -26,6 +26,7 @@
     </rdf:RDF>
   </metadata>
   <g
+     transform="translate(0,-2.5390623e-6)"
      id="layer1">
     <text
        x="17.580826"
@@ -223,6 +224,84 @@
         <path
            d="M -0.04411863,-18.707643 18.707643,-0.04415257 0.04411863,18.707643 -18.707643,0.04415257 z"
            id="path3036" />
+      </g>
+    </g>
+    <g
+       transform="translate(354.33071,60.236198)"
+       id="g3041">
+      <g
+         id="arrow"
+         style="overflow:visible">
+        <path
+           d="m 5.125,-7.78125 0.03125,5.21875 -22.875,0 0,5.125 22.875,0 0.03125,5.21875 12.53125,-7.75 L 5.125,-7.78125 z"
+           id="rect3045" />
+      </g>
+    </g>
+    <g
+       transform="translate(539.3671,58.304357)"
+       id="g3058">
+      <g
+         id="avm_go"
+         style="overflow:visible">
+        <path
+           d="m -0.055136,-16.772541 -17.716535,12.871815 6.767114,20.827035 21.898841,1e-6 6.767115,-20.827035 z"
+           id="path3075"
+           style="fill:#eeddb5;fill-opacity:1" />
+      </g>
+    </g>
+    <g
+       transform="translate(425.25199,70.922128)"
+       id="g3069">
+      <g
+         id="g3071"
+         style="overflow:visible">
+        <path
+           d="M 15.287833,-1.8276617 -0.05513616,7.0306049 -15.398106,-1.8276617 l 1e-6,-17.7165353 15.342969,-8.858268 15.342969,8.858268 z"
+           id="path3073" />
+      </g>
+    </g>
+    <g
+       transform="translate(486.2175,58.304357)"
+       id="g3078">
+      <g
+         id="g3080"
+         style="overflow:visible">
+        <path
+           d="m -0.055136,-16.772541 -17.716535,12.871815 6.767114,20.827035 21.898841,1e-6 6.767115,-20.827035 z"
+           id="path3082" />
+      </g>
+    </g>
+    <g
+       transform="translate(354.57243,90.791547)"
+       id="g3136">
+      <g
+         id="uml_generalization_arrow"
+         style="overflow:visible">
+        <path
+           d="m 5.125,-7.78125 0.03125,5.21875 -22.875,0 0,5.125 22.875,0 0.03125,5.21875 12.53125,-7.75 L 5.125,-7.78125 z M 6.53125,-5.3125 15.28125,0 6.5625,5.34375 6.53125,-5.3125 z"
+           id="path3140" />
+      </g>
+    </g>
+    <g
+       transform="translate(353.87411,125.47728)"
+       id="g3146">
+      <g
+         id="line"
+         style="overflow:visible">
+        <path
+           d="m 17.716535,-2.6035051 -35.43307,0 0,5.2070102 35.43307,0 z"
+           id="path3151" />
+      </g>
+    </g>
+    <g
+       transform="translate(89.861857,-46.349797)"
+       id="g3153">
+      <g
+         id="g3155"
+         style="overflow:visible">
+        <path
+           d="m 17.716535,-2.6035051 -35.43307,0 0,5.2070102 35.43307,0 z"
+           id="path3157" />
       </g>
     </g>
   </g>
